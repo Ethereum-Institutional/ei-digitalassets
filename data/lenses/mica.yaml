@@ -6,7 +6,7 @@
 
 id: mica
 group: jurisdiction
-menu: EU · European Union (MiCA) — “crypto-asset”
+menu: 'EU · European Union (MiCA): “crypto-asset”'
 name: EU MiCA “crypto-asset”
 short: EU MiCA
 color: '#1d4ed8'
@@ -60,8 +60,8 @@ notes:
   coll: A crypto-asset if fractionalised and fungible; out if unique or a financial instrument.
   ip: Usually a financial instrument where it confers income rights.
   sec: Financial instruments are regulated under MiFID II, not MiCA.
-  dv: Derivatives — including on crypto-assets — are MiFID II financial instruments.
-  fund: Fund units are financial instruments — tokenized MMFs included.
+  dv: Derivatives, including those on crypto-assets, are MiFID II financial instruments.
+  fund: Fund units are financial instruments, tokenized MMFs included.
   art: Out if truly unique and non-fungible (Art. 2(3)); in if issued in large series or fractionalised.
   game: Freely transferable items are in; closed-loop points may use the limited-network exemption.
   loy: Closed-loop loyalty points can use the limited-network exemption (Art. 4(3)).

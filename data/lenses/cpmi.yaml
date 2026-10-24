@@ -6,10 +6,10 @@
 
 id: cpmi
 group: standard-setter
-menu: BIS / CPMI — money tests
+menu: 'BIS / CPMI: money tests'
 name: BIS / CPMI money tests
 short: BIS / CPMI
-color: '#1d4ed8'
+color: '#14130f'
 intro: The BIS (Annual Economic Report 2025) tests forms of money against singleness (trades at par with all other money), elasticity (can expand to meet payment needs) and integrity (resists illicit use). Central bank reserves and commercial bank money on a tokenized “unified ledger” pass; stablecoins fall short. CPMI and IOSCO also apply the Principles for Financial Market Infrastructures to systemically important stablecoin arrangements.
 groups:
 - id: two
@@ -35,7 +35,7 @@ groups:
 - id: ul
   label: Tokenized assets
   name: for a unified ledger
-  color: '#1d4ed8'
+  color: '#155e75'
   circles:
   - rwa
   - com
@@ -55,10 +55,10 @@ groups:
 status: {}
 notes:
   lsc: Even licensed stablecoins trade on their own terms and can break par, failing singleness; BIS views them as best confined to a narrow role.
-  dt: Commercial bank money settles at par with central bank money — it passes singleness, even when tokenized.
+  dt: Commercial bank money settles at par with central bank money, so it passes singleness, even when tokenized.
   wcbdc: The foundation of the BIS unified-ledger vision (e.g. Project Agorá).
   nat: Not considered money by the BIS.
   rwa: Tokenized government bonds and other assets settle against tokenized central bank and bank money on a unified ledger.
-  fmi: Central bank money held through an FMI — passes the singleness test because it is fully backed by reserves.
+  fmi: 'Central bank money held through an FMI: it passes the singleness test because it is fully backed by reserves.'
 sources: []
 last_reviewed: '2026-10-24'

@@ -6,7 +6,7 @@
 
 id: fsb
 group: standard-setter
-menu: FSB — “crypto-asset”
+menu: 'FSB: “crypto-asset”'
 name: FSB “crypto-asset”
 short: FSB
 color: '#1d4ed8'
@@ -20,7 +20,6 @@ status:
   td: part
   dt: part
   sc: in
-  lsc: in
   unreg: in
   alg: in
   pm: part
@@ -47,7 +46,7 @@ status:
   tix: in
   fmi: part
 notes:
-  cbdc: Public money — outside the private-sector definition.
+  cbdc: Public money, outside the private-sector definition.
   td: Not covered by the FSB stablecoin recommendations; bank deposits stay under banking rules.
   dt: Not a stablecoin for FSB purposes; remains bank money under banking rules.
   sc: Stablecoins are crypto-assets; those that could reach global scale are “global stablecoins” with extra requirements.

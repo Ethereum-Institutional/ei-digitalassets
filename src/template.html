@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
 <style>
-  /* Layout: one column — heading, diagram, lens selector, definition panel. Styled after ethereuminstitutional.org:
+  /* Layout: one column (heading, diagram, lens selector, definition panel). Styled after ethereuminstitutional.org:
      warm paper ground, near-black ink, serif headlines (Tiempos → Literata), grotesk UI (Söhne → Archivo). */
   :root{
     color-scheme:light;
@@ -38,8 +38,9 @@
   .ei-wrap svg text.serif{font-family:var(--serif);letter-spacing:-.02em}
   .ei-wrap svg .node{cursor:pointer;transition:stroke-width .15s, opacity .2s}
   .ei-wrap svg .node.on{stroke-width:3.5}
+  .ei-wrap svg .hide{display:none}
   .ei-wrap svg .node.pinned{stroke:var(--ink) !important;stroke-width:4.5 !important}
-  .ei-wrap svg .asset.pinned circle{stroke:#b7791f;stroke-width:3.5}
+  .ei-wrap svg .asset.pinned circle{stroke:#0ea5e9;stroke-width:3.5}
   .ei-panel .pinbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
   .ei-panel .pinbar button:hover{border-color:var(--ink)}
@@ -70,6 +71,7 @@
   .ei-field select:hover{border-color:var(--ink)}
   .ei-field select:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .ei-field select.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .ei-lens [hidden]{display:none}
   .ei-lens .clear{border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:9px 4px}
   .ei-scope{display:none;gap:8px 18px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding-top:12px;border-top:1px solid var(--rule)}
   .ei-scope.show{display:flex}
@@ -85,6 +87,13 @@
   .ei-panel p{margin:0;font-size:15px;line-height:1.6;color:var(--ink);max-width:90ch}
   .ei-panel .path{font-size:12px;color:var(--muted);margin-bottom:6px}
   .ei-panel .scope{margin-top:10px;font-size:14px;line-height:1.5;padding:10px 12px;border-radius:10px;background:var(--card);border-left:4px solid var(--c)}
+  .ei-contrib{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px 18px;border:1px solid var(--rule);border-radius:16px;background:var(--card);font-size:14px;line-height:1.5}
+  .ei-contrib p{margin:0;max-width:75ch}
+  .ei-contrib b{font-weight:600}
+  .ei-contrib .links{display:flex;flex-wrap:wrap;gap:8px}
+  .ei-contrib a{color:var(--ink);text-decoration:none;font-size:13px;padding:6px 12px;border:1px solid var(--rule);border-radius:10px;background:#fff}
+  .ei-contrib a:hover{border-color:var(--ink)}
+  .ei-contrib a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .ei-foot{font-size:12px;color:var(--muted);line-height:1.5}
   .ei-ver{opacity:.7}
   @media (prefers-reduced-motion: reduce){ .ei-wrap svg .node, .ei-lens button{transition:none} }
@@ -112,6 +121,7 @@
     <h2>Digital Assets</h2>
     <p>Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.</p>
   </div>
+  __CONTRIBUTE__
   <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
 </div>
 
@@ -125,7 +135,8 @@
   const KIDS = DATA.children;
   const INHERIT = DATA.inherit_status;
   const LENSES = DATA.lenses.map(L=>Object.assign({}, L, {group: L.group==='standard-setter'?'g':'j', s:Object.assign({},L.status||{}), n:Object.assign({},L.notes||{}),
-    groups:(L.groups&&L.groups.length) ? L.groups.map(G=>Object.assign({},G,{ids:G.circles})) : undefined}));
+    groups:(L.groups&&L.groups.length) ? L.groups.map(G=>Object.assign({},G,{ids:G.circles})) : undefined,
+    reveal:new Set([...Object.keys(L.status||{}),...Object.keys(L.notes||{}),...(L.groups||[]).flatMap(G=>G.circles||[])])}));
   // expand group lenses into per-circle status + group lookup; children inherit their parent's note when they have none
   const PARENT={}; Object.entries(KIDS).forEach(([p,ks])=>ks.forEach(k=>{ if(!(k in PARENT)) PARENT[k]=p; }));
   Object.entries(INHERIT).forEach(([c,p])=>PARENT[c]=p);
@@ -168,11 +179,12 @@
     t.textContent=s; gText.appendChild(t); curTexts.push(t);
   }
 
+  const ellPath=n=>`M${n.cx-n.rx} ${n.cy}a${n.rx} ${n.ry} 0 1 0 ${2*n.rx} 0a${n.rx} ${n.ry} 0 1 0 ${-2*n.rx} 0Z`;
   let active=null, hovered=null;
   // Hover previews a definition; click pins it until you click outside the circles (or press Esc).
   let pinned=null;
   function addPinBar(){
-    panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned — hover is paused. Click outside the circles or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
+    panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the circles or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
     panel.querySelector('.unpin').addEventListener('click',e=>{e.stopPropagation(); unpin();});
   }
   function pin(el,show){ if(pinned) pinned.el.classList.remove('pinned'); pinned={el,show}; el.classList.add('pinned'); show(); addPinBar(); }
@@ -188,8 +200,9 @@
   N.forEach(n=>{
     const [fill,stroke]=n.c;
     const common={class:'node',fill,'fill-opacity':n.id==='da'?1:.55,stroke,'stroke-width':2,tabindex:0,'aria-label':n.label.join(' ')};
-    const s = n.t==='rect'
-      ? el('rect',Object.assign({x:n.x,y:n.y,width:n.w,height:n.h,rx:n.r},common))
+    // lens-only circles are paths: under a lens they stretch to take in the badges of tokens it licenses
+    const s = n.t==='rect' ? el('rect',Object.assign({x:n.x,y:n.y,width:n.w,height:n.h,rx:n.r},common))
+      : n.lens_only ? el('path',Object.assign({d:ellPath(n)},common))
       : el('ellipse',Object.assign({cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry},common));
     if(n.clip){
       const src=byId[n.clip].n, cp=el('clipPath',{id:'clip-'+n.id});
@@ -205,13 +218,15 @@
     if(n.sub3) txt(n.lx, n.s3y, n.sub3, 10, 400, '#615f5a');
     if(n.lines) n.lines.forEach((l,i)=>txt(n.lx,n.liney+i*15,l,11,400,'#615f5a'));
     if(n.lines2) n.lines2.forEach((l,i)=>txt(n.lx,n.l2y+i*12,l,9.5,400,'#615f5a'));
+    // lens-only circles (e.g. Licensed or Recognised Stablecoins) stay hidden until a lens that mentions them is applied
+    if(n.lens_only){ s.classList.add('hide'); curTexts.forEach(t=>t.classList.add('hide')); }
     const show=()=>{
       if(active) active.classList.remove('on');
       active=s; s.classList.add('on'); hovered=n;
       let sc='';
       activeLenses.forEach(L=>{
         const st=status(L,n.id), G=L.g[n.id];
-        const word = G ? `${G.label} — ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed — see the circles inside');
+        const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed; see the circles inside');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[n.id]||''}</div>`;
       });
       panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${n.desc}</p>${sc}`;
@@ -238,47 +253,61 @@
   })();
 
   // ---------- top-10 token badges (ticker chips; positions = house-view placement) ----------
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc}));
+  // Badges never move. Under a lens listed in a token's `licensed_under`, the lens-only circle that lens shows
+  // (e.g. Licensed or Recognised Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[]}));
+  const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
+  const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
+  const tokGroup=(a,L)=>(L.groups||[]).find(G=>(G.tokens||[]).includes(a.t));
   ASSETS.forEach(a=>{
     const g=el('g',{class:'asset',tabindex:0,'aria-label':`${a.name} (${a.t})`});
-    g.appendChild(el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5}));
+    a.ring=el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5});
+    g.appendChild(a.ring);
     const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.t.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.t;
-    g.appendChild(t); gText.appendChild(g); byId[a.p].texts.push(g);
+    g.appendChild(t); gText.appendChild(g); a.g=g;
     const show=()=>{
-      const pn=byId[a.p].n; let sc='';
+      let sc='', where=byId[a.p].n.label.filter(Boolean).join(' ');
       activeLenses.forEach(L=>{
-        const st=status(L,a.p), G=L.g[a.p];
-        const word = G ? `${G.label} — ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
-        sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.p]||''}</div>`;
+        const J=joined(a,L), p=J||a.p, G=tokGroup(a,L)||L.g[p], st=status(L,p);
+        if(J) where+=` · inside ${byId[J].n.label.join(' ')} under this lens`;
+        const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
+        sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||L.n[p]||''}</div>`;
       });
-      panel.innerHTML=`<div class="path">Token · sits in ${pn.label.filter(Boolean).join(' ')}</div><h2>${a.name} (${a.t})</h2><p>${a.d}</p>${sc}`;
+      panel.innerHTML=`<div class="path">Token · sits in ${where}</div><h2>${a.name} (${a.t})</h2><p>${a.d}</p>${sc}`;
     };
     bindInfo(g,show,false);
   });
 
-  // ---------- perimeter: dotted outline around the union of 'in' circles (marching squares) ----------
-  const W=1600,H=1300,STEP=5;
-  function field(n,x,y,pad){
-    const q=((x-n.cx)/(n.rx+pad))**2+((y-n.cy)/(n.ry+pad))**2;
-    return 1-Math.sqrt(q);
+  // ---------- outlines: union of shapes via marching squares (lens perimeters and lens-only blobs) ----------
+  // Shapes: ellipses (optionally clipped), discs around token badges and capsules along `bridges` waypoints.
+  // Fields are approximate signed distances in px (positive inside), joined with a smooth max so unions read as blobs.
+  const W=1600,H=1300,STEP=5,SMOOTH=6;
+  const ellShape=n=>({k:'e',cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry,clip:n.clip?byId[n.clip].n:null});
+  const disc=(a,r)=>({k:'d',cx:a.x,cy:a.y,r});
+  function sdEll(e,x,y,pad){
+    const rx=e.rx+pad, ry=e.ry+pad, dx=x-e.cx, dy=y-e.cy, D=Math.hypot(dx,dy);
+    return D<1e-6 ? Math.min(rx,ry) : 1/Math.sqrt((dx/D/rx)**2+(dy/D/ry)**2)-D;
   }
-  function perimeterPath(ids,pad){
-    const nodes=ids.map(id=>byId[id].n).filter(n=>n.t!=='rect');
-    const nx=Math.floor(W/STEP)+1, ny=Math.floor(H/STEP)+1, v=new Float32Array(nx*ny);
+  function sd(s,x,y,pad){
+    if(s.k==='d') return s.r+pad-Math.hypot(x-s.cx,y-s.cy);
+    if(s.k==='c'){ const vx=s.x2-s.x1, vy=s.y2-s.y1, t=Math.max(0,Math.min(1,((x-s.x1)*vx+(y-s.y1)*vy)/(vx*vx+vy*vy)));
+      return s.r+pad-Math.hypot(x-s.x1-t*vx,y-s.y1-t*vy); }
+    const f=sdEll(s,x,y,pad); return s.clip ? Math.min(f,sdEll(s.clip,x,y,pad)) : f;
+  }
+  const smax=(a,b)=>{ const h=Math.max(SMOOTH-Math.abs(a-b),0); return Math.max(a,b)+h*h/(4*SMOOTH); };
+  function outline(shapes,pad,step,box){
+    const [x0,y0,x1,y1]=box||[0,0,W,H];
+    const nx=Math.floor((x1-x0)/step)+1, ny=Math.floor((y1-y0)/step)+1, v=new Float32Array(nx*ny);
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-      const x=i*STEP,y=j*STEP; let best=-9;
-      for(const n of nodes){
-        let f=field(n,x,y,pad);
-        if(n.clip) f=Math.min(f,field(byId[n.clip].n,x,y,pad));
-        if(f>best) best=f;
-      }
-      v[j*nx+i]=best;
+      const x=x0+i*step,y=y0+j*step; let best=null;
+      for(const s of shapes){ const f=sd(s,x,y,pad); best = best===null ? f : smax(best,f); }
+      v[j*nx+i]=best===null?-1:best;
     }
     const V=(i,j)=>v[j*nx+i];
     // edge ids: horizontal h(i,j) between (i,j)-(i+1,j); vertical vv(i,j) between (i,j)-(i,j+1)
     const pts=new Map();
-    const hp=(i,j)=>{const k='h'+i+'_'+j; if(!pts.has(k)){const a=V(i,j),b=V(i+1,j),t=a/(a-b); pts.set(k,[(i+t)*STEP,j*STEP]);} return k;};
-    const vp=(i,j)=>{const k='v'+i+'_'+j; if(!pts.has(k)){const a=V(i,j),b=V(i,j+1),t=a/(a-b); pts.set(k,[i*STEP,(j+t)*STEP]);} return k;};
+    const hp=(i,j)=>{const k='h'+i+'_'+j; if(!pts.has(k)){const a=V(i,j),b=V(i+1,j),t=a/(a-b); pts.set(k,[x0+(i+t)*step,y0+j*step]);} return k;};
+    const vp=(i,j)=>{const k='v'+i+'_'+j; if(!pts.has(k)){const a=V(i,j),b=V(i,j+1),t=a/(a-b); pts.set(k,[x0+i*step,y0+(j+t)*step]);} return k;};
     const T={1:[['L','T']],2:[['T','R']],3:[['L','R']],4:[['R','B']],5:[['L','T'],['R','B']],6:[['T','B']],7:[['L','B']],
              8:[['B','L']],9:[['B','T']],10:[['T','R'],['B','L']],11:[['B','R']],12:[['R','L']],13:[['R','T']],14:[['T','L']]};
     const adj=new Map(); const add=(a,b)=>{(adj.get(a)||adj.set(a,[]).get(a)).push(b);(adj.get(b)||adj.set(b,[]).get(b)).push(a);};
@@ -302,6 +331,20 @@
     }
     return d;
   }
+  // a lens-only circle under lens L: its ellipse, stretched rightwards just enough to hold the badges L licenses
+  function lensOnlyGeom(n,L){
+    const g={cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry}, x0=n.cx-n.rx, ts=ASSETS.filter(a=>joined(a,L)===n.id), m=17;
+    const fits=()=>ts.every(a=>a.x+m<=g.cx+g.rx && ((a.x-g.cx)/g.rx)**2+((Math.abs(a.y-g.cy)+m)/g.ry)**2<=1);
+    while(!fits() && g.rx<n.rx+300){ g.rx+=1; g.cx=x0+g.rx; }
+    return g;
+  }
+  // shapes for a set of circles under lens L (lens-only circles use their stretched geometry)
+  const shapesFor=(ids,L)=>ids.map(id=>byId[id].n).filter(n=>n.t!=='rect')
+    .map(n=>n.lens_only ? Object.assign({k:'e'},lensOnlyGeom(n,L)) : ellShape(n));
+  // a group's badges: a disc around each, joined by a capsule so neighbouring badges read as one shape
+  const tokenShapes=G=>{ const ts=ASSETS.filter(a=>(G.tokens||[]).includes(a.t));
+    return [...ts.map(a=>disc(a,15)),...ts.slice(1).map((a,i)=>({k:'c',x1:ts[i].x,y1:ts[i].y,x2:a.x,y2:a.y,r:15}))]; };
+  const bridge=key=>((DATA.bridges||{})[key]||[]).flatMap(w=>w.slice(1).map((p,i)=>({k:'c',x1:w[i][0],y1:w[i][1],x2:p[0],y2:p[1],r:3})));
   const perimCache={};
 
   // ---------- lens UI ----------
@@ -342,6 +385,10 @@
       : `<span class="perim" style="--c:${L.color}">${SW.dot}${L.short} perimeter</span>`).join('');
     // circles
     Object.values(byId).forEach(({n,s,texts,base})=>{
+      if(n.lens_only){
+        const L=activeLenses.find(L=>L.reveal.has(n.id)); s.classList.toggle('hide',!L); texts.forEach(t=>t.classList.toggle('hide',!L));
+        if(L) s.setAttribute('d',ellPath(lensOnlyGeom(n,L)));
+      }
       const sts=activeLenses.map(L=>[L,status(L,n.id)]);
       const dim = on && n.id!=='da' && activeLenses.every(L=>allOut(L,n.id));
       s.classList.toggle('dim',dim); texts.forEach(t=>t.classList.toggle('dim',dim));
@@ -355,14 +402,21 @@
       if(T && !n.clip){ s.setAttribute('fill',T.g[n.id].color); s.setAttribute('fill-opacity',CONTAINERS.has(n.id)?.14:.32); }
       else { s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); }
     });
+    // token badges stay put: they dim with the circle they count in, and take a group's colour when a group lists them
+    ASSETS.forEach(a=>{
+      const G=activeLenses.map(L=>tokGroup(a,L)).find(Boolean), J=activeLenses.map(L=>joined(a,L)).find(Boolean);
+      a.g.classList.toggle('dim',!G && byId[J||a.p].s.classList.contains('dim'));
+      a.ring.setAttribute('stroke',G?G.color:'#f8f6f2'); a.ring.setAttribute('stroke-width',G?3:1.5);
+    });
     // perimeters (nested: later lenses drawn a little wider so lines never coincide)
     gPer.innerHTML='';
     activeLenses.forEach((L,k)=>{
       const pad=10+k*8;
-      const sets = L.groups ? L.groups.map(G=>({key:L.id+G.id+pad,color:G.color,ids:G.ids}))
-                            : [{key:L.id+pad,color:L.color,ids:N.filter(n=>n.t!=='rect' && status(L,n.id)==='in').map(n=>n.id)}];
+      const sets = L.groups ? L.groups.map(G=>({key:L.id+G.id+pad,color:G.color,
+                                shapes:()=>[...shapesFor(G.ids,L),...tokenShapes(G),...bridge(L.id+'.'+G.id)]}))
+                            : [{key:L.id+pad,color:L.color,shapes:()=>shapesFor(N.filter(n=>n.t!=='rect' && status(L,n.id)==='in').map(n=>n.id),L)}];
       sets.forEach(S=>{
-        const d=perimCache[S.key]||(perimCache[S.key]=perimeterPath(S.ids,pad));
+        const d=perimCache[S.key]||(perimCache[S.key]=outline(S.shapes(),pad,STEP));
         gPer.appendChild(el('path',{class:'perimeter',d,fill:S.color,'fill-opacity':.05,stroke:S.color,'stroke-width':3.6,'stroke-linecap':'round','stroke-dasharray':'0.1 9'}));
       });
     });

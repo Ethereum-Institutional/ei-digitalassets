@@ -3,6 +3,8 @@
 An interactive map of how digital money, tokenized real-world assets and other crypto-assets relate, with
 **regulatory lenses** showing where each regime's definition reaches. Maintained by Ethereum Institutional.
 
+**View the live page: https://ethereum-institutional.github.io/ei-digitalassets/**
+
 > **Status: draft (v0.x).** Not yet reviewed by legal counsel. Version 1.0.0 will follow that review.
 
 The map is generated from plain-text data files in this repository, so every change is reviewable as a diff
@@ -37,7 +39,13 @@ list the circles each group covers instead.
 dropdown sorts alphabetically. The build fails if a lens references a circle id that does not exist.
 
 **Add a circle** → add it to `data/circles.yaml` *and* give it geometry in `data/layout.yaml`. If it is a grouping
-circle, list it under `containers` and its contents under `children`.
+circle, list it under `containers` and its contents under `children`. Mark it `lens_only: true` to hide it on the
+default map and show it only under lenses that mention it (Licensed or Recognised Stablecoins and Licensed or Recognised Payment Tokens work this way).
+
+**Show a token as licensed under a lens** → in `data/tokens.yaml`, add the lens id to the token's `licensed_under`
+list. Badges never move: under that lens the licensed-or-recognised circle it shows stretches to take the badge in. A lens group can
+also take badges in with `tokens: [USDT, USDC]`, and `bridges:` in `data/layout.yaml` joins a group's separate
+circles into one continuous outline (see the Switzerland lens).
 
 Every regulatory claim should carry a source: add the URL and the date you checked it to the lens file's
 `sources:` list and update `last_reviewed`.
@@ -58,8 +66,7 @@ wrap it themselves (for example the claude.ai artifact).
 
 - Tagging a commit `vX.Y.Z` creates a GitHub Release with the built HTML attached and the version stamped in
   the page footer. `v0.x` tags are marked as pre-releases. Record what changed in `CHANGELOG.md`.
-- Every merge to `main` publishes the latest build to GitHub Pages:
-  https://ethereum-institutional.github.io/ei-digitalassets/
+- Every merge to `main` publishes the latest build to GitHub Pages (the live page linked at the top).
 - Every pull request also uploads the built page and a preview screenshot as a workflow artifact.
 - The "Under development" banner comes from `notice:` in `data/site.yaml`; remove it once counsel has reviewed.
 
