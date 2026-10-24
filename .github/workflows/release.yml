@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # pinned to match build.yml
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -26,6 +26,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+          prerelease: ${{ startsWith(github.ref_name, 'v0.') }}  # v0.x = draft pending legal review
           files: |
             digital-asset-taxonomy-${{ github.ref_name }}.html
             digital-asset-taxonomy-${{ github.ref_name }}.fragment.html
