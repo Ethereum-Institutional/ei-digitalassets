@@ -44,6 +44,7 @@ status:
   lst: in
   id: part
   tix: part
+  fmi: part
 notes:
   cbdc: A digital representation of fiat currency.
   td: A digital representation of fiat currency held as a deposit.
