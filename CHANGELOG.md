@@ -19,3 +19,4 @@ First versioned draft, migrated from the hand-maintained page. Pending legal and
 - 20 regulatory lenses: 6 global standard setters (FATF, FSB, Basel, BIS/CPMI, IMF, IOSCO) and 14 jurisdictions (AE ×3, CH, CN, EU, HK ×2, IN, JP, KR, SG, UK, US).
 - Top-10 token badges as of mid-October 2026.
 - Click-to-pin definitions; single-select lens dropdowns sorted alphabetically.
+- Licensed under CC BY-NC-ND 4.0, © Ethereum Institutional; contributions licensed to Ethereum Institutional.

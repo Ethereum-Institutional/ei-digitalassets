@@ -71,3 +71,14 @@ FMI tokens as regulated non-bank money, and native cryptocurrencies as digital m
 these should say so explicitly.
 
 This map is for discussion and is not legal advice.
+
+## Licence
+
+© 2026 Ethereum Institutional. Published under
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) (see [`LICENSE`](LICENSE)): you may view and
+share it unchanged, with attribution, for non-commercial purposes. Commercial use and adapted versions require
+Ethereum Institutional's prior written consent. This makes the repository source-available rather than open
+source in the OSI sense.
+
+By contributing (a pull request, issue or suggested edit) you grant Ethereum Institutional a perpetual,
+irrevocable, royalty-free licence to use, modify and relicense your contribution; see `LICENSE`.

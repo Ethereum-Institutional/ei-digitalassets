@@ -2,6 +2,7 @@
   "name": "ei-digitalassets",
   "version": "0.1.0",
   "private": true,
+  "license": "CC-BY-NC-ND-4.0",
   "description": "Ethereum Institutional digital asset taxonomy — data-driven interactive map with regulatory lenses",
   "type": "module",
   "scripts": {
