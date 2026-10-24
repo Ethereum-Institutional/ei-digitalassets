@@ -7,4 +7,8 @@ heading:
   italic: Taxonomy
 intro: How digital money, tokenized real-world assets and other crypto-assets relate. Hover over any circle or token to preview its definition, and click to pin it while you scroll. Then choose a regulatory lens below the map to see where each regime’s definition reaches.
 lens_help: Pick one lens from either list. Its perimeter is drawn as a dotted line around the circles it covers; circles inside the definition get a thick outline.
+# Optional banner shown above the heading. Remove `notice` to hide it.
+notice:
+  title: Under development.
+  text: This taxonomy is a v0.x draft and has not yet been reviewed by legal counsel. Placements, definitions and regulatory lenses may change. For discussion only; not legal advice.
 footnote: Token badges show the ten largest digital assets by market capitalisation in mid-October 2026 and are placed by issuer and structure. This map is an Ethereum Institutional house view for discussion, not legal advice.

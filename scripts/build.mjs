@@ -65,6 +65,7 @@ let page = read('src/template.html')
   .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
   .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', heading)
   .replace('__INTRO__', esc(site.intro)).replace('__LENS_HELP__', esc(site.lens_help)).replace('__FOOTNOTE__', esc(site.footnote))
+  .replace('__NOTICE__', site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '')
   .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 
 fs.mkdirSync(path.join(root, 'dist'), { recursive: true });

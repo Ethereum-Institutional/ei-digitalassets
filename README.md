@@ -58,9 +58,10 @@ wrap it themselves (for example the claude.ai artifact).
 
 - Tagging a commit `vX.Y.Z` creates a GitHub Release with the built HTML attached and the version stamped in
   the page footer. `v0.x` tags are marked as pre-releases. Record what changed in `CHANGELOG.md`.
-- Every pull request and push to `main` also uploads the built page as a workflow artifact.
-- GitHub Pages publishing (`pages.yml`) is manual-only for now, because Pages is not available for private
-  repositories on the organisation's current GitHub plan.
+- Every merge to `main` publishes the latest build to GitHub Pages:
+  https://ethereum-institutional.github.io/ei-digitalassets/
+- Every pull request also uploads the built page and a preview screenshot as a workflow artifact.
+- The "Under development" banner comes from `notice:` in `data/site.yaml`; remove it once counsel has reviewed.
 
 ## House views
 
