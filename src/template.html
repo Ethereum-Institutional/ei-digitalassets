@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+<style>
+  /* Layout: one column — heading, diagram, lens selector, definition panel. Styled after ethereuminstitutional.org:
+     warm paper ground, near-black ink, serif headlines (Tiempos → Literata), grotesk UI (Söhne → Archivo). */
+  :root{
+    color-scheme:light;
+    --paper:#f2efe9;   /* page ground */
+    --card:#f8f6f2;    /* raised surfaces */
+    --sand:#eae6de;    /* quiet fills */
+    --rule:#dfdbd2;    /* hairlines */
+    --ink:#14130f;     /* text + primary buttons */
+    --muted:#615f5a;   /* secondary text */
+    --serif:"Tiempos Text", Literata, "Iowan Old Style", Georgia, serif;
+    --sans:Söhne, Archivo, "Helvetica Neue", Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;-webkit-font-smoothing:antialiased}
+  .ei-taxonomy{max-width:1400px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:20px}
+  .ei-head{display:flex;flex-direction:column;gap:10px;max-width:760px}
+  .ei-eyebrow{font-size:13px;color:var(--muted)}
+  .ei-taxonomy h1{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:-.032em;margin:0;text-wrap:balance}
+  .ei-taxonomy h1 em{font-style:italic}
+  .ei-taxonomy .sub{color:var(--muted);margin:0;font-size:15px;line-height:1.55;max-width:65ch}
+  .ei-wrap{width:100%;overflow-x:auto;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:8px}
+  .ei-wrap svg{width:100%;min-width:720px;height:auto;display:block}
+  .ei-wrap svg text{pointer-events:none;font-family:var(--sans)}
+  .ei-wrap svg text.serif{font-family:var(--serif);letter-spacing:-.02em}
+  .ei-wrap svg .node{cursor:pointer;transition:stroke-width .15s, opacity .2s}
+  .ei-wrap svg .node.on{stroke-width:3.5}
+  .ei-wrap svg .node.pinned{stroke:var(--ink) !important;stroke-width:4.5 !important}
+  .ei-wrap svg .asset.pinned circle{stroke:#b7791f;stroke-width:3.5}
+  .ei-panel .pinbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+  .ei-panel .pinbar button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
+  .ei-panel .pinbar button:hover{border-color:var(--ink)}
+  .ei-wrap svg .node:focus-visible{outline:none;stroke:var(--ink);stroke-width:4}
+  .ei-wrap svg .asset{cursor:pointer}
+  .ei-wrap svg .asset text{font-family:var(--sans)}
+  .ei-wrap svg .dim{opacity:.16}
+  .ei-wrap svg text.dim{opacity:.2}
+  .ei-wrap svg .perimeter{pointer-events:none}
+
+  .ei-lens{display:flex;flex-direction:column;gap:12px;padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-lens-head{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:baseline}
+  .ei-lens-head b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-lens-head span{color:var(--muted);font-size:13px}
+  .ei-lens .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ei-lens .rl{font-size:12px;color:var(--muted);min-width:130px}
+  .ei-lens button{font:inherit;font-size:14px;padding:9px 14px;border-radius:12px;border:1px solid var(--rule);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s,color .15s}
+  .ei-lens button:hover{border-color:var(--ink)}
+  .ei-lens button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ei-lens button .sw{width:10px;height:10px;border-radius:50%;background:var(--c)}
+  .ei-lens button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .ei-ctl{display:flex;gap:12px 16px;flex-wrap:wrap;align-items:flex-end}
+  .ei-field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted);flex:1 1 280px;min-width:0;max-width:440px}
+  .ei-field select{font:inherit;font-size:14px;color:var(--ink);background:#fff;border:1px solid var(--rule);border-radius:12px;padding:10px 36px 10px 14px;width:100%;
+    appearance:none;-webkit-appearance:none;cursor:pointer;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+    background-position:calc(100% - 20px) 55%,calc(100% - 15px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+  .ei-field select:hover{border-color:var(--ink)}
+  .ei-field select:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ei-field select.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .ei-lens .clear{border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:9px 4px}
+  .ei-scope{display:none;gap:8px 18px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding-top:12px;border-top:1px solid var(--rule)}
+  .ei-scope.show{display:flex}
+  .ei-scope span{display:inline-flex;align-items:center;gap:6px}
+  .ei-scope i{display:inline-block;width:20px;height:12px;border-radius:6px;border:3px solid var(--ink)}
+  .ei-scope i.p{border-style:dashed}
+  .ei-scope i.o{border:2px solid var(--rule)}
+  .ei-scope .perim{display:inline-flex;align-items:center;gap:6px;margin-right:6px}
+  .ei-scope svg{flex:none}
+
+  .ei-panel{background:#fff;border:1px solid var(--rule);border-radius:16px;padding:18px 22px;min-height:96px}
+  .ei-panel h2{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-panel p{margin:0;font-size:15px;line-height:1.6;color:var(--ink);max-width:90ch}
+  .ei-panel .path{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .ei-panel .scope{margin-top:10px;font-size:14px;line-height:1.5;padding:10px 12px;border-radius:10px;background:var(--card);border-left:4px solid var(--c)}
+  .ei-foot{font-size:12px;color:var(--muted);line-height:1.5}
+  .ei-ver{opacity:.7}
+  @media (prefers-reduced-motion: reduce){ .ei-wrap svg .node, .ei-lens button{transition:none} }
+</style>
+</head>
+<body>
+<div class="ei-taxonomy">
+  <div class="ei-head">
+    <span class="ei-eyebrow">__EYEBROW__</span>
+    <h1>__HEADING__</h1>
+    <p class="sub">__INTRO__</p>
+  </div>
+  <div class="ei-wrap"><svg id="ei-svg" viewBox="0 0 1600 1300" role="img" aria-label="Venn diagram of digital asset types"></svg></div>
+  <div class="ei-lens" id="ei-lens">
+    <div class="ei-lens-head"><b>Regulatory lenses</b><span>__LENS_HELP__</span></div>
+    <div class="ei-scope" id="ei-scope">
+      <span id="ei-perims"></span>
+      <span><svg width="38" height="18" aria-hidden="true"><rect x="3" y="3" width="32" height="12" rx="6" fill="none" stroke="#14130f" stroke-width="5"/></svg> Inside the definition (thick line)</span>
+      <span><svg width="46" height="18" aria-hidden="true"><rect x="3" y="3" width="40" height="12" rx="6" fill="none" stroke="#14130f" stroke-width="3" stroke-dasharray="16 8"/></svg> Depends, exempt or restricted (long dashes)</span>
+      <span><svg width="38" height="18" aria-hidden="true"><rect x="3" y="3" width="32" height="12" rx="6" fill="none" stroke="#cfc9bd" stroke-width="1.5"/></svg> Outside the definition (faded)</span>
+    </div>
+  </div>
+  <div class="ei-panel" id="ei-panel" aria-live="polite">
+    <h2>Digital Assets</h2>
+    <p>Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.</p>
+  </div>
+  <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
+</div>
+
+<script>
+(function(){
+  // Palette per family
+  const DATA = __DATA__;
+  const C = DATA.palette;
+  const N = DATA.circles.map(n=>Object.assign({}, n, {c: n.family ? C[n.family] : [n.colors.fill, n.colors.stroke]}));
+  const CONTAINERS = new Set(DATA.containers);
+  const KIDS = DATA.children;
+  const INHERIT = DATA.inherit_status;
+  const LENSES = DATA.lenses.map(L=>Object.assign({}, L, {group: L.group==='standard-setter'?'g':'j', s:Object.assign({},L.status||{}), n:Object.assign({},L.notes||{}),
+    groups:(L.groups&&L.groups.length) ? L.groups.map(G=>Object.assign({},G,{ids:G.circles})) : undefined}));
+  // expand group lenses into per-circle status + group lookup; children inherit their parent's note when they have none
+  const PARENT={}; Object.entries(KIDS).forEach(([p,ks])=>ks.forEach(k=>{ if(!(k in PARENT)) PARENT[k]=p; }));
+  Object.entries(INHERIT).forEach(([c,p])=>PARENT[c]=p);
+  LENSES.forEach(L=>{
+    L.g={};
+    (L.groups||[]).forEach(G=>G.ids.forEach(id=>{ L.s[id]=L.s[id]||'in'; L.g[id]=G; }));
+    Object.entries(PARENT).forEach(([c,p])=>{ if(!L.n[c] && L.n[p]) L.n[c]=L.n[p]; });
+  });
+  const LBYID = Object.fromEntries(LENSES.map(l=>[l.id,l]));
+  const activeLenses = []; // order = selection order
+
+  function allOut(L,id){
+    const st=L.s[id];
+    if(st==='in'||st==='part'||L.g[id]) return false;
+    if(CONTAINERS.has(id)) return st==='out' || (KIDS[id]||[]).every(k=>allOut(L,k));
+    return status(L,id)==='out';
+  }
+  function status(L,id){
+    if(!L.s[id] && INHERIT[id] && L.s[INHERIT[id]]) return L.s[INHERIT[id]];
+    if(L.s[id]) return L.s[id];
+    // inherit for Basel-style container entries (e.g. rwa children)
+    return CONTAINERS.has(id) ? null : 'out';
+  }
+
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('ei-svg');
+  const panel=document.getElementById('ei-panel');
+  const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const defs=el('defs',{});
+  defs.innerHTML='<pattern id="ei-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#f3dcd6"/><line x1="0" y1="0" x2="0" y2="8" stroke="#c0685a" stroke-width="2.5"/></pattern>';
+  const gShapes=el('g',{}), gPer=el('g',{}), gText=el('g',{});
+  svg.append(defs,gShapes,gPer,gText);
+  const byId={};
+
+  let curTexts=[];
+  function txt(x,y,s,size,weight,fill){
+    const big=size>=15;
+    const t=el('text',{x,y,'text-anchor':'middle','font-size':big?size*1.08:size,'font-weight':big?400:(weight>=700?600:(weight||400)),fill:fill||'#14130f'});
+    if(big) t.setAttribute('class','serif');
+    t.textContent=s; gText.appendChild(t); curTexts.push(t);
+  }
+
+  let active=null, hovered=null;
+  // Hover previews a definition; click pins it until you click outside the circles (or press Esc).
+  let pinned=null;
+  function addPinBar(){
+    panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned — hover is paused. Click outside the circles or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
+    panel.querySelector('.unpin').addEventListener('click',e=>{e.stopPropagation(); unpin();});
+  }
+  function pin(el,show){ if(pinned) pinned.el.classList.remove('pinned'); pinned={el,show}; el.classList.add('pinned'); show(); addPinBar(); }
+  function unpin(){ if(!pinned) return; pinned.el.classList.remove('pinned'); pinned=null; const b=panel.querySelector('.pinbar'); if(b) b.remove(); }
+  function bindInfo(el,show,outer){
+    el.addEventListener('mouseenter',()=>{ if(!pinned) show(); });
+    el.addEventListener('focus',()=>{ if(!pinned) show(); });
+    el.addEventListener('click',e=>{ e.stopPropagation(); if(outer){ unpin(); show(); } else pin(el,show); });
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(outer){unpin(); show();} else pin(el,show); } });
+  }
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel, #ei-lens')) unpin(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
+  N.forEach(n=>{
+    const [fill,stroke]=n.c;
+    const common={class:'node',fill,'fill-opacity':n.id==='da'?1:.55,stroke,'stroke-width':2,tabindex:0,'aria-label':n.label.join(' ')};
+    const s = n.t==='rect'
+      ? el('rect',Object.assign({x:n.x,y:n.y,width:n.w,height:n.h,rx:n.r},common))
+      : el('ellipse',Object.assign({cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry},common));
+    if(n.clip){
+      const src=byId[n.clip].n, cp=el('clipPath',{id:'clip-'+n.id});
+      cp.appendChild(el('ellipse',{cx:src.cx,cy:src.cy,rx:src.rx,ry:src.ry})); defs.appendChild(cp);
+      s.setAttribute('clip-path','url(#clip-'+n.id+')'); s.setAttribute('fill-opacity',.9);
+    }
+    gShapes.appendChild(s);
+    curTexts=[]; byId[n.id]={n,s,texts:curTexts,base:{stroke,fill:s.getAttribute('fill'),fop:s.getAttribute('fill-opacity')}};
+    const lh=n.fs*1.15;
+    n.label.forEach((line,i)=>txt(n.lx,n.ly+i*lh,line,n.fs,n.fw,n.tc||(n.c[1]==='#8a857a'?'#3d3b36':'#14130f')));
+    if(n.sub) txt(n.lx, n.suby || (n.ly+n.label.length*lh), n.sub, 10, 400, '#615f5a');
+    if(n.sub2) txt(n.lx, n.sy, n.sub2, 12, 400, '#615f5a');
+    if(n.sub3) txt(n.lx, n.s3y, n.sub3, 10, 400, '#615f5a');
+    if(n.lines) n.lines.forEach((l,i)=>txt(n.lx,n.liney+i*15,l,11,400,'#615f5a'));
+    if(n.lines2) n.lines2.forEach((l,i)=>txt(n.lx,n.l2y+i*12,l,9.5,400,'#615f5a'));
+    const show=()=>{
+      if(active) active.classList.remove('on');
+      active=s; s.classList.add('on'); hovered=n;
+      let sc='';
+      activeLenses.forEach(L=>{
+        const st=status(L,n.id), G=L.g[n.id];
+        const word = G ? `${G.label} — ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed — see the circles inside');
+        sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[n.id]||''}</div>`;
+      });
+      panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${n.desc}</p>${sc}`;
+    };
+    bindInfo(s,show,n.id==='da');
+  });
+
+  // captions for the two hybrid overlaps
+  [['sn','M1290 1071 L1290 1104',1290,1116,'Structured notes'],['trk','M1288 891 L1288 868',1288,861,'Trackers & warrants']].forEach(([id,d,x,y,label])=>{
+    const g=el('g',{'pointer-events':'none'});
+    g.appendChild(el('path',{d,stroke:'#33506a','stroke-width':1.4,'stroke-dasharray':'2 3'}));
+    const t=el('text',{x,y,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:'#14130f',stroke:'#f8f6f2','stroke-width':3,'paint-order':'stroke'}); t.textContent=label;
+    g.append(t); gText.appendChild(g); byId[id].texts.push(g);
+  });
+
+  // "look-alike" connector: Deposit Token ⇢ bank-issued stablecoins (Commercial Bank ∩ Stablecoins)
+  (function(){
+    const g=el('g',{'pointer-events':'none'});
+    g.appendChild(el('path',{d:'M786 459 Q 790 472 784 486',fill:'none',stroke:'#14213d','stroke-width':1.8,'stroke-dasharray':'2.5 3','stroke-linecap':'round'}));
+    g.appendChild(el('circle',{cx:784,cy:488,r:2.8,fill:'#14213d'}));
+    const t=el('text',{x:796,y:470,'font-size':9.5,'font-style':'italic','font-weight':600,fill:'#14213d',stroke:'#fff','stroke-width':3,'paint-order':'stroke'}); t.textContent='look-alike';
+    const t2=el('text',{x:762,y:500,'font-size':9,'font-weight':600,fill:'#3b4580',stroke:'#fff','stroke-width':2.5,'paint-order':'stroke','text-anchor':'middle'}); t2.textContent='bank-issued';
+    g.append(t,t2); gText.appendChild(g);
+  })();
+
+  // ---------- top-10 token badges (ticker chips; positions = house-view placement) ----------
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc}));
+  ASSETS.forEach(a=>{
+    const g=el('g',{class:'asset',tabindex:0,'aria-label':`${a.name} (${a.t})`});
+    g.appendChild(el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5}));
+    const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.t.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.t;
+    g.appendChild(t); gText.appendChild(g); byId[a.p].texts.push(g);
+    const show=()=>{
+      const pn=byId[a.p].n; let sc='';
+      activeLenses.forEach(L=>{
+        const st=status(L,a.p), G=L.g[a.p];
+        const word = G ? `${G.label} — ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
+        sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.p]||''}</div>`;
+      });
+      panel.innerHTML=`<div class="path">Token · sits in ${pn.label.filter(Boolean).join(' ')}</div><h2>${a.name} (${a.t})</h2><p>${a.d}</p>${sc}`;
+    };
+    bindInfo(g,show,false);
+  });
+
+  // ---------- perimeter: dotted outline around the union of 'in' circles (marching squares) ----------
+  const W=1600,H=1300,STEP=5;
+  function field(n,x,y,pad){
+    const q=((x-n.cx)/(n.rx+pad))**2+((y-n.cy)/(n.ry+pad))**2;
+    return 1-Math.sqrt(q);
+  }
+  function perimeterPath(ids,pad){
+    const nodes=ids.map(id=>byId[id].n).filter(n=>n.t!=='rect');
+    const nx=Math.floor(W/STEP)+1, ny=Math.floor(H/STEP)+1, v=new Float32Array(nx*ny);
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
+      const x=i*STEP,y=j*STEP; let best=-9;
+      for(const n of nodes){
+        let f=field(n,x,y,pad);
+        if(n.clip) f=Math.min(f,field(byId[n.clip].n,x,y,pad));
+        if(f>best) best=f;
+      }
+      v[j*nx+i]=best;
+    }
+    const V=(i,j)=>v[j*nx+i];
+    // edge ids: horizontal h(i,j) between (i,j)-(i+1,j); vertical vv(i,j) between (i,j)-(i,j+1)
+    const pts=new Map();
+    const hp=(i,j)=>{const k='h'+i+'_'+j; if(!pts.has(k)){const a=V(i,j),b=V(i+1,j),t=a/(a-b); pts.set(k,[(i+t)*STEP,j*STEP]);} return k;};
+    const vp=(i,j)=>{const k='v'+i+'_'+j; if(!pts.has(k)){const a=V(i,j),b=V(i,j+1),t=a/(a-b); pts.set(k,[i*STEP,(j+t)*STEP]);} return k;};
+    const T={1:[['L','T']],2:[['T','R']],3:[['L','R']],4:[['R','B']],5:[['L','T'],['R','B']],6:[['T','B']],7:[['L','B']],
+             8:[['B','L']],9:[['B','T']],10:[['T','R'],['B','L']],11:[['B','R']],12:[['R','L']],13:[['R','T']],14:[['T','L']]};
+    const adj=new Map(); const add=(a,b)=>{(adj.get(a)||adj.set(a,[]).get(a)).push(b);(adj.get(b)||adj.set(b,[]).get(b)).push(a);};
+    for(let j=0;j<ny-1;j++)for(let i=0;i<nx-1;i++){
+      const c=(V(i,j)>0?1:0)|(V(i+1,j)>0?2:0)|(V(i+1,j+1)>0?4:0)|(V(i,j+1)>0?8:0);
+      if(!T[c]) continue;
+      const E={T:()=>hp(i,j),B:()=>hp(i,j+1),L:()=>vp(i,j),R:()=>vp(i+1,j)};
+      T[c].forEach(([a,b])=>add(E[a](),E[b]()));
+    }
+    // chain into closed loops
+    const seen=new Set(); let d='';
+    for(const start of adj.keys()){
+      if(seen.has(start)) continue;
+      let cur=start, prev=null, loop=[];
+      while(cur && !seen.has(cur)){
+        seen.add(cur); loop.push(pts.get(cur));
+        const nb=adj.get(cur).find(k=>k!==prev && !seen.has(k));
+        prev=cur; cur=nb;
+      }
+      if(loop.length>2) d+='M'+loop.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')+'Z';
+    }
+    return d;
+  }
+  const perimCache={};
+
+  // ---------- lens UI ----------
+  const bar=document.getElementById('ei-lens');
+  const MENU = Object.fromEntries(LENSES.map(L=>[L.id,L.menu]));
+  const ctl=document.createElement('div'); ctl.className='ei-ctl';
+  const mk=(grp,label,id)=>{
+    const w=document.createElement('label'); w.className='ei-field'; w.htmlFor=id;
+    w.innerHTML=`<span>${label}</span>`;
+    const sel=document.createElement('select'); sel.id=id; sel.dataset.grp=grp;
+    sel.innerHTML=`<option value="">Choose…</option>`+LENSES.filter(L=>L.group===grp)
+      .sort((a,b)=>MENU[a.id].localeCompare(MENU[b.id],'en',{sensitivity:'base'}))
+      .map(L=>`<option value="${L.id}">${MENU[L.id]}</option>`).join('');
+    w.appendChild(sel); ctl.appendChild(w); return sel;
+  };
+  const selG=mk('g','Global standard setters','ei-lens-global'), selJ=mk('j','Jurisdictions','ei-lens-jur');
+  const clr=document.createElement('button'); clr.type='button'; clr.className='clear'; clr.textContent='Clear lens';
+  ctl.appendChild(clr);
+  bar.insertBefore(ctl, document.getElementById('ei-scope'));
+  const setLens=id=>{
+    const L=LBYID[id]; activeLenses.length=0; if(L) activeLenses.push(L);
+    selG.value = L&&L.group==='g' ? id : ''; selJ.value = L&&L.group==='j' ? id : '';
+    selG.classList.toggle('on',!!selG.value); selJ.classList.toggle('on',!!selJ.value);
+    clr.hidden=!L; applyLens(L, !!L);
+  };
+  [selG,selJ].forEach(sel=>sel.addEventListener('change',()=>setLens(sel.value)));
+  clr.addEventListener('click',()=>setLens('')); clr.hidden=true;
+
+  // legend swatches drawn with the same strokes as the map
+  const SW={
+    dot:'<svg width="34" height="10" aria-hidden="true"><line x1="3" y1="5" x2="31" y2="5" stroke="var(--c)" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="0.1 9"/></svg>',
+    tint:'<svg width="16" height="14" aria-hidden="true"><rect x="1" y="1" width="14" height="12" rx="6" fill="var(--c)" fill-opacity=".32"/></svg>'};
+  function applyLens(changed, added){
+    const on=activeLenses.length>0;
+    document.getElementById('ei-scope').classList.toggle('show',on);
+    document.getElementById('ei-perims').innerHTML=activeLenses.map(L=> L.groups
+      ? L.groups.map(G=>`<span class="perim" style="--c:${G.color}">${SW.dot}${L.tint?SW.tint:''}${G.label}: ${G.name}</span>`).join('')
+      : `<span class="perim" style="--c:${L.color}">${SW.dot}${L.short} perimeter</span>`).join('');
+    // circles
+    Object.values(byId).forEach(({n,s,texts,base})=>{
+      const sts=activeLenses.map(L=>[L,status(L,n.id)]);
+      const dim = on && n.id!=='da' && activeLenses.every(L=>allOut(L,n.id));
+      s.classList.toggle('dim',dim); texts.forEach(t=>t.classList.toggle('dim',dim));
+      const inL=sts.find(([,st])=>st==='in'), partL=sts.find(([,st])=>st==='part');
+      const isBox = n.id==='da' || (CONTAINERS.has(n.id) && !(inL && inL[0].g[n.id]));
+      if(inL && !isBox){ const G=inL[0].g[n.id]; s.setAttribute('stroke',G?G.color:inL[0].color); s.setAttribute('stroke-width',5.5); s.setAttribute('stroke-dasharray','none'); }
+      else if(partL && n.id!=='da'){ s.setAttribute('stroke',partL[0].color); s.setAttribute('stroke-width',3.5); s.setAttribute('stroke-dasharray','16 8'); }
+      else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',2); s.setAttribute('stroke-dasharray','none'); }
+      // prohibition-style lenses also tint each circle in its group colour
+      const T=activeLenses.find(L=>L.tint && L.g[n.id]);
+      if(T && !n.clip){ s.setAttribute('fill',T.g[n.id].color); s.setAttribute('fill-opacity',CONTAINERS.has(n.id)?.14:.32); }
+      else { s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); }
+    });
+    // perimeters (nested: later lenses drawn a little wider so lines never coincide)
+    gPer.innerHTML='';
+    activeLenses.forEach((L,k)=>{
+      const pad=10+k*8;
+      const sets = L.groups ? L.groups.map(G=>({key:L.id+G.id+pad,color:G.color,ids:G.ids}))
+                            : [{key:L.id+pad,color:L.color,ids:N.filter(n=>n.t!=='rect' && status(L,n.id)==='in').map(n=>n.id)}];
+      sets.forEach(S=>{
+        const d=perimCache[S.key]||(perimCache[S.key]=perimeterPath(S.ids,pad));
+        gPer.appendChild(el('path',{class:'perimeter',d,fill:S.color,'fill-opacity':.05,stroke:S.color,'stroke-width':3.6,'stroke-linecap':'round','stroke-dasharray':'0.1 9'}));
+      });
+    });
+    // panel
+    if(pinned){ pinned.show(); addPinBar(); }
+    else if(changed && added){ panel.innerHTML=`<h2 style="color:${changed.color}">${changed.name}</h2><p>${changed.intro}</p>`; }
+    else if(!on){ panel.innerHTML='<h2>Digital Assets</h2><p>Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.</p>'; }
+    else { const L=activeLenses[activeLenses.length-1]; panel.innerHTML=`<h2 style="color:${L.color}">${L.name}</h2><p>${L.intro}</p>`; }
+  }
+})();
+</script>
+</body>
+</html>
