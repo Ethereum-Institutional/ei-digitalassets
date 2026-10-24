@@ -1,0 +1,97 @@
+# Lens: ADGM FSRA — virtual assets, FRTs and digital securities
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: adgm
+group: jurisdiction
+menu: AE · ADGM (FSRA) — virtual assets, FRTs & digital securities
+name: ADGM FSRA — virtual assets, FRTs and digital securities
+short: ADGM FSRA
+color: '#4338ca'
+intro: In ADGM, the FSRA defines a Virtual Asset as a digital representation of value that can be digitally traded and functions as a medium of exchange, unit of account or store of value, without legal tender status — distinguished from fiat currency and e-money. Tokenized securities are regulated as Digital Securities. Fiat-backed stablecoins fall under the FSRA’s Fiat-Referenced Token (FRT) regime (consulted on in 2024), and algorithmic stablecoins are expressly prohibited. This lens shows all three categories the FSRA regulates, so tokenized stocks, bonds and funds appear as digital securities.
+groups:
+- id: va
+  label: Virtual assets
+  name: Accepted Virtual Assets
+  color: '#6d28d9'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - comm
+  - gov
+  - lst
+- id: frt
+  label: Fiat-Referenced Tokens
+  name: fiat-backed stablecoins
+  color: '#1d4ed8'
+  circles:
+  - lsc
+- id: ds
+  label: Digital securities
+  name: regulated as securities
+  color: '#0e7490'
+  circles:
+  - sec
+  - eq
+  - fund
+  - fi
+  - dv
+  - sn
+  - trk
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  unreg: part
+  alg: part
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: part
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  natoth: Firms may only deal in “Accepted Virtual Assets” approved by the FSRA.
+  cbdc: Legal tender issued by a jurisdiction — not a virtual asset.
+  td: Fiat currency held as a deposit — not a virtual asset.
+  dt: Still fiat (commercial bank money) — not a virtual asset.
+  sc: Fiat-referenced stablecoins sit in the FRT regime; others may be virtual assets.
+  lsc: 'Fiat-Referenced Tokens: backed 1:1 by segregated cash and high-quality liquid assets; only Accepted FRTs may be dealt with in ADGM.'
+  unreg: 'Not an Accepted FRT: cannot be dealt with in ADGM.'
+  alg: Algorithmic stablecoins are expressly prohibited.
+  sec: Digital Securities — regulated as securities, not virtual assets.
+  dv: Derivatives are Specified Investments, not virtual assets.
+  fund: Units in tokenized funds are securities — tokenized MMFs included.
+  pm: 'Assessed case by case: a virtual asset or a commodity-linked investment depending on structure.'
+  ocom: Assessed case by case.
+  re: A Digital Security if structured as a security; otherwise assessed case by case.
+  pc: Usually a Digital Security (debt instrument).
+  coll: Assessed case by case.
+  ip: Usually a Digital Security where it confers income rights.
+  art: NFTs are assessed case by case.
+  util: Assessed case by case.
+  game: Closed-loop items generally fall outside.
+  loy: Closed-loop points generally fall outside.
+  id: Generally outside.
+  tix: Generally outside.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than as a virtual asset.
+sources: []
+last_reviewed: '2026-10-24'

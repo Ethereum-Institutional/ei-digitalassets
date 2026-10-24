@@ -1,0 +1,86 @@
+# Lens: Switzerland FINMA token classes
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: ch
+group: jurisdiction
+menu: CH · Switzerland (FINMA) — token classes
+name: Switzerland FINMA token classes
+short: Switzerland
+color: '#0369a1'
+intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking licence. A Federal Council draft (consultation from October 2025) would add “payment instrument institution” licences for stable-value payment tokens and “crypto-institution” licences for service providers.'
+groups:
+- id: pay
+  label: Payment tokens
+  name: cryptocurrencies
+  color: '#6d28d9'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - unreg
+  - alg
+  - comm
+  - lst
+- id: svp
+  label: Stable-value payment tokens
+  name: proposed payment instrument institutions
+  color: '#1d4ed8'
+  circles:
+  - lsc
+- id: util
+  label: Utility tokens
+  name: access to a service
+  color: '#a21caf'
+  circles:
+  - util
+  - game
+  - loy
+  - tix
+  - id
+- id: asset
+  label: Asset tokens
+  name: claims and DLT securities
+  color: '#0e7490'
+  circles:
+  - rwa
+  - com
+  - pm
+  - ocom
+  - re
+  - pc
+  - coll
+  - ip
+  - sec
+  - eq
+  - fund
+  - fi
+  - dv
+  - sn
+  - trk
+status:
+  nat: part
+  sc: part
+  cbdc: part
+  rcbdc: out
+  wcbdc: part
+  td: out
+  dt: out
+  gov: part
+  art: part
+  oth: part
+  fmi: part
+notes:
+  cbdc: The SNB has issued wholesale CBDC for settlement on a regulated DLT platform (Project Helvetia); there is no retail CBDC.
+  wcbdc: Live pilots under Project Helvetia.
+  td: Bank deposits under banking law.
+  dt: Bank deposits; a stablecoin without a bank default guarantee may itself be treated as a deposit.
+  sc: 'Case by case: may be a deposit, a collective investment scheme or a payment token depending on backing.'
+  lsc: The proposed licence for issuers of stable-value payment tokens.
+  gov: 'Hybrid: often utility, sometimes asset tokens if they carry economic rights.'
+  art: NFTs are generally outside financial-market law unless they function as payment or asset tokens.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

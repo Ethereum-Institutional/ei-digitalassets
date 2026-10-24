@@ -1,0 +1,80 @@
+# Lens: Mainland China prohibition
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: china
+group: jurisdiction
+menu: CN · Mainland China — prohibition
+name: Mainland China prohibition
+short: Mainland China
+color: '#c81e1e'
+tint: true
+intro: A joint notice from the People’s Bank of China and nine other regulators (6 February 2026) confirms that virtual currencies have no legal-tender status and that exchange, trading, token issuance and crypto-linked products are illegal financial activity. It bans unapproved RMB-pegged stablecoins (onshore and offshore) and classifies tokenizing asset ownership or income rights as illegal unless approved and carried out within designated financial infrastructure. The e-CNY is the sanctioned digital currency.
+groups:
+- id: ok
+  label: Permitted
+  name: e-CNY (CBDC)
+  color: '#15803d'
+  circles:
+  - cbdc
+  - rcbdc
+  - wcbdc
+- id: appr
+  label: Banned unless approved
+  name: stablecoins and tokenized RWAs
+  color: '#d97706'
+  circles:
+  - lsc
+  - rwa
+  - com
+  - pm
+  - ocom
+  - re
+  - pc
+  - coll
+  - ip
+  - sec
+  - eq
+  - fund
+  - fi
+  - dv
+  - sn
+  - trk
+- id: ban
+  label: Banned
+  name: virtual currency business
+  color: '#c81e1e'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - unreg
+  - alg
+  - comm
+  - gov
+  - util
+  - lst
+status:
+  nat: part
+  sc: part
+  td: part
+  dt: part
+  art: part
+  game: part
+  loy: part
+  id: part
+  tix: part
+  oth: part
+  fmi: part
+notes:
+  sc: Unapproved stablecoins — including RMB-pegged ones issued offshore — are banned.
+  td: Not addressed by the notice; bank deposits remain under banking law.
+  dt: Not addressed by the notice; tokens on public chains would face the ban on crypto-linked activity.
+  art: “Digital collectibles” on permissioned platforms without secondary trading are tolerated; tradeable NFTs are not.
+  rwa: Illegal unless approved and run within designated financial infrastructure.
+  lsc: Foreign licensed stablecoins have no approval route onshore.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

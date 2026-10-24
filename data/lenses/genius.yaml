@@ -1,0 +1,33 @@
+# Lens: US GENIUS Act “payment stablecoin”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: genius
+group: jurisdiction
+menu: US · United States (GENIUS Act) — “payment stablecoin”
+name: US GENIUS Act “payment stablecoin”
+short: US GENIUS Act
+color: '#6d28d9'
+intro: The GENIUS Act (2025) defines a payment stablecoin as a digital asset used for payment or settlement that the issuer must redeem for a fixed amount of money. It expressly excludes national currencies, deposits — including deposits recorded on a distributed ledger — and securities. A deliberately narrow perimeter.
+status:
+  sc: part
+  lsc: in
+  unreg: part
+  alg: out
+  fmi: out
+notes:
+  lsc: 'Payment stablecoins from permitted issuers: subsidiaries of insured banks, OCC-approved non-banks, and state-qualified issuers (or foreign issuers under a comparable regime).'
+  sc: Only tokens redeemable for a fixed amount of money; yield-paying or algorithmic designs do not qualify as permitted payment stablecoins.
+  unreg: Cannot be offered to US persons unless issued by a permitted (or comparable foreign) issuer.
+  alg: 'Not a permitted payment stablecoin: issuers must hold identifiable reserves of cash-like assets.'
+  cbdc: National currency is excluded.
+  td: Deposits recorded on a distributed ledger are expressly excluded.
+  dt: Expressly excluded as a deposit — legally distinct from a stablecoin, however similar it looks.
+  sec: Securities are excluded.
+  fund: Securities are excluded — tokenized MMFs included.
+  nat: Not a payment stablecoin (no issuer, no redemption).
+  fmi: 'Not a payment stablecoin: a wholesale claim backed by central bank reserves.'
+sources: []
+last_reviewed: '2026-10-24'
