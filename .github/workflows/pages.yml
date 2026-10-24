@@ -1,10 +1,8 @@
 name: Publish latest to GitHub Pages
 
-# Manual only for now: GitHub Pages is not available for private repositories on the organisation's current plan.
-# To publish automatically on every merge, restore the push trigger below once Pages can be enabled.
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
