@@ -3,6 +3,8 @@
 An interactive map of how digital money, tokenized real-world assets and other crypto-assets relate, with
 **regulatory lenses** showing where each regime's definition reaches. Maintained by Ethereum Institutional.
 
+> **Status: draft (v0.x).** Not yet reviewed by legal counsel. Version 1.0.0 will follow that review.
+
 The map is generated from plain-text data files in this repository, so every change is reviewable as a diff
 and every release is a versioned, self-contained HTML file.
 
