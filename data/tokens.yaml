@@ -1,0 +1,65 @@
+# Token badges — the ten largest digital assets by market capitalisation, placed by issuer and structure.
+# `circle` is the id of the circle the badge sits in (its definition inherits that circle's lens treatment).
+
+as_of: October 2026
+tokens:
+- ticker: BTC
+  name: Bitcoin
+  circle: btc
+  x: 300
+  y: 343
+  desc: The largest digital asset, about $1.6 trillion in mid-October 2026. Native to the Bitcoin network; no issuer, no redemption claim.
+- ticker: ETH
+  name: Ether
+  circle: eth
+  x: 300
+  y: 423
+  desc: The native asset of Ethereum, about $290 billion in mid-October 2026. Pays gas fees and is staked to secure the network.
+- ticker: BNB
+  name: BNB
+  circle: natoth
+  x: 266
+  y: 517
+  desc: The native asset of BNB Chain, about $96 billion. Closely associated with the Binance exchange group.
+- ticker: XRP
+  name: XRP
+  circle: natoth
+  x: 300
+  y: 517
+  desc: The native asset of the XRP Ledger, about $83 billion.
+- ticker: SOL
+  name: Solana
+  circle: natoth
+  x: 334
+  y: 517
+  desc: The native asset of Solana, about $60 billion.
+- ticker: TRX
+  name: TRON
+  circle: natoth
+  x: 266
+  y: 546
+  desc: The native asset of TRON, about $31 billion. TRON is a major settlement network for USDT.
+- ticker: HYPE
+  name: Hyperliquid
+  circle: natoth
+  x: 300
+  y: 546
+  desc: The native asset of the Hyperliquid Layer-1, which runs an on-chain perpetuals exchange; about $20 billion.
+- ticker: ZEC
+  name: Zcash
+  circle: natoth
+  x: 334
+  y: 546
+  desc: 'The native asset of Zcash, about $18 billion. A privacy coin: the DIFC treats privacy tokens as Prohibited Tokens, and many venues restrict them.'
+- ticker: USDT
+  name: Tether USDt
+  circle: sc
+  x: 1018
+  y: 522
+  desc: The largest stablecoin by circulation, issued by Tether, which is licensed in El Salvador. Placed with regulated issuers but outside Licensed Stablecoins because, as of October 2026, it is not authorised under MiCA, the GENIUS Act or the CBUAE payment-token regime. Treatment differs by jurisdiction.
+- ticker: USDC
+  name: USD Coin
+  circle: lsc
+  x: 965
+  y: 531
+  desc: Issued by Circle, a regulated fintech. Authorised as an e-money token under MiCA through Circle’s French e-money licence and positioned as a US payment stablecoin.
