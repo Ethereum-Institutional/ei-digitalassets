@@ -37,7 +37,13 @@ list the circles each group covers instead.
 dropdown sorts alphabetically. The build fails if a lens references a circle id that does not exist.
 
 **Add a circle** → add it to `data/circles.yaml` *and* give it geometry in `data/layout.yaml`. If it is a grouping
-circle, list it under `containers` and its contents under `children`.
+circle, list it under `containers` and its contents under `children`. Mark it `lens_only: true` to hide it on the
+default map and show it only under lenses that mention it (Licensed or Recognised Stablecoins and Licensed or Recognised Payment Tokens work this way).
+
+**Show a token as licensed under a lens** → in `data/tokens.yaml`, add the lens id to the token's `licensed_under`
+list. Badges never move: under that lens the licensed-or-recognised circle it shows stretches to take the badge in. A lens group can
+also take badges in with `tokens: [USDT, USDC]`, and `bridges:` in `data/layout.yaml` joins a group's separate
+circles into one continuous outline (see the Switzerland lens).
 
 Every regulatory claim should carry a source: add the URL and the date you checked it to the lens file's
 `sources:` list and update `last_reviewed`.

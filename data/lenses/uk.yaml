@@ -6,7 +6,7 @@
 
 id: uk
 group: jurisdiction
-menu: UK · United Kingdom — “qualifying cryptoasset”
+menu: 'UK · United Kingdom: “qualifying cryptoasset”'
 name: UK “qualifying cryptoasset”
 short: UK
 color: '#4338ca'
@@ -41,13 +41,13 @@ status:
   fmi: out
 notes:
   td: Deposits are specified investments, outside the cryptoasset definitions.
-  dt: Still a deposit — outside the cryptoasset definitions.
-  cbdc: Fiat currency — outside.
+  dt: Still a deposit, outside the cryptoasset definitions.
+  cbdc: Fiat currency, so outside.
   lsc: UK-issued qualifying stablecoins need FCA authorisation from October 2027; systemic ones are also overseen by the Bank of England.
   sc: 'Qualifying stablecoins: fiat-referenced tokens backed by reserves.'
   alg: Not a qualifying stablecoin; treated as a qualifying cryptoasset.
   unreg: In scope; offering to UK consumers will require authorisation from October 2027.
-  sec: Specified investments — regulated as securities, including via the Digital Securities Sandbox.
+  sec: Specified investments, regulated as securities, including via the Digital Securities Sandbox.
   rwa: Out where the token is a specified investment; otherwise assessed case by case.
   art: Non-fungible tokens are generally outside the qualifying definition.
   fmi: Regulated as a systemic payment system overseen by the Bank of England (e.g. Fnality), not as a cryptoasset.

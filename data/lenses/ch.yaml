@@ -6,34 +6,28 @@
 
 id: ch
 group: jurisdiction
-menu: CH · Switzerland (FINMA) — token classes
+menu: 'CH · Switzerland (FINMA): token classes'
 name: Switzerland FINMA token classes
 short: Switzerland
-color: '#0369a1'
-intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking licence. A Federal Council draft (consultation from October 2025) would add “payment instrument institution” licences for stable-value payment tokens and “crypto-institution” licences for service providers.'
+color: '#14130f'
+intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking licence. A Federal Council draft (consultation from October 2025) would add FINMA “payment instrument institution” licences for issuers of value-stable crypto-based means of payment (wertstabile kryptobasierte Zahlungsmittel) and “crypto-institution” licences for service providers.'
 groups:
 - id: pay
   label: Payment tokens
-  name: cryptocurrencies
-  color: '#6d28d9'
+  name: means of payment (FINMA 2018)
+  color: '#a21caf'
   circles:
   - btc
   - eth
   - natoth
-  - unreg
-  - alg
   - comm
-  - lst
-- id: svp
-  label: Stable-value payment tokens
-  name: proposed payment instrument institutions
-  color: '#1d4ed8'
-  circles:
-  - lsc
+  tokens:
+  - USDT
+  - USDC
 - id: util
   label: Utility tokens
   name: access to a service
-  color: '#a21caf'
+  color: '#6366f1'
   circles:
   - util
   - game
@@ -43,7 +37,7 @@ groups:
 - id: asset
   label: Asset tokens
   name: claims and DLT securities
-  color: '#0e7490'
+  color: '#155e75'
   circles:
   - rwa
   - com
@@ -72,15 +66,25 @@ status:
   art: part
   oth: part
   fmi: part
+  unreg: part
+  alg: part
+  lst: part
 notes:
   cbdc: The SNB has issued wholesale CBDC for settlement on a regulated DLT platform (Project Helvetia); there is no retail CBDC.
   wcbdc: Live pilots under Project Helvetia.
   td: Bank deposits under banking law.
   dt: Bank deposits; a stablecoin without a bank default guarantee may itself be treated as a deposit.
-  sc: 'Case by case: may be a deposit, a collective investment scheme or a payment token depending on backing.'
-  lsc: The proposed licence for issuers of stable-value payment tokens.
+  sc: 'Case by case: may be a deposit, a collective investment scheme or a payment token depending on backing. Switzerland has no stablecoin licence yet: a Federal Council draft (consultation 22 October 2025 to 6 February 2026) would license “value-stable crypto-based means of payment” referencing a single fiat currency, with segregated, bankruptcy-remote reserves, redemption at par and no interest, issued by FINMA-licensed payment instrument institutions (banks would not issue directly). It is not yet law.'
+  USDT: Shown as a payment token, but FINMA classifies stablecoins case by case and USDT holds no Swiss licence or designation; issued abroad, it may instead be treated as deposit-like.
+  USDC: Shown as a payment token, but FINMA classifies stablecoins case by case and USDC holds no Swiss licence or designation; issued abroad, it may instead be treated as deposit-like.
+  unreg: Case by case, like other stablecoins. Under FINMA’s 2024 guidance, an issuer without a Swiss banking licence needs a bank default guarantee.
+  alg: Classified case by case by economic function; no Swiss regime authorises algorithmic stablecoins.
+  lst: Depends on the claim; a token representing a claim on the underlying asset may be an asset token rather than a payment token.
   gov: 'Hybrid: often utility, sometimes asset tokens if they carry economic rights.'
   art: NFTs are generally outside financial-market law unless they function as payment or asset tokens.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
+sources:
+- title: Federal Council, consultation on stablecoin and crypto-institution licences (22 October 2025)
+  url: https://www.admin.ch/en/newnsb/x4TMWQ1SWofNoFx7XyHhY
+  checked: '2026-10-24'
 last_reviewed: '2026-10-24'

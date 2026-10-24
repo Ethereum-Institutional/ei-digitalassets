@@ -1,8 +1,10 @@
-# Digital Asset Taxonomy — circles (content)
+# Digital Asset Taxonomy: circles (content)
 # Each circle: id, label (lines), family (palette key) or explicit colors, optional sub-labels, and its definition (desc).
 # Positions and sizes live in data/layout.yaml so content edits never touch geometry.
 # `containers` are grouping circles whose lens status is derived from what they contain (`children`).
 # `inherit_status`: a circle takes its lens status from another when a lens does not mention it.
+# `lens_only: true` hides a circle on the default map; it appears only under lenses that mention it (status, notes or
+#   groups). Lens-only circles can share a position as long as no lens mentions more than one of them.
 
 palette:
   da:
@@ -35,6 +37,9 @@ palette:
   lsc:
   - '#d6cfea'
   - '#4b3f80'
+  lpt:
+  - '#d6e4ee'
+  - '#2c5f7c'
   rwa:
   - '#ece9e4'
   - '#77706a'
@@ -87,10 +92,12 @@ children:
   - dt
   - sc
   - lsc
+  - lpt
   fin:
   - fmi
   - sc
   - lsc
+  - lpt
   oiss:
   - sc
   - unreg
@@ -131,13 +138,13 @@ circles:
   - Digital Assets
   family: da
   path: ''
-  desc: All assets whose ownership is recorded and transferred on a distributed ledger (DLT). We use “Digital Assets” rather than “Crypto-Assets” for the outer set because in regulation (EU MiCA, Dubai VARA) “crypto-asset / virtual asset” is a legal term that excludes CBDCs, deposits and tokenized securities.
+  desc: All assets whose ownership is recorded and transferred on distributed ledger technology (DLT); “digital” here means represented on DLT. We use “Digital Assets” rather than “Crypto-Assets” for the outer set because in regulation (EU MiCA, Dubai VARA) “crypto-asset / virtual asset” is a legal term that excludes CBDCs, deposits and tokenized securities.
 - id: dm
   label:
   - Digital Money
   family: dm
   path: Digital Assets
-  desc: 'On-chain assets designed to function as money: a medium of exchange, unit of account or settlement asset. Includes both native cryptocurrencies and tokenized forms of fiat currency.'
+  desc: 'Money represented on distributed ledger technology (DLT): sovereign currency in tokenized form (CBDCs, tokenized deposits, stablecoins and other fiat-referenced tokens) and native cryptocurrencies used as money, each serving as a medium of exchange, unit of account or settlement asset. Other digital assets can meet a broad definition of money: a tokenized money market fund is used as collateral and a cash substitute, and a community coin can circulate as a means of payment. But they are an investment in, or a claim on, something other than money itself, so they are categorised separately, under Tokenized Real-World Assets and Other Crypto-Assets.'
 - id: nat
   label:
   - Native
@@ -150,13 +157,13 @@ circles:
   - Bitcoin
   family: nat
   path: Digital Money › Native Cryptocurrencies
-  desc: BTC — the native asset of the Bitcoin network; fixed 21m supply, secured by proof-of-work.
+  desc: 'BTC: the native asset of the Bitcoin network; fixed 21m supply, secured by proof-of-work.'
 - id: eth
   label:
   - Ethereum
   family: nat
   path: Digital Money › Native Cryptocurrencies
-  desc: ETH — the native asset of Ethereum; pays gas fees and is staked to secure the network under proof-of-stake.
+  desc: 'ETH: the native asset of Ethereum; pays gas fees and is staked to secure the network under proof-of-stake.'
 - id: natoth
   label:
   - Other Layer-1s
@@ -181,14 +188,14 @@ circles:
   - CBDC
   family: cbdc
   path: Tokenized Currencies › Central Bank
-  desc: Central Bank Digital Currency — a digital form of central bank money. Retail CBDC is for the public (e.g. e-CNY, Digital Euro pilot); wholesale CBDC is for interbank settlement (e.g. Project mBridge, Digital Dirham).
+  desc: 'Central Bank Digital Currency: a digital form of central bank money. Retail CBDC is for the public (e.g. e-CNY, Digital Euro pilot); wholesale CBDC is for interbank settlement (e.g. Project mBridge, Digital Dirham).'
 - id: rcbdc
   label:
   - Retail
   - CBDC
   family: cbdc
   path: Central Bank › CBDC
-  desc: A CBDC for the general public — households and businesses — used for everyday payments (e.g. e-CNY, the planned Digital Euro, Digital Dirham retail). Usually issued with holding limits and run through intermediaries, and may be a different token from its wholesale counterpart.
+  desc: A CBDC for the general public (households and businesses), used for everyday payments (e.g. e-CNY, the planned Digital Euro, Digital Dirham retail). Usually issued with holding limits and run through intermediaries, and may be a different token from its wholesale counterpart.
 - id: wcbdc
   label:
   - Wholesale
@@ -202,7 +209,7 @@ circles:
   - Bank
   family: iss
   path: Digital Money › Tokenized Currencies
-  desc: 'Commercial bank money: a liability of a licensed deposit-taking bank. Both tokenized deposits and deposit tokens are commercial bank money — they differ in architecture, not in the nature of the claim.'
+  desc: 'Commercial bank money: a liability of a licensed deposit-taking bank. Both tokenized deposits and deposit tokens are commercial bank money; they differ in architecture, not in the nature of the claim.'
 - id: td
   label:
   - Tokenized
@@ -216,7 +223,7 @@ circles:
   - Token
   family: dt
   path: Commercial Bank › Tokenized Deposits
-  desc: 'EI house view: a more liberal architecture choice within tokenized deposits. Tokens are backed by an omnibus deposit account and held in wallets, so they can circulate more freely, potentially on public blockchains (e.g. JPMD on Base and Ethereum mainnet). Still commercial bank money and a liability of the issuing bank. It looks and behaves very much like a bank-issued stablecoin (wallet-held, transferable, price-stable) — shown by the dotted “look-alike” line — but is legally distinct: a deposit on the bank’s balance sheet, not a token backed by segregated reserves. That is why MiCA, VARA, DIFC, ADGM, MAS and the GENIUS Act all treat it differently from stablecoins (switch on the lenses). We will revisit this view as industry usage settles.'
+  desc: 'EI house view: a more liberal architecture choice within tokenized deposits. Tokens are backed by an omnibus deposit account and held in wallets, so they can circulate more freely, potentially on public blockchains (e.g. JPMD on Base and Ethereum mainnet). Still commercial bank money and a liability of the issuing bank. It looks and behaves very much like a bank-issued stablecoin (wallet-held, transferable, price-stable), as the dotted “look-alike” line shows, but is legally distinct: a deposit on the bank’s balance sheet, not a token backed by segregated reserves. That is why MiCA, VARA, DIFC, ADGM, MAS and the GENIUS Act all treat it differently from stablecoins (switch on the lenses). We will revisit this view as industry usage settles.'
 - id: fin
   label:
   - Regulated
@@ -224,14 +231,14 @@ circles:
   family: iss
   path: Digital Money › Tokenized Currencies
   sub3: fintechs, EMIs, FMIs
-  desc: 'Licensed issuers that are not banks, so cannot lend out the money they hold: fintechs, e-money and payment institutions, trust companies, stablecoin-licensed firms and financial market infrastructures (FMIs). Their tokens must be backed in full at all times — what differs is the quality of that backing.'
+  desc: 'Licensed issuers that are not banks, so cannot lend out the money they hold: fintechs, e-money and payment institutions, trust companies, stablecoin-licensed firms and financial market infrastructures (FMIs). Their tokens must be backed in full at all times; what differs is the quality of that backing.'
 - id: fmi
   label:
   - FMI
   - Tokens
   family: cbdc
   path: Tokenized Currencies › Regulated Non-Bank
-  desc: 'Wholesale settlement tokens issued by a financial market infrastructure and backed 1:1 by central bank reserves (or wholesale CBDC) held in an omnibus account at the central bank — effectively narrow banking. Holders have no commercial-bank credit risk, so the token settles at par with central bank money. Example: Fnality’s sterling system, backed by an omnibus account at the Bank of England and open only to admitted institutions. If the backing were Treasury bills instead of reserves, the token would be a licensed stablecoin: redeeming would mean selling bonds, adding market and liquidity risk.'
+  desc: 'Wholesale settlement tokens issued by a financial market infrastructure and backed 1:1 by central bank reserves (or wholesale CBDC) held in an omnibus account at the central bank, which is effectively narrow banking. Holders have no commercial-bank credit risk, so the token settles at par with central bank money. Example: Fnality’s sterling system, backed by an omnibus account at the Bank of England and open only to admitted institutions. If the backing were Treasury bills instead of reserves, the token would be a licensed stablecoin: redeeming would mean selling bonds, adding market and liquidity risk.'
 - id: oiss
   label:
   - Other
@@ -245,7 +252,7 @@ circles:
   - Stablecoins
   family: sc
   path: Tokenized Currencies › Bank · Non-Bank · Other
-  desc: 'Broad, market definition: any token designed to hold a stable value against a fiat currency and circulate on blockchains. What a given “stablecoin” actually is depends on three things — the issuer and its licence, the backing assets, and the implementation (reserves vs. algorithm, segregated vs. on balance sheet, public vs. permissioned chain). The circle therefore cuts across banks, regulated fintechs and unregulated issuers. Bank-issued stablecoins are legally distinct from deposit tokens but look very similar (dotted “look-alike” line). Licensed regimes carve out narrower, legally defined subsets.'
+  desc: 'Broad, market definition: any token designed to hold a stable value against a fiat currency and circulate on blockchains. What a given “stablecoin” actually is depends on three things: the issuer and its licence, the backing assets, and the implementation (reserves vs. algorithm, segregated vs. on balance sheet, public vs. permissioned chain). The circle therefore cuts across banks, regulated fintechs and unregulated issuers. Bank-issued stablecoins are legally distinct from deposit tokens but look very similar (dotted “look-alike” line). Licensed regimes carve out narrower, legally defined subsets.'
 - id: unreg
   label:
   - Unlicensed
@@ -256,14 +263,23 @@ circles:
   path: Stablecoins › Other Issuers
   tc: '#8e2f22'
   clip: oiss
-  desc: 'Unlicensed stablecoins: issued without a licence, often by unknown parties, sometimes algorithmic or backed by multiple volatile assets — and in some cases have collapsed or proven fraudulent. Holders may have no enforceable redemption right.'
+  desc: 'Unlicensed stablecoins: issued without a licence, often by unknown parties, sometimes algorithmic or backed by multiple volatile assets, and in some cases have collapsed or proven fraudulent. Holders may have no enforceable redemption right.'
 - id: lsc
   label:
-  - Licensed Stablecoins
-  - '& Payment Tokens'
+  - Licensed or Recognised
+  - Stablecoins
   family: lsc
+  lens_only: true
   path: Stablecoins › Bank · Non-Bank
-  desc: Fiat-referenced tokens issued under a specific regulatory regime with reserve, redemption and disclosure rules — e.g. EU MiCA e-money tokens, US GENIUS Act payment stablecoins, and UAE Central Bank (CBUAE) licensed Payment Tokens. Issued only by licensed banks or regulated fintechs.
+  desc: 'Shown only under lenses with an enacted stablecoin regime. Fiat-referenced tokens whose issuer that regime has licensed (e.g. EU MiCA e-money tokens, US GENIUS Act payment stablecoins, Hong Kong HKMA-licensed stablecoins, El Salvador CNAD-registered issuers), or which its regulator has specifically recognised for use: accepted, verified, registered or cleared by a no-objection (e.g. ADGM Accepted Fiat-Referenced Tokens, DFSA-verified Fiat Crypto Tokens). A licence is given to an issuer by that regime, not inherited from another; a token that is merely tolerated during a transition, or classified (for example as not a security), is not recognised. Both are jurisdictional, so this circle is not drawn on the default map.'
+- id: lpt
+  label:
+  - Licensed or Recognised
+  - Payment Tokens
+  family: lpt
+  lens_only: true
+  path: Stablecoins › Bank · Non-Bank
+  desc: 'Shown only under lenses whose enacted regime licenses or registers “payment tokens”. Some regulators, such as the UAE Central Bank (CBUAE), use “payment token” for a fiat-backed stablecoin: it licenses dirham payment token issuers and registers foreign payment tokens. Others use the same words for something much broader: FINMA’s payment tokens and Singapore’s digital payment tokens include Bitcoin and Ether. Because the term is not used consistently, it is kept separate from Licensed or Recognised Stablecoins and appears only where a lens defines it.'
 - id: alg
   label:
   - Algorithmic
@@ -272,13 +288,13 @@ circles:
     stroke: '#a8402f'
   path: Stablecoins › Other Issuers
   tc: '#7a1a10'
-  desc: 'Stablecoins that try to hold their peg through code — minting and burning a companion token, or over-collateralising with volatile crypto — rather than holding cash-equivalent reserves. Prone to “death spirals” (e.g. TerraUSD, 2022). Sits only with unregulated issuers: no major licensing regime permits them as stablecoins.'
+  desc: 'Stablecoins that try to hold their peg through code (minting and burning a companion token, or over-collateralising with volatile crypto) rather than holding cash-equivalent reserves. Prone to “death spirals” (e.g. TerraUSD, 2022). Sits only with unregulated issuers: no major licensing regime permits them as stablecoins.'
 - id: rwa
   label:
   - Tokenized Real-World Assets
   family: rwa
   path: Digital Assets
-  desc: Tokens that represent ownership of, or a claim on, an off-chain asset. Value comes from the underlying asset; legal enforceability depends on the issuer, custodian and structure. Many RWA tokens are issued through a special-purpose vehicle (SPV) that holds the asset, in which case the token is usually a security — a share or note in the SPV — even when the underlying is real estate, art or a loan book.
+  desc: Tokens that represent ownership of, or a claim on, an off-chain asset. Value comes from the underlying asset; legal enforceability depends on the issuer, custodian and structure. Many RWA tokens are issued through a special-purpose vehicle (SPV) that holds the asset, in which case the token is usually a security (a share or note in the SPV), even when the underlying is real estate, art or a loan book.
 - id: com
   label:
   - Commodities
@@ -292,7 +308,7 @@ circles:
   family: com
   path: Real-World Assets › Commodities
   sub: Gold · Silver · Platinum
-  desc: Tokens backed by allocated, vaulted bullion — e.g. PAXG, XAUT, and bank-issued gold tokens.
+  desc: Tokens backed by allocated, vaulted bullion, e.g. PAXG, XAUT, and bank-issued gold tokens.
 - id: ocom
   label:
   - Other
@@ -319,7 +335,7 @@ circles:
   family: re
   path: Digital Assets › Real-World Assets
   sub: art, wine, watches
-  desc: Tokenized ownership of physical collectibles held in custody — fine art, wine, watches, classic cars — often fractionalised. Digital-native art (NFTs) sits under Other Crypto-Assets.
+  desc: Tokenized ownership of physical collectibles held in custody (fine art, wine, watches, classic cars), often fractionalised. Digital-native art (NFTs) sits under Other Crypto-Assets.
 - id: ip
   label:
   - IP &
@@ -327,7 +343,7 @@ circles:
   family: re
   path: Digital Assets › Real-World Assets
   sub: music, patents
-  desc: Tokenized rights to income from intellectual property — music and media royalties, patents and licensing streams.
+  desc: 'Tokenized rights to income from intellectual property: music and media royalties, patents and licensing streams.'
 - id: pc
   label:
   - Loans &
@@ -335,20 +351,20 @@ circles:
   family: re
   path: Digital Assets › Real-World Assets
   sub: credit · mortgages
-  desc: 'Tokenized loans and credit exposures: private credit, mortgages and home-equity loans, trade finance (letters of credit, supply-chain and invoice financing) and receivables. One of the largest RWA categories by value, with tokenized mortgage and home-equity lending a major component. If the exposure is packaged into a bond — a mortgage-backed security, for example — it moves into Fixed Income.'
+  desc: 'Tokenized loans and credit exposures: private credit, mortgages and home-equity loans, trade finance (letters of credit, supply-chain and invoice financing) and receivables. One of the largest RWA categories by value, with tokenized mortgage and home-equity lending a major component. If the exposure is packaged into a bond (a mortgage-backed security, for example), it moves into Fixed Income.'
 - id: sec
   label:
   - Financial Instruments
   family: sec
   path: Digital Assets › Real-World Assets
-  desc: 'Tokenized securities and derivatives — the instruments regulated under securities and derivatives law (MiFID II, SEC/CFTC, SCA, DFSA, FSRA, MAS SFA), not as crypto-assets or virtual assets. Overlaps show hybrids that are legally both: structured notes (debt + derivative) and stock trackers or warrants (equity-linked derivatives). Whether an instrument is issued natively on-chain (the ledger is the legal register, e.g. Euroclear’s digitally native notes) or is a tokenized representation of a security registered elsewhere (e.g. DTCC tokens tied to DTC holdings), the token technology is the same; what differs is which record is legally authoritative. Tokens used only to move or pledge an asset held elsewhere — “collateral” or “settlement” tokens, as on repo and collateral networks — are treated here as part of the asset they represent, since the same mechanism can carry a bond, a fund unit, gold or a trade-finance claim.'
+  desc: 'Tokenized securities and derivatives: the instruments regulated under securities and derivatives law (MiFID II, SEC/CFTC, the UAE CMA, DFSA, FSRA, MAS SFA), not as crypto-assets or virtual assets. Overlaps show hybrids that are legally both: structured notes (debt + derivative) and stock trackers or warrants (equity-linked derivatives). Whether an instrument is issued natively on-chain (the ledger is the legal register, e.g. Euroclear’s digitally native notes) or is a tokenized representation of a security registered elsewhere (e.g. DTCC tokens tied to DTC holdings), the token technology is the same; what differs is which record is legally authoritative. Tokens used only to move or pledge an asset held elsewhere (“collateral” or “settlement” tokens, as on repo and collateral networks) are treated here as part of the asset they represent, since the same mechanism can carry a bond, a fund unit, gold or a trade-finance claim.'
 - id: eq
   label:
   - Equities
   family: sec
   path: Real-World Assets › Financial Instruments
   sub: listed · private
-  desc: 'Tokenized shares: listed (public) equities and private company shares, either issued natively on-chain or as tokenized representations of existing shares that carry shareholder rights. “Cash equities” is the trading term for the same thing — shares as opposed to equity derivatives.'
+  desc: 'Tokenized shares: listed (public) equities and private company shares, either issued natively on-chain or as tokenized representations of existing shares that carry shareholder rights. “Cash equities” is the trading term for the same thing: shares as opposed to equity derivatives.'
 - id: fund
   label:
   - Funds
@@ -374,7 +390,7 @@ circles:
   lines2:
   - futures · options
   - perps · swaps
-  desc: 'Contracts whose value derives from an underlying asset — futures, forwards, options, swaps and crypto-native perpetual futures (“perps”: futures with no expiry, kept near spot by a funding rate). Options and perps are both derivatives. Legally they are financial instruments whatever the underlying, including Bitcoin or Ether. Only derivatives issued or recorded as tokens (on-chain options, tokenized positions, DeFi perps) are digital assets; most are positions on an exchange, not tokens.'
+  desc: 'Contracts whose value derives from an underlying asset: futures, forwards, options, swaps and crypto-native perpetual futures (“perps”: futures with no expiry, kept near spot by a funding rate). Options and perps are both derivatives. Legally they are financial instruments whatever the underlying, including Bitcoin or Ether. Only derivatives issued or recorded as tokens (on-chain options, tokenized positions, DeFi perps) are digital assets; most are positions on an exchange, not tokens.'
 - id: trk
   label:
   - ''
@@ -382,7 +398,7 @@ circles:
     fill: '#b9c9d8'
     stroke: '#33506a'
   path: Financial Instruments › Equities ∩ Derivatives
-  desc: 'Equity-linked derivatives that are often marketed as “tokenized stocks”: tracker tokens and certificates that give price exposure to a share without shareholder rights, plus warrants. Many tokenized-stock products sold to retail are structured this way — check whether the token is the share itself or a derivative on it.'
+  desc: 'Equity-linked derivatives that are often marketed as “tokenized stocks”: tracker tokens and certificates that give price exposure to a share without shareholder rights, plus warrants. Many tokenized-stock products sold to retail are structured this way, so check whether the token is the share itself or a derivative on it.'
 - id: sn
   label:
   - ''
@@ -390,13 +406,13 @@ circles:
     fill: '#b9c9d8'
     stroke: '#33506a'
   path: Financial Instruments › Fixed Income ∩ Derivatives
-  desc: 'Structured notes and certificates: debt securities with an embedded derivative (e.g. capital-protected notes, autocallables, reverse convertibles) — which is why they sit where Fixed Income and Derivatives overlap. Tokenized structured notes are among the more active institutional tokenization use cases.'
+  desc: 'Structured notes and certificates: debt securities with an embedded derivative (e.g. capital-protected notes, autocallables, reverse convertibles), which is why they sit where Fixed Income and Derivatives overlap. Tokenized structured notes are among the more active institutional tokenization use cases.'
 - id: oth
   label:
   - Other Crypto-Assets
   family: oth
   path: Digital Assets
-  desc: Digital assets that are neither money nor claims on real-world assets. Their value comes from use, community, scarcity or rights within a protocol or platform.
+  desc: 'Digital assets that are neither money nor tokenized real-world assets: their value comes from use, access, community, scarcity or rights within a protocol or platform, not from a claim on money or on an off-chain asset. A token can be issued natively on-chain or mirror another record (a loyalty programme’s ledger, or, for wrapped and staked tokens, another crypto-asset) and still belong here. We call them crypto-assets because that is how MiCA (“crypto-assets other than asset-referenced tokens or e-money tokens”) and most regulators describe this group, while the assets the legal term excludes (CBDCs, deposits and securities) sit elsewhere on the map. “Other” marks them as the crypto-assets not counted as Digital Money, since native cryptocurrencies are crypto-assets too. The name is descriptive, not a legal classification: some regimes exempt non-transferable tokens such as loyalty points or credentials, and some governance tokens may be securities; the lenses show the legal treatment.'
 - id: art
   label:
   - Digital Art
@@ -419,7 +435,7 @@ circles:
   family: oth
   path: Other Crypto-Assets
   sub: memecoins, fan
-  desc: Tokens whose value is driven mainly by community and attention — memecoins, fan and social tokens.
+  desc: 'Tokens whose value is driven mainly by community and attention: memecoins, fan and social tokens.'
 - id: gov
   label:
   - Governance
@@ -464,4 +480,4 @@ circles:
   family: oth
   path: Other Crypto-Assets
   sub: events, clubs
-  desc: Tokenized event tickets, club memberships and access passes — usually closed-loop and often non-transferable.
+  desc: Tokenized event tickets, club memberships and access passes, usually closed-loop and often non-transferable.

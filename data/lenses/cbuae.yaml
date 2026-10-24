@@ -1,0 +1,54 @@
+# Lens: UAE Central Bank (CBUAE) “payment token”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: cbuae
+group: jurisdiction
+menu: 'AE · UAE (CBUAE): “payment token”'
+name: UAE Central Bank “payment token”
+short: UAE CBUAE
+color: '#155e75'
+intro: The CBUAE Payment Token Services Regulation (in force 31 August 2024, with a one-year transition) defines a payment token as a virtual asset that keeps a stable value by referencing a single fiat currency. Only dirham payment tokens from CBUAE-licensed, UAE-incorporated issuers may be used to pay for goods and services; foreign-currency payment tokens must be registered and may be used only to buy virtual assets. Algorithmic stablecoins and privacy tokens are banned across the UAE. It applies onshore and in the non-financial free zones; the DIFC and ADGM run their own regimes (see their lenses). Federal Decree-Law No. 6 of 2025 extends CBUAE licensing to platforms and protocols that provide financial services.
+status:
+  lpt: in
+  sc: part
+  unreg: part
+  alg: out
+  nat: out
+  natoth: out
+  cbdc: out
+  td: out
+  dt: out
+  sec: out
+  fund: out
+notes:
+  lpt: 'Dirham payment tokens from licensed issuers (AE Coin; approvals reported for Zand AED and DDSC) and registered foreign payment tokens (USDU was the first; USDC and USDT were not registered as of early 2026). Issuers must be UAE companies outside the financial free zones, redeem at par by the next business day and pay no interest. Banks may issue only through a subsidiary.'
+  sc: Only tokens referencing a single fiat currency can be payment tokens.
+  unreg: Tokens not licensed or registered by the CBUAE cannot be used for payments in the UAE; trading them as virtual assets falls to VARA, the CMA or the free-zone regulators.
+  alg: Prohibited across the UAE (Art. 2(3)), including for firms regulated by the CMA (formerly the SCA) or an emirate-level regulator.
+  nat: Not payment tokens; virtual assets are regulated by VARA, the CMA or the free-zone regulators.
+  natoth: Not payment tokens. Privacy tokens are prohibited across the UAE (Art. 2(3)).
+  cbdc: The Digital Dirham is excluded from the definition of a virtual asset, so it cannot be a payment token.
+  td: Not a payment token. A bank may not itself act as a payment token issuer (Art. 2(8)); the regulation does not address bank deposit tokens.
+  dt: Not a payment token. A bank may not itself act as a payment token issuer (Art. 2(8)); the regulation does not address bank deposit tokens.
+  sec: Securities are left to the CMA (formerly the SCA), ADGM and the DIFC.
+  fund: Securities are left to the CMA (formerly the SCA), ADGM and the DIFC, tokenized MMFs included.
+sources:
+- title: King & Spalding, the 2025 CMA decree-laws (SCA reconstituted as the CMA from 1 January 2026)
+  url: https://www.kslaw.com/insights/articles/a-new-era-for-uae-federal-securities-regulation-the-2025-cma-decree-laws-february-2026
+  checked: '2026-10-24'
+- title: CBUAE Rulebook, Payment Token Services Regulation (effective 31 August 2024), Arts. 2, 40 and definitions
+  url: https://rulebook.centralbank.ae/en/rulebook/payment-token-services-regulation
+  checked: '2026-10-24'
+- title: Hadef & Partners, new Central Bank Law (Federal Decree-Law No. 6 of 2025) (15 January 2026)
+  url: https://hadefpartners.com/news-insights/insights/uae-introduces-new-central-bank-law-2025-key-changes-for-licensed-institutions/
+  checked: '2026-10-24'
+- title: Neolegal, UAE dirham stablecoin payment tokens (secondary source for licensed and approved tokens)
+  url: https://neolegal.ae/insights/uae-dirham-stablecoin-payment-tokens
+  checked: '2026-10-24'
+- title: Cointelegraph, first CBUAE-registered USD stablecoin (USDU) (secondary source)
+  url: https://cointelegraph.com/news/uae-first-central-bank-registered-usd-stablecoin-launches
+  checked: '2026-10-24'
+last_reviewed: '2026-10-24'

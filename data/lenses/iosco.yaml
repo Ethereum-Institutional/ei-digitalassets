@@ -6,7 +6,7 @@
 
 id: iosco
 group: standard-setter
-menu: IOSCO — crypto & digital assets
+menu: 'IOSCO: crypto & digital assets'
 name: IOSCO crypto & digital assets
 short: IOSCO
 color: '#6d28d9'
@@ -20,7 +20,6 @@ status:
   td: out
   dt: out
   sc: in
-  lsc: in
   unreg: in
   alg: in
   pm: in

@@ -1,4 +1,4 @@
-# Lens: Hong Kong SFC — virtual assets & tokenized securities
+# Lens: Hong Kong SFC (virtual assets & tokenized securities)
 # status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
 #   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
 # notes: the sentence shown under a circle's definition when this lens is active.
@@ -6,16 +6,16 @@
 
 id: hk
 group: jurisdiction
-menu: HK · Hong Kong (SFC) — virtual assets & tokenized securities
-name: Hong Kong SFC — virtual assets & tokenized securities
+menu: 'HK · Hong Kong (SFC): virtual assets & tokenized securities'
+name: 'Hong Kong SFC: virtual assets & tokenized securities'
 short: Hong Kong SFC
-color: '#6d28d9'
+color: '#14130f'
 intro: The Securities and Futures Commission licenses virtual-asset trading platforms under the AMLO and is building out VA dealing, custody, advisory and management regimes (legislation planned for 2026). The AMLO virtual-asset definition excludes securities and futures, digital representations of fiat and stored value. Tokenized securities and tokenized SFC-authorised products (such as tokenized money-market funds) stay securities under the SFO, using a “see-through” approach. Since May 2026, HKMA-licensed “Relevant Stablecoins” can be listed on SFC-licensed platforms with lighter requirements.
 groups:
 - id: va
   label: Virtual assets
-  name: AMLO — trading platforms, dealing, custody
-  color: '#6d28d9'
+  name: 'AMLO: trading platforms, dealing, custody'
+  color: '#a21caf'
   circles:
   - btc
   - eth
@@ -28,7 +28,7 @@ groups:
 - id: ts
   label: Tokenized securities & products
   name: SFO, see-through to the underlying
-  color: '#0e7490'
+  color: '#155e75'
   circles:
   - sec
   - eq
@@ -58,18 +58,21 @@ status:
   tix: part
   fmi: part
 notes:
-  lsc: “Relevant Stablecoins” — issued by HKMA licensees and listed on SFC-licensed platforms with lighter liquidity and disclosure requirements.
+  lsc: '“Relevant Stablecoins”: issued by HKMA licensees and listed on SFC-licensed platforms with lighter liquidity and disclosure requirements.'
   sc: Unlicensed stablecoins such as USDT and USDC remain virtual assets but may be offered only to professional investors.
   unreg: Professional investors only; cannot be offered to retail.
   alg: A virtual asset if traded, but never a licensable stablecoin.
   fund: Tokenized SFC-authorised funds, including tokenized money-market funds, are permitted with extra safeguards.
   sec: Tokenized securities remain securities under the SFO; the SFC looks through to the underlying.
   pm: Tokenized gold products can be SFC-authorised investment products; gold tokens traded as crypto are virtual assets.
-  td: A bank deposit — HKMA territory, not the SFC’s.
-  dt: A bank deposit — HKMA territory, not the SFC’s.
-  cbdc: Central bank money — HKMA territory.
+  td: 'A bank deposit: HKMA territory, not the SFC’s.'
+  dt: 'A bank deposit: HKMA territory, not the SFC’s.'
+  cbdc: 'Central bank money: HKMA territory.'
   loy: Limited-purpose tokens (loyalty, gaming) are excluded.
   game: Limited-purpose tokens are excluded.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
+sources:
+- title: Davis Polk, Hong Kong’s new stablecoin licensing and regulatory regime (in force 1 August 2025)
+  url: https://www.davispolk.com/insights/client-update/hong-kongs-new-stablecoin-licensing-and-regulatory-regime
+  checked: '2026-10-24'
 last_reviewed: '2026-10-24'

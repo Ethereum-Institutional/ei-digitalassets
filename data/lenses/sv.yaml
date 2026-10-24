@@ -1,0 +1,89 @@
+# Lens: El Salvador CNAD “digital asset” and the Bitcoin Law
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: sv
+group: jurisdiction
+menu: 'SV · El Salvador (CNAD): “digital asset” & Bitcoin Law'
+name: El Salvador CNAD “digital asset”
+short: El Salvador
+color: '#0369a1'
+intro: El Salvador’s Digital Assets Issuance Law (LEAD, 2023) defines a digital asset broadly as any digital representation that can be stored and transferred on a distributed ledger, and declares that digital assets are not securities, so tokenized shares, funds and real estate issued under it are supervised by the National Digital Assets Commission (CNAD) rather than the securities regulator. Foreign CBDCs, closed-loop tokens and non-tradable tokens are excluded. CNAD’s stablecoin regulation requires at least 1:1 reserves and excludes algorithmic designs, and service providers may distribute only stablecoins on CNAD’s eligible list, which includes USDT (issued by Tether from El Salvador) and USDC. The 2021 Bitcoin Law made bitcoin legal tender; the January 2025 amendment under the IMF programme made acceptance voluntary and ended tax payments in bitcoin, and the programme restricts public-sector bitcoin purchases.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: part
+  dt: part
+  fmi: part
+  sc: in
+  lsc: in
+  unreg: part
+  alg: part
+  pm: in
+  ocom: in
+  re: in
+  pc: in
+  coll: in
+  ip: in
+  sec: part
+  eq: part
+  fund: part
+  fi: part
+  dv: part
+  sn: part
+  trk: part
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: part
+  loy: part
+  lst: in
+  id: part
+  tix: part
+notes:
+  nat: Within the broad LEAD definition of a digital asset.
+  btc: 'Governed by the Bitcoin Law. Since the January 2025 amendment, private-sector acceptance is voluntary and taxes are paid only in US dollars. An October 2024 LEAD reform reportedly brought bitcoin into the digital-asset framework; sources differ on whether CNAD or the central bank (BCR) and the SSF supervise bitcoin service providers.'
+  cbdc: El Salvador uses the US dollar and has no CBDC; foreign CBDCs are excluded from LEAD (Art. 4).
+  td: Not specifically addressed by LEAD; banks remain supervised by the SSF, and a bank can also register with CNAD as a digital-asset issuer.
+  dt: Not specifically addressed by LEAD; banks remain supervised by the SSF, and a bank can also register with CNAD as a digital-asset issuer.
+  fmi: Not addressed; El Salvador has no FMI settlement token.
+  sc: Stablecoins are digital assets. CNAD’s 2023 stablecoin regulation covers tokens referencing fiat currency, bitcoin, T-bills, money-market funds or gold, with at least 1:1 reserves and redemption on demand or within a reasonable time.
+  lsc: 'Stablecoins on CNAD’s eligible list, either issued through a CNAD-registered public offering (USDT, CNHT and MXNT from Tether; MXNB; XAUt) or cleared for foreign issuers by a CNAD “No Objection” (USDC, PYUSD, USDG, RLUSD, USDM, PAXG).'
+  unreg: Service providers may not distribute stablecoins that are not on CNAD’s eligible list.
+  alg: Excluded from the stablecoin regulation, so algorithmic designs cannot be offered as stablecoins.
+  pm: Gold tokens (XAUt, PAXG) are on CNAD’s stablecoin list; El Salvador’s stablecoin definition is not limited to fiat currency.
+  rwa: LEAD tokens are not securities. CNAD names real estate, shares, art, commodities, intellectual property and funds as assets that can be tokenized under it.
+  sec: In if issued under LEAD, in which case the token is legally not a security and CNAD supervises it; securities issued under the Securities Market Law stay with the SSF.
+  oth: Tradable tokens fall within the broad LEAD definition; tokens usable only with their issuer (closed-loop) and non-tradable tokens are excluded (Art. 4).
+sources:
+- title: Ley de Emisión de Activos Digitales (Decree 643, Diario Oficial No. 16, 24 January 2023), Arts. 3–5 and 7
+  url: https://cnad.gob.sv/docs/marco-legal/ley-emision-activos-digitales-2023.pdf
+  checked: '2026-10-24'
+- title: CNAD, Reglamento para la Emisión de Ofertas Públicas de Monedas Estables (11 July 2023), Arts. 2, 4, 9–10
+  url: https://cnad.gob.sv/docs/marco-legal/reglamento-emision-ofertas-publicas-monedas-estables-2023.pdf
+  checked: '2026-10-24'
+- title: CNAD, stablecoins eligible for trading
+  url: https://cnad.gob.sv/en/monedas-estables/
+  checked: '2026-10-24'
+- title: CNAD, public register of stablecoin issuers (Tether International, EME-0003, 19 May 2025)
+  url: https://cnad.gob.sv/en/registro-publico-emisores/
+  checked: '2026-10-24'
+- title: CNAD, examples of tokenizable assets
+  url: https://cnad.gob.sv/es/activos-digitales/
+  checked: '2026-10-24'
+- title: IMF Country Report No. 25/58 (March 2025), on the January 2025 Bitcoin Law amendment
+  url: https://www.imf.org/-/media/files/publications/cr/2025/english/1slvea2025001-print-pdf.pdf
+  checked: '2026-10-24'
+- title: IMF press release 26/316 (1 October 2026), 2nd and 3rd EFF reviews
+  url: https://www.imf.org/en/news/articles/2026/10/01/pr26316-el-salvador-imf-concludes-2nd-and-3rd-reviews-under-the-eff
+  checked: '2026-10-24'
+- title: ALTA Legal, reforms to the Digital Assets Issuance Law (15 October 2024) (secondary source)
+  url: https://altalegal.com/comunicacion/reformas-a-la-ley-de-emision-de-activos-digitales/
+  checked: '2026-10-24'
+last_reviewed: '2026-10-24'

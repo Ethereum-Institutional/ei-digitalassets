@@ -1,7 +1,13 @@
-# Digital Asset Taxonomy — layout (geometry only)
+# Digital Asset Taxonomy: layout (geometry only)
 # cx,cy,rx,ry = ellipse centre and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
 # suby/sy/s3y/liney/l2y position the small sub-labels. Units are SVG user units on a 1600×1300 canvas.
 
+# bridges: corridors that join a lens group's perimeter into one continuous outline, keyed "<lens id>.<group id>".
+#   Each corridor is a list of [x, y] waypoints routed through empty space so the outline encloses no other circle.
+bridges:
+  ch.pay:
+  - [[330, 560], [372, 610], [930, 610], [964, 550]]   # Other Layer-1s → USDC, USDT
+  - [[330, 560], [372, 700], [392, 836]]               # Other Layer-1s → Community Coins
 canvas:
   width: 1600
   height: 1300
@@ -183,12 +189,21 @@ circles:
     fs: 10
     fw: 700
   lsc:
-    cx: 872
-    cy: 531
-    rx: 120
-    ry: 30
-    lx: 872
-    ly: 528
+    cx: 840
+    cy: 534
+    rx: 85
+    ry: 32
+    lx: 840
+    ly: 530
+    fs: 11.5
+    fw: 700
+  lpt:
+    cx: 840
+    cy: 534
+    rx: 85
+    ry: 32
+    lx: 840
+    ly: 530
     fs: 11.5
     fw: 700
   alg:

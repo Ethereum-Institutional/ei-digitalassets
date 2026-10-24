@@ -6,11 +6,11 @@
 
 id: india
 group: jurisdiction
-menu: IN · India — “virtual digital asset” (tax)
+menu: 'IN · India: “virtual digital asset” (tax)'
 name: India “virtual digital asset” (tax)
 short: India
 color: '#a21caf'
-intro: India has no dedicated crypto licensing regime. The “virtual digital asset” (VDA) definition — carried into the Income-tax Act, 2025 from April 2026 — drives a flat tax and TDS on transfers, and VDA service providers are covered by anti-money-laundering rules. VDAs exclude Indian and foreign currency, and the government has excluded items such as gift cards and reward points. The RBI remains sceptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.
+intro: India has no dedicated crypto licensing regime. The “virtual digital asset” (VDA) definition (carried into the Income-tax Act, 2025 from April 2026) drives a flat tax and TDS on transfers, and VDA service providers are covered by anti-money-laundering rules. VDAs exclude Indian and foreign currency, and the government has excluded items such as gift cards and reward points. The RBI remains sceptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.
 status:
   nat: in
   btc: in
@@ -20,7 +20,6 @@ status:
   td: out
   dt: out
   sc: in
-  lsc: in
   unreg: in
   alg: in
   pm: part
@@ -41,8 +40,8 @@ status:
   fmi: part
 notes:
   cbdc: The e-rupee is currency, not a VDA.
-  td: Currency held as deposits — not a VDA.
-  dt: Currency held as deposits — not a VDA.
+  td: Currency held as deposits, not a VDA.
+  dt: Currency held as deposits, not a VDA.
   sc: 'Stablecoins are VDAs: taxed and subject to AML rules, with no licensing route.'
   art: NFTs are expressly within the VDA definition.
   loy: Reward points are excluded by government notification.

@@ -6,22 +6,21 @@
 
 id: fatf
 group: standard-setter
-menu: FATF — AML standards (virtual & financial assets)
+menu: 'FATF: AML standards (virtual & financial assets)'
 name: FATF standards (AML)
 short: FATF
-color: '#0369a1'
+color: '#14130f'
 intro: The FATF defines a virtual asset as a digital representation of value that can be digitally traded or transferred and used for payment or investment. It excludes digital representations of fiat currencies, securities and other financial assets already covered by the FATF Recommendations. It is the anti-money-laundering perimeter behind most national VASP regimes (including VARA’s definition) and the Travel Rule.
 groups:
 - id: va
   label: Virtual assets
   name: VASP rules and Travel Rule
-  color: '#6d28d9'
+  color: '#a21caf'
   circles:
   - btc
   - eth
   - natoth
   - sc
-  - lsc
   - unreg
   - alg
   - comm
@@ -31,7 +30,7 @@ groups:
 - id: fa
   label: Fiat and financial assets
   name: covered by bank and securities AML rules
-  color: '#1d4ed8'
+  color: '#155e75'
   circles:
   - cbdc
   - fmi

@@ -6,11 +6,11 @@
 
 id: basel
 group: standard-setter
-menu: Basel Committee (BCBS) — cryptoasset groups (under review)
+menu: 'Basel Committee (BCBS): cryptoasset groups (under review)'
 name: Basel Committee cryptoasset groups (standard under review)
 short: Basel
 color: '#14130f'
-intro: 'The BCBS prudential standard for banks’ cryptoasset exposures (SCO60; finalised 2022, amended 2024, implementation date 1 January 2026) covers private digital assets that depend on cryptography and DLT — including tokenized traditional assets — and excludes CBDCs. It sorts them into groups that drive capital: Group 1a tokenized traditional assets and Group 1b stablecoins (treated broadly like the underlying), Group 2a hedgeable cryptoassets, and Group 2b everything else (1,250% risk weight). Assets on permissionless blockchains currently cannot qualify for Group 1. The Committee has been reviewing parts of the standard — check current status.'
+intro: 'The BCBS prudential standard for banks’ cryptoasset exposures (SCO60; finalised 2022, amended 2024, implementation date 1 January 2026) covers private digital assets that depend on cryptography and DLT, including tokenized traditional assets, and excludes CBDCs. It sorts them into groups that drive capital: Group 1a tokenized traditional assets and Group 1b stablecoins (treated broadly like the underlying), Group 2a hedgeable cryptoassets, and Group 2b everything else (1,250% risk weight). Assets on permissionless blockchains currently cannot qualify for Group 1. The Committee has been reviewing parts of the standard; check current status.'
 groups:
 - id: 1a
   label: Group 1a
@@ -36,7 +36,7 @@ groups:
 - id: 1b
   label: Group 1b
   name: Stablecoins passing the tests
-  color: '#1d4ed8'
+  color: '#0ea5e9'
   circles:
   - lsc
 - id: 2a
@@ -75,7 +75,7 @@ notes:
   btc: Group 2a if hedging-recognition criteria are met; otherwise 2b.
   eth: Group 2a if hedging-recognition criteria are met; otherwise 2b.
   cbdc: CBDCs are excluded from the standard.
-  td: Group 1a if the classification conditions are met — typically on a permissioned ledger.
+  td: Group 1a if the classification conditions are met, typically on a permissioned ledger.
   dt: Group 1a only if the conditions are met; on a permissionless blockchain it currently falls to Group 2b.
   sc: Group 1b or Group 2 depending on issuer supervision, the redemption-risk test and the blockchain used.
   lsc: Candidate for Group 1b; tokens on permissionless blockchains currently fall to Group 2.

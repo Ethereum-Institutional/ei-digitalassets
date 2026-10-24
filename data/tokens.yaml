@@ -1,5 +1,8 @@
-# Token badges — the ten largest digital assets by market capitalisation, placed by issuer and structure.
+# Token badges: the ten largest digital assets by market capitalisation, placed by issuer and structure.
 # `circle` is the id of the circle the badge sits in (its definition inherits that circle's lens treatment).
+# Badges never move. `licensed_under` lists the lenses that license the token: under those lenses the lens-only circle
+# the lens shows (Licensed or Recognised Stablecoins / Payment Tokens) stretches to take the badge in. List a lens only
+# where that regime licensed the issuer or its regulator specifically recognised the token; tolerance does not count.
 
 as_of: October 2026
 tokens:
@@ -54,12 +57,14 @@ tokens:
 - ticker: USDT
   name: Tether USDt
   circle: sc
-  x: 1018
-  y: 522
-  desc: The largest stablecoin by circulation, issued by Tether, which is licensed in El Salvador. Placed with regulated issuers but outside Licensed Stablecoins because, as of October 2026, it is not authorised under MiCA, the GENIUS Act or the CBUAE payment-token regime. Treatment differs by jurisdiction.
+  x: 984
+  y: 534
+  licensed_under: [adgm, sv]
+  desc: 'The largest stablecoin by circulation, issued by Tether, which is headquartered and licensed in El Salvador. As of October 2026 it is a CNAD-registered stablecoin there and an Accepted Fiat-Referenced Token in ADGM, but it is not authorised under MiCA or the GENIUS Act and is not registered under the CBUAE payment-token regime. Switch on a lens to see where it counts as licensed.'
 - ticker: USDC
   name: USD Coin
-  circle: lsc
-  x: 965
-  y: 531
-  desc: Issued by Circle, a regulated fintech. Authorised as an e-money token under MiCA through Circle’s French e-money licence and positioned as a US payment stablecoin.
+  circle: sc
+  x: 944
+  y: 534
+  licensed_under: [mica, jp, adgm, difc, sv]
+  desc: 'Issued by Circle, a regulated fintech. Authorised as an e-money token under MiCA through Circle’s French e-money licence, and recognised in Japan, ADGM, the DIFC and El Salvador. Not yet a US payment stablecoin: the GENIUS Act takes effect on 18 January 2027, although Circle’s national trust bank received final OCC approval on 10 July 2026. Switch on a lens to see where it counts as licensed.'

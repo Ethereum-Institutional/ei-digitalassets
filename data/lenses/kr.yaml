@@ -6,11 +6,11 @@
 
 id: kr
 group: jurisdiction
-menu: KR · South Korea — “virtual asset”
+menu: 'KR · South Korea: “virtual asset”'
 name: South Korea “virtual asset”
 short: South Korea
 color: '#4338ca'
-intro: Korea defines virtual assets (Specified Financial Information Act) as electronic certificates with economic value that can be traded or transferred, excluding game items, prepaid instruments and e-money, electronically registered securities, electronic bills and CBDC; NFTs are generally excluded under FSC guidance. The Virtual Asset User Protection Act (July 2024) protects users. The Digital Asset Basic Act — exchange licensing and a won-stablecoin framework — is still being negotiated, including whether only banks may issue.
+intro: Korea defines virtual assets (Specified Financial Information Act) as electronic certificates with economic value that can be traded or transferred, excluding game items, prepaid instruments and e-money, electronically registered securities, electronic bills and CBDC; NFTs are generally excluded under FSC guidance. The Virtual Asset User Protection Act (July 2024) protects users. The Digital Asset Basic Act (exchange licensing and a won-stablecoin framework) is still being negotiated, including whether only banks may issue.
 status:
   nat: in
   btc: in
@@ -20,7 +20,6 @@ status:
   td: out
   dt: out
   sc: in
-  lsc: part
   unreg: in
   alg: in
   pm: part
@@ -41,11 +40,10 @@ status:
   fmi: part
 notes:
   cbdc: CBDC is expressly excluded.
-  td: Deposits — the Bank of Korea has piloted deposit tokens (Project Hangang).
-  dt: Deposits — the Bank of Korea has piloted deposit tokens (Project Hangang).
-  sc: Foreign stablecoins are virtual assets today.
-  lsc: No won-stablecoin issuance regime yet; the Digital Asset Basic Act would introduce authorisation.
-  sec: Electronically registered securities are excluded — security tokens fall under capital-markets law.
+  td: Deposits; the Bank of Korea has piloted deposit tokens (Project Hangang).
+  dt: Deposits; the Bank of Korea has piloted deposit tokens (Project Hangang).
+  sc: Stablecoins are virtual assets today. Korea has no stablecoin licence yet; the Digital Asset Basic Act, still being negotiated, would introduce authorisation for won stablecoins.
+  sec: Electronically registered securities are excluded; security tokens fall under capital-markets law.
   rwa: Excluded where structured as securities; otherwise assessed case by case.
   game: Game money and items are expressly excluded.
   art: NFTs are generally excluded unless issued in large fungible series or used for payment.
