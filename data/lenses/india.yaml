@@ -1,0 +1,53 @@
+# Lens: India “virtual digital asset” (tax)
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: india
+group: jurisdiction
+menu: IN · India — “virtual digital asset” (tax)
+name: India “virtual digital asset” (tax)
+short: India
+color: '#a21caf'
+intro: India has no dedicated crypto licensing regime. The “virtual digital asset” (VDA) definition — carried into the Income-tax Act, 2025 from April 2026 — drives a flat tax and TDS on transfers, and VDA service providers are covered by anti-money-laundering rules. VDAs exclude Indian and foreign currency, and the government has excluded items such as gift cards and reward points. The RBI remains sceptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: in
+  unreg: in
+  alg: in
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  art: in
+  game: part
+  comm: in
+  gov: in
+  util: in
+  loy: out
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  cbdc: The e-rupee is currency, not a VDA.
+  td: Currency held as deposits — not a VDA.
+  dt: Currency held as deposits — not a VDA.
+  sc: 'Stablecoins are VDAs: taxed and subject to AML rules, with no licensing route.'
+  art: NFTs are expressly within the VDA definition.
+  loy: Reward points are excluded by government notification.
+  sec: Tokenized securities would fall to SEBI; the VDA treatment is unsettled.
+  rwa: Treatment depends on structure and is unsettled.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

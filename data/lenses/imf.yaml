@@ -1,0 +1,68 @@
+# Lens: IMF “digital money” types
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: imf
+group: standard-setter
+menu: IMF — “digital money” types
+name: IMF “digital money” types
+short: IMF
+color: '#0e7490'
+intro: 'This lens uses the IMF’s 2019 classification (The Rise of Digital Money); its more recent work generally speaks of “crypto-assets” and “tokenized money”. The IMF (2019) classifies digital money by the claim behind it: central bank money; b-money (bank deposits); e-money (claims redeemable at a fixed value, such as reserve-backed stablecoins); i-money (claims redeemable at a variable value, backed by assets such as gold or fund shares); and cryptocurrencies, which are not claims on anyone. Assets outside these groups are not treated as means of payment.'
+groups:
+- id: cbm
+  label: Central bank money
+  name: CBDC
+  color: '#0e7490'
+  circles:
+  - cbdc
+  - rcbdc
+  - wcbdc
+  - fmi
+- id: b
+  label: b-money
+  name: bank deposits
+  color: '#4338ca'
+  circles:
+  - td
+  - dt
+- id: e
+  label: e-money
+  name: fixed-value claims
+  color: '#1d4ed8'
+  circles:
+  - lsc
+  - unreg
+- id: i
+  label: i-money
+  name: variable-value claims
+  color: '#a21caf'
+  circles:
+  - pm
+  - fund
+- id: c
+  label: Cryptocurrency
+  name: no claim on an issuer
+  color: '#6d28d9'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - alg
+status:
+  nat: part
+  sc: part
+notes:
+  nat: 'Cryptocurrencies: value rests on the protocol, not a claim on an issuer.'
+  sc: Mostly e-money (fixed-value redemption); algorithmic designs are closer to cryptocurrency.
+  unreg: E-money in form, but with weak or unverified backing.
+  alg: No redemption claim — closer to cryptocurrency than to e-money.
+  pm: 'Gold-backed tokens are i-money: redeemable at a variable value.'
+  fund: Tokens backed by money-market fund shares are i-money.
+  dt: 'b-money: a claim on a commercial bank, whatever the token architecture.'
+  lsc: 'e-money: a claim redeemable at a fixed value, backed by segregated reserves.'
+  fmi: 'What the IMF calls “synthetic CBDC”: a private claim fully backed by central bank reserves.'
+sources: []
+last_reviewed: '2026-10-24'

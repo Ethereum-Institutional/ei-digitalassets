@@ -1,0 +1,71 @@
+# Lens: Dubai VARA “virtual asset”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: vara
+group: jurisdiction
+menu: AE · Dubai (VARA) — “virtual asset”
+name: Dubai VARA “virtual asset”
+short: Dubai VARA
+color: '#0369a1'
+intro: Dubai Law No. 4 of 2022 defines a virtual asset as a digital representation of value that can be digitally traded or transferred and used for exchange, payment or investment — excluding digital representations of fiat currencies and securities. Applies in Dubai outside the DIFC. Fiat-referenced payment tokens are also subject to the CBUAE Payment Token Services Regulation.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: in
+  unreg: in
+  alg: in
+  pm: in
+  ocom: in
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  sec: out
+  eq: out
+  fund: out
+  fi: out
+  dv: part
+  sn: out
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: in
+  loy: part
+  lst: in
+  id: part
+  tix: part
+notes:
+  cbdc: A digital representation of fiat currency.
+  td: A digital representation of fiat currency held as a deposit.
+  dt: Still a digital representation of fiat currency (commercial bank money), whatever it is called.
+  sc: Fiat-referenced virtual assets (FRVAs) under the VARA Rulebook.
+  lsc: FRVAs require VARA approval; AED payment tokens are licensed by the CBUAE, and only AED payment tokens may be used for onshore payments for goods and services.
+  unreg: In the definition, but issuing or marketing in Dubai without VARA approval is prohibited.
+  alg: A virtual asset, but algorithmic stablecoins are prohibited under the CBUAE payment token rules.
+  pm: Asset-referenced virtual assets (ARVAs).
+  ocom: Generally ARVAs, unless structured as securities or derivatives.
+  re: Dubai Land Department / VARA tokenized title deeds are virtual assets; property tokens structured as securities fall to the SCA or DFSA.
+  pc: 'Usually out: typically structured as securities.'
+  coll: Assessed case by case; fractionalised ownership may be a security.
+  ip: Income-bearing royalty tokens are often securities.
+  sec: Securities fall to the SCA or DFSA, not VARA.
+  dv: Derivatives on securities or commodities fall to the SCA; derivatives referencing virtual assets need case-by-case analysis of VARA’s activity rules.
+  fund: Fund units are securities — tokenized MMFs included.
+  art: NFTs are assessed case by case; fractionalised NFTs may be securities.
+  game: Non-transferable or closed-loop in-game tokens are exempt virtual assets.
+  loy: Non-transferable loyalty points are exempt virtual assets.
+  id: Non-transferable credentials are generally exempt.
+  tix: Closed-loop or non-transferable tickets are exempt virtual assets.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

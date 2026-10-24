@@ -1,0 +1,74 @@
+# Lens: Singapore MAS “digital payment token”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: mas
+group: jurisdiction
+menu: SG · Singapore (MAS) — “digital payment token”
+name: Singapore MAS “digital payment token”
+short: Singapore MAS
+color: '#a21caf'
+intro: Under Singapore’s Payment Services Act, a digital payment token (DPT) is a digital representation of value used as a medium of exchange, transferable electronically. Limited-purpose tokens (loyalty, in-game) are excluded, and tokenized securities are capital markets products under the Securities and Futures Act. Single-currency stablecoins meeting MAS’s framework carry the “MAS-regulated stablecoin” label; a September 2026 consultation proposes a separate stablecoin definition and issuance licence. Banks may continue to issue tokenized deposits.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: part
+  unreg: in
+  alg: in
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  sec: out
+  eq: out
+  fund: out
+  fi: out
+  dv: out
+  sn: out
+  art: part
+  game: part
+  comm: in
+  gov: part
+  util: part
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  cbdc: Money, not a DPT.
+  td: Bank deposits; MAS will issue separate guidance on tokenized deposits.
+  dt: Bank deposits, not DPTs; MAS will issue separate guidance on tokenized deposits.
+  sc: Stablecoins that are not MAS-regulated remain DPTs.
+  lsc: “MAS-regulated stablecoins” (single-currency, high-quality reserves). The 2026 consultation proposes moving them into a separate stablecoin category with a licence, no interest to holders, and bank issuers using a separate entity.
+  unreg: A DPT, with proposed retail protections for non-MAS-regulated stablecoins.
+  alg: A DPT, but cannot be a MAS-regulated stablecoin.
+  sec: Capital markets products under the SFA.
+  dv: Derivatives contracts under the SFA (crypto derivatives included).
+  fund: Units in collective investment schemes under the SFA — tokenized MMFs included.
+  pm: 'Depends on structure: DPT, or capital markets product if it is a derivative or fund unit.'
+  ocom: Depends on structure.
+  re: Usually a capital markets product.
+  pc: Usually a capital markets product (debenture).
+  coll: Depends on structure.
+  ip: Usually a capital markets product.
+  art: NFTs are generally not DPTs unless used as a medium of exchange.
+  gov: A DPT if used as a medium of exchange; otherwise may fall outside.
+  util: A DPT if used as a medium of exchange; otherwise may fall outside.
+  game: Limited-purpose in-game tokens are excluded.
+  loy: Limited-purpose loyalty points are excluded.
+  id: Generally outside.
+  tix: Generally limited-purpose — outside.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

@@ -1,0 +1,56 @@
+# Lens: IOSCO crypto & digital assets
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: iosco
+group: standard-setter
+menu: IOSCO — crypto & digital assets
+name: IOSCO crypto & digital assets
+short: IOSCO
+color: '#6d28d9'
+intro: IOSCO’s 2023 Policy Recommendations for Crypto and Digital Asset Markets cover service providers dealing in crypto-assets, including stablecoins, applying “same activity, same risk, same regulatory outcome”. Tokenized securities stay under IOSCO’s existing Objectives and Principles of Securities Regulation, and IOSCO has since reported on tokenization risks. CBDCs and bank deposits are outside its remit.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: in
+  unreg: in
+  alg: in
+  pm: in
+  ocom: in
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  sec: part
+  eq: part
+  fund: part
+  fi: part
+  dv: part
+  sn: part
+  trk: part
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: in
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  sec: Tokenized securities stay under IOSCO’s existing Objectives and Principles.
+  rwa: Covered by existing securities principles where the token is a security; otherwise the crypto recommendations apply.
+  td: Bank deposits are a banking matter, outside IOSCO’s remit.
+  dt: Bank deposits are a banking matter, outside IOSCO’s remit.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

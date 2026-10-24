@@ -1,0 +1,55 @@
+# Lens: South Korea “virtual asset”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: kr
+group: jurisdiction
+menu: KR · South Korea — “virtual asset”
+name: South Korea “virtual asset”
+short: South Korea
+color: '#4338ca'
+intro: Korea defines virtual assets (Specified Financial Information Act) as electronic certificates with economic value that can be traded or transferred, excluding game items, prepaid instruments and e-money, electronically registered securities, electronic bills and CBDC; NFTs are generally excluded under FSC guidance. The Virtual Asset User Protection Act (July 2024) protects users. The Digital Asset Basic Act — exchange licensing and a won-stablecoin framework — is still being negotiated, including whether only banks may issue.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: part
+  unreg: in
+  alg: in
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  art: part
+  game: out
+  comm: in
+  gov: in
+  util: in
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  cbdc: CBDC is expressly excluded.
+  td: Deposits — the Bank of Korea has piloted deposit tokens (Project Hangang).
+  dt: Deposits — the Bank of Korea has piloted deposit tokens (Project Hangang).
+  sc: Foreign stablecoins are virtual assets today.
+  lsc: No won-stablecoin issuance regime yet; the Digital Asset Basic Act would introduce authorisation.
+  sec: Electronically registered securities are excluded — security tokens fall under capital-markets law.
+  rwa: Excluded where structured as securities; otherwise assessed case by case.
+  game: Game money and items are expressly excluded.
+  art: NFTs are generally excluded unless issued in large fungible series or used for payment.
+  loy: Excluded where it is a prepaid instrument or e-money.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'
