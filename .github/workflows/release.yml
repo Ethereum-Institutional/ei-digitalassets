@@ -27,6 +27,10 @@ jobs:
         with:
           generate_release_notes: true
           prerelease: ${{ startsWith(github.ref_name, 'v0.') }}  # v0.x = draft pending legal review
+          body: |
+            ${{ startsWith(github.ref_name, 'v0.') && '> **Warning: under development.** This v0.x release of the Digital Asset Taxonomy is a draft that has not yet been reviewed by legal counsel. Placements, definitions and regulatory lenses may change. For discussion only; not legal advice.' || '' }}
+
+            Live page: https://ethereum-institutional.github.io/ei-digitalassets/
           files: |
             digital-asset-taxonomy-${{ github.ref_name }}.html
             digital-asset-taxonomy-${{ github.ref_name }}.fragment.html
