@@ -56,6 +56,7 @@ and lens treatments may change in any release.
 - GENIUS Act lens notes that the Act takes effect on 18 January 2027; VARA lens points AED tokens to the CBUAE lens.
 - Sources added to the El Salvador, CBUAE, Switzerland, VARA and GENIUS lenses.
 - The page links to the GitHub repository and invites issues (to request changes) and pull requests.
+- README: the link to the live page is now at the top.
 - Fixed: “Clear lens” was shown even when no lens was selected.
 - Style: removed em-dashes from all definitions, lens notes, menu labels and page text.
 - Financial Instruments definition: the UAE securities regulator is now named as the CMA (formerly the SCA).

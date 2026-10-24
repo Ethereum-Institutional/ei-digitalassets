@@ -3,6 +3,8 @@
 An interactive map of how digital money, tokenized real-world assets and other crypto-assets relate, with
 **regulatory lenses** showing where each regime's definition reaches. Maintained by Ethereum Institutional.
 
+**View the live page: https://ethereum-institutional.github.io/ei-digitalassets/**
+
 > **Status: draft (v0.x).** Not yet reviewed by legal counsel. Version 1.0.0 will follow that review.
 
 The map is generated from plain-text data files in this repository, so every change is reviewable as a diff
@@ -64,8 +66,7 @@ wrap it themselves (for example the claude.ai artifact).
 
 - Tagging a commit `vX.Y.Z` creates a GitHub Release with the built HTML attached and the version stamped in
   the page footer. `v0.x` tags are marked as pre-releases. Record what changed in `CHANGELOG.md`.
-- Every merge to `main` publishes the latest build to GitHub Pages:
-  https://ethereum-institutional.github.io/ei-digitalassets/
+- Every merge to `main` publishes the latest build to GitHub Pages (the live page linked at the top).
 - Every pull request also uploads the built page and a preview screenshot as a workflow artifact.
 - The "Under development" banner comes from `notice:` in `data/site.yaml`; remove it once counsel has reviewed.
 
