@@ -1,0 +1,55 @@
+# Page text (title, intro, footnote) and page settings for the Digital Asset Networks page.
+
+title: Digital Asset Networks
+slug: digital-asset-networks   # output file name in dist/
+eyebrow: Ethereum Institutional · Research
+# nav: links between the pages of this site; the item without an href is this page
+nav:
+- label: Digital Asset Taxonomy
+  href: ../
+- label: Digital Asset Networks
+heading:
+  text: Digital Asset Networks
+  italic: Networks
+intro: 'How the networks that carry digital assets differ: whether consensus is permissioned or permissionless, and who may run a node (private, consortium or public). Ethereum Institutional is aligned to Ethereum mainnet’s north star, a globally verifiable public shared ledger, but supports every Ethereum deployment style on this map.'
+# intro_more: shown when the reader clicks the link after the intro; intro_more_label is the link text
+intro_more_label: Why our north star?
+intro_more: 'Why that north star: a public, permissionless ledger that anyone can verify has brought together the most participants, liquidity, assets and use cases on one shared state. Common standards and tooling then let an entire ecosystem build on each other’s work. Why every style: regulation, risk management and the needs of particular use cases give private, consortium and public deployments each a place. The Ethereum ecosystem serves all of them with the same clients, standards and tooling, so a deployment can start private and keep the path to the public ledger.'
+svg_label: Venn diagram of digital asset network types
+panel_default:
+  title: Digital Asset Networks
+  text: Hover over any circle or badge to preview how Ethereum Institutional defines or places it; click to pin the definition here. Circles with a + expand to show participants; a − next to a region hides it.
+# badge: pill = named badges (ink = Ethereum ecosystem, grey = other)
+badge: pill
+legend:
+- kind: pill
+  color: '#14130f'
+  text: 'Ethereum ecosystem: runs an Ethereum client, the EVM, or settles on Ethereum mainnet'
+- kind: pill
+  color: '#6b6760'
+  text: Other technology
+- kind: mark
+  color: '#14130f'
+  text: 'ETH mark: secured by ETH, on Ethereum mainnet itself or on a rollup that settles there'
+- kind: expand
+  color: '#14130f'
+  text: 'Circles with a + expand on click to show their participants; a − next to a region’s name hides that region and zooms the map to the rest'
+- kind: rings
+  color: '#312e81'
+  text: 'Nested bands: the degrees of permissionless, most permissionless at the centre'
+# lens_groups: one dropdown per group; each lens file's `group` must be one of these ids
+lens_groups:
+- id: architecture
+  label: Architecture
+lens_title: Architecture
+lens_help: Pick a layer to see which networks it describes. Highlighted badges are inside the definition; faded ones are outside. The circles do not change.
+# Optional banner shown above the heading. Remove `notice` to hide it.
+notice:
+  title: Under development.
+  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
+# Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help improve this map.
+  text: It is maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change, or send a pull request with your proposed edit.
+footnote: 'Badges name the ten largest native cryptocurrencies by market capitalisation on 25 October 2026 (stablecoins and tokens that are not native to a network are excluded), plus networks that illustrate each region. The permissionless hierarchy follows Lewis-Pye and Roughgarden, “Permissionless Consensus” (arXiv 2304.14701). This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

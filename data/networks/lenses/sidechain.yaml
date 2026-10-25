@@ -1,0 +1,20 @@
+# Lens: Side-chain (architecture)
+# scope: networks means the lens highlights badges, not circles. `networks` lists each badge as in | part.
+
+id: sidechain
+group: architecture
+menu: Side-chain
+name: Side-chain
+short: Side-chain
+scope: networks
+color: '#6366f1'
+intro: 'A side-chain is a separate blockchain with its own validator set, connected to a parent chain by a bridge that locks assets on one side and mints them on the other. It exists to add capacity or features without changing the parent. The benefit is cheap, fast execution that reuses the parent’s tooling (Polygon PoS runs the EVM, so Ethereum contracts deploy unchanged). The cost is that security does not come from the parent: if the side-chain’s validators fail or collude, the bridge can be drained and the parent chain cannot help, which is the difference from a rollup.'
+networks:
+  polygon: in
+notes:
+  polygon: Its own capped set of proof-of-stake validators orders blocks; Ethereum mainnet stores checkpoints and the bridge but does not check that the state transitions are valid.
+  base: A rollup, not a side-chain; Ethereum mainnet settles its state.
+  arbitrum: A rollup, not a side-chain; Ethereum mainnet settles its state.
+  optimism: A rollup, not a side-chain; Ethereum mainnet settles its state.
+sources: []
+last_reviewed: '2026-10-25'

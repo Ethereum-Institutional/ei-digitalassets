@@ -1,0 +1,48 @@
+# Lens: Layer 1 (architecture)
+# scope: networks means the lens highlights badges, not circles. `networks` lists each badge as in | part.
+# notes: the sentence shown under a badge's definition when this lens is active.
+
+id: l1
+group: architecture
+menu: Layer 1
+name: Layer 1
+short: Layer 1
+scope: networks
+color: '#312e81'
+intro: 'A Layer 1 runs its own consensus and settles its own transactions: its validators or miners have the final word on what happened, and its native asset pays for its security. It exists because something has to be the base of trust. The benefit is self-sufficiency and the widest guarantee available, since nothing above it can override its state. The cost is that every node re-executes everything, so throughput is bounded by what one node can verify, which is why side-chains and rollups exist.'
+networks:
+  bitcoin: in
+  dogecoin: in
+  monero: in
+  zcash: in
+  ethereum: in
+  cardano: in
+  solana: in
+  bnb: in
+  tron: in
+  hyperliquid: in
+  avalanche: in
+  xrpl: in
+  stellar: in
+  hedera: in
+  canton: part
+  corda: part
+  fnality: in
+  hangang: in
+  dcjpy: in
+notes:
+  ethereum: The Layer 1 of the Ethereum ecosystem, and the settlement layer for its rollups.
+  canton: Canton settles nothing globally; each synchronizer orders its own contracts, so it is a Layer 1 only in the sense that nothing sits beneath it.
+  corda: Corda settles nothing globally; each notary attests its own transactions, so it is a Layer 1 only in the sense that nothing sits beneath it.
+  polygon: A side-chain, not a Layer 1; it checkpoints to Ethereum mainnet but has its own validators.
+  base: A rollup, not a Layer 1; it settles on Ethereum mainnet.
+  arbitrum: A rollup, not a Layer 1; it settles on Ethereum mainnet.
+  optimism: A rollup, not a Layer 1; it settles on Ethereum mainnet.
+  fnality: A permissioned Layer 1 in the architectural sense; its members are the final word.
+  hangang: A permissioned Layer 1 in the architectural sense; its members are the final word.
+  dcjpy: A permissioned Layer 1 in the architectural sense; its members are the final word.
+sources:
+- title: Lewis-Pye and Roughgarden, Permissionless Consensus (arXiv 2304.14701v5, March 2024)
+  url: https://arxiv.org/abs/2304.14701
+  checked: '2026-10-25'
+last_reviewed: '2026-10-25'

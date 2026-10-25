@@ -8,6 +8,29 @@ bridges:
   ch.pay:
   - [[330, 560], [372, 610], [930, 610], [964, 550]]   # Other Layer-1s → USDC, USDT
   - [[330, 560], [372, 700], [392, 836]]               # Other Layer-1s → Community Coins
+
+# annotations: small drawn notes. `caption` = a leader line and a label that belongs to a circle (it dims with it);
+#   `connector` = a dotted link with a dot at its end and free-standing labels.
+annotations:
+- kind: caption            # the two hybrid overlaps in Financial Instruments
+  circle: sn
+  path: M1290 1071 L1290 1104
+  x: 1290
+  y: 1116
+  label: Structured notes
+- kind: caption
+  circle: trk
+  path: M1288 891 L1288 868
+  x: 1288
+  y: 861
+  label: Trackers & warrants
+- kind: connector          # "look-alike": Deposit Token ⇢ bank-issued stablecoins (Commercial Bank ∩ Stablecoins)
+  path: M786 459 Q 790 472 784 486
+  dot: [784, 488]
+  color: '#14213d'
+  labels:
+  - { x: 796, y: 470, text: look-alike, italic: true }
+  - { x: 762, y: 500, text: bank-issued, size: 9, color: '#3b4580', anchor: middle }
 canvas:
   width: 1600
   height: 1300

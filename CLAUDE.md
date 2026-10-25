@@ -1,8 +1,10 @@
 # CLAUDE.md: working notes for Claude (and humans) on this repository
 
-This repository generates Ethereum Institutional's interactive **Digital Asset Taxonomy**: a Venn diagram of
-digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory lenses**.
-Live page: https://ethereum-institutional.github.io/ei-digitalassets/ (published from `main`).
+This repository generates two interactive maps for Ethereum Institutional: the **Digital Asset Taxonomy** (a Venn
+diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
+lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks
+and **architecture lenses**). Live pages: https://ethereum-institutional.github.io/ei-digitalassets/ and
+https://ethereum-institutional.github.io/ei-digitalassets/networks/ (published from `main`).
 Read `README.md` for the file layout and editing guide; this file records conventions and decisions behind it.
 
 ## Status and versioning
@@ -16,11 +18,14 @@ Read `README.md` for the file layout and editing guide; this file records conven
 
 ## How the build works
 
-- `data/*.yaml` is the only place content lives. `src/template.html` holds styling and rendering code only.
-- `npm run build` validates the data (unknown circle ids or tokens, missing definitions, bad statuses, lens colours,
-  lens-only circles, `licensed_under`, `bridges`) and writes `dist/`.
-  `npm run check` renders the page in headless Chromium, applies every lens and writes `dist/preview.png`.
-  Run both before committing; CI runs them on every push and pull request.
+- `data/*.yaml` (taxonomy) and `data/networks/*.yaml` (networks) are the only places content lives.
+  `src/template.html` holds styling and rendering code only and renders both pages; per-page settings (`nav`,
+  `lens_groups`, `badge`, `legend`, `panel_default`) live in each `site.yaml`, and drawn notes in `layout.yaml`
+  `annotations:`. Never put page-specific content in the template.
+- `npm run build` validates the data (unknown circle ids or badges, missing definitions, bad statuses, lens colours,
+  lens-only circles, `licensed_under`, `bridges`, `networks` maps) and writes `dist/` for both pages.
+  `npm run check` renders both pages in headless Chromium, applies every lens and writes `dist/preview.png` and
+  `dist/networks/preview.png`. Run both before committing; CI runs them on every push and pull request.
 - `dist/` and `node_modules/` are git-ignored. Never hand-edit generated HTML.
 - CI runners are pinned to `ubuntu-24.04` because Playwright 1.56 cannot install Chromium on Ubuntu 26.04.
 - Writing `.github/workflows/*` requires a token with the `workflow` scope; commit those from a local clone.
@@ -72,6 +77,57 @@ Read `README.md` for the file layout and editing guide; this file records conven
   semicolons, parentheses or separate sentences. En-dashes are fine in number ranges (e.g. Arts. 3–5). Quote YAML
   values that contain ": ".
 
+## Digital Asset Networks map (`data/networks/`)
+
+- Two classifications on one map. Network circles: **Private** (one operator), **Consortium** (several operators,
+  admitted by agreement) with **Sovereign** inside it (all participants in one jurisdiction), **Public** (anyone may
+  transact and run a node, whatever the consensus rule). Consensus overlay: two rounded rectangles side by side,
+  **Permissioned** (over Private, Consortium and Public's left crescent) and **Permissionless** (over the rest of
+  Public), the latter holding three nested bands from Lewis-Pye and Roughgarden, "Permissionless Consensus" (arXiv 2304.14701): **fully
+  permissionless** (centre: the protocol knows nothing about who runs it; proof of work), **dynamically available**
+  (known staked identifiers, some honest staker online; longest-chain PoS, Ethereum mainnet's fork choice),
+  **quasi-permissionless** (the model assumes every honest staker online; in practice a two-thirds quorum must keep
+  voting; BFT-style PoS and elected sets). Band labels on the map read "Quasi / Dynamically / Fully Permissionless". The three
+  challenges (unknown players, player inactivity, sybils) are explained in the Permissionless definition, never
+  drawn as circles.
+- **House rule:** a network is permissioned whenever joining consensus requires review by existing participants.
+  So the XRP Ledger (curated default UNL) and Stellar (quorum sets) are public but permissioned; TRON, BNB Chain,
+  Hyperliquid and Avalanche are quasi-permissionless (anyone may stand or stake) with concentration caveats in their
+  notes. Polygon PoS is treated as quasi-permissionless: its capped seats were designed to be won by open stake
+  auction, even though entry now waits for a vacancy and a review (say so in its note).
+- **Ethereum mainnet** is the chain; never write "on Ethereum" for a deployment. "Ethereum" alone is used only in
+  compound terms (Ethereum ecosystem, Ethereum client, Ethereum Virtual Machine). Do not add asides such as "(press
+  report)" in descriptions; the evidence level belongs in the source title. Its badge sits in dynamically available,
+  with the note that Casper FFG adds quasi-permissionless finality. Slashing for double signing is accountability,
+  not sybil resistance (stake is the sybil cost).
+- **Canton** is drawn as a small ellipse ("Network of Networks") mostly inside Consortium, its tip in Consortium ∩
+  Public, inside Permissioned: the Global Synchronizer and Canton Coin are the public part; SV-voted admission,
+  sponsor plus committee approval for validators, stakeholder-only storage and no global state make the rest a
+  consortium. Daml and Canton are Apache 2.0, so what is closed is its data and membership, not its code.
+  Corda shares the ellipse on the consortium side (same model). Cosmos and Polkadot do not belong there: each member
+  chain is a complete shared ledger. Hedera is the contrast: council-run consensus but one shared verifiable state.
+- **Badges** are networks, named (not tickers, because "ETH" is overloaded). `eth: true` = ink pill (runs an
+  Ethereum client, the EVM, or settles on Ethereum mainnet); otherwise grey. The set is the ten largest native
+  cryptocurrencies by market cap (stablecoins and non-native tokens excluded; checked 25 October 2026) plus
+  illustrative networks per region. Rollups that settle on Ethereum mainnet, and Ethereum mainnet itself, carry
+  `mark: ETH` (a small disc). **Expandable circles** (`expand: collapsed | expanded` in circles.yaml, `collapsed:`
+  geometry in layout.yaml) hold participants as `small` badges of `kind: participant`, each with its own source; a
+  click opens the circle on top of the map, a lens closes any open one. `pill: true` network circles look like a badge
+  while collapsed (ink or grey by `eth`) so the map reads the same as before: Ethereum mainnet, Base, Arbitrum One,
+  OP Mainnet, Polygon PoS, Solana, Stellar, Avalanche, XRP Ledger, Hedera, BNB Chain and Canton list the regulated
+  institutions with live deployments on them (G-SIBs, large asset managers, FMIs and payment firms; pilots are named
+  as such). Besu private chains (Private), Swift shared ledger, Partior and Project Agorá (Consortium) list their
+  participating institutions the same way. Other Private badges are Quorum (archived) and Hyperledger Fabric; name
+  only Besu among Ethereum clients. Add a network or participant only with primary-source documentation (say in the
+  text when a claim rests on press or an industry report), and agree additions or removals with EI first; do not
+  record the reasons for leaving a network off the map here.
+- **Besu house view** (in the Private definition): Apache 2.0 licence, built-in permissioned consensus and
+  allowlisting, neutral foundation governance, mainnet compatibility, and Java last. Do not list other execution
+  clients. Besu is now an LF Decentralized Trust project (`besu-eth/besu`); it no longer supports Clique or Ethash.
+- Lenses here are architecture, not regulation: `scope: networks` lenses highlight badges via a `networks:` map
+  (`in` | `part`) and leave the circles alone. Each intro defines the layer, why it exists and what it buys.
+- Network facts were last checked 25 October 2026; validator counts and sequencer status drift quickly.
+
 ## EI house views (flag any change to these in the pull request)
 
 - Deposit Token is a subset of Tokenized Deposits (strict interpretation for tokenized deposits; deposit token =
@@ -82,8 +138,9 @@ Read `README.md` for the file layout and editing guide; this file records conven
 
 ## Lenses
 
-- One lens at a time; two dropdowns (global standard setters; jurisdictions). Jurisdiction `menu` labels start with
-  the two-letter country code (UK, not GB) so the list sorts alphabetically.
+- One lens at a time; the taxonomy has two dropdowns (global standard setters; jurisdictions), the networks map one
+  (architecture); `lens_groups` in `site.yaml` defines them. Jurisdiction `menu` labels start with the two-letter
+  country code (UK, not GB) so the list sorts alphabetically.
 - Each lens file has `status` per circle (`in` | `part` | `out`), optional `groups` (one dotted perimeter per group),
   `notes`, `sources` and `last_reviewed`. Add a source URL and date for every regulatory claim you change.
   Notes are keyed by circle id or by token ticker (e.g. `USDC:`), which overrides the circle's note for that badge.

@@ -1,11 +1,30 @@
-# Page text (title, intro, footnote). Design tokens are in src/template.html.
+# Page text (title, intro, footnote) and page settings. Design tokens are in src/template.html.
 
 title: Digital Asset Taxonomy
+slug: digital-asset-taxonomy   # output file name in dist/
 eyebrow: Ethereum Institutional · Research
+# nav: links between the pages of this site; the item without an href is this page
+nav:
+- label: Digital Asset Taxonomy
+- label: Digital Asset Networks
+  href: networks/
 heading:
   text: Digital Asset Taxonomy
   italic: Taxonomy
 intro: How digital money, tokenized real-world assets and other crypto-assets relate. Hover over any circle or token to preview its definition, and click to pin it while you scroll. Then choose a regulatory lens below the map to see where each regime’s definition reaches.
+svg_label: Venn diagram of digital asset types
+panel_default:
+  title: Digital Assets
+  text: Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.
+# badge: disc (ticker chips) or pill (named badges)
+badge: disc
+# lens_groups: one dropdown per group; each lens file's `group` must be one of these ids
+lens_groups:
+- id: standard-setter
+  label: Global standard setters
+- id: jurisdiction
+  label: Jurisdictions
+lens_title: Regulatory lenses
 lens_help: Pick one lens from either list. Its perimeter is drawn as a dotted line around the circles it covers; circles inside the definition get a thick outline.
 # Optional banner shown above the heading. Remove `notice` to hide it.
 notice:

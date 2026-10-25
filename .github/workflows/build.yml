@@ -32,6 +32,9 @@ jobs:
             dist/digital-asset-taxonomy.html
             dist/digital-asset-taxonomy.fragment.html
             dist/preview.png
+            dist/digital-asset-networks.html
+            dist/digital-asset-networks.fragment.html
+            dist/networks/preview.png
       - name: Comment on the pull request
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7

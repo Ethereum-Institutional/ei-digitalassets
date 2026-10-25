@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Builds dist/ from data/*.yaml + src/template.html. No external services; deterministic output.
+// Each entry in PAGES is one page: a data directory with the same file layout, rendered through the one template.
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
@@ -7,45 +8,26 @@ import { execSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const read = p => fs.readFileSync(path.join(root, p), 'utf8');
-const yml = p => parse(read(p));
+const PAGES = [
+  { dir: 'data', out: '' },                 // Digital Asset Taxonomy (site root)
+  { dir: 'data/networks', out: 'networks' }, // Digital Asset Networks
+];
 
-const circles = yml('data/circles.yaml');
-const layout  = yml('data/layout.yaml');
-const tokens  = yml('data/tokens.yaml');
-const site    = yml('data/site.yaml');
-const lensDir = path.join(root, 'data/lenses');
-const lenses  = fs.readdirSync(lensDir).filter(f => f.endsWith('.yaml')).sort()
-  .map(f => parse(fs.readFileSync(path.join(lensDir, f), 'utf8')));
+// ---------- load ----------
+function load(dir) {
+  const yml = p => parse(read(path.join(dir, p)));
+  const circles = yml('circles.yaml'), layout = yml('layout.yaml'), site = yml('site.yaml');
+  // badges: tokens.yaml (ticker chips) or networks.yaml (named pills); either way each badge has a `ticker` key
+  const badgeFile = ['tokens.yaml', 'networks.yaml'].find(f => fs.existsSync(path.join(root, dir, f)));
+  const raw = badgeFile ? yml(badgeFile) : {};
+  const tokens = { tokens: (raw.tokens || raw.networks || []).map(t => Object.assign({ ticker: t.ticker || t.id }, t)) };
+  const lensDir = path.join(root, dir, 'lenses');
+  const lenses = fs.existsSync(lensDir) ? fs.readdirSync(lensDir).filter(f => f.endsWith('.yaml')).sort()
+    .map(f => parse(fs.readFileSync(path.join(lensDir, f), 'utf8'))) : [];
+  return { dir, circles, layout, tokens, site, lenses };
+}
 
 // ---------- validation ----------
-const errors = [];
-const ids = new Set(circles.circles.map(c => c.id));
-for (const c of circles.circles) {
-  if (!layout.circles[c.id]) errors.push(`layout.yaml: no geometry for circle "${c.id}"`);
-  if (!c.desc) errors.push(`circles.yaml: "${c.id}" has no definition (desc)`);
-  if (c.family && !circles.palette[c.family]) errors.push(`circles.yaml: "${c.id}" uses unknown palette family "${c.family}"`);
-  if (c.clip && !ids.has(c.clip)) errors.push(`circles.yaml: "${c.id}" clips to unknown circle "${c.clip}"`);
-}
-for (const id of Object.keys(layout.circles)) if (!ids.has(id)) errors.push(`layout.yaml: geometry for unknown circle "${id}"`);
-for (const id of circles.containers) if (!ids.has(id)) errors.push(`circles.yaml: containers lists unknown circle "${id}"`);
-for (const [p, ks] of Object.entries(circles.children)) {
-  if (!ids.has(p)) errors.push(`circles.yaml: children of unknown circle "${p}"`);
-  for (const k of ks) if (!ids.has(k)) errors.push(`circles.yaml: "${p}" lists unknown child "${k}"`);
-}
-for (const t of tokens.tokens) if (!ids.has(t.circle)) errors.push(`tokens.yaml: "${t.ticker}" placed in unknown circle "${t.circle}"`);
-const seen = new Set();
-for (const L of lenses) {
-  const where = `lenses/${L.id}.yaml`;
-  if (seen.has(L.id)) errors.push(`${where}: duplicate lens id`); seen.add(L.id);
-  for (const k of ['id','group','menu','name','short','color','intro']) if (!L[k]) errors.push(`${where}: missing "${k}"`);
-  if (!['standard-setter','jurisdiction'].includes(L.group)) errors.push(`${where}: group must be standard-setter or jurisdiction`);
-  for (const [id, st] of Object.entries(L.status || {})) {
-    if (!ids.has(id)) errors.push(`${where}: status for unknown circle "${id}"`);
-    if (!['in','part','out'].includes(st)) errors.push(`${where}: status "${st}" for "${id}" must be in | part | out`);
-  }
-  for (const id of Object.keys(L.notes || {})) if (!ids.has(id) && !tokens.tokens.some(t => t.ticker === id)) errors.push(`${where}: note for unknown circle or token "${id}"`);
-  for (const G of L.groups || []) for (const id of G.circles || []) if (!ids.has(id)) errors.push(`${where}: group "${G.id}" lists unknown circle "${id}"`);
-}
 // lens colours: red, amber and green are reserved for meaning (negative, caution, positive) and must use the exact
 // tokens below; every other colour must be a neutral hue. Colours within one lens must stay distinguishable.
 const SEMANTIC = { '#c81e1e': 'red', '#d97706': 'amber', '#15803d': 'green' };
@@ -73,71 +55,160 @@ const deltaE = (h1, h2) => { // CIEDE2000
   const RT = -2 * Math.sqrt(Cp ** 7 / (Cp ** 7 + 25 ** 7)) * Math.sin(60 * Math.exp(-(((hb - 275) / 25) ** 2)) * rad);
   return Math.sqrt(((L2 - L1) / SL) ** 2 + ((C2 - C1) / SC) ** 2 + (dH / SH) ** 2 + RT * ((C2 - C1) / SC) * (dH / SH));
 };
-for (const L of lenses) {
-  const cols = [['lens colour', L.color], ...(L.groups || []).map(G => [`group "${G.id}"`, G.color])].filter(([, c]) => /^#[0-9a-f]{6}$/i.test(c || ''));
-  for (const [what, c] of cols) if (isSignal(c) && !SEMANTIC[c.toLowerCase()])
-    errors.push(`lenses/${L.id}.yaml: ${what} ${c} reads as red, amber or green; use a neutral hue, or ${Object.entries(SEMANTIC).map(([k, v]) => `${v} ${k}`).join(', ')} only for that meaning`);
-  for (let i = 0; i < cols.length; i++) for (let j = i + 1; j < cols.length; j++) {
-    const d = deltaE(cols[i][1], cols[j][1]);
-    if (d < MIN_DE) errors.push(`lenses/${L.id}.yaml: ${cols[i][0]} ${cols[i][1]} and ${cols[j][0]} ${cols[j][1]} are too similar (ΔE ${d.toFixed(1)} < ${MIN_DE})`);
+
+function validate({ dir, circles, layout, tokens, site, lenses }) {
+  const errors = [];
+  const where = f => `${dir}/${f}`;
+  const ids = new Set(circles.circles.map(c => c.id));
+  for (const c of circles.circles) {
+    if (!layout.circles[c.id]) errors.push(`${where('layout.yaml')}: no geometry for circle "${c.id}"`);
+    if (!c.desc) errors.push(`${where('circles.yaml')}: "${c.id}" has no definition (desc)`);
+    if (c.family && !circles.palette[c.family]) errors.push(`${where('circles.yaml')}: "${c.id}" uses unknown palette family "${c.family}"`);
+    if (c.clip && !ids.has(c.clip)) errors.push(`${where('circles.yaml')}: "${c.id}" clips to unknown circle "${c.clip}"`);
   }
-}
-// lens-only circles: a lens may mention (status, notes or groups) at most one of those that share a position
-const lensOnly = circles.circles.filter(c => c.lens_only).map(c => c.id);
-const mentions = L => new Set([...Object.keys(L.status || {}), ...Object.keys(L.notes || {}), ...(L.groups || []).flatMap(G => G.circles || [])]);
-const lensById = Object.fromEntries(lenses.map(L => [L.id, L]));
-for (const L of lenses) {
-  const shown = lensOnly.filter(id => mentions(L).has(id));
-  for (const a of shown) for (const b of shown) {
-    const ga = layout.circles[a], gb = layout.circles[b];
-    if (a < b && ga && gb && ga.cx === gb.cx && ga.cy === gb.cy) errors.push(`lenses/${L.id}.yaml: mentions both "${a}" and "${b}", which share a position; pick one`);
+  for (const id of Object.keys(layout.circles)) if (!ids.has(id)) errors.push(`${where('layout.yaml')}: geometry for unknown circle "${id}"`);
+  for (const c of circles.circles) if (c.zoom && !(Array.isArray(c.zoom) && c.zoom.length === 2 && c.zoom.every(v => typeof v === 'number'))) errors.push(`${where('circles.yaml')}: "${c.id}" zoom must be [x0, x1]`);
+  for (const c of circles.circles) if (c.expand) {
+    if (!['collapsed', 'expanded'].includes(c.expand)) errors.push(`${where('circles.yaml')}: "${c.id}" expand must be collapsed or expanded`);
+    const g = layout.circles[c.id]?.collapsed;
+    if (!g || ['cx', 'cy', 'rx', 'ry', 'lx', 'ly'].some(k => typeof g[k] !== 'number')) errors.push(`${where('layout.yaml')}: expandable circle "${c.id}" needs collapsed: {cx, cy, rx, ry, lx, ly}`);
   }
+  for (const id of circles.containers || []) if (!ids.has(id)) errors.push(`${where('circles.yaml')}: containers lists unknown circle "${id}"`);
+  for (const [p, ks] of Object.entries(circles.children || {})) {
+    if (!ids.has(p)) errors.push(`${where('circles.yaml')}: children of unknown circle "${p}"`);
+    for (const k of ks) if (!ids.has(k)) errors.push(`${where('circles.yaml')}: "${p}" lists unknown child "${k}"`);
+  }
+  for (const a of layout.annotations || []) {
+    if (!['caption', 'connector'].includes(a.kind)) errors.push(`${where('layout.yaml')}: annotation kind "${a.kind}" must be caption or connector`);
+    if (a.circle && !ids.has(a.circle)) errors.push(`${where('layout.yaml')}: annotation for unknown circle "${a.circle}"`);
+  }
+  const tickers = new Set(tokens.tokens.map(t => t.ticker));
+  if (tickers.size !== tokens.tokens.length) errors.push(`${where('badges')}: duplicate badge ids: ${tokens.tokens.map(t => t.ticker).filter((t, i, a) => a.indexOf(t) !== i).join(', ')}`);
+  for (const t of tokens.tokens) {
+    if (!ids.has(t.circle)) errors.push(`${where('badges')}: "${t.ticker}" placed in unknown circle "${t.circle}"`);
+    if (!t.name || !t.desc) errors.push(`${where('badges')}: "${t.ticker}" needs a name and a desc`);
+  }
+  const groupIds = (site.lens_groups || []).map(g => g.id);
+  if (lenses.length && !groupIds.length) errors.push(`${where('site.yaml')}: lens_groups must list the dropdowns (id, label)`);
+  const seen = new Set();
+  for (const L of lenses) {
+    const lw = where(`lenses/${L.id}.yaml`);
+    if (seen.has(L.id)) errors.push(`${lw}: duplicate lens id`); seen.add(L.id);
+    for (const k of ['id','group','menu','name','short','color','intro']) if (!L[k]) errors.push(`${lw}: missing "${k}"`);
+    if (!groupIds.includes(L.group)) errors.push(`${lw}: group must be one of ${groupIds.join(', ')}`);
+    if (L.scope && L.scope !== 'networks') errors.push(`${lw}: scope must be omitted or "networks"`);
+    for (const [id, st] of Object.entries(L.status || {})) {
+      if (!ids.has(id)) errors.push(`${lw}: status for unknown circle "${id}"`);
+      if (!['in','part','out'].includes(st)) errors.push(`${lw}: status "${st}" for "${id}" must be in | part | out`);
+    }
+    for (const id of Object.keys(L.notes || {})) if (!ids.has(id) && !tickers.has(id)) errors.push(`${lw}: note for unknown circle or badge "${id}"`);
+    for (const G of L.groups || []) {
+      for (const id of G.circles || []) if (!ids.has(id)) errors.push(`${lw}: group "${G.id}" lists unknown circle "${id}"`);
+      for (const tk of G.tokens || []) if (!tickers.has(tk)) errors.push(`${lw}: group "${G.id}" lists unknown badge "${tk}"`);
+    }
+    // networks-scope lenses highlight badges rather than circles: `networks` lists the badges to keep, each a known id
+    const netCircles = new Set(circles.circles.filter(c => c.pill).map(c => c.id));
+    for (const [tk, st] of Object.entries(L.networks || {})) {
+      if (!tickers.has(tk) && !netCircles.has(tk)) errors.push(`${lw}: networks lists unknown badge or network circle "${tk}"`);
+      if (!['in','part'].includes(st)) errors.push(`${lw}: networks status "${st}" for "${tk}" must be in | part`);
+    }
+    if (L.scope === 'networks' && !L.networks) errors.push(`${lw}: a networks-scope lens needs a "networks" map`);
+    const cols = [['lens colour', L.color], ...(L.groups || []).map(G => [`group "${G.id}"`, G.color])].filter(([, c]) => /^#[0-9a-f]{6}$/i.test(c || ''));
+    for (const [what, c] of cols) if (isSignal(c) && !SEMANTIC[c.toLowerCase()])
+      errors.push(`${lw}: ${what} ${c} reads as red, amber or green; use a neutral hue, or ${Object.entries(SEMANTIC).map(([k, v]) => `${v} ${k}`).join(', ')} only for that meaning`);
+    for (let i = 0; i < cols.length; i++) for (let j = i + 1; j < cols.length; j++) {
+      const d = deltaE(cols[i][1], cols[j][1]);
+      if (d < MIN_DE) errors.push(`${lw}: ${cols[i][0]} ${cols[i][1]} and ${cols[j][0]} ${cols[j][1]} are too similar (ΔE ${d.toFixed(1)} < ${MIN_DE})`);
+    }
+  }
+  // lens-only circles: a lens may mention (status, notes or groups) at most one of those that share a position
+  const lensOnly = circles.circles.filter(c => c.lens_only).map(c => c.id);
+  const mentions = L => new Set([...Object.keys(L.status || {}), ...Object.keys(L.notes || {}), ...(L.groups || []).flatMap(G => G.circles || [])]);
+  const lensById = Object.fromEntries(lenses.map(L => [L.id, L]));
+  for (const L of lenses) {
+    const shown = lensOnly.filter(id => mentions(L).has(id));
+    for (const a of shown) for (const b of shown) {
+      const ga = layout.circles[a], gb = layout.circles[b];
+      if (a < b && ga && gb && ga.cx === gb.cx && ga.cy === gb.cy) errors.push(`${where(`lenses/${L.id}.yaml`)}: mentions both "${a}" and "${b}", which share a position; pick one`);
+    }
+  }
+  // tokens licensed under a lens join the lens-only circle it shows
+  for (const t of tokens.tokens) for (const lid of t.licensed_under || []) {
+    if (!lensById[lid]) errors.push(`${where('badges')}: "${t.ticker}" is licensed under unknown lens "${lid}"`);
+    else if (!lensOnly.some(id => mentions(lensById[lid]).has(id))) errors.push(`${where('badges')}: "${t.ticker}" is licensed under "${lid}", but that lens shows no licensed or recognised circle (${lensOnly.join(', ')})`);
+  }
+  // bridges: waypoints that join a lens group's perimeter into one continuous outline, keyed "<lens>.<group>"
+  for (const [key, paths] of Object.entries(layout.bridges || {})) {
+    const [lid, gid] = key.split('.');
+    if (!(lensById[lid]?.groups || []).some(G => G.id === gid)) errors.push(`${where('layout.yaml')}: bridge "${key}" names an unknown lens group`);
+    for (const pts of Array.isArray(paths) ? paths : [null])
+      if (!Array.isArray(pts) || pts.length < 2 || pts.some(p => !Array.isArray(p) || p.length !== 2)) errors.push(`${where('layout.yaml')}: each corridor in bridge "${key}" needs two or more [x, y] points`);
+  }
+  for (const k of ['title', 'eyebrow', 'intro', 'lens_help', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
+  if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
+  if (site.badge && !['disc', 'pill'].includes(site.badge)) errors.push(`${where('site.yaml')}: badge must be disc or pill`);
+  if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
+  for (const n of site.nav || []) if (!n.label) errors.push(`${where('site.yaml')}: every nav item needs a label`);
+  for (const l of site.legend || []) if (!['pill', 'mark', 'rings', 'expand'].includes(l.kind) || !l.text) errors.push(`${where('site.yaml')}: legend items need kind (pill | mark | rings | expand) and text`);
+  for (const t of tokens.tokens) if (t.mark && !/^[A-Z]{2,4}$/.test(t.mark)) errors.push(`${where('badges')}: "${t.ticker}" mark must be 2 to 4 capital letters`);
+  for (const t of tokens.tokens) if (t.kind && !['network', 'participant'].includes(t.kind)) errors.push(`${where('badges')}: "${t.ticker}" kind must be network or participant`);
+  for (const x of [...circles.circles, ...tokens.tokens]) for (const s of x.sources || [])
+    if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id || x.ticker}" needs a title and a URL`);
+  return errors;
 }
-// tokens licensed under a lens join the lens-only circle it shows; lens groups may also list token badges
-const tickers = new Set(tokens.tokens.map(t => t.ticker));
-for (const t of tokens.tokens) for (const lid of t.licensed_under || []) {
-  if (!lensById[lid]) errors.push(`tokens.yaml: "${t.ticker}" is licensed under unknown lens "${lid}"`);
-  else if (!lensOnly.some(id => mentions(lensById[lid]).has(id))) errors.push(`tokens.yaml: "${t.ticker}" is licensed under "${lid}", but that lens shows no licensed or recognised circle (${lensOnly.join(', ')})`);
-}
-for (const L of lenses) for (const G of L.groups || []) for (const tk of G.tokens || [])
-  if (!tickers.has(tk)) errors.push(`lenses/${L.id}.yaml: group "${G.id}" lists unknown token "${tk}"`);
-// bridges: waypoints that join a lens group's perimeter into one continuous outline, keyed "<lens>.<group>"
-for (const [key, paths] of Object.entries(layout.bridges || {})) {
-  const [lid, gid] = key.split('.');
-  if (!(lensById[lid]?.groups || []).some(G => G.id === gid)) errors.push(`layout.yaml: bridge "${key}" names an unknown lens group`);
-  for (const pts of Array.isArray(paths) ? paths : [null])
-    if (!Array.isArray(pts) || pts.length < 2 || pts.some(p => !Array.isArray(p) || p.length !== 2)) errors.push(`layout.yaml: each corridor in bridge "${key}" needs two or more [x, y] points`);
-}
-if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push('site.yaml: contribute.repo must be a https://github.com/<owner>/<repo> URL');
-if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
 
 // ---------- version ----------
 let version = process.env.TAXONOMY_VERSION || '';
 if (!version) { try { version = execSync('git describe --tags --always --dirty', { cwd: root, stdio: ['ignore','pipe','ignore'] }).toString().trim(); } catch { version = 'dev'; } }
 const stamp = new Date().toISOString().slice(0, 10);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 // ---------- assemble ----------
-const data = {
-  palette: circles.palette, containers: circles.containers, children: circles.children, inherit_status: circles.inherit_status,
-  circles: circles.circles.map(c => Object.assign({}, c, layout.circles[c.id])),
-  tokens: tokens.tokens, lenses, version, bridges: layout.bridges || {},
-};
-const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-const heading = esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`);
-let page = read('src/template.html')
-  .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
-  .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', heading)
-  .replace('__INTRO__', esc(site.intro)).replace('__LENS_HELP__', esc(site.lens_help)).replace('__FOOTNOTE__', esc(site.footnote))
-  .replace('__NOTICE__', site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '')
-  .replace('__CONTRIBUTE__', site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
-    + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '')
-  .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+function render({ circles, layout, tokens, site, lenses }) {
+  const data = {
+    palette: circles.palette, containers: circles.containers || [], children: circles.children || {}, inherit_status: circles.inherit_status || {},
+    circles: circles.circles.map(c => Object.assign({}, c, layout.circles[c.id])),
+    tokens: tokens.tokens, lenses, version, bridges: layout.bridges || {}, annotations: layout.annotations || [],
+    lens_groups: site.lens_groups || [], badge: site.badge || 'disc',
+    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
+  };
+  const heading = site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text);
+  const nav = (site.nav || []).length ? `<nav class="ei-nav" aria-label="Pages">${site.nav.map(n => n.href ? `<a href="${esc(n.href)}">${esc(n.label)}</a>` : `<span class="cur" aria-current="page">${esc(n.label)}</span>`).join('')}</nav>` : '';
+  const swatch = l => l.kind === 'pill'
+    ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`
+    : l.kind === 'expand'
+    ? `<svg width="40" height="18" aria-hidden="true"><ellipse cx="17" cy="9" rx="15" ry="7" fill="#e3e7ea" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><text x="36" y="13" text-anchor="middle" font-size="12" font-weight="600" fill="#615f5a">+</text></svg>`
+    : l.kind === 'mark'
+    ? `<svg width="40" height="18" aria-hidden="true"><rect x="1" y="4" width="28" height="12" rx="6" fill="#6b6760"/><circle cx="30" cy="8" r="7.5" fill="${esc(l.color || '#14130f')}" stroke="#f8f6f2" stroke-width="1.5"/><text x="30" y="10" text-anchor="middle" font-size="5" font-weight="700" fill="#f2efe9">ETH</text></svg>`
+    : `<svg width="22" height="18" aria-hidden="true"><ellipse cx="11" cy="9" rx="10" ry="8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><ellipse cx="11" cy="9" rx="6" ry="4.8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><circle cx="11" cy="9" r="2" fill="${esc(l.color || '#14130f')}"/></svg>`;
+  const legend = (site.legend || []).length ? `<div class="ei-legend">${site.legend.map(l => `<span>${swatch(l)} ${esc(l.text)}</span>`).join('')}</div>` : '';
+  return read('src/template.html')
+    .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
+    .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', heading)
+    .replace('__INTRO__', esc(site.intro) + (site.intro_more ? ` <button type="button" class="ei-more" aria-expanded="false" aria-controls="ei-intro-more" data-more="${esc(site.intro_more_label || 'More')}" data-less="${esc(site.intro_less_label || 'Less')}">${esc(site.intro_more_label || 'More')}</button>` : ''))
+    .replace('__INTRO_MORE__', site.intro_more ? `<p class="sub more" id="ei-intro-more" hidden>${esc(site.intro_more)}</p>` : '')
+    .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))
+    .replace('__FOOTNOTE__', esc(site.footnote)).replace('__SVG_LABEL__', esc(site.svg_label || `Venn diagram: ${site.title}`))
+    .replace('__PANEL_TITLE__', esc(data.panel.title)).replace('__PANEL_TEXT__', esc(data.panel.text))
+    .replace('__NAV__', nav).replace('__LEGEND__', legend)
+    .replace('__NOTICE__', site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '')
+    .replace('__CONTRIBUTE__', site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
+      + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '')
+    .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
 
-fs.mkdirSync(path.join(root, 'dist'), { recursive: true });
-fs.writeFileSync(path.join(root, 'dist/digital-asset-taxonomy.html'), page);
-// Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
-const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);
-const body = page.slice(page.indexOf('<body>') + 6, page.lastIndexOf('</body>'));
-fs.writeFileSync(path.join(root, 'dist/digital-asset-taxonomy.fragment.html'), head + '\n' + body);
-fs.writeFileSync(path.join(root, 'dist/index.html'), page);
-console.log(`Built dist/ (${circles.circles.length} circles, ${lenses.length} lenses, ${tokens.tokens.length} tokens), version ${version}`);
+const pages = PAGES.filter(p => fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, load(p.dir)));
+const errors = pages.flatMap(validate);
+if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
+
+for (const p of pages) {
+  const page = render(p), slug = p.site.slug || 'digital-asset-taxonomy', outDir = path.join(root, 'dist', p.out);
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
+  // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
+  const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);
+  const body = page.slice(page.indexOf('<body>') + 6, page.lastIndexOf('</body>'));
+  fs.writeFileSync(path.join(root, 'dist', `${slug}.fragment.html`), head + '\n' + body);
+  fs.writeFileSync(path.join(outDir, 'index.html'), page);
+  console.log(`Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
+}
