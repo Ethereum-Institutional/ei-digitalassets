@@ -38,8 +38,8 @@ function load(dir) {
 }
 
 // ---------- validation ----------
-// lens colours: red, amber and green are reserved for meaning (negative, caution, positive) and must use the exact
-// tokens below; every other colour must be a neutral hue. Colours within one lens must stay distinguishable.
+// lens colors: red, amber and green are reserved for meaning (negative, caution, positive) and must use the exact
+// tokens below; every other color must be a neutral hue. Colors within one lens must stay distinguishable.
 const SEMANTIC = { '#c81e1e': 'red', '#d97706': 'amber', '#15803d': 'green' };
 const MIN_DE = 20;
 const hsl = h => { const [r, g, b] = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255), mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
@@ -172,7 +172,7 @@ function validate(page) {
       if (!['in','part'].includes(st)) errors.push(`${lw}: networks status "${st}" for "${tk}" must be in | part`);
     }
     if (L.scope === 'networks' && !L.networks) errors.push(`${lw}: a networks-scope lens needs a "networks" map`);
-    const cols = [['lens colour', L.color], ...(L.groups || []).map(G => [`group "${G.id}"`, G.color])].filter(([, c]) => /^#[0-9a-f]{6}$/i.test(c || ''));
+    const cols = [['lens color', L.color], ...(L.groups || []).map(G => [`group "${G.id}"`, G.color])].filter(([, c]) => /^#[0-9a-f]{6}$/i.test(c || ''));
     for (const [what, c] of cols) if (isSignal(c) && !SEMANTIC[c.toLowerCase()])
       errors.push(`${lw}: ${what} ${c} reads as red, amber or green; use a neutral hue, or ${Object.entries(SEMANTIC).map(([k, v]) => `${v} ${k}`).join(', ')} only for that meaning`);
     for (let i = 0; i < cols.length; i++) for (let j = i + 1; j < cols.length; j++) {
@@ -194,7 +194,7 @@ function validate(page) {
   // tokens licensed under a lens join the lens-only circle it shows
   for (const t of tokens.tokens) for (const lid of t.licensed_under || []) {
     if (!lensById[lid]) errors.push(`${where('badges')}: "${t.ticker}" is licensed under unknown lens "${lid}"`);
-    else if (!lensOnly.some(id => mentions(lensById[lid]).has(id))) errors.push(`${where('badges')}: "${t.ticker}" is licensed under "${lid}", but that lens shows no licensed or recognised circle (${lensOnly.join(', ')})`);
+    else if (!lensOnly.some(id => mentions(lensById[lid]).has(id))) errors.push(`${where('badges')}: "${t.ticker}" is licensed under "${lid}", but that lens shows no licensed or recognized circle (${lensOnly.join(', ')})`);
   }
   // bridges: waypoints that join a lens group's perimeter into one continuous outline, keyed "<lens>.<group>"
   for (const [key, paths] of Object.entries(layout.bridges || {})) {

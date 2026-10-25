@@ -10,7 +10,7 @@ menu: 'Basel Committee (BCBS): cryptoasset groups (under review)'
 name: Basel Committee cryptoasset groups (standard under review)
 short: Basel
 color: '#14130f'
-intro: 'The BCBS prudential standard for banks’ cryptoasset exposures (SCO60; finalised 2022, amended 2024, implementation date 1 January 2026) covers private digital assets that depend on cryptography and DLT, including tokenized traditional assets, and excludes CBDCs. It sorts them into groups that drive capital: Group 1a tokenized traditional assets and Group 1b stablecoins (treated broadly like the underlying), Group 2a hedgeable cryptoassets, and Group 2b everything else (1,250% risk weight). Assets on permissionless blockchains currently cannot qualify for Group 1. The Committee has been reviewing parts of the standard; check current status.'
+intro: 'The BCBS prudential standard for banks’ cryptoasset exposures (SCO60; finalized 2022, amended 2024, implementation date 1 January 2026) covers private digital assets that depend on cryptography and DLT, including tokenized traditional assets, and excludes CBDCs. It sorts them into groups that drive capital: Group 1a tokenized traditional assets and Group 1b stablecoins (treated broadly like the underlying), Group 2a hedgeable cryptoassets, and Group 2b everything else (1,250% risk weight). Assets on permissionless blockchains currently cannot qualify for Group 1. The Committee has been reviewing parts of the standard; check current status.'
 groups:
 - id: 1a
   label: Group 1a
@@ -79,8 +79,8 @@ notes:
   dt: Group 1a only if the conditions are met; on a permissionless blockchain it currently falls to Group 2b.
   sc: Group 1b or Group 2 depending on issuer supervision, the redemption-risk test and the blockchain used.
   lsc: Candidate for Group 1b; tokens on permissionless blockchains currently fall to Group 2.
-  unreg: 'Group 2b: no effective stabilisation or supervised issuer.'
-  alg: 'Group 2b: algorithm-based stabilisation cannot qualify for Group 1b.'
+  unreg: 'Group 2b: no effective stabilization or supervised issuer.'
+  alg: 'Group 2b: algorithm-based stabilization cannot qualify for Group 1b.'
   rwa: Group 1a if the classification conditions are met (incl. permissioned ledger); otherwise Group 2.
   dv: 'Depends on the underlying: tokenized derivatives on traditional assets can be Group 1a; derivatives on Group 2 cryptoassets (e.g. BTC perps) are Group 2.'
   oth: Group 2b.

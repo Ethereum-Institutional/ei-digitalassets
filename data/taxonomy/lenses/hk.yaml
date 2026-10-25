@@ -10,7 +10,7 @@ menu: 'HK · Hong Kong (SFC): virtual assets & tokenized securities'
 name: 'Hong Kong SFC: virtual assets & tokenized securities'
 short: Hong Kong SFC
 color: '#14130f'
-intro: The Securities and Futures Commission licenses virtual-asset trading platforms under the AMLO and is building out VA dealing, custody, advisory and management regimes (legislation planned for 2026). The AMLO virtual-asset definition excludes securities and futures, digital representations of fiat and stored value. Tokenized securities and tokenized SFC-authorised products (such as tokenized money-market funds) stay securities under the SFO, using a “see-through” approach. Since May 2026, HKMA-licensed “Relevant Stablecoins” can be listed on SFC-licensed platforms with lighter requirements.
+intro: The Securities and Futures Commission licenses virtual-asset trading platforms under the AMLO and is building out VA dealing, custody, advisory and management regimes (legislation planned for 2026). The AMLO virtual-asset definition excludes securities and futures, digital representations of fiat and stored value. Tokenized securities and tokenized SFC-authorized products (such as tokenized money-market funds) stay securities under the SFO, using a “see-through” approach. Since May 2026, HKMA-licensed “Relevant Stablecoins” can be listed on SFC-licensed platforms with lighter requirements.
 groups:
 - id: va
   label: Virtual assets
@@ -62,9 +62,9 @@ notes:
   sc: Unlicensed stablecoins such as USDT and USDC remain virtual assets but may be offered only to professional investors.
   unreg: Professional investors only; cannot be offered to retail.
   alg: A virtual asset if traded, but never a licensable stablecoin.
-  fund: Tokenized SFC-authorised funds, including tokenized money-market funds, are permitted with extra safeguards.
+  fund: Tokenized SFC-authorized funds, including tokenized money-market funds, are permitted with extra safeguards.
   sec: Tokenized securities remain securities under the SFO; the SFC looks through to the underlying.
-  pm: Tokenized gold products can be SFC-authorised investment products; gold tokens traded as crypto are virtual assets.
+  pm: Tokenized gold products can be SFC-authorized investment products; gold tokens traded as crypto are virtual assets.
   td: 'A bank deposit: HKMA territory, not the SFC’s.'
   dt: 'A bank deposit: HKMA territory, not the SFC’s.'
   cbdc: 'Central bank money: HKMA territory.'

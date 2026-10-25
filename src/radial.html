@@ -10,7 +10,8 @@
 __STYLE__
 <style>
   /* radial pages (kind: radial): concentric rings cut into theme wedges around a hub. Shares the map styles above. */
-  .ei-wrap.radial svg{max-width:1040px;min-width:600px;margin:0 auto}
+  /* the map is square: cap it by the viewport height so it sits above the fold on a laptop screen */
+  .ei-wrap.radial svg{max-width:min(880px, calc(100vh - 300px));min-width:520px;margin:0 auto}
   .ei-wrap svg .cell{cursor:pointer;transition:opacity .2s}
   .ei-wrap svg .cell:hover path{stroke:#14130f;stroke-width:3}
   .ei-wrap svg .cell.pinned path{stroke:#14130f;stroke-width:4.5}
@@ -66,15 +67,14 @@ __STYLE__
   const gShapes=el('g',{}), gLines=el('g',{'pointer-events':'none'}), gText=el('g',{'pointer-events':'none'});
   svg.append(gShapes,gLines,gText);
 
-  // Text: horizontal, centred on the wedge's mid-angle at the ring's mid-radius; wrapped to the arc available there.
+  // Text: horizontal, centered on the wedge's mid-angle at the ring's mid-radius; wrapped to the arc available there.
   const wrap=(s,max)=>{ const out=[]; let line=''; for(const w of s.split(' ')){ if(line&&(line+' '+w).length>max){ out.push(line); line=w; } else line=line?line+' '+w:w; } if(line) out.push(line); return out; };
   // wrap to the width available at that point: the wedge's arc there, the horizontal chord of the ring band through
   // the point (so text on the left or right of the map stays inside its ring), and the distance to the canvas edge
   const hAvail=(rm,m,r0,r1)=>{ const dy=rm*Math.sin(m), px=rm*Math.cos(m), xo=Math.sqrt(Math.max(0,r1*r1-dy*dy)), xi=Math.abs(dy)<r0?Math.sqrt(r0*r0-dy*dy):0;
     const lo=px>=0?(px>xi?xi:-xo):-xo, hi=px>=0?xo:(px<-xi?-xi:xo); return 2*Math.min(px-lo,hi-px)-14; };
-  const fitLines=(name,lines,r,fs,x,band)=>{ if(lines) return lines;
-    const limits=[r*step*0.86, x==null?Infinity:2*Math.min(x,L.canvas.width-x)-24, band?hAvail(r,band.m,band.r0,band.r1):Infinity];
-    return wrap(name,Math.max(8,Math.floor(Math.min(...limits)/(fs*0.56)))); };
+  const fitW=(r,x,band)=>Math.min(r*step*0.86, x==null?Infinity:2*Math.min(x,L.canvas.width-x)-24, band?hAvail(r,band.m,band.r0,band.r1):Infinity);
+  const fitLines=(name,lines,r,fs,x,band)=>lines||wrap(name,Math.max(8,Math.floor(fitW(r,x,band)/(fs*0.56))));
   const putText=(g,lines,x,y,fs,opts)=>{ const lh=fs*1.2, o=opts||{}; return lines.map((t,i)=>{ const e=el('text',{x:f(x),y:f(y+(i-(lines.length-1)/2)*lh+fs*0.35),'text-anchor':'middle','font-size':fs,'font-weight':o.fw||400,fill:o.fill||INK,class:o.cls||''},t); g.appendChild(e); return e; }); };
   const srcHtml=src=>(src||[]).length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
 
@@ -123,9 +123,13 @@ __STYLE__
       const C=T.cells[R.id], r0=ri?rings[ri-1].r:L.hub, r1=R.r, rm=(r0+r1)/2;
       const g=el('g',{class:'cell node',tabindex:0,'aria-label':`${T.label}, ${R.label}: ${C.name}${C.sub?' ('+C.sub+')':''}`});
       g.appendChild(el('path',{d:sector(r0,r1,s,e),fill:R.fill,stroke:PAPER,'stroke-width':2}));
-      // name in medium weight (bold when the cell has a `sub`), optional `sub` smaller beneath; the block is centred on the cell
-      const [x,y]=pol(rm,m), fs=L.cell_fs||16, band={m,r0,r1}, tg=el('g',{});
-      const lines=fitLines(C.name,C.lines,rm,fs,x,band), sfs=fs*0.82, subs=C.sub?fitLines(C.sub,C.sub_lines,rm,sfs,x,band):[];
+      // name in medium weight (bold when the cell has a `sub`), optional `sub` smaller beneath; the block is centered on the cell
+      const [x,y]=pol(rm,m), band={m,r0,r1}, tg=el('g',{}), aw=fitW(rm,x,band);
+      let fs=L.cell_fs||16, sfs=fs*0.82;
+      const lines=fitLines(C.name,C.lines,rm,fs,x,band), subs=C.sub?fitLines(C.sub,C.sub_lines,rm,sfs,x,band):[];
+      // a single word that cannot wrap (e.g. "Decentralized" on the left of the map) shrinks until it fits its cell
+      const longest=Math.max(...lines.map(l=>l.length*fs*0.56), ...subs.map(l=>l.length*sfs*0.56));
+      if(longest>aw){ const k=aw/longest; fs*=k; sfs*=k; }
       const h1=lines.length*fs*1.2, h2=subs.length*sfs*1.2, top=y-(h1+h2)/2;
       putText(tg,lines,x,top+h1/2,fs,{fw:C.sub?700:500});
       if(subs.length) putText(tg,subs,x,top+h1+h2/2,sfs,{fill:'#3b3934'});

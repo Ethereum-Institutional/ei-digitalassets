@@ -144,7 +144,7 @@ circles:
   - Digital Money
   family: dm
   path: Digital Assets
-  desc: 'Money represented on distributed ledger technology (DLT): sovereign currency in tokenized form (CBDCs, tokenized deposits, stablecoins and other fiat-referenced tokens) and native cryptocurrencies used as money, each serving as a medium of exchange, unit of account or settlement asset. Other digital assets can meet a broad definition of money: a tokenized money market fund is used as collateral and a cash substitute, and a community coin can circulate as a means of payment. But they are an investment in, or a claim on, something other than money itself, so they are categorised separately, under Tokenized Real-World Assets and Other Crypto-Assets.'
+  desc: 'Money represented on distributed ledger technology (DLT): sovereign currency in tokenized form (CBDCs, tokenized deposits, stablecoins and other fiat-referenced tokens) and native cryptocurrencies used as money, each serving as a medium of exchange, unit of account or settlement asset. Other digital assets can meet a broad definition of money: a tokenized money market fund is used as collateral and a cash substitute, and a community coin can circulate as a means of payment. But they are an investment in, or a claim on, something other than money itself, so they are categorized separately, under Tokenized Real-World Assets and Other Crypto-Assets.'
 - id: nat
   label:
   - Native
@@ -246,13 +246,13 @@ circles:
   family: iss
   path: Digital Money › Tokenized Currencies
   sub3: unlicensed issuers
-  desc: 'Issuers without a recognised licence in the relevant jurisdiction. Higher risk: participants and reserves are often unknown or unverified; designs may be algorithmic or backed by multiple volatile assets (crypto-collateralised or synthetic dollars); and some have collapsed or proven fraudulent.'
+  desc: 'Issuers without a recognized license in the relevant jurisdiction. Higher risk: participants and reserves are often unknown or unverified; designs may be algorithmic or backed by multiple volatile assets (crypto-collateralized or synthetic dollars); and some have collapsed or proven fraudulent.'
 - id: sc
   label:
   - Stablecoins
   family: sc
   path: Tokenized Currencies › Bank · Non-Bank · Other
-  desc: 'Broad, market definition: any token designed to hold a stable value against a fiat currency and circulate on blockchains. What a given “stablecoin” actually is depends on three things: the issuer and its licence, the backing assets, and the implementation (reserves vs. algorithm, segregated vs. on balance sheet, public vs. permissioned chain). The circle therefore cuts across banks, regulated fintechs and unregulated issuers. Bank-issued stablecoins are legally distinct from deposit tokens but look very similar (dotted “look-alike” line). Licensed regimes carve out narrower, legally defined subsets.'
+  desc: 'Broad, market definition: any token designed to hold a stable value against a fiat currency and circulate on blockchains. What a given “stablecoin” actually is depends on three things: the issuer and its license, the backing assets, and the implementation (reserves vs. algorithm, segregated vs. on balance sheet, public vs. permissioned chain). The circle therefore cuts across banks, regulated fintechs and unregulated issuers. Bank-issued stablecoins are legally distinct from deposit tokens but look very similar (dotted “look-alike” line). Licensed regimes carve out narrower, legally defined subsets.'
 - id: unreg
   label:
   - Unlicensed
@@ -263,23 +263,23 @@ circles:
   path: Stablecoins › Other Issuers
   tc: '#8e2f22'
   clip: oiss
-  desc: 'Unlicensed stablecoins: issued without a licence, often by unknown parties, sometimes algorithmic or backed by multiple volatile assets, and in some cases have collapsed or proven fraudulent. Holders may have no enforceable redemption right.'
+  desc: 'Unlicensed stablecoins: issued without a license, often by unknown parties, sometimes algorithmic or backed by multiple volatile assets, and in some cases have collapsed or proven fraudulent. Holders may have no enforceable redemption right.'
 - id: lsc
   label:
-  - Licensed or Recognised
+  - Licensed or Recognized
   - Stablecoins
   family: lsc
   lens_only: true
   path: Stablecoins › Bank · Non-Bank
-  desc: 'Shown only under lenses with an enacted stablecoin regime. Fiat-referenced tokens whose issuer that regime has licensed (e.g. EU MiCA e-money tokens, US GENIUS Act payment stablecoins, Hong Kong HKMA-licensed stablecoins, El Salvador CNAD-registered issuers), or which its regulator has specifically recognised for use: accepted, verified, registered or cleared by a no-objection (e.g. ADGM Accepted Fiat-Referenced Tokens, DFSA-verified Fiat Crypto Tokens). A licence is given to an issuer by that regime, not inherited from another; a token that is merely tolerated during a transition, or classified (for example as not a security), is not recognised. Both are jurisdictional, so this circle is not drawn on the default map.'
+  desc: 'Shown only under lenses with an enacted stablecoin regime. Fiat-referenced tokens whose issuer that regime has licensed (e.g. EU MiCA e-money tokens, US GENIUS Act payment stablecoins, Hong Kong HKMA-licensed stablecoins, El Salvador CNAD-registered issuers), or which its regulator has specifically recognized for use: accepted, verified, registered or cleared by a no-objection (e.g. ADGM Accepted Fiat-Referenced Tokens, DFSA-verified Fiat Crypto Tokens). A license is given to an issuer by that regime, not inherited from another; a token that is merely tolerated during a transition, or classified (for example as not a security), is not recognized. Both are jurisdictional, so this circle is not drawn on the default map.'
 - id: lpt
   label:
-  - Licensed or Recognised
+  - Licensed or Recognized
   - Payment Tokens
   family: lpt
   lens_only: true
   path: Stablecoins › Bank · Non-Bank
-  desc: 'Shown only under lenses whose enacted regime licenses or registers “payment tokens”. Some regulators, such as the UAE Central Bank (CBUAE), use “payment token” for a fiat-backed stablecoin: it licenses dirham payment token issuers and registers foreign payment tokens. Others use the same words for something much broader: FINMA’s payment tokens and Singapore’s digital payment tokens include Bitcoin and Ether. Because the term is not used consistently, it is kept separate from Licensed or Recognised Stablecoins and appears only where a lens defines it.'
+  desc: 'Shown only under lenses whose enacted regime licenses or registers “payment tokens”. Some regulators, such as the UAE Central Bank (CBUAE), use “payment token” for a fiat-backed stablecoin: it licenses dirham payment token issuers and registers foreign payment tokens. Others use the same words for something much broader: FINMA’s payment tokens and Singapore’s digital payment tokens include Bitcoin and Ether. Because the term is not used consistently, it is kept separate from Licensed or Recognized Stablecoins and appears only where a lens defines it.'
 - id: alg
   label:
   - Algorithmic
@@ -288,7 +288,7 @@ circles:
     stroke: '#a8402f'
   path: Stablecoins › Other Issuers
   tc: '#7a1a10'
-  desc: 'Stablecoins that try to hold their peg through code (minting and burning a companion token, or over-collateralising with volatile crypto) rather than holding cash-equivalent reserves. Prone to “death spirals” (e.g. TerraUSD, 2022). Sits only with unregulated issuers: no major licensing regime permits them as stablecoins.'
+  desc: 'Stablecoins that try to hold their peg through code (minting and burning a companion token, or over-collateralizing with volatile crypto) rather than holding cash-equivalent reserves. Prone to “death spirals” (e.g. TerraUSD, 2022). Sits only with unregulated issuers: no major licensing regime permits them as stablecoins.'
 - id: rwa
   label:
   - Tokenized Real-World Assets
@@ -320,7 +320,7 @@ circles:
   - Agriculture
   - Industrial metals
   - Carbon credits
-  desc: Energy (oil, gas, power), agricultural (grains, softs), industrial/base metals (copper, aluminium) and environmental commodities such as carbon credits.
+  desc: Energy (oil, gas, power), agricultural (grains, softs), industrial/base metals (copper, aluminum) and environmental commodities such as carbon credits.
 - id: re
   label:
   - Real
@@ -335,7 +335,7 @@ circles:
   family: re
   path: Digital Assets › Real-World Assets
   sub: art, wine, watches
-  desc: Tokenized ownership of physical collectibles held in custody (fine art, wine, watches, classic cars), often fractionalised. Digital-native art (NFTs) sits under Other Crypto-Assets.
+  desc: Tokenized ownership of physical collectibles held in custody (fine art, wine, watches, classic cars), often fractionalized. Digital-native art (NFTs) sits under Other Crypto-Assets.
 - id: ip
   label:
   - IP &
@@ -412,7 +412,7 @@ circles:
   - Other Crypto-Assets
   family: oth
   path: Digital Assets
-  desc: 'Digital assets that are neither money nor tokenized real-world assets: their value comes from use, access, community, scarcity or rights within a protocol or platform, not from a claim on money or on an off-chain asset. A token can be issued natively on-chain or mirror another record (a loyalty programme’s ledger, or, for wrapped and staked tokens, another crypto-asset) and still belong here. We call them crypto-assets because that is how MiCA (“crypto-assets other than asset-referenced tokens or e-money tokens”) and most regulators describe this group, while the assets the legal term excludes (CBDCs, deposits and securities) sit elsewhere on the map. “Other” marks them as the crypto-assets not counted as Digital Money, since native cryptocurrencies are crypto-assets too. The name is descriptive, not a legal classification: some regimes exempt non-transferable tokens such as loyalty points or credentials, and some governance tokens may be securities; the lenses show the legal treatment.'
+  desc: 'Digital assets that are neither money nor tokenized real-world assets: their value comes from use, access, community, scarcity or rights within a protocol or platform, not from a claim on money or on an off-chain asset. A token can be issued natively on-chain or mirror another record (a loyalty program’s ledger, or, for wrapped and staked tokens, another crypto-asset) and still belong here. We call them crypto-assets because that is how MiCA (“crypto-assets other than asset-referenced tokens or e-money tokens”) and most regulators describe this group, while the assets the legal term excludes (CBDCs, deposits and securities) sit elsewhere on the map. “Other” marks them as the crypto-assets not counted as Digital Money, since native cryptocurrencies are crypto-assets too. The name is descriptive, not a legal classification: some regimes exempt non-transferable tokens such as loyalty points or credentials, and some governance tokens may be securities; the lenses show the legal treatment.'
 - id: art
   label:
   - Digital Art
