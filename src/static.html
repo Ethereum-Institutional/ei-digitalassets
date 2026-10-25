@@ -25,8 +25,14 @@ __STYLE__
   .ei-section p.src{font-size:12px;color:var(--muted);margin-top:6px}
   .ei-section p.src a{color:var(--muted)}
   .ei-section .wip{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;background:#fdf3e1;border:1px solid #e3b45f;color:#4a3108;margin-left:6px;vertical-align:middle}
+  .ei-section p.more{margin-top:6px;font-size:13px}
+  .ei-section p.more a{color:var(--ink)}
   details.src{margin-top:8px;font-size:12px;color:var(--muted)}
-  details.src summary{cursor:pointer;color:var(--ink);font-weight:600;list-style:none}
+  details.src summary{cursor:pointer;color:var(--ink);font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:6px}
+  details.src summary::-webkit-details-marker{display:none}
+  details.src summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg);transition:transform .15s}
+  details.src[open] summary::before{transform:rotate(45deg)}
+  details.src p.src{margin-top:6px}
   .ei-wip{padding:28px 24px;border:1px dashed var(--rule);border-radius:16px;background:var(--card);color:var(--muted);font-size:14px;line-height:1.6;text-align:center}
 </style>
 </head>

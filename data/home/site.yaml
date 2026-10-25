@@ -37,7 +37,7 @@ cards:
 - path: quantum
   icon: quantum
   title: Quantum
-  text: 'What a quantum computer could break on a ledger, and what Ethereum is doing about it, now and next.'
+  text: 'A risk to everything on the internet, not only ledgers, and where Ethereum is ahead in fixing it.'
 - path: identity
   icon: identity
   title: Identity
