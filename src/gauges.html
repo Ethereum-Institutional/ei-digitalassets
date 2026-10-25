@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+__STYLE__
+<style>
+  /* gauge pages (kind: gauges): one dial per property, levels 1 to 5 on a red-to-green status scale, the property
+     named beneath. A lens (lenses/*.yaml) sets every needle. Shares the map styles above. */
+  .ei-gauges{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .ei-gauge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 10px 12px;border:1px solid var(--rule);border-radius:16px;background:var(--card);cursor:pointer;transition:border-color .15s}
+  .ei-gauge:hover,.ei-gauge:focus-visible{border-color:var(--ink);outline:none}
+  .ei-gauge.pinned{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .ei-gauge svg{width:100%;max-width:190px;height:auto;display:block}
+  .ei-gauge svg text{font-family:var(--sans);pointer-events:none}
+  .ei-gauge .needle{transform-origin:100px 100px;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+  .ei-gauge .lvl{font-family:var(--serif);font-size:30px;letter-spacing:-.02em}
+  .ei-gauge h3{margin:0;font-size:14px;font-weight:600;text-align:center;line-height:1.25}
+  .ei-gauge .read{margin:0;font-size:12px;color:var(--muted);text-align:center;line-height:1.35;min-height:2.7em}
+  .ei-gauge .read b{color:var(--ink);font-weight:600}
+  .ei-gauges-head{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;font-size:12px;color:var(--muted)}
+  .ei-gauges-head b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em;color:var(--ink)}
+  .ei-scale{display:inline-flex;align-items:center;gap:6px}
+  .ei-scale i{display:inline-block;width:14px;height:10px;border-radius:3px}
+  .ei-gauges-head{justify-content:space-between;align-items:center}
+  .ei-gauges-head .left{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+  .ei-score{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 14px;border:1px solid var(--rule);border-radius:12px;background:#fff;font-size:13px;color:var(--muted)}
+  .ei-score b.t{font-weight:600;color:var(--ink)}
+  .ei-score .n{font-family:var(--serif);font-size:24px;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .ei-score .of{font-size:12px}
+  .ei-score .bar{width:110px;height:8px;border-radius:4px;background:var(--sand);overflow:hidden}
+  .ei-score .bar i{display:block;height:100%;border-radius:4px;transition:width .5s,background .5s}
+  .ei-score button,.ei-sliders button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:4px 10px;cursor:pointer}
+  .ei-score button:hover,.ei-sliders button:hover{border-color:var(--ink)}
+  .ei-sliders{padding:14px 20px;border:1px solid var(--rule);border-radius:16px;background:#fff;display:flex;flex-direction:column;gap:10px}
+  .ei-sliders[hidden]{display:none}
+  .ei-sliders p{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+  .ei-sliders .sliders{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px 22px}
+  .ei-sliders label{display:grid;grid-template-columns:1fr 120px 44px;gap:10px;align-items:center;font-size:13px}
+  .ei-sliders output{font-size:12px;color:var(--muted);text-align:right}
+  .ei-sliders input[type=range]{accent-color:var(--ink);width:100%}
+  .ei-sliders .ctl{display:flex;gap:8px}
+  .ei-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .ei-stat{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:#fff}
+  .ei-stat .n{font-family:var(--serif);font-size:34px;letter-spacing:-.03em;line-height:1;margin:0 0 6px}
+  .ei-stat .l{margin:0;font-size:14px;font-weight:600}
+  .ei-stat p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--muted)}
+  .ei-stat p.src{font-size:12px;margin-top:8px}
+  .ei-stat p.src a{color:var(--muted)}
+  .ei-stats-head{display:flex;flex-direction:column;gap:6px}
+  .ei-stats-head b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-stats-head span{font-size:14px;color:var(--muted);line-height:1.5;max-width:90ch}
+  .ei-panel ol.levels{margin:10px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+  .ei-panel ol.levels li{font-size:14px;line-height:1.45;padding:6px 10px;border-radius:10px;background:var(--card);display:flex;gap:10px;align-items:flex-start}
+  .ei-panel ol.levels li.on{background:#fff;border:1px solid var(--ink)}
+  .ei-panel ol.levels i{flex:none;width:22px;height:22px;border-radius:50%;color:#fff;font-style:normal;font-weight:600;font-size:12px;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+  .ei-panel details.src,.ei-section details.src,.ei-stat details.src{margin-top:8px;font-size:12px;color:var(--muted)}
+  details.src summary{cursor:pointer;color:var(--ink);font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:6px}
+  details.src summary::-webkit-details-marker{display:none}
+  details.src summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg);transition:transform .15s}
+  details.src[open] summary::before{transform:rotate(45deg)}
+  details.src p.src{margin-top:6px}
+  .ei-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .ei-section{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-section h2{margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em}
+  .ei-section h3{margin:14px 0 4px;font-size:14px;font-weight:600}
+  .ei-section p{margin:0;font-size:14px;line-height:1.55;color:var(--ink)}
+  .ei-section p.src{font-size:12px;color:var(--muted);margin-top:6px}
+  .ei-section p.src a{color:var(--muted)}
+  .ei-lens.radial .row{gap:8px}
+</style>
+</head>
+<body>
+<div class="ei-taxonomy">
+  __NOTICE__
+  <div class="ei-head">
+    <span class="ei-eyebrow">__EYEBROW__</span>
+    __NAV__
+    <h1>__HEADING__</h1>
+    <p class="sub">__INTRO__</p>
+    __INTRO_MORE__
+  </div>
+  <div class="ei-gauges-head"><div class="left"><b id="ei-gauges-title">__SVG_LABEL__</b><span>1 is worst, 5 is excellent</span></div>__SCORE__</div>
+  <div class="ei-sliders" id="ei-sliders" hidden><p>__SCORE_TEXT__</p><div class="sliders"></div><div class="ctl"><button type="button" class="resetw">Reset weights</button></div></div>
+  <div class="ei-gauges" id="ei-gauges" role="list" aria-label="__SVG_LABEL__"></div>
+  __LENSES__
+  <div class="ei-panel" id="ei-panel" aria-live="polite">
+    <h2>__PANEL_TITLE__</h2>
+    <p>__PANEL_TEXT__</p>
+  </div>
+  __STATS__
+  __SECTIONS__
+  __CONTRIBUTE__
+  <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
+</div>
+
+<script>
+(function(){
+  const DATA = __DATA__;
+  const moreBtn=document.querySelector('.ei-more'), moreTxt=document.getElementById('ei-intro-more');
+  if(moreBtn&&moreTxt) moreBtn.addEventListener('click',()=>{ const open=moreTxt.hidden; moreTxt.hidden=!open; moreBtn.textContent=open?moreBtn.dataset.less:moreBtn.dataset.more; moreBtn.setAttribute('aria-expanded',String(open)); });
+
+  // Status scale, 1 (red) to 5 (green): a semantic scale, so these are the only non-neutral hues on the site. The number on
+  // each segment and in the dial's centre carries the value; colour is secondary (the yellow and yellow-green steps are
+  // close for red-green colour-blind readers).
+  const SCALE=DATA.scale||['#991b1b','#ea580c','#d9a406','#65a30d','#166534'];
+  const grid=document.getElementById('ei-gauges'), panel=document.getElementById('ei-panel');
+  const NS='http://www.w3.org/2000/svg';
+  const el=(t,a,txt)=>{ const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); if(txt!=null) e.textContent=txt; return e; };
+  const rings=DATA.rings, themes=DATA.themes, N=rings.length;
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  // Sources: inline when few, otherwise collapsed behind a "Sources (n)" toggle
+  const srcList=src=>src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ');
+  const srcHtml=src=>!(src||[]).length?'':src.length<=3?`<p class="src">Sources: ${srcList(src)}</p>`:`<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
+
+  // Geometry: a half dial from 180 degrees (left, level 1) to 0 degrees (right, level 5) around (100,100), radius 80.
+  const cx=100, cy=100, R=80, W=22;
+  const ang=t=>Math.PI*(1-t); // t in [0,1] along the dial, left to right
+  const pt=(r,a)=>[cx+r*Math.cos(a), cy-r*Math.sin(a)];
+  const seg=(t0,t1)=>{ const ro=R, ri=R-W, g=0.012; const a0=ang(t0+g), a1=ang(t1-g);
+    const [x0,y0]=pt(ro,a0),[x1,y1]=pt(ro,a1),[x2,y2]=pt(ri,a1),[x3,y3]=pt(ri,a0);
+    return `M${x0.toFixed(1)} ${y0.toFixed(1)}A${ro} ${ro} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}A${ri} ${ri} 0 0 0 ${x3.toFixed(1)} ${y3.toFixed(1)}Z`; };
+
+  let lens=null, pinned=null;
+  const gauges=[];
+  const levelOf=T=>lens?rings.findIndex(r=>r.id===lens.cells[T.id]):-1;
+  const addPinBar=()=>{ panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the dials or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>'); panel.querySelector('.unpin').addEventListener('click',e=>{ e.stopPropagation(); unpin(); }); };
+  const reset=()=>{ panel.innerHTML=lens?`<h2 style="color:${lens.color}">${esc(lens.name)}</h2><p>${lens.intro}</p>${srcHtml(lens.sources)}`:`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; };
+  const unpin=()=>{ if(!pinned) return; pinned.classList.remove('pinned'); pinned=null; reset(); };
+  const showTheme=T=>{ const li=levelOf(T), note=lens&&lens.notes&&lens.notes[T.id];
+    panel.innerHTML=`<div class="path">Property${lens?` · ${esc(lens.name)}${li>=0?`: level ${li+1} of ${N}, ${esc(rings[li].label)}`:''}`:''}</div><h2>${esc(T.label)}</h2><p>${T.desc}</p>`
+      +(note?`<div class="scope" style="--c:${lens.color}"><b>${esc(lens.name)}:</b> ${note}</div>`:'')
+      +`<ol class="levels">${rings.map((r,i)=>{ const c=T.cells[r.id]; return `<li class="${i===li?'on':''}"><i style="background:${SCALE[i]}">${i+1}</i><span><b>${esc(c.name)}${c.sub?' ('+esc(c.sub)+')':''}.</b> ${c.desc}${(c.sources||[]).length?' '+srcHtml(c.sources).replace('<p class="src">','<span class="src">').replace('</p>','</span>'):''}</span></li>`; }).join('')}</ol>`; };
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel, #ei-lens')) unpin(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
+
+  themes.forEach(T=>{
+    const card=document.createElement('div'); card.className='ei-gauge node'; card.tabIndex=0; card.setAttribute('role','listitem');
+    const svg=el('svg',{viewBox:'0 0 200 118','aria-hidden':'true'});
+    rings.forEach((r,i)=>{ svg.appendChild(el('path',{d:seg(i/N,(i+1)/N),fill:SCALE[i]}));
+      const [tx,ty]=pt(R-W/2,ang((i+0.5)/N)); svg.appendChild(el('text',{x:tx.toFixed(1),y:(ty+3.5).toFixed(1),'text-anchor':'middle','font-size':10,'font-weight':600,fill:'#fff'},String(i+1))); });
+    const needle=el('g',{class:'needle'});
+    needle.appendChild(el('path',{d:`M${cx-4} ${cy}L${cx} ${cy-R+W+4}L${cx+4} ${cy}Z`,fill:'#14130f'}));
+    needle.appendChild(el('circle',{cx,cy,r:5,fill:'#14130f'}));
+    svg.appendChild(needle);
+    const lvl=el('text',{x:cx,y:cy-28,'text-anchor':'middle',class:'lvl',fill:'#14130f'},'');
+    const base=el('rect',{x:cx-30,y:cy+4,width:60,height:0,fill:'none'}); svg.appendChild(base);
+    svg.appendChild(lvl);
+    const h=document.createElement('h3'); h.textContent=T.label;
+    const read=document.createElement('p'); read.className='read';
+    card.append(svg,h,read); grid.appendChild(card);
+    const g={T,card,needle,lvl,read};
+    gauges.push(g);
+    const show=()=>showTheme(T);
+    card.addEventListener('mouseenter',()=>{ if(!pinned) show(); });
+    card.addEventListener('mouseleave',()=>{ if(!pinned) reset(); });
+    card.addEventListener('focus',()=>{ if(!pinned) show(); });
+    const act=()=>{ if(pinned===card) unpin(); else { if(pinned) pinned.classList.remove('pinned'); pinned=card; card.classList.add('pinned'); show(); addPinBar(); } };
+    card.addEventListener('click',e=>{ e.stopPropagation(); act(); });
+    card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });
+  });
+  const setNeedles=()=>gauges.forEach(g=>{ const li=levelOf(g.T);
+    const t=li>=0?(li+0.5)/N:0.5, deg=-90+180*t; // -90 points left (level 1), +90 points right (level 5)
+    g.needle.style.transform=`rotate(${deg}deg)`; g.needle.style.opacity=li>=0?1:.25;
+    g.lvl.textContent=li>=0?String(li+1):''; g.card.setAttribute('aria-label',`${g.T.label}${li>=0?`: level ${li+1} of ${N}, ${rings[li].label}`:''}`);
+    const c=li>=0?g.T.cells[rings[li].id]:null, rd=lens&&lens.readings&&lens.readings[g.T.id];
+    g.read.innerHTML=rd?`<b>${esc(rd)}</b>`:c?`<b>${esc(c.name)}</b>${c.sub?' · '+esc(c.sub):''}`:'Pick a lens'; });
+  // Weighted score: default weights from themes.yaml (`weight`), adjustable with sliders; kept per viewer in localStorage.
+  const scoreBox=document.getElementById('ei-score');
+  const KEY='ei-decentralization-weights';
+  let weights={}; themes.forEach(T=>weights[T.id]=T.weight||10);
+  try{ const saved=JSON.parse(localStorage.getItem(KEY)||'null'); if(saved&&typeof saved==='object') themes.forEach(T=>{ if(typeof saved[T.id]==='number') weights[T.id]=saved[T.id]; }); }catch(e){}
+  const score=()=>{ let num=0, den=0; themes.forEach(T=>{ const li=levelOf(T); if(li>=0){ num+=weights[T.id]*(li+1); den+=weights[T.id]; } }); return den?num/den:0; };
+  const slidersBox=document.getElementById('ei-sliders');
+  const renderScore=()=>{ if(!scoreBox) return; const v=score(), total=Object.values(weights).reduce((a,b)=>a+b,0);
+    scoreBox.querySelector('.n').textContent=v.toFixed(2); scoreBox.querySelector('.of').textContent=lens?`/ 5 for ${lens.short||lens.name}`:'/ 5';
+    const bar=scoreBox.querySelector('.bar i'); bar.style.width=`${Math.max(0,(v-1)/4*100)}%`; bar.style.background=SCALE[Math.min(4,Math.max(0,Math.round(v)-1))];
+    if(slidersBox) slidersBox.querySelectorAll('input[type=range]').forEach(r=>{ r.value=weights[r.dataset.theme]; r.nextElementSibling.textContent=total?`${Math.round(weights[r.dataset.theme]/total*100)}%`:'0%'; }); };
+  if(scoreBox&&slidersBox){
+    slidersBox.querySelector('.sliders').innerHTML=themes.map(T=>`<label><span>${esc(T.label)}</span><input type="range" min="0" max="30" step="1" data-theme="${T.id}" value="${weights[T.id]}" aria-label="Weight of ${esc(T.label)}"><output>0%</output></label>`).join('');
+    slidersBox.querySelectorAll('input[type=range]').forEach(r=>r.addEventListener('input',()=>{ weights[r.dataset.theme]=+r.value; try{ localStorage.setItem(KEY,JSON.stringify(weights)); }catch(e){} renderScore(); }));
+    const tog=scoreBox.querySelector('.adjust');
+    tog.addEventListener('click',e=>{ e.stopPropagation(); const open=slidersBox.hidden; slidersBox.hidden=!open; tog.setAttribute('aria-expanded',String(open)); tog.textContent=open?'Hide weights':'Adjust weights'; });
+    slidersBox.querySelector('.resetw').addEventListener('click',e=>{ e.stopPropagation(); themes.forEach(T=>weights[T.id]=T.weight||10); try{ localStorage.removeItem(KEY); }catch(e){} renderScore(); });
+    scoreBox.addEventListener('click',e=>e.stopPropagation()); slidersBox.addEventListener('click',e=>e.stopPropagation());
+  }
+  const _setNeedles=setNeedles; 
+  const lensBar=document.getElementById('ei-lens');
+  const setLens=id=>{ unpin(); lens=(DATA.lenses||[]).find(l=>l.id===id)||null;
+    if(lensBar) lensBar.querySelectorAll('button[data-lens]').forEach(b=>{ const on=b.dataset.lens===(lens?lens.id:''); b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
+    setNeedles(); renderScore(); reset(); };
+  if(lensBar) lensBar.querySelectorAll('button[data-lens]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); setLens(b.dataset.lens); }));
+  setLens(DATA.default_lens||((DATA.lenses||[])[0]||{}).id);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+# Lens: Ethereum mainnet. `cells` places each property on the level the reading falls in under themes.yaml; `notes`
+# carries the reading, its date and its source. Readings checked 25 October 2026; validator, client, builder and node
+# shares drift weekly. Writing rules: US spelling; no em-dashes; "Ethereum mainnet" for the chain.
+
+id: ethereum
+order: 1
+name: Ethereum mainnet
+menu: Ethereum mainnet
+short: Ethereum mainnet
+color: '#312e81'
+intro: 'Ethereum mainnet, read on 25 October 2026. Seven properties at level 5, three at level 4 and one at level 2. The three at 4: the open process that sets its rules still lets a client team block an upgrade, the 2016 DAO fork is on the record for ever, and the largest client on each layer still runs on more than a third of nodes. The one at 2 is neutral inclusion: one builder assembles half of relayed blocks today, and the protocol changes that fix it are not yet live. Each of those dials says what is being done about it; a fix moves a dial only once it is live on mainnet. Everything else, from a decade without a halt to a stake that costs more than thirty billion dollars to attack and is destroyed if used, is why a global shared ledger is a different kind of infrastructure from any ledger one party runs.'
+cells:
+  history: l4
+  developers: l4
+  stop: l4
+  cost: l4
+  rules: l3
+  property: l3
+  verify: l4
+  entry: l4
+  resilience: l3
+  issuance: l4
+  inclusion: l1
+readings:
+  history: '11.2 years, never halted'
+  developers: '31,900 active developers'
+  stop: 'HHI about 600; 749 staking entities'
+  cost: 'USD 34 billion to stall, slashable'
+  rules: '16 upgrades; no vote, no veto'
+  property: 'No freeze function; one fork, 2016'
+  verify: 'About 8,500 full nodes; 16 GB RAM'
+  entry: '32 ETH to validate; 819,915 validators'
+  resilience: '5 + 6 clients; largest about 50%'
+  issuance: 'Foundation 0.26%; +0.83% a year'
+  inclusion: 'Largest builder 52.7%; filtering 17.6%'
+notes:
+  history: '11.2 years in continuous production since the Frontier launch on 30 July 2015, through a change of consensus (the Merge, 15 September 2022, no history lost); ethereum.org counts 16 upgrades and no downtime. Tested twice without stopping: in November 2020 a minority of nodes on outdated Geth split off while the canonical chain kept producing blocks, and in May 2023 finality was delayed for four and then nine epochs while blocks continued and the chain recovered without intervention. One irregular state change, the DAO fork of 20 July 2016, disclosed and more than ten years old.'
+  developers: 'The largest developer base of any ledger: 6,244 monthly active developers in Electric Capital’s 2024 report (the top ecosystem on every continent; more than half work on its Layer 2s), and 31,869 active developers in Electric Capital’s data to September 2025 on its broader measure. The core is spread across 7 execution and 6 consensus client teams (5 and 6 shipped the Fusaka upgrade) and 190 Protocol Guild members across 28 teams (August 2026).'
+  stop: 'HHI about 600 on attributed stake (Lido 21.5%, Binance 7.4%, ether.fi 4.0%, Kraken 3.7%, Coinbase 3.3%, Figment 3.0%, Blockdaemon 2.5%, then 740 smaller entities; hildobby’s Dune dashboard, 25 October 2026), unconcentrated by the merger-guideline standard. Four entities together reach one third of stake (the Nakamoto coefficient at the finality threshold); Lido itself is 772 operator records across its modules. 819,915 active validators (Beaconscan, 25 October 2026). The legitimate concern: 39% of stake is not attributed to any named entity. Even counted as one entity it would give an HHI of about 2,100, but treat it as unknown, not as solo stakers; it is a limit of the public record and is not scored either way.'
+  cost: 'About 14.6 million ETH, one third of the 43.9 million staked, worth about USD 34 billion at USD 2,341 (25 October 2026), must be acquired to stall finality, and reverting a finalized block means committing to lose at least that third: slashing destroys the stake, with a correlation penalty that scales with the total slashed, up to the whole balance (ethereum.org, proof of stake and rewards and penalties pages).'
+  rules: 'Changes are Core EIPs agreed by rough consensus on All Core Devs calls, implemented independently by every client team and adopted by node operators who choose to upgrade; there is no coin vote and nobody can compel adoption (ethereum.org governance, EIP-1). Sixteen upgrades have shipped this way, the latest Fusaka on 3 December 2025. Level 4 rather than 5 because a client running on more than a third of nodes could block an upgrade by refusing to implement it; operators can switch clients and another team can fork the code, so the block is contestable, and it disappears when every client is below a third (see the single-point-of-failure dial).'
+  property: 'No protocol role, opcode or key can freeze, move or seize a balance; state changes only through signed transactions, and nodes record every transaction without discrimination (ethereum.org). Level 4 rather than 5 because of the DAO fork of 20 July 2016, a client-coordinated irregular state change that moved about 12 million ETH, now more than ten years old and disclosed. Controls the law requires live with issuers at the token layer: Circle’s USDC contract can blocklist addresses, and Circle’s terms say it may freeze USDC on a legal order.'
+  verify: 'One global state that anyone can verify in full: a node needs 16 GB of RAM, a 2 TB NVMe drive and a 25 Mbit/s connection (ethereum.org run-a-node page, August 2026), hardware ethereum.org describes as consumer grade; about 8,500 full nodes were counted by the Cambridge Centre for Alternative Finance in 2026, beside roughly 820,000 validators.'
+  entry: 'Anyone may hold and send assets, and anyone may validate with 32 ETH (up to 2,048 ETH per validator since Pectra) without approval; the activation queue was 23 days on 25 October 2026 (validatorqueue.com), exit about a day. Leaving is a withdrawal, not a negotiation.'
+  resilience: 'Five execution and six consensus clients in production (Fusaka shipped on 5 and 6), the most of any ledger. The legitimate concern, and why this dial reads 4: the largest client on each layer still runs on more than a third of nodes on every published series, Geth on 50% of crawled execution nodes (43% by self-reported stake) and Lighthouse on 49% of crawled consensus nodes (Teku on 54% of validators by Rated’s count). The series disagree because they count nodes, stake or validators, but every one puts a client above the 33% at which a single bug could stall finality. The fix is operational, not protocol: the community’s goal is every client under 33%, and the clients exist to make that possible. Hosting is spread, with a second concern inside it: Hetzner, AWS and OVH together host about 40% of nodes, 36% run on residential hardware, and the United States, Germany, Finland and France hold about 62% between them (Cambridge Centre for Alternative Finance, July 2026). Unconcentrated by the merger-guideline standard, but a change of terms at one provider or a legal order in two jurisdictions would reach a large share of nodes at once; no protocol change fixes that. If you run a node, run it somewhere else.'
+  issuance: 'The Ethereum Foundation held 0.26% of supply at the end of October 2024 (EF Report 2024) and under 0.3% in August 2025. Issuance is set by protocol: about 0.5% a year to validators, net supply growth 0.83% over the year to 25 October 2026 (ultrasound.money). The 2014 sale was open to anyone; its two endowment pools (early contributors and the Foundation) were each 9.9% of the ether sold. The legitimate concern: the early-contributor pool has never been re-disclosed, so it is recorded here and not counted, which is why this reading rests on the Foundation’s disclosure alone.'
+  inclusion: 'Level 2, the lowest dial on this page and the main legitimate concern. Titan assembled 52.7% of MEV-Boost relayed blocks over the seven days to 25 October 2026 (Quasar 21.2%, BuilderNet 13.4%), and relays that filter sanctioned addresses delivered 17.6% of blocks on 24 October, down from a 2022 peak near 95% (relayscan.io; mevwatch.info). Builders cannot finalize anything or touch a balance, and a validator may build its own block, but today most do not. Two protocol changes address it: enshrined proposer-builder separation (EIP-7732, Last Call, scheduled for Glamsterdam) and inclusion lists (FOCIL, EIP-7805, Draft, the consensus-layer headliner for Hegotá), which would move this dial to 5 once live. Nothing moves until it is live on mainnet.'
+sources:
+- title: 'hildobby, Ethereum staking (Dune): staked ETH by entity'
+  url: https://dune.com/hildobby/eth2-staking
+  checked: '2026-10-25'
+- title: 'Beaconscan: active validators'
+  url: https://beaconscan.com/
+  checked: '2026-10-25'
+- title: 'ethereum.org, Proof-of-stake (one third of staked ETH to stall finality; slashing)'
+  url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/
+  checked: '2026-10-25'
+- title: 'ethereum.org, Rewards and penalties (correlation penalty)'
+  url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/
+  checked: '2026-10-25'
+- title: 'ethereum.org, Introduction to Ethereum governance'
+  url: https://ethereum.org/en/governance/
+  checked: '2026-10-25'
+- title: 'EIP-1, EIP purpose and guidelines'
+  url: https://eips.ethereum.org/EIPS/eip-1
+  checked: '2026-10-25'
+- title: 'ethereum.org, History of Ethereum (upgrades since Frontier)'
+  url: https://ethereum.org/en/history/
+  checked: '2026-10-25'
+- title: 'Ethereum Foundation, Ethereum launches (30 July 2015)'
+  url: https://blog.ethereum.org/2015/07/30/ethereum-launches
+  checked: '2026-10-25'
+- title: 'ethereum.org, Ten years of Ethereum (16 upgrades, no downtime)'
+  url: https://ethereum.org/en/10years/
+  checked: '2026-10-25'
+- title: 'Ethereum Foundation, Hard fork completed (20 July 2016; the DAO irregular state change)'
+  url: https://blog.ethereum.org/2016/07/20/hard-fork-completed
+  checked: '2026-10-25'
+- title: 'go-ethereum advisory GHSA-69v6-xc2j-r2jf (November 2020 minority chain split)'
+  url: https://github.com/ethereum/go-ethereum/security/advisories/GHSA-69v6-xc2j-r2jf
+  checked: '2026-10-25'
+- title: 'Prysm, mainnet post-mortems (May 2023 finality delays)'
+  url: https://prysm.offchainlabs.com/docs/misc/mainnet-postmortems/
+  checked: '2026-10-25'
+- title: 'Electric Capital, 2024 Developer Report'
+  url: https://www.developerreport.com/reports/devs/2024
+  checked: '2026-10-25'
+- title: 'Protocol Guild, Q3 2026 membership audit (190 members)'
+  url: https://www.protocolguild.org/blog/20260826-q3-quarterly-audit
+  checked: '2026-10-25'
+- title: 'ethereum.org, Nodes and clients (execution and consensus client list)'
+  url: https://ethereum.org/en/developers/docs/nodes-and-clients/
+  checked: '2026-10-25'
+- title: 'clientdiversity.org (client shares by source; goal under 33%)'
+  url: https://clientdiversity.org/
+  checked: '2026-10-25'
+- title: 'Cambridge Centre for Alternative Finance, Ethereum After the Merge: A Change in Power (July 2026; node hosting and geography)'
+  url: https://www.jbs.cam.ac.uk/faculty-research/centres/alternative-finance/publications/ethereum-after-the-merge-a-change-in-power/
+  checked: '2026-10-25'
+- title: 'ethereum.org, Spin up your own Ethereum node (hardware requirements)'
+  url: https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/
+  checked: '2026-10-25'
+- title: 'ethereum.org, Staking (32 ETH minimum, 2,048 ETH maximum)'
+  url: https://ethereum.org/en/staking/
+  checked: '2026-10-25'
+- title: 'validatorqueue.com (activation and exit queues)'
+  url: https://www.validatorqueue.com/
+  checked: '2026-10-25'
+- title: 'ethereum.org, What is Ethereum? (nodes record every transaction without discrimination)'
+  url: https://ethereum.org/en/what-is-ethereum/
+  checked: '2026-10-25'
+- title: 'Circle, USDC terms (blocklisting)'
+  url: https://www.circle.com/legal/usdc-terms
+  checked: '2026-10-25'
+- title: 'Ethereum Foundation, Report 2024 (0.26% of supply)'
+  url: https://ethereum.foundation/report-2024.pdf
+  checked: '2026-10-25'
+- title: 'Ethereum Foundation, Launching the ether sale (July 2014; endowment pools)'
+  url: https://blog.ethereum.org/2014/07/22/launching-the-ether-sale
+  checked: '2026-10-25'
+- title: 'ultrasound.money, supply over time'
+  url: https://ultrasound.money/
+  checked: '2026-10-25'
+- title: 'ethereum.org, ETH issuance after the Merge'
+  url: https://ethereum.org/en/roadmap/merge/issuance/
+  checked: '2026-10-25'
+- title: 'relayscan.io, builders and relays, 7 days'
+  url: https://www.relayscan.io/overview?t=7d
+  checked: '2026-10-25'
+- title: 'mevwatch.info, OFAC-filtering relay share'
+  url: https://www.mevwatch.info/
+  checked: '2026-10-25'
+- title: 'EIP-7732, Enshrined proposer-builder separation'
+  url: https://eips.ethereum.org/EIPS/eip-7732
+  checked: '2026-10-25'
+- title: 'EIP-7805, Fork-choice enforced inclusion lists (FOCIL)'
+  url: https://eips.ethereum.org/EIPS/eip-7805
+  checked: '2026-10-25'

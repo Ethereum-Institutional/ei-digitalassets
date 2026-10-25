@@ -1,0 +1,129 @@
+# Decentralization: the eleven properties (content). Each is one wedge, clockwise from the label wedge at the top, with a
+# cell per level (l0 one party, to l4 open network) saying what that level means for the property. The lenses
+# (lenses/*.yaml) place a ledger design on one cell per property. Sources on a cell are for the threshold it uses.
+# `weight` is the default weight (out of 100) in the weighted score; readers can change the weights on the page.
+# Writing rules: US spelling; no em-dashes; quote YAML values containing ": ".
+
+as_of: 25 October 2026
+themes:
+- id: history
+  weight: 15
+  hub: History
+  label: Operating history
+  desc: 'How long the ledger has run without stopping, and what happened when it was tested. Read it as you would read a bank’s or a market infrastructure’s operating record: how many years it has been in continuous production, whether it has ever halted, and whether anyone has ever changed balances or history outside the rules. We measure years live without a halt, years since the last irregular intervention, and whether every intervention is disclosed.'
+  cells:
+    l0: { name: Not yet live, sub: or under a year, desc: 'No production record, or less than a year of it. Every claim about resilience is a design claim.' }
+    l1: { name: 1 to 3 years, sub: or halted recently, desc: 'A short record, or a longer one with a halt or an operator-initiated restart in the last year.' }
+    l2: { name: 3 to 5 years, desc: 'Enough history to show the ledger survives market stress, not yet enough to show it survives a decade of software and personnel change.' }
+    l3: { name: 5 to 10 years, sub: no halt, desc: 'Five to ten years in continuous production with no network-wide halt. A past intervention on the record, if any, is disclosed.' }
+    l4: { name: 10+ years, sub: never halted, desc: 'More than ten years in continuous production, no network-wide halt, and every intervention in its history disclosed and more than ten years old. Public-sector procurement commonly asks for seven or more years; ten is the top band.' }
+- id: developers
+  weight: 10
+  hub: Developers
+  label: Developer base
+  desc: 'Who maintains and improves the ledger, and whether they all depend on one employer. If one vendor’s team maintains it, the ledger improves at the vendor’s pace and stops when the vendor does; if the largest open developer base maintains it, it keeps improving without anyone’s permission, including yours. We measure monthly active developers in the ecosystem (Electric Capital’s method) and how core-protocol work is spread across organizations.'
+  cells:
+    l0: { name: One vendor’s team, desc: 'Protocol and tooling are maintained by one company. Roadmap, pace and continuity are the vendor’s decisions.' }
+    l1: { name: A few firms, desc: 'A handful of companies maintain the software, usually under one licence and one steward.' }
+    l2: { name: Hundreds, sub: one organization leads, desc: 'An open-source community in the hundreds of monthly active developers, with one foundation or company writing most of the core.' }
+    l3: { name: Thousands, sub: several organizations, desc: 'Thousands of monthly active developers and core-protocol work spread across several independent organizations, none writing a majority.' }
+    l4: { name: The largest open base, sub: core spread widely, desc: 'The largest developer base of any ledger by independent count, with core-protocol work spread across many independent organizations and client teams. Measured by Electric Capital’s developer report and by the share of core commits from the three largest organizations.' }
+- id: stop
+  weight: 15
+  hub: Who can stop it
+  label: Who can stop it
+  desc: 'How many independent parties would have to act together, by choice, by compulsion or by accident, to halt your settlement. We measure the distribution of consensus weight (stake, hash power or votes) across independent entities with the Herfindahl-Hirschman Index (HHI, the sum of squared shares), scored on the lines the US merger guidelines use, and show the number of entities needed to reach the protocol’s safety threshold beside it. The HHI counts the whole distribution, so a long tail of small operators counts.'
+  cells:
+    l0: { name: One or two, sub: 'HHI 5,000 or more', desc: 'One party, or two equal parties, hold the consensus weight. An HHI of 5,000 is two equal entities; 10,000 is one.' }
+    l1: { name: A handful, sub: 'HHI 2,500 to 5,000', desc: 'Three to four parties could halt the ledger together. Highly concentrated on any antitrust reading.' }
+    l2: { name: A small group, sub: 'HHI 1,800 to 2,500', desc: 'Highly concentrated under the 2023 US Merger Guidelines (the line is 1,800): a nameable group could stop it.', sources: [{ title: 'US Department of Justice and FTC, 2023 Merger Guidelines (HHI above 1,800 is highly concentrated)', url: https://www.justice.gov/atr/2023-merger-guidelines, checked: '2026-10-25' }] }
+    l3: { name: Many, sub: 'HHI 1,000 to 1,800', desc: 'Moderately concentrated: many independent operators, with a few large ones that together approach the safety threshold.', sources: [{ title: 'US Department of Justice and FTC, 2023 Merger Guidelines', url: https://www.justice.gov/atr/2023-merger-guidelines, checked: '2026-10-25' }] }
+    l4: { name: Unconcentrated, sub: 'HHI under 1,000', desc: 'Unconcentrated by the standard regulators apply to markets: hundreds or thousands of independent operators, and no group small enough to be named or pressured can halt the ledger. The Nakamoto coefficient (entities to the safety threshold) is shown beside it, because it answers a different question: how many must act, not how spread the rest are.', sources: [{ title: 'Srinivasan and Lee, Quantifying Decentralization (2017; the Nakamoto coefficient)', url: https://news.earn.com/quantifying-decentralization-e39db233c28e, checked: '2026-10-25' }, { title: 'Ovezik, Karakostas, Milad, Kiayias and Woods, SoK: Measuring Blockchain Decentralization (2025; concentration ratios are tail-insensitive)', url: https://arxiv.org/abs/2501.18279, checked: '2026-10-25' }] }
+- id: cost
+  weight: 10
+  hub: Cost of control
+  label: Security you can price
+  desc: 'What it would cost to take control of the ledger you settle on, and whether the attacker loses it. Security you can price is risk you can model; security that rests on reputation is not. We measure the market value of the stake or hash power needed to reach the safety threshold, and whether that value is destroyed if used (slashing), following Budish’s argument that the cost of attack must exceed the value at stake.'
+  cells:
+    l0: { name: Nothing at stake, desc: 'The operator already holds control; there is no cost to exercise it and nothing it forfeits.' }
+    l1: { name: Reputation only, desc: 'Control follows from compromising or compelling a few organizations. No bond, no slashing; the only cost is reputational.' }
+    l2: { name: Bonded, sub: 'not slashable, or small', desc: 'A bond or stake exists but is not destroyed on misbehavior, or the value needed is under USD 1 billion.' }
+    l3: { name: USD 1 to 10 billion, sub: slashable, desc: 'Between one and ten billion dollars of stake must be acquired to reach the threshold, and the protocol destroys it if used to attack.' }
+    l4: { name: Over USD 10 billion, sub: slashable, desc: 'More than ten billion dollars of stake must be bought or borrowed to reach the safety threshold, the protocol slashes it if used, and the penalty grows with the number of validators involved. The attacker pays the ledger’s security budget to destroy the thing they bought.', sources: [{ title: 'Budish, The Economic Limits of Bitcoin and the Blockchain (NBER 2018; Quarterly Journal of Economics 2025)', url: https://www.nber.org/papers/w24717, checked: '2026-10-25' }] }
+- id: rules
+  weight: 10
+  hub: Who sets the rules
+  label: Who can change the rules
+  desc: 'Who can change the protocol under you, and whether anyone can force or block a change. This is your roadmap risk: a vendor that can change fees, formats or access terms, or a group that can vote them, is a counterparty. We measure who can propose and decide a change, whether the deciding set is open, and whether any party holds a forcing or blocking share.'
+  cells:
+    l0: { name: One party, sub: at will, desc: 'One party changes the rules and deploys the change; others cannot refuse without leaving.' }
+    l1: { name: A vendor decides, sub: operators follow, desc: 'A company or foundation decides; the node operators it controls, licenses or admits deploy.' }
+    l2: { name: A closed body votes, desc: 'A fixed or self-admitting body votes on changes, or a stake vote in which a small group holds a forcing or blocking share.' }
+    l3: { name: Open process, sub: someone can block, desc: 'Anyone may propose, implement or adopt, and nobody can force a change, but a client team or a large holder could still block one by refusing.' }
+    l4: { name: Open process, sub: nobody can force or block, desc: 'Rule changes take effect only when independent implementers write them and independent operators adopt them; anyone may do either; no party can force or block; ten or more years of the process working in production.' }
+- id: property
+  weight: 10
+  hub: Freeze power
+  label: Property rights at the base layer
+  desc: 'Whether the ledger itself can freeze, move or seize your balance. On a neutral base layer it cannot: the controls the law requires live with the issuer of each asset, in the token contract, where your regulator can see them and where they stop at that asset. We measure whether a protocol-level freeze or seizure function exists and whether balances have ever been changed outside the rules.'
+  cells:
+    l0: { name: Operator can freeze, sub: or move any balance, desc: 'The ledger operator can freeze, move or delete any balance on its own authority.' }
+    l1: { name: Freeze by process, desc: 'A protocol-level freeze or seizure exists and needs a multi-party or governance process to use.' }
+    l2: { name: No freeze function, sub: intervention within 10 years, desc: 'No protocol-level freeze, but balances or history were changed by social or operator decision within the last ten years.' }
+    l3: { name: No freeze function, sub: intervention over 10 years ago, desc: 'No protocol-level freeze or seizure; one disclosed intervention more than ten years ago. The precedent is recorded for ever; issuer-level controls remain in token contracts.' }
+    l4: { name: No freeze function, sub: never intervened, desc: 'No protocol-level freeze or seizure, no balance or history ever changed outside the rules, ten or more years of production. Asset-level controls (an issuer’s freeze on its own token) are an application property and are listed beside this, not scored here.' }
+- id: verify
+  weight: 10
+  hub: Verifiability
+  label: Verifiable by anyone
+  desc: 'Whether you, your auditor and your regulator can check the whole ledger for yourselves. Audit without permission is what turns a counterparty’s promise into a fact that everyone on both sides of a trade can see. We measure whether there is one global state, whether anyone may run a node that verifies all of it, and what hardware that takes.'
+  cells:
+    l0: { name: No outside view, desc: 'Only the operator can see the ledger; everyone else receives reports.' }
+    l1: { name: Participants see their own records, desc: 'Each participant can verify the records it is party to; there is no single state that anyone can check in full.' }
+    l2: { name: Public view, sub: verifying needs permission or a data center, desc: 'A public explorer exists, but running a node that verifies the state needs admission, or hardware beyond most institutions.' }
+    l3: { name: Anyone can verify, sub: heavy hardware, desc: 'Anyone may run a verifying node over one global state, but it takes data-center hardware or provider-supplied history.' }
+    l4: { name: Anyone can verify, sub: consumer hardware, desc: 'One global state that anyone can verify in full on consumer hardware, from genesis, without asking. The ledger has no privileged reader.' }
+- id: entry
+  weight: 5
+  hub: Open entry
+  label: Open entry and exit
+  desc: 'Whether you can use the ledger, run it, and leave it with your assets, without asking. No onboarding gate means no counterparty can refuse you; no exit penalty means your assets and applications are portable. We measure who may transact and who may validate without approval by incumbents, and at what cost.'
+  cells:
+    l0: { name: Operator admits, sub: users and nodes, desc: 'The operator decides who may use the ledger and who may run it.' }
+    l1: { name: Members admit members, desc: 'A group admits new members and operators by its own vote; users are the members’ customers.' }
+    l2: { name: Anyone can transact, sub: validators admitted, desc: 'Anyone may hold and send assets, but joining consensus needs review by existing participants.' }
+    l3: { name: Anyone can validate, sub: high bar, desc: 'Anyone may transact and validate without approval, but the stake or hardware required puts validation beyond most participants.' }
+    l4: { name: Anyone can transact, sub: 'and validate, modest fixed bar', desc: 'Anyone may transact and anyone may validate without approval, at a fixed and modest requirement, and may leave at any time with their assets. Exit is a withdrawal, not a negotiation.' }
+- id: resilience
+  weight: 10
+  hub: Single points of failure
+  label: No single point of technical failure
+  desc: 'Whether one bug, one cloud provider or one jurisdiction can take the ledger down with your positions on it. We measure the number of independent client implementations in production and the largest one’s share (a client above a third of nodes can stall finality with one bug; above two thirds it can finalize a wrong chain), and the spread of nodes across hosting providers and jurisdictions.'
+  cells:
+    l0: { name: One client, sub: one host, desc: 'A single software implementation on a single provider or site. One bug or one outage stops the ledger.' }
+    l1: { name: One client, sub: several hosts, desc: 'One implementation, so every node shares every bug, spread across more than one provider.' }
+    l2: { name: Two clients, sub: or one above two thirds, desc: 'A fallback implementation exists, or several exist but one runs on more than two thirds of nodes, where its bug could finalize an invalid chain.', sources: [{ title: 'ethereum.org, Client diversity (the one-third and two-thirds thresholds)', url: https://ethereum.org/en/developers/docs/nodes-and-clients/client-diversity/, checked: '2026-10-25' }] }
+    l3: { name: Several clients, sub: one above a third; hosting spread, desc: 'Three or more independent implementations in production, but the largest still runs on more than a third of nodes; hosting and geography unconcentrated.', sources: [{ title: 'ethereum.org, Client diversity', url: https://ethereum.org/en/developers/docs/nodes-and-clients/client-diversity/, checked: '2026-10-25' }] }
+    l4: { name: Five or more clients, sub: none above a third, desc: 'Five or more independent implementations, none running on more than a third of nodes, and nodes spread across providers and jurisdictions so that no outage, terms change or legal order in one place can stop the ledger.' }
+- id: issuance
+  weight: 5
+  hub: Neutral issuance
+  label: Neutral issuance
+  desc: 'Whether the ledger’s own asset has an owner. An asset mostly held by its creator is that creator’s liability in all but name; an asset issued by protocol rule, with a small and disclosed founding share, is nobody’s, which is what you want from a settlement asset. We measure the founding set’s share of supply (foundation, team, early investors, treasury) and whether issuance is fixed by protocol.'
+  cells:
+    l0: { name: No neutral asset, sub: or owner holds most, desc: 'There is no native asset (balances are the operator’s liabilities), or the founding set holds most of it.' }
+    l1: { name: Founders hold 25% or more, desc: 'The founding set holds a quarter or more of supply: a blocking minority in any vote and an overhang the market prices.' }
+    l2: { name: 10% to 25%, desc: 'A significant holder by any securities-law standard, with influence over governance and markets.' }
+    l3: { name: 1% to 10%, desc: 'A disclosed, material but non-controlling founding share; issuance set by protocol.' }
+    l4: { name: Under 1%, sub: issuance by protocol, desc: 'The founding set holds under one percent of supply, disclosed and dated; new issuance follows a protocol rule that no party can change alone. The asset has no owner.' }
+- id: inclusion
+  weight: 5
+  hub: Neutral inclusion
+  label: Neutral inclusion
+  desc: 'Whether your transaction gets into a block on the same terms as everyone else’s, whoever you are and whatever it is. Validators decide what a ledger finalizes; on most ledgers today someone else decides what goes into the block first, and that party can delay or drop a transaction. We measure the largest block producer’s share of blocks and the share of blocks assembled by parties that apply a sanctions filter, and whether the protocol lets validators force a transaction in.'
+  cells:
+    l0: { name: One party orders every block, desc: 'The operator assembles every block and can exclude any transaction, with no recourse.' }
+    l1: { name: One producer above half, sub: or filtering above a third, desc: 'A single builder, pool or sequencer assembles more than half of blocks, or more than a third of blocks come from parties that apply a sanctions filter. A transaction they decline waits for someone else’s block.', sources: [{ title: 'mevwatch.info (share of blocks from filtering relays)', url: https://www.mevwatch.info/, checked: '2026-10-25' }] }
+    l2: { name: Largest producer a third to a half, sub: filtering 10% to a third, desc: 'The largest producer assembles between a third and a half of blocks, or 10% to a third of blocks apply a filter; delays of a few blocks are possible, exclusion is not.' }
+    l3: { name: Largest producer under a third, sub: filtering under 10%, desc: 'No producer assembles more than a third of blocks and fewer than 10% apply a filter, but inclusion still depends on producers’ choices rather than on the protocol.' }
+    l4: { name: Protocol-guaranteed inclusion, sub: largest producer under 20%, desc: 'Validators can force a valid transaction into a block regardless of who assembles it (inclusion lists live on mainnet), no producer assembles more than a fifth of blocks, and fewer than 10% of blocks apply a filter. Exclusion is not in anyone’s gift.', sources: [{ title: 'EIP-7805, Fork-choice enforced inclusion lists (FOCIL)', url: https://eips.ethereum.org/EIPS/eip-7805, checked: '2026-10-25' }] }

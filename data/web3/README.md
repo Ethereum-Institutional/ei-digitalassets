@@ -24,4 +24,6 @@ clockwise in file order, after the label wedge at the top; the build fails if a 
 Read / Write / Own). Sizes and radii are in `layout.yaml`.
 
 On the page, clicking a theme in the hub highlights its wedge across the rings; clicking a generation's name
-highlights its ring. Write "Web3", never "Web 3.0", except when explaining the naming.
+enlarges that ring and the hub (`hub_big:` in `layout.yaml`, default 1.5 times the hub radius) and shrinks the
+other rings to thin slices that show only each cell's name (`thin:` sets their width; default 46 units); Esc
+restores the map. Write "Web3", never "Web 3.0", except when explaining the naming.

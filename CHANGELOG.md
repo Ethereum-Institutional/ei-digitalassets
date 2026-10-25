@@ -7,6 +7,22 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **New page: Decentralization** (`/decentralization/`, data in `data/decentralization/`). Eleven gauges, one per
+  property of a ledger (operating history, developer base, who can stop it, security you can price, who can change the
+  rules, property rights at the base layer, verifiable by anyone, open entry and exit, no single point of technical
+  failure, neutral issuance, neutral inclusion), each on a scale of 1 (one party) to 5 (open network) with the property named beneath and
+  every level defined and sourced (US Merger Guidelines HHI lines, ethereum.org client thresholds, Budish,
+  securities-law disclosure levels). Three lenses set the dials: a ledger with one operator, a consortium ledger (both
+  generic) and Ethereum mainnet, the default, with readings checked on 25 October 2026. Below the dials: “What an open
+  ledger attracts” (holders, tokenized assets, tokenized currency, developers) and the legitimate concerns about Ethereum
+  mainnet folded into the notes of the dials they belong to, with the work addressing each.
+- **Navigation.** Labels shortened to Taxonomy and Networks; Decentralization listed after Networks, before the
+  work-in-progress pages, in the navigation and on the landing page.
+- **Engine: gauges pages, and lenses and sections on radial pages.** `kind: gauges` renders a dial per theme from the
+  radial data files (`src/gauges.html`), with `default_lens`, `scale` and `stats` in `site.yaml`; `lenses/*.yaml` on a
+  radial page light one cell per theme and carry notes; `sections:` render below the panel; themes may carry a short
+  `hub` name. On the Web3 map, clicking a generation's name now enlarges that ring and shrinks the others to thin
+  slices with each cell's name set along the arc.
 - **Tokenized money market funds, from the Taurus design paper (September 2026).** The taxonomy’s Funds definition
   now explains how a tokenized MMF delivers income (more units at par for constant-price funds, a rising struck price
   for variable-price ones) and why it stays a fund share; the Tokenized Real-World Assets definition names the three

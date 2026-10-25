@@ -1,0 +1,33 @@
+# Lens: a consortium ledger (an architecture, not any product). Several members run it and admit new members by vote.
+id: consortium
+order: 2
+name: A typical consortium ledger
+menu: Typical consortium
+short: a typical consortium
+color: '#0ea5e9'
+intro: 'A ledger run by a defined group of organizations that admit new members by vote, each running its own node under one software implementation, typically with a shared governance body and a treasury rather than a neutral asset. It removes the single point of failure and spreads control across the members, which is a real gain over one operator, and it lands at levels 2 and 3 on most properties: the group can be compelled as a whole, outsiders cannot verify it, nobody outside can join or build on it without permission, and the software usually has one maintainer. Typical of the consortium networks on the Digital Asset Networks map.'
+cells:
+  history: l2
+  developers: l1
+  stop: l2
+  cost: l1
+  rules: l2
+  property: l1
+  verify: l1
+  entry: l1
+  resilience: l1
+  issuance: l0
+  inclusion: l1
+notes:
+  history: Most consortium ledgers launched since 2019; three to five years of production is typical, often with migrations between stacks.
+  developers: The software is usually one vendor’s or one foundation’s, maintained by a few firms.
+  stop: With five to fifteen equal members the HHI sits between about 700 and 2,000; counting the members as independent assumes no shared vendor or custodian, which is rarely true.
+  cost: Members post no bond; halting the ledger costs a member its membership, not its capital.
+  rules: A closed body votes on changes; a member with a veto or the vendor that writes the code can block.
+  property: A multi-party process can freeze or reverse a balance, and usually must be able to, by design.
+  verify: Each member sees its own records, or the group’s; no outsider can verify the state.
+  entry: Members admit members; users are the members’ customers and cannot join the ledger directly.
+  resilience: One client implementation, so every node shares every bug, spread across the members’ clouds.
+  inclusion: Members’ nodes order the blocks and the group decides what may be included; a member can be excluded by vote, and an outsider never gets in.
+  issuance: Balances are claims on the members or on a treasury; there is no neutral asset.
+sources: []
