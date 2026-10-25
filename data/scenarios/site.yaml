@@ -1,18 +1,74 @@
-# Scenarios map: work in progress. Rendered from src/static.html until the diagram data exists.
+# Scenarios index: what institutions do with digital assets, one page per scenario. Filter by your role or by what moves.
 
-kind: static
+kind: index
 title: Scenarios
 slug: scenarios
 eyebrow: Ethereum Institutional · Research
 heading:
   text: Scenarios
   italic: Scenarios
-intro: 'What institutions actually do with digital assets, as market activities rather than asset types: payments, delivery versus payment, repo and reverse repo, treasury management, collateral mobility and margin, fund subscription and redemption, and more. Each scenario will show which leg moves on the ledger (cash, the asset, or both), what settles atomically and what still needs a balance sheet, and the live deployments that prove it.'
+intro: 'What institutions do with digital assets, as market activities rather than asset types. Each scenario names the actors, shows how it works step by step, lists the tokens from the taxonomy and the EVM standards involved, and points to live deployments. Pick your role, or what moves, to find the ones that matter to you; they are not ranked.'
+filters:
+  roles_label: Filter by your role
+  roles:
+  - { id: bank, label: Bank }
+  - { id: asset_manager, label: Asset manager }
+  - { id: fmi, label: 'Market infrastructure (CSD, CCP, exchange)' }
+  - { id: payments, label: Payment firm }
+  - { id: corporate, label: Corporate treasurer }
+  - { id: central_bank, label: Central bank }
+  moves_label: Filter by what moves
+  moves:
+  - { id: cash, label: Cash }
+  - { id: asset, label: Asset }
+  - { id: credit, label: Credit }
+scenarios:
+- title: Delivery versus payment, deposit token against a tokenized money market fund
+  path: scenarios/dvp-deposit-token-tmmf
+  text: A buyer pays with a bank deposit token and receives fund units in one transaction; either both legs settle or neither does.
+  moves: [cash, asset]
+  roles: [bank, asset_manager, fmi, corporate]
+- title: Payments with tokenized currency
+  text: Domestic and cross-border payments in deposit tokens and stablecoins, settled on the ledger around the clock.
+  moves: [cash]
+  roles: [bank, payments, corporate]
+- title: Treasury management with tokenized money market funds
+  text: Intraday liquidity and cash sweeps into tokenized money market funds, and back, without a cut-off.
+  moves: [cash]
+  roles: [corporate, asset_manager, bank]
+- title: Foreign exchange, payment versus payment
+  text: Two tokenized currencies exchanged atomically, with no settlement risk between the legs.
+  moves: [cash]
+  roles: [bank, payments, central_bank]
+- title: Repo and reverse repo
+  text: Cash against tokenized securities with an agreed return leg, both legs on the ledger.
+  moves: [cash, asset, credit]
+  roles: [bank, asset_manager, fmi]
+- title: Collateral mobility and margin
+  text: Tokenized fund units and securities posted as initial and variation margin, bilaterally, at venues and at clearing houses.
+  moves: [asset, credit]
+  roles: [bank, asset_manager, fmi]
+- title: Securities lending
+  text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
+  moves: [asset, credit]
+  roles: [asset_manager, bank, fmi]
+- title: Fund subscription and redemption
+  text: Primary-market dealing in tokenized funds against a cash leg, at the struck price or continuously.
+  moves: [cash, asset]
+  roles: [asset_manager, bank, fmi]
+- title: Corporate actions and distributions
+  text: Dividends, coupons and reinvestments paid in units or in tokenized currency, on the same ledger as the asset.
+  moves: [cash, asset]
+  roles: [fmi, asset_manager, bank]
+- title: AI agent payments
+  text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
+  moves: [cash]
+  roles: [payments, corporate, bank]
 notice:
-  title: Work in progress.
-  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+  title: Under development.
+  text: One scenario is written; the others are planned. Steps and standards may change. For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
-  title: Help shape this map.
-  text: It will be built in the open on GitHub like the others. Open an issue to suggest a scenario, a source or a deployment to include.
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  title: Missing a scenario?
+  text: Open an issue with the scenario you are investigating and we will write it up, or send a pull request.
+footnote: 'Scenarios are Ethereum Institutional house views for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

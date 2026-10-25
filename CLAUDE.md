@@ -5,7 +5,7 @@ map (a radial map: three generations of the web as rings, cut into theme wedges)
 Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
 their institutional participants and **architecture lenses**), plus a **Decentralization** page (ten gauges, levels 1 to 5, with lenses) and Privacy and Identity pages
-stubbed as work in progress, with a **Scenarios** page (market activities) stubbed the same way. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
+stubbed as work in progress, with a **Scenarios** index (one written scenario, the rest planned). Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
 Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
 and decisions behind them.
@@ -232,7 +232,12 @@ and decisions behind them.
 ## Planned / open
 
 - Possible "token properties" control (yield-bearing, synthetic, fungible / NFT / wrapped / soulbound).
-- **Scenarios** page (stubbed, `data/scenarios`): market activities (payments, DvP, repo and reverse repo, treasury
-  management, collateral mobility and margin, fund dealing) as a separate map rather than on the taxonomy. The Taurus
-  TMMF paper's Section 7.4 (lending venues versus derivatives margin; Eurex DLT collateral June 2025; no CCP yet) is
-  source material for the collateral scenarios.
+- **Scenarios** (`data/scenarios/`): the index is `kind: index` (`site.yaml` lists every scenario with `moves` and
+  `roles` tags; readers filter by their role or by what moves, because scenarios are not ranked or alphabetized).
+  Each written scenario is a folder with `site.yaml` (`kind: scenario`) and `scenario.yaml`: `actors` (columns of the
+  swimlane diagram; `kind: ledger | contract | observer` for non-institutions), `steps` (rows; `kind: offchain |
+  onchain | atomic`, an atomic step names `lanes`), `tokens` (linked to taxonomy circle ids), `standards` (EIP id,
+  status, role, URL), `sections` (why a shared ledger, variants, open questions) and `sources`. Written so far: DvP,
+  deposit token against a tokenized money market fund. Planned: payments, treasury management, FX PvP, repo,
+  collateral and margin, securities lending, fund dealing, corporate actions, AI agent payments (x402, ERC-8004,
+  EIP-3009). The Taurus TMMF paper's Section 7.4 is source material for the collateral scenarios.

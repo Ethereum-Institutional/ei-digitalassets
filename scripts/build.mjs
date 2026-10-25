@@ -13,7 +13,8 @@ const PAGES = [
   { dir: 'data/web3', out: 'web3' },                         // Web3: three generations of the web
   { dir: 'data/taxonomy', out: 'taxonomy' },                 // Digital Asset Taxonomy
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
-  { dir: 'data/scenarios', out: 'scenarios' },               // work in progress (static stub)
+  { dir: 'data/scenarios', out: 'scenarios' },               // scenario index (filterable list)
+  { dir: 'data/scenarios/dvp-deposit-token-tmmf', out: 'scenarios/dvp-deposit-token-tmmf' }, // first scenario
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
@@ -25,6 +26,9 @@ function load(dir) {
   const yml = p => parse(read(path.join(dir, p)));
   const site = yml('site.yaml');
   if (site.kind === 'static') return { dir, site, static: true };
+  // index pages list scenarios with filters; scenario pages hold one scenario (actors, steps, tokens, standards)
+  if (site.kind === 'index') return { dir, site, index: true };
+  if (site.kind === 'scenario') return { dir, site, scenario: true, sc: yml('scenario.yaml') };
   // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
   // gauges pages use the radial data files (rings = levels, themes = properties, lenses) with a dial per property
   if (site.kind === 'radial' || site.kind === 'gauges') {
@@ -146,8 +150,40 @@ function validateRadial({ dir, site, rings, themes, layout, lenses, gauges }) {
   for (const x of sourced) for (const s of x.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id}" needs a title and a URL`);
   return errors;
 }
+const SRC_OK = (errors, where, owner, srcs) => { for (const x of srcs || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where}: source on "${owner}" needs a title and a URL`); };
+function validateIndex({ dir, site }) {
+  const errors = validateStatic({ dir, site }), where = `${dir}/site.yaml`;
+  const roles = new Set((site.filters?.roles || []).map(r => r.id)), moves = new Set((site.filters?.moves || []).map(m => m.id));
+  for (const sc of site.scenarios || []) {
+    if (!sc.title || !sc.text) errors.push(`${where}: every scenario needs a title and text`);
+    if (sc.path && !PAGES.some(p => p.out === sc.path)) errors.push(`${where}: scenario path "${sc.path}" is not a page in PAGES`);
+    for (const r of sc.roles || []) if (!roles.has(r)) errors.push(`${where}: scenario "${sc.title}" names unknown role "${r}"`);
+    for (const m of sc.moves || []) if (!moves.has(m)) errors.push(`${where}: scenario "${sc.title}" names unknown move "${m}"`);
+  }
+  return errors;
+}
+function validateScenario({ dir, site, sc }) {
+  const errors = validateStatic({ dir, site }), where = `${dir}/scenario.yaml`;
+  const ids = new Set((sc.actors || []).map(a => a.id));
+  if ((sc.actors || []).length < 2) errors.push(`${where}: needs at least two actors`);
+  for (const a of sc.actors || []) { if (!a.id || !a.name || !a.role) errors.push(`${where}: every actor needs id, name and role`);
+    if (a.kind && !['institution', 'ledger', 'contract', 'observer'].includes(a.kind)) errors.push(`${where}: actor "${a.id}" kind must be institution, ledger, contract or observer`); }
+  (sc.steps || []).forEach((st, i) => { st.n = i + 1;
+    if (!st.title || !st.text) errors.push(`${where}: step ${i + 1} needs a title and text`);
+    if (!['offchain', 'onchain', 'atomic'].includes(st.kind || 'offchain')) errors.push(`${where}: step ${i + 1} kind must be offchain, onchain or atomic`);
+    for (const id of [st.from, st.to, ...(st.lanes || [])]) if (id && !ids.has(id)) errors.push(`${where}: step ${i + 1} names unknown actor "${id}"`);
+    if (!st.lanes && (!st.from || !st.to)) errors.push(`${where}: step ${i + 1} needs from and to (or lanes)`); });
+  for (const t of sc.tokens || []) { if (!t.name || !t.role) errors.push(`${where}: every token needs a name and a role`); SRC_OK(errors, where, t.name, t.sources); }
+  for (const x of sc.standards || []) if (!x.id || !x.title || !x.status || !x.role || !/^https?:\/\//.test(x.url || '')) errors.push(`${where}: standard "${x.id || '?'}" needs id, title, status, role and url`);
+  for (const sec of sc.sections || []) { if (!sec.title) errors.push(`${where}: every section needs a title`);
+    for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where}: section "${sec.title}" items need title and text`); SRC_OK(errors, where, it.title, it.sources); } }
+  SRC_OK(errors, where, 'scenario', sc.sources);
+  return errors;
+}
 function validate(page) {
   if (page.static) return validateStatic(page);
+  if (page.index) return validateIndex(page);
+  if (page.scenario) return validateScenario(page);
   if (page.radial) return validateRadial(page);
   const { dir, circles, layout, tokens, site, lenses } = page;
   const errors = [];
@@ -258,7 +294,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 // ---------- assemble ----------
 const TAG = '<span class="ei-tag">in progress</span>';
-const relHref = (from, to) => from === '' ? (to ? `${to}/` : './') : (to === '' ? '../' : `../${to}/`);
+const relHref = (from, to) => { const up = '../'.repeat(from ? from.split('/').length : 0); return to ? `${up}${to}/` : (up || './'); };
 const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => n.path === out
   ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
   : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</nav>`;
@@ -268,6 +304,51 @@ const shared = site => ({
   contribute: site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
     + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '',
 });
+function renderIndex({ site, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const sh = shared(site), F = site.filters || {};
+  const chips = (name, items) => `<div class="ei-filter" data-filter="${name}"><span class="rl">${esc(F[name + '_label'] || name)}</span>${items.map(i => `<button type="button" data-v="${esc(i.id)}" aria-pressed="false">${esc(i.label)}</button>`).join('')}</div>`;
+  const cards = (site.scenarios || []).map(sc => { const live = !!sc.path;
+    return `<${live ? `a class="ei-card" href="${relHref(out, sc.path)}"` : 'div class="ei-card planned"'} data-roles="${(sc.roles || []).join(' ')}" data-moves="${(sc.moves || []).join(' ')}"><h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
+      + `<p class="tags">${(sc.moves || []).map(m => `<span class="m">${esc((F.moves || []).find(x => x.id === m)?.label || m)}</span>`).join('')}${(sc.roles || []).map(r => `<span>${esc((F.roles || []).find(x => x.id === r)?.label || r)}</span>`).join('')}</p>`
+      + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; }).join('');
+  const body = `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}${F.moves ? chips('moves', F.moves) : ''}<button type="button" class="clear" hidden>Show all</button></div><div class="ei-cards" id="ei-cards">${cards}</div>
+<script>(function(){ const on={roles:null,moves:null}; const cards=[...document.querySelectorAll('#ei-cards .ei-card')], clear=document.querySelector('.ei-filters .clear');
+  const apply=()=>{ cards.forEach(c=>{ const ok=(!on.roles||c.dataset.roles.split(' ').includes(on.roles))&&(!on.moves||c.dataset.moves.split(' ').includes(on.moves)); c.hidden=!ok; }); clear.hidden=!on.roles&&!on.moves;
+    document.querySelectorAll('.ei-filter').forEach(f=>f.querySelectorAll('button').forEach(b=>{ const a=on[f.dataset.filter]===b.dataset.v; b.classList.toggle('on',a); b.setAttribute('aria-pressed',String(a)); })); };
+  document.querySelectorAll('.ei-filter').forEach(f=>f.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ on[f.dataset.filter]=on[f.dataset.filter]===b.dataset.v?null:b.dataset.v; apply(); })));
+  clear.addEventListener('click',()=>{ on.roles=null; on.moves=null; apply(); }); })();</script>`;
+  return read('src/static.html')
+    .replace('__STYLE__', style + `<style>
+  .ei-filters{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-filter{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .ei-filter .rl{font-size:12px;color:var(--muted);min-width:150px}
+  .ei-filter button,.ei-filters .clear{font:inherit;font-size:13px;padding:5px 11px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:var(--ink);cursor:pointer}
+  .ei-filter button:hover{border-color:var(--ink)}
+  .ei-filter button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .ei-filters .clear{align-self:flex-start;border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
+  .ei-card .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+  .ei-card .tags span{font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:#fff;color:var(--muted)}
+  .ei-card .tags span.m{border-color:#312e81;color:#312e81}
+  .ei-card.planned{cursor:default;opacity:.85}
+  .ei-card[hidden]{display:none}
+</style>`).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
+    .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
+function renderScenario({ site, sc, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const data = { actors: sc.actors, steps: sc.steps, kind: 'scenario', version,
+    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a step in the diagram to read what happens; click to pin it.' } };
+  const tags = (sc.tags || []).length ? `<div class="ei-tags">${sc.tags.map(t => `<span class="${t.kind === 'move' ? 'm' : ''}">${esc(t.label)}</span>`).join('')}</div>` : '';
+  const actorsHtml = `<div class="ei-actors">${sc.actors.map(a => `<div class="ei-actor"><h3><i class="${esc(a.kind || 'institution')}"></i>${esc(a.name)}</h3><p>${esc(a.role)}</p></div>`).join('')}</div>`;
+  const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtml(t.sources)}</div>`).join('')}</div>`;
+  const stdHtml = `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`;
+  return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
+    .replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml)
+    .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all.'))
+    .replace('__SECTIONS__', sectionsHtml({ sections: sc.sections || [] }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtml(sc.sources)}</div></div>` : ''));
+}
 function renderStatic({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site);
@@ -344,14 +425,15 @@ for (const p of pages) {
   const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });
   if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), renderStatic(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
-  const page = p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
+  if (p.index) { fs.writeFileSync(path.join(outDir, 'index.html'), renderIndex(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (index, ${(p.site.scenarios || []).length} scenarios)`); continue; }
+  const page = p.scenario ? renderScenario(p) : p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
   // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
   const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);
   const body = page.slice(page.indexOf('<body>') + 6, page.lastIndexOf('</body>'));
   fs.writeFileSync(path.join(root, 'dist', `${slug}.fragment.html`), head + '\n' + body);
   fs.writeFileSync(path.join(outDir, 'index.html'), page);
-  console.log(p.radial
+  console.log(p.scenario ? `Built ${path.join('dist', p.out, 'index.html')} (scenario, ${p.sc.actors.length} actors, ${p.sc.steps.length} steps)` : p.radial
     ? `Built ${path.join('dist', p.out, 'index.html')} (${p.rings.rings.length} ${p.gauges ? 'levels' : 'rings'}, ${p.themes.themes.length} ${p.gauges ? 'gauges' : 'themes'}, ${(p.lenses || []).length} lenses), version ${version}`
     : `Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
 }

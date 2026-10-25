@@ -13,7 +13,10 @@ and generated from plain-text data in this repository:
   their institutional participants placed on the map and **architecture lenses** (Layer 1, side-chain, Layer 2 rollup).
 - **Decentralization**: eleven gauges, one per property of a ledger, on a scale of 1 (one party) to 5 (open network), with
   lenses that set them to a single-operator ledger, a consortium ledger or Ethereum mainnet, each reading dated and sourced.
-- **Scenarios, Privacy and Identity**: planned maps, stubbed as "in progress".
+- **Scenarios**: what institutions do with digital assets, one page per market activity with the actors, a step-by-step
+  diagram, the taxonomy tokens and the EVM standards involved; filter by your role or by what moves. One written
+  (delivery versus payment), the rest planned.
+- **Privacy and Identity**: planned maps, stubbed as "in progress".
 
 **View the live site: https://ethereum-institutional.github.io/ei-digitalassets/** 
 - [Web3](https://ethereum-institutional.github.io/ei-digitalassets/web3/)
@@ -32,7 +35,8 @@ You do not need to run anything locally. Edit a file on GitHub, open a pull requ
 validate your change, build the pages and attach a rendered preview to the pull request. Each map's folder has a
 `README.md` with the editing guide for that map:
 [Web3](data/web3/README.md), [Digital Asset Taxonomy](data/taxonomy/README.md),
-[Digital Asset Networks](data/networks/README.md), [Decentralization](data/decentralization/README.md).
+[Digital Asset Networks](data/networks/README.md), [Decentralization](data/decentralization/README.md),
+[Scenarios](data/scenarios/README.md).
 
 **Page settings** live in each `site.yaml`: `lens_groups` (one dropdown per group), `badge` (`disc` for ticker
 chips, `pill` for named badges), `legend`, `panel_default` and the intro's `intro_more`. Navigation between pages is
