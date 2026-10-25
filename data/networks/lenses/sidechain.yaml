@@ -8,7 +8,7 @@ name: Side-chain
 short: Side-chain
 scope: networks
 color: '#6366f1'
-intro: 'A side-chain is a separate blockchain with its own validator set, connected to a parent chain by a bridge that locks assets on one side and mints them on the other. It exists to add capacity or features without changing the parent. The benefit is cheap, fast execution that reuses the parent’s tooling (Polygon PoS runs the EVM, so Ethereum contracts deploy unchanged). The cost is that security does not come from the parent: if the side-chain’s validators fail or collude, the bridge can be drained and the parent chain cannot help, which is the difference from a rollup.'
+intro: 'A side-chain is a separate blockchain with its own validator set, connected to a parent chain by a bridge that locks assets on one side and mints them on the other. It exists to add capacity or features without changing the parent. The benefit is cheap, fast execution that reuses the parent’s tooling (Polygon PoS runs the EVM, so Ethereum contracts deploy unchanged). The cost is that security does not come from the parent: if the side-chain’s validators fail or collude, the bridge can be drained and the parent chain cannot help, which is the difference from a rollup. Permissioned fund tokens are an exception to the bridge question: issuers move them between networks by transfer-agent burn-and-mint, so exactly one unit exists at a time and the token on every network is the share.'
 networks:
   polygon: in
 notes:
@@ -16,5 +16,8 @@ notes:
   base: A rollup, not a side-chain; Ethereum mainnet settles its state.
   arbitrum: A rollup, not a side-chain; Ethereum mainnet settles its state.
   optimism: A rollup, not a side-chain; Ethereum mainnet settles its state.
-sources: []
+sources:
+- title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
+  url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
+  checked: '2026-10-25'
 last_reviewed: '2026-10-25'

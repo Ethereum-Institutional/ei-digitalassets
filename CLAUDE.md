@@ -5,7 +5,7 @@ map (a radial map: three generations of the web as rings, cut into theme wedges)
 Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
 their institutional participants and **architecture lenses**), plus Decentralization, Privacy and Identity pages
-stubbed as work in progress. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
+stubbed as work in progress, with a **Scenarios** page (market activities) stubbed the same way. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
 Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
 and decisions behind them.
@@ -79,6 +79,12 @@ and decisions behind them.
   Instruments (Equities, Funds, Fixed Income, Derivatives, with hybrid overlaps for structured notes and
   trackers/warrants). Funds do not overlap Derivatives. Loans packaged into bonds (e.g. MBS) move to Fixed Income.
   Settlement/collateral tokens are treated as part of the asset they carry; there is no separate settlement-token circle.
+- **Tokenized money market funds** stay in Funds (sourced to the Taurus design paper, September 2026, and the ECB
+  Macroprudential Bulletin, April 2026): even a constant-price fund is a share with a dealing cut-off; income arrives
+  as more units (BUIDL, BENJI) or a rising price (Spiko, uMINT, USYC). Ondo USDY is a note from a bankruptcy-remote
+  vehicle, not a fund: if ever named it goes in Fixed Income. The RWA definition states the three **register models**
+  (ledger as statutory register: Spiko; part of the official record: BENJI; secondary record with clawback:
+  WisdomTree) because "represented on DLT" spans all three.
 - Keep the map lean: prefer explaining in definitions and lens notes over adding circles.
 - **Writing style:** American (US) spelling everywhere (tokenized, recognized, decentralized, color, license, center);
   quoted source titles keep the spelling of the document they name. No em-dashes anywhere (content, notes, docs, UI text, commit messages); use commas, colons,
@@ -187,4 +193,7 @@ and decisions behind them.
 ## Planned / open
 
 - Possible "token properties" control (yield-bearing, synthetic, fungible / NFT / wrapped / soulbound).
-- Market activities (DvP, repo, collateral mobility) as separate diagrams rather than on this map.
+- **Scenarios** page (stubbed, `data/scenarios`): market activities (payments, DvP, repo and reverse repo, treasury
+  management, collateral mobility and margin, fund dealing) as a separate map rather than on the taxonomy. The Taurus
+  TMMF paper's Section 7.4 (lending venues versus derivatives margin; Eurex DLT collateral June 2025; no CCP yet) is
+  source material for the collateral scenarios.

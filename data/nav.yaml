@@ -10,6 +10,9 @@ pages:
   path: taxonomy
 - label: Digital Asset Networks
   path: networks
+- label: Scenarios
+  path: scenarios
+  wip: true
 - label: Decentralization
   path: decentralization
   wip: true

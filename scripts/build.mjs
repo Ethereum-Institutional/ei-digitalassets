@@ -13,6 +13,7 @@ const PAGES = [
   { dir: 'data/web3', out: 'web3' },                         // Web3: three generations of the web
   { dir: 'data/taxonomy', out: 'taxonomy' },                 // Digital Asset Taxonomy
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
+  { dir: 'data/scenarios', out: 'scenarios' },               // work in progress (static stub)
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)

@@ -19,6 +19,9 @@ cards:
 - path: networks
   title: Digital Asset Networks
   text: 'How the networks that carry digital assets differ: permissioned or permissionless consensus, and who may run a node (private, consortium or public), with the institutions live on each.'
+- path: scenarios
+  title: Scenarios
+  text: 'What institutions do with digital assets: payments, delivery versus payment, repo, treasury management and collateral, each showing which leg moves on the ledger and what settles atomically.'
 - path: decentralization
   title: Decentralization
   text: 'How decentralization is measured and where networks and deployments sit on it: validators, clients, governance, infrastructure and the people behind them.'

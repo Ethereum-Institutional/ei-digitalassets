@@ -7,6 +7,15 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Tokenized money market funds, from the Taurus design paper (September 2026).** The taxonomy’s Funds definition
+  now explains how a tokenized MMF delivers income (more units at par for constant-price funds, a rising struck price
+  for variable-price ones) and why it stays a fund share; the Tokenized Real-World Assets definition names the three
+  register models (ledger as statutory register, part of the official record, secondary record). On the networks map
+  Spiko joins Ethereum mainnet, Base, Arbitrum One and Polygon PoS (its prospectus keeps the share register on those
+  ledgers), Circle’s entries add USYC (Ethereum mainnet, BNB Chain), and the Layer 2 and side-chain lenses cite the
+  paper’s per-network cost figures and transfer-agent burn-and-mint.
+- **Scenarios page stub** (`/scenarios/`): market activities (payments, DvP, repo and reverse repo, treasury
+  management, collateral) as a future map, marked in progress.
 - **Repository layout.** The taxonomy's data moved from `data/` to `data/taxonomy/`, matching the other maps; each
   map folder now carries its own editing guide (`README.md`) and the root README is a short overview.
 - **New page: Web3** (`/web3/`, data in `data/web3/`). A radial map: three concentric rings (Web 1.0 read, Web 2.0
