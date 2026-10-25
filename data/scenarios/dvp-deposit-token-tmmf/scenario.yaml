@@ -106,6 +106,7 @@ tokens:
   place: Digital Money › Tokenized Currencies › Central Bank › Wholesale CBDC
   role: Central bank money on the same ledger would make the cash leg risk-free and bank-neutral. Not live on a public ledger today; the subject of central bank experiments.
 
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by its register model, its cash leg and the systems that must read the tokens, and several (CMTAT, ERC-1400) are alternatives to those listed.'
 standards:
 - id: ERC-20
   title: Token Standard
@@ -151,6 +152,8 @@ standards:
 sections:
 - title: Why a shared ledger
   items:
+  - title: Any product against any payment
+    text: 'The same eight steps settle a bond, an equity, a fund of any kind or a tokenized commodity against a deposit token, a stablecoin or, in time, central bank money. The pairing shown here is the common one because it is where the economics bite: a treasurer holds cash that earns little or nothing and wants, within the same ledger and the same day, an asset that earns the money-market rate, and wants to be able to come back just as fast.'
   - title: Atomic by construction
     text: Both legs are records on the same ledger, so one transaction can move both or neither. Traditional DvP needs a securities depository, a payment system and a link between them, with intraday credit covering the gap; here the gap does not exist.
   - title: One record, no reconciliation

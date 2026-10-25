@@ -345,7 +345,7 @@ function renderScenario({ site, sc, out }) {
   const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtml(t.sources)}</div>`).join('')}</div>`;
   const stdHtml = `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`;
   return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
-    .replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml)
+    .replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml).replace('__STANDARDS_HELP__', esc(sc.standards_help || ''))
     .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all.'))
     .replace('__SECTIONS__', sectionsHtml({ sections: sc.sections || [] }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtml(sc.sources)}</div></div>` : ''));
 }
