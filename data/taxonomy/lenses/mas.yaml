@@ -10,7 +10,7 @@ menu: 'SG · Singapore (MAS): “digital payment token”'
 name: Singapore MAS “digital payment token”
 short: Singapore MAS
 color: '#a21caf'
-intro: 'Under Singapore’s Payment Services Act, a digital payment token (DPT) is a digital representation of value used as a medium of exchange, transferable electronically. Limited-purpose tokens (loyalty, in-game) are excluded, and tokenized securities are capital markets products under the Securities and Futures Act. MAS finalised a stablecoin framework in 2023, but it is not yet law: draft amendments to the Payment Services Act (consultation 1 September to 16 October 2026) would license single-currency stablecoin issuers and reserve the “MAS-regulated stablecoin” label for them. Banks may continue to issue tokenized deposits.'
+intro: 'Under Singapore’s Payment Services Act, a digital payment token (DPT) is a digital representation of value used as a medium of exchange, transferable electronically. Limited-purpose tokens (loyalty, in-game) are excluded, and tokenized securities are capital markets products under the Securities and Futures Act. MAS finalized a stablecoin framework in 2023, but it is not yet law: draft amendments to the Payment Services Act (consultation 1 September to 16 October 2026) would license single-currency stablecoin issuers and reserve the “MAS-regulated stablecoin” label for them. Banks may continue to issue tokenized deposits.'
 status:
   nat: in
   btc: in

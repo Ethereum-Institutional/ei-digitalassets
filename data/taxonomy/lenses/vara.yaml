@@ -57,13 +57,13 @@ notes:
   ocom: Generally ARVAs, unless structured as securities or derivatives.
   re: Dubai Land Department / VARA tokenized title deeds are virtual assets; property tokens structured as securities (e.g. SPV shares) fall to the CMA.
   pc: 'Usually out: typically structured as securities.'
-  coll: Assessed case by case; fractionalised ownership may be a security.
+  coll: Assessed case by case; fractionalized ownership may be a security.
   ip: Income-bearing royalty tokens are often securities.
   sec: Security tokens fall to the federal CMA (formerly the SCA, under Federal Decree-Laws No. 32 and 33 of 2025), not VARA; tokens are classified by the asset inside them.
   dv: Exchange-traded derivatives on virtual assets (futures, options, CFDs and perpetuals) are regulated by VARA under Exchange Services Rulebook v2.1 (in force 31 March 2026) and need separate approval. Derivatives on securities or commodities fall to the CMA.
   fund: Fund units are securities under the CMA, tokenized MMFs included.
   trk: Equity-linked instruments fall to the CMA. VARA’s definition of asset-referenced virtual assets counts an interest in a financial instrument as a real-world asset, so a token giving exposure without being a security could fall to VARA.
-  art: NFTs are assessed case by case; fractionalised NFTs may be securities.
+  art: NFTs are assessed case by case; fractionalized NFTs may be securities.
   game: Non-transferable or closed-loop in-game tokens are exempt virtual assets.
   loy: Non-transferable loyalty points are exempt virtual assets.
   id: Non-transferable credentials are generally exempt.

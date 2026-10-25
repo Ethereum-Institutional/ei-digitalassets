@@ -10,7 +10,7 @@ menu: 'CH · Switzerland (FINMA): token classes'
 name: Switzerland FINMA token classes
 short: Switzerland
 color: '#14130f'
-intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking licence. A Federal Council draft (consultation from October 2025) would add FINMA “payment instrument institution” licences for issuers of value-stable crypto-based means of payment (wertstabile kryptobasierte Zahlungsmittel) and “crypto-institution” licences for service providers.'
+intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking license. A Federal Council draft (consultation from October 2025) would add FINMA “payment instrument institution” licenses for issuers of value-stable crypto-based means of payment (wertstabile kryptobasierte Zahlungsmittel) and “crypto-institution” licenses for service providers.'
 groups:
 - id: pay
   label: Payment tokens
@@ -74,11 +74,11 @@ notes:
   wcbdc: Live pilots under Project Helvetia.
   td: Bank deposits under banking law.
   dt: Bank deposits; a stablecoin without a bank default guarantee may itself be treated as a deposit.
-  sc: 'Case by case: may be a deposit, a collective investment scheme or a payment token depending on backing. Switzerland has no stablecoin licence yet: a Federal Council draft (consultation 22 October 2025 to 6 February 2026) would license “value-stable crypto-based means of payment” referencing a single fiat currency, with segregated, bankruptcy-remote reserves, redemption at par and no interest, issued by FINMA-licensed payment instrument institutions (banks would not issue directly). It is not yet law.'
-  USDT: Shown as a payment token, but FINMA classifies stablecoins case by case and USDT holds no Swiss licence or designation; issued abroad, it may instead be treated as deposit-like.
-  USDC: Shown as a payment token, but FINMA classifies stablecoins case by case and USDC holds no Swiss licence or designation; issued abroad, it may instead be treated as deposit-like.
-  unreg: Case by case, like other stablecoins. Under FINMA’s 2024 guidance, an issuer without a Swiss banking licence needs a bank default guarantee.
-  alg: Classified case by case by economic function; no Swiss regime authorises algorithmic stablecoins.
+  sc: 'Case by case: may be a deposit, a collective investment scheme or a payment token depending on backing. Switzerland has no stablecoin license yet: a Federal Council draft (consultation 22 October 2025 to 6 February 2026) would license “value-stable crypto-based means of payment” referencing a single fiat currency, with segregated, bankruptcy-remote reserves, redemption at par and no interest, issued by FINMA-licensed payment instrument institutions (banks would not issue directly). It is not yet law.'
+  USDT: Shown as a payment token, but FINMA classifies stablecoins case by case and USDT holds no Swiss license or designation; issued abroad, it may instead be treated as deposit-like.
+  USDC: Shown as a payment token, but FINMA classifies stablecoins case by case and USDC holds no Swiss license or designation; issued abroad, it may instead be treated as deposit-like.
+  unreg: Case by case, like other stablecoins. Under FINMA’s 2024 guidance, an issuer without a Swiss banking license needs a bank default guarantee.
+  alg: Classified case by case by economic function; no Swiss regime authorizes algorithmic stablecoins.
   lst: Depends on the claim; a token representing a claim on the underlying asset may be an asset token rather than a payment token.
   gov: 'Hybrid: often utility, sometimes asset tokens if they carry economic rights.'
   art: NFTs are generally outside financial-market law unless they function as payment or asset tokens.

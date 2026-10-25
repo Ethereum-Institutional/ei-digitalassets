@@ -1,7 +1,7 @@
-# Network badges: the ten largest native cryptocurrencies by market capitalisation (25 October 2026; stablecoins and
+# Network badges: the ten largest native cryptocurrencies by market capitalization (25 October 2026; stablecoins and
 # tokens that are not native to a network excluded) plus networks that illustrate each region of the map.
 # `circle` is the circle the badge sits in; `eth: true` draws it in ink (Ethereum ecosystem: runs an Ethereum client,
-# the EVM, or settles on Ethereum mainnet), otherwise grey. Badges never move. Names, not tickers, because "ETH" and
+# the EVM, or settles on Ethereum mainnet), otherwise gray. Badges never move. Names, not tickers, because "ETH" and
 # "Ethereum" are overloaded across the ecosystem; the chain is always "Ethereum mainnet".
 # Every claim carries a source (url + date checked). Secondary sources say so in the title.
 
@@ -14,7 +14,7 @@ networks:
   x: 1295
   y: 730
   eth: false
-  desc: 'The canonical fully permissionless network and the largest digital asset (about $1.6 trillion), with a fixed supply of 21 million. Proof of work means the protocol never knows who is mining, assumes nothing about anyone staying online and prices sybils in electricity and hardware; finality is probabilistic. Smart contracts: no. Bitcoin Script is deliberately not Turing-complete (no loops), but its multisignature and timelock conditions are the building blocks of protocols such as the Lightning Network, which moves payments off-chain through channels funded by on-chain transactions and relies on the blockchain to settle, or to penalise a cheating party, when needed.'
+  desc: 'The canonical fully permissionless network and the largest digital asset (about $1.6 trillion), with a fixed supply of 21 million. Proof of work means the protocol never knows who is mining, assumes nothing about anyone staying online and prices sybils in electricity and hardware; finality is probabilistic. Smart contracts: no. Bitcoin Script is deliberately not Turing-complete (no loops), but its multisignature and timelock conditions are the building blocks of protocols such as the Lightning Network, which moves payments off-chain through channels funded by on-chain transactions and relies on the blockchain to settle, or to penalize a cheating party, when needed.'
   sources:
   - title: Lewis-Pye and Roughgarden, Permissionless Consensus (Bitcoin as the fully permissionless protocol)
     url: https://arxiv.org/abs/2304.14701
@@ -51,7 +51,7 @@ networks:
   x: 1295
   y: 820
   eth: false
-  desc: 'RandomX proof of work (since release 0.15, November 2019), designed to keep general-purpose CPUs competitive with specialised hardware. Fully permissionless, with privacy by default: amounts and counterparties are hidden on-chain, which is why most regulated venues do not list it. Unlike Bitcoin’s absolute cap, Monero pays a tail emission of 0.6 XMR per two-minute block (since May 2022), so miners are always paid to secure the network; the supply still grows by well under 1% a year and that rate keeps falling, so it remains relatively scarce. Smart contracts: no.'
+  desc: 'RandomX proof of work (since release 0.15, November 2019), designed to keep general-purpose CPUs competitive with specialized hardware. Fully permissionless, with privacy by default: amounts and counterparties are hidden on-chain, which is why most regulated venues do not list it. Unlike Bitcoin’s absolute cap, Monero pays a tail emission of 0.6 XMR per two-minute block (since May 2022), so miners are always paid to secure the network; the supply still grows by well under 1% a year and that rate keeps falling, so it remains relatively scarce. Smart contracts: no.'
   sources:
   - title: Moneropedia, RandomX
     url: https://www.getmonero.org/resources/moneropedia/randomx.html
@@ -170,7 +170,7 @@ networks:
   x: 972
   y: 480
   eth: false
-  desc: 'The Stellar Consensus Protocol is federated Byzantine agreement: each validator chooses the quorum slices it trusts. Anyone can run a validator, but it only matters once existing validators add it to their slices, and the network’s safety rests on about ten “Tier 1” organisations, which the docs say takes months of convincing the others. Public, with consensus that the incumbents curate: permissioned under EI’s rule. Smart contracts run on Soroban (Wasm), not the EVM. Smart contracts: yes, since Stellar’s Protocol 20 upgrade on 20 February 2024; Soroban contracts are written in Rust and compiled to WebAssembly, not the EVM.'
+  desc: 'The Stellar Consensus Protocol is federated Byzantine agreement: each validator chooses the quorum slices it trusts. Anyone can run a validator, but it only matters once existing validators add it to their slices, and the network’s safety rests on about ten “Tier 1” organizations, which the docs say takes months of convincing the others. Public, with consensus that the incumbents curate: permissioned under EI’s rule. Smart contracts run on Soroban (Wasm), not the EVM. Smart contracts: yes, since Stellar’s Protocol 20 upgrade on 20 February 2024; Soroban contracts are written in Rust and compiled to WebAssembly, not the EVM.'
   sources:
   - title: Stellar developer docs, Stellar Consensus Protocol
     url: https://developers.stellar.org/docs/learn/fundamentals/stellar-consensus-protocol
@@ -187,7 +187,7 @@ networks:
   x: 972
   y: 440
   eth: false
-  desc: 'Anyone can run a node and transact, so it is public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule. Not EVM based (the XRPL EVM is a separate chain). Smart contracts: not on the main ledger, which offers native escrows, tokens and a decentralised exchange instead; WebAssembly “smart escrows” (XLS-100) are still in development, and the XRPL EVM is a separate chain.'
+  desc: 'Anyone can run a node and transact, so it is public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule. Not EVM based (the XRPL EVM is a separate chain). Smart contracts: not on the main ledger, which offers native escrows, tokens and a decentralized exchange instead; WebAssembly “smart escrows” (XLS-100) are still in development, and the XRPL EVM is a separate chain.'
   sources:
   - title: xrpl.org, Unique Node List (two default publishers; inclusion criteria)
     url: https://xrpl.org/docs/concepts/consensus-protocol/unl
@@ -250,7 +250,7 @@ networks:
   x: 640
   y: 815
   eth: true
-  desc: 'The Sterling Fnality Payment System has settled live payments since December 2023 in wholesale central bank money for its shareholder banks (24 institutions, starting with Lloyds, Santander and UBS); HM Treasury recognised it as systemically important and the Bank of England regulates it. One jurisdiction, so Sovereign. Reported to be built on Besu (Ledger Insights, LF Decentralized Trust report); Fnality’s own site does not name the client.'
+  desc: 'The Sterling Fnality Payment System has settled live payments since December 2023 in wholesale central bank money for its shareholder banks (24 institutions, starting with Lloyds, Santander and UBS); HM Treasury recognized it as systemically important and the Bank of England regulates it. One jurisdiction, so Sovereign. Reported to be built on Besu (Ledger Insights, LF Decentralized Trust report); Fnality’s own site does not name the client.'
   sources:
   - title: Fnality, initial phase of sterling payment operations (14 December 2023)
     url: https://fnality.com/news/fnality-commences-initial-phase-of-sterling-payment-operations-in-a-world-first
@@ -267,7 +267,7 @@ networks:
   x: 640
   y: 850
   eth: true
-  desc: 'The Bank of Korea’s pilot of wholesale CBDC and tokenised bank deposits: a permissioned Besu network of 20 nodes with QBFT consensus, operated by the central bank and seven designated banks (phase 1, April to June 2025; a second phase with nine banks in 2026). A sovereign consortium convened by the central bank, and Ethereum ecosystem by client.'
+  desc: 'The Bank of Korea’s pilot of wholesale CBDC and tokenized bank deposits: a permissioned Besu network of 20 nodes with QBFT consensus, operated by the central bank and seven designated banks (phase 1, April to June 2025; a second phase with nine banks in 2026). A sovereign consortium convened by the central bank, and Ethereum ecosystem by client.'
   sources:
   - title: Bank of Korea, Project Hangang phase 1 report (Besu, QBFT, 20 nodes, designated banks only)
     url: https://www.bok.or.kr/eng/bbs/E0000654/view.do?menuNo=400048&nttId=10095216
@@ -281,7 +281,7 @@ networks:
   x: 640
   y: 885
   eth: true
-  desc: 'DeCurret DCP’s tokenised deposit network in Japan, live since 2024 with GMO Aozora Net Bank minting DCJPY and other Japanese banks joining; DeCurret DCP joined LF Decentralized Trust in September 2026. A sovereign consortium. Reported to be Besu-based (LF Decentralized Trust’s 2026 adoption report); not confirmed by DeCurret DCP’s own pages.'
+  desc: 'DeCurret DCP’s tokenized deposit network in Japan, live since 2024 with GMO Aozora Net Bank minting DCJPY and other Japanese banks joining; DeCurret DCP joined LF Decentralized Trust in September 2026. A sovereign consortium. Reported to be Besu-based (LF Decentralized Trust’s 2026 adoption report); not confirmed by DeCurret DCP’s own pages.'
   sources:
   - title: DeCurret DCP, DCJPY service release (28 August 2024)
     url: https://www.dcjpy.com/en/.assets/EN20240828_DCJPYservicerelease.pdf
@@ -301,7 +301,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Tokenised abrdn money market fund units offered through Archax on Ethereum mainnet and Hedera to professional investors since 2024.'
+  desc: 'Tokenized abrdn money market fund units offered through Archax on Ethereum mainnet and Hedera to professional investors since 2024.'
   sources:
   - title: 'Crowdfund Insider, Archax expands tokenised fund range (secondary source)'
     url: https://www.crowdfundinsider.com/2024/04/224199-archax-an-fca-regulated-digital-assets-exchange-expands-range-of-fund-shares-it-offers-in-tokenized-form/
@@ -314,7 +314,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'ACRED, the tokenised feeder to Apollo’s Diversified Credit Fund with Securitize, launched in January 2025 on Ethereum mainnet and five other chains for qualified investors.'
+  desc: 'ACRED, the tokenized feeder to Apollo’s Diversified Credit Fund with Securitize, launched in January 2025 on Ethereum mainnet and five other chains for qualified investors.'
   sources:
   - title: 'Apollo and Securitize launch ACRED (30 January 2025)'
     url: https://www.nasdaq.com/press-release/apollo-and-securitize-announce-partnership-and-launch-tokenized-access-credit-fund
@@ -340,7 +340,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'BUIDL, the BlackRock USD Institutional Digital Liquidity Fund tokenised by Securitize, has been issued on Ethereum mainnet for qualified investors since March 2024; in August 2026 BlackRock added tokenised share classes of six European money market funds minted on Ethereum mainnet through Kinexys by J.P. Morgan.'
+  desc: 'BUIDL, the BlackRock USD Institutional Digital Liquidity Fund tokenized by Securitize, has been issued on Ethereum mainnet for qualified investors since March 2024; in August 2026 BlackRock added tokenized share classes of six European money market funds minted on Ethereum mainnet through Kinexys by J.P. Morgan.'
   sources:
   - title: 'BlackRock launches BUIDL on Ethereum (20 March 2024)'
     url: https://www.nasdaq.com/press-release/blackrock-launches-its-first-tokenized-fund-buidl-on-the-ethereum-network-2024-03-20
@@ -356,7 +356,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Digital Asset Data Insights publishes fund-accounting data for BlackRock’s BUIDL to Ethereum mainnet through smart contracts (April 2025); BNY’s own tokenised deposits run on a private chain.'
+  desc: 'Digital Asset Data Insights publishes fund-accounting data for BlackRock’s BUIDL to Ethereum mainnet through smart contracts (April 2025); BNY’s own tokenized deposits run on a private chain.'
   sources:
   - title: 'BNY, on-chain data offering (3 April 2025)'
     url: https://www.bny.com/corporate/global/en/about-us/newsroom/press-release/bny-expands-digital-asset-platform-with-launch-of-innovative-on-chain-offering.html
@@ -401,7 +401,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'BENJI, the tokenised Franklin OnChain U.S. Government Money Fund (FOBXX), has been available on Ethereum mainnet since September 2024.'
+  desc: 'BENJI, the tokenized Franklin OnChain U.S. Government Money Fund (FOBXX), has been available on Ethereum mainnet since September 2024.'
   sources:
   - title: 'Franklin Templeton, Benji platform and supported networks'
     url: https://digitalassets.franklintempleton.com/benji/
@@ -427,7 +427,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'iSNR, a senior loan note tokenised through DigiFT on Ethereum mainnet and Arbitrum for accredited investors, February 2025.'
+  desc: 'iSNR, a senior loan note tokenized through DigiFT on Ethereum mainnet and Arbitrum for accredited investors, February 2025.'
   sources:
   - title: 'Cointelegraph, DigiFT and Invesco iSNR (secondary source)'
     url: https://cointelegraph.com/news/digift-invesco-private-credit-token-arbitrum
@@ -440,7 +440,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'JPM Coin (JPMD), the Kinexys deposit token, went live on Ethereum mainnet for institutional clients on 19 October 2026, after Base; J.P. Morgan Asset Management’s MONY tokenised money market fund has run on Ethereum mainnet since December 2025.'
+  desc: 'JPM Coin (JPMD), the Kinexys deposit token, went live on Ethereum mainnet for institutional clients on 19 October 2026, after Base; J.P. Morgan Asset Management’s MONY tokenized money market fund has run on Ethereum mainnet since December 2025.'
   sources:
   - title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)'
     url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum
@@ -456,7 +456,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Sub-adviser to the Anemoy JTRSY treasury fund (September 2024) and JAAA CLO fund (June 2025) tokenised on Ethereum mainnet through Centrifuge.'
+  desc: 'Sub-adviser to the Anemoy JTRSY treasury fund (September 2024) and JAAA CLO fund (June 2025) tokenized on Ethereum mainnet through Centrifuge.'
   sources:
   - title: 'Crypto Briefing, Centrifuge tokenises JAAA (secondary source)'
     url: https://cryptobriefing.com/centrifuge-tokenizes-jaaa-clo-fund/
@@ -511,7 +511,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Through SC Ventures’ Libeara, the SGD Delta Fund (Moody’s Aa, January 2024) and the Wellington-managed ULTRA fund are tokenised on Ethereum mainnet; the Standard Chartered-backed Anchorpoint HKD stablecoin, licensed by the HKMA in April 2026, began a professional-investor beta on Ethereum mainnet in August 2026.'
+  desc: 'Through SC Ventures’ Libeara, the SGD Delta Fund (Moody’s Aa, January 2024) and the Wellington-managed ULTRA fund are tokenized on Ethereum mainnet; the Standard Chartered-backed Anchorpoint HKD stablecoin, licensed by the HKMA in April 2026, began a professional-investor beta on Ethereum mainnet in August 2026.'
   sources:
   - title: 'Ledger Insights, Libeara tokenises Wellington fund (secondary source)'
     url: https://www.ledgerinsights.com/stan-charts-libeara-tokenizes-wellington-us-treasury-fund-in-singapore/
@@ -556,7 +556,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'uMINT, “a Money Market investment built on Ethereum distributed ledger technology”, launched on 1 November 2024 through authorised distributors.'
+  desc: 'uMINT, “a Money Market investment built on Ethereum distributed ledger technology”, launched on 1 November 2024 through authorized distributors.'
   sources:
   - title: 'UBS, first tokenised investment fund (1 November 2024)'
     url: https://www.ubs.com/global/en/media/display-page-ndp/en-20241101-first-tokenized-investment-fund.html
@@ -585,7 +585,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'WisdomTree Connect offers 13 SEC-registered tokenised funds on Ethereum mainnet (September 2024), later extended to Base, Arbitrum, Optimism and Avalanche.'
+  desc: 'WisdomTree Connect offers 13 SEC-registered tokenized funds on Ethereum mainnet (September 2024), later extended to Base, Arbitrum, Optimism and Avalanche.'
   sources:
   - title: 'WisdomTree Connect, 13 tokenised funds across networks'
     url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
@@ -666,7 +666,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'WisdomTree Connect tokenised funds on Base since April 2025.'
+  desc: 'WisdomTree Connect tokenized funds on Base since April 2025.'
   sources:
   - title: 'WisdomTree Connect, 13 tokenised funds across networks'
     url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
@@ -718,7 +718,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'iSNR senior loan note tokenised through DigiFT on Arbitrum, March 2025.'
+  desc: 'iSNR senior loan note tokenized through DigiFT on Arbitrum, March 2025.'
   sources:
   - title: 'Cointelegraph, DigiFT and Invesco iSNR (secondary source)'
     url: https://cointelegraph.com/news/digift-invesco-private-credit-token-arbitrum
@@ -757,7 +757,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'WisdomTree Connect tokenised funds on Arbitrum since April 2025.'
+  desc: 'WisdomTree Connect tokenized funds on Arbitrum since April 2025.'
   sources:
   - title: 'WisdomTree Connect, 13 tokenised funds across networks'
     url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
@@ -809,7 +809,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'WisdomTree Connect tokenised funds on OP Mainnet since April 2025.'
+  desc: 'WisdomTree Connect tokenized funds on OP Mainnet since April 2025.'
   sources:
   - title: 'WisdomTree Connect, 13 tokenised funds across networks'
     url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
@@ -874,7 +874,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'SCOPE feeder fund (May 2023) and Secondary Fund VI feeder (August 2024) tokenised with Securitize on Polygon.'
+  desc: 'SCOPE feeder fund (May 2023) and Secondary Fund VI feeder (August 2024) tokenized with Securitize on Polygon.'
   sources:
   - title: 'Hamilton Lane, SCOPE available via Securitize'
     url: https://www.hamiltonlane.com/en-us/news/scope-available-via-securitize
@@ -968,7 +968,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Tokenised exposure to KKR’s Health Care Strategic Growth Fund II with Securitize on Avalanche since September 2022.'
+  desc: 'Tokenized exposure to KKR’s Health Care Strategic Growth Fund II with Securitize on Avalanche since September 2022.'
   sources:
   - title: 'KKR and Securitize tokenised fund on Avalanche (13 September 2022)'
     url: https://www.businesswire.com/news/home/20220913005384/en/
@@ -1020,7 +1020,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'WisdomTree Connect tokenised funds on Avalanche since April 2025.'
+  desc: 'WisdomTree Connect tokenized funds on Avalanche since April 2025.'
   sources:
   - title: 'WisdomTree Connect, 13 tokenised funds across networks'
     url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
@@ -1033,7 +1033,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Tokenised abrdn money market fund units through Archax on Hedera and Ethereum mainnet since 2024.'
+  desc: 'Tokenized abrdn money market fund units through Archax on Hedera and Ethereum mainnet since 2024.'
   sources:
   - title: 'Crowdfund Insider, Archax expands tokenised fund range (secondary source)'
     url: https://www.crowdfundinsider.com/2024/04/224199-archax-an-fca-regulated-digital-assets-exchange-expands-range-of-fund-shares-it-offers-in-tokenized-form/
@@ -1128,7 +1128,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Banco de México is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'Banco de México is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1154,7 +1154,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Bank of England is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'Bank of England is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1167,7 +1167,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Bank of Japan is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'Bank of Japan is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1180,7 +1180,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Bank of Korea is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'Bank of Korea is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1193,7 +1193,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Banque de France (representing the Eurosystem) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'Banque de France (representing the Eurosystem) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1206,7 +1206,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'NY Fed (the Federal Reserve Bank of New York) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'NY Fed (the Federal Reserve Bank of New York) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1219,7 +1219,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Swiss National Bank is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenised deposits and wholesale central bank money on one platform.'
+  desc: 'Swiss National Bank is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1233,7 +1233,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'ANZ is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'ANZ is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1246,7 +1246,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'BNP Paribas is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'BNP Paribas is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1259,7 +1259,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'BNY is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'BNY is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1272,7 +1272,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Citi is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'Citi is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1285,7 +1285,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'DBS is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'DBS is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1298,7 +1298,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'FAB is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'FAB is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1311,7 +1311,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'FirstRand is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'FirstRand is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1324,7 +1324,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'HSBC is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger, and with Standard Chartered completed the first live bank-to-bank tokenised deposit transaction on it on 20 August 2026. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'HSBC is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger, and with Standard Chartered completed the first live bank-to-bank tokenized deposit transaction on it on 20 August 2026. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)'
     url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain
@@ -1340,7 +1340,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Itaú is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'Itaú is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1353,7 +1353,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Lloyds is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'Lloyds is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1366,7 +1366,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Mashreq is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'Mashreq is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1379,7 +1379,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'MUFG is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'MUFG is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1392,7 +1392,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'OCBC is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'OCBC is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1405,7 +1405,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Standard Chartered is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger, and with HSBC completed the first live bank-to-bank tokenised deposit transaction on it on 20 August 2026. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'Standard Chartered is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger, and with HSBC completed the first live bank-to-bank tokenized deposit transaction on it on 20 August 2026. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)'
     url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain
@@ -1421,7 +1421,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'UBS is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'UBS is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1434,7 +1434,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'UOB is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'UOB is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1447,7 +1447,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Wells Fargo is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenised cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  desc: 'Wells Fargo is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
   sources:
   - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
     url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
@@ -1460,7 +1460,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'BNP Paribas’ AssetFoundry tokenisation platform and its exchange-traded derivatives solution run on Besu according to LF Decentralized Trust’s 2026 adoption report (AssetFoundry also issues on Ethereum mainnet); BNP Paribas’ own releases do not name the client.'
+  desc: 'BNP Paribas’ AssetFoundry tokenization platform and its exchange-traded derivatives solution run on Besu according to LF Decentralized Trust’s 2026 adoption report (AssetFoundry also issues on Ethereum mainnet); BNP Paribas’ own releases do not name the client.'
   sources:
   - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
     url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
@@ -1508,7 +1508,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'DTCC runs its own Besu network for tokenised securities: its July 2026 release describes conversions “on LFDT’s Besu (DTCC’s private network) and Canton (a public network)”, and its real-time collateral platform is an application on the DTCC AppChain “built atop LF Decentralized Trust’s Besu blockchain”.'
+  desc: 'DTCC runs its own Besu network for tokenized securities: its July 2026 release describes conversions “on LFDT’s Besu (DTCC’s private network) and Canton (a public network)”, and its real-time collateral platform is an application on the DTCC AppChain “built atop LF Decentralized Trust’s Besu blockchain”.'
   sources:
   - title: 'DTCC, turning tokenization into reality (15 July 2026)'
     url: https://www.dtcc.com/news/2026/july/15/dtcc-turns-tokenization-into-reality
@@ -1572,7 +1572,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'UBS Digital Cash (tokenised deposits, live November 2024) and the UBS Gold Network run on private Besu networks according to LF Decentralized Trust’s 2026 adoption report; UBS’s own release says only “a private blockchain network to which only the permissioned clients have access”.'
+  desc: 'UBS Digital Cash (tokenized deposits, live November 2024) and the UBS Gold Network run on private Besu networks according to LF Decentralized Trust’s 2026 adoption report; UBS’s own release says only “a private blockchain network to which only the permissioned clients have access”.'
   sources:
   - title: 'UBS, UBS Digital Cash (7 November 2024)'
     url: https://www.ubs.com/global/en/media/display-page-ndp/en-20241107-ubs-digital-cash.html

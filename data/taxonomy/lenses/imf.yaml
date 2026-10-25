@@ -60,7 +60,7 @@ status:
 notes:
   nat: 'Cryptocurrencies: value rests on the protocol, not a claim on an issuer.'
   sc: 'Fiat-backed stablecoins (“fiat tokens”) are e-money: fixed-value claims with a private backstop. The IMF calls algorithmic designs “managed coins”, a form of cryptocurrency; tokens redeemable at a variable value are i-money.'
-  unreg: 'Depends on the design. Fiat-reserve tokens are e-money in form, though the IMF notes that not every issuer gives a legally binding redemption guarantee; crypto-collateralised and synthetic dollars, which the 2019 paper does not address, are not fixed-value claims on an issuer.'
+  unreg: 'Depends on the design. Fiat-reserve tokens are e-money in form, though the IMF notes that not every issuer gives a legally binding redemption guarantee; crypto-collateralized and synthetic dollars, which the 2019 paper does not address, are not fixed-value claims on an issuer.'
   alg: 'A “managed coin” in the IMF’s terms: a cryptocurrency whose algorithm tries to hold a peg, with no claim on an issuer.'
   USDC: 'Named by the IMF (2019) as blockchain-based e-money, a “fiat token”.'
   USDT: A fiat token, so e-money in the IMF’s framework; the IMF notes that not every such issuer gives a legally binding redemption guarantee.

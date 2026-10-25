@@ -52,7 +52,7 @@ out for GitHub Pages; `dist/index.html` is the landing page).
 The `.fragment.html` variants are the same pages without the document skeleton, for hosts that wrap them themselves
 (for example the claude.ai artifact).
 
-## Licence
+## License
 
 © 2026 Ethereum Institutional. Published under
 [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) (see [`LICENSE`](LICENSE)): you may view and
@@ -61,4 +61,4 @@ Ethereum Institutional's prior written consent. This makes the repository source
 source in the OSI sense.
 
 By contributing (a pull request, issue or suggested edit) you grant Ethereum Institutional a perpetual,
-irrevocable, royalty-free licence to use, modify and relicense your contribution; see `LICENSE`.
+irrevocable, royalty-free license to use, modify and relicense your contribution; see `LICENSE`.

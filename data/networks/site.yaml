@@ -14,7 +14,7 @@ svg_label: Venn diagram of digital asset network types
 panel_default:
   title: Digital Asset Networks
   text: Hover over any circle or badge to preview how Ethereum Institutional defines or places it; click to pin the definition here. Circles with a + expand to show participants; a − next to a region hides it.
-# badge: pill = named badges (ink = Ethereum ecosystem, grey = other)
+# badge: pill = named badges (ink = Ethereum ecosystem, gray = other)
 badge: pill
 legend:
 - kind: pill
@@ -31,7 +31,7 @@ legend:
   text: 'Circles with a + expand on click to show their participants; a − next to a region’s name hides that region and zooms the map to the rest'
 - kind: rings
   color: '#312e81'
-  text: 'Nested bands: the degrees of permissionless, most permissionless at the centre'
+  text: 'Nested bands: the degrees of permissionless, most permissionless at the center'
 # lens_groups: one dropdown per group; each lens file's `group` must be one of these ids
 lens_groups:
 - id: architecture
@@ -47,4 +47,4 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help improve this map.
   text: It is maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change, or send a pull request with your proposed edit.
-footnote: 'Badges name the ten largest native cryptocurrencies by market capitalisation on 25 October 2026 (stablecoins and tokens that are not native to a network are excluded), plus networks that illustrate each region. The permissionless hierarchy follows Lewis-Pye and Roughgarden, “Permissionless Consensus” (arXiv 2304.14701). This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+footnote: 'Badges name the ten largest native cryptocurrencies by market capitalization on 25 October 2026 (stablecoins and tokens that are not native to a network are excluded), plus networks that illustrate each region. The permissionless hierarchy follows Lewis-Pye and Roughgarden, “Permissionless Consensus” (arXiv 2304.14701). This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

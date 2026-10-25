@@ -1,5 +1,5 @@
 # Digital Asset Taxonomy: layout (geometry only)
-# cx,cy,rx,ry = ellipse centre and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# cx,cy,rx,ry = ellipse center and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
 # suby/sy/s3y/liney/l2y position the small sub-labels. Units are SVG user units on a 1600×1300 canvas.
 
 # bridges: corridors that join a lens group's perimeter into one continuous outline, keyed "<lens id>.<group id>".

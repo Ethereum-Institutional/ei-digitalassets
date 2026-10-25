@@ -10,7 +10,7 @@ menu: 'IN · India: “virtual digital asset” (tax)'
 name: India “virtual digital asset” (tax)
 short: India
 color: '#a21caf'
-intro: India has no dedicated crypto licensing regime. The “virtual digital asset” (VDA) definition (carried into the Income-tax Act, 2025 from April 2026) drives a flat tax and TDS on transfers, and VDA service providers are covered by anti-money-laundering rules. VDAs exclude Indian and foreign currency, and the government has excluded items such as gift cards and reward points. The RBI remains sceptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.
+intro: India has no dedicated crypto licensing regime. The “virtual digital asset” (VDA) definition (carried into the Income-tax Act, 2025 from April 2026) drives a flat tax and TDS on transfers, and VDA service providers are covered by anti-money-laundering rules. VDAs exclude Indian and foreign currency, and the government has excluded items such as gift cards and reward points. The RBI remains skeptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.
 status:
   nat: in
   btc: in

@@ -18,14 +18,14 @@ themes:
         checked: '2026-10-25'
     w2:
       name: Social media
-      desc: 'Platforms where the users write the content (posts, photos, comments, ratings) and the platform hosts, ranks and monetises it. Participation replaced publishing, in Tim O’Reilly’s phrase, but the platform kept the account, the data and the rules.'
+      desc: 'Platforms where the users write the content (posts, photos, comments, ratings) and the platform hosts, ranks and monetizes it. Participation replaced publishing, in Tim O’Reilly’s phrase, but the platform kept the account, the data and the rules.'
       sources:
       - title: Tim O’Reilly, What Is Web 2.0 (publishing to participation, 30 September 2005)
         url: https://www.oreilly.com/pub/a/web2/archive/what-is-web-20.html
         checked: '2026-10-25'
     w3:
       name: Digital assets
-      desc: 'Things owned on a shared ledger: a currency, a tokenised security or deposit, a position in a protocol, a record of identity. The ledger, not a platform, keeps the record, so the holder can move it to any application that reads the same chain. Ethereum Institutional’s Digital Asset Taxonomy and Networks maps describe what these assets are and where they live.'
+      desc: 'Things owned on a shared ledger: a currency, a tokenized security or deposit, a position in a protocol, a record of identity. The ledger, not a platform, keeps the record, so the holder can move it to any application that reads the same chain. Ethereum Institutional’s Digital Asset Taxonomy and Networks maps describe what these assets are and where they live.'
       sources:
       - title: ethereum.org, What is Web3? (native payments, ownership)
         url: https://ethereum.org/en/web3/
@@ -35,7 +35,7 @@ themes:
         checked: '2026-10-25'
 - id: impl
   label: Implementation
-  desc: 'One well-known service that shows each generation at its clearest: a human-edited directory of the web, a platform built on what users post, and a public ledger that holds what users own.'
+  desc: 'One well-known product that shows each generation at its clearest: a human-edited directory of the web, a platform built on what users post, and a digital dollar anyone can hold and send without a bank account or a platform login.'
   cells:
     w1:
       name: Yahoo! Directory
@@ -58,14 +58,17 @@ themes:
         url: https://www.guinnessworldrecords.com/world-records/first-tweet
         checked: '2026-10-25'
     w3:
-      name: Ethereum mainnet
-      desc: 'The public ledger that has run the Ethereum Virtual Machine since 30 July 2015: the largest shared, globally verifiable state on which anyone can hold assets, deploy contracts and run a node.'
+      name: Circle USDC
+      desc: 'The product that showed what owning a digital asset means in everyday use: a dollar stablecoin issued by Circle since 2018 that anyone with a wallet can hold and send, with no bank account or platform login, on Ethereum mainnet (its original and largest deployment) and some 38 other networks. The second-largest stablecoin by supply after Tether’s USDT (about USD 72 billion in circulation on 25 October 2026), and the one most regimes recognize: an authorized e-money token under MiCA, and recognized in Japan, ADGM, the DIFC and El Salvador. As Twitter was to social media, USDC is to digital assets: the use case made ordinary.'
       sources:
-      - title: Ethereum Foundation, Ethereum launches (30 July 2015)
-        url: https://blog.ethereum.org/2015/07/30/ethereum-launches
+      - title: Circle, USDC
+        url: https://www.circle.com/usdc
         checked: '2026-10-25'
-      - title: ethereum.org, What is Ethereum?
-        url: https://ethereum.org/en/what-is-ethereum/
+      - title: Circle, multi-chain USDC (natively supported networks)
+        url: https://www.circle.com/multi-chain-usdc
+        checked: '2026-10-25'
+      - title: CoinMarketCap, USDC (market capitalisation and supply)
+        url: https://coinmarketcap.com/currencies/usd-coin/
         checked: '2026-10-25'
 - id: tech
   label: Technology
@@ -106,18 +109,18 @@ themes:
         checked: '2026-10-25'
 - id: lang
   label: Language
-  desc: 'The language anyone could write in to take part: markup for pages, a scripting language for applications in the browser, and a contract language for programs on a shared ledger. Each was open, so writing it needed no licence and no permission.'
+  desc: 'The language anyone could write in to take part: markup for pages, a scripting language for applications in the browser, and a contract language for programs on a shared ledger. Each was open, so writing it needed no license and no permission.'
   cells:
     w1:
       name: HTML
-      desc: 'HyperText Markup Language, a markup anyone could write by hand, first described by Tim Berners-Lee in 1991 and standardised from 1995. Because every browser rendered the same tags, a page written anywhere could be read everywhere.'
+      desc: 'HyperText Markup Language, a markup anyone could write by hand, first described by Tim Berners-Lee in 1991 and standardized from 1995. Because every browser rendered the same tags, a page written anywhere could be read everywhere.'
       sources:
       - title: CERN, The birth of the Web
         url: https://home.cern/science/computing/birth-web
         checked: '2026-10-25'
     w2:
       name: JavaScript
-      desc: 'The scripting language every browser ships (1995; standardised as ECMAScript in 1997), which Ajax turned from page decoration into application logic that runs on the user’s machine.'
+      desc: 'The scripting language every browser ships (1995; standardized as ECMAScript in 1997), which Ajax turned from page decoration into application logic that runs on the user’s machine.'
       sources:
       - title: Ecma International, ECMA-262 (ECMAScript language specification)
         url: https://ecma-international.org/publications-and-standards/standards/ecma-262/
@@ -136,7 +139,7 @@ themes:
     w1:
       name: Local
       sub: LDAP
-      desc: 'Centralised: a user’s account lived in one provider’s directory, reached over the Lightweight Directory Access Protocol (1993) and, in most enterprises, held in Microsoft Active Directory. The account did not travel between sites; every site kept its own.'
+      desc: 'Centralized: a user’s account lived in one provider’s directory, reached over the Lightweight Directory Access Protocol (1993) and, in most enterprises, held in Microsoft Active Directory. The account did not travel between sites; every site kept its own.'
       sources:
       - title: RFC 1487, X.500 Lightweight Directory Access Protocol (July 1993)
         url: https://www.rfc-editor.org/rfc/rfc1487
@@ -156,9 +159,9 @@ themes:
         url: https://www.rfc-editor.org/rfc/rfc6749
         checked: '2026-10-25'
     w3:
-      name: Decentralised
+      name: Decentralized
       sub: Verifiable Credentials, Allowlist
-      desc: 'Decentralised: an account is a key pair the user holds, with no provider to grant, federate or close it. Claims about that account travel as W3C Verifiable Credentials (a W3C Recommendation since 2019, version 2.0 in 2025), and where a deployment must know its participants it keeps an allowlist of accounts or nodes on the ledger itself rather than in a directory elsewhere.'
+      desc: 'Decentralized: an account is a key pair the user holds, with no provider to grant, federate or close it. Claims about that account travel as W3C Verifiable Credentials (a W3C Recommendation since 2019, version 2.0 in 2025), and where a deployment must know its participants it keeps an allowlist of accounts or nodes on the ledger itself rather than in a directory elsewhere.'
       sources:
       - title: ethereum.org, Ethereum accounts
         url: https://ethereum.org/en/developers/docs/accounts/

@@ -10,11 +10,11 @@ menu: 'AE · DIFC (DFSA): crypto, fiat crypto & investment tokens'
 name: 'DIFC DFSA: crypto, fiat crypto and investment tokens'
 short: DIFC DFSA
 color: '#14130f'
-intro: In the DIFC, the DFSA defines a Crypto Token as a token used, or intended to be used, as a medium of exchange or for payment or investment. It carves out Excluded Tokens (NFTs, utility tokens, CBDCs) and Investment Tokens (tokenized securities and derivatives, regulated as investments). Stablecoins are “Fiat Crypto Tokens” with extra recognition criteria. Privacy and algorithmic tokens are Prohibited Tokens. Firms may only deal in tokens the DFSA has recognised. This lens shows all three categories the DFSA regulates; Excluded Tokens (NFTs, utility tokens, CBDCs) are faded.
+intro: In the DIFC, the DFSA defines a Crypto Token as a token used, or intended to be used, as a medium of exchange or for payment or investment. It carves out Excluded Tokens (NFTs, utility tokens, CBDCs) and Investment Tokens (tokenized securities and derivatives, regulated as investments). Stablecoins are “Fiat Crypto Tokens” with extra recognition criteria. Privacy and algorithmic tokens are Prohibited Tokens. Firms may only deal in tokens the DFSA has recognized. This lens shows all three categories the DFSA regulates; Excluded Tokens (NFTs, utility tokens, CBDCs) are faded.
 groups:
 - id: ct
   label: Crypto Tokens
-  name: recognised by the DFSA
+  name: recognized by the DFSA
   color: '#a21caf'
   circles:
   - btc
@@ -63,9 +63,9 @@ status:
   tix: out
   fmi: part
 notes:
-  btc: A DFSA-recognised Crypto Token.
-  eth: A DFSA-recognised Crypto Token.
-  natoth: A Crypto Token, but usable in the DIFC only once recognised by the DFSA.
+  btc: A DFSA-recognized Crypto Token.
+  eth: A DFSA-recognized Crypto Token.
+  natoth: A Crypto Token, but usable in the DIFC only once recognized by the DFSA.
   cbdc: CBDCs are Excluded Tokens.
   td: A deposit, not a Crypto Token.
   dt: A deposit, not a Crypto Token, whatever it is called.

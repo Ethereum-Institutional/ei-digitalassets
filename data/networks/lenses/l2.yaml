@@ -8,7 +8,7 @@ name: Layer 2 rollup
 short: Layer 2
 scope: networks
 color: '#0ea5e9'
-intro: 'A Layer 2 rollup executes transactions off the parent chain and posts the transaction data and a proof (a validity proof, or a fraud-proof window) to it, so that the parent chain, here Ethereum mainnet, settles the result and anyone can reconstruct the rollup’s state from the parent alone. It exists to scale a public permissionless chain without weakening it. The benefit is inherited security: users can always exit or force a transaction through Ethereum mainnet even if the rollup’s operators stop. The cost is that most rollups still run one permissioned sequencer, so ordering and liveness depend on an operator until sequencing is decentralised.'
+intro: 'A Layer 2 rollup executes transactions off the parent chain and posts the transaction data and a proof (a validity proof, or a fraud-proof window) to it, so that the parent chain, here Ethereum mainnet, settles the result and anyone can reconstruct the rollup’s state from the parent alone. It exists to scale a public permissionless chain without weakening it. The benefit is inherited security: users can always exit or force a transaction through Ethereum mainnet even if the rollup’s operators stop. The cost is that most rollups still run one permissioned sequencer, so ordering and liveness depend on an operator until sequencing is decentralized.'
 networks:
   base: in
   arbitrum: in

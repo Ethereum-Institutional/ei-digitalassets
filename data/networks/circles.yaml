@@ -111,7 +111,7 @@ circles:
   band: true
   zoom: [0, 1040]
   path: Digital Asset Networks
-  desc: 'The nodes that order and finalise transactions are a list set outside the protocol: fixed by the operator or the members (QBFT and IBFT 2.0 in Besu, CometBFT and other Tendermint-style protocols, HotStuff, CantonBFT), or curated by the existing participants, as with the XRP Ledger’s default validator list, Stellar’s quorum sets, Hedera’s council and the single sequencers of today’s rollups. EI’s house rule: a network is permissioned whenever joining consensus requires review by the existing participants, whatever the marketing says. Permissioned consensus is fast and final and fits private and consortium ledgers; it also means that the members, not the protocol, decide who counts.'
+  desc: 'The nodes that order and finalize transactions are a list set outside the protocol: fixed by the operator or the members (QBFT and IBFT 2.0 in Besu, CometBFT and other Tendermint-style protocols, HotStuff, CantonBFT), or curated by the existing participants, as with the XRP Ledger’s default validator list, Stellar’s quorum sets, Hedera’s council and the single sequencers of today’s rollups. EI’s house rule: a network is permissioned whenever joining consensus requires review by the existing participants, whatever the marketing says. Permissioned consensus is fast and final and fits private and consortium ledgers; it also means that the members, not the protocol, decide who counts.'
 - id: priv
   label:
   - Private
@@ -120,7 +120,7 @@ circles:
   zoom: [0, 395]
   sub: one operator
   path: Digital Asset Networks › Permissioned consensus
-  desc: 'One organisation operates every node, so it alone decides who may read or write, and it can change the rules or roll back history. Useful for internal books and records, testing and settlement inside a group, at the price of giving outsiders nothing to verify independently. Institutions building private Ethereum chains overwhelmingly choose Besu. EI’s reading of why, a house view: its Apache 2.0 licence, which Besu’s own history says was needed because enterprise pilots were being blocked by open-source licence policies; permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in, where GoQuorum, the earlier enterprise fork, is no longer actively developed; governance by a neutral foundation (Hyperledger, now LF Decentralized Trust) with several commercial support vendors; Ethereum mainnet compatibility, so the EVM specification and the team’s skills carry across to public chains; and Java, which enterprise IT and security teams already run and audit. Private ledgers outside the Ethereum ecosystem (Hyperledger Fabric, Corda) sit here too, without the public-chain upgrade path.'
+  desc: 'One organization operates every node, so it alone decides who may read or write, and it can change the rules or roll back history. Useful for internal books and records, testing and settlement inside a group, at the price of giving outsiders nothing to verify independently. Institutions building private Ethereum chains overwhelmingly choose Besu. EI’s reading of why, a house view: its Apache 2.0 license, which Besu’s own history says was needed because enterprise pilots were being blocked by open-source license policies; permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in, where GoQuorum, the earlier enterprise fork, is no longer actively developed; governance by a neutral foundation (Hyperledger, now LF Decentralized Trust) with several commercial support vendors; Ethereum mainnet compatibility, so the EVM specification and the team’s skills carry across to public chains; and Java, which enterprise IT and security teams already run and audit. Private ledgers outside the Ethereum ecosystem (Hyperledger Fabric, Corda) sit here too, without the public-chain upgrade path.'
 - id: cons
   label:
   - Consortium
@@ -128,7 +128,7 @@ circles:
   collapsible: true
   sub: several operators, admitted by agreement
   path: Digital Asset Networks › Permissioned consensus
-  desc: 'Several organisations each run nodes and admit new members by agreement, usually under a legal framework that names the operators. Consensus is permissioned by construction: the validator set is a list the members maintain. Consortia give participants shared, tamper-evident records without trusting any one operator, but they are only as neutral and as verifiable as their membership, and outsiders cannot check the ledger. Besu with QBFT is the common Ethereum deployment (Swift’s shared ledger, Project Agorá, Fnality).'
+  desc: 'Several organizations each run nodes and admit new members by agreement, usually under a legal framework that names the operators. Consensus is permissioned by construction: the validator set is a list the members maintain. Consortia give participants shared, tamper-evident records without trusting any one operator, but they are only as neutral and as verifiable as their membership, and outsiders cannot check the ledger. Besu with QBFT is the common Ethereum deployment (Swift’s shared ledger, Project Agorá, Fnality).'
 - id: sov
   label:
   - Sovereign
@@ -156,7 +156,7 @@ circles:
   band: true
   zoom: [1035, 1600]
   path: Digital Asset Networks › Public
-  desc: 'Anyone can take part in ordering transactions without anyone’s approval; what they need is a scarce resource, work or stake, that the protocol can count. Lewis-Pye and Roughgarden (Permissionless Consensus, 2023) show that the protocol then faces three challenges: unknown players (the set of entities running it is unknown and of unknown size), player inactivity (they can start or stop at any time) and sybils (one entity can run under any number of identifiers). The three nested bands inside this region are their hierarchy, ordered by how little the protocol assumes about who is running it: fully permissionless at the centre, then dynamically available, then quasi-permissionless. A protocol that works in an inner band also works in every band outside it.'
+  desc: 'Anyone can take part in ordering transactions without anyone’s approval; what they need is a scarce resource, work or stake, that the protocol can count. Lewis-Pye and Roughgarden (Permissionless Consensus, 2023) show that the protocol then faces three challenges: unknown players (the set of entities running it is unknown and of unknown size), player inactivity (they can start or stop at any time) and sybils (one entity can run under any number of identifiers). The three nested bands inside this region are their hierarchy, ordered by how little the protocol assumes about who is running it: fully permissionless at the center, then dynamically available, then quasi-permissionless. A protocol that works in an inner band also works in every band outside it.'
 - id: quasi
   label:
   - Quasi
@@ -166,7 +166,7 @@ circles:
   - known staked identifiers,
   - two-thirds must stay online
   path: Digital Asset Networks › Public › Permissionless consensus
-  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. In practice that means a two-thirds quorum of stake must keep voting: validators can go offline only within the one-third fault budget, and once more than a third of the stake is silent the chain stops finalising (Solana, for example, has needed coordinated restarts after such halts). This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
+  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. In practice that means a two-thirds quorum of stake must keep voting: validators can go offline only within the one-third fault budget, and once more than a third of the stake is silent the chain stops finalizing (Solana, for example, has needed coordinated restarts after such halts). This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
 - id: dyn
   label:
   - Dynamically
@@ -209,7 +209,7 @@ circles:
   sub: Besu, 17 banks
   expand: expanded
   path: Digital Asset Networks › Permissioned consensus › Consortium
-  desc: 'Swift’s blockchain-based shared ledger for tokenised cross-border payments, announced in September 2025 and declared ready for use in July 2026 with 17 banks across Asia, Europe, the Middle East, Africa and the Americas as the first participants. Swift describes “an Ethereum Virtual Machine (EVM)-compatible architecture based on Hyperledger Besu”; Swift operates the ledger while banks operate their own environments and keep authority over keys, assets, funding and settlement, so the banks are participants rather than node operators: a consortium across many jurisdictions under one operator. HSBC and Standard Chartered completed the first live bank-to-bank tokenised deposit transaction on it on 20 August 2026, with the ledger acting “as a secure orchestration layer” that matched and netted the obligations. It matters twice on this map: as the largest group of banks to adopt Besu, and as a shared ledger, the north star this map argues for, even if a permissioned one. Hover a badge for each participant.'
+  desc: 'Swift’s blockchain-based shared ledger for tokenized cross-border payments, announced in September 2025 and declared ready for use in July 2026 with 17 banks across Asia, Europe, the Middle East, Africa and the Americas as the first participants. Swift describes “an Ethereum Virtual Machine (EVM)-compatible architecture based on Hyperledger Besu”; Swift operates the ledger while banks operate their own environments and keep authority over keys, assets, funding and settlement, so the banks are participants rather than node operators: a consortium across many jurisdictions under one operator. HSBC and Standard Chartered completed the first live bank-to-bank tokenized deposit transaction on it on 20 August 2026, with the ledger acting “as a secure orchestration layer” that matched and netted the obligations. It matters twice on this map: as the largest group of banks to adopt Besu, and as a shared ledger, the north star this map argues for, even if a permissioned one. Hover a badge for each participant.'
   sources:
   - title: Swift press release, 29 September 2025 (blockchain-based ledger announced)
     url: https://www.swift.com/news-events/press-releases/swift-add-blockchain-based-ledger-its-infrastructure-stack-groundbreaking-move-accelerate-and-scale-benefits-digital-finance
@@ -251,7 +251,7 @@ circles:
   sub: BIS, 8 central banks, 40+ firms
   expand: collapsed
   path: Digital Asset Networks › Permissioned consensus › Consortium
-  desc: 'The BIS Innovation Hub project in which eight central banks (seven at launch in April 2024: the Banque de France for the Eurosystem, the Bank of Japan, the Bank of Korea, Banco de México, the Swiss National Bank, the Bank of England and the Federal Reserve Bank of New York; the Bank of Canada joined in May 2026) and more than forty private financial firms test tokenised commercial bank deposits and wholesale central bank money on one programmable platform; real-value transactions in six currencies were tested in July 2026. A consortium spanning several jurisdictions, hence not Sovereign, and a signal of how many central banks are working with Ethereum technology: the platform is reported to run on Besu with QBFT consensus (LF Decentralized Trust’s 2026 adoption report), while the BIS itself says only “programmable ledger”.'
+  desc: 'The BIS Innovation Hub project in which eight central banks (seven at launch in April 2024: the Banque de France for the Eurosystem, the Bank of Japan, the Bank of Korea, Banco de México, the Swiss National Bank, the Bank of England and the Federal Reserve Bank of New York; the Bank of Canada joined in May 2026) and more than forty private financial firms test tokenized commercial bank deposits and wholesale central bank money on one programmable platform; real-value transactions in six currencies were tested in July 2026. A consortium spanning several jurisdictions, hence not Sovereign, and a signal of how many central banks are working with Ethereum technology: the platform is reported to run on Besu with QBFT consensus (LF Decentralized Trust’s 2026 adoption report), while the BIS itself says only “programmable ledger”.'
   sources:
   - title: BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)
     url: https://www.bis.org/press/p240403.htm
@@ -338,7 +338,7 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissioned consensus
-  desc: 'The first OP Stack rollup. Public ledger settled on Ethereum mainnet with permissionless fault proofs since June 2024, and users can always bypass the sequencer by depositing a transaction through the OptimismPortal, but a single sequencer set by Optimism governance orders blocks, so consensus is permissioned until sequencing is decentralised. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  desc: 'The first OP Stack rollup. Public ledger settled on Ethereum mainnet with permissionless fault proofs since June 2024, and users can always bypass the sequencer by depositing a transaction through the OptimismPortal, but a single sequencer set by Optimism governance orders blocks, so consensus is permissioned until sequencing is decentralized. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
   sources:
   - title: Optimism, permissionless fault proofs and Stage 1 arrive on OP Mainnet (10 June 2024)
     url: https://www.optimism.io/blog/permissionless-fault-proofs-and-stage-1-arrive-to-the-op-stack
@@ -395,7 +395,7 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Consortium ∩ Public › Permissioned consensus
-  desc: 'A public ledger (anyone may transact and run a mirror node) whose 30 consensus nodes are, in Hedera’s own words, “currently permissioned; operated by the Hedera Council”, a fixed group of about 30 large organisations: Consortium ∩ Public with permissioned consensus. Unlike Canton it keeps one shared state that every consensus node holds and agrees on. Its smart contract service embeds the Besu EVM, so it counts as Ethereum ecosystem. Smart contracts: yes; the Hedera Smart Contract Service embeds the Besu EVM.'
+  desc: 'A public ledger (anyone may transact and run a mirror node) whose 30 consensus nodes are, in Hedera’s own words, “currently permissioned; operated by the Hedera Council”, a fixed group of about 30 large organizations: Consortium ∩ Public with permissioned consensus. Unlike Canton it keeps one shared state that every consensus node holds and agrees on. Its smart contract service embeds the Besu EVM, so it counts as Ethereum ecosystem. Smart contracts: yes; the Hedera Smart Contract Service embeds the Besu EVM.'
   sources:
   - title: Hedera docs, mainnet nodes (permissioned, operated by the Hedera Council; 30 nodes)
     url: https://docs.hedera.com/hedera/networks/mainnet/mainnet-nodes

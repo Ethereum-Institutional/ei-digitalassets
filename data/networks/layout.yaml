@@ -1,5 +1,5 @@
 # Digital Asset Networks: layout (geometry only)
-# cx,cy,rx,ry = ellipse centre and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# cx,cy,rx,ry = ellipse center and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
 # suby positions the small sub-label. Units are SVG user units on a 1600×1300 canvas.
 # The consensus overlay is two rounded rectangles side by side (Permissioned, left; Permissionless, right); the three
 # permissionless bands are nested ellipses inside the right one and inside Public.

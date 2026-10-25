@@ -21,8 +21,8 @@ notes:
   lsc: 'Payment stablecoins from permitted issuers: subsidiaries of insured banks, OCC-approved non-banks, and state-qualified issuers (or foreign issuers under a comparable regime). The Act takes effect on 18 January 2027, so no issuer is yet permitted. Circle (USDC) received final OCC approval for a national trust bank on 10 July 2026, which at launch provides custody only.'
   sc: Only tokens redeemable for a fixed amount of money; yield-paying or algorithmic designs do not qualify as permitted payment stablecoins.
   unreg: From July 2028 (three years after enactment), digital asset service providers may not offer or sell a payment stablecoin to US persons unless a permitted or registered foreign issuer issued it.
-  USDC: Circle is licensed under state law (money transmitter licences in 46 states, a New York BitLicense and, from July 2026, an NYDFS limited-purpose trust charter) and has final OCC approval for a national trust bank, but it is not yet a permitted issuer under the Act, which takes effect on 18 January 2027.
-  USDT: Tolerated, not licensed or recognised. US platforms may offer it during the transition to July 2028; after that it would need a Treasury finding that El Salvador’s regime is comparable and OCC registration, and neither exists yet. Tether’s US product is a separate token, USAT.
+  USDC: Circle is licensed under state law (money transmitter licenses in 46 states, a New York BitLicense and, from July 2026, an NYDFS limited-purpose trust charter) and has final OCC approval for a national trust bank, but it is not yet a permitted issuer under the Act, which takes effect on 18 January 2027.
+  USDT: Tolerated, not licensed or recognized. US platforms may offer it during the transition to July 2028; after that it would need a Treasury finding that El Salvador’s regime is comparable and OCC registration, and neither exists yet. Tether’s US product is a separate token, USAT.
   alg: 'Not a permitted payment stablecoin: issuers must hold identifiable reserves of cash-like assets.'
   cbdc: National currency is excluded.
   td: Deposits recorded on a distributed ledger are expressly excluded.

@@ -234,7 +234,7 @@
   // collapsed, the circle is a small pill with a + and its participant badges are hidden; a click opens it on top of
   // everything else at its full geometry and shows them. The open circle, its labels and its badges move to gTop.
   const gTop=el('g',{});
-  // `pill: true` network circles look like a badge while collapsed (ink = Ethereum ecosystem, grey = other)
+  // `pill: true` network circles look like a badge while collapsed (ink = Ethereum ecosystem, gray = other)
   // XM: when regions are hidden the remaining strip [x0, x1] of the canvas is stretched across the full width
   // (positions and shape widths scale, text and badges keep their size)
   const XM={x0:0,k:1,off:0}; const mx=x=>XM.off+(x-XM.x0)*XM.k;
@@ -245,7 +245,7 @@
     x.s.setAttribute('fill',asPill?(n.eth?'#14130f':'#6b6760'):x.base.fill); x.s.setAttribute('fill-opacity',asPill?1:(open?.97:x.base.fop));
     if(!activeLenses.length){ x.s.setAttribute('stroke',asPill?'#f8f6f2':x.base.stroke); x.s.setAttribute('stroke-width',asPill?1.5:2); }
     const fs=open?n.fs:(g.fs||10), lh=fs*1.15, ink=asPill?'#f2efe9':'#14130f';
-    const lx=mx(g.cx)+((open?n.lx:g.lx)-g.cx); // label keeps its unscaled offset from the shape's centre
+    const lx=mx(g.cx)+((open?n.lx:g.lx)-g.cx); // label keeps its unscaled offset from the shape's center
     x.labelTexts.forEach((t,i)=>{ t.setAttribute('x',lx); t.setAttribute('y',(open?n.ly:g.ly)+i*lh); t.setAttribute('font-size',fs>=15?fs*1.08:fs); t.setAttribute('fill',ink); t.classList.toggle('serif',fs>=15); });
     x.subTexts.forEach(t=>{ t.classList.toggle('hide',!open); if(t.dataset&&t.dataset.ox!==undefined) t.setAttribute('x',mx(g.cx)+(+t.dataset.ox-g.cx)); });
     const w=Math.max(...n.label.map(l=>l.length))*fs*0.56, hx=lx+w/2+7, hy=open?n.ly:g.ly;
@@ -294,7 +294,7 @@
           t=el('text',{'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=n.mark;
         mg.append(c,t); gText.appendChild(mg); curTexts.push(mg); byId[n.id].mark={c,t}; }
     }
-    // lens-only circles (e.g. Licensed or Recognised Stablecoins) stay hidden until a lens that mentions them is applied
+    // lens-only circles (e.g. Licensed or Recognized Stablecoins) stay hidden until a lens that mentions them is applied
     if(n.lens_only){ s.classList.add('hide'); curTexts.forEach(t=>t.classList.add('hide')); }
     const show=()=>{
       if(active) active.classList.remove('on');
@@ -335,8 +335,8 @@
 
   // ---------- badges (ticker discs or named pills; positions = house-view placement) ----------
   // Badges never move. Under a lens listed in a token's `licensed_under`, the lens-only circle that lens shows
-  // (e.g. Licensed or Recognised Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
-  // Pills (DATA.badge==='pill') show the badge's name; ink = Ethereum ecosystem (`eth: true`), grey = other.
+  // (e.g. Licensed or Recognized Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
+  // Pills (DATA.badge==='pill') show the badge's name; ink = Ethereum ecosystem (`eth: true`), gray = other.
   const PILL = DATA.badge==='pill';
   const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[]}));
   const srcHtml=src=>src.length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
@@ -384,11 +384,11 @@
   N.filter(n=>n.expand).forEach(n=>setOpen(n, n.expand==='expanded'));
 
   // ---------- collapsible regions (`collapsible: true`): hide a region and its contents, zoom the map to what is left ----------
-  // A point is "in" a region when its centre falls inside the region's shape. Containers that straddle a region
+  // A point is "in" a region when its center falls inside the region's shape. Containers that straddle a region
   // (`straddles: [ids]`) are never hidden by it; the outer box never hides.
   const hiddenRegions=new Set();
   const inside=(r,px,py)=> r.t==='rect' ? (px>=r.x&&px<=r.x+r.w&&py>=r.y&&py<=r.y+r.h) : (((px-r.cx)/r.rx)**2+((py-r.cy)/r.ry)**2<=1);
-  const centre=n=> n.t==='rect' ? [n.x+n.w/2,n.y+n.h/2] : [n.cx,n.cy];
+  const center=n=> n.t==='rect' ? [n.x+n.w/2,n.y+n.h/2] : [n.cx,n.cy];
   const hiddenBy=(px,py,self)=>[...hiddenRegions].some(id=>{ const r=byId[id].n; if(self&&(self.id===OUTER||self.id===r.id||(self.straddles||[]).includes(id))) return false; return inside(r,px,py); });
   const rbar=document.createElement('div'); rbar.className='ei-regions'; rbar.hidden=true;
   document.querySelector('.ei-wrap').insertAdjacentElement('afterend',rbar);
@@ -414,7 +414,7 @@
   }
   function hideRegion(id,hide){
     if(hide){ if(byId[id].n.band) [...hiddenRegions].filter(r=>byId[r].n.band).forEach(r=>hiddenRegions.delete(r)); hiddenRegions.add(id); } else hiddenRegions.delete(id);
-    Object.values(byId).forEach(({n,s,texts})=>{ const [px,py]=centre(n); const banded=n.band&&hiddenRegions.has(n.id); const h=!banded&&(hiddenRegions.has(n.id)||hiddenBy(px,py,n)); s.classList.toggle('rhide',h); texts.forEach(t=>t.classList.toggle('rhide',h)); });
+    Object.values(byId).forEach(({n,s,texts})=>{ const [px,py]=center(n); const banded=n.band&&hiddenRegions.has(n.id); const h=!banded&&(hiddenRegions.has(n.id)||hiddenBy(px,py,n)); s.classList.toggle('rhide',h); texts.forEach(t=>t.classList.toggle('rhide',h)); });
     ASSETS.forEach(a=>a.g.classList.toggle('rhide',hiddenBy(a.x,a.y,null)));
     gPer.classList.toggle('rhide',hiddenRegions.size>0);
     // stretch: the strip of the canvas still shown (regions name theirs with `zoom: [x0, x1]`) spreads across the full width
@@ -491,7 +491,7 @@
   // shapes for a set of circles under lens L (lens-only circles use their stretched geometry)
   const shapesFor=(ids,L)=>ids.map(id=>byId[id].n).filter(n=>n.t!=='rect')
     .map(n=>n.lens_only ? Object.assign({k:'e'},lensOnlyGeom(n,L)) : ellShape(n));
-  // a group's badges: a disc around each, joined by a capsule so neighbouring badges read as one shape
+  // a group's badges: a disc around each, joined by a capsule so neighboring badges read as one shape
   const tokenShapes=G=>{ const ts=ASSETS.filter(a=>(G.tokens||[]).includes(a.t));
     return [...ts.map(a=>disc(a,15)),...ts.slice(1).map((a,i)=>({k:'c',x1:ts[i].x,y1:ts[i].y,x2:a.x,y2:a.y,r:15}))]; };
   const bridge=key=>((DATA.bridges||{})[key]||[]).flatMap(w=>w.slice(1).map((p,i)=>({k:'c',x1:w[i][0],y1:w[i][1],x2:p[0],y2:p[1],r:3})));
@@ -558,12 +558,12 @@
       if(inL && !isBox){ const G=inL[0].g[n.id]; s.setAttribute('stroke',G?G.color:inL[0].color); s.setAttribute('stroke-width',5.5); s.setAttribute('stroke-dasharray','none'); }
       else if(partL && n.id!==OUTER){ s.setAttribute('stroke',partL[0].color); s.setAttribute('stroke-width',3.5); s.setAttribute('stroke-dasharray','16 8'); }
       else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',2); s.setAttribute('stroke-dasharray','none'); }
-      // prohibition-style lenses also tint each circle in its group colour
+      // prohibition-style lenses also tint each circle in its group color
       const T=activeLenses.find(L=>L.tint && L.g[n.id]);
       if(T && !n.clip){ s.setAttribute('fill',T.g[n.id].color); s.setAttribute('fill-opacity',CONTAINERS.has(n.id)?.14:.32); }
       else { s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); }
     });
-    // token badges stay put: they dim with the circle they count in, and take a group's colour when a group lists them
+    // token badges stay put: they dim with the circle they count in, and take a group's color when a group lists them
     ASSETS.forEach(a=>{
       if(netScope){ const st=activeLenses.map(L=>L.nets[a.t]).find(Boolean);
         a.g.classList.toggle('dim',!st); a.ring.setAttribute('stroke',st?activeLenses[0].color:'#f8f6f2'); a.ring.setAttribute('stroke-width',st==='in'?3:1.5);

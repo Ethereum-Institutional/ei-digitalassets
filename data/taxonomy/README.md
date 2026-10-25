@@ -3,7 +3,7 @@
 Live page: https://ethereum-institutional.github.io/ei-digitalassets/taxonomy/
 
 ```
-circles.yaml      content: every circle's label, colour family and definition (desc), with sources
+circles.yaml      content: every circle's label, color family and definition (desc), with sources
 layout.yaml       geometry only: positions, sizes, bridges and annotations (rarely edited)
 tokens.yaml       the top-10 token badges and where they sit
 site.yaml         page title, intro, footnote, legend and page settings
@@ -26,11 +26,11 @@ alphabetically. The build fails if a lens references a circle id that does not e
 
 **Add a circle** → add it to `circles.yaml` *and* give it geometry in `layout.yaml`. If it is a grouping circle,
 list it under `containers` and its contents under `children`. Mark it `lens_only: true` to hide it on the default
-map and show it only under lenses that mention it (Licensed or Recognised Stablecoins and Licensed or Recognised
+map and show it only under lenses that mention it (Licensed or Recognized Stablecoins and Licensed or Recognized
 Payment Tokens work this way).
 
 **Show a token as licensed under a lens** → in `tokens.yaml`, add the lens id to the token's `licensed_under` list.
-Badges never move: under that lens the licensed-or-recognised circle it shows stretches to take the badge in. A lens
+Badges never move: under that lens the licensed-or-recognized circle it shows stretches to take the badge in. A lens
 group can also take badges in with `tokens: [USDT, USDC]`, and `bridges:` in `layout.yaml` joins a group's separate
 circles into one continuous outline (see the Switzerland lens).
 
