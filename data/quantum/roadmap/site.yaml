@@ -1,0 +1,40 @@
+# Quantum sub-page (static, work in progress). Short text with links to the primary material; sources collapsed.
+
+kind: static
+eyebrow: Ethereum Institutional · Research · Quantum
+notice:
+  title: Work in progress.
+  text: This page is being drafted. It links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+title: "Quantum: the Ethereum roadmap"
+slug: quantum-roadmap
+heading:
+  text: The Ethereum roadmap
+  italic: roadmap
+intro: "The plan rebuilds every cryptographic primitive on hashes, in four areas: consensus signatures, data availability, account signatures and application proofs. What you can use now, and what is coming, with dates."
+sections:
+  - title: The Ethereum roadmap
+    items:
+      - title: Available now
+        text: Hashes are safe, STARK rollups are safe, and account abstraction (ERC-4337, EIP-7702) lets an institution run a post-quantum signature scheme on its own accounts today without waiting for the protocol. Few systems of comparable scale, on or off the internet, offer their users that option yet.
+        more:
+          title: EIP-7702, live since May 2025
+          url: https://eips.ethereum.org/EIPS/eip-7702
+      - title: Coming next
+        text: "Signature agility by protocol rule (EIP-8141, EIP-7932), a hash-based state tree (EIP-7864), and Lean Ethereum: hash-based validator signatures aggregated with SNARK proofs, with core infrastructure targeted for about 2029."
+        more:
+          title: The Lean Ethereum roadmap
+          url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+        sources:
+          - title: EIP-7932, Secondary signature algorithms (Draft)
+            url: https://eips.ethereum.org/EIPS/eip-7932
+            checked: 2026-10-25
+          - title: EIP-7864, Ethereum state using a unified binary tree (Draft)
+            url: https://eips.ethereum.org/EIPS/eip-7864
+            checked: 2026-10-25
+      - title: What to do now
+        text: Keep long-lived holdings on addresses that have never spent, prefer smart accounts whose signature scheme can be rotated, and ask every proof system and bridge you rely on whether it rests on pairings or on hashes.

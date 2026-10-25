@@ -19,6 +19,10 @@ const PAGES = [
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
   { dir: 'data/quantum', out: 'quantum' },                   // work in progress (static stub with planned sections)
+  { dir: 'data/quantum/algorithms', out: 'quantum/algorithms' },
+  { dir: 'data/quantum/ledger', out: 'quantum/ledger' },
+  { dir: 'data/quantum/roadmap', out: 'quantum/roadmap' },
+  { dir: 'data/quantum/institution', out: 'quantum/institution' },
 ];
 const NAV = parse(read('data/nav.yaml')).pages; // shared navigation; links are made relative per page
 
@@ -83,13 +87,14 @@ function validateStatic({ dir, site }) {
   for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
   if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
   for (const c of site.cards || []) {
-    if (!NAV.some(n => n.path === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not in data/nav.yaml`);
+    if (!NAV.some(n => n.path === c.path) && !PAGES.some(p => p.out === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not a page`);
     if (!c.title || !c.text) errors.push(`${where('site.yaml')}: every card needs a title and text`);
     if (c.icon && !GLYPHS[c.icon]) errors.push(`${where('site.yaml')}: card "${c.title}" names unknown icon "${c.icon}"`);
   }
   if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
   for (const sec of site.sections || []) { if (!sec.title) errors.push(`${where('site.yaml')}: every section needs a title`);
     for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where('site.yaml')}: section "${sec.title}" items need title and text`);
+      if (it.more && !/^https?:\/\//.test(it.more.url || '')) errors.push(`${where('site.yaml')}: "more" on "${it.title}" needs a URL`);
       for (const x of it.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where('site.yaml')}: source on "${it.title}" needs a title and a URL`); } }
   return errors;
 }
@@ -184,6 +189,8 @@ const GLYPHS = {
   privacy: () => `<path d="M48 6L70 14V28C70 40 60 48 48 52C36 48 26 40 26 28V14Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/><path d="M36 29C40 23 56 23 60 29C56 35 40 35 36 29Z" fill="none" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="29" r="3" fill="#14130f"/><path d="M38 38L58 20" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   identity: () => `<rect x="18" y="12" width="60" height="34" rx="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="34" cy="26" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M26 40C28 34 40 34 42 40" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M50 22H70M50 30H70M50 38H62" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   quantum: () => `<ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(60 48 28)"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(-60 48 28)"/><circle cx="48" cy="28" r="5" fill="#14130f"/>`,
+  key: () => `<circle cx="30" cy="28" r="12" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="30" cy="28" r="4" fill="#14130f"/><path d="M42 28H84M72 28V38M80 28V36" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  milestones: () => `<path d="M12 28H78" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><circle cx="26" cy="28" r="6" fill="#14130f"/><circle cx="48" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="68" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-dasharray="3 2"/>`,
   agent: () => `<rect x="10" y="14" width="26" height="24" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="19" cy="25" r="2.5" fill="#14130f"/><circle cx="27" cy="25" r="2.5" fill="#14130f"/><path d="M23 14V8" stroke="#14130f" stroke-width="2"/>` + PART.arrow(40, 28, 58, 28) + PART.disc(74, 28, 13),
 };
 const iconSvg = (id, cls) => GLYPHS[id] ? `<svg class="${cls || 'ei-icon'}" viewBox="0 0 96 56" aria-hidden="true">${ICON_DEFS}${GLYPHS[id]()}</svg>` : '';
@@ -333,7 +340,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 // ---------- assemble ----------
 const TAG = '<span class="ei-tag">in progress</span>';
 const relHref = (from, to) => { const up = '../'.repeat(from ? from.split('/').length : 0); return to ? `${up}${to}/` : (up || './'); };
-const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => n.path === out
+const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => (n.path === out || (n.path && out.startsWith(n.path + '/')))
   ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
   : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</nav>`;
 const shared = site => ({
@@ -399,8 +406,9 @@ function renderIndex({ site, out }) {
     .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
 const srcHtmlC = src => !(src || []).length ? '' : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
+const moreHtml = m => m && m.url ? `<p class="more"><a href="${m.url}" target="_blank" rel="noopener">${esc(m.title || 'Read more')} →</a></p>` : '';
 const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
-  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + srcHtmlC(it.sources)).join('') + '</div>').join('')}</div>` : '';
+  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + moreHtml(it.more) + srcHtmlC(it.sources)).join('') + '</div>').join('')}</div>` : '';
 function renderScenario({ site, sc, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const lead = (sc.sections || []).filter(x => x.lead), rest = (sc.sections || []).filter(x => !x.lead);
@@ -422,7 +430,7 @@ function renderStatic({ site, out }) {
   const body = site.cards
     ? `<div class="ei-cards">${site.cards.map(c => { const n = NAV.find(x => x.path === c.path);
         return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`
-    : (site.sections || []).length ? sectionsHtml({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
+    : (site.sections || []).length ? sectionsHtmlC({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
     .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)

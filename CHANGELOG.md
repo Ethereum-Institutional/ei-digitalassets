@@ -7,6 +7,12 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Quantum: overview and four sub-pages.** The stub becomes a short overview (the risk reaches everything on the
+  internet; Ethereum is among the first large systems with a dated plan) with cards to four sub-pages: the two
+  algorithms, where it bites a ledger, the Ethereum roadmap, and where your digital asset team fits (inventory,
+  exposure clocks, procurement and vendor management, crypto-agility, the NCSC, EU and NIST timelines). Sub-pages are
+  a few paragraphs each with links to the primary material; sources are collapsed. Engine: nested static pages in
+  cards and navigation, `more` links on stub sections, two more pictograms.
 - **Quantum page stub** (`/quantum/`) with drafted sections (Shor and Grover, where they bite a ledger, the Ethereum
   roadmap now and next, what it means for an institution), sourced to ethereum.org, NIST and the EIPs. **Landing
   page**: every tile gets a pictogram and a one-line tagline, and the link reads “Open”. Static stubs may now carry

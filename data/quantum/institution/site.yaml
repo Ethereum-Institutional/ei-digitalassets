@@ -1,0 +1,49 @@
+# Quantum sub-page (static, work in progress). Short text with links to the primary material; sources collapsed.
+
+kind: static
+eyebrow: Ethereum Institutional · Research · Quantum
+notice:
+  title: Work in progress.
+  text: This page is being drafted. It links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+title: "Quantum: where your digital asset team fits"
+slug: quantum-institution
+heading:
+  text: Where your digital asset team fits
+  italic: team
+intro: Post-quantum migration is an institution-wide programme, and the people best placed to lead it are often already in the building. Six practices, with the published timelines.
+sections:
+  - title: Where your digital asset team fits
+    items:
+      - title: The team you already have
+        text: "Because the risk reaches every system that uses the internet, the question is who in the institution understands it. A digital asset team works every day with the cryptography the rest of the institution rarely sees: elliptic-curve and hash-based signatures, zero-knowledge proofs, key ceremonies, hardware security modules, multi-party computation and key rotation. It also runs on ledgers whose own post-quantum plans are public and dated. Put that team in the room for the whole institution’s programme, not only for the wallets."
+      - title: Start with an inventory
+        text: "You cannot migrate what you have not found. Build a cryptographic inventory: every system, protocol, certificate, key, HSM and vendor product that relies on public-key cryptography, what data or authority it protects, and for how long that protection must last. Governments publish the method; the digital asset team already knows how to read it."
+        more:
+          title: CISA, NSA and NIST, Quantum-Readiness factsheet (2023)
+          url: https://www.cisa.gov/resources-tools/resources/quantum-readiness-migration-post-quantum-cryptography
+      - title: Prioritize by exposure
+        text: Two clocks run at once. Data that must stay confidential for years is already at risk, because it can be recorded now and decrypted later. Keys that authorize value (payment rails, custody, signing keys, digital assets) are at risk the day a capable machine exists. Order the work by which clock is shorter for each system, not by which system is easiest.
+      - title: Fix procurement and vendor management now
+        text: "Most of the cryptography an institution runs is bought, not written. Add post-quantum requirements to RFPs and contracts: support for the NIST standards (ML-KEM, ML-DSA, SLH-DSA), a dated migration roadmap, crypto-agility (algorithms that can be replaced without redesign), and HSM and custody firmware that can hold post-quantum keys. A vendor without a roadmap is a finding in the inventory."
+        more:
+          title: NIST, Transition to Post-Quantum Cryptography Standards (IR 8547, draft, November 2024)
+          url: https://csrc.nist.gov/pubs/ir/8547/ipd
+      - title: Design for agility
+        text: "The lesson from the ledgers: the systems that will migrate cheaply are the ones where the signature scheme is a replaceable part. On Ethereum that is account abstraction; in the institution it is the same principle applied to certificates, signing services and APIs. Hybrid schemes (classical plus post-quantum) are the usual first step."
+      - title: Work to the published timelines
+        text: The UK’s NCSC sets 2028 for discovery and a plan, 2031 for the highest-priority migrations, and 2035 for completion; the EU published a coordinated roadmap in June 2025 and NIST a draft transition plan that retires today’s algorithms over the same decade. Your regulator will ask for the inventory and the plan long before the deadline.
+        more:
+          title: NCSC, Timelines for migration to post-quantum cryptography (2025)
+          url: https://www.ncsc.gov.uk/guidance/pqc-migration-timelines
+        sources:
+          - title: European Commission, A Coordinated Implementation Roadmap for the Transition to Post-Quantum Cryptography (23 June 2025)
+            url: https://digital-strategy.ec.europa.eu/en/library/coordinated-implementation-roadmap-transition-post-quantum-cryptography
+            checked: 2026-10-25
+          - title: NIST IR 8547, Transition to Post-Quantum Cryptography Standards (initial public draft, 12 November 2024)
+            url: https://csrc.nist.gov/pubs/ir/8547/ipd
+            checked: 2026-10-25

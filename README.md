@@ -16,7 +16,9 @@ and generated from plain-text data in this repository:
 - **Scenarios**: what institutions do with digital assets, one page per market activity with the actors, a step-by-step
   diagram, the taxonomy tokens and the EVM standards involved; filter by your role or by what moves. One written
   (delivery versus payment), the rest planned.
-- **Privacy, Identity and Quantum**: planned pages, stubbed as "in progress" (Quantum with drafted sections).
+- **Quantum**: an overview and four short sub-pages (the two algorithms, where it bites a ledger, the Ethereum roadmap,
+  where your digital asset team fits), in progress.
+- **Privacy and Identity**: planned pages, stubbed as "in progress".
 
 **View the live site: https://ethereum-institutional.github.io/ei-digitalassets/** 
 - [Web3](https://ethereum-institutional.github.io/ei-digitalassets/web3/)

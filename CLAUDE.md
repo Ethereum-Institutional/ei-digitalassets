@@ -209,13 +209,20 @@ and decisions behind them.
 
 ## Quantum page (`data/quantum/`, stub with drafted sections)
 
-- A static stub whose `sections:` hold first drafts: the two algorithms (Shor breaks elliptic-curve signatures and
+- An overview (`site.yaml`, short intro and four cards) with four static sub-pages under `data/quantum/<topic>/`
+  (`algorithms`, `ledger`, `roadmap`, `institution`; nested `out` paths, the nav highlights the parent). Keep every
+  sub-page to a few short paragraphs that link out (`more`) rather than explain in full. Their `sections:` hold: the two algorithms (Shor breaks elliptic-curve signatures and
   pairings; Grover only halves hash security, so hashes are weakened, not broken), where it bites a ledger (exposed
   account keys after a first spend; validator BLS keys; KZG commitments and pairing-based SNARKs; what is not at risk
   on a public ledger), and the Ethereum roadmap (now: hashes, STARK rollups, account abstraction via ERC-4337 and
   EIP-7702 lets an account run a post-quantum scheme today; next: EIP-8141 signature agility, EIP-7932, EIP-7864
   binary tree, Lean Ethereum with leanXMSS and leanVM aggregation, core infrastructure targeted for about 2029).
   Source of record is ethereum.org's quantum-resistance page (dated on the page); say dates are community targets.
+  A fourth section, "Where your digital asset team fits", frames the institution-wide programme (the team already
+  knows novel cryptography and key management; inventory first; prioritize by exposure clock; post-quantum
+  requirements in procurement and vendor management; crypto-agility; the NCSC 2028 / 2031 / 2035 timeline, the EU
+  roadmap and NIST IR 8547). Sections link out to the primary article (`more`) rather than explain in full; sources
+  stay collapsed.
   Landing-page tiles carry an `icon` from the pictogram library and a one-line tagline; the link text is "Open".
 
 ## EI house views (flag any change to these in the pull request)

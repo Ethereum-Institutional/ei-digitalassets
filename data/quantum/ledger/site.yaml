@@ -1,0 +1,33 @@
+# Quantum sub-page (static, work in progress). Short text with links to the primary material; sources collapsed.
+
+kind: static
+eyebrow: Ethereum Institutional · Research · Quantum
+notice:
+  title: Work in progress.
+  text: This page is being drafted. It links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+title: "Quantum: where it bites a ledger"
+slug: quantum-ledger
+heading:
+  text: Where it bites a ledger
+  italic: ledger
+intro: Four places, in the order a risk committee would rank them, plus what is not at risk on a public ledger and what is at risk everywhere else.
+sections:
+  - title: Where it bites a ledger
+    items:
+      - title: Your keys
+        text: An address is a hash, so an account that has only received funds exposes nothing. The first transaction it sends reveals the public key; from then on the key is exposed. Reused addresses, hot wallets and multisig signers are the exposed set.
+        more:
+          title: How a quantum emergency fork would save most funds (Vitalik Buterin, 2024)
+          url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
+      - title: Validators, data and proofs
+        text: Validator signatures (BLS), blob commitments (KZG) and pairing-based rollup proofs share the same exposure and are the protocol’s job to replace. STARK-based rollups are already safe.
+        more:
+          title: The four areas Ethereum must upgrade
+          url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+      - title: What is not at risk, and what is at risk everywhere else
+        text: "A public ledger keeps no secrets, so there is nothing to harvest now and decrypt later; the risk is forgery of authorization, not disclosure. Off the ledger it is the reverse: encrypted traffic, records and backups can be captured today and read later, which is why banking, healthcare, government and telecoms face the same deadline with less visibility of where their cryptography sits."
