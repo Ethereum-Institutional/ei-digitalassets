@@ -13,10 +13,12 @@ const PAGES = [
   { dir: 'data/web3', out: 'web3' },                         // Web3: three generations of the web
   { dir: 'data/taxonomy', out: 'taxonomy' },                 // Digital Asset Taxonomy
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
-  { dir: 'data/scenarios', out: 'scenarios' },               // work in progress (static stub)
+  { dir: 'data/scenarios', out: 'scenarios' },               // scenario index (filterable list)
+  { dir: 'data/scenarios/dvp-deposit-token-tmmf', out: 'scenarios/dvp-deposit-token-tmmf' }, // first scenario
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
+  { dir: 'data/quantum', out: 'quantum' },                   // work in progress (static stub with planned sections)
 ];
 const NAV = parse(read('data/nav.yaml')).pages; // shared navigation; links are made relative per page
 
@@ -25,6 +27,9 @@ function load(dir) {
   const yml = p => parse(read(path.join(dir, p)));
   const site = yml('site.yaml');
   if (site.kind === 'static') return { dir, site, static: true };
+  // index pages list scenarios with filters; scenario pages hold one scenario (actors, steps, tokens, standards)
+  if (site.kind === 'index') return { dir, site, index: true };
+  if (site.kind === 'scenario') return { dir, site, scenario: true, sc: yml('scenario.yaml') };
   // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
   // gauges pages use the radial data files (rings = levels, themes = properties, lenses) with a dial per property
   if (site.kind === 'radial' || site.kind === 'gauges') {
@@ -80,8 +85,12 @@ function validateStatic({ dir, site }) {
   for (const c of site.cards || []) {
     if (!NAV.some(n => n.path === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not in data/nav.yaml`);
     if (!c.title || !c.text) errors.push(`${where('site.yaml')}: every card needs a title and text`);
+    if (c.icon && !GLYPHS[c.icon]) errors.push(`${where('site.yaml')}: card "${c.title}" names unknown icon "${c.icon}"`);
   }
   if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
+  for (const sec of site.sections || []) { if (!sec.title) errors.push(`${where('site.yaml')}: every section needs a title`);
+    for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where('site.yaml')}: section "${sec.title}" items need title and text`);
+      for (const x of it.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where('site.yaml')}: source on "${it.title}" needs a title and a URL`); } }
   return errors;
 }
 const LEGEND_KINDS = ['pill', 'mark', 'rings', 'expand'];
@@ -146,8 +155,73 @@ function validateRadial({ dir, site, rings, themes, layout, lenses, gauges }) {
   for (const x of sourced) for (const s of x.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id}" needs a title and a URL`);
   return errors;
 }
+const SRC_OK = (errors, where, owner, srcs) => { for (const x of srcs || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where}: source on "${owner}" needs a title and a URL`); };
+// Pictograms for scenarios: one family, ink strokes on paper, 96x56 viewBox. A disc is a token (plain = money, with a
+// rising line = a yielding asset); a loop with a padlock is one atomic transaction; a box is a fund, vault or account.
+const PART = {
+  disc: (x, y, r, yieldLine) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>` + (yieldLine ? `<path d="M${x - r * 0.55} ${y + r * 0.35}L${x - r * 0.1} ${y - r * 0.05}L${x + r * 0.15} ${y + r * 0.2}L${x + r * 0.55} ${y - r * 0.4}" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>` : `<path d="M${x - r * 0.45} ${y}H${x + r * 0.45}" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`),
+  lock: (x, y) => `<rect x="${x - 6}" y="${y - 3}" width="12" height="10" rx="2" fill="#14130f"/><path d="M${x - 3.5} ${y - 3}V${y - 6}a3.5 3.5 0 0 1 7 0V${y - 3}" fill="none" stroke="#14130f" stroke-width="2"/>`,
+  arrow: (x1, y1, x2, y2, dashed) => `<path d="M${x1} ${y1}L${x2} ${y2}" stroke="#14130f" stroke-width="2" fill="none"${dashed ? ' stroke-dasharray="4 3"' : ''} marker-end="url(#ia)"/>`,
+  loop: dashedBack => `<path d="M36 20C44 8 52 8 60 20" fill="none" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><path d="M60 36C52 48 44 48 36 36" fill="none" stroke="#14130f" stroke-width="2"${dashedBack ? ' stroke-dasharray="4 3"' : ''} marker-end="url(#ia)"/>`,
+};
+const ICON_DEFS = '<defs><marker id="ia" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#14130f"/></marker></defs>';
+const GLYPHS = {
+  dvp: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14, true) + PART.loop() + PART.lock(48, 29),
+  pvp: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14) + PART.loop() + PART.lock(48, 29),
+  pay: () => PART.disc(22, 28, 14) + PART.arrow(40, 28, 68, 28) + `<rect x="72" y="16" width="20" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
+  treasury: () => PART.disc(22, 28, 14) + PART.arrow(40, 22, 58, 22) + PART.arrow(58, 34, 40, 34) + PART.disc(74, 28, 14, true),
+  repo: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14, true) + PART.loop(true) + `<circle cx="48" cy="28" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M48 24V28H51" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  collateral: () => `<path d="M48 6L70 14V28C70 40 60 48 48 52C36 48 26 40 26 28V14Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/>` + PART.disc(48, 29, 11, true),
+  lending: () => PART.disc(22, 28, 14, true) + PART.arrow(40, 22, 70, 22) + PART.arrow(70, 34, 40, 34, true) + `<rect x="74" y="16" width="18" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
+  subscribe: () => PART.disc(20, 28, 13) + PART.arrow(36, 28, 52, 28) + `<rect x="56" y="12" width="34" height="32" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M63 20H83M63 28H83M63 36H77" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  corporate: () => `<rect x="30" y="8" width="36" height="22" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M38 15H58M38 22H52" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>` + PART.arrow(40, 32, 26, 46) + PART.arrow(48, 32, 48, 46) + PART.arrow(56, 32, 70, 46),
+  // landing-page tiles
+  web3: () => `<circle cx="48" cy="30" r="24" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="33" r="16" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="36" r="8" fill="#14130f"/>`,
+  taxonomy: () => `<circle cx="36" cy="24" r="16" fill="#f8f6f2" fill-opacity=".7" stroke="#14130f" stroke-width="2"/><circle cx="60" cy="24" r="16" fill="#f8f6f2" fill-opacity=".7" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="38" r="16" fill="#f8f6f2" fill-opacity=".7" stroke="#14130f" stroke-width="2"/>`,
+  networks: () => `<path d="M24 40L48 14L72 40M24 40H72M48 14V40" stroke="#14130f" stroke-width="2" fill="none"/><circle cx="24" cy="40" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="72" cy="40" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="14" r="7" fill="#14130f"/><circle cx="48" cy="40" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
+  decentralization: () => `<path d="M18 44A30 30 0 0 1 78 44" fill="none" stroke="#14130f" stroke-width="6" stroke-linecap="round"/><path d="M48 44L66 22" stroke="#14130f" stroke-width="3" stroke-linecap="round"/><circle cx="48" cy="44" r="5" fill="#14130f"/>`,
+  scenarios: () => PART.disc(20, 28, 12) + PART.arrow(34, 28, 50, 28) + PART.disc(64, 28, 12, true) + `<path d="M12 46H88" stroke="#14130f" stroke-width="2" stroke-dasharray="4 4"/>`,
+  privacy: () => `<path d="M48 6L70 14V28C70 40 60 48 48 52C36 48 26 40 26 28V14Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/><path d="M36 29C40 23 56 23 60 29C56 35 40 35 36 29Z" fill="none" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="29" r="3" fill="#14130f"/><path d="M38 38L58 20" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  identity: () => `<rect x="18" y="12" width="60" height="34" rx="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="34" cy="26" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M26 40C28 34 40 34 42 40" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M50 22H70M50 30H70M50 38H62" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  quantum: () => `<ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(60 48 28)"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(-60 48 28)"/><circle cx="48" cy="28" r="5" fill="#14130f"/>`,
+  agent: () => `<rect x="10" y="14" width="26" height="24" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="19" cy="25" r="2.5" fill="#14130f"/><circle cx="27" cy="25" r="2.5" fill="#14130f"/><path d="M23 14V8" stroke="#14130f" stroke-width="2"/>` + PART.arrow(40, 28, 58, 28) + PART.disc(74, 28, 13),
+};
+const iconSvg = (id, cls) => GLYPHS[id] ? `<svg class="${cls || 'ei-icon'}" viewBox="0 0 96 56" aria-hidden="true">${ICON_DEFS}${GLYPHS[id]()}</svg>` : '';
+function validateIndex({ dir, site }) {
+  const errors = validateStatic({ dir, site }), where = `${dir}/site.yaml`;
+  const roles = new Set((site.filters?.roles || []).map(r => r.id));
+  const moves = new Set([...(site.filters?.moves || []).map(m => m.id), ...(site.map?.circles || []).map(c => c.id), ...(site.bands || []).flatMap(b => b.moves || [])]);
+  for (const sc of site.scenarios || []) if (sc.icon && !GLYPHS[sc.icon]) errors.push(`${where}: scenario "${sc.title}" names unknown icon "${sc.icon}"`);
+  for (const sc of site.scenarios || []) {
+    if (!sc.title || !sc.text) errors.push(`${where}: every scenario needs a title and text`);
+    if (sc.path && !PAGES.some(p => p.out === sc.path)) errors.push(`${where}: scenario path "${sc.path}" is not a page in PAGES`);
+    for (const r of sc.roles || []) if (!roles.has(r)) errors.push(`${where}: scenario "${sc.title}" names unknown role "${r}"`);
+    for (const m of sc.moves || []) if (!moves.has(m)) errors.push(`${where}: scenario "${sc.title}" names unknown move "${m}"`);
+  }
+  return errors;
+}
+function validateScenario({ dir, site, sc }) {
+  const errors = validateStatic({ dir, site }), where = `${dir}/scenario.yaml`;
+  const ids = new Set((sc.actors || []).map(a => a.id));
+  if ((sc.actors || []).length < 2) errors.push(`${where}: needs at least two actors`);
+  for (const a of sc.actors || []) { if (!a.id || !a.name || !a.role) errors.push(`${where}: every actor needs id, name and role`);
+    if (a.kind && !['institution', 'ledger', 'contract', 'observer'].includes(a.kind)) errors.push(`${where}: actor "${a.id}" kind must be institution, ledger, contract or observer`); }
+  (sc.steps || []).forEach((st, i) => { st.n = i + 1;
+    if (!st.title || !st.text) errors.push(`${where}: step ${i + 1} needs a title and text`);
+    if (!['offchain', 'onchain', 'atomic'].includes(st.kind || 'offchain')) errors.push(`${where}: step ${i + 1} kind must be offchain, onchain or atomic`);
+    for (const id of [st.from, st.to, ...(st.lanes || [])]) if (id && !ids.has(id)) errors.push(`${where}: step ${i + 1} names unknown actor "${id}"`);
+    if (!st.lanes && (!st.from || !st.to)) errors.push(`${where}: step ${i + 1} needs from and to (or lanes)`); });
+  for (const t of sc.tokens || []) { if (!t.name || !t.role) errors.push(`${where}: every token needs a name and a role`); SRC_OK(errors, where, t.name, t.sources); }
+  for (const x of sc.standards || []) if (!x.id || !x.title || !x.status || !x.role || !/^https?:\/\//.test(x.url || '')) errors.push(`${where}: standard "${x.id || '?'}" needs id, title, status, role and url`);
+  for (const sec of sc.sections || []) { if (!sec.title) errors.push(`${where}: every section needs a title`);
+    for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where}: section "${sec.title}" items need title and text`); SRC_OK(errors, where, it.title, it.sources); } }
+  SRC_OK(errors, where, 'scenario', sc.sources);
+  return errors;
+}
 function validate(page) {
   if (page.static) return validateStatic(page);
+  if (page.index) return validateIndex(page);
+  if (page.scenario) return validateScenario(page);
   if (page.radial) return validateRadial(page);
   const { dir, circles, layout, tokens, site, lenses } = page;
   const errors = [];
@@ -258,7 +332,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 // ---------- assemble ----------
 const TAG = '<span class="ei-tag">in progress</span>';
-const relHref = (from, to) => from === '' ? (to ? `${to}/` : './') : (to === '' ? '../' : `../${to}/`);
+const relHref = (from, to) => { const up = '../'.repeat(from ? from.split('/').length : 0); return to ? `${up}${to}/` : (up || './'); };
 const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => n.path === out
   ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
   : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</nav>`;
@@ -268,13 +342,87 @@ const shared = site => ({
   contribute: site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
     + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '',
 });
+function renderIndex({ site, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const sh = shared(site), F = site.filters || {};
+  const chips = (name, items) => `<div class="ei-filter" data-filter="${name}"><span class="rl">${esc(F[name + '_label'] || name)}</span>${items.map(i => `<button type="button" data-v="${esc(i.id)}" aria-pressed="false">${esc(i.label)}</button>`).join('')}</div>`;
+  const M = site.map || {}, circles = M.circles || [];
+  const pillW = t => Math.round(t.length * 6.2) + 18;
+  const venn = circles.length ? `<div class="ei-wrap venn"><svg viewBox="0 0 ${M.width || 700} ${M.height || 520}" role="img" aria-label="${esc(M.label || 'Map of scenarios by what moves')}">`
+    + circles.map(c => `<circle cx="${c.cx}" cy="${c.cy}" r="${c.r}" fill="${esc(c.fill)}" fill-opacity=".55" stroke="${esc(c.stroke)}" stroke-width="2"/>`).join('')
+    + circles.map(c => `<text x="${c.lx}" y="${c.ly}" text-anchor="middle" class="serif" font-size="20" font-weight="700" fill="#14130f">${esc(c.label)}</text>`).join('')
+    + (site.scenarios || []).filter(sc => sc.map).map(sc => { const w = pillW(sc.short || sc.title), live = !!sc.path, x = sc.map.x - w / 2;
+        const pill = `<g class="pill${live ? ' live' : ''}"><title>${esc(sc.title)}${live ? '' : ' (in progress)'}</title><rect x="${x}" y="${sc.map.y - 11}" width="${w}" height="22" rx="11" fill="${live ? '#14130f' : '#b8b3a8'}" stroke="#f8f6f2" stroke-width="1.5"/><text x="${sc.map.x}" y="${sc.map.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="#f2efe9">${esc(sc.short || sc.title)}</text></g>`;
+        return live ? `<a href="${relHref(out, sc.path)}" aria-label="${esc(sc.title)}">${pill}</a>` : pill; }).join('')
+    + `</svg></div><div class="ei-legend"><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#14130f"/></svg> Written scenario (click to open)</span><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#b8b3a8"/></svg> Planned</span></div>` : '';
+  const bands = site.bands || [];
+  const tile = sc => { const live = !!sc.path;
+    return `<${live ? `a class="ei-card tile" href="${relHref(out, sc.path)}"` : 'div class="ei-card tile planned"'} data-roles="${(sc.roles || []).join(' ')}">${iconSvg(sc.icon)}<h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
+      + `<p class="tags">${(sc.roles || []).map(r => `<span>${esc((F.roles || []).find(x => x.id === r)?.label || r)}</span>`).join('')}</p>` + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; };
+  const bandOf = sc => bands.find(b => (b.moves || []).length === (sc.moves || []).length && (b.moves || []).every(m => (sc.moves || []).includes(m)))?.id;
+  const cards = bands.map(b => { const list = (site.scenarios || []).filter(sc => bandOf(sc) === b.id).sort((a, c) => (!!c.path) - (!!a.path));
+    return list.length ? `<div class="ei-band" data-band="${esc(b.id)}"><div class="ei-h"><b>${esc(b.label)}</b><span>${esc(b.text || '')}</span></div><div class="ei-cards">${list.map(tile).join('')}</div></div>` : ''; }).join('');
+  const body = venn + `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}<button type="button" class="clear" hidden>Show all</button></div><div id="ei-cards">${cards}</div>
+<script>(function(){ const on={roles:null}; const cards=[...document.querySelectorAll('#ei-cards .ei-card')], clear=document.querySelector('.ei-filters .clear');
+  const apply=()=>{ cards.forEach(c=>{ c.hidden=!(!on.roles||c.dataset.roles.split(' ').includes(on.roles)); }); clear.hidden=!on.roles;
+    document.querySelectorAll('.ei-band').forEach(b=>{ b.hidden=![...b.querySelectorAll('.ei-card')].some(c=>!c.hidden); });
+    document.querySelectorAll('.ei-filter').forEach(f=>f.querySelectorAll('button').forEach(b=>{ const a=on[f.dataset.filter]===b.dataset.v; b.classList.toggle('on',a); b.setAttribute('aria-pressed',String(a)); })); };
+  document.querySelectorAll('.ei-filter').forEach(f=>f.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ on[f.dataset.filter]=on[f.dataset.filter]===b.dataset.v?null:b.dataset.v; apply(); })));
+  clear.addEventListener('click',()=>{ on.roles=null; apply(); }); })();</script>`;
+  return read('src/static.html')
+    .replace('__STYLE__', style + `<style>
+  .ei-filters{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-filter{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .ei-filter .rl{font-size:12px;color:var(--muted);min-width:150px}
+  .ei-filter button,.ei-filters .clear{font:inherit;font-size:13px;padding:5px 11px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:var(--ink);cursor:pointer}
+  .ei-filter button:hover{border-color:var(--ink)}
+  .ei-filter button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .ei-filters .clear{align-self:flex-start;border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
+  .ei-card .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+  .ei-card .tags span{font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:#fff;color:var(--muted)}
+  .ei-card .tags span.m{border-color:#312e81;color:#312e81}
+  .ei-card.planned{cursor:default;opacity:.85}
+  .ei-card[hidden],.ei-band[hidden]{display:none}
+  .ei-wrap.venn svg{max-width:760px;min-width:520px;margin:0 auto}
+  .ei-wrap.venn svg a rect{cursor:pointer}
+  .ei-wrap.venn svg a:hover rect,.ei-wrap.venn svg a:focus rect{stroke:#14130f;stroke-width:3}
+  .ei-wrap.venn svg text{pointer-events:none;font-family:var(--sans)}
+  .ei-wrap.venn svg text.serif{font-family:var(--serif);letter-spacing:-.02em}
+  #ei-cards{display:flex;flex-direction:column;gap:22px}
+  .ei-band{display:flex;flex-direction:column;gap:12px}
+  .ei-h{display:flex;flex-direction:column;gap:4px}
+  .ei-h b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-h span{font-size:14px;color:var(--muted);line-height:1.5;max-width:90ch}
+  .ei-card.tile svg.ei-icon{width:96px;height:56px;display:block;margin-bottom:2px}
+</style>`).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
+    .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
+const srcHtmlC = src => !(src || []).length ? '' : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
+const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
+  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + srcHtmlC(it.sources)).join('') + '</div>').join('')}</div>` : '';
+function renderScenario({ site, sc, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const lead = (sc.sections || []).filter(x => x.lead), rest = (sc.sections || []).filter(x => !x.lead);
+  const data = { actors: sc.actors, steps: sc.steps, kind: 'scenario', version,
+    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a step in the diagram to read what happens; click to pin it.' } };
+  const tags = (sc.tags || []).length ? `<div class="ei-tags">${sc.tags.map(t => `<span class="${t.kind === 'move' ? 'm' : ''}">${esc(t.label)}</span>`).join('')}</div>` : '';
+  const actorsHtml = `<div class="ei-actors">${sc.actors.map(a => `<div class="ei-actor"><h3><i class="${esc(a.kind || 'institution')}"></i>${esc(a.name)}</h3><p>${esc(a.role)}</p></div>`).join('')}</div>`;
+  const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtmlC(t.sources)}</div>`).join('')}</div>`;
+  const stdHtml = `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`;
+  return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
+    .replace('__ICON__', iconSvg(sc.icon, 'ei-icon hero')).replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml).replace('__STANDARDS_HELP__', esc(sc.standards_help || ''))
+    .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all.'))
+    .replace('__LEAD__', sectionsHtmlC({ sections: lead }))
+    .replace('__SECTIONS__', sectionsHtmlC({ sections: rest }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtmlC(sc.sources)}</div></div>` : ''));
+}
 function renderStatic({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site);
   const body = site.cards
     ? `<div class="ei-cards">${site.cards.map(c => { const n = NAV.find(x => x.path === c.path);
-        return `<a class="ei-card" href="${relHref(out, c.path)}"><h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">${n?.wip ? 'See the plan' : 'Open the map'} →</span></a>`; }).join('')}</div>`
-    : `<div class="ei-wip">This map is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
+        return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`
+    : (site.sections || []).length ? sectionsHtml({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
     .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
@@ -344,14 +492,15 @@ for (const p of pages) {
   const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });
   if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), renderStatic(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
-  const page = p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
+  if (p.index) { fs.writeFileSync(path.join(outDir, 'index.html'), renderIndex(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (index, ${(p.site.scenarios || []).length} scenarios)`); continue; }
+  const page = p.scenario ? renderScenario(p) : p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
   // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
   const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);
   const body = page.slice(page.indexOf('<body>') + 6, page.lastIndexOf('</body>'));
   fs.writeFileSync(path.join(root, 'dist', `${slug}.fragment.html`), head + '\n' + body);
   fs.writeFileSync(path.join(outDir, 'index.html'), page);
-  console.log(p.radial
+  console.log(p.scenario ? `Built ${path.join('dist', p.out, 'index.html')} (scenario, ${p.sc.actors.length} actors, ${p.sc.steps.length} steps)` : p.radial
     ? `Built ${path.join('dist', p.out, 'index.html')} (${p.rings.rings.length} ${p.gauges ? 'levels' : 'rings'}, ${p.themes.themes.length} ${p.gauges ? 'gauges' : 'themes'}, ${(p.lenses || []).length} lenses), version ${version}`
     : `Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
 }

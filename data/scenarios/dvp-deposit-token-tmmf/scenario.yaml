@@ -1,0 +1,206 @@
+# Scenario: delivery versus payment (DvP), a bank deposit token against a tokenized money market fund (TMMF).
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: dvp
+tags:
+- { kind: move, label: Cash moves }
+- { kind: move, label: Asset moves }
+- { label: Bank }
+- { label: Asset manager }
+- { label: Market infrastructure }
+- { label: Corporate treasurer }
+
+actors:
+- id: buyer
+  name: Buyer
+  role: An asset manager or corporate treasurer buying fund units for cash management or collateral. Holds deposit tokens in an institutional wallet with its own policy controls.
+- id: bank
+  name: Deposit token issuer
+  role: The buyer’s commercial bank. Issues the deposit token (a tokenized claim on a deposit at that bank), onboards clients, and keeps the token’s allowlist. Only its clients may hold the token.
+- id: ledger
+  name: Ledger and settlement contract
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Besu network, by deployment style) running the deposit-token contract, the fund-share contract and a DvP contract that moves both in one transaction.
+- id: seller
+  name: Seller
+  role: An investor selling fund units on the secondary market. For a primary-market subscription the fund itself is the seller (see the variant below).
+- id: ta
+  name: Fund transfer agent
+  role: Keeps the fund’s register and runs investor onboarding; controls the identity registry that the fund-share token checks on every transfer. Acts for the fund manager.
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the two transfer events are the audit trail, with no statement to request.'
+
+steps:
+- title: Onboarding and allowlisting
+  from: ta
+  to: ledger
+  kind: onchain
+  text: 'Before anything can settle, both wallets must be eligible on both tokens. The bank runs its client checks and adds the buyer’s and seller’s wallets to the deposit token’s allowlist; the transfer agent runs investor checks and registers both wallets in the fund share’s identity registry (ERC-3643). Eligibility is enforced by the token contracts themselves, so an ineligible transfer cannot happen by mistake.'
+  standards: [ERC-3643 identity registry, deposit-token allowlist]
+- title: Trade agreed
+  from: buyer
+  to: seller
+  kind: offchain
+  text: 'Buyer and seller agree the quantity and price, bilaterally or on a venue. A secondary trade in a constant-price fund is at par plus accrued income; a variable-price fund trades at or near the last struck net asset value. Settlement is instructed as one DvP on the ledger rather than two instructions to two systems.'
+- title: Buyer authorizes the cash leg
+  from: buyer
+  to: ledger
+  kind: onchain
+  text: 'The buyer authorizes the DvP contract to move the agreed amount of deposit tokens: an ERC-20 approval, an ERC-2612 permit signed off-line, or an EIP-3009 transfer-with-authorization signed with EIP-712, which lets the counterparty or the venue submit the transaction and pay its fee. Nothing moves yet.'
+  standards: [ERC-20 approve, ERC-2612 permit, EIP-3009, EIP-712]
+- title: Seller authorizes the asset leg
+  from: seller
+  to: ledger
+  kind: onchain
+  text: 'The seller authorizes the DvP contract to move the agreed number of fund units. The fund share’s compliance module will re-check at settlement that the buyer is registered and that any holding limits are met, so the seller cannot deliver to an ineligible wallet.'
+  standards: [ERC-20 approve, ERC-3643 compliance]
+- title: Atomic settlement, both legs in one transaction
+  kind: atomic
+  lanes: [bank, ledger, seller]
+  text: 'One transaction calls the DvP contract, which moves the deposit tokens from buyer to seller and the fund units from seller to buyer. Each token’s own rules run inside it: the deposit token checks its allowlist, the fund share checks its identity registry and compliance rules. If any check fails, the whole transaction reverts and neither leg moves. There is no principal risk, no intraday credit and no window in which one side has paid and the other has not.'
+  standards: [ERC-20 transferFrom, ERC-3643, DvP contract]
+- title: Finality and the record
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet the transaction is included in a block within seconds and finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The two Transfer events are the record: the buyer’s custodian, the seller’s custodian, the bank, the transfer agent and the auditor all read the same log, so there is nothing to reconcile; the books agree at the next block, not the next day.'
+- title: Register and books updated
+  from: ledger
+  to: ta
+  kind: onchain
+  text: 'The transfer agent reads the fund share’s Transfer event and the register is updated: in a jurisdiction where the ledger is the statutory register the on-chain balance is the holding; in a hybrid or secondary-record model the agent’s books are updated from the event. The bank likewise reflects the deposit-token movement between its two clients’ wallets on its core ledger.'
+- title: Cash leg across banks
+  from: bank
+  to: bank
+  kind: offchain
+  text: 'A deposit token is a claim on one bank, so buyer and seller must both bank there, or the seller’s token must be redeemed and reissued by the seller’s bank. Where the two sides bank at different institutions the cash leg needs a shared deposit-token network, a stablecoin, or wholesale central bank money on the same ledger (see the variants).'
+
+tokens:
+- name: Deposit Token
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: The cash leg. A tokenized claim on a deposit at the issuing bank, held in a wallet and transferable between the bank’s clients on the ledger; the bank remains the obligor. In the taxonomy it is the subset of tokenized deposits that circulates in wallets, including on public chains.
+  example: Live example, JPMD (JPM Coin), the Kinexys deposit token, on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+  - { title: 'J.P. Morgan, Kinexys USD deposit tokens on Base', url: https://www.jpmorgan.com/payments/newsroom/kinexys-usd-digital-deposit-tokens, checked: '2026-10-25' }
+- name: Funds (tokenized money market fund)
+  circle: fund
+  place: Tokenized Real-World Assets › Financial Instruments › Funds
+  role: The asset leg. A share in a money market fund, represented as a permissioned token. A constant-price fund delivers income as more units at par; a variable-price fund as a rising struck price; either way the token is a fund share with a dealing calendar, not money.
+  example: Live examples, BlackRock BUIDL (Securitize), Circle USYC, Franklin Templeton BENJI, UBS uMINT and Spiko on Ethereum mainnet.
+  sources:
+  - { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- name: Stablecoin (alternative cash leg)
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Where buyer and seller do not share a bank, a regulated stablecoin such as USDC is the cash leg every eligible wallet can hold. This is how most tokenized fund dealing settles today.
+  example: Live examples, BUIDL exchangeable for USDC through a Circle smart contract (April 2024); USYC subscribed and redeemed against USDC around the clock; WisdomTree WTGXX traded 24/7 against USDC (February 2026).
+  sources:
+  - { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+  - { title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+- name: Wholesale CBDC (future cash leg)
+  circle: wcbdc
+  place: Digital Money › Tokenized Currencies › Central Bank › Wholesale CBDC
+  role: Central bank money on the same ledger would make the cash leg risk-free and bank-neutral. Not live on a public ledger today; the subject of central bank experiments.
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by its register model, its cash leg and the systems that must read the tokens, and several (CMTAT, ERC-1400) are alternatives to those listed.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of both tokens (balances, transfer, approve); every wallet, custodian and the DvP contract speak it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-3643
+  title: T-REX, Token for Regulated Exchanges
+  status: Final
+  role: The permissioned security-token standard for the fund share; an identity registry and a compliance contract decide, on every transfer, whether the receiving wallet is an eligible investor. Alternatives in production are CMTAT (UBS uMINT) and ERC-1400.
+  url: https://eips.ethereum.org/EIPS/eip-3643
+- id: ERC-7540
+  title: Asynchronous ERC-4626 Tokenized Vaults
+  status: Final
+  role: For the primary-market variant, request-and-claim dealing against the cash leg at the price struck after the cut-off; the fund’s own dealing process on the ledger.
+  url: https://eips.ethereum.org/EIPS/eip-7540
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets the buyer authorize the cash leg with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so the venue or counterparty can pay the fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; an institution’s signing policy can read exactly what is being approved.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Institutional wallets as smart accounts with policy controls (approvals, limits, multiple signers) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: Uniswap v4 hooks
+  title: Venue interface, not an ERC
+  status: Live
+  role: For the permissioned-pool variant, a hook contract that runs before a swap or a liquidity change and can refuse either, so the pool enforces the token’s own eligibility rules; the open interface Ethereum Institutional’s reference build uses.
+  url: https://docs.uniswap.org/contracts/v4/concepts/hooks
+- id: ERC-7573
+  title: Conditional-upon-Transfer-Decryption for DvP
+  status: Draft
+  role: For the cross-ledger variant, where the cash and the asset sit on different chains, a mechanism that releases the asset only when the payment has succeeded, without an intermediary.
+  url: https://eips.ethereum.org/EIPS/eip-7573
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: The most participants, liquidity and assets
+    text: 'A public, permissionless ledger is open to every eligible institution and every eligible investor at once, so it carries the most counterparties, the deepest pool of tokenized currency and the widest range of tokenized assets of any ledger. On Ethereum mainnet the deposit token, the stablecoin alternatives and the fund units in this scenario already sit on the same ledger as each other; on a private or consortium ledger each would have to be brought in, one bilateral agreement at a time.'
+  - title: Composability across scenarios
+    text: 'The fund units bought here are the same tokens that are posted as collateral, lent, or repo’d in the other scenarios, and the deposit token is the same cash leg that pays an invoice or settles a foreign-exchange trade. Nothing is re-issued or re-onboarded to move from one use to the next; the asset simply goes where its holder sends it.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the asset. Each token stays bound to its issuer’s rules, enforced in the token contract on every transfer: KYC and KYB of every holder, the travel rule where it applies, holding limits, lock-ups, and the issuer’s own house and regulatory requirements. A wallet the issuer has not approved cannot receive the token on any venue, and a freeze by the issuer binds everywhere at once. The ledger does not have to be permissioned for the asset to be.'
+  - title: Any product against any payment
+    text: 'The same eight steps settle a bond, an equity, a fund of any kind or a tokenized commodity against a deposit token, a stablecoin or, in time, central bank money. The pairing shown here is the common one because it is where the economics bite: a treasurer holds cash that earns little or nothing and wants, within the same ledger and the same day, an asset that earns the money-market rate, and wants to be able to come back just as fast.'
+  - title: Atomic by construction
+    text: Both legs are records on the same ledger, so one transaction can move both or neither. Traditional DvP needs a securities depository, a payment system and a link between them, with intraday credit covering the gap; here the gap does not exist.
+  - title: 'Reconciled every block: T plus next block, not T plus next day'
+    text: 'Every party reads the same transfer events, so the buyer’s and seller’s custodians, the bank, the transfer agent and the auditor never exchange statements to agree what happened; the ledger reconciles itself with every block it produces. On Ethereum mainnet that is a block every 12 seconds and finality within about 13 minutes, against the overnight batch, the next-day confirmation and the exception queue that settle the same trade today. The settlement cycle is T plus next block, not T plus next day.'
+  - title: Open around the clock
+    text: The ledger settles at any hour. For a constant-price fund the units can be dealt at par at any time; for a variable-price fund the trade price follows the struck net asset value, and a liquidity provider or a dealing queue bridges to the next strike.
+  - title: Rules travel with the token
+    text: Eligibility, limits and freezes are enforced by the token contracts on every transfer, wherever the token goes, so compliance does not depend on each venue implementing it again.
+- title: Variants
+  items:
+  - title: Primary-market subscription
+    text: The fund itself is the seller. The buyer places a subscription request with the cash leg in escrow (ERC-7540), the administrator strikes the net asset value at the cut-off, and the buyer claims the units at that price; a constant-price fund with a teller contract can subscribe and redeem continuously against the cash leg.
+  - title: Stablecoin or central bank money as the cash leg
+    text: Replace the deposit token with a regulated stablecoin (the common case today) or, in future, wholesale central bank money on the same ledger. The steps are the same; who the obligor on the cash leg is changes.
+  - title: Trading in a permissioned pool
+    text: 'Instead of a bilateral trade settled by a DvP contract, the venue can be an automated market maker whose pool is the counterparty: every swap is itself the DvP, and a compliance hook on the pool checks the trader against the fund share’s identity registry at the moment of the swap, so a wallet frozen or revoked in the token stops trading with no action by the venue; providing liquidity can be gated separately (for instance to professional investors). Uniswap v4 hooks are the open interface for this, and Ethereum Institutional maintains a reference build of it (an ERC-3643 money market fund trading against USDC in a permissioned pool, with segregated custody and tests that prove each control binds); contact Ethereum Institutional for access to the quickstart. The caveat is pricing: a pool quotes continuously, so this venue suits a constant-price fund or a fund with a published feed, not one priced once a day at a cut-off.'
+  - title: Cash and asset on different ledgers
+    text: Where the fund token lives on one chain and the cash on another, atomicity needs a cross-ledger mechanism (ERC-7573, or a hashed time-lock); settlement is no longer one transaction and a failure mode returns.
+- title: Open questions for your deployment
+  items:
+  - title: Which bank’s money
+    text: A deposit token is a single bank’s liability; a market with many banks needs a shared deposit-token network, a stablecoin, or central bank money for the cash leg.
+  - title: Settlement finality in law
+    text: On-chain finality is economic; legal finality depends on the register model (ledger as register, hybrid, or secondary record) and on the governing law of the fund and the deposit. Resolve this before the technology.
+  - title: Visibility of positions
+    text: On a public ledger balances and transfers are visible to anyone who can map a wallet to a name. Permissioned tokens, pseudonymous wallets and confidential-transfer techniques (see the Privacy page, in progress) are the answers in use.
+  - title: Who runs the DvP contract
+    text: Neutral open code anyone may call, or a venue’s contract under a rulebook (an MTF, OTF or ATS). For a regulated institution the second is often decisive, and it is not a question of technology.
+
+sources:
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-10-25' }
+- { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; contract families, continuous dealing, register models)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+- { title: 'WisdomTree, 24/7 trading and instant settlement (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'Uniswap v4 documentation, Hooks', url: https://docs.uniswap.org/contracts/v4/concepts/hooks, checked: '2026-10-25' }
+- { title: 'Ethereum Institutional (contact for the permissioned-pool quickstart)', url: https://ethereuminstitutional.org/, checked: '2026-10-25' }

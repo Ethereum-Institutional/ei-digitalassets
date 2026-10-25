@@ -1,18 +1,112 @@
-# Scenarios map: work in progress. Rendered from src/static.html until the diagram data exists.
+# Scenarios index: what institutions do with digital assets, one page per scenario. Filter by your role or by what moves.
 
-kind: static
+kind: index
 title: Scenarios
 slug: scenarios
 eyebrow: Ethereum Institutional · Research
 heading:
   text: Scenarios
   italic: Scenarios
-intro: 'What institutions actually do with digital assets, as market activities rather than asset types: payments, delivery versus payment, repo and reverse repo, treasury management, collateral mobility and margin, fund subscription and redemption, and more. Each scenario will show which leg moves on the ledger (cash, the asset, or both), what settles atomically and what still needs a balance sheet, and the live deployments that prove it.'
+intro: 'What institutions do with digital assets, as market activities rather than asset types. Each scenario names the actors, shows how it works step by step, lists the tokens from the taxonomy and the EVM standards to consider, and points to live deployments. The map places each scenario by what moves on the ledger; the tiles below are grouped the same way and can be filtered by your role. Nothing is ranked.'
+filters:
+  roles_label: Filter by your role
+  roles:
+  - { id: bank, label: Bank }
+  - { id: asset_manager, label: Asset manager }
+  - { id: fmi, label: 'Market infrastructure (CSD, CCP, exchange)' }
+  - { id: payments, label: Payment firm }
+  - { id: corporate, label: Corporate treasurer }
+  - { id: central_bank, label: Central bank }
+map:
+  width: 700
+  height: 520
+  label: Map of scenarios by what moves on the ledger
+  circles:
+  - { id: cash, label: Cash moves, cx: 320, cy: 210, r: 175, lx: 295, ly: 72, fill: '#e3e7ea', stroke: '#3f5664' }
+  - { id: asset, label: Asset moves, cx: 480, cy: 210, r: 175, lx: 505, ly: 72, fill: '#e1e3f2', stroke: '#312e81' }
+  - { id: credit, label: Credit is extended, cx: 400, cy: 330, r: 150, lx: 400, ly: 447, fill: '#e9e3ee', stroke: '#65547a' }
+bands:
+- { id: pay, label: Pay and move money, text: 'Only cash moves.', moves: [cash] }
+- { id: settle, label: Settle and deal, text: 'Cash against an asset, or an asset event paid in cash.', moves: [cash, asset] }
+- { id: finance, label: Finance and collateralize, text: 'Credit is extended against an asset, with or without a cash leg.', moves: [cash, asset, credit] }
+- { id: collateralize, label: Collateralize and lend, text: 'An asset is pledged or lent; the cash leg, if any, is separate.', moves: [asset, credit] }
+scenarios:
+- title: Delivery versus payment, deposit token against a tokenized money market fund
+  icon: dvp
+  short: DvP
+  map: { x: 400, y: 132 }
+  path: scenarios/dvp-deposit-token-tmmf
+  text: A buyer pays with a bank deposit token and receives fund units in one transaction; either both legs settle or neither does.
+  moves: [cash, asset]
+  roles: [bank, asset_manager, fmi, corporate]
+- title: Payments with tokenized currency
+  icon: pay
+  short: Payments
+  map: { x: 200, y: 170 }
+  text: Domestic and cross-border payments in deposit tokens and stablecoins, settled on the ledger around the clock.
+  moves: [cash]
+  roles: [bank, payments, corporate]
+- title: Treasury management with tokenized money market funds
+  icon: treasury
+  short: Treasury
+  map: { x: 230, y: 120 }
+  text: Intraday liquidity and cash sweeps into tokenized money market funds, and back, without a cut-off.
+  moves: [cash]
+  roles: [corporate, asset_manager, bank]
+- title: Foreign exchange, payment versus payment
+  icon: pvp
+  short: FX PvP
+  map: { x: 195, y: 235 }
+  text: Two tokenized currencies exchanged atomically, with no settlement risk between the legs.
+  moves: [cash]
+  roles: [bank, payments, central_bank]
+- title: Repo and reverse repo
+  icon: repo
+  short: Repo
+  map: { x: 400, y: 240 }
+  text: Cash against tokenized securities with an agreed return leg, both legs on the ledger.
+  moves: [cash, asset, credit]
+  roles: [bank, asset_manager, fmi]
+- title: Collateral mobility and margin
+  icon: collateral
+  short: Collateral
+  map: { x: 500, y: 330 }
+  text: Tokenized fund units and securities posted as initial and variation margin, bilaterally, at venues and at clearing houses.
+  moves: [asset, credit]
+  roles: [bank, asset_manager, fmi]
+- title: Securities lending
+  icon: lending
+  short: Securities lending
+  map: { x: 474, y: 356 }
+  text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
+  moves: [asset, credit]
+  roles: [asset_manager, bank, fmi]
+- title: Fund subscription and redemption
+  icon: subscribe
+  short: Fund dealing
+  map: { x: 400, y: 104 }
+  text: Primary-market dealing in tokenized funds against a cash leg, at the struck price or continuously.
+  moves: [cash, asset]
+  roles: [asset_manager, bank, fmi]
+- title: Corporate actions and distributions
+  icon: corporate
+  short: Corporate actions
+  map: { x: 400, y: 160 }
+  text: Dividends, coupons and reinvestments paid in units or in tokenized currency, on the same ledger as the asset.
+  moves: [cash, asset]
+  roles: [fmi, asset_manager, bank]
+- title: AI agent payments
+  icon: agent
+  short: AI payments
+  map: { x: 209, y: 280 }
+  text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
+  moves: [cash]
+  roles: [payments, corporate, bank]
 notice:
-  title: Work in progress.
-  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+  title: Under development.
+  text: One scenario is written; the others are planned. Steps and standards may change. For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
-  title: Help shape this map.
-  text: It will be built in the open on GitHub like the others. Open an issue to suggest a scenario, a source or a deployment to include.
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  title: Missing a scenario?
+  text: Open an issue with the scenario you are investigating and we will write it up, or send a pull request.
+footnote: 'Scenarios are Ethereum Institutional house views for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

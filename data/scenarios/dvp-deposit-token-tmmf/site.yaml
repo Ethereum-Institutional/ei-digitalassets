@@ -1,0 +1,22 @@
+# Scenario page: delivery versus payment, deposit token against a tokenized money market fund. Content in scenario.yaml.
+
+kind: scenario
+title: 'DvP: deposit token against a tokenized money market fund'
+slug: dvp-deposit-token-tmmf
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: Delivery versus payment
+  italic: versus
+intro: 'There are many kinds of delivery versus payment: any tokenized product (a bond, an equity, a fund, a commodity) settled against any tokenized payment (a deposit token, a stablecoin, central bank money). This page works through one example, a bank deposit token against a tokenized money market fund, because it is the common case: a payment token that carries little or no yield exchanged for an asset that does. The buyer pays, the seller delivers, and both legs settle in one transaction on the ledger: either the buyer receives the units and the seller receives the money, or nothing moves. No central securities depository, no payment system, no intraday credit and no reconciliation sit between the two legs, because both are records on the same ledger.'
+svg_label: Swimlane diagram of delivery versus payment between a deposit token and a tokenized money market fund
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and the band across the columns is the one transaction in which both legs settle.
+notice:
+  title: Under development.
+  text: This scenario is a v0.x draft and has not yet been reviewed by legal counsel. Steps and standards may change. For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Running this scenario?
+  text: Open an issue with what differs in your deployment (cash leg, register model, venue) and we will add the variant.
+footnote: 'Standards and examples were checked on 25 October 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

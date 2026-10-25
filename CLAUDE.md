@@ -4,8 +4,9 @@ This repository generates Ethereum Institutional's interactive, sourced maps beh
 map (a radial map: three generations of the web as rings, cut into theme wedges), the **Digital Asset Taxonomy** (a
 Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
-their institutional participants and **architecture lenses**), plus a **Decentralization** page (ten gauges, levels 1 to 5, with lenses) and Privacy and Identity pages
-stubbed as work in progress, with a **Scenarios** page (market activities) stubbed the same way. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
+their institutional participants and **architecture lenses**), plus a **Decentralization** page (eleven gauges, levels 1 to 5, with lenses), with Privacy, Identity and **Quantum**
+pages stubbed as work in progress (Quantum carries drafted sections: Shor and Grover, where they bite a ledger, the
+Ethereum roadmap now and next), with a **Scenarios** index (one written scenario, the rest planned). Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
 Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
 and decisions behind them.
@@ -206,6 +207,17 @@ and decisions behind them.
   it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",
   "your risk committee"), not about "an institution".
 
+## Quantum page (`data/quantum/`, stub with drafted sections)
+
+- A static stub whose `sections:` hold first drafts: the two algorithms (Shor breaks elliptic-curve signatures and
+  pairings; Grover only halves hash security, so hashes are weakened, not broken), where it bites a ledger (exposed
+  account keys after a first spend; validator BLS keys; KZG commitments and pairing-based SNARKs; what is not at risk
+  on a public ledger), and the Ethereum roadmap (now: hashes, STARK rollups, account abstraction via ERC-4337 and
+  EIP-7702 lets an account run a post-quantum scheme today; next: EIP-8141 signature agility, EIP-7932, EIP-7864
+  binary tree, Lean Ethereum with leanXMSS and leanVM aggregation, core infrastructure targeted for about 2029).
+  Source of record is ethereum.org's quantum-resistance page (dated on the page); say dates are community targets.
+  Landing-page tiles carry an `icon` from the pictogram library and a one-line tagline; the link text is "Open".
+
 ## EI house views (flag any change to these in the pull request)
 
 - Deposit Token is a subset of Tokenized Deposits (strict interpretation for tokenized deposits; deposit token =
@@ -232,7 +244,18 @@ and decisions behind them.
 ## Planned / open
 
 - Possible "token properties" control (yield-bearing, synthetic, fungible / NFT / wrapped / soulbound).
-- **Scenarios** page (stubbed, `data/scenarios`): market activities (payments, DvP, repo and reverse repo, treasury
-  management, collateral mobility and margin, fund dealing) as a separate map rather than on the taxonomy. The Taurus
-  TMMF paper's Section 7.4 (lending venues versus derivatives margin; Eurex DLT collateral June 2025; no CCP yet) is
-  source material for the collateral scenarios.
+- **Scenarios** (`data/scenarios/`): the index is `kind: index`. `site.yaml` lists every scenario with `moves`,
+  `roles`, an `icon` (one of the pictogram family in `scripts/build.mjs`: a disc is a token, a rising line a
+  yielding asset, a loop with a padlock one atomic transaction) and a `map` position on a small Venn (Cash moves,
+  Asset moves, Credit is extended), because position carries meaning and scenarios are never ranked or
+  alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role.
+  Written scenarios are ink pills and link out; planned ones are grey with the in-progress tag.
+  Each written scenario is a folder with `site.yaml` (`kind: scenario`) and `scenario.yaml`: `actors` (columns of the
+  swimlane diagram; `kind: ledger | contract | observer` for non-institutions), `steps` (rows; `kind: offchain |
+  onchain | atomic`, an atomic step names `lanes`), `tokens` (linked to taxonomy circle ids), `standards` (EIP id,
+  status, role, URL), `sections` (why a shared ledger, variants, open questions) and `sources`. Written so far: DvP,
+  deposit token against a tokenized money market fund (with a permissioned-pool variant on Uniswap v4 hooks; the
+  EI reference build is mentioned, never a URL for it: readers are told to contact Ethereum Institutional for the
+  quickstart). Planned: payments, treasury management, FX PvP, repo,
+  collateral and margin, securities lending, fund dealing, corporate actions, AI agent payments (x402, ERC-8004,
+  EIP-3009). The Taurus TMMF paper's Section 7.4 is source material for the collateral scenarios.
