@@ -7,12 +7,13 @@ lenses**) and the **Digital Asset Networks** map (network types crossed by conse
 their institutional participants and **architecture lenses**), plus Decentralization, Privacy and Identity pages
 stubbed as work in progress. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
-Read `README.md` for the file layout and editing guide; this file records conventions and decisions behind it.
+Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
+and decisions behind them.
 
 ## Status and versioning
 
 - The taxonomy is a **v0.x draft that has not been reviewed by legal counsel**. Keep the amber
-  "Under development" banner (`notice:` in `data/site.yaml`) until counsel review is complete; 1.0.0 follows that review.
+  "Under development" banner (`notice:` in `data/taxonomy/site.yaml`) until counsel review is complete; 1.0.0 follows that review.
 - SemVer as described in `CHANGELOG.md`. Record every change under `## [Unreleased]`.
 - Releases: tag `vX.Y.Z` on `main` and push the tag. `release.yml` builds the versioned HTML, attaches it, and
   marks `v0.x` releases as pre-releases with a warning at the top of the notes.
@@ -20,7 +21,7 @@ Read `README.md` for the file layout and editing guide; this file records conven
 
 ## How the build works
 
-- `data/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
+- `data/taxonomy/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
   folders (`data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) and `data/web3/*.yaml` (Web3
   map, `kind: radial`: `rings.yaml`, `themes.yaml`, `layout.yaml`) are the only places content lives;
   `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html` holds the
