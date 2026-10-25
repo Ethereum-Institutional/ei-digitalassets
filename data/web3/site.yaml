@@ -1,18 +1,30 @@
-# Web3 page: work in progress. Rendered from src/static.html until the diagram data exists.
+# Web3 page: three generations of the web as concentric rings cut into theme wedges. Page text and settings;
+# the rings are in rings.yaml, the themes and their cells in themes.yaml, geometry in layout.yaml.
 
-kind: static
+kind: radial
 title: Web3
-slug: web3
+slug: web3   # output file name in dist/
 eyebrow: Ethereum Institutional · Research
 heading:
   text: Web3
   italic: Web3
-intro: 'How Web3 differs from the web that came before it. The page will set the three generations side by side: Web 1.0, the read-only web of published pages; Web 2.0, the read-and-write web of platforms, where users create the content but the platform owns the accounts, the data and the rules; and Web3, the read, write and own web, where accounts, assets and records live on shared ledgers that no single platform controls, so users and institutions hold them directly and applications compose on each other. We write Web3 rather than Web 3.0 deliberately: the two name the same thing, but the shorter form reflects a definition that is no longer handed down by institutions and standards bodies and is instead formed by the broad community that builds on and uses the web, a sign of how pervasive and important the web has become. The map will place today’s digital asset networks and deployments against those generations.'
+intro: 'Three generations of the web as rings: each keeps what the last could do and adds one thing. Web 1.0 let anyone read, Web 2.0 let anyone write, and Web3 lets anyone own. Each wedge follows one theme across all three, from the use case to who holds a user’s identity and content. In every generation the shift came the same way: open-source technology plus common standards built a new paradigm of adoption.'
+# intro_more: shown when the reader clicks the link after the intro; intro_more_label is the link text
+intro_more_label: Why Web3 instead of Web 3.0?
+intro_more: '“Web 3.0” has been used for two different things. Tim Berners-Lee used it for the Semantic Web, machine-readable linked data under W3C standards. Gavin Wood used it in April 2014 for a decentralised, “post-Snowden” web built on blockchains, in a post titled “ĐApps: What Web 3.0 Looks Like”. For several years the two were conflated and the term caused confusion. The shorter form, Web3, has since come to mean only the decentralised web, and it is what the community that builds on and uses it writes, from ethereum.org to Chris Dixon’s Read Write Own. Ethereum Institutional writes Web3 for that reason: the definition is no longer handed down by an institution or a standards body; it is formed by the broad community of builders and users, a mark of how pervasive the web has become.'
+svg_label: Radial map of Web 1.0, Web 2.0 and Web3 by theme
+panel_default:
+  title: Web3
+  text: Hover over any cell to preview how Ethereum Institutional describes it; click to pin the description here. Click a theme in the hub to follow it across the three generations, or a generation’s name to highlight that ring.
+legend:
+- kind: rings
+  color: '#312e81'
+  text: 'Rings: each generation keeps the previous one’s capability and adds one (Read; Write; Own)'
 notice:
-  title: Work in progress.
-  text: This page is being drafted. The framing above is the plan, not a finding; nothing on this page is final.
+  title: Under development.
+  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
-  title: Help shape this page.
-  text: It will be built in the open on GitHub like the others. Open an issue to suggest a distinction, a source or an example to include.
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  title: Help improve this map.
+  text: It is maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change, or send a pull request with your proposed edit.
+footnote: 'The read, write and own framing follows common usage (ethereum.org; Chris Dixon, Read Write Own, 2024). Each cell names one illustrative example, not the only one; dates are those of the technology’s first public release or standard. This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

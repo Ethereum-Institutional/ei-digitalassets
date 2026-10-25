@@ -6,7 +6,6 @@ pages:
   path: ''
 - label: Web3
   path: web3
-  wip: true
 - label: Digital Asset Taxonomy
   path: taxonomy
 - label: Digital Asset Networks

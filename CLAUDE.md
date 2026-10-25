@@ -1,11 +1,12 @@
 # CLAUDE.md: working notes for Claude (and humans) on this repository
 
-This repository generates two interactive maps for Ethereum Institutional: the **Digital Asset Taxonomy** (a Venn
-diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
-lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks
-and **architecture lenses**), behind a landing page, with Web3, Decentralization, Privacy and Identity pages stubbed as
-work in progress. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing), `/taxonomy/`,
-`/networks/` (published from `main`).
+This repository generates Ethereum Institutional's interactive, sourced maps behind a landing page: the **Web3**
+map (a radial map: three generations of the web as rings, cut into theme wedges), the **Digital Asset Taxonomy** (a
+Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
+lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
+their institutional participants and **architecture lenses**), plus Decentralization, Privacy and Identity pages
+stubbed as work in progress. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
+`/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
 Read `README.md` for the file layout and editing guide; this file records conventions and decisions behind it.
 
 ## Status and versioning
@@ -20,16 +21,17 @@ Read `README.md` for the file layout and editing guide; this file records conven
 ## How the build works
 
 - `data/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
-  folders (`data/web3`, `data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) are the only places content
-  lives; `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html`
-  holds the map page's styling and rendering code only; `src/static.html` renders the landing page and stubs with
-  the same styles. Per-page settings (`lens_groups`, `badge`, `legend`, `panel_default`, `intro_more`) live in each
+  folders (`data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) and `data/web3/*.yaml` (Web3
+  map, `kind: radial`: `rings.yaml`, `themes.yaml`, `layout.yaml`) are the only places content lives;
+  `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html` holds the
+  Venn map page's styling and rendering code only; `src/radial.html` renders radial pages and `src/static.html` the
+  landing page and stubs, both with the same styles. Per-page settings (`lens_groups`, `badge`, `legend`, `panel_default`, `intro_more`) live in each
   `site.yaml`, and drawn notes in `layout.yaml` `annotations:`. Never put page-specific content in a template. A new
   page is a folder with a `site.yaml`, an entry in `PAGES` in `scripts/build.mjs` and an entry in `data/nav.yaml`.
 - `npm run build` validates the data (unknown circle ids or badges, missing definitions, bad statuses, lens colours,
-  lens-only circles, `licensed_under`, `bridges`, `networks` maps) and writes `dist/` for both pages.
-  `npm run check` renders both pages in headless Chromium, applies every lens and writes `dist/preview.png` and
-  `dist/networks/preview.png`. Run both before committing; CI runs them on every push and pull request.
+  lens-only circles, `licensed_under`, `bridges`, `networks` maps; rings, themes and cells on radial pages) and
+  writes `dist/` for every page. `npm run check` renders each map in headless Chromium, applies every lens and
+  writes `dist/preview.png`, `dist/networks/preview.png` and `dist/web3/preview.png`. Run both before committing; CI runs them on every push and pull request.
 - `dist/` and `node_modules/` are git-ignored. Never hand-edit generated HTML.
 - CI runners are pinned to `ubuntu-24.04` because Playwright 1.56 cannot install Chromium on Ubuntu 26.04.
 - Writing `.github/workflows/*` requires a token with the `workflow` scope; commit those from a local clone.
@@ -131,9 +133,29 @@ Read `README.md` for the file layout and editing guide; this file records conven
 - Lenses here are architecture, not regulation: `scope: networks` lenses highlight badges via a `networks:` map
   (`in` | `part`) and leave the circles alone. Each intro defines the layer, why it exists and what it buys.
 - Network facts were last checked 25 October 2026; validator counts and sequencer status drift quickly.
-- **Web3 naming:** write "Web3", not "Web 3.0". The two name the same thing; the short form reflects a definition formed
-  by the community that builds on and uses the web rather than handed down by institutions. Web 1.0 = read-only
-  pages; Web 2.0 = read-and-write platforms that own accounts and data; Web3 = read, write and own on shared ledgers.
+
+## Web3 page (`data/web3/`)
+
+- A radial map (`kind: radial`): an ink hub, then one ring per generation from the centre outwards (Web 1.0 read;
+  Web 2.0 read / write; Web3 read / write / own), each keeping the previous capability and adding one. The rings
+  are cut into wedges: a label wedge at the top holds the ring names, and each other wedge is one **theme** from
+  `themes.yaml`, clockwise: Use case (Webpage; Social media; Digital assets), Implementation (Yahoo! Directory;
+  Twitter; Ethereum mainnet), Technology (Apache, LAMP; jQuery; Ethereum VM), Language (HTML; JavaScript;
+  Solidity), Identity (a bold name with smaller examples: Local, LDAP; Federated, SSO and SAML; Decentralised, Verifiable
+  Credentials and Allowlist) and
+  Content creation (Platform curated; User curated; Ownership retained). Every cell is one illustrative, sourced
+  example, not a list. No ETH disc or ink badge on this page: that marking belongs to the networks map. The hub names
+  the themes: clicking one highlights its wedge across the rings, clicking a ring's name highlights the ring; there
+  is no lens dropdown on this page. Yahoo! Directory, not Wikipedia, is the Web 1.0 implementation: Wikipedia is
+  written by its users and is O'Reilly's own example of the Web 1.0 to Web 2.0 shift (Britannica Online to Wikipedia).
+- **Naming (house rule):** write "Web3", never "Web 3.0", except when explaining the naming. "Web 3.0" has meant two
+  things (Berners-Lee's Semantic Web, and Gavin Wood's April 2014 "ĐApps: What Web 3.0 Looks Like"); most explainers
+  distinguish them, and "Web3" now means only the decentralised web, which is what ethereum.org, Wikipedia's article
+  title and Chris Dixon's Read Write Own use. Do not claim the two terms are identical; say the short form reflects a
+  community-formed definition.
+- The house narrative: in every generation open-source technology plus a common standard built the new paradigm
+  (Apache and HTML over TCP/IP; Ajax and jQuery with SAML 2.0 and OAuth; the EVM and Solidity with ERC-20 and
+  ERC-721), and identity moved from one provider's directory (LDAP) to federated providers to self-custodied keys.
 
 ## EI house views (flag any change to these in the pull request)
 

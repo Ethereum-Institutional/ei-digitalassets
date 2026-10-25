@@ -1,0 +1,199 @@
+# Web3: the themes (content). Each theme is one wedge of the map, clockwise from the label wedge at the top, with one
+# cell per ring (keyed by ring id). `sub` is a smaller line of examples under a bold name; `lines` / `sub_lines`
+# override automatic wrapping. Every claim carries a source (url + date checked).
+# Writing rules: no em-dashes; quote YAML values containing ": ".
+
+as_of: 25 October 2026
+themes:
+- id: usecase
+  label: Use case
+  desc: 'What people mainly did with each generation of the web: read pages others published, post on platforms others ran, and now hold and move assets on ledgers nobody runs alone. The use case names the capability each generation added (read, write, own).'
+  cells:
+    w1:
+      name: Webpage
+      desc: 'A page of text and links that anyone with a browser could read. Publishing meant running a server and writing HTML; reading meant typing an address. Information flowed one way, from the site to its readers.'
+      sources:
+      - title: CERN, The birth of the Web
+        url: https://home.cern/science/computing/birth-web
+        checked: '2026-10-25'
+    w2:
+      name: Social media
+      desc: 'Platforms where the users write the content (posts, photos, comments, ratings) and the platform hosts, ranks and monetises it. Participation replaced publishing, in Tim O’Reilly’s phrase, but the platform kept the account, the data and the rules.'
+      sources:
+      - title: Tim O’Reilly, What Is Web 2.0 (publishing to participation, 30 September 2005)
+        url: https://www.oreilly.com/pub/a/web2/archive/what-is-web-20.html
+        checked: '2026-10-25'
+    w3:
+      name: Digital assets
+      desc: 'Things owned on a shared ledger: a currency, a tokenised security or deposit, a position in a protocol, a record of identity. The ledger, not a platform, keeps the record, so the holder can move it to any application that reads the same chain. Ethereum Institutional’s Digital Asset Taxonomy and Networks maps describe what these assets are and where they live.'
+      sources:
+      - title: ethereum.org, What is Web3? (native payments, ownership)
+        url: https://ethereum.org/en/web3/
+        checked: '2026-10-25'
+      - title: Chris Dixon, Read Write Own (Random House, 2024)
+        url: https://www.penguinrandomhouse.com/books/744504/read-write-own-by-chris-dixon/
+        checked: '2026-10-25'
+- id: impl
+  label: Implementation
+  desc: 'One well-known service that shows each generation at its clearest: a human-edited directory of the web, a platform built on what users post, and a public ledger that holds what users own.'
+  cells:
+    w1:
+      name: Yahoo! Directory
+      desc: 'Yahoo! began in January 1994 as “Jerry and David’s Guide to the World Wide Web”, a hand-built directory of links kept by its founders and then by editors. It was the front door of the read-only web: readers browsed categories the platform had chosen and could not add to them.'
+      sources:
+      - title: Centre for Computing History, Yahoo founded January 1994
+        url: https://www.computinghistory.org.uk/det/12410/Yahoo-founded-January-1994/
+        checked: '2026-10-25'
+      - title: Internet Archive, yahoo.com as captured on 17 October 1996
+        url: https://web.archive.org/web/19961017235908/http://www2.yahoo.com/
+        checked: '2026-10-25'
+    w2:
+      name: Twitter
+      desc: 'Twitter (now X), whose first post was sent on 21 March 2006, is Web 2.0 in one screen: every message is written by a user, and every message, follower graph and account belongs to the platform, which can rank, suspend or delete it. A page that refreshed itself in place, which Ajax made possible, was the product.'
+      sources:
+      - title: 'Jack Dorsey, “just setting up my twttr” (first post, 21 March 2006)'
+        url: https://x.com/jack/status/20
+        checked: '2026-10-25'
+      - title: Guinness World Records, First post on X (formerly Twitter)
+        url: https://www.guinnessworldrecords.com/world-records/first-tweet
+        checked: '2026-10-25'
+    w3:
+      name: Ethereum mainnet
+      desc: 'The public ledger that has run the Ethereum Virtual Machine since 30 July 2015: the largest shared, globally verifiable state on which anyone can hold assets, deploy contracts and run a node.'
+      sources:
+      - title: Ethereum Foundation, Ethereum launches (30 July 2015)
+        url: https://blog.ethereum.org/2015/07/30/ethereum-launches
+        checked: '2026-10-25'
+      - title: ethereum.org, What is Ethereum?
+        url: https://ethereum.org/en/what-is-ethereum/
+        checked: '2026-10-25'
+- id: tech
+  label: Technology
+  desc: 'The open-source technology that anyone could run, which in each generation let a new paradigm spread without asking a gatekeeper: a free web server, a free browser library, a free virtual machine every node runs identically.'
+  cells:
+    w1:
+      name: Apache (LAMP)
+      desc: 'The Apache HTTP Server (first release 1995, from the NCSA httpd code) was the open-source web server anyone could run on any machine, over TCP/IP. With Linux, MySQL and PHP it formed the free LAMP stack on which most of the early web was hosted; it became the most used web server of the Web 1.0 era.'
+      sources:
+      - title: Apache Software Foundation, About Apache
+        url: https://httpd.apache.org/ABOUT_APACHE.html
+        checked: '2026-10-25'
+      - title: RFC 793, Transmission Control Protocol (1981)
+        url: https://www.rfc-editor.org/rfc/rfc793
+        checked: '2026-10-25'
+    w2:
+      name: jQuery
+      desc: 'The open-source JavaScript library (1.0 in August 2006) that made Ajax easy for any developer: a page could fetch data and redraw itself without reloading, which Jesse James Garrett had named Ajax in February 2005 with Google Maps as its flagship. Social media interfaces were built on what it allowed.'
+      sources:
+      - title: jQuery blog, jQuery 1.0 (26 August 2006)
+        url: https://blog.jquery.com/2006/08/26/jquery-10/
+        checked: '2026-10-25'
+      - title: 'Jesse James Garrett, Ajax: A New Approach to Web Applications (February 2005; archived)'
+        url: https://web.archive.org/web/20050223071506/http://www.adaptivepath.com/publications/essays/archives/000385.php
+        checked: '2026-10-25'
+      - title: Google, Mapping your way (8 February 2005)
+        url: https://googleblog.blogspot.com/2005/02/mapping-your-way.html
+        checked: '2026-10-25'
+    w3:
+      name: Ethereum VM (EVM)
+      desc: 'The Ethereum Virtual Machine is the open-source machine every node runs identically, so a contract deployed by anyone behaves the same for everyone and cannot be switched off by a platform. Token standards such as ERC-20 (2015) and ERC-721 (2018) make what it holds usable by every wallet, exchange and contract. It runs on Ethereum mainnet, on its rollups and in private and consortium deployments alike.'
+      sources:
+      - title: ethereum.org, Ethereum Virtual Machine
+        url: https://ethereum.org/en/developers/docs/evm/
+        checked: '2026-10-25'
+      - title: 'EIP-20: Token Standard (2015) and EIP-721: Non-Fungible Token Standard (2018)'
+        url: https://eips.ethereum.org/EIPS/eip-20
+        checked: '2026-10-25'
+- id: lang
+  label: Language
+  desc: 'The language anyone could write in to take part: markup for pages, a scripting language for applications in the browser, and a contract language for programs on a shared ledger. Each was open, so writing it needed no licence and no permission.'
+  cells:
+    w1:
+      name: HTML
+      desc: 'HyperText Markup Language, a markup anyone could write by hand, first described by Tim Berners-Lee in 1991 and standardised from 1995. Because every browser rendered the same tags, a page written anywhere could be read everywhere.'
+      sources:
+      - title: CERN, The birth of the Web
+        url: https://home.cern/science/computing/birth-web
+        checked: '2026-10-25'
+    w2:
+      name: JavaScript
+      desc: 'The scripting language every browser ships (1995; standardised as ECMAScript in 1997), which Ajax turned from page decoration into application logic that runs on the user’s machine.'
+      sources:
+      - title: Ecma International, ECMA-262 (ECMAScript language specification)
+        url: https://ecma-international.org/publications-and-standards/standards/ecma-262/
+        checked: '2026-10-25'
+    w3:
+      name: Solidity
+      desc: 'The open-source language for EVM programs: with it anyone can write and deploy a contract, as anyone could write HTML in Web 1.0 or JavaScript in Web 2.0. Once deployed the program runs the same on every node and its interface is public, so other contracts can build on it.'
+      sources:
+      - title: Solidity documentation
+        url: https://docs.soliditylang.org/
+        checked: '2026-10-25'
+- id: identity
+  label: Identity
+  desc: 'Who holds a person’s account, and so who can grant, lend or revoke it: one provider’s directory, a few federated providers that vouch for the user to everyone else, or keys the user holds with credentials that travel.'
+  cells:
+    w1:
+      name: Local
+      sub: LDAP
+      desc: 'Centralised: a user’s account lived in one provider’s directory, reached over the Lightweight Directory Access Protocol (1993) and, in most enterprises, held in Microsoft Active Directory. The account did not travel between sites; every site kept its own.'
+      sources:
+      - title: RFC 1487, X.500 Lightweight Directory Access Protocol (July 1993)
+        url: https://www.rfc-editor.org/rfc/rfc1487
+        checked: '2026-10-25'
+      - title: Microsoft Learn, Active Directory Domain Services overview
+        url: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview
+        checked: '2026-10-25'
+    w2:
+      name: Federated
+      sub: SSO, SAML
+      desc: 'Federated: a few identity providers such as Google and Facebook hold the account and vouch for the user to other sites, over single sign-on standards such as SAML 2.0 (2005) and OAuth 2.0 (2012). One login opens many sites, but the provider can still close the account and everything that hangs off it.'
+      sources:
+      - title: OASIS, Security Assertion Markup Language (SAML) 2.0
+        url: https://www.oasis-open.org/standard/saml/
+        checked: '2026-10-25'
+      - title: RFC 6749, The OAuth 2.0 Authorization Framework (October 2012)
+        url: https://www.rfc-editor.org/rfc/rfc6749
+        checked: '2026-10-25'
+    w3:
+      name: Decentralised
+      sub: Verifiable Credentials, Allowlist
+      desc: 'Decentralised: an account is a key pair the user holds, with no provider to grant, federate or close it. Claims about that account travel as W3C Verifiable Credentials (a W3C Recommendation since 2019, version 2.0 in 2025), and where a deployment must know its participants it keeps an allowlist of accounts or nodes on the ledger itself rather than in a directory elsewhere.'
+      sources:
+      - title: ethereum.org, Ethereum accounts
+        url: https://ethereum.org/en/developers/docs/accounts/
+        checked: '2026-10-25'
+      - title: W3C, Verifiable Credentials Data Model 2.0 (Recommendation)
+        url: https://www.w3.org/TR/vc-data-model-2.0/
+        checked: '2026-10-25'
+      - title: Besu docs, on-chain permissioning (account and node allowlists)
+        url: https://besu.hyperledger.org/private-networks/concepts/permissioning/onchain
+        checked: '2026-10-25'
+- id: content
+  label: Content creation
+  desc: 'Who decides what exists on the web and who keeps it: the platform’s editors, the platform’s users (on the platform’s terms), or the users themselves, holding what they create and own by key.'
+  cells:
+    w1:
+      name: Platform curated
+      desc: 'The site’s owner or editors chose what was published and readers could not change it. Directories such as Yahoo! were edited by hand; a company’s website said what the company wanted said.'
+      sources:
+      - title: Tim O’Reilly, What Is Web 2.0 (the Web 1.0 column of the comparison table)
+        url: https://www.oreilly.com/pub/a/web2/archive/what-is-web-20.html
+        checked: '2026-10-25'
+    w2:
+      name: User curated
+      desc: 'Users post, rate, tag and share, and the platform ranks and surfaces the result. The content and the audience are the users’; the records, the account and the right to keep them are the platform’s, granted under terms it can change.'
+      sources:
+      - title: Tim O’Reilly, What Is Web 2.0 (participation, tagging, harnessing collective intelligence)
+        url: https://www.oreilly.com/pub/a/web2/archive/what-is-web-20.html
+        checked: '2026-10-25'
+    w3:
+      name: Ownership retained
+      desc: 'What a user creates or acquires is a record on a shared ledger controlled by the user’s key: it can be moved to another application, sold, or lent without the application’s consent, and no platform can delete it. Ownership, not just authorship, sits with the user.'
+      sources:
+      - title: ethereum.org, What is Web3? (ownership)
+        url: https://ethereum.org/en/web3/
+        checked: '2026-10-25'
+      - title: Chris Dixon, Read Write Own (Random House, 2024)
+        url: https://www.penguinrandomhouse.com/books/744504/read-write-own-by-chris-dixon/
+        checked: '2026-10-25'

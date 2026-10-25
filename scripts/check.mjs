@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 import path from 'node:path';
 import fs from 'node:fs';
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const PAGES = [['dist/digital-asset-taxonomy.html', 'dist/preview.png'], ['dist/digital-asset-networks.html', 'dist/networks/preview.png']];
+const PAGES = [['dist/digital-asset-taxonomy.html', 'dist/preview.png'], ['dist/digital-asset-networks.html', 'dist/networks/preview.png'], ['dist/web3.html', 'dist/web3/preview.png']];
 const browser = await chromium.launch();
 const errors = [];
 for (const [html, png] of PAGES) {
@@ -14,7 +14,9 @@ for (const [html, png] of PAGES) {
   page.on('pageerror', e => errors.push(`${html}: ${e}`));
   await page.goto('file://' + path.join(root, html)); await page.waitForTimeout(400);
   const nodes = await page.locator('svg .node').count();
-  const expected = JSON.parse(fs.readFileSync(path.join(root, html), 'utf8').match(/const DATA = (\{.*?\});\n/s)[1]).circles.length;
+  const d = JSON.parse(fs.readFileSync(path.join(root, html), 'utf8').match(/const DATA = (\{.*?\});\n/s)[1]);
+  // map pages: one node per circle; radial pages: one per ring handle, one per cell and one per hub wedge
+  const expected = d.circles ? d.circles.length : d.rings.length * (d.themes.length + 1) + d.themes.length;
   if (nodes !== expected) errors.push(`${html}: rendered ${nodes} circles, expected ${expected}`);
   const sels = await page.locator('#ei-lens select').evaluateAll(ss => ss.map(s => s.id));
   for (const id of sels) {

@@ -375,7 +375,7 @@
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||L.n[p]||''}</div>`;
       });
-      const what=PILL ? (a.kind==='participant'?'Participant':'Network') : 'Token';
+      const what=PILL ? ({participant:'Participant',element:'Element'}[a.kind]||'Network') : 'Token';
       panel.innerHTML=`<div class="path">${what} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.t})`}</h2><p>${a.d}</p>${sc}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);

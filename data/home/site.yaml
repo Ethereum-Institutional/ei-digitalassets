@@ -12,7 +12,7 @@ intro: 'Interactive maps of how digital assets fit together: what they are, the 
 cards:
 - path: web3
   title: Web3
-  text: 'How Web3 differs from Web 1.0 and Web 2.0: from read-only pages, to platforms that own the accounts and data, to shared ledgers where users and institutions own accounts, assets and records directly.'
+  text: 'Three generations of the web as rings: Web 1.0 let anyone read, Web 2.0 let anyone write, Web3 lets anyone own. Follow a theme (technology, language, identity, content and more) across all three.'
 - path: taxonomy
   title: Digital Asset Taxonomy
   text: 'How digital money, tokenized real-world assets and other crypto-assets relate, with regulatory lenses showing where each regime’s definition reaches.'
