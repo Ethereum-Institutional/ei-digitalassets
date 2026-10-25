@@ -77,7 +77,7 @@ scenarios:
 - title: Securities lending
   icon: lending
   short: Securities lending
-  map: { x: 480, y: 345 }
+  map: { x: 505, y: 350 }
   text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
   moves: [asset, credit]
   roles: [asset_manager, bank, fmi]
@@ -98,7 +98,7 @@ scenarios:
 - title: AI agent payments
   icon: agent
   short: AI payments
-  map: { x: 175, y: 290 }
+  map: { x: 200, y: 290 }
   text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
   moves: [cash]
   roles: [payments, corporate, bank]
