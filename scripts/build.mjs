@@ -9,18 +9,28 @@ import { execSync } from 'node:child_process';
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const read = p => fs.readFileSync(path.join(root, p), 'utf8');
 const PAGES = [
-  { dir: 'data', out: '' },                 // Digital Asset Taxonomy (site root)
-  { dir: 'data/networks', out: 'networks' }, // Digital Asset Networks
+  { dir: 'data/home', out: '' },                             // landing page (static: cards linking to each map)
+  { dir: 'data/web3', out: 'web3' },                         // Web3: three generations of the web
+  { dir: 'data', out: 'taxonomy' },                          // Digital Asset Taxonomy
+  { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
+  { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
+  { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
+  { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
 ];
+const NAV = parse(read('data/nav.yaml')).pages; // shared navigation; links are made relative per page
 
 // ---------- load ----------
 function load(dir) {
   const yml = p => parse(read(path.join(dir, p)));
-  const circles = yml('circles.yaml'), layout = yml('layout.yaml'), site = yml('site.yaml');
+  const site = yml('site.yaml');
+  if (site.kind === 'static') return { dir, site, static: true };
+  // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
+  if (site.kind === 'radial') return { dir, site, radial: true, rings: yml('rings.yaml'), themes: yml('themes.yaml'), layout: yml('layout.yaml') };
+  const circles = yml('circles.yaml'), layout = yml('layout.yaml');
   // badges: tokens.yaml (ticker chips) or networks.yaml (named pills); either way each badge has a `ticker` key
-  const badgeFile = ['tokens.yaml', 'networks.yaml'].find(f => fs.existsSync(path.join(root, dir, f)));
+  const badgeFile = ['tokens.yaml', 'networks.yaml', 'badges.yaml'].find(f => fs.existsSync(path.join(root, dir, f)));
   const raw = badgeFile ? yml(badgeFile) : {};
-  const tokens = { tokens: (raw.tokens || raw.networks || []).map(t => Object.assign({ ticker: t.ticker || t.id }, t)) };
+  const tokens = { tokens: (raw.tokens || raw.networks || raw.badges || []).map(t => Object.assign({ ticker: t.ticker || t.id }, t)) };
   const lensDir = path.join(root, dir, 'lenses');
   const lenses = fs.existsSync(lensDir) ? fs.readdirSync(lensDir).filter(f => f.endsWith('.yaml')).sort()
     .map(f => parse(fs.readFileSync(path.join(lensDir, f), 'utf8'))) : [];
@@ -56,7 +66,56 @@ const deltaE = (h1, h2) => { // CIEDE2000
   return Math.sqrt(((L2 - L1) / SL) ** 2 + ((C2 - C1) / SC) ** 2 + (dH / SH) ** 2 + RT * ((C2 - C1) / SC) * (dH / SH));
 };
 
-function validate({ dir, circles, layout, tokens, site, lenses }) {
+function validateStatic({ dir, site }) {
+  const errors = [], where = f => `${dir}/${f}`;
+  for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
+  if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
+  for (const c of site.cards || []) {
+    if (!NAV.some(n => n.path === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not in data/nav.yaml`);
+    if (!c.title || !c.text) errors.push(`${where('site.yaml')}: every card needs a title and text`);
+  }
+  if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
+  return errors;
+}
+const LEGEND_KINDS = ['pill', 'mark', 'rings', 'expand'];
+function validateRadial({ dir, site, rings, themes, layout }) {
+  const errors = [], where = f => `${dir}/${f}`;
+  for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
+  if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
+  if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
+  for (const l of site.legend || []) if (!LEGEND_KINDS.includes(l.kind) || !l.text) errors.push(`${where('site.yaml')}: legend items need kind (${LEGEND_KINDS.join(' | ')}) and text`);
+  const R = rings.rings || [], T = themes.themes || [];
+  if (R.length < 2) errors.push(`${where('rings.yaml')}: needs at least two rings (inner to outer)`);
+  if (!T.length) errors.push(`${where('themes.yaml')}: needs at least one theme`);
+  const ringIds = new Set(R.map(r => r.id));
+  if (ringIds.size !== R.length) errors.push(`${where('rings.yaml')}: duplicate ring ids`);
+  for (const r of R) for (const k of ['id', 'label', 'sub', 'desc', 'fill', 'stroke']) if (!r[k]) errors.push(`${where('rings.yaml')}: ring "${r.id || '?'}" needs "${k}"`);
+  for (const r of R) if (typeof layout.rings?.[r.id]?.r !== 'number') errors.push(`${where('layout.yaml')}: rings.${r.id}.r (outer radius) must be a number`);
+  for (const id of Object.keys(layout.rings || {})) if (!ringIds.has(id)) errors.push(`${where('layout.yaml')}: geometry for unknown ring "${id}"`);
+  const radii = R.map(r => layout.rings?.[r.id]?.r).filter(v => typeof v === 'number');
+  if (radii.some((v, i) => i ? v <= radii[i - 1] : v <= (layout.hub || 0))) errors.push(`${where('layout.yaml')}: ring radii must increase from the hub outwards`);
+  for (const k of ['cx', 'cy', 'hub']) if (typeof layout[k] !== 'number') errors.push(`${where('layout.yaml')}: "${k}" must be a number`);
+  if (!layout.canvas?.width || !layout.canvas?.height) errors.push(`${where('layout.yaml')}: canvas needs width and height`);
+  const themeIds = new Set(T.map(t => t.id));
+  if (themeIds.size !== T.length) errors.push(`${where('themes.yaml')}: duplicate theme ids`);
+  for (const t of T) {
+    for (const k of ['id', 'label', 'desc']) if (!t[k]) errors.push(`${where('themes.yaml')}: theme "${t.id || '?'}" needs "${k}"`);
+    for (const r of R) {
+      const c = t.cells?.[r.id];
+      if (!c) { errors.push(`${where('themes.yaml')}: theme "${t.id}" has no cell for ring "${r.id}"`); continue; }
+      if (!c.name || !c.desc) errors.push(`${where('themes.yaml')}: cell ${t.id}.${r.id} needs a name and a desc`);
+      if (c.mark && !/^[A-Z]{2,4}$/.test(c.mark)) errors.push(`${where('themes.yaml')}: cell ${t.id}.${r.id} mark must be 2 to 4 capital letters`);
+    }
+    for (const id of Object.keys(t.cells || {})) if (!ringIds.has(id)) errors.push(`${where('themes.yaml')}: theme "${t.id}" has a cell for unknown ring "${id}"`);
+  }
+  const sourced = [...R, ...T.flatMap(t => Object.entries(t.cells || {}).map(([k, c]) => Object.assign({ id: `${t.id}.${k}` }, c)))];
+  for (const x of sourced) for (const s of x.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id}" needs a title and a URL`);
+  return errors;
+}
+function validate(page) {
+  if (page.static) return validateStatic(page);
+  if (page.radial) return validateRadial(page);
+  const { dir, circles, layout, tokens, site, lenses } = page;
   const errors = [];
   const where = f => `${dir}/${f}`;
   const ids = new Set(circles.circles.map(c => c.id));
@@ -149,9 +208,9 @@ function validate({ dir, circles, layout, tokens, site, lenses }) {
   if (site.badge && !['disc', 'pill'].includes(site.badge)) errors.push(`${where('site.yaml')}: badge must be disc or pill`);
   if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
   for (const n of site.nav || []) if (!n.label) errors.push(`${where('site.yaml')}: every nav item needs a label`);
-  for (const l of site.legend || []) if (!['pill', 'mark', 'rings', 'expand'].includes(l.kind) || !l.text) errors.push(`${where('site.yaml')}: legend items need kind (pill | mark | rings | expand) and text`);
+  for (const l of site.legend || []) if (!LEGEND_KINDS.includes(l.kind) || !l.text) errors.push(`${where('site.yaml')}: legend items need kind (${LEGEND_KINDS.join(' | ')}) and text`);
   for (const t of tokens.tokens) if (t.mark && !/^[A-Z]{2,4}$/.test(t.mark)) errors.push(`${where('badges')}: "${t.ticker}" mark must be 2 to 4 capital letters`);
-  for (const t of tokens.tokens) if (t.kind && !['network', 'participant'].includes(t.kind)) errors.push(`${where('badges')}: "${t.ticker}" kind must be network or participant`);
+  for (const t of tokens.tokens) if (t.kind && !['network', 'participant', 'element'].includes(t.kind)) errors.push(`${where('badges')}: "${t.ticker}" kind must be network, participant or element`);
   for (const x of [...circles.circles, ...tokens.tokens]) for (const s of x.sources || [])
     if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id || x.ticker}" needs a title and a URL`);
   return errors;
@@ -164,7 +223,52 @@ const stamp = new Date().toISOString().slice(0, 10);
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 // ---------- assemble ----------
-function render({ circles, layout, tokens, site, lenses }) {
+const TAG = '<span class="ei-tag">in progress</span>';
+const relHref = (from, to) => from === '' ? (to ? `${to}/` : './') : (to === '' ? '../' : `../${to}/`);
+const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => n.path === out
+  ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
+  : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</nav>`;
+const shared = site => ({
+  heading: site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text),
+  notice: site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '',
+  contribute: site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
+    + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '',
+});
+function renderStatic({ site, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const sh = shared(site);
+  const body = site.cards
+    ? `<div class="ei-cards">${site.cards.map(c => { const n = NAV.find(x => x.path === c.path);
+        return `<a class="ei-card" href="${relHref(out, c.path)}"><h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">${n?.wip ? 'See the plan' : 'Open the map'} →</span></a>`; }).join('')}</div>`
+    : `<div class="ei-wip">This map is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
+  return read('src/static.html')
+    .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
+    .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
+const swatch = l => l.kind === 'pill'
+    ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`
+    : l.kind === 'expand'
+    ? `<svg width="40" height="18" aria-hidden="true"><ellipse cx="17" cy="9" rx="15" ry="7" fill="#e3e7ea" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><text x="36" y="13" text-anchor="middle" font-size="12" font-weight="600" fill="#615f5a">+</text></svg>`
+    : l.kind === 'mark'
+    ? `<svg width="40" height="18" aria-hidden="true"><rect x="1" y="4" width="28" height="12" rx="6" fill="#6b6760"/><circle cx="30" cy="8" r="7.5" fill="${esc(l.color || '#14130f')}" stroke="#f8f6f2" stroke-width="1.5"/><text x="30" y="10" text-anchor="middle" font-size="5" font-weight="700" fill="#f2efe9">ETH</text></svg>`
+    : `<svg width="22" height="18" aria-hidden="true"><ellipse cx="11" cy="9" rx="10" ry="8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><ellipse cx="11" cy="9" rx="6" ry="4.8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><circle cx="11" cy="9" r="2" fill="${esc(l.color || '#14130f')}"/></svg>`;
+const legendHtml = site => (site.legend || []).length ? `<div class="ei-legend">${site.legend.map(l => `<span>${swatch(l)} ${esc(l.text)}</span>`).join('')}</div>` : '';
+// placeholders common to every page that carries a diagram (map and radial templates)
+function fillCommon(html, { site, out, data }) {
+  const sh = shared(site);
+  return html
+    .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
+    .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__INTRO__', esc(site.intro) + (site.intro_more ? ` <button type="button" class="ei-more" aria-expanded="false" aria-controls="ei-intro-more" data-more="${esc(site.intro_more_label || 'More')}" data-less="${esc(site.intro_less_label || 'Less')}">${esc(site.intro_more_label || 'More')}</button>` : ''))
+    .replace('__INTRO_MORE__', site.intro_more ? `<p class="sub more" id="ei-intro-more" hidden>${esc(site.intro_more)}</p>` : '')
+    .replace('__FOOTNOTE__', esc(site.footnote)).replace('__SVG_LABEL__', esc(site.svg_label || `Diagram: ${site.title}`))
+    .replace('__PANEL_TITLE__', esc(data.panel.title)).replace('__PANEL_TEXT__', esc(data.panel.text))
+    .replace('__NAV__', navHtml(out)).replace('__LEGEND__', legendHtml(site))
+    .replace('__NOTICE__', sh.notice).replace('__CONTRIBUTE__', sh.contribute)
+    .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
+function render({ circles, layout, tokens, site, lenses, out }) {
   const data = {
     palette: circles.palette, containers: circles.containers || [], children: circles.children || {}, inherit_status: circles.inherit_status || {},
     circles: circles.circles.map(c => Object.assign({}, c, layout.circles[c.id])),
@@ -172,29 +276,17 @@ function render({ circles, layout, tokens, site, lenses }) {
     lens_groups: site.lens_groups || [], badge: site.badge || 'disc',
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
   };
-  const heading = site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text);
-  const nav = (site.nav || []).length ? `<nav class="ei-nav" aria-label="Pages">${site.nav.map(n => n.href ? `<a href="${esc(n.href)}">${esc(n.label)}</a>` : `<span class="cur" aria-current="page">${esc(n.label)}</span>`).join('')}</nav>` : '';
-  const swatch = l => l.kind === 'pill'
-    ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`
-    : l.kind === 'expand'
-    ? `<svg width="40" height="18" aria-hidden="true"><ellipse cx="17" cy="9" rx="15" ry="7" fill="#e3e7ea" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><text x="36" y="13" text-anchor="middle" font-size="12" font-weight="600" fill="#615f5a">+</text></svg>`
-    : l.kind === 'mark'
-    ? `<svg width="40" height="18" aria-hidden="true"><rect x="1" y="4" width="28" height="12" rx="6" fill="#6b6760"/><circle cx="30" cy="8" r="7.5" fill="${esc(l.color || '#14130f')}" stroke="#f8f6f2" stroke-width="1.5"/><text x="30" y="10" text-anchor="middle" font-size="5" font-weight="700" fill="#f2efe9">ETH</text></svg>`
-    : `<svg width="22" height="18" aria-hidden="true"><ellipse cx="11" cy="9" rx="10" ry="8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><ellipse cx="11" cy="9" rx="6" ry="4.8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><circle cx="11" cy="9" r="2" fill="${esc(l.color || '#14130f')}"/></svg>`;
-  const legend = (site.legend || []).length ? `<div class="ei-legend">${site.legend.map(l => `<span>${swatch(l)} ${esc(l.text)}</span>`).join('')}</div>` : '';
-  return read('src/template.html')
-    .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
-    .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', heading)
-    .replace('__INTRO__', esc(site.intro) + (site.intro_more ? ` <button type="button" class="ei-more" aria-expanded="false" aria-controls="ei-intro-more" data-more="${esc(site.intro_more_label || 'More')}" data-less="${esc(site.intro_less_label || 'Less')}">${esc(site.intro_more_label || 'More')}</button>` : ''))
-    .replace('__INTRO_MORE__', site.intro_more ? `<p class="sub more" id="ei-intro-more" hidden>${esc(site.intro_more)}</p>` : '')
-    .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))
-    .replace('__FOOTNOTE__', esc(site.footnote)).replace('__SVG_LABEL__', esc(site.svg_label || `Venn diagram: ${site.title}`))
-    .replace('__PANEL_TITLE__', esc(data.panel.title)).replace('__PANEL_TEXT__', esc(data.panel.text))
-    .replace('__NAV__', nav).replace('__LEGEND__', legend)
-    .replace('__NOTICE__', site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '')
-    .replace('__CONTRIBUTE__', site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
-      + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '')
-    .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+  return fillCommon(read('src/template.html'), { site, out, data })
+    .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help));
+}
+function renderRadial({ site, rings, themes, layout, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const data = {
+    rings: rings.rings.map(r => Object.assign({ fs: 20 }, r, layout.rings[r.id])), themes: themes.themes, version,
+    layout: { canvas: layout.canvas, cx: layout.cx, cy: layout.cy, hub: layout.hub, hub_label: layout.hub_label, hub_fs: layout.hub_fs, cell_fs: layout.cell_fs },
+    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a cell to preview how Ethereum Institutional describes it; click to pin the description here.' },
+  };
+  return fillCommon(read('src/radial.html').replace('__STYLE__', style), { site, out, data });
 }
 
 const pages = PAGES.filter(p => fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, load(p.dir)));
@@ -202,13 +294,17 @@ const errors = pages.flatMap(validate);
 if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
 
 for (const p of pages) {
-  const page = render(p), slug = p.site.slug || 'digital-asset-taxonomy', outDir = path.join(root, 'dist', p.out);
+  const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });
+  if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), renderStatic(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
+  const page = p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
   // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
   const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);
   const body = page.slice(page.indexOf('<body>') + 6, page.lastIndexOf('</body>'));
   fs.writeFileSync(path.join(root, 'dist', `${slug}.fragment.html`), head + '\n' + body);
   fs.writeFileSync(path.join(outDir, 'index.html'), page);
-  console.log(`Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
+  console.log(p.radial
+    ? `Built ${path.join('dist', p.out, 'index.html')} (${p.rings.rings.length} rings, ${p.themes.themes.length} themes), version ${version}`
+    : `Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
 }

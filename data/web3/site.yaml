@@ -1,0 +1,30 @@
+# Web3 page: three generations of the web as concentric rings cut into theme wedges. Page text and settings;
+# the rings are in rings.yaml, the themes and their cells in themes.yaml, geometry in layout.yaml.
+
+kind: radial
+title: Web3
+slug: web3   # output file name in dist/
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Web3
+  italic: Web3
+intro: 'Three generations of the web as rings: each keeps what the last could do and adds one thing. Web 1.0 let anyone read, Web 2.0 let anyone write, and Web3 lets anyone own. Each wedge follows one theme across all three, from the use case to who holds a user’s identity and content. In every generation the shift came the same way: open-source technology plus common standards built a new paradigm of adoption.'
+# intro_more: shown when the reader clicks the link after the intro; intro_more_label is the link text
+intro_more_label: Why Web3 instead of Web 3.0?
+intro_more: '“Web 3.0” has been used for two different things. Tim Berners-Lee used it for the Semantic Web, machine-readable linked data under W3C standards. Gavin Wood used it in April 2014 for a decentralised, “post-Snowden” web built on blockchains, in a post titled “ĐApps: What Web 3.0 Looks Like”. For several years the two were conflated and the term caused confusion. The shorter form, Web3, has since come to mean only the decentralised web, and it is what the community that builds on and uses it writes, from ethereum.org to Chris Dixon’s Read Write Own. Ethereum Institutional writes Web3 for that reason: the definition is no longer handed down by an institution or a standards body; it is formed by the broad community of builders and users, a mark of how pervasive the web has become.'
+svg_label: Radial map of Web 1.0, Web 2.0 and Web3 by theme
+panel_default:
+  title: Web3
+  text: Hover over any cell to preview how Ethereum Institutional describes it; click to pin the description here. Click a theme in the hub to follow it across the three generations, or a generation’s name to highlight that ring.
+legend:
+- kind: rings
+  color: '#312e81'
+  text: 'Rings: each generation keeps the previous one’s capability and adds one (Read; Write; Own)'
+notice:
+  title: Under development.
+  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help improve this map.
+  text: It is maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change, or send a pull request with your proposed edit.
+footnote: 'The read, write and own framing follows common usage (ethereum.org; Chris Dixon, Read Write Own, 2024). Each cell names one illustrative example, not the only one; dates are those of the technology’s first public release or standard. This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

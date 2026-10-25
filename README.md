@@ -1,22 +1,37 @@
-# Digital Asset Taxonomy and Digital Asset Networks
+# Digital Asset Maps
 
-Two interactive maps maintained by Ethereum Institutional:
+Interactive, sourced maps of digital assets and the technology around them, maintained by Ethereum Institutional
+and generated from plain-text data in this repository:
 
-- **Digital Asset Taxonomy**: how digital money, tokenized real-world assets and other crypto-assets relate, with
-  **regulatory lenses** showing where each regime's definition reaches.
+- **Web3**: three generations of the web as concentric rings (Web 1.0 read; Web 2.0 read and write; Web3 read,
+  write and own), cut into theme wedges (use case, implementation, technology, language, identity, content
+  creation) so each theme can be followed across all three.
+- **Digital Asset Taxonomy**: a Venn diagram of how digital money, tokenized real-world assets and other
+  crypto-assets relate, with **regulatory lenses** showing where each regime's definition reaches.
 - **Digital Asset Networks**: how the networks that carry those assets differ (private, consortium, public) and how
-  their consensus is admitted (permissioned, or one of three degrees of permissionless), with named networks placed
-  on the map and **architecture lenses** (Layer 1, side-chain, Layer 2 rollup).
+  their consensus is admitted (permissioned, or one of three degrees of permissionless), with named networks and
+  their institutional participants placed on the map and **architecture lenses** (Layer 1, side-chain, Layer 2 rollup).
+- **Decentralization, Privacy and Identity**: planned maps, stubbed as "in progress".
 
-**View the live pages: https://ethereum-institutional.github.io/ei-digitalassets/ (taxonomy) and
-https://ethereum-institutional.github.io/ei-digitalassets/networks/ (networks)**
+**View the live site: https://ethereum-institutional.github.io/ei-digitalassets/** (landing page), with the
+[Web3 map](https://ethereum-institutional.github.io/ei-digitalassets/web3/), the
+[taxonomy](https://ethereum-institutional.github.io/ei-digitalassets/taxonomy/) and the
+[networks map](https://ethereum-institutional.github.io/ei-digitalassets/networks/).
 
 > **Status: draft (v0.x).** Not yet reviewed by legal counsel. Version 1.0.0 will follow that review.
 
-Both maps are generated from plain-text data files in this repository, so every change is reviewable as a diff
-and every release is a versioned, self-contained HTML file.
+Every page is generated from YAML files, so every change is reviewable as a diff and every release is a versioned,
+self-contained HTML file. Every placement and definition carries its sources, shown in the page's definition panel.
 
 ```
+data/nav.yaml              the site navigation (one entry per page; `wip: true` marks a stub)
+data/home/site.yaml        the landing page (cards linking to each map)
+data/web3/                 the Web3 map (kind: radial)
+  rings.yaml               content: one entry per generation, inner to outer (label, capability, definition, sources)
+  themes.yaml              content: one entry per theme wedge, with a cell (name, definition, sources) per ring
+  layout.yaml              geometry only: canvas, hub radius, ring radii, text sizes
+  site.yaml                page title, intro, legend and page settings
+data/decentralization/, data/privacy/, data/identity/   work-in-progress stubs (site.yaml only, kind: static)
 data/                      the Digital Asset Taxonomy
   circles.yaml             content: every circle's label, colour family and definition
   layout.yaml              geometry only: positions, sizes, bridges and annotations (rarely edited)
@@ -27,8 +42,10 @@ data/networks/             the Digital Asset Networks map, same layout
   circles.yaml, layout.yaml, site.yaml
   networks.yaml            the network badges (names, not tickers) and where they sit
   lenses/*.yaml            one file per architecture lens
-src/template.html          the page: styling and rendering code (no content), shared by both maps
-scripts/build.mjs          validates the data and generates dist/ (both pages)
+src/template.html          the Venn map page: styling and rendering code (no content), shared by the taxonomy and networks maps
+src/radial.html            the radial page (rings and theme wedges), used by the Web3 map; reuses the map page's styles
+src/static.html            the landing page and stubs (reuses the map page's styles)
+scripts/build.mjs          validates the data and generates dist/ (every page)
 scripts/check.mjs          smoke-tests the generated pages in headless Chromium
 ```
 
@@ -76,20 +93,34 @@ networks list the institutions live on them, and how Besu, Swift, Partior and Pr
 **Change which networks a layer covers** → edit `networks:` in `data/networks/lenses/<id>.yaml` (`in` or `part`)
 and the matching `notes:`. These lenses carry `scope: networks`: they highlight badges and leave the circles alone.
 
-**Page settings** live in each `site.yaml`: `nav` (links between the pages), `lens_groups` (one dropdown per
-group), `badge` (`disc` for ticker chips, `pill` for named badges), `legend` and `panel_default`. Small drawn notes
+### The Web3 map
+
+**Change a cell** (one theme in one generation) → edit its `name`, `desc` and `sources` under `cells:` in
+`data/web3/themes.yaml`; `sub` puts a smaller line of examples under a bold name (the Identity wedge), and `lines:` or
+`sub_lines:` force line breaks. **Add a theme** → add an entry to `themes.yaml` with a cell for every ring; wedges are
+drawn clockwise in file order, after the label wedge at the top, and the build fails if a ring has no cell.
+**Change a generation** → edit `data/web3/rings.yaml` (`sub` is the capability shown under the name). Sizes and
+radii are in `data/web3/layout.yaml`. Clicking a theme in the hub highlights its wedge; clicking a generation's
+name highlights its ring.
+
+**Page settings** live in each `site.yaml`: `lens_groups` (one dropdown per group), `badge` (`disc` for ticker
+chips, `pill` for named badges), `legend`, `panel_default` and the intro's `intro_more`. Navigation between pages is
+`data/nav.yaml`. **Add a page** by adding a folder with a `site.yaml` (`kind: static` for a page without a diagram),
+listing it in `scripts/build.mjs` `PAGES` and in `data/nav.yaml`; `kind: radial` pages take `rings.yaml` and
+`themes.yaml`, and pages without a `kind` take the Venn files above. Small drawn notes
 (leader-line captions, dotted connectors) are `annotations:` in `layout.yaml`.
 
 ## Building locally
 
 ```
 npm ci
-npm run build      # validates data and writes dist/ (both pages)
-npm run check      # optional: renders both pages in Chromium and writes dist/preview.png and dist/networks/preview.png
+npm run build      # validates data and writes dist/ (every page)
+npm run check      # optional: renders each map in Chromium and writes a preview.png next to it
 ```
 
-`dist/digital-asset-taxonomy.html` and `dist/digital-asset-networks.html` are the complete pages for the EI
-platform (`dist/index.html` and `dist/networks/index.html` are the same files laid out for GitHub Pages).
+`dist/web3.html`, `dist/digital-asset-taxonomy.html` and `dist/digital-asset-networks.html` are the complete map
+pages for the EI platform (`dist/web3/`, `dist/taxonomy/` and `dist/networks/index.html` are the same files laid
+out for GitHub Pages; `dist/index.html` is the landing page).
 The `.fragment.html` variants are the same pages without the document skeleton, for hosts that wrap them themselves
 (for example the claude.ai artifact).
 
@@ -108,7 +139,8 @@ deposit tokens as a subset of tokenized deposits (and their "look-alike" relatio
 FMI tokens as regulated non-bank money, and native cryptocurrencies as digital money. On the networks map: a
 network is permissioned whenever joining consensus needs review by existing participants (so the XRP Ledger and
 Stellar are public but permissioned; Polygon PoS is treated as quasi-permissionless), Canton is mostly a consortium
-network with a small public component, and the reasons institutions choose Besu. Pull requests that change these should say so explicitly.
+network with a small public component, and the reasons institutions choose Besu. On the Web3 map: the house writes
+"Web3", not "Web 3.0", and the examples chosen for each theme. Pull requests that change these should say so explicitly.
 
 This map is for discussion and is not legal advice.
 

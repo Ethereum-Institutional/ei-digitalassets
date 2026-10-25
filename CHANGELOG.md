@@ -7,6 +7,19 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **New page: Web3** (`/web3/`, data in `data/web3/`). A radial map: three concentric rings (Web 1.0 read, Web 2.0
+  read and write, Web3 read, write and own) cut into six theme wedges (use case, implementation, technology,
+  language, identity, content creation), each cell a sourced example (Webpage, Yahoo! Directory, Apache, HTML, LDAP,
+  platform curated; social media, Twitter, jQuery, JavaScript, federated SSO, user curated; digital assets, Ethereum
+  mainnet, the EVM, Solidity, decentralised identity, ownership retained). Clicking a theme in the hub follows it across the
+  rings, clicking a generation highlights its ring, and a “Why Web3 instead of Web 3.0?” note explains the name.
+  House rule: write Web3, not Web 3.0.
+- **Engine: radial pages** (`kind: radial` in `site.yaml`, rendered by `src/radial.html` from `rings.yaml`,
+  `themes.yaml` and `layout.yaml`), validated and smoke-tested like the Venn maps.
+- **Landing page and site structure.** The site root is now a landing page with a card per map; the taxonomy moved
+  from `/` to `/taxonomy/` (the `digital-asset-taxonomy.html` download is unchanged). Decentralization, Privacy and
+  Identity pages are stubbed as work in progress, with their planned framing and an “in progress” tag in the shared
+  navigation (`data/nav.yaml`).
 - **New page: Digital Asset Networks** (`/networks/`, data in `data/networks/`). A Venn diagram of network types
   (Private, Consortium with Sovereign inside, Public) crossed by a consensus overlay: Permissioned, and Permissionless
   with the three nested degrees of Lewis-Pye and Roughgarden (“Permissionless Consensus”, arXiv 2304.14701): fully

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+__STYLE__
+<style>
+  /* radial pages (kind: radial): concentric rings cut into theme wedges around a hub. Shares the map styles above. */
+  .ei-wrap.radial svg{max-width:1040px;min-width:600px;margin:0 auto}
+  .ei-wrap svg .cell{cursor:pointer;transition:opacity .2s}
+  .ei-wrap svg .cell:hover path{stroke:#14130f;stroke-width:3}
+  .ei-wrap svg .cell.pinned path{stroke:#14130f;stroke-width:4.5}
+  .ei-wrap svg .cell:focus,.ei-wrap svg .hub:focus{outline:none}
+  .ei-wrap svg .cell:focus-visible path{stroke:#14130f;stroke-width:4}
+  .ei-wrap svg .hub text{fill:#f2efe9}
+  .ei-wrap svg .hub.on path{fill:#4b4842}
+  .ei-wrap svg .hub:hover path{fill:#3a3833}
+  .ei-wrap svg .hub.pinned path{stroke:#f2efe9;stroke-width:3}
+  .ei-wrap svg .dimmed{opacity:.18}
+</style>
+</head>
+<body>
+<div class="ei-taxonomy">
+  __NOTICE__
+  <div class="ei-head">
+    <span class="ei-eyebrow">__EYEBROW__</span>
+    __NAV__
+    <h1>__HEADING__</h1>
+    <p class="sub">__INTRO__</p>
+    __INTRO_MORE__
+  </div>
+  <div class="ei-wrap radial"><svg id="ei-svg" viewBox="0 0 1300 1300" role="img" aria-label="__SVG_LABEL__"></svg></div>
+  __LEGEND__
+  <div class="ei-panel" id="ei-panel" aria-live="polite">
+    <h2>__PANEL_TITLE__</h2>
+    <p>__PANEL_TEXT__</p>
+  </div>
+  __CONTRIBUTE__
+  <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
+</div>
+
+<script>
+(function(){
+  const DATA = __DATA__;
+  const moreBtn=document.querySelector('.ei-more'), moreTxt=document.getElementById('ei-intro-more');
+  if(moreBtn&&moreTxt) moreBtn.addEventListener('click',()=>{ const open=moreTxt.hidden; moreTxt.hidden=!open; moreBtn.textContent=open?moreBtn.dataset.less:moreBtn.dataset.more; moreBtn.setAttribute('aria-expanded',String(open)); });
+
+  const svg=document.getElementById('ei-svg'), panel=document.getElementById('ei-panel');
+  const NS='http://www.w3.org/2000/svg';
+  const el=(t,a,txt)=>{ const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); if(txt!=null) e.textContent=txt; return e; };
+  const L=DATA.layout, cx=L.cx, cy=L.cy, PAPER='#f8f6f2', INK='#14130f';
+  svg.setAttribute('viewBox',`0 0 ${L.canvas.width} ${L.canvas.height}`);
+  const rings=DATA.rings, themes=DATA.themes;
+  // Wedges: one label wedge at the top (holds the ring names), then one wedge per theme, clockwise.
+  const W=themes.length+1, step=2*Math.PI/W, a0=-Math.PI/2-step/2;
+  const ang=i=>[a0+i*step, a0+(i+1)*step, a0+(i+.5)*step];
+  const pol=(r,a)=>[cx+r*Math.cos(a), cy+r*Math.sin(a)];
+  const f=v=>v.toFixed(2);
+  const sector=(r0,r1,s,e)=>{ const [x0,y0]=pol(r1,s),[x1,y1]=pol(r1,e),[x2,y2]=pol(r0,e),[x3,y3]=pol(r0,s);
+    return `M${f(x0)} ${f(y0)}A${r1} ${r1} 0 0 1 ${f(x1)} ${f(y1)}L${f(x2)} ${f(y2)}A${r0} ${r0} 0 0 0 ${f(x3)} ${f(y3)}Z`; };
+  const wedge=(r,s,e)=>{ const [x0,y0]=pol(r,s),[x1,y1]=pol(r,e); return `M${cx} ${cy}L${f(x0)} ${f(y0)}A${r} ${r} 0 0 1 ${f(x1)} ${f(y1)}Z`; };
+  const gShapes=el('g',{}), gLines=el('g',{'pointer-events':'none'}), gText=el('g',{'pointer-events':'none'});
+  svg.append(gShapes,gLines,gText);
+
+  // Text: horizontal, centred on the wedge's mid-angle at the ring's mid-radius; wrapped to the arc available there.
+  const wrap=(s,max)=>{ const out=[]; let line=''; for(const w of s.split(' ')){ if(line&&(line+' '+w).length>max){ out.push(line); line=w; } else line=line?line+' '+w:w; } if(line) out.push(line); return out; };
+  // wrap to the width available at that point: the wedge's arc there, the horizontal chord of the ring band through
+  // the point (so text on the left or right of the map stays inside its ring), and the distance to the canvas edge
+  const hAvail=(rm,m,r0,r1)=>{ const dy=rm*Math.sin(m), px=rm*Math.cos(m), xo=Math.sqrt(Math.max(0,r1*r1-dy*dy)), xi=Math.abs(dy)<r0?Math.sqrt(r0*r0-dy*dy):0;
+    const lo=px>=0?(px>xi?xi:-xo):-xo, hi=px>=0?xo:(px<-xi?-xi:xo); return 2*Math.min(px-lo,hi-px)-14; };
+  const fitLines=(name,lines,r,fs,x,band)=>{ if(lines) return lines;
+    const limits=[r*step*0.86, x==null?Infinity:2*Math.min(x,L.canvas.width-x)-24, band?hAvail(r,band.m,band.r0,band.r1):Infinity];
+    return wrap(name,Math.max(8,Math.floor(Math.min(...limits)/(fs*0.56)))); };
+  const putText=(g,lines,x,y,fs,opts)=>{ const lh=fs*1.2, o=opts||{}; return lines.map((t,i)=>{ const e=el('text',{x:f(x),y:f(y+(i-(lines.length-1)/2)*lh+fs*0.35),'text-anchor':'middle','font-size':fs,'font-weight':o.fw||400,fill:o.fill||INK,class:o.cls||''},t); g.appendChild(e); return e; }); };
+  const srcHtml=src=>(src||[]).length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
+
+  // Hover previews a definition; click pins it (and highlights the theme or generation) until a click outside or Esc.
+  let pinned=null, focus=null;
+  const cells=[], hubs=[], handles=[];
+  const setFocus=fc=>{ focus=fc;
+    const dim=(x,on)=>{ x.g.classList.toggle('dimmed',on); x.tg.classList.toggle('dimmed',on); };
+    cells.forEach(c=>dim(c, !!fc && (fc.theme?c.theme!==fc.theme:c.ring!==fc.ring)));
+    hubs.forEach(h=>{ h.g.classList.toggle('on', !!fc&&fc.theme===h.id); dim(h, !!fc&&!!fc.theme&&fc.theme!==h.id); });
+    handles.forEach(h=>dim(h, !!fc&&!!fc.ring&&fc.ring!==h.id)); };
+  function addPinBar(){
+    panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the map or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
+    panel.querySelector('.unpin').addEventListener('click',e=>{ e.stopPropagation(); unpin(); });
+  }
+  function pin(g,show,fc){ if(pinned) pinned.g.classList.remove('pinned'); pinned={g,show}; g.classList.add('pinned'); setFocus(fc||null); show(); addPinBar(); }
+  function unpin(){ if(!pinned) return; pinned.g.classList.remove('pinned'); pinned=null; setFocus(null); const b=panel.querySelector('.pinbar'); if(b) b.remove(); reset(); }
+  const reset=()=>{ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; };
+  function bind(g,show,fc){
+    const act=()=>{ if(pinned&&pinned.g===g) unpin(); else pin(g,show,fc); };
+    g.addEventListener('mouseenter',()=>{ if(!pinned) show(); });
+    g.addEventListener('mouseleave',()=>{ if(!pinned) reset(); });
+    g.addEventListener('focus',()=>{ if(!pinned) show(); });
+    g.addEventListener('click',e=>{ e.stopPropagation(); act(); });
+    g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });
+  }
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel')) unpin(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
+
+  // Rings (inner to outer): the label wedge is the generation's handle; every other wedge holds that theme's cell.
+  rings.forEach((R,ri)=>{
+    const r0=ri?rings[ri-1].r:L.hub, r1=R.r, rm=(r0+r1)/2;
+    const [s,e,m]=ang(0);
+    const g=el('g',{class:'cell node',tabindex:0,'aria-label':`${R.label}: ${R.sub}`});
+    g.appendChild(el('path',{d:sector(r0,r1,s,e),fill:R.fill,stroke:PAPER,'stroke-width':2}));
+    const [x,y]=pol(rm,m), tg=el('g',{});
+    putText(tg,[R.label],x,y-R.fs*0.6,R.fs,{fw:700,cls:'serif'});
+    putText(tg,fitLines(R.sub,R.sub_lines,rm,R.fs*0.72),x,y+R.fs*0.85,R.fs*0.72,{fill:'#3b3934'});
+    gShapes.appendChild(g); gText.appendChild(tg); handles.push({id:R.id,g,tg});
+    bind(g,()=>{ panel.innerHTML=`<div class="path">Generation ${ri+1} of ${rings.length}</div><h2>${R.label}: ${R.sub}</h2><p>${R.desc}</p>${srcHtml(R.sources)}<p class="hint">Click to highlight this generation across every theme; click again or press Esc to release.</p>`; },{ring:R.id});
+    gLines.appendChild(el('circle',{cx,cy,r:r1,fill:'none',stroke:R.stroke,'stroke-width':1.5,'stroke-opacity':.55}));
+  });
+  themes.forEach((T,ti)=>{
+    const [s,e,m]=ang(ti+1);
+    rings.forEach((R,ri)=>{
+      const C=T.cells[R.id], r0=ri?rings[ri-1].r:L.hub, r1=R.r, rm=(r0+r1)/2;
+      const g=el('g',{class:'cell node',tabindex:0,'aria-label':`${T.label}, ${R.label}: ${C.name}${C.sub?' ('+C.sub+')':''}`});
+      g.appendChild(el('path',{d:sector(r0,r1,s,e),fill:R.fill,stroke:PAPER,'stroke-width':2}));
+      // name in medium weight (bold when the cell has a `sub`), optional `sub` smaller beneath; the block is centred on the cell
+      const [x,y]=pol(rm,m), fs=L.cell_fs||16, band={m,r0,r1}, tg=el('g',{});
+      const lines=fitLines(C.name,C.lines,rm,fs,x,band), sfs=fs*0.82, subs=C.sub?fitLines(C.sub,C.sub_lines,rm,sfs,x,band):[];
+      const h1=lines.length*fs*1.2, h2=subs.length*sfs*1.2, top=y-(h1+h2)/2;
+      putText(tg,lines,x,top+h1/2,fs,{fw:C.sub?700:500});
+      if(subs.length) putText(tg,subs,x,top+h1+h2/2,sfs,{fill:'#3b3934'});
+      gShapes.appendChild(g); gText.appendChild(tg); cells.push({theme:T.id,ring:R.id,g,tg});
+      bind(g,()=>{ panel.innerHTML=`<div class="path">${T.label} · ${R.label}</div><h2>${C.name}${C.sub?': '+C.sub:''}</h2><p>${C.desc}</p>${srcHtml(C.sources)}`; });
+    });
+  });
+  // Hub: ink disc with one wedge per theme (click to follow the theme across all rings) and the caption in the label wedge.
+  themes.forEach((T,ti)=>{
+    const [s,e,m]=ang(ti+1), g=el('g',{class:'hub node',tabindex:0,'aria-label':`Theme: ${T.label}`});
+    g.appendChild(el('path',{d:wedge(L.hub,s,e),fill:INK,stroke:PAPER,'stroke-width':1.5}));
+    const [x,y]=pol(L.hub*0.66,m), fs=L.hub_fs||14, tg=el('g',{class:'hub'});
+    putText(tg,fitLines(T.label,T.lines,L.hub*0.66,fs),x,y,fs,{fw:600,fill:'#f2efe9'});
+    gShapes.appendChild(g); gText.appendChild(tg); hubs.push({id:T.id,g,tg});
+    bind(g,()=>{ panel.innerHTML=`<div class="path">Theme</div><h2>${T.label}</h2><p>${T.desc}</p><p class="hint">Click to follow this theme across the ${rings.length} generations; click again or press Esc to release.</p>`; },{theme:T.id});
+  });
+  { const [s,e,m]=ang(0), g=el('g',{});
+    g.appendChild(el('path',{d:wedge(L.hub,s,e),fill:INK,stroke:PAPER,'stroke-width':1.5}));
+    const [x,y]=pol(L.hub*0.66,m), tg=el('g',{class:'hub'}); putText(tg,[L.hub_label||'Theme'],x,y,L.hub_fs||14,{fw:700,fill:'#f2efe9'});
+    gShapes.appendChild(g); gText.appendChild(tg); }
+})();
+</script>
+</body>
+</html>

@@ -34,6 +34,7 @@
   .ei-nav a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
   .ei-nav a:hover{color:var(--ink);border-color:var(--ink)}
   .ei-nav .cur{color:var(--ink);font-weight:600;border-bottom:1px solid var(--ink);padding-bottom:2px}
+  .ei-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;background:#fdf3e1;border:1px solid #e3b45f;color:#4a3108;vertical-align:middle;margin-left:6px}
   .ei-legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12px;color:var(--muted);padding:0 6px}
   .ei-legend span{display:inline-flex;align-items:center;gap:7px}
   .ei-legend svg{flex:none}
@@ -374,7 +375,7 @@
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||L.n[p]||''}</div>`;
       });
-      const what=PILL ? (a.kind==='participant'?'Participant':'Network') : 'Token';
+      const what=PILL ? ({participant:'Participant',element:'Element'}[a.kind]||'Network') : 'Token';
       panel.innerHTML=`<div class="path">${what} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.t})`}</h2><p>${a.d}</p>${sc}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);

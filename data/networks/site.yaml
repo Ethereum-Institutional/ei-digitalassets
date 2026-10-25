@@ -3,11 +3,6 @@
 title: Digital Asset Networks
 slug: digital-asset-networks   # output file name in dist/
 eyebrow: Ethereum Institutional · Research
-# nav: links between the pages of this site; the item without an href is this page
-nav:
-- label: Digital Asset Taxonomy
-  href: ../
-- label: Digital Asset Networks
 heading:
   text: Digital Asset Networks
   italic: Networks
