@@ -2,6 +2,7 @@
 # Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
 # Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
 
+icon: dvp
 tags:
 - { kind: move, label: Cash moves }
 - { kind: move, label: Asset moves }
@@ -143,6 +144,11 @@ standards:
   status: Final
   role: Institutional wallets as smart accounts with policy controls (approvals, limits, multiple signers) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
   url: https://eips.ethereum.org/EIPS/eip-4337
+- id: Uniswap v4 hooks
+  title: Venue interface, not an ERC
+  status: Live
+  role: For the permissioned-pool variant, a hook contract that runs before a swap or a liquidity change and can refuse either, so the pool enforces the token’s own eligibility rules; the open interface Ethereum Institutional’s reference build uses.
+  url: https://docs.uniswap.org/contracts/v4/concepts/hooks
 - id: ERC-7573
   title: Conditional-upon-Transfer-Decryption for DvP
   status: Draft
@@ -168,6 +174,8 @@ sections:
     text: The fund itself is the seller. The buyer places a subscription request with the cash leg in escrow (ERC-7540), the administrator strikes the net asset value at the cut-off, and the buyer claims the units at that price; a constant-price fund with a teller contract can subscribe and redeem continuously against the cash leg.
   - title: Stablecoin or central bank money as the cash leg
     text: Replace the deposit token with a regulated stablecoin (the common case today) or, in future, wholesale central bank money on the same ledger. The steps are the same; who the obligor on the cash leg is changes.
+  - title: Trading in a permissioned pool
+    text: 'Instead of a bilateral trade settled by a DvP contract, the venue can be an automated market maker whose pool is the counterparty: every swap is itself the DvP, and a compliance hook on the pool checks the trader against the fund share’s identity registry at the moment of the swap, so a wallet frozen or revoked in the token stops trading with no action by the venue; providing liquidity can be gated separately (for instance to professional investors). Uniswap v4 hooks are the open interface for this, and Ethereum Institutional maintains a reference build of it (an ERC-3643 money market fund trading against USDC in a permissioned pool, with segregated custody and tests that prove each control binds); contact Ethereum Institutional for access to the quickstart. The caveat is pricing: a pool quotes continuously, so this venue suits a constant-price fund or a fund with a published feed, not one priced once a day at a cut-off.'
   - title: Cash and asset on different ledgers
     text: Where the fund token lives on one chain and the cash on another, atomicity needs a cross-ledger mechanism (ERC-7573, or a hashed time-lock); settlement is no longer one transaction and a failure mode returns.
 - title: Open questions for your deployment
@@ -187,3 +195,5 @@ sources:
 - { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
 - { title: 'WisdomTree, 24/7 trading and instant settlement (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
 - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'Uniswap v4 documentation, Hooks', url: https://docs.uniswap.org/contracts/v4/concepts/hooks, checked: '2026-10-25' }
+- { title: 'Ethereum Institutional (contact for the permissioned-pool quickstart)', url: https://ethereuminstitutional.org/, checked: '2026-10-25' }

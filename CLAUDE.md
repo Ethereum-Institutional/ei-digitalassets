@@ -232,12 +232,18 @@ and decisions behind them.
 ## Planned / open
 
 - Possible "token properties" control (yield-bearing, synthetic, fungible / NFT / wrapped / soulbound).
-- **Scenarios** (`data/scenarios/`): the index is `kind: index` (`site.yaml` lists every scenario with `moves` and
-  `roles` tags; readers filter by their role or by what moves, because scenarios are not ranked or alphabetized).
+- **Scenarios** (`data/scenarios/`): the index is `kind: index`. `site.yaml` lists every scenario with `moves`,
+  `roles`, an `icon` (one of the pictogram family in `scripts/build.mjs`: a disc is a token, a rising line a
+  yielding asset, a loop with a padlock one atomic transaction) and a `map` position on a small Venn (Cash moves,
+  Asset moves, Credit is extended), because position carries meaning and scenarios are never ranked or
+  alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role.
+  Written scenarios are ink pills and link out; planned ones are grey with the in-progress tag.
   Each written scenario is a folder with `site.yaml` (`kind: scenario`) and `scenario.yaml`: `actors` (columns of the
   swimlane diagram; `kind: ledger | contract | observer` for non-institutions), `steps` (rows; `kind: offchain |
   onchain | atomic`, an atomic step names `lanes`), `tokens` (linked to taxonomy circle ids), `standards` (EIP id,
   status, role, URL), `sections` (why a shared ledger, variants, open questions) and `sources`. Written so far: DvP,
-  deposit token against a tokenized money market fund. Planned: payments, treasury management, FX PvP, repo,
+  deposit token against a tokenized money market fund (with a permissioned-pool variant on Uniswap v4 hooks; the
+  EI reference build is mentioned, never a URL for it: readers are told to contact Ethereum Institutional for the
+  quickstart). Planned: payments, treasury management, FX PvP, repo,
   collateral and margin, securities lending, fund dealing, corporate actions, AI agent payments (x402, ERC-8004,
   EIP-3009). The Taurus TMMF paper's Section 7.4 is source material for the collateral scenarios.

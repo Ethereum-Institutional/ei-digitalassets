@@ -13,7 +13,10 @@ and lens treatments may change in any release.
   diagram (off-ledger, on-ledger and one atomic transaction), the taxonomy tokens involved (deposit token, fund,
   stablecoin and wholesale CBDC as alternative cash legs), the EVM standards (ERC-20, ERC-3643, ERC-7540, ERC-2612,
   EIP-3009, EIP-712, ERC-4337, ERC-7573) with status and role, why a shared ledger, variants and open questions.
-  Engine: `kind: index` and `kind: scenario` page types (`src/scenario.html`), nested page paths.
+  The index places each scenario on a small Venn (cash, asset, credit) as a linked pill and groups the tiles below
+  by what moves, each with a pictogram; the DvP scenario gains a permissioned-pool variant (Uniswap v4 hooks) and
+  says the standards are to consider, not a prescription. Engine: `kind: index` and `kind: scenario` page types
+  (`src/scenario.html`), a pictogram family, nested page paths.
 - **New page: Decentralization** (`/decentralization/`, data in `data/decentralization/`). Eleven gauges, one per
   property of a ledger (operating history, developer base, who can stop it, security you can price, who can change the
   rules, property rights at the base layer, verifiable by anyone, open entry and exit, no single point of technical

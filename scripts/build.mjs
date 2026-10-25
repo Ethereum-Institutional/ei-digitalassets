@@ -151,9 +151,33 @@ function validateRadial({ dir, site, rings, themes, layout, lenses, gauges }) {
   return errors;
 }
 const SRC_OK = (errors, where, owner, srcs) => { for (const x of srcs || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where}: source on "${owner}" needs a title and a URL`); };
+// Pictograms for scenarios: one family, ink strokes on paper, 96x56 viewBox. A disc is a token (plain = money, with a
+// rising line = a yielding asset); a loop with a padlock is one atomic transaction; a box is a fund, vault or account.
+const PART = {
+  disc: (x, y, r, yieldLine) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>` + (yieldLine ? `<path d="M${x - r * 0.55} ${y + r * 0.35}L${x - r * 0.1} ${y - r * 0.05}L${x + r * 0.15} ${y + r * 0.2}L${x + r * 0.55} ${y - r * 0.4}" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>` : `<path d="M${x - r * 0.45} ${y}H${x + r * 0.45}" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`),
+  lock: (x, y) => `<rect x="${x - 6}" y="${y - 3}" width="12" height="10" rx="2" fill="#14130f"/><path d="M${x - 3.5} ${y - 3}V${y - 6}a3.5 3.5 0 0 1 7 0V${y - 3}" fill="none" stroke="#14130f" stroke-width="2"/>`,
+  arrow: (x1, y1, x2, y2, dashed) => `<path d="M${x1} ${y1}L${x2} ${y2}" stroke="#14130f" stroke-width="2" fill="none"${dashed ? ' stroke-dasharray="4 3"' : ''} marker-end="url(#ia)"/>`,
+  loop: dashedBack => `<path d="M36 20C44 8 52 8 60 20" fill="none" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><path d="M60 36C52 48 44 48 36 36" fill="none" stroke="#14130f" stroke-width="2"${dashedBack ? ' stroke-dasharray="4 3"' : ''} marker-end="url(#ia)"/>`,
+};
+const ICON_DEFS = '<defs><marker id="ia" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#14130f"/></marker></defs>';
+const GLYPHS = {
+  dvp: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14, true) + PART.loop() + PART.lock(48, 29),
+  pvp: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14) + PART.loop() + PART.lock(48, 29),
+  pay: () => PART.disc(22, 28, 14) + PART.arrow(40, 28, 68, 28) + `<rect x="72" y="16" width="20" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
+  treasury: () => PART.disc(22, 28, 14) + PART.arrow(40, 22, 58, 22) + PART.arrow(58, 34, 40, 34) + PART.disc(74, 28, 14, true),
+  repo: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14, true) + PART.loop(true) + `<circle cx="48" cy="28" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M48 24V28H51" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  collateral: () => `<path d="M48 6L70 14V28C70 40 60 48 48 52C36 48 26 40 26 28V14Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/>` + PART.disc(48, 29, 11, true),
+  lending: () => PART.disc(22, 28, 14, true) + PART.arrow(40, 22, 70, 22) + PART.arrow(70, 34, 40, 34, true) + `<rect x="74" y="16" width="18" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
+  subscribe: () => PART.disc(20, 28, 13) + PART.arrow(36, 28, 52, 28) + `<rect x="56" y="12" width="34" height="32" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M63 20H83M63 28H83M63 36H77" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  corporate: () => `<rect x="30" y="8" width="36" height="22" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M38 15H58M38 22H52" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>` + PART.arrow(40, 32, 26, 46) + PART.arrow(48, 32, 48, 46) + PART.arrow(56, 32, 70, 46),
+  agent: () => `<rect x="10" y="14" width="26" height="24" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="19" cy="25" r="2.5" fill="#14130f"/><circle cx="27" cy="25" r="2.5" fill="#14130f"/><path d="M23 14V8" stroke="#14130f" stroke-width="2"/>` + PART.arrow(40, 28, 58, 28) + PART.disc(74, 28, 13),
+};
+const iconSvg = (id, cls) => GLYPHS[id] ? `<svg class="${cls || 'ei-icon'}" viewBox="0 0 96 56" aria-hidden="true">${ICON_DEFS}${GLYPHS[id]()}</svg>` : '';
 function validateIndex({ dir, site }) {
   const errors = validateStatic({ dir, site }), where = `${dir}/site.yaml`;
-  const roles = new Set((site.filters?.roles || []).map(r => r.id)), moves = new Set((site.filters?.moves || []).map(m => m.id));
+  const roles = new Set((site.filters?.roles || []).map(r => r.id));
+  const moves = new Set([...(site.filters?.moves || []).map(m => m.id), ...(site.map?.circles || []).map(c => c.id), ...(site.bands || []).flatMap(b => b.moves || [])]);
+  for (const sc of site.scenarios || []) if (sc.icon && !GLYPHS[sc.icon]) errors.push(`${where}: scenario "${sc.title}" names unknown icon "${sc.icon}"`);
   for (const sc of site.scenarios || []) {
     if (!sc.title || !sc.text) errors.push(`${where}: every scenario needs a title and text`);
     if (sc.path && !PAGES.some(p => p.out === sc.path)) errors.push(`${where}: scenario path "${sc.path}" is not a page in PAGES`);
@@ -308,16 +332,29 @@ function renderIndex({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site), F = site.filters || {};
   const chips = (name, items) => `<div class="ei-filter" data-filter="${name}"><span class="rl">${esc(F[name + '_label'] || name)}</span>${items.map(i => `<button type="button" data-v="${esc(i.id)}" aria-pressed="false">${esc(i.label)}</button>`).join('')}</div>`;
-  const cards = (site.scenarios || []).map(sc => { const live = !!sc.path;
-    return `<${live ? `a class="ei-card" href="${relHref(out, sc.path)}"` : 'div class="ei-card planned"'} data-roles="${(sc.roles || []).join(' ')}" data-moves="${(sc.moves || []).join(' ')}"><h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
-      + `<p class="tags">${(sc.moves || []).map(m => `<span class="m">${esc((F.moves || []).find(x => x.id === m)?.label || m)}</span>`).join('')}${(sc.roles || []).map(r => `<span>${esc((F.roles || []).find(x => x.id === r)?.label || r)}</span>`).join('')}</p>`
-      + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; }).join('');
-  const body = `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}${F.moves ? chips('moves', F.moves) : ''}<button type="button" class="clear" hidden>Show all</button></div><div class="ei-cards" id="ei-cards">${cards}</div>
-<script>(function(){ const on={roles:null,moves:null}; const cards=[...document.querySelectorAll('#ei-cards .ei-card')], clear=document.querySelector('.ei-filters .clear');
-  const apply=()=>{ cards.forEach(c=>{ const ok=(!on.roles||c.dataset.roles.split(' ').includes(on.roles))&&(!on.moves||c.dataset.moves.split(' ').includes(on.moves)); c.hidden=!ok; }); clear.hidden=!on.roles&&!on.moves;
+  const M = site.map || {}, circles = M.circles || [];
+  const pillW = t => Math.round(t.length * 6.2) + 18;
+  const venn = circles.length ? `<div class="ei-wrap venn"><svg viewBox="0 0 ${M.width || 700} ${M.height || 520}" role="img" aria-label="${esc(M.label || 'Map of scenarios by what moves')}">`
+    + circles.map(c => `<circle cx="${c.cx}" cy="${c.cy}" r="${c.r}" fill="${esc(c.fill)}" fill-opacity=".55" stroke="${esc(c.stroke)}" stroke-width="2"/>`).join('')
+    + circles.map(c => `<text x="${c.lx}" y="${c.ly}" text-anchor="middle" class="serif" font-size="22" font-weight="700" fill="#14130f">${esc(c.label)}</text>`).join('')
+    + (site.scenarios || []).filter(sc => sc.map).map(sc => { const w = pillW(sc.short || sc.title), live = !!sc.path, x = sc.map.x - w / 2;
+        const pill = `<g class="pill${live ? ' live' : ''}"><title>${esc(sc.title)}${live ? '' : ' (in progress)'}</title><rect x="${x}" y="${sc.map.y - 11}" width="${w}" height="22" rx="11" fill="${live ? '#14130f' : '#b8b3a8'}" stroke="#f8f6f2" stroke-width="1.5"/><text x="${sc.map.x}" y="${sc.map.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="#f2efe9">${esc(sc.short || sc.title)}</text></g>`;
+        return live ? `<a href="${relHref(out, sc.path)}" aria-label="${esc(sc.title)}">${pill}</a>` : pill; }).join('')
+    + `</svg></div><div class="ei-legend"><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#14130f"/></svg> Written scenario (click to open)</span><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#b8b3a8"/></svg> Planned</span></div>` : '';
+  const bands = site.bands || [];
+  const tile = sc => { const live = !!sc.path;
+    return `<${live ? `a class="ei-card tile" href="${relHref(out, sc.path)}"` : 'div class="ei-card tile planned"'} data-roles="${(sc.roles || []).join(' ')}">${iconSvg(sc.icon)}<h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
+      + `<p class="tags">${(sc.roles || []).map(r => `<span>${esc((F.roles || []).find(x => x.id === r)?.label || r)}</span>`).join('')}</p>` + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; };
+  const bandOf = sc => bands.find(b => (b.moves || []).length === (sc.moves || []).length && (b.moves || []).every(m => (sc.moves || []).includes(m)))?.id;
+  const cards = bands.map(b => { const list = (site.scenarios || []).filter(sc => bandOf(sc) === b.id).sort((a, c) => (!!c.path) - (!!a.path));
+    return list.length ? `<div class="ei-band" data-band="${esc(b.id)}"><div class="ei-h"><b>${esc(b.label)}</b><span>${esc(b.text || '')}</span></div><div class="ei-cards">${list.map(tile).join('')}</div></div>` : ''; }).join('');
+  const body = venn + `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}<button type="button" class="clear" hidden>Show all</button></div><div id="ei-cards">${cards}</div>
+<script>(function(){ const on={roles:null}; const cards=[...document.querySelectorAll('#ei-cards .ei-card')], clear=document.querySelector('.ei-filters .clear');
+  const apply=()=>{ cards.forEach(c=>{ c.hidden=!(!on.roles||c.dataset.roles.split(' ').includes(on.roles)); }); clear.hidden=!on.roles;
+    document.querySelectorAll('.ei-band').forEach(b=>{ b.hidden=![...b.querySelectorAll('.ei-card')].some(c=>!c.hidden); });
     document.querySelectorAll('.ei-filter').forEach(f=>f.querySelectorAll('button').forEach(b=>{ const a=on[f.dataset.filter]===b.dataset.v; b.classList.toggle('on',a); b.setAttribute('aria-pressed',String(a)); })); };
   document.querySelectorAll('.ei-filter').forEach(f=>f.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ on[f.dataset.filter]=on[f.dataset.filter]===b.dataset.v?null:b.dataset.v; apply(); })));
-  clear.addEventListener('click',()=>{ on.roles=null; on.moves=null; apply(); }); })();</script>`;
+  clear.addEventListener('click',()=>{ on.roles=null; apply(); }); })();</script>`;
   return read('src/static.html')
     .replace('__STYLE__', style + `<style>
   .ei-filters{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
@@ -331,7 +368,18 @@ function renderIndex({ site, out }) {
   .ei-card .tags span{font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:#fff;color:var(--muted)}
   .ei-card .tags span.m{border-color:#312e81;color:#312e81}
   .ei-card.planned{cursor:default;opacity:.85}
-  .ei-card[hidden]{display:none}
+  .ei-card[hidden],.ei-band[hidden]{display:none}
+  .ei-wrap.venn svg{max-width:760px;min-width:520px;margin:0 auto}
+  .ei-wrap.venn svg a rect{cursor:pointer}
+  .ei-wrap.venn svg a:hover rect,.ei-wrap.venn svg a:focus rect{stroke:#14130f;stroke-width:3}
+  .ei-wrap.venn svg text{pointer-events:none;font-family:var(--sans)}
+  .ei-wrap.venn svg text.serif{font-family:var(--serif);letter-spacing:-.02em}
+  #ei-cards{display:flex;flex-direction:column;gap:22px}
+  .ei-band{display:flex;flex-direction:column;gap:12px}
+  .ei-h{display:flex;flex-direction:column;gap:4px}
+  .ei-h b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-h span{font-size:14px;color:var(--muted);line-height:1.5;max-width:90ch}
+  .ei-card.tile svg.ei-icon{width:96px;height:56px;display:block;margin-bottom:2px}
 </style>`).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
     .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
@@ -345,7 +393,7 @@ function renderScenario({ site, sc, out }) {
   const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtml(t.sources)}</div>`).join('')}</div>`;
   const stdHtml = `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`;
   return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
-    .replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml).replace('__STANDARDS_HELP__', esc(sc.standards_help || ''))
+    .replace('__ICON__', iconSvg(sc.icon, 'ei-icon hero')).replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml).replace('__STANDARDS_HELP__', esc(sc.standards_help || ''))
     .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all.'))
     .replace('__SECTIONS__', sectionsHtml({ sections: sc.sections || [] }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtml(sc.sources)}</div></div>` : ''));
 }

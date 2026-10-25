@@ -10,6 +10,8 @@
 __STYLE__
 <style>
   /* scenario pages (kind: scenario): actors, a swimlane diagram of the steps, the taxonomy tokens and the EVM standards. */
+  .ei-title{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .ei-title svg.hero{width:120px;height:70px;flex:none}
   .ei-tags{display:flex;flex-wrap:wrap;gap:6px}
   .ei-tags span{font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:2px 9px;border-radius:9px;border:1px solid var(--rule);background:#fff;color:var(--muted)}
   .ei-tags span.m{border-color:#312e81;color:#312e81}
@@ -65,7 +67,7 @@ __STYLE__
   <div class="ei-head">
     <span class="ei-eyebrow">__EYEBROW__</span>
     __NAV__
-    <h1>__HEADING__</h1>
+    <div class="ei-title">__ICON__<h1>__HEADING__</h1></div>
     <p class="sub">__INTRO__</p>
     __INTRO_MORE__
     __TAGS__
