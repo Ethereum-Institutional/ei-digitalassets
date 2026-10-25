@@ -1,0 +1,34 @@
+# Decentralization: the five levels (content), 1 (one party holds the property) to 5 (an open network holds it). Each
+# gauge on the page runs from 1 on the left to 5 on the right. Writing rules: US spelling; no em-dashes.
+
+rings:
+- id: l0
+  label: One party
+  sub: Level 5
+  fill: '#e9e3ee'
+  stroke: '#65547a'
+  desc: 'Level 1 on every property: one party runs the ledger, decides its rules, can freeze or move any balance, and is the only one who can verify it. This is a database with signatures. It can be the right tool for a closed process, but nothing about it is a property of the ledger: every assurance is a promise by the operator, and every risk is the operator’s risk.'
+- id: l1
+  label: A few parties
+  sub: Level 5
+  fill: '#e6e3ec'
+  stroke: '#5b5a7a'
+  desc: 'Level 2: two or three parties share control, or one party decides and the others operate. A bilateral agreement, a legal order on one jurisdiction or a shared vendor is enough to stop, change or seize. Most private and early consortium ledgers sit here.'
+- id: l2
+  label: A closed group
+  sub: Level 5
+  fill: '#e3e7ea'
+  stroke: '#3f5664'
+  desc: 'Level 3: a defined group of members admitted by the group itself runs the ledger and votes on its rules. Control is shared, which removes the single point of failure, but the group can be compelled as a whole, outsiders cannot verify it, and leaving means leaving the ledger.'
+- id: l3
+  label: Many, with gaps
+  sub: Level 5
+  fill: '#e1e5ee'
+  stroke: '#3b4a7a'
+  desc: 'Level 4: an open network with a measurable concentration still in it: a client running on more than a third of nodes, a handful of providers hosting most nodes, a past intervention on the record, or a process in which one party could still block a change. The property is real; the gap is what the network is working on.'
+- id: l4
+  label: Open network
+  sub: Level 5
+  fill: '#e1e3f2'
+  stroke: '#312e81'
+  desc: 'Level 5: the property is held by an open network. Nobody can stop, change, freeze or exclude on their own; anyone can verify, join and leave; the software, infrastructure and developers are spread across many independent parties; and the record is long enough to show it. A global shared ledger at this level is infrastructure in the same sense as the internet: nobody owns it, so everybody can build on it.'

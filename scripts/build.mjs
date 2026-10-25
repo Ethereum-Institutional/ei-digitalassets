@@ -13,6 +13,7 @@ const PAGES = [
   { dir: 'data/web3', out: 'web3' },                         // Web3: three generations of the web
   { dir: 'data/taxonomy', out: 'taxonomy' },                 // Digital Asset Taxonomy
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
+  { dir: 'data/scenarios', out: 'scenarios' },               // work in progress (static stub)
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
@@ -25,7 +26,13 @@ function load(dir) {
   const site = yml('site.yaml');
   if (site.kind === 'static') return { dir, site, static: true };
   // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
-  if (site.kind === 'radial') return { dir, site, radial: true, rings: yml('rings.yaml'), themes: yml('themes.yaml'), layout: yml('layout.yaml') };
+  // gauges pages use the radial data files (rings = levels, themes = properties, lenses) with a dial per property
+  if (site.kind === 'radial' || site.kind === 'gauges') {
+    const lensDir = path.join(root, dir, 'lenses');
+    const lenses = fs.existsSync(lensDir) ? fs.readdirSync(lensDir).filter(f => f.endsWith('.yaml')).sort().map(f => parse(fs.readFileSync(path.join(lensDir, f), 'utf8'))) : [];
+    const layout = fs.existsSync(path.join(root, dir, 'layout.yaml')) ? yml('layout.yaml') : null;
+    return { dir, site, radial: true, gauges: site.kind === 'gauges', rings: yml('rings.yaml'), themes: yml('themes.yaml'), layout, lenses };
+  }
   const circles = yml('circles.yaml'), layout = yml('layout.yaml');
   // badges: tokens.yaml (ticker chips) or networks.yaml (named pills); either way each badge has a `ticker` key
   const badgeFile = ['tokens.yaml', 'networks.yaml', 'badges.yaml'].find(f => fs.existsSync(path.join(root, dir, f)));
@@ -78,7 +85,7 @@ function validateStatic({ dir, site }) {
   return errors;
 }
 const LEGEND_KINDS = ['pill', 'mark', 'rings', 'expand'];
-function validateRadial({ dir, site, rings, themes, layout }) {
+function validateRadial({ dir, site, rings, themes, layout, lenses, gauges }) {
   const errors = [], where = f => `${dir}/${f}`;
   for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
   if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
@@ -90,23 +97,50 @@ function validateRadial({ dir, site, rings, themes, layout }) {
   const ringIds = new Set(R.map(r => r.id));
   if (ringIds.size !== R.length) errors.push(`${where('rings.yaml')}: duplicate ring ids`);
   for (const r of R) for (const k of ['id', 'label', 'sub', 'desc', 'fill', 'stroke']) if (!r[k]) errors.push(`${where('rings.yaml')}: ring "${r.id || '?'}" needs "${k}"`);
-  for (const r of R) if (typeof layout.rings?.[r.id]?.r !== 'number') errors.push(`${where('layout.yaml')}: rings.${r.id}.r (outer radius) must be a number`);
+  if (!gauges) {
+    for (const r of R) if (typeof layout.rings?.[r.id]?.r !== 'number') errors.push(`${where('layout.yaml')}: rings.${r.id}.r (outer radius) must be a number`);
   for (const id of Object.keys(layout.rings || {})) if (!ringIds.has(id)) errors.push(`${where('layout.yaml')}: geometry for unknown ring "${id}"`);
   const radii = R.map(r => layout.rings?.[r.id]?.r).filter(v => typeof v === 'number');
   if (radii.some((v, i) => i ? v <= radii[i - 1] : v <= (layout.hub || 0))) errors.push(`${where('layout.yaml')}: ring radii must increase from the hub outwards`);
   for (const k of ['cx', 'cy', 'hub']) if (typeof layout[k] !== 'number') errors.push(`${where('layout.yaml')}: "${k}" must be a number`);
   if (!layout.canvas?.width || !layout.canvas?.height) errors.push(`${where('layout.yaml')}: canvas needs width and height`);
+  }
+  if (site.default_lens && !(lenses || []).some(L => L.id === site.default_lens)) errors.push(`${where('site.yaml')}: default_lens "${site.default_lens}" is not a lens id`);
+  for (const st of site.stats?.items || []) { if (!st.label || !st.value || !st.text) errors.push(`${where('site.yaml')}: every stats item needs label, value and text`);
+    for (const x of st.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where('site.yaml')}: source on stat "${st.label}" needs a title and a URL`); }
   const themeIds = new Set(T.map(t => t.id));
   if (themeIds.size !== T.length) errors.push(`${where('themes.yaml')}: duplicate theme ids`);
   for (const t of T) {
     for (const k of ['id', 'label', 'desc']) if (!t[k]) errors.push(`${where('themes.yaml')}: theme "${t.id || '?'}" needs "${k}"`);
+    if (t.weight !== undefined && !(typeof t.weight === 'number' && t.weight >= 0)) errors.push(`${where('themes.yaml')}: theme "${t.id}" weight must be a non-negative number`);
     for (const r of R) {
       const c = t.cells?.[r.id];
       if (!c) { errors.push(`${where('themes.yaml')}: theme "${t.id}" has no cell for ring "${r.id}"`); continue; }
       if (!c.name || !c.desc) errors.push(`${where('themes.yaml')}: cell ${t.id}.${r.id} needs a name and a desc`);
+      for (const k of Object.keys(c)) if (!['name', 'sub', 'lines', 'sub_lines', 'desc', 'mark', 'sources'].includes(k)) errors.push(`${where('themes.yaml')}: cell ${t.id}.${r.id} has unknown key "${k}" (a comma inside an unquoted flow value?)`);
       if (c.mark && !/^[A-Z]{2,4}$/.test(c.mark)) errors.push(`${where('themes.yaml')}: cell ${t.id}.${r.id} mark must be 2 to 4 capital letters`);
     }
     for (const id of Object.keys(t.cells || {})) if (!ringIds.has(id)) errors.push(`${where('themes.yaml')}: theme "${t.id}" has a cell for unknown ring "${id}"`);
+  }
+  // lenses on a radial page: `cells` maps every theme to the ring where the lens lands; `notes` keyed by theme
+  for (const L of lenses || []) {
+    const lw = where(`lenses/${L.id || '?'}.yaml`);
+    for (const k of ['id', 'name', 'color', 'intro']) if (!L[k]) errors.push(`${lw}: missing "${k}"`);
+    if (L.order !== undefined && typeof L.order !== 'number') errors.push(`${lw}: order must be a number`);
+    for (const [t, r] of Object.entries(L.cells || {})) {
+      if (!themeIds.has(t)) errors.push(`${lw}: cells names unknown theme "${t}"`);
+      if (!ringIds.has(r)) errors.push(`${lw}: cells.${t} names unknown ring "${r}"`);
+    }
+    for (const t of T) if (!(L.cells || {})[t.id]) errors.push(`${lw}: no cell for theme "${t.id}"`);
+    for (const t of Object.keys(L.notes || {})) if (!themeIds.has(t)) errors.push(`${lw}: note for unknown theme "${t}"`);
+    for (const t of Object.keys(L.readings || {})) if (!themeIds.has(t)) errors.push(`${lw}: reading for unknown theme "${t}"`);
+    if (/^#[0-9a-f]{6}$/i.test(L.color || '') && isSignal(L.color) && !SEMANTIC[L.color.toLowerCase()]) errors.push(`${lw}: colour ${L.color} reads as red, amber or green; use a neutral hue`);
+    for (const s of L.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${lw}: every source needs a title and a URL`);
+  }
+  for (const sec of site.sections || []) {
+    if (!sec.title) errors.push(`${where('site.yaml')}: every section needs a title`);
+    for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where('site.yaml')}: section "${sec.title}" items need title and text`);
+      for (const s of it.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('site.yaml')}: source on "${it.title}" needs a title and a URL`); }
   }
   const sourced = [...R, ...T.flatMap(t => Object.entries(t.cells || {}).map(([k, c]) => Object.assign({ id: `${t.id}.${k}` }, c)))];
   for (const x of sourced) for (const s of x.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id}" needs a title and a URL`);
@@ -279,14 +313,27 @@ function render({ circles, layout, tokens, site, lenses, out }) {
   return fillCommon(read('src/template.html'), { site, out, data })
     .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help));
 }
-function renderRadial({ site, rings, themes, layout, out }) {
+// sources: inline when three or fewer, otherwise collapsed behind a "Sources (n)" toggle
+const srcList = src => src.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.checked ? ` (checked ${esc(s.checked)})` : ''}`).join('; ');
+const srcHtml = src => !(src || []).length ? '' : src.length <= 3 ? `<p class="src">Sources: ${srcList(src)}</p>` : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
+const sectionsHtml = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
+  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + srcHtml(it.sources)).join('') + '</div>').join('')}</div>` : '';
+const radialLensHtml = (site, lenses) => lenses.length ? `<div class="ei-lens radial" id="ei-lens"><div class="ei-lens-head"><b>${esc(site.lens_title || 'Compare')}</b><span>${esc(site.lens_help || '')}</span></div><div class="row">`
+  + lenses.map(L => `<button type="button" data-lens="${esc(L.id)}" aria-pressed="false" style="--c:${esc(L.color)}"><span class="sw"></span>${esc(L.menu || L.name)}</button>`).join('') + '</div></div>' : '';
+const statsHtml = site => site.stats ? `<div class="ei-stats-head"><b>${esc(site.stats.title)}</b>${site.stats.text ? `<span>${esc(site.stats.text)}</span>` : ''}</div><div class="ei-stats">${(site.stats.items || []).map(st => `<div class="ei-stat"><p class="n">${esc(st.value)}</p><p class="l">${esc(st.label)}</p><p>${esc(st.text)}</p>`
+  + srcHtml(st.sources) + '</div>').join('')}</div>` : '';
+function renderRadial({ site, rings, themes, layout, lenses, out, gauges }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const sorted = [...(lenses || [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   const data = {
-    rings: rings.rings.map(r => Object.assign({ fs: 20 }, r, layout.rings[r.id])), themes: themes.themes, version,
-    layout: { canvas: layout.canvas, cx: layout.cx, cy: layout.cy, hub: layout.hub, hub_label: layout.hub_label, hub_fs: layout.hub_fs, cell_fs: layout.cell_fs },
+    rings: rings.rings.map(r => Object.assign({ fs: 20 }, r, layout ? layout.rings[r.id] : {})), themes: themes.themes, version, kind: gauges ? 'gauges' : 'radial',
+    default_lens: site.default_lens, scale: site.scale,
+    lenses: sorted.map(L => ({ id: L.id, name: L.name, short: L.short, color: L.color, intro: L.intro, cells: L.cells, notes: L.notes || {}, readings: L.readings || {}, sources: L.sources || [] })),
+    layout: layout ? { canvas: layout.canvas, cx: layout.cx, cy: layout.cy, hub: layout.hub, hub_label: layout.hub_label, hub_fs: layout.hub_fs, cell_fs: layout.cell_fs } : null,
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a cell to preview how Ethereum Institutional describes it; click to pin the description here.' },
   };
-  return fillCommon(read('src/radial.html').replace('__STYLE__', style), { site, out, data });
+  return fillCommon(read(gauges ? 'src/gauges.html' : 'src/radial.html').replace('__STYLE__', style), { site, out, data })
+    .replace('__LENSES__', radialLensHtml(site, sorted)).replace('__SECTIONS__', sectionsHtml(site)).replace('__STATS__', statsHtml(site)).replace('__SCORE__', site.score ? `<div class="ei-score" id="ei-score"><b class="t">${esc(site.score.title)}</b><span class="n">0</span><span class="of"></span><span class="bar"><i></i></span><button type="button" class="adjust" aria-expanded="false" aria-controls="ei-sliders">Adjust weights</button></div>` : '').replace('__SCORE_TEXT__', esc(site.score?.text || ''));
 }
 
 const pages = PAGES.filter(p => fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, load(p.dir)));
@@ -305,6 +352,6 @@ for (const p of pages) {
   fs.writeFileSync(path.join(root, 'dist', `${slug}.fragment.html`), head + '\n' + body);
   fs.writeFileSync(path.join(outDir, 'index.html'), page);
   console.log(p.radial
-    ? `Built ${path.join('dist', p.out, 'index.html')} (${p.rings.rings.length} rings, ${p.themes.themes.length} themes), version ${version}`
+    ? `Built ${path.join('dist', p.out, 'index.html')} (${p.rings.rings.length} ${p.gauges ? 'levels' : 'rings'}, ${p.themes.themes.length} ${p.gauges ? 'gauges' : 'themes'}, ${(p.lenses || []).length} lenses), version ${version}`
     : `Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
 }

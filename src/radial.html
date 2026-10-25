@@ -22,6 +22,17 @@ __STYLE__
   .ei-wrap svg .hub:hover path{fill:#3a3833}
   .ei-wrap svg .hub.pinned path{stroke:#f2efe9;stroke-width:3}
   .ei-wrap svg .dimmed{opacity:.18}
+  .ei-wrap svg .cell.lit path{stroke:var(--lc,#14130f);stroke-width:4}
+  .ei-wrap svg .cell.lit:hover path{stroke-width:5}
+  .ei-lens.radial .row{gap:8px}
+  .ei-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .ei-section{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-section h2{margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em}
+  .ei-section h3{margin:14px 0 4px;font-size:14px;font-weight:600}
+  .ei-section p{margin:0;font-size:14px;line-height:1.55;color:var(--ink)}
+  .ei-section p.src{font-size:12px;color:var(--muted);margin-top:6px}
+  .ei-section p.src a{color:var(--muted)}
+  .ei-section .wip{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;background:#fdf3e1;border:1px solid #e3b45f;color:#4a3108;margin-left:6px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -36,10 +47,12 @@ __STYLE__
   </div>
   <div class="ei-wrap radial"><svg id="ei-svg" viewBox="0 0 1300 1300" role="img" aria-label="__SVG_LABEL__"></svg></div>
   __LEGEND__
+  __LENSES__
   <div class="ei-panel" id="ei-panel" aria-live="polite">
     <h2>__PANEL_TITLE__</h2>
     <p>__PANEL_TEXT__</p>
   </div>
+  __SECTIONS__
   __CONTRIBUTE__
   <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
 </div>
@@ -79,20 +92,29 @@ __STYLE__
   const srcHtml=src=>(src||[]).length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
 
   // Hover previews a definition; click pins it (and highlights the theme or generation) until a click outside or Esc.
-  let pinned=null, focus=null;
+  let pinned=null, focus=null, lens=null;
   const cells=[], hubs=[], handles=[];
+  // Lenses (lenses/*.yaml): `cells` maps each theme to the ring where the lens lands; those cells light up in the lens
+  // colour, every other cell dims, and the panel shows the lens note for a lit cell.
+  const litBy=c=>lens&&lens.cells[c.theme]===c.ring;
   const setFocus=fc=>{ focus=fc;
+    const want=fc&&fc.expand?fc.expand:null; if(want!==expanded){ expanded=want; relayout(); }
     const dim=(x,on)=>{ x.g.classList.toggle('dimmed',on); x.tg.classList.toggle('dimmed',on); };
-    cells.forEach(c=>dim(c, !!fc && (fc.theme?c.theme!==fc.theme:c.ring!==fc.ring)));
-    hubs.forEach(h=>{ h.g.classList.toggle('on', !!fc&&fc.theme===h.id); dim(h, !!fc&&!!fc.theme&&fc.theme!==h.id); });
-    handles.forEach(h=>dim(h, !!fc&&!!fc.ring&&fc.ring!==h.id)); };
+    cells.forEach(c=>dim(c, (!!fc && !!fc.theme && c.theme!==fc.theme) || (!!lens && !litBy(c))));
+    hubs.forEach(h=>{ h.g.classList.toggle('on', !!fc&&fc.theme===h.id); dim(h, !!fc&&!!fc.theme&&fc.theme!==h.id); }); };
   function addPinBar(){
     panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the map or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
     panel.querySelector('.unpin').addEventListener('click',e=>{ e.stopPropagation(); unpin(); });
   }
   function pin(g,show,fc){ if(pinned) pinned.g.classList.remove('pinned'); pinned={g,show}; g.classList.add('pinned'); setFocus(fc||null); show(); addPinBar(); }
   function unpin(){ if(!pinned) return; pinned.g.classList.remove('pinned'); pinned=null; setFocus(null); const b=panel.querySelector('.pinbar'); if(b) b.remove(); reset(); }
-  const reset=()=>{ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; };
+  const reset=()=>{ panel.innerHTML=lens?`<h2 style="color:${lens.color}">${lens.name}</h2><p>${lens.intro}</p>${srcHtml(lens.sources)}`:`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; };
+  const lensBar=document.getElementById('ei-lens');
+  const setLens=id=>{ unpin(); lens=(DATA.lenses||[]).find(l=>l.id===id)||null;
+    cells.forEach(c=>{ const on=litBy(c); c.g.classList.toggle('lit',on); c.g.style.setProperty('--lc',lens?lens.color:''); });
+    if(lensBar) lensBar.querySelectorAll('button[data-lens]').forEach(b=>{ const on=b.dataset.lens===(lens?lens.id:''); b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
+    setFocus(null); reset(); };
+  if(lensBar) lensBar.querySelectorAll('button[data-lens]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); setLens(b.dataset.lens===(lens?lens.id:'')?'':b.dataset.lens); }));
   function bind(g,show,fc){
     const act=()=>{ if(pinned&&pinned.g===g) unpin(); else pin(g,show,fc); };
     g.addEventListener('mouseenter',()=>{ if(!pinned) show(); });
@@ -101,55 +123,76 @@ __STYLE__
     g.addEventListener('click',e=>{ e.stopPropagation(); act(); });
     g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });
   }
-  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel')) unpin(); });
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel, #ei-lens')) unpin(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
 
   // Rings (inner to outer): the label wedge is the generation's handle; every other wedge holds that theme's cell.
+  // Clicking a handle expands that ring (and keeps the hub): the other rings shrink to thin slices that show only each
+  // cell's name. The geometry is recomputed by relayout(); elements are created once and re-placed.
+  let expanded=null;
+  const THIN=L.thin||46, GEO={}; let hubR=L.hub;
+  // expanded: the hub grows too (`hub_big` in layout.yaml, default 1.5 times), so its theme names are readable
+  const computeGeo=()=>{ const outer=rings[rings.length-1].r; hubR=expanded?(L.hub_big||L.hub*1.5):L.hub; let r=hubR;
+    rings.forEach((R,ri)=>{ const base=R.r-(ri?rings[ri-1].r:L.hub);
+      const th=!expanded?base:(R.id===expanded?outer-hubR-THIN*(rings.length-1):THIN); GEO[R.id]={r0:r,r1:r+th,mode:!expanded?'normal':(R.id===expanded?'big':'thin')}; r+=th; }); };
+  const ringCircles={};
+  const placeHandle=h=>{ const R=h.R, {r0,r1,mode}=GEO[R.id], rm=(r0+r1)/2, [s,e,m]=ang(0), [x,y]=pol(rm,m);
+    h.path.setAttribute('d',sector(r0,r1,s,e)); h.tg.replaceChildren();
+    if(mode==='thin'){ putText(h.tg,[R.label],x,y,Math.min(R.fs*0.7,13),{fw:700,cls:'serif'}); }
+    else { const fs=mode==='big'?R.fs*1.25:R.fs; putText(h.tg,[R.label],x,y-fs*0.6,fs,{fw:700,cls:'serif'}); putText(h.tg,fitLines(R.sub,R.sub_lines,rm,fs*0.72),x,y+fs*0.85,fs*0.72,{fill:'#3b3934'}); }
+    ringCircles[R.id].setAttribute('r',r1); };
+  const placeCell=c=>{ const {C,T,R,ti}=c, {r0,r1,mode}=GEO[R.id], rm=(r0+r1)/2, [s,e,m]=ang(ti+1), [x,y]=pol(rm,m), band={m,r0,r1}, aw=fitW(rm,x,band);
+    c.path.setAttribute('d',sector(r0,r1,s,e)); c.tg.replaceChildren();
+    if(mode==='thin'){ // name only, set along the arc so it fits a thin band anywhere on the ring
+      const name=C.name, arc=rm*step*0.9; let tfs=Math.min(13,(r1-r0)*0.5); if(name.length*tfs*0.56>arc) tfs=arc/(name.length*0.56);
+      const deg=m*180/Math.PI, rot=(deg>0&&deg<180)?deg-90:deg+90;
+      c.tg.appendChild(el('text',{x:f(x),y:f(y+tfs*0.35),'text-anchor':'middle','font-size':tfs.toFixed(1),'font-weight':600,fill:INK,transform:`rotate(${rot.toFixed(1)} ${f(x)} ${f(y)})`},name)); return; }
+    let fs=(L.cell_fs||16)*(mode==='big'?1.3:1), sfs=fs*0.82;
+    const lines=fitLines(C.name,C.lines,rm,fs,x,band);
+    const subs=C.sub?fitLines(C.sub,C.sub_lines,rm,sfs,x,band):[];
+    // a single word that cannot wrap (e.g. "Decentralized" on the left of the map) shrinks until it fits its cell
+    const longest=Math.max(...lines.map(l=>l.length*fs*0.56), ...subs.map(l=>l.length*sfs*0.56));
+    if(longest>aw){ const k=aw/longest; fs*=k; sfs*=k; }
+    const h1=lines.length*fs*1.2, h2=subs.length*sfs*1.2, top=y-(h1+h2)/2;
+    putText(c.tg,lines,x,top+h1/2,fs,{fw:C.sub?700:500});
+    if(subs.length) putText(c.tg,subs,x,top+h1+h2/2,sfs,{fill:'#3b3934'}); };
+  const placeHub=h=>{ const [s,e,m]=ang(h.ti), k=hubR/L.hub, fs=(L.hub_fs||14)*Math.min(k,1.6), [x,y]=pol(hubR*0.66,m);
+    h.path.setAttribute('d',wedge(hubR,s,e)); h.tg.replaceChildren();
+    putText(h.tg,h.caption?[h.caption]:fitLines(h.T.hub||h.T.label,h.T.lines,hubR*0.66,fs),x,y,fs,{fw:h.caption?700:600,fill:'#f2efe9'}); };
+  const hubParts=[];
+  const relayout=()=>{ computeGeo(); handles.forEach(placeHandle); cells.forEach(placeCell); hubParts.forEach(placeHub); };
   rings.forEach((R,ri)=>{
-    const r0=ri?rings[ri-1].r:L.hub, r1=R.r, rm=(r0+r1)/2;
-    const [s,e,m]=ang(0);
+    const [s,e]=ang(0);
     const g=el('g',{class:'cell node',tabindex:0,'aria-label':`${R.label}: ${R.sub}`});
-    g.appendChild(el('path',{d:sector(r0,r1,s,e),fill:R.fill,stroke:PAPER,'stroke-width':2}));
-    const [x,y]=pol(rm,m), tg=el('g',{});
-    putText(tg,[R.label],x,y-R.fs*0.6,R.fs,{fw:700,cls:'serif'});
-    putText(tg,fitLines(R.sub,R.sub_lines,rm,R.fs*0.72),x,y+R.fs*0.85,R.fs*0.72,{fill:'#3b3934'});
-    gShapes.appendChild(g); gText.appendChild(tg); handles.push({id:R.id,g,tg});
-    bind(g,()=>{ panel.innerHTML=`<div class="path">Generation ${ri+1} of ${rings.length}</div><h2>${R.label}: ${R.sub}</h2><p>${R.desc}</p>${srcHtml(R.sources)}<p class="hint">Click to highlight this generation across every theme; click again or press Esc to release.</p>`; },{ring:R.id});
-    gLines.appendChild(el('circle',{cx,cy,r:r1,fill:'none',stroke:R.stroke,'stroke-width':1.5,'stroke-opacity':.55}));
+    const path=el('path',{fill:R.fill,stroke:PAPER,'stroke-width':2}); g.appendChild(path);
+    const tg=el('g',{});
+    gShapes.appendChild(g); gText.appendChild(tg); handles.push({id:R.id,R,g,tg,path});
+    bind(g,()=>{ panel.innerHTML=`<div class="path">Generation ${ri+1} of ${rings.length}</div><h2>${R.label}: ${R.sub}</h2><p>${R.desc}</p>${srcHtml(R.sources)}<p class="hint">Click to enlarge this generation; click again or press Esc to restore.</p>`; },{expand:R.id});
+    ringCircles[R.id]=el('circle',{cx,cy,r:R.r,fill:'none',stroke:R.stroke,'stroke-width':1.5,'stroke-opacity':.55}); gLines.appendChild(ringCircles[R.id]);
   });
   themes.forEach((T,ti)=>{
-    const [s,e,m]=ang(ti+1);
     rings.forEach((R,ri)=>{
-      const C=T.cells[R.id], r0=ri?rings[ri-1].r:L.hub, r1=R.r, rm=(r0+r1)/2;
+      const C=T.cells[R.id];
       const g=el('g',{class:'cell node',tabindex:0,'aria-label':`${T.label}, ${R.label}: ${C.name}${C.sub?' ('+C.sub+')':''}`});
-      g.appendChild(el('path',{d:sector(r0,r1,s,e),fill:R.fill,stroke:PAPER,'stroke-width':2}));
-      // name in medium weight (bold when the cell has a `sub`), optional `sub` smaller beneath; the block is centered on the cell
-      const [x,y]=pol(rm,m), band={m,r0,r1}, tg=el('g',{}), aw=fitW(rm,x,band);
-      let fs=L.cell_fs||16, sfs=fs*0.82;
-      const lines=fitLines(C.name,C.lines,rm,fs,x,band), subs=C.sub?fitLines(C.sub,C.sub_lines,rm,sfs,x,band):[];
-      // a single word that cannot wrap (e.g. "Decentralized" on the left of the map) shrinks until it fits its cell
-      const longest=Math.max(...lines.map(l=>l.length*fs*0.56), ...subs.map(l=>l.length*sfs*0.56));
-      if(longest>aw){ const k=aw/longest; fs*=k; sfs*=k; }
-      const h1=lines.length*fs*1.2, h2=subs.length*sfs*1.2, top=y-(h1+h2)/2;
-      putText(tg,lines,x,top+h1/2,fs,{fw:C.sub?700:500});
-      if(subs.length) putText(tg,subs,x,top+h1+h2/2,sfs,{fill:'#3b3934'});
-      gShapes.appendChild(g); gText.appendChild(tg); cells.push({theme:T.id,ring:R.id,g,tg});
-      bind(g,()=>{ panel.innerHTML=`<div class="path">${T.label} · ${R.label}</div><h2>${C.name}${C.sub?': '+C.sub:''}</h2><p>${C.desc}</p>${srcHtml(C.sources)}`; });
+      const path=el('path',{fill:R.fill,stroke:PAPER,'stroke-width':2}); g.appendChild(path);
+      const tg=el('g',{});
+      gShapes.appendChild(g); gText.appendChild(tg); cells.push({theme:T.id,ring:R.id,g,tg,path,C,T,R,ti});
+      bind(g,()=>{ const note=lens&&litBy({theme:T.id,ring:R.id})&&lens.notes&&lens.notes[T.id];
+        panel.innerHTML=`<div class="path">${T.label} · ${R.label}</div><h2>${C.name}${C.sub?': '+C.sub:''}</h2><p>${C.desc}</p>${srcHtml(C.sources)}`
+          +(note?`<div class="scope" style="--c:${lens.color}"><b>${lens.name}:</b> ${note}</div>`:''); });
     });
   });
   // Hub: ink disc with one wedge per theme (click to follow the theme across all rings) and the caption in the label wedge.
   themes.forEach((T,ti)=>{
-    const [s,e,m]=ang(ti+1), g=el('g',{class:'hub node',tabindex:0,'aria-label':`Theme: ${T.label}`});
-    g.appendChild(el('path',{d:wedge(L.hub,s,e),fill:INK,stroke:PAPER,'stroke-width':1.5}));
-    const [x,y]=pol(L.hub*0.66,m), fs=L.hub_fs||14, tg=el('g',{class:'hub'});
-    putText(tg,fitLines(T.label,T.lines,L.hub*0.66,fs),x,y,fs,{fw:600,fill:'#f2efe9'});
-    gShapes.appendChild(g); gText.appendChild(tg); hubs.push({id:T.id,g,tg});
+    const g=el('g',{class:'hub node',tabindex:0,'aria-label':`Theme: ${T.label}`});
+    const path=el('path',{fill:INK,stroke:PAPER,'stroke-width':1.5}); g.appendChild(path);
+    const tg=el('g',{class:'hub'}); // `hub` on a theme is a short name for the hub wedge
+    gShapes.appendChild(g); gText.appendChild(tg); hubs.push({id:T.id,g,tg}); hubParts.push({ti:ti+1,T,path,tg});
     bind(g,()=>{ panel.innerHTML=`<div class="path">Theme</div><h2>${T.label}</h2><p>${T.desc}</p><p class="hint">Click to follow this theme across the ${rings.length} generations; click again or press Esc to release.</p>`; },{theme:T.id});
   });
-  { const [s,e,m]=ang(0), g=el('g',{});
-    g.appendChild(el('path',{d:wedge(L.hub,s,e),fill:INK,stroke:PAPER,'stroke-width':1.5}));
-    const [x,y]=pol(L.hub*0.66,m), tg=el('g',{class:'hub'}); putText(tg,[L.hub_label||'Theme'],x,y,L.hub_fs||14,{fw:700,fill:'#f2efe9'});
-    gShapes.appendChild(g); gText.appendChild(tg); }
+  { const g=el('g',{}), path=el('path',{fill:INK,stroke:PAPER,'stroke-width':1.5}); g.appendChild(path);
+    const tg=el('g',{class:'hub'}); gShapes.appendChild(g); gText.appendChild(tg); hubParts.push({ti:0,caption:L.hub_label||'Theme',path,tg}); }
+  relayout();
 })();
 </script>
 </body>

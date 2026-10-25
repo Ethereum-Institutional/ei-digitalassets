@@ -4,8 +4,8 @@ This repository generates Ethereum Institutional's interactive, sourced maps beh
 map (a radial map: three generations of the web as rings, cut into theme wedges), the **Digital Asset Taxonomy** (a
 Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
-their institutional participants and **architecture lenses**), plus Decentralization, Privacy and Identity pages
-stubbed as work in progress. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
+their institutional participants and **architecture lenses**), plus a **Decentralization** page (ten gauges, levels 1 to 5, with lenses) and Privacy and Identity pages
+stubbed as work in progress, with a **Scenarios** page (market activities) stubbed the same way. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
 Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
 and decisions behind them.
@@ -22,8 +22,8 @@ and decisions behind them.
 ## How the build works
 
 - `data/taxonomy/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
-  folders (`data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) and `data/web3/*.yaml` (Web3
-  map, `kind: radial`: `rings.yaml`, `themes.yaml`, `layout.yaml`) are the only places content lives;
+  folders (`data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) and `data/web3/*.yaml` and `data/decentralization/*.yaml` (radial
+  maps, `kind: radial`: `rings.yaml`, `themes.yaml`, `layout.yaml`, optional `lenses/`) are the only places content lives;
   `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html` holds the
   Venn map page's styling and rendering code only; `src/radial.html` renders radial pages and `src/static.html` the
   landing page and stubs, both with the same styles. Per-page settings (`lens_groups`, `badge`, `legend`, `panel_default`, `intro_more`) live in each
@@ -79,6 +79,12 @@ and decisions behind them.
   Instruments (Equities, Funds, Fixed Income, Derivatives, with hybrid overlaps for structured notes and
   trackers/warrants). Funds do not overlap Derivatives. Loans packaged into bonds (e.g. MBS) move to Fixed Income.
   Settlement/collateral tokens are treated as part of the asset they carry; there is no separate settlement-token circle.
+- **Tokenized money market funds** stay in Funds (sourced to the Taurus design paper, September 2026, and the ECB
+  Macroprudential Bulletin, April 2026): even a constant-price fund is a share with a dealing cut-off; income arrives
+  as more units (BUIDL, BENJI) or a rising price (Spiko, uMINT, USYC). Ondo USDY is a note from a bankruptcy-remote
+  vehicle, not a fund: if ever named it goes in Fixed Income. The RWA definition states the three **register models**
+  (ledger as statutory register: Spiko; part of the official record: BENJI; secondary record with clawback:
+  WisdomTree) because "represented on DLT" spans all three.
 - Keep the map lean: prefer explaining in definitions and lens notes over adding circles.
 - **Writing style:** American (US) spelling everywhere (tokenized, recognized, decentralized, color, license, center);
   quoted source titles keep the spelling of the document they name. No em-dashes anywhere (content, notes, docs, UI text, commit messages); use commas, colons,
@@ -147,8 +153,9 @@ and decisions behind them.
   Credentials and Allowlist) and
   Content creation (Platform curated; User curated; Ownership retained). Every cell is one illustrative, sourced
   example, not a list. No ETH disc or ink badge on this page: that marking belongs to the networks map. The hub names
-  the themes: clicking one highlights its wedge across the rings, clicking a ring's name highlights the ring; there
-  is no lens dropdown on this page. Yahoo! Directory, not Wikipedia, is the Web 1.0 implementation: Wikipedia is
+  the themes: clicking one highlights its wedge across the rings; clicking a ring's name enlarges that ring and the
+  hub (the other rings shrink to thin slices showing each cell's name along the arc); Esc or a click outside
+  restores it. There is no lens dropdown on this page. Yahoo! Directory, not Wikipedia, is the Web 1.0 implementation: Wikipedia is
   written by its users and is O'Reilly's own example of the Web 1.0 to Web 2.0 shift (Britannica Online to Wikipedia).
   The Implementation row names products, not networks (Yahoo!, Twitter, USDC), so Ethereum mainnet is not a cell:
   USDC was chosen over the larger USDT because it is mostly on Ethereum mainnet and recognized by more regimes.
@@ -160,6 +167,44 @@ and decisions behind them.
 - The house narrative: in every generation open-source technology plus a common standard built the new paradigm
   (Apache and HTML over TCP/IP; Ajax and jQuery with SAML 2.0 and OAuth; the EVM and Solidity with ERC-20 and
   ERC-721), and identity moved from one provider's directory (LDAP) to federated providers to self-custodied keys.
+
+## Decentralization page (`data/decentralization/`)
+
+- A gauges page (`kind: gauges`, rendered by `src/gauges.html` from the same files as a radial page: `rings.yaml` =
+  the five levels, `themes.yaml` = the ten properties with a cell per level, `lenses/`): eleven dials, one per property
+  (operating history, developer base, who can stop it, security you can price, who can change the rules, property
+  rights at the base layer, verifiable by anyone, open entry and exit, no single point of technical failure, neutral
+  issuance, neutral inclusion), each on a scale of 1 (one party holds the property) to 5 (an open network holds it), the property named
+  beneath. Each cell says what that level means; thresholds cite their standard (the 2023 US Merger Guidelines' HHI
+  lines for share-based properties, ethereum.org's one-third and two-thirds client lines, Budish for cost of attack,
+  securities-law disclosure thresholds for the founding share). The purpose is to show what a global shared ledger
+  gives an institution that no single-party ledger can, and where Ethereum mainnet lands; it never names a competitor.
+- **Gauge colours** are the one semantic scale on the site: 1 red `#991b1b`, 2 orange `#ea580c`, 3 yellow `#d9a406`,
+  4 yellow-green `#65a30d`, 5 green `#166534` (`scale:` in `site.yaml` may override). The numeral on every segment and
+  in the dial's centre carries the value, because the yellow and yellow-green steps are close for red-green
+  colour-blind readers; never use these hues elsewhere.
+- **Lenses** (`lenses/*.yaml`, `cells` maps each property to a level, `notes` carries the reading, date and source):
+  *Ethereum mainnet* first and default (`default_lens`), with measured readings and a short hard-number `readings`
+  line under each dial, then two generic architectures, *A typical consortium ledger* (levels 2 and 3) and *A
+  private chain, one operator* (level 1 everywhere). A lens sets every needle; the panel shows the property, its
+  five levels and the lens note for the current level. Keep the architectures generic;
+  product names belong on the networks map.
+- **Measurement choices (house):** share-based properties are scored on the HHI (counts the whole distribution; a
+  long tail of small operators counts) with the Nakamoto coefficient shown beside it, not scored, because it is
+  tail-insensitive (Ovezik et al. 2025); the cost-of-control reading is the value of stake to the safety threshold
+  and whether it is slashable; client share is read from the community's own series (clientdiversity.org, the
+  ethereum.org snapshot) with the basis stated; years of operation count from genesis (30 July 2015) and the 2016
+  DAO fork is always disclosed. These readings are a public, simplified cousin of the registered scorecard in the
+  eiplatform repository; keep the two consistent and do not publish the registered method's text here.
+- **"What an open ledger attracts"** (`stats:` in `site.yaml`): four figures for Ethereum mainnet (holders of
+  tokenized dollars, tokenized real-world asset value, tokenized currency in circulation, active developers), each
+  dated and sourced; say when a figure includes Layer 2s. **Weighted score** (`score:` in `site.yaml`, `weight` per
+  theme, default weights summing to 100): one number from the ten dials, with sliders so a reader can set their own
+  weights (kept in their browser only). The legitimate concerns about Ethereum mainnet (builder concentration and FOCIL / ePBS; clients above a
+  third; node concentration by provider and jurisdiction; unattributed stake and the undisclosed 2014 pool) live
+  inside the notes of the dials they belong to (inclusion, resilience, stop, issuance), each with the work addressing
+  it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",
+  "your risk committee"), not about "an institution".
 
 ## EI house views (flag any change to these in the pull request)
 
@@ -187,4 +232,7 @@ and decisions behind them.
 ## Planned / open
 
 - Possible "token properties" control (yield-bearing, synthetic, fungible / NFT / wrapped / soulbound).
-- Market activities (DvP, repo, collateral mobility) as separate diagrams rather than on this map.
+- **Scenarios** page (stubbed, `data/scenarios`): market activities (payments, DvP, repo and reverse repo, treasury
+  management, collateral mobility and margin, fund dealing) as a separate map rather than on the taxonomy. The Taurus
+  TMMF paper's Section 7.4 (lending venues versus derivatives margin; Eurex DLT collateral June 2025; no CCP yet) is
+  source material for the collateral scenarios.

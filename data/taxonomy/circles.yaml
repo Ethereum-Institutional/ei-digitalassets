@@ -294,7 +294,20 @@ circles:
   - Tokenized Real-World Assets
   family: rwa
   path: Digital Assets
-  desc: Tokens that represent ownership of, or a claim on, an off-chain asset. Value comes from the underlying asset; legal enforceability depends on the issuer, custodian and structure. Many RWA tokens are issued through a special-purpose vehicle (SPV) that holds the asset, in which case the token is usually a security (a share or note in the SPV), even when the underlying is real estate, art or a loan book.
+  desc: 'Tokens that represent ownership of, or a claim on, an off-chain asset. Value comes from the underlying asset; legal enforceability depends on the issuer, custodian and structure. Many RWA tokens are issued through a special-purpose vehicle (SPV) that holds the asset, in which case the token is usually a security (a share or note in the SPV), even when the underlying is real estate, art or a loan book. What the token is, legally, also depends on where title sits, and production answers it three ways: the ledger is the statutory register (Spiko’s funds under French law, where shares are registered by distributed ledger), the ledger is part of the official record under a transfer agent’s control (Franklin Templeton’s BENJI), or the ledger is a secondary record reconciled against the transfer agent’s books, with a clawback to correct it (WisdomTree). Only in the first is the token the asset itself; in the third it is a representation.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Franklin Templeton, Digital assets technology (the transfer agent maintains the official record via a blockchain-integrated system)'
+    url: https://www.franklintempleton.com/about-us/digital-assets/digital-assets-technology
+    checked: '2026-10-25'
+  - title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)'
+    url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement
+    checked: '2026-10-25'
+  - title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
+    url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
+    checked: '2026-10-25'
 - id: com
   label:
   - Commodities
@@ -371,7 +384,14 @@ circles:
   family: sec
   path: Real-World Assets › Financial Instruments
   sub: incl. TMMFs
-  desc: Tokenized fund units, e.g. money market funds (BlackRock BUIDL, Franklin BENJI), private equity and credit funds. Tokenized MMFs increasingly act as collateral and a cash substitute. Funds that use derivatives (leveraged or inverse ETFs) are still funds, so this circle does not overlap Derivatives.
+  desc: 'Tokenized fund units: money market funds (BlackRock BUIDL, Franklin Templeton BENJI, Circle USYC, Spiko, UBS uMINT), private equity and credit funds. Tokenized money market funds (TMMFs) are the largest and fastest-growing tokenized real-world asset, about USD 15 billion across 76 products in May 2026, and are used as collateral and as a cash substitute; they are still fund shares, not money. The token expresses the fund’s own valuation convention: a constant-price fund (CNAV, or LVNAV in the EU) delivers income as more units at par, minted monthly (BUIDL) or daily (BENJI), while a variable-price fund (VNAV, the European norm) delivers it as a rising price struck once a day by the administrator (Spiko, uMINT, USYC). Either way the holder owns a share with a dealing cut-off and forward pricing; round-the-clock liquidity comes from a liquidity provider, a dealing queue or a trading venue, not from the token. Funds that use derivatives (leveraged or inverse ETFs) are still funds, so this circle does not overlap Derivatives.'
+  sources:
+  - title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
+    url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
+    checked: '2026-10-25'
+  - title: 'ECB, Macroprudential Bulletin 33, Tokenised money market funds: new technology, familiar risks? (April 2026)'
+    url: https://www.ecb.europa.eu/press/financial-stability-publications/macroprudential-bulletin/html/ecb.mpbu202604_04.en.html
+    checked: '2026-10-25'
 - id: fi
   label:
   - Fixed

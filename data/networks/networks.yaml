@@ -369,8 +369,11 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Circle issues USDC and EURC natively on Ethereum mainnet, its original and largest deployment.'
+  desc: 'Circle issues USDC and EURC natively on Ethereum mainnet, its original and largest deployment, and USYC, the tokenized Hashnote money market fund it acquired in January 2025, with subscriptions and redemptions against USDC through a teller contract around the clock.'
   sources:
+  - title: 'Circle, USYC now available on Solana (1 October 2025: Base, Canton, Ethereum, NEAR, Solana; BNB Chain planned)'
+    url: https://www.circle.com/blog/usyc-now-available-on-solana
+    checked: '2026-10-25'
   - title: 'Circle, multi-chain USDC (38 natively supported networks)'
     url: https://www.circle.com/multi-chain-usdc
     checked: '2026-10-25'
@@ -503,10 +506,26 @@ networks:
   - title: 'Société Générale-FORGE, CoinVertible product page'
     url: https://www.sgforge.com/product/coinvertible/
     checked: '2026-10-25'
+- id: spiko_eth
+  name: Spiko
+  circle: ethereum
+  x: 1130
+  y: 664
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, with Ethereum mainnet named first in the prospectus; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
 - id: scb_eth
   name: Standard Chartered
   circle: ethereum
-  x: 1130
+  x: 1208
   y: 664
   eth: true
   kind: participant
@@ -522,7 +541,7 @@ networks:
 - id: stripe_eth
   name: Stripe
   circle: ethereum
-  x: 1210
+  x: 1288
   y: 664
   eth: true
   kind: participant
@@ -535,7 +554,7 @@ networks:
 - id: tether_eth
   name: Tether
   circle: ethereum
-  x: 1260
+  x: 1338
   y: 664
   eth: true
   kind: participant
@@ -551,7 +570,7 @@ networks:
 - id: ubs_eth
   name: UBS Asset Management
   circle: ethereum
-  x: 1345
+  x: 1423
   y: 664
   eth: true
   kind: participant
@@ -564,8 +583,8 @@ networks:
 - id: visa_eth
   name: Visa
   circle: ethereum
-  x: 1425
-  y: 664
+  x: 1260
+  y: 688
   eth: true
   kind: participant
   small: true
@@ -580,8 +599,8 @@ networks:
 - id: wisdomtree_eth
   name: WisdomTree
   circle: ethereum
-  x: 1480
-  y: 664
+  x: 1315
+  y: 688
   eth: true
   kind: participant
   small: true
@@ -635,7 +654,7 @@ networks:
 - id: jpm_base
   name: J.P. Morgan
   circle: base
-  x: 920
+  x: 897
   y: 881
   eth: true
   kind: participant
@@ -645,10 +664,26 @@ networks:
   - title: 'J.P. Morgan, Kinexys USD deposit tokens on Base'
     url: https://www.jpmorgan.com/payments/newsroom/kinexys-usd-digital-deposit-tokens
     checked: '2026-10-25'
+- id: spiko_base
+  name: Spiko
+  circle: base
+  x: 957
+  y: 881
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Base among them; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
 - id: stripe_base
   name: Stripe
   circle: base
-  x: 982
+  x: 1005
   y: 881
   eth: true
   kind: participant
@@ -661,7 +696,7 @@ networks:
 - id: wisdomtree_base
   name: WisdomTree
   circle: base
-  x: 1042
+  x: 1065
   y: 881
   eth: true
   kind: participant
@@ -726,7 +761,7 @@ networks:
 - id: paypal_arb
   name: PayPal
   circle: arbitrum
-  x: 920
+  x: 897
   y: 921
   eth: true
   kind: participant
@@ -736,10 +771,26 @@ networks:
   - title: 'PayPal, PYUSD expands to Arbitrum (17 July 2025)'
     url: https://newsroom.paypal-corp.com/2025-07-17-PayPal-USD-Expands-to-Arbitrum-Bringing-Layer-2-Efficiency-to-Multi-Chain-Development-Stack
     checked: '2026-10-25'
+- id: spiko_arb
+  name: Spiko
+  circle: arbitrum
+  x: 944
+  y: 921
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Arbitrum One among them; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
 - id: tether_arb
   name: Tether
   circle: arbitrum
-  x: 970
+  x: 992
   y: 921
   eth: true
   kind: participant
@@ -752,7 +803,7 @@ networks:
 - id: wisdomtree_arb
   name: WisdomTree
   circle: arbitrum
-  x: 1030
+  x: 1052
   y: 921
   eth: true
   kind: participant
@@ -869,7 +920,7 @@ networks:
 - id: hamilton_pol
   name: Hamilton Lane
   circle: polygon
-  x: 1245
+  x: 1222
   y: 491
   eth: true
   kind: participant
@@ -879,10 +930,26 @@ networks:
   - title: 'Hamilton Lane, SCOPE available via Securitize'
     url: https://www.hamiltonlane.com/en-us/news/scope-available-via-securitize
     checked: '2026-10-25'
+- id: spiko_pol
+  name: Spiko
+  circle: polygon
+  x: 1288
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Polygon PoS among them; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
 - id: stripe_pol
   name: Stripe
   circle: polygon
-  x: 1312
+  x: 1335
   y: 491
   eth: true
   kind: participant
@@ -895,7 +962,7 @@ networks:
 - id: tether_pol
   name: Tether
   circle: polygon
-  x: 1362
+  x: 1385
   y: 491
   eth: true
   kind: participant
@@ -1080,7 +1147,7 @@ networks:
 - id: blackrock_bnb
   name: BlackRock
   circle: bnb
-  x: 1215
+  x: 1190
   y: 462
   eth: true
   kind: participant
@@ -1090,10 +1157,26 @@ networks:
   - title: 'BNB Chain, BUIDL launches on BNB Chain (14 November 2025)'
     url: https://www.bnbchain.org/en/blog/blackrocks-buidl-fund-launches-bnb-chain-tokenized-by-securitize-and-accepted-as-collateral-on-binance
     checked: '2026-10-25'
+- id: circle_bnb
+  name: Circle
+  circle: bnb
+  x: 1247
+  y: 462
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle’s USYC, the tokenized Hashnote money market fund for non-US institutions, is issued natively on BNB Chain and accepted as off-exchange collateral at Binance. Circle does not list BNB Smart Chain for native USDC.'
+  sources:
+  - title: 'Circle, USYC supported as off-exchange collateral for Binance institutional clients and to be issued natively on BNB Chain (24 July 2025)'
+    url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients
+    checked: '2026-10-25'
+  - title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
+    url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
+    checked: '2026-10-25'
 - id: franklin_bnb
   name: Franklin Templeton
   circle: bnb
-  x: 1302
+  x: 1327
   y: 462
   eth: true
   kind: participant
@@ -1106,7 +1189,7 @@ networks:
 - id: tether_bnb
   name: Tether
   circle: bnb
-  x: 1382
+  x: 1407
   y: 462
   eth: true
   kind: participant

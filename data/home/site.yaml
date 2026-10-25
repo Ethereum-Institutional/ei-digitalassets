@@ -14,14 +14,17 @@ cards:
   title: Web3
   text: 'Three generations of the web as rings: Web 1.0 let anyone read, Web 2.0 let anyone write, Web3 lets anyone own. Follow a theme (technology, language, identity, content and more) across all three.'
 - path: taxonomy
-  title: Digital Asset Taxonomy
+  title: Taxonomy
   text: 'How digital money, tokenized real-world assets and other crypto-assets relate, with regulatory lenses showing where each regime’s definition reaches.'
 - path: networks
-  title: Digital Asset Networks
+  title: Networks
   text: 'How the networks that carry digital assets differ: permissioned or permissionless consensus, and who may run a node (private, consortium or public), with the institutions live on each.'
 - path: decentralization
   title: Decentralization
-  text: 'How decentralization is measured and where networks and deployments sit on it: validators, clients, governance, infrastructure and the people behind them.'
+  text: 'What a global shared ledger gives an institution that no ledger run by one party can: ten measured properties at five levels, with a ledger run by one operator, a consortium ledger and Ethereum mainnet placed on the map.'
+- path: scenarios
+  title: Scenarios
+  text: 'What institutions do with digital assets: payments, delivery versus payment, repo, treasury management and collateral, each showing which leg moves on the ledger and what settles atomically.'
 - path: privacy
   title: Privacy
   text: 'How confidentiality is achieved on shared ledgers, from permissioned visibility to zero-knowledge proofs, and what each approach gives up.'

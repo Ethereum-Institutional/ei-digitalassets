@@ -1,0 +1,18 @@
+# Scenarios map: work in progress. Rendered from src/static.html until the diagram data exists.
+
+kind: static
+title: Scenarios
+slug: scenarios
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Scenarios
+  italic: Scenarios
+intro: 'What institutions actually do with digital assets, as market activities rather than asset types: payments, delivery versus payment, repo and reverse repo, treasury management, collateral mobility and margin, fund subscription and redemption, and more. Each scenario will show which leg moves on the ledger (cash, the asset, or both), what settles atomically and what still needs a balance sheet, and the live deployments that prove it.'
+notice:
+  title: Work in progress.
+  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this map.
+  text: It will be built in the open on GitHub like the others. Open an issue to suggest a scenario, a source or a deployment to include.
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

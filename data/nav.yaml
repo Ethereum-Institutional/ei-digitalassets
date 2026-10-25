@@ -6,12 +6,14 @@ pages:
   path: ''
 - label: Web3
   path: web3
-- label: Digital Asset Taxonomy
+- label: Taxonomy
   path: taxonomy
-- label: Digital Asset Networks
+- label: Networks
   path: networks
 - label: Decentralization
   path: decentralization
+- label: Scenarios
+  path: scenarios
   wip: true
 - label: Privacy
   path: privacy
