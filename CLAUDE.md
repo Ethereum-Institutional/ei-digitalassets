@@ -4,8 +4,9 @@ This repository generates Ethereum Institutional's interactive, sourced maps beh
 map (a radial map: three generations of the web as rings, cut into theme wedges), the **Digital Asset Taxonomy** (a
 Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
-their institutional participants and **architecture lenses**), plus a **Decentralization** page (ten gauges, levels 1 to 5, with lenses) and Privacy and Identity pages
-stubbed as work in progress, with a **Scenarios** index (one written scenario, the rest planned). Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
+their institutional participants and **architecture lenses**), plus a **Decentralization** page (eleven gauges, levels 1 to 5, with lenses), with Privacy, Identity and **Quantum**
+pages stubbed as work in progress (Quantum carries drafted sections: Shor and Grover, where they bite a ledger, the
+Ethereum roadmap now and next), with a **Scenarios** index (one written scenario, the rest planned). Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
 Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
 and decisions behind them.
@@ -205,6 +206,17 @@ and decisions behind them.
   inside the notes of the dials they belong to (inclusion, resilience, stop, issuance), each with the work addressing
   it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",
   "your risk committee"), not about "an institution".
+
+## Quantum page (`data/quantum/`, stub with drafted sections)
+
+- A static stub whose `sections:` hold first drafts: the two algorithms (Shor breaks elliptic-curve signatures and
+  pairings; Grover only halves hash security, so hashes are weakened, not broken), where it bites a ledger (exposed
+  account keys after a first spend; validator BLS keys; KZG commitments and pairing-based SNARKs; what is not at risk
+  on a public ledger), and the Ethereum roadmap (now: hashes, STARK rollups, account abstraction via ERC-4337 and
+  EIP-7702 lets an account run a post-quantum scheme today; next: EIP-8141 signature agility, EIP-7932, EIP-7864
+  binary tree, Lean Ethereum with leanXMSS and leanVM aggregation, core infrastructure targeted for about 2029).
+  Source of record is ethereum.org's quantum-resistance page (dated on the page); say dates are community targets.
+  Landing-page tiles carry an `icon` from the pictogram library and a one-line tagline; the link text is "Open".
 
 ## EI house views (flag any change to these in the pull request)
 

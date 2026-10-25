@@ -18,6 +18,7 @@ const PAGES = [
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
+  { dir: 'data/quantum', out: 'quantum' },                   // work in progress (static stub with planned sections)
 ];
 const NAV = parse(read('data/nav.yaml')).pages; // shared navigation; links are made relative per page
 
@@ -84,8 +85,12 @@ function validateStatic({ dir, site }) {
   for (const c of site.cards || []) {
     if (!NAV.some(n => n.path === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not in data/nav.yaml`);
     if (!c.title || !c.text) errors.push(`${where('site.yaml')}: every card needs a title and text`);
+    if (c.icon && !GLYPHS[c.icon]) errors.push(`${where('site.yaml')}: card "${c.title}" names unknown icon "${c.icon}"`);
   }
   if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
+  for (const sec of site.sections || []) { if (!sec.title) errors.push(`${where('site.yaml')}: every section needs a title`);
+    for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where('site.yaml')}: section "${sec.title}" items need title and text`);
+      for (const x of it.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where('site.yaml')}: source on "${it.title}" needs a title and a URL`); } }
   return errors;
 }
 const LEGEND_KINDS = ['pill', 'mark', 'rings', 'expand'];
@@ -170,6 +175,15 @@ const GLYPHS = {
   lending: () => PART.disc(22, 28, 14, true) + PART.arrow(40, 22, 70, 22) + PART.arrow(70, 34, 40, 34, true) + `<rect x="74" y="16" width="18" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
   subscribe: () => PART.disc(20, 28, 13) + PART.arrow(36, 28, 52, 28) + `<rect x="56" y="12" width="34" height="32" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M63 20H83M63 28H83M63 36H77" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   corporate: () => `<rect x="30" y="8" width="36" height="22" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M38 15H58M38 22H52" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>` + PART.arrow(40, 32, 26, 46) + PART.arrow(48, 32, 48, 46) + PART.arrow(56, 32, 70, 46),
+  // landing-page tiles
+  web3: () => `<circle cx="48" cy="30" r="24" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="33" r="16" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="36" r="8" fill="#14130f"/>`,
+  taxonomy: () => `<circle cx="36" cy="24" r="16" fill="#f8f6f2" fill-opacity=".7" stroke="#14130f" stroke-width="2"/><circle cx="60" cy="24" r="16" fill="#f8f6f2" fill-opacity=".7" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="38" r="16" fill="#f8f6f2" fill-opacity=".7" stroke="#14130f" stroke-width="2"/>`,
+  networks: () => `<path d="M24 40L48 14L72 40M24 40H72M48 14V40" stroke="#14130f" stroke-width="2" fill="none"/><circle cx="24" cy="40" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="72" cy="40" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="14" r="7" fill="#14130f"/><circle cx="48" cy="40" r="7" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
+  decentralization: () => `<path d="M18 44A30 30 0 0 1 78 44" fill="none" stroke="#14130f" stroke-width="6" stroke-linecap="round"/><path d="M48 44L66 22" stroke="#14130f" stroke-width="3" stroke-linecap="round"/><circle cx="48" cy="44" r="5" fill="#14130f"/>`,
+  scenarios: () => PART.disc(20, 28, 12) + PART.arrow(34, 28, 50, 28) + PART.disc(64, 28, 12, true) + `<path d="M12 46H88" stroke="#14130f" stroke-width="2" stroke-dasharray="4 4"/>`,
+  privacy: () => `<path d="M48 6L70 14V28C70 40 60 48 48 52C36 48 26 40 26 28V14Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/><path d="M36 29C40 23 56 23 60 29C56 35 40 35 36 29Z" fill="none" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="29" r="3" fill="#14130f"/><path d="M38 38L58 20" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  identity: () => `<rect x="18" y="12" width="60" height="34" rx="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="34" cy="26" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M26 40C28 34 40 34 42 40" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M50 22H70M50 30H70M50 38H62" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  quantum: () => `<ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(60 48 28)"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(-60 48 28)"/><circle cx="48" cy="28" r="5" fill="#14130f"/>`,
   agent: () => `<rect x="10" y="14" width="26" height="24" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="19" cy="25" r="2.5" fill="#14130f"/><circle cx="27" cy="25" r="2.5" fill="#14130f"/><path d="M23 14V8" stroke="#14130f" stroke-width="2"/>` + PART.arrow(40, 28, 58, 28) + PART.disc(74, 28, 13),
 };
 const iconSvg = (id, cls) => GLYPHS[id] ? `<svg class="${cls || 'ei-icon'}" viewBox="0 0 96 56" aria-hidden="true">${ICON_DEFS}${GLYPHS[id]()}</svg>` : '';
@@ -336,7 +350,7 @@ function renderIndex({ site, out }) {
   const pillW = t => Math.round(t.length * 6.2) + 18;
   const venn = circles.length ? `<div class="ei-wrap venn"><svg viewBox="0 0 ${M.width || 700} ${M.height || 520}" role="img" aria-label="${esc(M.label || 'Map of scenarios by what moves')}">`
     + circles.map(c => `<circle cx="${c.cx}" cy="${c.cy}" r="${c.r}" fill="${esc(c.fill)}" fill-opacity=".55" stroke="${esc(c.stroke)}" stroke-width="2"/>`).join('')
-    + circles.map(c => `<text x="${c.lx}" y="${c.ly}" text-anchor="middle" class="serif" font-size="22" font-weight="700" fill="#14130f">${esc(c.label)}</text>`).join('')
+    + circles.map(c => `<text x="${c.lx}" y="${c.ly}" text-anchor="middle" class="serif" font-size="20" font-weight="700" fill="#14130f">${esc(c.label)}</text>`).join('')
     + (site.scenarios || []).filter(sc => sc.map).map(sc => { const w = pillW(sc.short || sc.title), live = !!sc.path, x = sc.map.x - w / 2;
         const pill = `<g class="pill${live ? ' live' : ''}"><title>${esc(sc.title)}${live ? '' : ' (in progress)'}</title><rect x="${x}" y="${sc.map.y - 11}" width="${w}" height="22" rx="11" fill="${live ? '#14130f' : '#b8b3a8'}" stroke="#f8f6f2" stroke-width="1.5"/><text x="${sc.map.x}" y="${sc.map.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="#f2efe9">${esc(sc.short || sc.title)}</text></g>`;
         return live ? `<a href="${relHref(out, sc.path)}" aria-label="${esc(sc.title)}">${pill}</a>` : pill; }).join('')
@@ -384,26 +398,31 @@ function renderIndex({ site, out }) {
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
     .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
+const srcHtmlC = src => !(src || []).length ? '' : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
+const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
+  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + srcHtmlC(it.sources)).join('') + '</div>').join('')}</div>` : '';
 function renderScenario({ site, sc, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const lead = (sc.sections || []).filter(x => x.lead), rest = (sc.sections || []).filter(x => !x.lead);
   const data = { actors: sc.actors, steps: sc.steps, kind: 'scenario', version,
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a step in the diagram to read what happens; click to pin it.' } };
   const tags = (sc.tags || []).length ? `<div class="ei-tags">${sc.tags.map(t => `<span class="${t.kind === 'move' ? 'm' : ''}">${esc(t.label)}</span>`).join('')}</div>` : '';
   const actorsHtml = `<div class="ei-actors">${sc.actors.map(a => `<div class="ei-actor"><h3><i class="${esc(a.kind || 'institution')}"></i>${esc(a.name)}</h3><p>${esc(a.role)}</p></div>`).join('')}</div>`;
-  const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtml(t.sources)}</div>`).join('')}</div>`;
+  const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtmlC(t.sources)}</div>`).join('')}</div>`;
   const stdHtml = `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`;
   return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
     .replace('__ICON__', iconSvg(sc.icon, 'ei-icon hero')).replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml).replace('__STANDARDS_HELP__', esc(sc.standards_help || ''))
     .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all.'))
-    .replace('__SECTIONS__', sectionsHtml({ sections: sc.sections || [] }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtml(sc.sources)}</div></div>` : ''));
+    .replace('__LEAD__', sectionsHtmlC({ sections: lead }))
+    .replace('__SECTIONS__', sectionsHtmlC({ sections: rest }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtmlC(sc.sources)}</div></div>` : ''));
 }
 function renderStatic({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site);
   const body = site.cards
     ? `<div class="ei-cards">${site.cards.map(c => { const n = NAV.find(x => x.path === c.path);
-        return `<a class="ei-card" href="${relHref(out, c.path)}"><h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">${n?.wip ? 'See the plan' : 'Open the map'} →</span></a>`; }).join('')}</div>`
-    : `<div class="ei-wip">This map is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
+        return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`
+    : (site.sections || []).length ? sectionsHtml({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
     .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)

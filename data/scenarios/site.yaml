@@ -22,9 +22,9 @@ map:
   height: 520
   label: Map of scenarios by what moves on the ledger
   circles:
-  - { id: cash, label: Cash moves, cx: 300, cy: 210, r: 170, lx: 250, ly: 90, fill: '#e3e7ea', stroke: '#3f5664' }
-  - { id: asset, label: Asset moves, cx: 520, cy: 210, r: 170, lx: 590, ly: 90, fill: '#e1e3f2', stroke: '#312e81' }
-  - { id: credit, label: Credit is extended, cx: 410, cy: 340, r: 150, lx: 410, ly: 470, fill: '#e9e3ee', stroke: '#65547a' }
+  - { id: cash, label: Cash moves, cx: 320, cy: 210, r: 175, lx: 295, ly: 72, fill: '#e3e7ea', stroke: '#3f5664' }
+  - { id: asset, label: Asset moves, cx: 480, cy: 210, r: 175, lx: 505, ly: 72, fill: '#e1e3f2', stroke: '#312e81' }
+  - { id: credit, label: Credit is extended, cx: 400, cy: 330, r: 150, lx: 400, ly: 447, fill: '#e9e3ee', stroke: '#65547a' }
 bands:
 - { id: pay, label: Pay and move money, text: 'Only cash moves.', moves: [cash] }
 - { id: settle, label: Settle and deal, text: 'Cash against an asset, or an asset event paid in cash.', moves: [cash, asset] }
@@ -34,7 +34,7 @@ scenarios:
 - title: Delivery versus payment, deposit token against a tokenized money market fund
   icon: dvp
   short: DvP
-  map: { x: 410, y: 140 }
+  map: { x: 400, y: 132 }
   path: scenarios/dvp-deposit-token-tmmf
   text: A buyer pays with a bank deposit token and receives fund units in one transaction; either both legs settle or neither does.
   moves: [cash, asset]
@@ -42,7 +42,7 @@ scenarios:
 - title: Payments with tokenized currency
   icon: pay
   short: Payments
-  map: { x: 190, y: 170 }
+  map: { x: 200, y: 170 }
   text: Domestic and cross-border payments in deposit tokens and stablecoins, settled on the ledger around the clock.
   moves: [cash]
   roles: [bank, payments, corporate]
@@ -56,49 +56,49 @@ scenarios:
 - title: Foreign exchange, payment versus payment
   icon: pvp
   short: FX PvP
-  map: { x: 190, y: 230 }
+  map: { x: 195, y: 235 }
   text: Two tokenized currencies exchanged atomically, with no settlement risk between the legs.
   moves: [cash]
   roles: [bank, payments, central_bank]
 - title: Repo and reverse repo
   icon: repo
   short: Repo
-  map: { x: 410, y: 230 }
+  map: { x: 400, y: 240 }
   text: Cash against tokenized securities with an agreed return leg, both legs on the ledger.
   moves: [cash, asset, credit]
   roles: [bank, asset_manager, fmi]
 - title: Collateral mobility and margin
   icon: collateral
   short: Collateral
-  map: { x: 545, y: 305 }
+  map: { x: 500, y: 330 }
   text: Tokenized fund units and securities posted as initial and variation margin, bilaterally, at venues and at clearing houses.
   moves: [asset, credit]
   roles: [bank, asset_manager, fmi]
 - title: Securities lending
   icon: lending
   short: Securities lending
-  map: { x: 505, y: 350 }
+  map: { x: 474, y: 356 }
   text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
   moves: [asset, credit]
   roles: [asset_manager, bank, fmi]
 - title: Fund subscription and redemption
   icon: subscribe
   short: Fund dealing
-  map: { x: 410, y: 108 }
+  map: { x: 400, y: 104 }
   text: Primary-market dealing in tokenized funds against a cash leg, at the struck price or continuously.
   moves: [cash, asset]
   roles: [asset_manager, bank, fmi]
 - title: Corporate actions and distributions
   icon: corporate
   short: Corporate actions
-  map: { x: 410, y: 172 }
+  map: { x: 400, y: 160 }
   text: Dividends, coupons and reinvestments paid in units or in tokenized currency, on the same ledger as the asset.
   moves: [cash, asset]
   roles: [fmi, asset_manager, bank]
 - title: AI agent payments
   icon: agent
   short: AI payments
-  map: { x: 200, y: 290 }
+  map: { x: 209, y: 280 }
   text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
   moves: [cash]
   roles: [payments, corporate, bank]

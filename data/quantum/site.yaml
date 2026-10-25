@@ -1,0 +1,67 @@
+# Quantum page: work in progress. A static stub with the planned sections drafted below, each marked in progress,
+# until the page gets its own diagram. Facts checked 25 October 2026; this field moves quickly.
+
+kind: static
+title: Quantum
+slug: quantum
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Quantum
+  italic: Quantum
+intro: 'What a large quantum computer could break on a distributed ledger, what it could not, and what Ethereum is doing about it. Two algorithms matter: Shor’s, which would break the elliptic-curve signatures every ledger uses today, and Grover’s, which only weakens the hash functions ledgers are built from. The page will map where each bites (your keys, the validators’ keys, the data-availability commitments, the proof systems) and set the Ethereum roadmap against it: what is available to you now, and what is coming, with dates.'
+notice:
+  title: Work in progress.
+  text: This page is being drafted. The sections below are the plan with first drafts of the text; nothing on this page is final, and the roadmap dates are the protocol community’s targets, not commitments.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: It will be built in the open on GitHub like the others. Open an issue to suggest a source, a deployment or a question your risk committee has asked.
+sections:
+- title: The two algorithms
+  wip: true
+  text: 'Only two quantum algorithms matter for a ledger, and they do very different things.'
+  items:
+  - title: Shor’s algorithm breaks public-key cryptography
+    text: 'Peter Shor showed in 1994 that a sufficiently large quantum computer can factor integers and compute discrete logarithms in polynomial time. That breaks RSA and every elliptic-curve scheme: the secp256k1 signatures on Ethereum and Bitcoin transactions, the BLS12-381 signatures Ethereum validators use, the pairings behind KZG commitments and pairing-based SNARKs. Given a public key, such a machine recovers the private key. No machine of that size exists; the threat is the day one does, and the migration has to be finished before it.'
+    sources:
+    - { title: 'NIST, first three finalized post-quantum encryption standards, FIPS 203, 204 and 205 (13 August 2024)', url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards, checked: '2026-10-25' }
+  - title: Grover’s algorithm only weakens hashes
+    text: 'Lov Grover’s 1996 algorithm speeds up unstructured search quadratically, which halves the effective security of a hash function or a symmetric key: a 256-bit hash such as keccak-256 behaves like a 128-bit one. That is weakened, not broken, and 128 bits remains out of reach. Everything on a ledger that rests on hashes alone (addresses, Merkle and binary trees, proof-of-work, hash-based signatures, STARK proofs) survives. This is why the post-quantum plan for Ethereum is, in one sentence, to rebuild on hashes.'
+    sources:
+    - { title: 'ethereum.org, Quantum resistance (hashes are weakened but not broken; hash-based signatures and STARKs are quantum-safe)', url: https://ethereum.org/en/roadmap/security/quantum-resistance/, checked: '2026-10-25' }
+- title: Where it bites a ledger
+  wip: true
+  text: 'Four places, in the order a risk committee would rank them, plus what is not at risk.'
+  items:
+  - title: Your keys and your clients’ keys
+    text: 'A standard account is protected by an ECDSA signature. An address is a hash of the public key, so an account that has only ever received funds exposes nothing; the first transaction it sends reveals the public key on the ledger, and from then on a Shor-capable machine could derive the private key. Reused addresses, exchange hot wallets, bridge and multisig signers and any key that has signed are the exposed set. Keys derived through hash chains (BIP-32 from a seed) carry a hash-based proof of ownership that an emergency fork could use to let holders move funds to post-quantum accounts; that recovery plan was set out in March 2024.'
+    sources:
+    - { title: 'Vitalik Buterin, How to hard-fork to save most users’ funds in a quantum emergency (ethresear.ch, March 2024)', url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901, checked: '2026-10-25' }
+  - title: The validators’ keys
+    text: 'Ethereum’s consensus aggregates hundreds of thousands of validator votes with BLS signatures, which rely on elliptic-curve pairings. These are the keys that must change at protocol level, and because a hash-based signature is roughly thirty times larger than a BLS one, replacing them means also replacing how votes are aggregated.'
+    sources:
+    - { title: 'ethereum.org, Quantum resistance (BLS and the consensus layer)', url: https://ethereum.org/en/roadmap/security/quantum-resistance/, checked: '2026-10-25' }
+  - title: Data availability and proof systems
+    text: 'Blob data (EIP-4844, PeerDAS) is committed with KZG, which uses the same pairings; its trusted setup stays secure as long as one participant discarded their secret, but the commitments themselves need a hash-based replacement in time. Rollups that prove with pairing-based SNARKs inherit the same exposure; rollups that prove with STARKs, which rest on hashes, are already post-quantum at the application layer.'
+    sources:
+    - { title: 'ethereum.org, Quantum resistance (KZG, SNARKs and STARKs)', url: https://ethereum.org/en/roadmap/security/quantum-resistance/, checked: '2026-10-25' }
+  - title: What is not at risk, and what is different about a public ledger
+    text: 'A public ledger keeps no secrets, so “harvest now, decrypt later” does not apply to its balances and transfers; it applies to anything encrypted on or beside it (confidential transfers, private data channels), which should already be post-quantum. The exposure is forgery of authorization, not disclosure. A private or consortium ledger faces the same key problem with fewer parties to coordinate and the same hard deadline.'
+- title: The Ethereum roadmap, now and next
+  wip: true
+  text: 'The plan rebuilds every cryptographic primitive on hashes, in four areas named in February 2026: consensus signatures, data availability, account signatures and application proofs. Dates are the protocol community’s targets as published on 8 September 2026.'
+  items:
+  - title: Available to you now
+    text: 'Addresses, state and history rest on hashes and are safe. STARK-proven rollups already give post-quantum security to what runs on them. Account abstraction (ERC-4337, live since March 2023; EIP-7702, live since the Pectra upgrade of May 2025) lets a smart account verify whatever signature scheme its code accepts, so an institution can run post-quantum signatures on its own accounts today, at its own gas cost, without waiting for the protocol. The KZG trusted setup remains secure.'
+    sources:
+    - { title: 'ethereum.org, Quantum resistance (what is secure today)', url: https://ethereum.org/en/roadmap/security/quantum-resistance/, checked: '2026-10-25' }
+    - { title: 'EIP-7702, Set code for EOAs (Final; Pectra, May 2025)', url: https://eips.ethereum.org/EIPS/eip-7702, checked: '2026-10-25' }
+  - title: Coming next
+    text: 'Signature agility at the protocol level (EIP-8141, account abstraction under consideration for the Hegotá upgrade in the second half of 2026; EIP-7932, a registry and precompile for secondary signature algorithms, Draft), so any account can switch to a post-quantum scheme by protocol rule rather than by custom code. A hash-based state tree (EIP-7864, a unified binary tree, Draft), chosen over Verkle trees precisely because Verkle rests on elliptic curves. And Lean Ethereum: validators sign with leanXMSS, a hash-based scheme, and a minimal zero-knowledge virtual machine (leanVM) aggregates those signatures with SNARK proofs, compressing them about 250 times, with milestones for a post-quantum key registry, verification precompiles, post-quantum attestations and full aggregation targeting core infrastructure by about 2029; execution-layer and ecosystem migration continue beyond that.'
+    sources:
+    - { title: 'ethereum.org, Quantum resistance (Lean Ethereum, leanXMSS, leanVM, milestones; page updated 8 September 2026)', url: https://ethereum.org/en/roadmap/security/quantum-resistance/, checked: '2026-10-25' }
+    - { title: 'EIP-7932, Secondary signature algorithms (Draft)', url: https://eips.ethereum.org/EIPS/eip-7932, checked: '2026-10-25' }
+    - { title: 'EIP-7864, Ethereum state using a unified binary tree (Draft)', url: https://eips.ethereum.org/EIPS/eip-7864, checked: '2026-10-25' }
+  - title: What this means for an institution
+    text: 'Three practical steps the page will set out: keep the public keys of long-lived holdings unexposed (receive to fresh addresses, avoid reuse), prefer smart accounts whose signature scheme can be rotated, and ask every proof system and bridge you depend on whether it rests on pairings or on hashes. The deadline is the first cryptographically relevant quantum computer, whose date nobody knows; the work is to be finished before it.'
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

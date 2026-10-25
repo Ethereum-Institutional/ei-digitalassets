@@ -7,6 +7,10 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Quantum page stub** (`/quantum/`) with drafted sections (Shor and Grover, where they bite a ledger, the Ethereum
+  roadmap now and next, what it means for an institution), sourced to ethereum.org, NIST and the EIPs. **Landing
+  page**: every tile gets a pictogram and a one-line tagline, and the link reads “Open”. Static stubs may now carry
+  `sections:`.
 - **Scenarios: first scenario and a filterable index.** `/scenarios/` lists ten market activities with role and
   what-moves filters (not ranked); `/scenarios/dvp-deposit-token-tmmf/` is the first written scenario: delivery versus
   payment between a bank deposit token and a tokenized money market fund, with the actors, an eight-step swimlane

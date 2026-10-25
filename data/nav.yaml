@@ -21,3 +21,6 @@ pages:
 - label: Identity
   path: identity
   wip: true
+- label: Quantum
+  path: quantum
+  wip: true

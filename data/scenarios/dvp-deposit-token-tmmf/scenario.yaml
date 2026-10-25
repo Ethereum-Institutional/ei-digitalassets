@@ -66,7 +66,7 @@ steps:
   from: ledger
   to: observer
   kind: onchain
-  text: 'On Ethereum mainnet the transaction is included in a block within seconds and finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The two Transfer events are the record: the buyer’s custodian, the seller’s custodian, the bank, the transfer agent and the auditor all read the same log, so there is nothing to reconcile.'
+  text: 'On Ethereum mainnet the transaction is included in a block within seconds and finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The two Transfer events are the record: the buyer’s custodian, the seller’s custodian, the bank, the transfer agent and the auditor all read the same log, so there is nothing to reconcile; the books agree at the next block, not the next day.'
 - title: Register and books updated
   from: ledger
   to: ta
@@ -156,14 +156,21 @@ standards:
   url: https://eips.ethereum.org/EIPS/eip-7573
 
 sections:
-- title: Why a shared ledger
+- title: Why a public shared ledger
+  lead: true
   items:
+  - title: The most participants, liquidity and assets
+    text: 'A public, permissionless ledger is open to every eligible institution and every eligible investor at once, so it carries the most counterparties, the deepest pool of tokenized currency and the widest range of tokenized assets of any ledger. On Ethereum mainnet the deposit token, the stablecoin alternatives and the fund units in this scenario already sit on the same ledger as each other; on a private or consortium ledger each would have to be brought in, one bilateral agreement at a time.'
+  - title: Composability across scenarios
+    text: 'The fund units bought here are the same tokens that are posted as collateral, lent, or repo’d in the other scenarios, and the deposit token is the same cash leg that pays an invoice or settles a foreign-exchange trade. Nothing is re-issued or re-onboarded to move from one use to the next; the asset simply goes where its holder sends it.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the asset. Each token stays bound to its issuer’s rules, enforced in the token contract on every transfer: KYC and KYB of every holder, the travel rule where it applies, holding limits, lock-ups, and the issuer’s own house and regulatory requirements. A wallet the issuer has not approved cannot receive the token on any venue, and a freeze by the issuer binds everywhere at once. The ledger does not have to be permissioned for the asset to be.'
   - title: Any product against any payment
     text: 'The same eight steps settle a bond, an equity, a fund of any kind or a tokenized commodity against a deposit token, a stablecoin or, in time, central bank money. The pairing shown here is the common one because it is where the economics bite: a treasurer holds cash that earns little or nothing and wants, within the same ledger and the same day, an asset that earns the money-market rate, and wants to be able to come back just as fast.'
   - title: Atomic by construction
     text: Both legs are records on the same ledger, so one transaction can move both or neither. Traditional DvP needs a securities depository, a payment system and a link between them, with intraday credit covering the gap; here the gap does not exist.
-  - title: One record, no reconciliation
-    text: Every party reads the same transfer events. The buyer’s and seller’s custodians, the bank, the transfer agent and the auditor do not exchange statements to agree what happened.
+  - title: 'Reconciled every block: T plus next block, not T plus next day'
+    text: 'Every party reads the same transfer events, so the buyer’s and seller’s custodians, the bank, the transfer agent and the auditor never exchange statements to agree what happened; the ledger reconciles itself with every block it produces. On Ethereum mainnet that is a block every 12 seconds and finality within about 13 minutes, against the overnight batch, the next-day confirmation and the exception queue that settle the same trade today. The settlement cycle is T plus next block, not T plus next day.'
   - title: Open around the clock
     text: The ledger settles at any hour. For a constant-price fund the units can be dealt at par at any time; for a variable-price fund the trade price follows the struck net asset value, and a liquidity provider or a dealing queue bridges to the next strike.
   - title: Rules travel with the token
