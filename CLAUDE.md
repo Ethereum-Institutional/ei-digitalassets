@@ -3,8 +3,9 @@
 This repository generates two interactive maps for Ethereum Institutional: the **Digital Asset Taxonomy** (a Venn
 diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks
-and **architecture lenses**). Live pages: https://ethereum-institutional.github.io/ei-digitalassets/ and
-https://ethereum-institutional.github.io/ei-digitalassets/networks/ (published from `main`).
+and **architecture lenses**), behind a landing page, with Web3, Decentralization, Privacy and Identity pages stubbed as
+work in progress. Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing), `/taxonomy/`,
+`/networks/` (published from `main`).
 Read `README.md` for the file layout and editing guide; this file records conventions and decisions behind it.
 
 ## Status and versioning
@@ -18,10 +19,13 @@ Read `README.md` for the file layout and editing guide; this file records conven
 
 ## How the build works
 
-- `data/*.yaml` (taxonomy) and `data/networks/*.yaml` (networks) are the only places content lives.
-  `src/template.html` holds styling and rendering code only and renders both pages; per-page settings (`nav`,
-  `lens_groups`, `badge`, `legend`, `panel_default`) live in each `site.yaml`, and drawn notes in `layout.yaml`
-  `annotations:`. Never put page-specific content in the template.
+- `data/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
+  folders (`data/web3`, `data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) are the only places content
+  lives; `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html`
+  holds the map page's styling and rendering code only; `src/static.html` renders the landing page and stubs with
+  the same styles. Per-page settings (`lens_groups`, `badge`, `legend`, `panel_default`, `intro_more`) live in each
+  `site.yaml`, and drawn notes in `layout.yaml` `annotations:`. Never put page-specific content in a template. A new
+  page is a folder with a `site.yaml`, an entry in `PAGES` in `scripts/build.mjs` and an entry in `data/nav.yaml`.
 - `npm run build` validates the data (unknown circle ids or badges, missing definitions, bad statuses, lens colours,
   lens-only circles, `licensed_under`, `bridges`, `networks` maps) and writes `dist/` for both pages.
   `npm run check` renders both pages in headless Chromium, applies every lens and writes `dist/preview.png` and
@@ -127,6 +131,9 @@ Read `README.md` for the file layout and editing guide; this file records conven
 - Lenses here are architecture, not regulation: `scope: networks` lenses highlight badges via a `networks:` map
   (`in` | `part`) and leave the circles alone. Each intro defines the layer, why it exists and what it buys.
 - Network facts were last checked 25 October 2026; validator counts and sequencer status drift quickly.
+- **Web3 naming:** write "Web3", not "Web 3.0". The two name the same thing; the short form reflects a definition formed
+  by the community that builds on and uses the web rather than handed down by institutions. Web 1.0 = read-only
+  pages; Web 2.0 = read-and-write platforms that own accounts and data; Web3 = read, write and own on shared ledgers.
 
 ## EI house views (flag any change to these in the pull request)
 

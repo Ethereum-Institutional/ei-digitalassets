@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+__STYLE__
+<style>
+  /* static pages (landing and work-in-progress stubs): cards instead of a diagram */
+  .ei-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .ei-card{display:flex;flex-direction:column;gap:8px;padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card);color:var(--ink);text-decoration:none;transition:border-color .15s}
+  .ei-card:hover{border-color:var(--ink)}
+  .ei-card h2{margin:0;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em}
+  .ei-card p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+  .ei-card .go{margin-top:auto;font-size:13px;color:var(--ink)}
+  .ei-wip{padding:28px 24px;border:1px dashed var(--rule);border-radius:16px;background:var(--card);color:var(--muted);font-size:14px;line-height:1.6;text-align:center}
+</style>
+</head>
+<body>
+<div class="ei-taxonomy">
+  __NOTICE__
+  <div class="ei-head">
+    <span class="ei-eyebrow">__EYEBROW__</span>
+    __NAV__
+    <h1>__HEADING__</h1>
+    <p class="sub">__INTRO__</p>
+  </div>
+  __BODY__
+  __CONTRIBUTE__
+  <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
+</div>
+</body>
+</html>

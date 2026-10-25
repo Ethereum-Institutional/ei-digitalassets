@@ -8,8 +8,10 @@ Two interactive maps maintained by Ethereum Institutional:
   their consensus is admitted (permissioned, or one of three degrees of permissionless), with named networks placed
   on the map and **architecture lenses** (Layer 1, side-chain, Layer 2 rollup).
 
-**View the live pages: https://ethereum-institutional.github.io/ei-digitalassets/ (taxonomy) and
-https://ethereum-institutional.github.io/ei-digitalassets/networks/ (networks)**
+**View the live site: https://ethereum-institutional.github.io/ei-digitalassets/** (landing page), with the
+[taxonomy](https://ethereum-institutional.github.io/ei-digitalassets/taxonomy/) and the
+[networks map](https://ethereum-institutional.github.io/ei-digitalassets/networks/); Web3, Decentralization, Privacy
+and Identity pages are stubs marked "in progress".
 
 > **Status: draft (v0.x).** Not yet reviewed by legal counsel. Version 1.0.0 will follow that review.
 
@@ -17,6 +19,9 @@ Both maps are generated from plain-text data files in this repository, so every 
 and every release is a versioned, self-contained HTML file.
 
 ```
+data/nav.yaml              the site navigation (one entry per page; `wip: true` marks a stub)
+data/home/site.yaml        the landing page (cards linking to each map)
+data/web3/, data/decentralization/, data/privacy/, data/identity/   work-in-progress stubs (site.yaml only, kind: static)
 data/                      the Digital Asset Taxonomy
   circles.yaml             content: every circle's label, colour family and definition
   layout.yaml              geometry only: positions, sizes, bridges and annotations (rarely edited)
@@ -27,8 +32,9 @@ data/networks/             the Digital Asset Networks map, same layout
   circles.yaml, layout.yaml, site.yaml
   networks.yaml            the network badges (names, not tickers) and where they sit
   lenses/*.yaml            one file per architecture lens
-src/template.html          the page: styling and rendering code (no content), shared by both maps
-scripts/build.mjs          validates the data and generates dist/ (both pages)
+src/template.html          the map page: styling and rendering code (no content), shared by both maps
+src/static.html            the landing page and stubs (reuses the map page's styles)
+scripts/build.mjs          validates the data and generates dist/ (every page)
 scripts/check.mjs          smoke-tests the generated pages in headless Chromium
 ```
 
@@ -76,8 +82,10 @@ networks list the institutions live on them, and how Besu, Swift, Partior and Pr
 **Change which networks a layer covers** → edit `networks:` in `data/networks/lenses/<id>.yaml` (`in` or `part`)
 and the matching `notes:`. These lenses carry `scope: networks`: they highlight badges and leave the circles alone.
 
-**Page settings** live in each `site.yaml`: `nav` (links between the pages), `lens_groups` (one dropdown per
-group), `badge` (`disc` for ticker chips, `pill` for named badges), `legend` and `panel_default`. Small drawn notes
+**Page settings** live in each `site.yaml`: `lens_groups` (one dropdown per group), `badge` (`disc` for ticker
+chips, `pill` for named badges), `legend`, `panel_default` and the intro's `intro_more`. Navigation between pages is
+`data/nav.yaml`. **Add a page** by adding a folder with a `site.yaml` (`kind: static` for a page without a diagram),
+listing it in `scripts/build.mjs` `PAGES` and in `data/nav.yaml`. Small drawn notes
 (leader-line captions, dotted connectors) are `annotations:` in `layout.yaml`.
 
 ## Building locally
@@ -88,8 +96,9 @@ npm run build      # validates data and writes dist/ (both pages)
 npm run check      # optional: renders both pages in Chromium and writes dist/preview.png and dist/networks/preview.png
 ```
 
-`dist/digital-asset-taxonomy.html` and `dist/digital-asset-networks.html` are the complete pages for the EI
-platform (`dist/index.html` and `dist/networks/index.html` are the same files laid out for GitHub Pages).
+`dist/digital-asset-taxonomy.html` and `dist/digital-asset-networks.html` are the complete map pages for the EI
+platform (`dist/taxonomy/index.html` and `dist/networks/index.html` are the same files laid out for GitHub Pages;
+`dist/index.html` is the landing page).
 The `.fragment.html` variants are the same pages without the document skeleton, for hosts that wrap them themselves
 (for example the claude.ai artifact).
 

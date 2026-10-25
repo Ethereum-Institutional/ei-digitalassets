@@ -1,0 +1,18 @@
+# Identity map: work in progress. Rendered from src/static.html until the diagram data exists.
+
+kind: static
+title: Identity
+slug: identity
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Identity
+  italic: Identity
+intro: 'How participants are identified and permissioned on digital asset networks. The map will cover the ways an institution knows who it is dealing with on a shared ledger: network-level allowlists of nodes and accounts, token-level transfer restrictions, verifiable credentials and on-chain attestations, wallet screening and travel-rule messaging, and the standards behind them, and will show which of these each deployment style on the Digital Asset Networks map relies on.'
+notice:
+  title: Work in progress.
+  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this map.
+  text: It will be built in the open on GitHub like the others. Open an issue to suggest a standard, a source or a deployment to include.
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

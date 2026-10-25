@@ -1,0 +1,18 @@
+# Decentralization map: work in progress. Rendered from src/static.html until the diagram data exists.
+
+kind: static
+title: Decentralization
+slug: decentralization
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Decentralization
+  italic: Decentralization
+intro: 'How decentralization is measured and where networks and deployments sit on it. The map will separate the layers that can each be more or less decentralized: who orders transactions (validators and their stake or work), who writes and runs the software (clients and their diversity), who decides changes (governance), what the network runs on (infrastructure, hosting and geography), and who holds the asset. It will place the networks from the Digital Asset Networks map on those layers with sourced measurements.'
+notice:
+  title: Work in progress.
+  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this map.
+  text: It will be built in the open on GitHub like the others. Open an issue to suggest a measure, a source or a network to include.
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

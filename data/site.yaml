@@ -3,11 +3,6 @@
 title: Digital Asset Taxonomy
 slug: digital-asset-taxonomy   # output file name in dist/
 eyebrow: Ethereum Institutional · Research
-# nav: links between the pages of this site; the item without an href is this page
-nav:
-- label: Digital Asset Taxonomy
-- label: Digital Asset Networks
-  href: networks/
 heading:
   text: Digital Asset Taxonomy
   italic: Taxonomy

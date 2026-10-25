@@ -9,14 +9,22 @@ import { execSync } from 'node:child_process';
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const read = p => fs.readFileSync(path.join(root, p), 'utf8');
 const PAGES = [
-  { dir: 'data', out: '' },                 // Digital Asset Taxonomy (site root)
-  { dir: 'data/networks', out: 'networks' }, // Digital Asset Networks
+  { dir: 'data/home', out: '' },                             // landing page (static: cards linking to each map)
+  { dir: 'data/web3', out: 'web3' },                         // work in progress (static stub)
+  { dir: 'data', out: 'taxonomy' },                          // Digital Asset Taxonomy
+  { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
+  { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
+  { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
+  { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
 ];
+const NAV = parse(read('data/nav.yaml')).pages; // shared navigation; links are made relative per page
 
 // ---------- load ----------
 function load(dir) {
   const yml = p => parse(read(path.join(dir, p)));
-  const circles = yml('circles.yaml'), layout = yml('layout.yaml'), site = yml('site.yaml');
+  const site = yml('site.yaml');
+  if (site.kind === 'static') return { dir, site, static: true };
+  const circles = yml('circles.yaml'), layout = yml('layout.yaml');
   // badges: tokens.yaml (ticker chips) or networks.yaml (named pills); either way each badge has a `ticker` key
   const badgeFile = ['tokens.yaml', 'networks.yaml'].find(f => fs.existsSync(path.join(root, dir, f)));
   const raw = badgeFile ? yml(badgeFile) : {};
@@ -56,7 +64,20 @@ const deltaE = (h1, h2) => { // CIEDE2000
   return Math.sqrt(((L2 - L1) / SL) ** 2 + ((C2 - C1) / SC) ** 2 + (dH / SH) ** 2 + RT * ((C2 - C1) / SC) * (dH / SH));
 };
 
-function validate({ dir, circles, layout, tokens, site, lenses }) {
+function validateStatic({ dir, site }) {
+  const errors = [], where = f => `${dir}/${f}`;
+  for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
+  if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
+  for (const c of site.cards || []) {
+    if (!NAV.some(n => n.path === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not in data/nav.yaml`);
+    if (!c.title || !c.text) errors.push(`${where('site.yaml')}: every card needs a title and text`);
+  }
+  if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
+  return errors;
+}
+function validate(page) {
+  if (page.static) return validateStatic(page);
+  const { dir, circles, layout, tokens, site, lenses } = page;
   const errors = [];
   const where = f => `${dir}/${f}`;
   const ids = new Set(circles.circles.map(c => c.id));
@@ -164,7 +185,30 @@ const stamp = new Date().toISOString().slice(0, 10);
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 // ---------- assemble ----------
-function render({ circles, layout, tokens, site, lenses }) {
+const TAG = '<span class="ei-tag">in progress</span>';
+const relHref = (from, to) => from === '' ? (to ? `${to}/` : './') : (to === '' ? '../' : `../${to}/`);
+const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => n.path === out
+  ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
+  : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</nav>`;
+const shared = site => ({
+  heading: site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text),
+  notice: site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '',
+  contribute: site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
+    + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '',
+});
+function renderStatic({ site, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const sh = shared(site);
+  const body = site.cards
+    ? `<div class="ei-cards">${site.cards.map(c => { const n = NAV.find(x => x.path === c.path);
+        return `<a class="ei-card" href="${relHref(out, c.path)}"><h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">${n?.wip ? 'See the plan' : 'Open the map'} →</span></a>`; }).join('')}</div>`
+    : `<div class="ei-wip">This map is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
+  return read('src/static.html')
+    .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
+    .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
+function render({ circles, layout, tokens, site, lenses, out }) {
   const data = {
     palette: circles.palette, containers: circles.containers || [], children: circles.children || {}, inherit_status: circles.inherit_status || {},
     circles: circles.circles.map(c => Object.assign({}, c, layout.circles[c.id])),
@@ -172,8 +216,7 @@ function render({ circles, layout, tokens, site, lenses }) {
     lens_groups: site.lens_groups || [], badge: site.badge || 'disc',
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
   };
-  const heading = site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text);
-  const nav = (site.nav || []).length ? `<nav class="ei-nav" aria-label="Pages">${site.nav.map(n => n.href ? `<a href="${esc(n.href)}">${esc(n.label)}</a>` : `<span class="cur" aria-current="page">${esc(n.label)}</span>`).join('')}</nav>` : '';
+  const sh = shared(site), heading = sh.heading, nav = navHtml(out);
   const swatch = l => l.kind === 'pill'
     ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`
     : l.kind === 'expand'
@@ -191,9 +234,7 @@ function render({ circles, layout, tokens, site, lenses }) {
     .replace('__FOOTNOTE__', esc(site.footnote)).replace('__SVG_LABEL__', esc(site.svg_label || `Venn diagram: ${site.title}`))
     .replace('__PANEL_TITLE__', esc(data.panel.title)).replace('__PANEL_TEXT__', esc(data.panel.text))
     .replace('__NAV__', nav).replace('__LEGEND__', legend)
-    .replace('__NOTICE__', site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '')
-    .replace('__CONTRIBUTE__', site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
-      + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '')
+    .replace('__NOTICE__', sh.notice).replace('__CONTRIBUTE__', sh.contribute)
     .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
 
@@ -202,8 +243,10 @@ const errors = pages.flatMap(validate);
 if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
 
 for (const p of pages) {
-  const page = render(p), slug = p.site.slug || 'digital-asset-taxonomy', outDir = path.join(root, 'dist', p.out);
+  const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });
+  if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), renderStatic(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
+  const page = render(p), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
   // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
   const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);

@@ -1,0 +1,38 @@
+# Landing page: links to each map. Rendered from src/static.html (no diagram).
+
+kind: static
+title: Ethereum Institutional Research Maps
+slug: index
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Digital Asset Maps
+  italic: Maps
+intro: 'Interactive maps of how digital assets fit together: what they are, the networks that carry them, and the properties institutions weigh when they choose between deployments. Each map is an Ethereum Institutional house view for discussion, built in the open and maintained on GitHub.'
+# cards: one per map; `path` matches data/nav.yaml. Cards for pages marked wip there show an "in progress" tag.
+cards:
+- path: web3
+  title: Web3
+  text: 'How Web3 differs from Web 1.0 and Web 2.0: from read-only pages, to platforms that own the accounts and data, to shared ledgers where users and institutions own accounts, assets and records directly.'
+- path: taxonomy
+  title: Digital Asset Taxonomy
+  text: 'How digital money, tokenized real-world assets and other crypto-assets relate, with regulatory lenses showing where each regime’s definition reaches.'
+- path: networks
+  title: Digital Asset Networks
+  text: 'How the networks that carry digital assets differ: permissioned or permissionless consensus, and who may run a node (private, consortium or public), with the institutions live on each.'
+- path: decentralization
+  title: Decentralization
+  text: 'How decentralization is measured and where networks and deployments sit on it: validators, clients, governance, infrastructure and the people behind them.'
+- path: privacy
+  title: Privacy
+  text: 'How confidentiality is achieved on shared ledgers, from permissioned visibility to zero-knowledge proofs, and what each approach gives up.'
+- path: identity
+  title: Identity
+  text: 'How participants are identified and permissioned on digital asset networks: allowlists, verifiable credentials, attestations and compliance tooling.'
+notice:
+  title: Under development.
+  text: These maps are v0.x drafts and have not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help improve these maps.
+  text: They are maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change, or send a pull request with your proposed edit.
+footnote: 'These maps are Ethereum Institutional house views for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

@@ -7,6 +7,10 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Landing page and site structure.** The site root is now a landing page with a card per map; the taxonomy moved
+  from `/` to `/taxonomy/` (the `digital-asset-taxonomy.html` download is unchanged). Web3, Decentralization, Privacy and
+  Identity pages are stubbed as work in progress, with their planned framing and an “in progress” tag in the shared
+  navigation (`data/nav.yaml`).
 - **New page: Digital Asset Networks** (`/networks/`, data in `data/networks/`). A Venn diagram of network types
   (Private, Consortium with Sovereign inside, Public) crossed by a consensus overlay: Permissioned, and Permissionless
   with the three nested degrees of Lewis-Pye and Roughgarden (“Permissionless Consensus”, arXiv 2304.14701): fully

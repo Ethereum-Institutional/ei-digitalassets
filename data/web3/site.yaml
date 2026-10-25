@@ -1,0 +1,18 @@
+# Web3 page: work in progress. Rendered from src/static.html until the diagram data exists.
+
+kind: static
+title: Web3
+slug: web3
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Web3
+  italic: Web3
+intro: 'How Web3 differs from the web that came before it. The page will set the three generations side by side: Web 1.0, the read-only web of published pages; Web 2.0, the read-and-write web of platforms, where users create the content but the platform owns the accounts, the data and the rules; and Web3, the read, write and own web, where accounts, assets and records live on shared ledgers that no single platform controls, so users and institutions hold them directly and applications compose on each other. We write Web3 rather than Web 3.0 deliberately: the two name the same thing, but the shorter form reflects a definition that is no longer handed down by institutions and standards bodies and is instead formed by the broad community that builds on and uses the web, a sign of how pervasive and important the web has become. The map will place today’s digital asset networks and deployments against those generations.'
+notice:
+  title: Work in progress.
+  text: This page is being drafted. The framing above is the plan, not a finding; nothing on this page is final.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: It will be built in the open on GitHub like the others. Open an issue to suggest a distinction, a source or an example to include.
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

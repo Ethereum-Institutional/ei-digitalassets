@@ -1,0 +1,18 @@
+# Privacy map: work in progress. Rendered from src/static.html until the diagram data exists.
+
+kind: static
+title: Privacy
+slug: privacy
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Privacy
+  italic: Privacy
+intro: 'How confidentiality is achieved on shared ledgers and what each approach gives up. The map will range from restricting who can see the ledger at all (private and consortium networks, stakeholder-only data as in Canton and Corda) to keeping a public ledger verifiable while hiding amounts and counterparties (shielded pools, zero-knowledge proofs, validity rollups, privacy-preserving tokens on Ethereum mainnet), and will set each against what institutions need: selective disclosure to regulators, auditability and settlement finality.'
+notice:
+  title: Work in progress.
+  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this map.
+  text: It will be built in the open on GitHub like the others. Open an issue to suggest a technique, a source or a deployment to include.
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

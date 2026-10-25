@@ -32,7 +32,7 @@ jobs:
           body: |
             ${{ startsWith(github.ref_name, 'v0.') && '> **Warning: under development.** This v0.x release of the Digital Asset Taxonomy is a draft that has not yet been reviewed by legal counsel. Placements, definitions and regulatory lenses may change. For discussion only; not legal advice.' || '' }}
 
-            Live page: https://ethereum-institutional.github.io/ei-digitalassets/
+            Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (taxonomy at /taxonomy/, networks at /networks/)
           files: |
             digital-asset-taxonomy-${{ github.ref_name }}.html
             digital-asset-taxonomy-${{ github.ref_name }}.fragment.html
