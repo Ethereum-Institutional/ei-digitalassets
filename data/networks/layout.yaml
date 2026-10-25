@@ -1,0 +1,254 @@
+# Digital Asset Networks: layout (geometry only)
+# cx,cy,rx,ry = ellipse centre and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# suby positions the small sub-label. Units are SVG user units on a 1600×1300 canvas.
+# The consensus overlay is two rounded rectangles side by side (Permissioned, left; Permissionless, right); the three
+# permissionless bands are nested ellipses inside the right one and inside Public.
+
+canvas:
+  width: 1600
+  height: 1300
+circles:
+  dan:
+    t: rect
+    x: 10
+    y: 10
+    w: 1580
+    h: 1280
+    r: 70
+    lx: 800
+    ly: 52
+    fs: 26
+    fw: 700
+  perm:
+    t: rect
+    x: 40
+    y: 110
+    w: 990
+    h: 1150
+    r: 80
+    lx: 535
+    ly: 150
+    fs: 15
+    fw: 700
+  priv:
+    cx: 230
+    cy: 690
+    rx: 160
+    ry: 330
+    lx: 230
+    ly: 415
+    fs: 22
+    fw: 700
+    suby: 439
+  cons:
+    cx: 690
+    cy: 690
+    rx: 275
+    ry: 400
+    lx: 690
+    ly: 333
+    fs: 22
+    fw: 700
+    suby: 355
+  sov:
+    cx: 640
+    cy: 880
+    rx: 120
+    ry: 150
+    lx: 640
+    ly: 762
+    fs: 15
+    fw: 700
+    suby: 780
+  besu:
+    cx: 230
+    cy: 640
+    rx: 125
+    ry: 125
+    lx: 230
+    ly: 553
+    fs: 12
+    fw: 700
+    suby: 567
+    collapsed: { cx: 230, cy: 640, rx: 78, ry: 13, lx: 224, ly: 643.5, fs: 10 }
+  swift:
+    cx: 625
+    cy: 500
+    rx: 165
+    ry: 105
+    lx: 625
+    ly: 420
+    fs: 12
+    fw: 700
+    suby: 434
+    collapsed: { cx: 625, cy: 500, rx: 78, ry: 13, lx: 619, ly: 503.5, fs: 10 }
+  partior:
+    cx: 528
+    cy: 665
+    rx: 115
+    ry: 72
+    lx: 528
+    ly: 617
+    fs: 12
+    fw: 700
+    suby: 631
+    collapsed: { cx: 528, cy: 665, rx: 45, ry: 13, lx: 522, ly: 668.5, fs: 10 }
+  agora:
+    cx: 690
+    cy: 420
+    rx: 165
+    ry: 70
+    lx: 690
+    ly: 366
+    fs: 12
+    fw: 700
+    suby: 380
+    collapsed: { cx: 690, cy: 385, rx: 60, ry: 13, lx: 684, ly: 388.5, fs: 10 }
+  non:
+    cx: 755
+    cy: 660
+    rx: 105
+    ry: 45
+    lx: 755
+    ly: 645
+    fs: 10.5
+    fw: 600
+  pub:
+    cx: 1170
+    cy: 690
+    rx: 375
+    ry: 500
+    lx: 1170
+    ly: 240
+    fs: 22
+    fw: 700
+    suby: 264
+  pless:
+    t: rect
+    x: 1045
+    y: 110
+    w: 515
+    h: 1150
+    r: 80
+    lx: 1302
+    ly: 150
+    fs: 15
+    fw: 700
+  quasi:
+    cx: 1295
+    cy: 705
+    rx: 235
+    ry: 390
+    lx: 1295
+    ly: 343
+    fs: 13
+    fw: 700
+    liney: 376
+  dyn:
+    cx: 1295
+    cy: 755
+    rx: 175
+    ry: 285
+    lx: 1295
+    ly: 498
+    fs: 13
+    fw: 700
+    liney: 531
+  full:
+    cx: 1295
+    cy: 800
+    rx: 120
+    ry: 170
+    lx: 1295
+    ly: 655
+    fs: 12
+    fw: 700
+    liney: 686
+  ethereum:
+    cx: 1295
+    cy: 700
+    rx: 240
+    ry: 170
+    lx: 1295
+    ly: 554
+    fs: 12
+    fw: 700
+    suby: 568
+    collapsed: { cx: 1295, cy: 575, rx: 77, ry: 10, lx: 1281, ly: 578.4, fs: 9.5 }
+  base:
+    cx: 980
+    cy: 870
+    rx: 165
+    ry: 75
+    lx: 980
+    ly: 819
+    fs: 12
+    fw: 700
+    suby: 833
+    collapsed: { cx: 972, cy: 840, rx: 43, ry: 10, lx: 958, ly: 843.4, fs: 9.5 }
+  arbitrum:
+    cx: 980
+    cy: 910
+    rx: 165
+    ry: 75
+    lx: 980
+    ly: 859
+    fs: 12
+    fw: 700
+    suby: 873
+    collapsed: { cx: 972, cy: 880, rx: 66, ry: 10, lx: 958, ly: 883.4, fs: 9.5 }
+  optimism:
+    cx: 980
+    cy: 950
+    rx: 130
+    ry: 55
+    lx: 980
+    ly: 919
+    fs: 12
+    fw: 700
+    suby: 933
+    collapsed: { cx: 972, cy: 920, rx: 60, ry: 10, lx: 958, ly: 923.4, fs: 9.5 }
+  polygon:
+    cx: 1295
+    cy: 480
+    rx: 170
+    ry: 75
+    lx: 1295
+    ly: 429
+    fs: 12
+    fw: 700
+    suby: 443
+    collapsed: { cx: 1295, cy: 444, rx: 49, ry: 10, lx: 1288, ly: 447.4, fs: 9.5 }
+  avalanche:
+    cx: 1360
+    cy: 490
+    rx: 185
+    ry: 85
+    lx: 1360
+    ly: 429
+    fs: 12
+    fw: 700
+    suby: 443
+    collapsed: { cx: 1390, cy: 444, rx: 43, ry: 10, lx: 1383, ly: 447.4, fs: 9.5 }
+  hedera:
+    cx: 880
+    cy: 930
+    rx: 130
+    ry: 55
+    lx: 880
+    ly: 899
+    fs: 12
+    fw: 700
+    suby: 913
+    collapsed: { cx: 878, cy: 900, rx: 35, ry: 10, lx: 871, ly: 903.4, fs: 9.5 }
+  bnb:
+    cx: 1295
+    cy: 455
+    rx: 140
+    ry: 55
+    lx: 1295
+    ly: 424
+    fs: 12
+    fw: 700
+    suby: 438
+    collapsed: { cx: 1295, cy: 418, rx: 43, ry: 10, lx: 1288, ly: 421.4, fs: 9.5 }

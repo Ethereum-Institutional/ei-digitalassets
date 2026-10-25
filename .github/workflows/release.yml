@@ -22,6 +22,8 @@ jobs:
         run: |
           cp dist/digital-asset-taxonomy.html "digital-asset-taxonomy-${GITHUB_REF_NAME}.html"
           cp dist/digital-asset-taxonomy.fragment.html "digital-asset-taxonomy-${GITHUB_REF_NAME}.fragment.html"
+          cp dist/digital-asset-networks.html "digital-asset-networks-${GITHUB_REF_NAME}.html"
+          cp dist/digital-asset-networks.fragment.html "digital-asset-networks-${GITHUB_REF_NAME}.fragment.html"
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -34,3 +36,5 @@ jobs:
           files: |
             digital-asset-taxonomy-${{ github.ref_name }}.html
             digital-asset-taxonomy-${{ github.ref_name }}.fragment.html
+            digital-asset-networks-${{ github.ref_name }}.html
+            digital-asset-networks-${{ github.ref_name }}.fragment.html

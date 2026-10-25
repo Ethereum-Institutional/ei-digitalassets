@@ -7,6 +7,26 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **New page: Digital Asset Networks** (`/networks/`, data in `data/networks/`). A Venn diagram of network types
+  (Private, Consortium with Sovereign inside, Public) crossed by a consensus overlay: Permissioned, and Permissionless
+  with the three nested degrees of Lewis-Pye and Roughgarden (“Permissionless Consensus”, arXiv 2304.14701): fully
+  permissionless, dynamically available, quasi-permissionless. Named network badges (names, not tickers) for the ten
+  largest native cryptocurrencies on 25 October 2026 plus illustrative networks in every region; ink badges mark
+  the Ethereum ecosystem. Besu private chains, Swift’s shared ledger, Partior and Project Agorá are circles that
+  expand on click to show their participating institutions; the public networks (Ethereum mainnet, Base, Arbitrum
+  One, OP Mainnet, Polygon PoS, Solana, Stellar, Avalanche, XRP Ledger, Hedera, BNB Chain, Canton) expand to show
+  the regulated institutions with live deployments on them. Every participant carries its own source and lists are
+  alphabetical. The consensus and network regions can be hidden with a − control; the rest stretches across the width at the
+  same text size, and a collapsed consensus square becomes a slim band above the map. Three architecture lenses (Layer 1, Side-chain, Layer 2 rollup) highlight badges. House
+  views stated on the page: the permissionless rule (no review by existing participants), Canton as mostly a
+  consortium network with a small public component and no shared ledger, and why institutions pick Besu. Rollups
+  that settle on Ethereum mainnet carry an ETH mark.
+- Engine: one template now renders any number of pages. `site.yaml` gains `slug`, `nav`, `lens_groups`,
+  `lens_title`, `badge` (disc or pill), `legend`, `panel_default` and `svg_label`; lenses may carry `scope: networks`
+  with a `networks:` map; badges may carry `eth`, `mark`, `small`, `kind` and `sources`; circles may carry `sources`,
+  `expand` (with `collapsed:` geometry) and `pill`. The taxonomy’s drawn captions and the “look-alike”
+  connector moved from the template into `layout.yaml` `annotations:`. `npm run check` tests both pages.
+
 - **Structural:** the “Licensed Stablecoins & Payment Tokens” circle is split into two lens-only circles,
   **Licensed or Recognised Stablecoins** and **Licensed or Recognised Payment Tokens**, which are hidden on the default map and appear only under
   lenses whose regime defines them. A licence is jurisdictional, and “payment token” means a licensed fiat-backed

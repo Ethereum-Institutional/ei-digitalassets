@@ -24,8 +24,19 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;-webkit-font-smoothing:antialiased}
   .ei-taxonomy{max-width:1400px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:20px}
-  .ei-head{display:flex;flex-direction:column;gap:10px;max-width:760px}
+  .ei-head{display:flex;flex-direction:column;gap:10px}
+  .ei-taxonomy .ei-head .sub{max-width:110ch}
+  .ei-more{font:inherit;font-size:14px;color:var(--ink);background:none;border:none;padding:0;margin-left:6px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .ei-more:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ei-head .sub.more[hidden]{display:none}
   .ei-eyebrow{font-size:13px;color:var(--muted)}
+  .ei-nav{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px}
+  .ei-nav a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
+  .ei-nav a:hover{color:var(--ink);border-color:var(--ink)}
+  .ei-nav .cur{color:var(--ink);font-weight:600;border-bottom:1px solid var(--ink);padding-bottom:2px}
+  .ei-legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12px;color:var(--muted);padding:0 6px}
+  .ei-legend span{display:inline-flex;align-items:center;gap:7px}
+  .ei-legend svg{flex:none}
   /* draft notice: amber = caution */
   .ei-notice{padding:12px 16px;border-radius:12px;background:#fdf3e1;border:1px solid #e3b45f;color:#4a3108;font-size:14px;line-height:1.5}
   .ei-notice b{font-weight:600}
@@ -38,9 +49,16 @@
   .ei-wrap svg text.serif{font-family:var(--serif);letter-spacing:-.02em}
   .ei-wrap svg .node{cursor:pointer;transition:stroke-width .15s, opacity .2s}
   .ei-wrap svg .node.on{stroke-width:3.5}
-  .ei-wrap svg .hide{display:none}
+  .ei-wrap svg .hide,.ei-wrap svg .rhide{display:none}
+  .ei-wrap svg text.ctl{pointer-events:auto;cursor:pointer}
+  .ei-wrap svg text.ctl:hover,.ei-wrap svg text.ctl:focus-visible{fill:var(--ink)}
+  .ei-wrap svg text.ctl:focus{outline:none}
+  .ei-regions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:var(--muted);padding:0 6px}
+  .ei-regions button{font:inherit;font-size:12px;color:var(--ink);background:#fff;border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
+  .ei-regions button:hover{border-color:var(--ink)}
+  .ei-regions button.all{border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
   .ei-wrap svg .node.pinned{stroke:var(--ink) !important;stroke-width:4.5 !important}
-  .ei-wrap svg .asset.pinned circle{stroke:#0ea5e9;stroke-width:3.5}
+  .ei-wrap svg .asset.pinned circle,.ei-wrap svg .asset.pinned rect{stroke:#0ea5e9;stroke-width:3.5}
   .ei-panel .pinbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
   .ei-panel .pinbar button:hover{border-color:var(--ink)}
@@ -80,6 +98,10 @@
   .ei-scope i.p{border-style:dashed}
   .ei-scope i.o{border:2px solid var(--rule)}
   .ei-scope .perim{display:inline-flex;align-items:center;gap:6px;margin-right:6px}
+  .ei-scope.nets .key{display:none}
+  .ei-panel .hint{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic}
+  .ei-panel .src{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .ei-panel .src a{color:var(--muted)}
   .ei-scope svg{flex:none}
 
   .ei-panel{background:#fff;border:1px solid var(--rule);border-radius:16px;padding:18px 22px;min-height:96px}
@@ -104,22 +126,25 @@
   __NOTICE__
   <div class="ei-head">
     <span class="ei-eyebrow">__EYEBROW__</span>
+    __NAV__
     <h1>__HEADING__</h1>
     <p class="sub">__INTRO__</p>
+    __INTRO_MORE__
   </div>
-  <div class="ei-wrap"><svg id="ei-svg" viewBox="0 0 1600 1300" role="img" aria-label="Venn diagram of digital asset types"></svg></div>
+  <div class="ei-wrap"><svg id="ei-svg" viewBox="0 0 1600 1300" role="img" aria-label="__SVG_LABEL__"></svg></div>
+  __LEGEND__
   <div class="ei-lens" id="ei-lens">
-    <div class="ei-lens-head"><b>Regulatory lenses</b><span>__LENS_HELP__</span></div>
+    <div class="ei-lens-head"><b>__LENS_TITLE__</b><span>__LENS_HELP__</span></div>
     <div class="ei-scope" id="ei-scope">
       <span id="ei-perims"></span>
-      <span><svg width="38" height="18" aria-hidden="true"><rect x="3" y="3" width="32" height="12" rx="6" fill="none" stroke="#14130f" stroke-width="5"/></svg> Inside the definition (thick line)</span>
-      <span><svg width="46" height="18" aria-hidden="true"><rect x="3" y="3" width="40" height="12" rx="6" fill="none" stroke="#14130f" stroke-width="3" stroke-dasharray="16 8"/></svg> Depends, exempt or restricted (long dashes)</span>
-      <span><svg width="38" height="18" aria-hidden="true"><rect x="3" y="3" width="32" height="12" rx="6" fill="none" stroke="#cfc9bd" stroke-width="1.5"/></svg> Outside the definition (faded)</span>
+      <span class="key"><svg width="38" height="18" aria-hidden="true"><rect x="3" y="3" width="32" height="12" rx="6" fill="none" stroke="#14130f" stroke-width="5"/></svg> Inside the definition (thick line)</span>
+      <span class="key"><svg width="46" height="18" aria-hidden="true"><rect x="3" y="3" width="40" height="12" rx="6" fill="none" stroke="#14130f" stroke-width="3" stroke-dasharray="16 8"/></svg> Depends, exempt or restricted (long dashes)</span>
+      <span class="key"><svg width="38" height="18" aria-hidden="true"><rect x="3" y="3" width="32" height="12" rx="6" fill="none" stroke="#cfc9bd" stroke-width="1.5"/></svg> Outside the definition (faded)</span>
     </div>
   </div>
   <div class="ei-panel" id="ei-panel" aria-live="polite">
-    <h2>Digital Assets</h2>
-    <p>Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.</p>
+    <h2>__PANEL_TITLE__</h2>
+    <p>__PANEL_TEXT__</p>
   </div>
   __CONTRIBUTE__
   <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
@@ -129,12 +154,17 @@
 (function(){
   // Palette per family
   const DATA = __DATA__;
+  // "More" after the intro reveals the longer framing (site.yaml intro_more)
+  const moreBtn=document.querySelector('.ei-more'), moreTxt=document.getElementById('ei-intro-more');
+  if(moreBtn&&moreTxt) moreBtn.addEventListener('click',()=>{ const open=moreTxt.hidden; moreTxt.hidden=!open; moreBtn.textContent=open?moreBtn.dataset.less:moreBtn.dataset.more; moreBtn.setAttribute('aria-expanded',String(open)); });
   const C = DATA.palette;
   const N = DATA.circles.map(n=>Object.assign({}, n, {c: n.family ? C[n.family] : [n.colors.fill, n.colors.stroke]}));
+  const OUTER = N[0].id; // the outer box is always the first circle
   const CONTAINERS = new Set(DATA.containers);
   const KIDS = DATA.children;
   const INHERIT = DATA.inherit_status;
-  const LENSES = DATA.lenses.map(L=>Object.assign({}, L, {group: L.group==='standard-setter'?'g':'j', s:Object.assign({},L.status||{}), n:Object.assign({},L.notes||{}),
+  // scope:'networks' lenses highlight badges (their `networks` map) and leave the circles alone
+  const LENSES = DATA.lenses.map(L=>Object.assign({}, L, {s:Object.assign({},L.status||{}), n:Object.assign({},L.notes||{}), nets:L.networks||null,
     groups:(L.groups&&L.groups.length) ? L.groups.map(G=>Object.assign({},G,{ids:G.circles})) : undefined,
     reveal:new Set([...Object.keys(L.status||{}),...Object.keys(L.notes||{}),...(L.groups||[]).flatMap(G=>G.circles||[])])}));
   // expand group lenses into per-circle status + group lookup; children inherit their parent's note when they have none
@@ -169,12 +199,15 @@
   defs.innerHTML='<pattern id="ei-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#f3dcd6"/><line x1="0" y1="0" x2="0" y2="8" stroke="#c0685a" stroke-width="2.5"/></pattern>';
   const gShapes=el('g',{}), gPer=el('g',{}), gText=el('g',{});
   svg.append(defs,gShapes,gPer,gText);
+  // shapes never draw outside the outer box (a stretched region can reach past it)
+  const outer=DATA.circles.find(c=>c.t==='rect'); if(outer){ const cp=el('clipPath',{id:'clip-outer'}); cp.appendChild(el('rect',{x:outer.x,y:outer.y,width:outer.w,height:outer.h,rx:outer.r})); defs.appendChild(cp); gShapes.setAttribute('clip-path','url(#clip-outer)'); }
   const byId={};
 
   let curTexts=[];
   function txt(x,y,s,size,weight,fill){
     const big=size>=15;
     const t=el('text',{x,y,'text-anchor':'middle','font-size':big?size*1.08:size,'font-weight':big?400:(weight>=700?600:(weight||400)),fill:fill||'#14130f'});
+    t.dataset.ox=x; t.dataset.oy=y; t.dataset.fs=t.getAttribute('font-size');
     if(big) t.setAttribute('class','serif');
     t.textContent=s; gText.appendChild(t); curTexts.push(t);
   }
@@ -189,17 +222,44 @@
   }
   function pin(el,show){ if(pinned) pinned.el.classList.remove('pinned'); pinned={el,show}; el.classList.add('pinned'); show(); addPinBar(); }
   function unpin(){ if(!pinned) return; pinned.el.classList.remove('pinned'); pinned=null; const b=panel.querySelector('.pinbar'); if(b) b.remove(); }
-  function bindInfo(el,show,outer){
+  function bindInfo(el,show,outer,extra){
+    const act=()=>{ if(extra) extra(); if(outer){ unpin(); show(); } else pin(el,show); };
     el.addEventListener('mouseenter',()=>{ if(!pinned) show(); });
     el.addEventListener('focus',()=>{ if(!pinned) show(); });
-    el.addEventListener('click',e=>{ e.stopPropagation(); if(outer){ unpin(); show(); } else pin(el,show); });
-    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(outer){unpin(); show();} else pin(el,show); } });
+    el.addEventListener('click',e=>{ e.stopPropagation(); act(); });
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });
   }
+  // expandable circles (`expand: collapsed | expanded` in circles.yaml, `collapsed:` geometry in layout.yaml):
+  // collapsed, the circle is a small pill with a + and its participant badges are hidden; a click opens it on top of
+  // everything else at its full geometry and shows them. The open circle, its labels and its badges move to gTop.
+  const gTop=el('g',{});
+  // `pill: true` network circles look like a badge while collapsed (ink = Ethereum ecosystem, grey = other)
+  // XM: when regions are hidden the remaining strip [x0, x1] of the canvas is stretched across the full width
+  // (positions and shape widths scale, text and badges keep their size)
+  const XM={x0:0,k:1,off:0}; const mx=x=>XM.off+(x-XM.x0)*XM.k;
+  const setOpen=(n,open)=>{
+    const x=byId[n.id], g=open?n:n.collapsed; n.open=open;
+    const asPill=n.pill&&!open;
+    x.s.setAttribute('cx',mx(g.cx)); x.s.setAttribute('cy',g.cy); x.s.setAttribute('rx',asPill?g.rx:g.rx*XM.k); x.s.setAttribute('ry',g.ry);
+    x.s.setAttribute('fill',asPill?(n.eth?'#14130f':'#6b6760'):x.base.fill); x.s.setAttribute('fill-opacity',asPill?1:(open?.97:x.base.fop));
+    if(!activeLenses.length){ x.s.setAttribute('stroke',asPill?'#f8f6f2':x.base.stroke); x.s.setAttribute('stroke-width',asPill?1.5:2); }
+    const fs=open?n.fs:(g.fs||10), lh=fs*1.15, ink=asPill?'#f2efe9':'#14130f';
+    const lx=mx(g.cx)+((open?n.lx:g.lx)-g.cx); // label keeps its unscaled offset from the shape's centre
+    x.labelTexts.forEach((t,i)=>{ t.setAttribute('x',lx); t.setAttribute('y',(open?n.ly:g.ly)+i*lh); t.setAttribute('font-size',fs>=15?fs*1.08:fs); t.setAttribute('fill',ink); t.classList.toggle('serif',fs>=15); });
+    x.subTexts.forEach(t=>{ t.classList.toggle('hide',!open); if(t.dataset&&t.dataset.ox!==undefined) t.setAttribute('x',mx(g.cx)+(+t.dataset.ox-g.cx)); });
+    const w=Math.max(...n.label.map(l=>l.length))*fs*0.56, hx=lx+w/2+7, hy=open?n.ly:g.ly;
+    x.hint.setAttribute('x',hx); x.hint.setAttribute('y',hy); x.hint.textContent=open?'−':'+'; x.hint.setAttribute('fill',asPill?'#f2efe9':'#615f5a');
+    if(x.mark){ const mx=hx+14, my=hy-9; x.mark.c.setAttribute('cx',mx); x.mark.c.setAttribute('cy',my); x.mark.t.setAttribute('x',mx); x.mark.t.setAttribute('y',my+2.2); }
+    const kids=ASSETS.filter(a=>a.p===n.id);
+    kids.forEach(a=>a.g.classList.toggle('hide',!open));
+    if(open){ gTop.append(x.s,...x.texts,...kids.map(a=>a.g)); }
+    else { gShapes.appendChild(x.s); x.texts.forEach(t=>gText.appendChild(t)); kids.forEach(a=>gText.appendChild(a.g)); }
+  };
   document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel, #ei-lens')) unpin(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
   N.forEach(n=>{
     const [fill,stroke]=n.c;
-    const common={class:'node',fill,'fill-opacity':n.id==='da'?1:.55,stroke,'stroke-width':2,tabindex:0,'aria-label':n.label.join(' ')};
+    const common={class:'node',fill,'fill-opacity':n.id===OUTER?1:.55,stroke,'stroke-width':2,tabindex:0,'aria-label':n.label.join(' ')};
     // lens-only circles are paths: under a lens they stretch to take in the badges of tokens it licenses
     const s = n.t==='rect' ? el('rect',Object.assign({x:n.x,y:n.y,width:n.w,height:n.h,rx:n.r},common))
       : n.lens_only ? el('path',Object.assign({d:ellPath(n)},common))
@@ -213,11 +273,26 @@
     curTexts=[]; byId[n.id]={n,s,texts:curTexts,base:{stroke,fill:s.getAttribute('fill'),fop:s.getAttribute('fill-opacity')}};
     const lh=n.fs*1.15;
     n.label.forEach((line,i)=>txt(n.lx,n.ly+i*lh,line,n.fs,n.fw,n.tc||(n.c[1]==='#8a857a'?'#3d3b36':'#14130f')));
+    byId[n.id].labelTexts=curTexts.slice(); const subStart=curTexts.length;
     if(n.sub) txt(n.lx, n.suby || (n.ly+n.label.length*lh), n.sub, 10, 400, '#615f5a');
     if(n.sub2) txt(n.lx, n.sy, n.sub2, 12, 400, '#615f5a');
     if(n.sub3) txt(n.lx, n.s3y, n.sub3, 10, 400, '#615f5a');
     if(n.lines) n.lines.forEach((l,i)=>txt(n.lx,n.liney+i*15,l,11,400,'#615f5a'));
     if(n.lines2) n.lines2.forEach((l,i)=>txt(n.lx,n.l2y+i*12,l,9.5,400,'#615f5a'));
+    byId[n.id].subTexts=curTexts.slice(subStart);
+    if(n.collapsible){ // regions: a − after the label hides the region and everything in it, and zooms the map to the rest
+      const w=Math.max(...n.label.map(l=>l.length))*n.fs*(n.fs>=15?0.62:0.56), h=el('text',{x:n.lx+w/2+10,y:n.ly,'text-anchor':'middle','font-size':13,'font-weight':600,fill:'#615f5a',class:'ctl',tabindex:0,role:'button','aria-label':`Hide ${n.label.join(' ')}`});
+      h.textContent='−'; h.dataset.ox=n.lx; h.dataset.oy=n.ly; h.dataset.rel=w/2+10; h.style.pointerEvents='auto'; h.style.cursor='pointer'; gText.appendChild(h); curTexts.push(h); byId[n.id].ctl=h;
+      h.addEventListener('click',e=>{ e.stopPropagation(); hideRegion(n.id,!hiddenRegions.has(n.id)); });
+      h.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); hideRegion(n.id,!hiddenRegions.has(n.id)); } });
+    }
+    if(n.expand){ // the + / − hint sits just after the label; `mark` (e.g. ETH) is a small disc after the hint
+      const h=el('text',{'text-anchor':'middle','font-size':12,'font-weight':600,fill:'#615f5a'}); gText.appendChild(h); curTexts.push(h); byId[n.id].hint=h;
+      s.classList.add('exp');
+      if(n.mark){ const mg=el('g',{'pointer-events':'none'}), c=el('circle',{r:8.5,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5}),
+          t=el('text',{'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=n.mark;
+        mg.append(c,t); gText.appendChild(mg); curTexts.push(mg); byId[n.id].mark={c,t}; }
+    }
     // lens-only circles (e.g. Licensed or Recognised Stablecoins) stay hidden until a lens that mentions them is applied
     if(n.lens_only){ s.classList.add('hide'); curTexts.forEach(t=>t.classList.add('hide')); }
     const show=()=>{
@@ -225,58 +300,132 @@
       active=s; s.classList.add('on'); hovered=n;
       let sc='';
       activeLenses.forEach(L=>{
+        if(L.nets){ if(!n.pill) return; const st=L.nets[n.id], word={in:'Inside',part:'Depends; see the note'}[st]||'Outside';
+          sc+=`<div class="scope" style="--c:${L.color}"><b>${L.name}:</b> ${word}. ${L.n[n.id]||''}</div>`; return; }
         const st=status(L,n.id), G=L.g[n.id];
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed; see the circles inside');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[n.id]||''}</div>`;
       });
-      panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${n.desc}</p>${sc}`;
+      panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${n.desc}</p>${sc}`
+        +(n.expand?`<p class="hint">${n.open?'Click the circle again to collapse it.':'Click the circle to expand it and see its participants.'}</p>`:'')
+        +(n.sources&&n.sources.length?`<p class="src">Sources: ${n.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'');
     };
-    bindInfo(s,show,n.id==='da');
+    bindInfo(s,show,n.id===OUTER, n.expand ? ()=>setOpen(n,!n.open) : (n.band ? ()=>{ if(hiddenRegions.has(n.id)) hideRegion(n.id,false); } : null));
   });
 
-  // captions for the two hybrid overlaps
-  [['sn','M1290 1071 L1290 1104',1290,1116,'Structured notes'],['trk','M1288 891 L1288 868',1288,861,'Trackers & warrants']].forEach(([id,d,x,y,label])=>{
+  // annotations from layout.yaml: `caption` (a leader line and label that belongs to a circle) and `connector`
+  // (a dotted link with a dot at its end and free-standing labels)
+  (DATA.annotations||[]).forEach(a=>{
     const g=el('g',{'pointer-events':'none'});
-    g.appendChild(el('path',{d,stroke:'#33506a','stroke-width':1.4,'stroke-dasharray':'2 3'}));
-    const t=el('text',{x,y,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:'#14130f',stroke:'#f8f6f2','stroke-width':3,'paint-order':'stroke'}); t.textContent=label;
-    g.append(t); gText.appendChild(g); byId[id].texts.push(g);
+    if(a.kind==='caption'){
+      g.appendChild(el('path',{d:a.path,stroke:a.color||'#33506a','stroke-width':1.4,'stroke-dasharray':'2 3'}));
+      const t=el('text',{x:a.x,y:a.y,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:'#14130f',stroke:'#f8f6f2','stroke-width':3,'paint-order':'stroke'}); t.textContent=a.label;
+      g.append(t); if(a.circle) byId[a.circle].texts.push(g);
+    } else {
+      g.appendChild(el('path',{d:a.path,fill:'none',stroke:a.color||'#14213d','stroke-width':1.8,'stroke-dasharray':'2.5 3','stroke-linecap':'round'}));
+      if(a.dot) g.appendChild(el('circle',{cx:a.dot[0],cy:a.dot[1],r:2.8,fill:a.color||'#14213d'}));
+      (a.labels||[]).forEach(l=>{
+        const t=el('text',{x:l.x,y:l.y,'font-size':l.size||9.5,'font-weight':600,fill:l.color||a.color||'#14213d',stroke:'#fff','stroke-width':3,'paint-order':'stroke','text-anchor':l.anchor||'start'});
+        if(l.italic) t.setAttribute('font-style','italic'); t.textContent=l.text; g.appendChild(t);
+      });
+    }
+    gText.appendChild(g);
   });
 
-  // "look-alike" connector: Deposit Token ⇢ bank-issued stablecoins (Commercial Bank ∩ Stablecoins)
-  (function(){
-    const g=el('g',{'pointer-events':'none'});
-    g.appendChild(el('path',{d:'M786 459 Q 790 472 784 486',fill:'none',stroke:'#14213d','stroke-width':1.8,'stroke-dasharray':'2.5 3','stroke-linecap':'round'}));
-    g.appendChild(el('circle',{cx:784,cy:488,r:2.8,fill:'#14213d'}));
-    const t=el('text',{x:796,y:470,'font-size':9.5,'font-style':'italic','font-weight':600,fill:'#14213d',stroke:'#fff','stroke-width':3,'paint-order':'stroke'}); t.textContent='look-alike';
-    const t2=el('text',{x:762,y:500,'font-size':9,'font-weight':600,fill:'#3b4580',stroke:'#fff','stroke-width':2.5,'paint-order':'stroke','text-anchor':'middle'}); t2.textContent='bank-issued';
-    g.append(t,t2); gText.appendChild(g);
-  })();
-
-  // ---------- top-10 token badges (ticker chips; positions = house-view placement) ----------
+  // ---------- badges (ticker discs or named pills; positions = house-view placement) ----------
   // Badges never move. Under a lens listed in a token's `licensed_under`, the lens-only circle that lens shows
   // (e.g. Licensed or Recognised Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[]}));
+  // Pills (DATA.badge==='pill') show the badge's name; ink = Ethereum ecosystem (`eth: true`), grey = other.
+  const PILL = DATA.badge==='pill';
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[]}));
+  const srcHtml=src=>src.length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
   const tokGroup=(a,L)=>(L.groups||[]).find(G=>(G.tokens||[]).includes(a.t));
   ASSETS.forEach(a=>{
-    const g=el('g',{class:'asset',tabindex:0,'aria-label':`${a.name} (${a.t})`});
-    a.ring=el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5});
-    g.appendChild(a.ring);
-    const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.t.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.t;
-    g.appendChild(t); gText.appendChild(g); a.g=g;
+    const g=el('g',{class:'asset',tabindex:0,'aria-label':PILL?a.name:`${a.name} (${a.t})`});
+    if(PILL){
+      // `small` pills list a network's participants inside its circle
+      const w=a.small ? Math.round(a.name.length*5)+12 : Math.round(a.name.length*5.6)+16, h=a.small?16:19;
+      a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.eth?'#14130f':'#6b6760',stroke:'#f8f6f2','stroke-width':1.5});
+      g.appendChild(a.ring);
+      const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4),'text-anchor':'middle','font-size':a.small?8.5:9.5,'font-weight':600,fill:'#f2efe9'}); t.textContent=a.name;
+      g.appendChild(t);
+      // `mark`: a small disc on the pill's right end (e.g. ETH on rollups that settle on Ethereum mainnet)
+      if(a.mark){ const mx=a.x+w/2+2, my=a.y-7;
+        g.appendChild(el('circle',{cx:mx,cy:my,r:8.5,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5}));
+        const m=el('text',{x:mx,y:my+2.2,'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); m.textContent=a.mark; g.appendChild(m); }
+    } else {
+      a.ring=el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5});
+      g.appendChild(a.ring);
+      const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.t.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.t;
+      g.appendChild(t);
+    }
+    gText.appendChild(g); a.g=g;
     const show=()=>{
       let sc='', where=byId[a.p].n.label.filter(Boolean).join(' ');
       activeLenses.forEach(L=>{
+        if(L.nets){
+          const st=L.nets[a.t], word={in:'Inside',part:'Depends; see the note'}[st]||'Outside';
+          sc+=`<div class="scope" style="--c:${L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||''}</div>`; return;
+        }
         const J=joined(a,L), p=J||a.p, G=tokGroup(a,L)||L.g[p], st=status(L,p);
         if(J) where+=` · inside ${byId[J].n.label.join(' ')} under this lens`;
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||L.n[p]||''}</div>`;
       });
-      panel.innerHTML=`<div class="path">Token · sits in ${where}</div><h2>${a.name} (${a.t})</h2><p>${a.d}</p>${sc}`;
+      const what=PILL ? (a.kind==='participant'?'Participant':'Network') : 'Token';
+      panel.innerHTML=`<div class="path">${what} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.t})`}</h2><p>${a.d}</p>${sc}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);
   });
+  svg.appendChild(gTop);
+  N.filter(n=>n.expand).forEach(n=>setOpen(n, n.expand==='expanded'));
+
+  // ---------- collapsible regions (`collapsible: true`): hide a region and its contents, zoom the map to what is left ----------
+  // A point is "in" a region when its centre falls inside the region's shape. Containers that straddle a region
+  // (`straddles: [ids]`) are never hidden by it; the outer box never hides.
+  const hiddenRegions=new Set();
+  const inside=(r,px,py)=> r.t==='rect' ? (px>=r.x&&px<=r.x+r.w&&py>=r.y&&py<=r.y+r.h) : (((px-r.cx)/r.rx)**2+((py-r.cy)/r.ry)**2<=1);
+  const centre=n=> n.t==='rect' ? [n.x+n.w/2,n.y+n.h/2] : [n.cx,n.cy];
+  const hiddenBy=(px,py,self)=>[...hiddenRegions].some(id=>{ const r=byId[id].n; if(self&&(self.id===OUTER||self.id===r.id||(self.straddles||[]).includes(id))) return false; return inside(r,px,py); });
+  const rbar=document.createElement('div'); rbar.className='ei-regions'; rbar.hidden=true;
+  document.querySelector('.ei-wrap').insertAdjacentElement('afterend',rbar);
+  const BAND={x:40,y:66,w:1520,h:36,r:18,ly:89,fs:13};
+  function relayout(){
+    Object.values(byId).forEach(({n,s,texts,ctl})=>{
+      if(n.id===OUTER) return;
+      const banded=n.band&&hiddenRegions.has(n.id);
+      if(n.t==='rect'){
+        if(banded){ s.setAttribute('x',BAND.x); s.setAttribute('y',BAND.y); s.setAttribute('width',BAND.w); s.setAttribute('height',BAND.h); s.setAttribute('rx',BAND.r); }
+        else { s.setAttribute('x',mx(n.x)); s.setAttribute('y',n.y); s.setAttribute('width',n.w*XM.k); s.setAttribute('height',n.h); s.setAttribute('rx',n.r); }
+      }
+      else if(n.expand){ setOpen(n,n.open); return; }
+      else if(!n.lens_only){ s.setAttribute('cx',mx(n.cx)); s.setAttribute('rx',n.rx*XM.k); }
+      // `alt: {<region>: {lx, ly}}` moves a label while that region is hidden (Public's label into the permissioned crescent)
+      const A=n.alt&&Object.entries(n.alt).find(([rid])=>hiddenRegions.has(rid)); const dx=A?A[1].lx-n.lx:0, dy=A?A[1].ly-n.ly:0;
+      texts.forEach(t=>{ if(!t.dataset||t.dataset.ox===undefined) return;
+        if(banded){ const isLabel=byId[n.id].labelTexts.includes(t); t.classList.toggle('rhide',!isLabel&&t!==ctl); t.setAttribute('x',BAND.x+BAND.w/2+(t===ctl?+t.dataset.rel-20:0)); t.setAttribute('y',BAND.ly); if(isLabel) t.setAttribute('font-size',BAND.fs); }
+        else { t.setAttribute('x',mx(+t.dataset.ox+dx)+(+(t.dataset.rel||0))); t.setAttribute('y',+t.dataset.oy+dy); if(t.dataset.fs) t.setAttribute('font-size',t.dataset.fs); } });
+      if(ctl) ctl.textContent=banded?'+':'−';
+    });
+    ASSETS.forEach(a=>a.g.setAttribute('transform',`translate(${mx(a.x)-a.x} 0)`));
+  }
+  function hideRegion(id,hide){
+    if(hide){ if(byId[id].n.band) [...hiddenRegions].filter(r=>byId[r].n.band).forEach(r=>hiddenRegions.delete(r)); hiddenRegions.add(id); } else hiddenRegions.delete(id);
+    Object.values(byId).forEach(({n,s,texts})=>{ const [px,py]=centre(n); const banded=n.band&&hiddenRegions.has(n.id); const h=!banded&&(hiddenRegions.has(n.id)||hiddenBy(px,py,n)); s.classList.toggle('rhide',h); texts.forEach(t=>t.classList.toggle('rhide',h)); });
+    ASSETS.forEach(a=>a.g.classList.toggle('rhide',hiddenBy(a.x,a.y,null)));
+    gPer.classList.toggle('rhide',hiddenRegions.size>0);
+    // stretch: the strip of the canvas still shown (regions name theirs with `zoom: [x0, x1]`) spreads across the full width
+    let x0=0,x1=W; hiddenRegions.forEach(id=>{ const z=byId[id].n.zoom; if(!z) return; if(z[0]===0) x0=Math.max(x0,z[1]); else x1=Math.min(x1,z[0]); });
+    if(x1-x0<400){ x0=0; x1=W; }
+    if(x0===0&&x1===W){ XM.x0=0; XM.k=1; XM.off=0; } else { XM.x0=x0; XM.k=(W-40)/(x1-x0); XM.off=20; }
+    relayout();
+    const listed=[...hiddenRegions].filter(r=>!byId[r].n.band);
+    rbar.hidden=!listed.length;
+    rbar.innerHTML=listed.length?`<span>Hidden:</span>`+listed.map(id=>`<button type="button" data-id="${id}">${byId[id].n.label.join(' ')} <b>+</b></button>`).join('')+`<button type="button" class="all" data-id="*">Show everything</button>`:'';
+    rbar.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ if(b.dataset.id==='*'){ [...hiddenRegions].forEach(i=>hiddenRegions.delete(i)); hideRegion(null,false); } else hideRegion(b.dataset.id,false); }));
+  }
 
   // ---------- outlines: union of shapes via marching squares (lens perimeters and lens-only blobs) ----------
   // Shapes: ellipses (optionally clipped), discs around token badges and capsules along `bridges` waypoints.
@@ -360,17 +509,17 @@
       .map(L=>`<option value="${L.id}">${MENU[L.id]}</option>`).join('');
     w.appendChild(sel); ctl.appendChild(w); return sel;
   };
-  const selG=mk('g','Global standard setters','ei-lens-global'), selJ=mk('j','Jurisdictions','ei-lens-jur');
+  const sels=DATA.lens_groups.map(g=>mk(g.id,g.label,'ei-lens-'+g.id));
   const clr=document.createElement('button'); clr.type='button'; clr.className='clear'; clr.textContent='Clear lens';
   ctl.appendChild(clr);
   bar.insertBefore(ctl, document.getElementById('ei-scope'));
   const setLens=id=>{
     const L=LBYID[id]; activeLenses.length=0; if(L) activeLenses.push(L);
-    selG.value = L&&L.group==='g' ? id : ''; selJ.value = L&&L.group==='j' ? id : '';
-    selG.classList.toggle('on',!!selG.value); selJ.classList.toggle('on',!!selJ.value);
+    N.filter(n=>n.pill&&n.open).forEach(n=>setOpen(n,false)); // open network circles close so a lens reads cleanly
+    sels.forEach(sel=>{ sel.value = L&&L.group===sel.dataset.grp ? id : ''; sel.classList.toggle('on',!!sel.value); });
     clr.hidden=!L; applyLens(L, !!L);
   };
-  [selG,selJ].forEach(sel=>sel.addEventListener('change',()=>setLens(sel.value)));
+  sels.forEach(sel=>sel.addEventListener('change',()=>setLens(sel.value)));
   clr.addEventListener('click',()=>setLens('')); clr.hidden=true;
 
   // legend swatches drawn with the same strokes as the map
@@ -380,22 +529,33 @@
   function applyLens(changed, added){
     const on=activeLenses.length>0;
     document.getElementById('ei-scope').classList.toggle('show',on);
-    document.getElementById('ei-perims').innerHTML=activeLenses.map(L=> L.groups
-      ? L.groups.map(G=>`<span class="perim" style="--c:${G.color}">${SW.dot}${L.tint?SW.tint:''}${G.label}: ${G.name}</span>`).join('')
+    const netScope=on && activeLenses.every(L=>L.nets);
+    document.getElementById('ei-scope').classList.toggle('nets',netScope);
+    document.getElementById('ei-perims').innerHTML=activeLenses.map(L=> L.nets ? `<span class="perim" style="--c:${L.color}">${L.short}: highlighted badges are inside; faded ones are outside</span>`
+      : L.groups ? L.groups.map(G=>`<span class="perim" style="--c:${G.color}">${SW.dot}${L.tint?SW.tint:''}${G.label}: ${G.name}</span>`).join('')
       : `<span class="perim" style="--c:${L.color}">${SW.dot}${L.short} perimeter</span>`).join('');
-    // circles
+    // circles (a networks-scope lens leaves them as they are)
     Object.values(byId).forEach(({n,s,texts,base})=>{
+      if(netScope){
+        if(n.pill){ // a network drawn as an expandable circle is highlighted or faded like a badge
+          const st=activeLenses.map(L=>L.nets[n.id]).find(Boolean), asPill=!n.open;
+          s.classList.toggle('dim',!st); texts.forEach(t=>t.classList.toggle('dim',!st));
+          s.setAttribute('stroke',st?activeLenses[0].color:(asPill?'#f8f6f2':base.stroke)); s.setAttribute('stroke-width',st==='in'?3:(asPill?1.5:2));
+          s.setAttribute('stroke-dasharray',st==='part'?'4 3':'none'); return;
+        }
+        s.classList.remove('dim'); texts.forEach(t=>t.classList.remove('dim')); s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',2); s.setAttribute('stroke-dasharray','none'); s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); return; }
+      if(n.pill && !n.open){ s.setAttribute('stroke','#f8f6f2'); s.setAttribute('stroke-width',1.5); s.setAttribute('stroke-dasharray','none'); return; }
       if(n.lens_only){
         const L=activeLenses.find(L=>L.reveal.has(n.id)); s.classList.toggle('hide',!L); texts.forEach(t=>t.classList.toggle('hide',!L));
         if(L) s.setAttribute('d',ellPath(lensOnlyGeom(n,L)));
       }
       const sts=activeLenses.map(L=>[L,status(L,n.id)]);
-      const dim = on && n.id!=='da' && activeLenses.every(L=>allOut(L,n.id));
+      const dim = on && n.id!==OUTER && activeLenses.every(L=>allOut(L,n.id));
       s.classList.toggle('dim',dim); texts.forEach(t=>t.classList.toggle('dim',dim));
       const inL=sts.find(([,st])=>st==='in'), partL=sts.find(([,st])=>st==='part');
-      const isBox = n.id==='da' || (CONTAINERS.has(n.id) && !(inL && inL[0].g[n.id]));
+      const isBox = n.id===OUTER || (CONTAINERS.has(n.id) && !(inL && inL[0].g[n.id]));
       if(inL && !isBox){ const G=inL[0].g[n.id]; s.setAttribute('stroke',G?G.color:inL[0].color); s.setAttribute('stroke-width',5.5); s.setAttribute('stroke-dasharray','none'); }
-      else if(partL && n.id!=='da'){ s.setAttribute('stroke',partL[0].color); s.setAttribute('stroke-width',3.5); s.setAttribute('stroke-dasharray','16 8'); }
+      else if(partL && n.id!==OUTER){ s.setAttribute('stroke',partL[0].color); s.setAttribute('stroke-width',3.5); s.setAttribute('stroke-dasharray','16 8'); }
       else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',2); s.setAttribute('stroke-dasharray','none'); }
       // prohibition-style lenses also tint each circle in its group colour
       const T=activeLenses.find(L=>L.tint && L.g[n.id]);
@@ -404,13 +564,17 @@
     });
     // token badges stay put: they dim with the circle they count in, and take a group's colour when a group lists them
     ASSETS.forEach(a=>{
+      if(netScope){ const st=activeLenses.map(L=>L.nets[a.t]).find(Boolean);
+        a.g.classList.toggle('dim',!st); a.ring.setAttribute('stroke',st?activeLenses[0].color:'#f8f6f2'); a.ring.setAttribute('stroke-width',st==='in'?3:1.5);
+        a.ring.setAttribute('stroke-dasharray',st==='part'?'4 3':'none'); return; }
+      a.ring.setAttribute('stroke-dasharray','none');
       const G=activeLenses.map(L=>tokGroup(a,L)).find(Boolean), J=activeLenses.map(L=>joined(a,L)).find(Boolean);
       a.g.classList.toggle('dim',!G && byId[J||a.p].s.classList.contains('dim'));
       a.ring.setAttribute('stroke',G?G.color:'#f8f6f2'); a.ring.setAttribute('stroke-width',G?3:1.5);
     });
     // perimeters (nested: later lenses drawn a little wider so lines never coincide)
     gPer.innerHTML='';
-    activeLenses.forEach((L,k)=>{
+    activeLenses.filter(L=>!L.nets).forEach((L,k)=>{
       const pad=10+k*8;
       const sets = L.groups ? L.groups.map(G=>({key:L.id+G.id+pad,color:G.color,
                                 shapes:()=>[...shapesFor(G.ids,L),...tokenShapes(G),...bridge(L.id+'.'+G.id)]}))
@@ -423,7 +587,7 @@
     // panel
     if(pinned){ pinned.show(); addPinBar(); }
     else if(changed && added){ panel.innerHTML=`<h2 style="color:${changed.color}">${changed.name}</h2><p>${changed.intro}</p>`; }
-    else if(!on){ panel.innerHTML='<h2>Digital Assets</h2><p>Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.</p>'; }
+    else if(!on){ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; }
     else { const L=activeLenses[activeLenses.length-1]; panel.innerHTML=`<h2 style="color:${L.color}">${L.name}</h2><p>${L.intro}</p>`; }
   }
 })();

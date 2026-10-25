@@ -1,0 +1,428 @@
+# Digital Asset Networks: circles (content)
+# Each circle: id, label (lines), family (palette key), optional sub-labels, and its definition (desc).
+# Positions and sizes live in data/networks/layout.yaml so content edits never touch geometry.
+# `containers` are grouping circles; `children` lists what they contain.
+# `collapsible: true` gives a region a − control that hides it and everything inside it; `zoom: [x0, x1]` is the
+#   strip of the canvas it occupies (the rest stretches to fill the width); `straddles` names regions that never hide
+#   it; `band: true` regions (the two consensus squares) collapse to a slim band above the map, one at a time;
+#   `alt: {<region>: {lx, ly}}` moves a label while that region is hidden.
+# Writing rules: no em-dashes; quote YAML values that contain ": ". "Ethereum mainnet" for the chain, "Ethereum
+# ecosystem" for the clients, rollups and deployments built with Ethereum technology.
+
+palette:
+  dan:
+  - '#f8f6f2'
+  - '#cfc9bd'
+  perm:
+  - '#efece6'
+  - '#9a948a'
+  pless:
+  - '#eceff5'
+  - '#4b5a70'
+  net:
+  - '#e4e7ec'
+  - '#4b5a70'
+  cons:
+  - '#e9e3ee'
+  - '#65547a'
+  sov:
+  - '#ddd6e6'
+  - '#54436a'
+  pub:
+  - '#e2e8ea'
+  - '#4f6872'
+  quasi:
+  - '#dfe6ef'
+  - '#4b5a94'
+  dyn:
+  - '#d4dcec'
+  - '#3b4580'
+  full:
+  - '#c9d3e6'
+  - '#312e81'
+  canton:
+  - '#ece9e4'
+  - '#6a6255'
+  ledger:
+  - '#e3e7ea'
+  - '#3f5664'
+  partior:
+  - '#e9e2ea'
+  - '#6a5676'
+  agora:
+  - '#e6e4ea'
+  - '#4a4a6a'
+  besu:
+  - '#e2e6ec'
+  - '#2f4258'
+  netc:
+  - '#f3f5f8'
+  - '#4b5a70'
+containers:
+- dan
+- priv
+- cons
+- pub
+- pless
+children:
+  dan:
+  - perm
+  - priv
+  - cons
+  - pub
+  priv:
+  - besu
+  cons:
+  - sov
+  - non
+  - swift
+  - partior
+  - agora
+  pub:
+  - pless
+  - non
+  - base
+  - arbitrum
+  - optimism
+  - hedera
+  quasi:
+  - bnb
+  - polygon
+  - avalanche
+  dyn:
+  - ethereum
+  pless:
+  - quasi
+  - dyn
+  - full
+inherit_status: {}
+circles:
+- id: dan
+  label:
+  - Digital Asset Networks
+  family: dan
+  path: ''
+  desc: 'The distributed ledger networks on which digital assets are issued, held and transferred. The map classifies them two ways at once: by who may operate a node (Private, Consortium with its Sovereign subset, and Public) and by how the nodes that order transactions are admitted (permissioned, or one of three degrees of permissionless). The Ethereum ecosystem reaches every region of this map: Ethereum mainnet is the public permissionless reference, its rollups settle on it, and Besu, the Ethereum client institutions deploy for consortium and private chains, is the same client that runs Ethereum mainnet. Ethereum Institutional is aligned to Ethereum mainnet’s north star, a globally verifiable public shared ledger on which every participant can check the same state and build, but supports every Ethereum deployment style on this map.'
+- id: perm
+  label:
+  - Permissioned consensus
+  family: perm
+  collapsible: true
+  band: true
+  zoom: [0, 1040]
+  path: Digital Asset Networks
+  desc: 'The nodes that order and finalise transactions are a list set outside the protocol: fixed by the operator or the members (QBFT and IBFT 2.0 in Besu, CometBFT and other Tendermint-style protocols, HotStuff, CantonBFT), or curated by the existing participants, as with the XRP Ledger’s default validator list, Stellar’s quorum sets, Hedera’s council and the single sequencers of today’s rollups. EI’s house rule: a network is permissioned whenever joining consensus requires review by the existing participants, whatever the marketing says. Permissioned consensus is fast and final and fits private and consortium ledgers; it also means that the members, not the protocol, decide who counts.'
+- id: priv
+  label:
+  - Private
+  family: net
+  collapsible: true
+  zoom: [0, 395]
+  sub: one operator
+  path: Digital Asset Networks › Permissioned consensus
+  desc: 'One organisation operates every node, so it alone decides who may read or write, and it can change the rules or roll back history. Useful for internal books and records, testing and settlement inside a group, at the price of giving outsiders nothing to verify independently. Institutions building private Ethereum chains overwhelmingly choose Besu. EI’s reading of why, a house view: its Apache 2.0 licence, which Besu’s own history says was needed because enterprise pilots were being blocked by open-source licence policies; permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in, where GoQuorum, the earlier enterprise fork, is no longer actively developed; governance by a neutral foundation (Hyperledger, now LF Decentralized Trust) with several commercial support vendors; Ethereum mainnet compatibility, so the EVM specification and the team’s skills carry across to public chains; and Java, which enterprise IT and security teams already run and audit. Private ledgers outside the Ethereum ecosystem (Hyperledger Fabric, Corda) sit here too, without the public-chain upgrade path.'
+- id: cons
+  label:
+  - Consortium
+  family: cons
+  collapsible: true
+  sub: several operators, admitted by agreement
+  path: Digital Asset Networks › Permissioned consensus
+  desc: 'Several organisations each run nodes and admit new members by agreement, usually under a legal framework that names the operators. Consensus is permissioned by construction: the validator set is a list the members maintain. Consortia give participants shared, tamper-evident records without trusting any one operator, but they are only as neutral and as verifiable as their membership, and outsiders cannot check the ledger. Besu with QBFT is the common Ethereum deployment (Swift’s shared ledger, Project Agorá, Fnality).'
+- id: sov
+  label:
+  - Sovereign
+  family: sov
+  sub: one jurisdiction
+  path: Digital Asset Networks › Permissioned consensus › Consortium
+  desc: 'A consortium whose participants are all in one jurisdiction, usually convened or supervised by a central bank, a financial regulator or a national body, so that the network’s rules, data and participants sit inside one legal order. Examples: Fnality’s sterling payment system in the UK, the Bank of Korea’s Project Hangang and DCJPY in Japan.'
+- id: pub
+  label:
+  - Public
+  family: pub
+  collapsible: true
+  straddles: [perm, pless]
+  zoom: [1000, 1600]
+  alt:
+    pless: { lx: 975, ly: 330 }
+  sub: anyone may transact and run a node
+  path: Digital Asset Networks
+  desc: 'Anyone may transact and run a node, and the ledger’s history can be read and re-executed by anyone who does. Whether a node may also take part in ordering transactions is a separate question, answered by the consensus overlay: a public network can be permissionless (Ethereum mainnet, Bitcoin) or permissioned (the XRP Ledger’s curated validator list, Hedera’s council, today’s rollup sequencers). Public networks are where composability lives: any application can call any other, and anyone can verify the result.'
+- id: pless
+  label:
+  - Permissionless consensus
+  family: pless
+  collapsible: true
+  band: true
+  zoom: [1035, 1600]
+  path: Digital Asset Networks › Public
+  desc: 'Anyone can take part in ordering transactions without anyone’s approval; what they need is a scarce resource, work or stake, that the protocol can count. Lewis-Pye and Roughgarden (Permissionless Consensus, 2023) show that the protocol then faces three challenges: unknown players (the set of entities running it is unknown and of unknown size), player inactivity (they can start or stop at any time) and sybils (one entity can run under any number of identifiers). The three nested bands inside this region are their hierarchy, ordered by how little the protocol assumes about who is running it: fully permissionless at the centre, then dynamically available, then quasi-permissionless. A protocol that works in an inner band also works in every band outside it.'
+- id: quasi
+  label:
+  - Quasi
+  - Permissionless
+  family: quasi
+  lines:
+  - known staked identifiers,
+  - two-thirds must stay online
+  path: Digital Asset Networks › Public › Permissionless consensus
+  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. In practice that means a two-thirds quorum of stake must keep voting: validators can go offline only within the one-third fault budget, and once more than a third of the stake is silent the chain stops finalising (Solana, for example, has needed coordinated restarts after such halts). This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
+- id: dyn
+  label:
+  - Dynamically
+  - Permissionless
+  family: dyn
+  lines:
+  - known staked identifiers,
+  - any share may go offline
+  path: Digital Asset Networks › Public › Permissionless consensus
+  desc: 'The protocol knows the list of staked identifiers but assumes only that some honest staker is online, so it keeps producing blocks at any level of participation, as a longest-chain rule does. Cardano’s Ouroboros is the paper’s canonical example. Ethereum mainnet’s fork choice (LMD-GHOST) runs here: the chain keeps growing when most validators are offline, and the inactivity leak slowly removes the stake of those who are absent, while Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online. That pairing keeps Ethereum mainnet live like Bitcoin and final like a BFT chain.'
+- id: full
+  label:
+  - Fully
+  - Permissionless
+  family: full
+  lines:
+  - nobody known
+  - to the protocol
+  path: Digital Asset Networks › Public › Permissionless consensus
+  desc: 'The protocol has no knowledge of which players are running it at any moment and makes no assumption that any of them stays online; sybils are priced by an external resource the protocol cannot observe directly, which is what proof of work is. Bitcoin is the canonical example, and Dogecoin, Monero and Zcash follow the same model. Ethereum mainnet began here with proof of work, which is how ETH became widely distributed before the move to proof of stake. The price of this freedom is that finality is only probabilistic and the protocol is safe only while the network is synchronous.'
+- id: besu
+  label:
+  - Besu private chains
+  family: besu
+  sub: announced by institution
+  expand: expanded
+  path: Digital Asset Networks › Permissioned consensus › Private
+  desc: 'Institutions that have announced their own private chain built on Besu, the Ethereum client written in Java, licensed Apache 2.0 and governed by LF Decentralized Trust, with permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in. Each badge is one institution’s announced Besu network; hover a badge for the platform, the source and how firmly it is documented (Citi and DTCC state Besu themselves; the others rest on LF Decentralized Trust’s 2026 adoption report). Of the 29 G-SIBs, Citi, UBS and BNP Paribas have documented Besu chains; HSBC’s Orion and J.P. Morgan’s Kinexys run on other stacks, and eight G-SIBs reach Besu through Swift’s shared ledger instead. The same client runs Ethereum mainnet, so every chain here keeps the public-chain upgrade path. The Private circle explains why institutions choose Besu.'
+  sources:
+  - title: Besu documentation (runs on public and private networks; Ethereum mainnet execution client)
+    url: https://docs.besu-eth.org/
+    checked: '2026-10-25'
+  - title: Besu docs, private network consensus (QBFT recommended; Clique and Ethash no longer supported)
+    url: https://docs.besu-eth.org/private-networks/how-to/configure/consensus
+    checked: '2026-10-25'
+- id: swift
+  label:
+  - Swift shared ledger
+  family: ledger
+  sub: Besu, 17 banks
+  expand: expanded
+  path: Digital Asset Networks › Permissioned consensus › Consortium
+  desc: 'Swift’s blockchain-based shared ledger for tokenised cross-border payments, announced in September 2025 and declared ready for use in July 2026 with 17 banks across Asia, Europe, the Middle East, Africa and the Americas as the first participants. Swift describes “an Ethereum Virtual Machine (EVM)-compatible architecture based on Hyperledger Besu”; Swift operates the ledger while banks operate their own environments and keep authority over keys, assets, funding and settlement, so the banks are participants rather than node operators: a consortium across many jurisdictions under one operator. HSBC and Standard Chartered completed the first live bank-to-bank tokenised deposit transaction on it on 20 August 2026, with the ledger acting “as a secure orchestration layer” that matched and netted the obligations. It matters twice on this map: as the largest group of banks to adopt Besu, and as a shared ledger, the north star this map argues for, even if a permissioned one. Hover a badge for each participant.'
+  sources:
+  - title: Swift press release, 29 September 2025 (blockchain-based ledger announced)
+    url: https://www.swift.com/news-events/press-releases/swift-add-blockchain-based-ledger-its-infrastructure-stack-groundbreaking-move-accelerate-and-scale-benefits-digital-finance
+    checked: '2026-10-25'
+  - title: Swift, shared ledger progresses to MVP implementation (30 March 2026; EVM-compatible architecture based on Hyperledger Besu; Swift operates the ledger)
+    url: https://www.swift.com/insights/news/swifts-blockchain-based-shared-ledger-progresses-mvp-implementation
+    checked: '2026-10-25'
+  - title: Swift press release, 9 July 2026 (ready for use; 17 banks)
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+  - title: HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)
+    url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain
+    checked: '2026-10-25'
+- id: partior
+  label:
+  - Partior
+  family: partior
+  sub: Quorum (EVM)
+  expand: collapsed
+  path: Digital Asset Networks › Permissioned consensus › Consortium
+  desc: 'The bank-owned interbank settlement network that grew out of Singapore’s Project Ubin: founded in 2021 by DBS, J.P. Morgan and Temasek, with Standard Chartered and Deutsche Bank as later shareholders and settlement banks, and described by Partior as “the production-live, multi-bank blockchain settlement network” for 24/7 atomic cross-border payments and FX payment versus payment. Emirates NBD went live on it for US dollar payments in July 2026. Announced as built on the Ethereum-based Consensys Quorum (EVM); Partior does not disclose its current stack. Member banks across Singapore, the United States, the United Kingdom, Germany and the UAE operate under Partior’s governance: Consortium, not Sovereign.'
+  sources:
+  - title: DBS, J.P. Morgan and Temasek joint press release, 28 April 2021 (platform built on Consensys Quorum), as republished by The Asian Banker
+    url: https://www.theasianbanker.com/press-releases/dbs,-j.p.-morgan-and-temasek-to-establish-platform-to-transform-interbank-value-movements-in-a-new-digital-era
+    checked: '2026-10-25'
+  - title: Partior (production-live, multi-bank settlement network; institutions and investors)
+    url: https://www.partior.com/
+    checked: '2026-10-25'
+  - title: Finextra, Deutsche Bank invests in Partior (Series B, euro and US dollar settlement bank; secondary source)
+    url: https://www.finextra.com/newsarticle/45127/deutsche-bank-invests-in-partior
+    checked: '2026-10-25'
+  - title: The Asian Banker, Emirates NBD goes live on Partior (July 2026; secondary source)
+    url: https://www.theasianbanker.com/updates-and-articles/emirates-nbd-goes-live-on-partior-for-24-7-usd-settlement-deutsche-bank-expands-apac-escrow
+    checked: '2026-10-25'
+- id: agora
+  label:
+  - Project Agorá
+  family: agora
+  sub: BIS, 8 central banks, 40+ firms
+  expand: collapsed
+  path: Digital Asset Networks › Permissioned consensus › Consortium
+  desc: 'The BIS Innovation Hub project in which eight central banks (seven at launch in April 2024: the Banque de France for the Eurosystem, the Bank of Japan, the Bank of Korea, Banco de México, the Swiss National Bank, the Bank of England and the Federal Reserve Bank of New York; the Bank of Canada joined in May 2026) and more than forty private financial firms test tokenised commercial bank deposits and wholesale central bank money on one programmable platform; real-value transactions in six currencies were tested in July 2026. A consortium spanning several jurisdictions, hence not Sovereign, and a signal of how many central banks are working with Ethereum technology: the platform is reported to run on Besu with QBFT consensus (LF Decentralized Trust’s 2026 adoption report), while the BIS itself says only “programmable ledger”.'
+  sources:
+  - title: BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+  - title: BIS Innovation Hub, Project Agorá (eight central banks; real-value testing July 2026)
+    url: https://www.bis.org/about/bisih/topics/fmis/agora.htm
+    checked: '2026-10-25'
+  - title: Bank of Canada joins Project Agorá (27 May 2026)
+    url: https://www.bankofcanada.ca/2026/05/bank-canada-joins-bis-project-agora-test-improvements-wholesale-cross-border-payments/
+    checked: '2026-10-25'
+  - title: LF Decentralized Trust, Institutional adoption report 2026 (Besu with QBFT; semi-primary)
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+- id: ethereum
+  label:
+  - Ethereum mainnet
+  family: netc
+  pill: true
+  eth: true
+  mark: ETH
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissionless consensus › Dynamically Permissionless
+  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so blocks keep coming at any level of participation, and absent validators lose stake slowly through the inactivity leak, in proportion to what they would have earned. Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online, and a validator that signs two conflicting messages (for example the same key run in two places) is slashed heavily and ejected, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
+  sources:
+  - title: ethereum.org, Proof-of-stake (32 ETH deposit, slashing and ejection)
+    url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/
+    checked: '2026-10-25'
+  - title: ethereum.org, Rewards and penalties (inactivity leak, slashing amounts)
+    url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/
+    checked: '2026-10-25'
+  - title: EIP-7251, increase the MAX_EFFECTIVE_BALANCE (32 ETH minimum, 2,048 ETH maximum)
+    url: https://eips.ethereum.org/EIPS/eip-7251
+    checked: '2026-10-25'
+  - title: Lewis-Pye and Roughgarden, Permissionless Consensus, Appendix B (Gasper at two levels of the hierarchy)
+    url: https://arxiv.org/abs/2304.14701
+    checked: '2026-10-25'
+- id: base
+  label:
+  - Base
+  family: netc
+  pill: true
+  eth: true
+  mark: ETH
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissioned consensus
+  desc: 'An Ethereum Layer 2 rollup (OP Stack) operated by Coinbase. The ledger is public and every transaction is posted to Ethereum mainnet, which settles the result and lets anyone reconstruct the state, but ordering runs through a single sequencer that Coinbase operates, so consensus is permissioned today. Users can force transactions through Ethereum mainnet (within about 12 hours) if the sequencer censors or stops, and fraud-proof submission is open. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  sources:
+  - title: Base terms of service (the Coinbase Sequencer is a node operated by Coinbase)
+    url: https://docs.base.org/terms-of-service
+    checked: '2026-10-25'
+  - title: L2BEAT, Base (Stage 1, forced inclusion, open fraud proofs; secondary source)
+    url: https://l2beat.com/scaling/projects/base
+    checked: '2026-10-25'
+- id: arbitrum
+  label:
+  - Arbitrum One
+  family: netc
+  pill: true
+  eth: true
+  mark: ETH
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissioned consensus
+  desc: 'An Ethereum Layer 2 rollup (Nitro) whose single sequencer is run by Offchain Labs under the Arbitrum DAO. Data and fraud proofs settle on Ethereum mainnet, validation has been permissionless since BoLD activated in February 2025, and users can force inclusion through the delayed inbox within a day, but block ordering is still one permissioned operator, so it sits in public permissioned consensus. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  sources:
+  - title: Arbitrum docs, glossary (Offchain Labs runs the sequencers for Arbitrum One)
+    url: https://docs.arbitrum.io/intro/glossary
+    checked: '2026-10-25'
+  - title: Arbitrum docs, the sequencer (delayed inbox and forced inclusion)
+    url: https://docs.arbitrum.io/how-arbitrum-works/sequencer
+    checked: '2026-10-25'
+  - title: Arbitrum docs, BoLD (permissionless validation, active on Arbitrum One)
+    url: https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction
+    checked: '2026-10-25'
+- id: optimism
+  label:
+  - OP Mainnet
+  family: netc
+  pill: true
+  eth: true
+  mark: ETH
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissioned consensus
+  desc: 'The first OP Stack rollup. Public ledger settled on Ethereum mainnet with permissionless fault proofs since June 2024, and users can always bypass the sequencer by depositing a transaction through the OptimismPortal, but a single sequencer set by Optimism governance orders blocks, so consensus is permissioned until sequencing is decentralised. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  sources:
+  - title: Optimism, permissionless fault proofs and Stage 1 arrive on OP Mainnet (10 June 2024)
+    url: https://www.optimism.io/blog/permissionless-fault-proofs-and-stage-1-arrive-to-the-op-stack
+    checked: '2026-10-25'
+  - title: Optimism docs, sequencer outages (users can always bypass the sequencer)
+    url: https://docs.optimism.io/stack/rollup/outages
+    checked: '2026-10-25'
+  - title: L2BEAT, OP Mainnet (single sequencer set by the foundation operations safe; secondary source)
+    url: https://l2beat.com/scaling/projects/optimism
+    checked: '2026-10-25'
+- id: polygon
+  label:
+  - Polygon PoS
+  family: netc
+  pill: true
+  eth: true
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissionless consensus › Quasi Permissionless
+  desc: 'A side-chain of Ethereum mainnet: Bor, built on Geth, executes blocks and a CometBFT-based Heimdall layer checkpoints them to Ethereum mainnet, where the staking and bridge contracts live. Validator seats are capped (100 at launch, 105 since PIP-4) and were originally filled by open on-chain auction, with anyone able to displace the lowest-ranked validator by staking more; today a seat opens only when an incumbent leaves, and applicants with 100,000 POL of self-stake are reviewed for it. EI treats it as quasi-permissionless because the design admits anyone with stake, with the caveat that entry now waits on a vacancy and a review. Its security is its own, not inherited from Ethereum mainnet, which is what separates a side-chain from a rollup. Runs the EVM. Smart contracts: yes; the EVM.'
+  sources:
+  - title: Polygon docs, PoS architecture overview (Heimdall-v2 and Bor, built on Go Ethereum)
+    url: https://docs.polygon.technology/pos/architecture/overview/
+    checked: '2026-10-25'
+  - title: Polygon docs, becoming a validator (105 cap, seats open on exit, applications reviewed, 100,000 POL)
+    url: https://docs.polygon.technology/pos/get-started/becoming-a-validator/
+    checked: '2026-10-25'
+  - title: 'Matic Network, staking update and becoming a validator (2020: newcomers replace the lowest-ranked validator by stake)'
+    url: https://medium.com/the-polygon-blog/matic-network-staking-update-and-becoming-a-validator-d1a06aac258a
+    checked: '2026-10-25'
+- id: avalanche
+  label:
+  - Avalanche
+  family: netc
+  pill: true
+  eth: true
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissionless consensus › Quasi Permissionless
+  desc: 'Snowman consensus with repeated sub-sampled voting among stakers. Anyone can validate the primary network by staking at least 2,000 AVAX with no approval (about 600 validators), but liveness and safety assume the staked validators respond, so quasi-permissionless. The C-Chain is an implementation of the EVM. Smart contracts: yes; the EVM.'
+  sources:
+  - title: Avalanche docs, how to stake (2,000 AVAX minimum)
+    url: https://build.avax.network/docs/nodes/validate/how-to-stake
+    checked: '2026-10-25'
+  - title: Avalanche docs, primary network (C-Chain is an EVM implementation)
+    url: https://build.avax.network/docs/quick-start/primary-network
+    checked: '2026-10-25'
+- id: hedera
+  label:
+  - Hedera
+  family: netc
+  pill: true
+  eth: true
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Consortium ∩ Public › Permissioned consensus
+  desc: 'A public ledger (anyone may transact and run a mirror node) whose 30 consensus nodes are, in Hedera’s own words, “currently permissioned; operated by the Hedera Council”, a fixed group of about 30 large organisations: Consortium ∩ Public with permissioned consensus. Unlike Canton it keeps one shared state that every consensus node holds and agrees on. Its smart contract service embeds the Besu EVM, so it counts as Ethereum ecosystem. Smart contracts: yes; the Hedera Smart Contract Service embeds the Besu EVM.'
+  sources:
+  - title: Hedera docs, mainnet nodes (permissioned, operated by the Hedera Council; 30 nodes)
+    url: https://docs.hedera.com/hedera/networks/mainnet/mainnet-nodes
+    checked: '2026-10-25'
+  - title: Hedera docs, EVM on Hedera (embeds Hyperledger Besu)
+    url: https://docs.hedera.com/evm/overview/evm-on-hedera-explained
+    checked: '2026-10-25'
+- id: bnb
+  label:
+  - BNB Chain
+  family: netc
+  pill: true
+  eth: true
+  expand: collapsed
+  sub: live institutional deployments
+  path: Digital Asset Networks › Public › Permissionless consensus › Quasi Permissionless
+  desc: 'Proof of Staked Authority on a fork of Geth. Anyone may register a validator with 2,000 BNB of self-stake; each day the top 45 by stake are elected (21 cabinet members and 24 candidates) and 21 of them order blocks in each epoch. No incumbent review, so quasi-permissionless under EI’s rule, but a few dozen validators in practice, and the chain is closely associated with the Binance group. Runs the EVM. Smart contracts: yes; the EVM.'
+  sources:
+  - title: BNB Chain docs, validator overview (2,000 BNB self-stake; 45 elected, 21 per epoch)
+    url: https://docs.bnbchain.org/bnb-smart-chain/validator/overview/
+    checked: '2026-10-25'
+  - title: bnb-chain/bsc README (go-ethereum fork, Parlia consensus)
+    url: https://github.com/bnb-chain/bsc
+    checked: '2026-10-25'
+- id: non
+  label:
+  - Network of Networks
+  family: canton
+  path: Digital Asset Networks › Permissioned consensus › Consortium ∩ Public
+  desc: 'Canton (Digital Asset) is drawn mostly inside Consortium with a small public component, which is EI’s view of it. The public part is the Global Synchronizer, Canton Coin and an open application process. The rest fits a consortium: the Global Synchronizer is run by Super Validators who admit new members by vote; a validator needs a sponsor, approval by a foundation committee and allowlisting of its IP address; and there is no shared ledger. Each participant node stores only the contracts its own parties are stakeholders in; Canton’s documentation calls the whole “an imaginary database that represents the union of all parties’ databases” that no single entity sees in its entirety. Synchronizers order encrypted messages and collect confirmations but never see contract contents, there is no global state root, and consistency between counterparties is checked afterwards by exchanged commitments, with a mismatch treated as a fork and repaired operationally. Only Canton Coin is globally visible, because the Super Validators are a signatory on every coin. Daml and the Canton code are open source (Apache 2.0); what is closed is the data, visible only to each contract’s stakeholders, and the membership, granted by approval. Digital Asset describes Canton as “the first public, permissionless blockchain”; by EI’s definition it is public in access but permissioned in consensus, since joining the validators or the Super Validators requires the existing participants’ approval, and it is not a globally verified shared ledger. Corda shares the model on the consortium side: each node stores only the transactions it is party to and notaries attest uniqueness “without global broadcast”. Cosmos and Polkadot are also called networks of networks, but each of their member chains is a complete shared ledger that anyone can verify, so they do not belong here.'
