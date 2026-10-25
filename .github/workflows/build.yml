@@ -18,16 +18,16 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
-      - name: Validate data and build page
+      - name: Validate data and build pages
         run: npm run build
       - name: Install Chromium for the smoke test
         run: npx playwright install --with-deps chromium
-      - name: Smoke test (renders page, applies every lens, screenshots)
+      - name: Smoke test (renders each map, applies every lens, screenshots)
         run: npm run check
-      - name: Upload built page and preview
+      - name: Upload built pages and previews
         uses: actions/upload-artifact@v4
         with:
-          name: digital-asset-taxonomy-${{ github.sha }}
+          name: digital-asset-maps-${{ github.sha }}
           path: |
             dist/digital-asset-taxonomy.html
             dist/digital-asset-taxonomy.fragment.html
@@ -35,6 +35,9 @@ jobs:
             dist/digital-asset-networks.html
             dist/digital-asset-networks.fragment.html
             dist/networks/preview.png
+            dist/web3.html
+            dist/web3.fragment.html
+            dist/web3/preview.png
       - name: Comment on the pull request
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7

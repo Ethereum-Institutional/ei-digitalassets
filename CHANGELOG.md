@@ -7,6 +7,8 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Repository layout.** The taxonomy's data moved from `data/` to `data/taxonomy/`, matching the other maps; each
+  map folder now carries its own editing guide (`README.md`) and the root README is a short overview.
 - **New page: Web3** (`/web3/`, data in `data/web3/`). A radial map: three concentric rings (Web 1.0 read, Web 2.0
   read and write, Web3 read, write and own) cut into six theme wedges (use case, implementation, technology,
   language, identity, content creation), each cell a sourced example (Webpage, Yahoo! Directory, Apache, HTML, LDAP,

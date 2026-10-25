@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds dist/ from data/*.yaml + src/template.html. No external services; deterministic output.
+// Builds dist/ from the YAML under data/ and the templates in src/. No external services; deterministic output.
 // Each entry in PAGES is one page: a data directory with the same file layout, rendered through the one template.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,7 +11,7 @@ const read = p => fs.readFileSync(path.join(root, p), 'utf8');
 const PAGES = [
   { dir: 'data/home', out: '' },                             // landing page (static: cards linking to each map)
   { dir: 'data/web3', out: 'web3' },                         // Web3: three generations of the web
-  { dir: 'data', out: 'taxonomy' },                          // Digital Asset Taxonomy
+  { dir: 'data/taxonomy', out: 'taxonomy' },                 // Digital Asset Taxonomy
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
