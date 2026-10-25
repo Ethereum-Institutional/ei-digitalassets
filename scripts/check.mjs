@@ -13,7 +13,7 @@ for (const [html, png] of PAGES) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1700 } });
   page.on('pageerror', e => errors.push(`${html}: ${e}`));
   await page.goto('file://' + path.join(root, html)); await page.waitForTimeout(400);
-  const nodes = await page.locator('svg .node').count();
+  const nodes = await page.locator('svg .node, .ei-gauges .node').count(); // gauge pages draw their dials as HTML cards
   const d = JSON.parse(fs.readFileSync(path.join(root, html), 'utf8').match(/const DATA = (\{.*?\});\n/s)[1]);
   // map pages: one node per circle; radial pages: one per ring handle, one per cell and one per hub wedge
   const expected = d.circles ? d.circles.length : d.kind === 'gauges' ? d.themes.length : d.rings.length * (d.themes.length + 1) + d.themes.length;
