@@ -35,6 +35,12 @@ self-contained HTML file. Every placement and definition carries its sources, sh
 
 ## Editing
 
+**Where edits go.** Since 26 October 2026 the maps are maintained in the `maps/` folder of the Ethereum
+Institutional platform repository (`ei-platform`, private). The public repository `ei-digitalassets` is a mirror
+that publishes the site; its contents are pushed by the platform's `maps-mirror.yml` workflow (or by hand with
+`rsync -a --delete --exclude .git maps/ <clone of ei-digitalassets>/` followed by a commit and push) and nobody
+edits it directly. Open issues on the public repository; send changes to the platform repository.
+
 You do not need to run anything locally. Edit a file on GitHub, open a pull request, and the CI check will
 validate your change, build the pages and attach a rendered preview to the pull request. Each map's folder has a
 `README.md` with the editing guide for that map:

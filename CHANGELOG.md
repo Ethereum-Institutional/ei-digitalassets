@@ -35,6 +35,15 @@ and lens treatments may change in any release.
   to 4.67. The rules dial is unchanged: Bitcoin and Ethereum mainnet both read 4, because miners or the maintainers
   of the dominant client can still block a change. Solana, Stellar, Canton and the generic designs do not move.
 
+- **Decentralization: one method at two depths (eiplatform D52).** The dials now derive from the registered
+  scorecard, and `scripts/sync-scorecard.sh` in the platform repository checks they agree. Single points of failure
+  takes the weakest of client count, the largest client's share (a quarter, a third, a half, two thirds) and node
+  spread on the HHI across providers, countries and legal jurisdictions (the EU as one), which moves Ethereum mainnet
+  from 4 to 2 there: nodes by jurisdiction are highly concentrated, not unconcentrated as the note said. Who can stop
+  it states its basis (attributed stake, a staking protocol counted by its independent operators) and shows the
+  other bases. Open entry has a USD 100,000 line at a stated price and date, and the ETH price is now sourced. The
+  Ethereum mainnet lens gains a `measures:` block, the figures the registered scorecard is generated from.
+  Ethereum mainnet's weighted score moves from 4.67 to 4.48 (the single points of failure dial, 4 to 2).
 - **Decentralization: four named ledgers to compare.** The "Compare a design" menu now reads Ethereum mainnet, then
   Bitcoin, Canton, Solana and Stellar in alphabetical order, then the two generic architectures. Each new lens
   (`data/decentralization/lenses/{bitcoin,canton,solana,stellar}.yaml`) carries a level, a hard-number reading and a
