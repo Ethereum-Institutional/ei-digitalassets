@@ -1,0 +1,31 @@
+# Quantum sub-page (static, work in progress). Short text with links to the primary material; sources collapsed.
+
+kind: static
+eyebrow: Ethereum Institutional · Research · Quantum
+notice:
+  title: Work in progress.
+  text: This page is being drafted. It links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+title: "Quantum: the two algorithms"
+slug: quantum-algorithms
+heading:
+  text: The two algorithms
+  italic: two
+intro: "Only two quantum algorithms matter for cryptography, and they do very different things: one breaks public-key signatures, the other only weakens hashes."
+sections:
+  - title: The two algorithms
+    items:
+      - title: Shor breaks public-key signatures
+        text: "A large enough quantum computer recovers a private key from its public key. That covers every elliptic-curve scheme a ledger uses: transaction signatures, validator signatures, and the pairings behind data commitments and most SNARKs. No such machine exists yet; the migration must be done before one does."
+        more:
+          title: NIST’s post-quantum standards (August 2024)
+          url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
+      - title: Grover only weakens hashes
+        text: "It halves a hash’s effective strength, so 256-bit hashes behave like 128-bit ones: weakened, not broken. Addresses, state trees, hash-based signatures and STARK proofs all survive, which is why the fix is to rebuild on hashes."
+        more:
+          title: ethereum.org on quantum resistance
+          url: https://ethereum.org/en/roadmap/security/quantum-resistance/

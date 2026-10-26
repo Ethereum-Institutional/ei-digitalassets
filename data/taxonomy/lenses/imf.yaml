@@ -1,0 +1,76 @@
+# Lens: IMF “digital money” types
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: imf
+group: standard-setter
+menu: 'IMF: “digital money” types'
+name: IMF “digital money” types
+short: IMF
+color: '#14130f'
+intro: 'This lens uses the IMF’s 2019 classification (The Rise of Digital Money); its more recent work generally speaks of “crypto-assets” and “tokenized money”. The IMF (2019) classifies digital money by the claim behind it: central bank money; b-money (bank deposits); e-money (claims redeemable at a fixed value, such as reserve-backed stablecoins); i-money (claims redeemable at a variable value, backed by assets such as gold or fund shares); and cryptocurrencies, which are not claims on anyone. Assets outside these groups are not treated as means of payment.'
+groups:
+- id: cbm
+  label: Central bank money
+  name: CBDC
+  color: '#312e81'
+  circles:
+  - cbdc
+  - rcbdc
+  - wcbdc
+  - fmi
+- id: b
+  label: b-money
+  name: bank deposits
+  color: '#6366f1'
+  circles:
+  - td
+  - dt
+- id: e
+  label: e-money
+  name: fixed-value claims
+  color: '#0ea5e9'
+  circles:
+  - lsc
+  tokens:
+  - USDC
+  - USDT
+- id: i
+  label: i-money
+  name: variable-value claims
+  color: '#155e75'
+  circles:
+  - pm
+  - fund
+- id: c
+  label: Cryptocurrency
+  name: no claim on an issuer
+  color: '#a21caf'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - alg
+status:
+  nat: part
+  sc: part
+  unreg: part
+notes:
+  nat: 'Cryptocurrencies: value rests on the protocol, not a claim on an issuer.'
+  sc: 'Fiat-backed stablecoins (“fiat tokens”) are e-money: fixed-value claims with a private backstop. The IMF calls algorithmic designs “managed coins”, a form of cryptocurrency; tokens redeemable at a variable value are i-money.'
+  unreg: 'Depends on the design. Fiat-reserve tokens are e-money in form, though the IMF notes that not every issuer gives a legally binding redemption guarantee; crypto-collateralized and synthetic dollars, which the 2019 paper does not address, are not fixed-value claims on an issuer.'
+  alg: 'A “managed coin” in the IMF’s terms: a cryptocurrency whose algorithm tries to hold a peg, with no claim on an issuer.'
+  USDC: 'Named by the IMF (2019) as blockchain-based e-money, a “fiat token”.'
+  USDT: A fiat token, so e-money in the IMF’s framework; the IMF notes that not every such issuer gives a legally binding redemption guarantee.
+  pm: 'Gold-backed tokens are i-money: redeemable at a variable value.'
+  fund: Tokens backed by money-market fund shares are i-money.
+  dt: 'b-money: a claim on a commercial bank, whatever the token architecture.'
+  lsc: 'e-money: a claim redeemable at a fixed value, backed by segregated reserves.'
+  fmi: 'What the IMF calls “synthetic CBDC”: a private claim fully backed by central bank reserves.'
+sources:
+- title: 'Adrian and Mancini-Griffoli, The Rise of Digital Money, IMF FinTech Note 19/01 (July 2019), Table 1 and stablecoin discussion'
+  url: https://www.imf.org/en/Publications/fintech-notes/Issues/2019/07/12/The-Rise-of-Digital-Money-47097
+  checked: '2026-10-24'
+last_reviewed: '2026-10-24'

@@ -1,0 +1,50 @@
+# Lens: US GENIUS Act “payment stablecoin”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: genius
+group: jurisdiction
+menu: 'US · United States (GENIUS Act): “payment stablecoin”'
+name: US GENIUS Act “payment stablecoin”
+short: US GENIUS Act
+color: '#6d28d9'
+intro: The GENIUS Act (2025) defines a payment stablecoin as a digital asset used for payment or settlement that the issuer must redeem for a fixed amount of money. It expressly excludes national currencies, deposits (including deposits recorded on a distributed ledger) and securities. A deliberately narrow perimeter.
+status:
+  sc: part
+  lsc: in
+  unreg: part
+  alg: out
+  fmi: out
+notes:
+  lsc: 'Payment stablecoins from permitted issuers: subsidiaries of insured banks, OCC-approved non-banks, and state-qualified issuers (or foreign issuers under a comparable regime). The Act takes effect on 18 January 2027, so no issuer is yet permitted. Circle (USDC) received final OCC approval for a national trust bank on 10 July 2026, which at launch provides custody only.'
+  sc: Only tokens redeemable for a fixed amount of money; yield-paying or algorithmic designs do not qualify as permitted payment stablecoins.
+  unreg: From July 2028 (three years after enactment), digital asset service providers may not offer or sell a payment stablecoin to US persons unless a permitted or registered foreign issuer issued it.
+  USDC: Circle is licensed under state law (money transmitter licenses in 46 states, a New York BitLicense and, from July 2026, an NYDFS limited-purpose trust charter) and has final OCC approval for a national trust bank, but it is not yet a permitted issuer under the Act, which takes effect on 18 January 2027.
+  USDT: Tolerated, not licensed or recognized. US platforms may offer it during the transition to July 2028; after that it would need a Treasury finding that El Salvador’s regime is comparable and OCC registration, and neither exists yet. Tether’s US product is a separate token, USAT.
+  alg: 'Not a permitted payment stablecoin: issuers must hold identifiable reserves of cash-like assets.'
+  cbdc: National currency is excluded.
+  td: Deposits recorded on a distributed ledger are expressly excluded.
+  dt: 'Expressly excluded as a deposit: legally distinct from a stablecoin, however similar it looks.'
+  sec: Securities are excluded.
+  fund: Securities are excluded, tokenized MMFs included.
+  nat: Not a payment stablecoin (no issuer, no redemption).
+  fmi: 'Not a payment stablecoin: a wholesale claim backed by central bank reserves.'
+sources:
+- title: OCC news release 2026-92, final rule implementing the GENIUS Act (21 October 2026)
+  url: https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html
+  checked: '2026-10-24'
+- title: Fenwick, GENIUS Act key provisions (July 2025), on the three-year transition for digital asset service providers
+  url: https://www.fenwick.com/insights/publications/congress-enacts-comprehensive-stablecoin-legislation-key-provisions-and-implications-of-the-genius-act
+  checked: '2026-10-24'
+- title: Circle, NYDFS limited-purpose trust charter (31 July 2026) and US licences
+  url: https://www.circle.com/pressroom/circle-granted-trust-charter-by-the-new-york-department-of-financial-services
+  checked: '2026-10-24'
+- title: Troutman Pepper, Treasury proposes rules to implement § 3 of the GENIUS Act (18 August 2026), incl. foreign-regime comparability
+  url: https://www.troutmanfinancialservices.com/2026/08/treasury-proposes-rules-to-implement-%C2%A7-3-of-the-genius-act-establishing-standards-for-payment-stablecoins-in-the-u-s-market/
+  checked: '2026-10-24'
+- title: Circle, final OCC approval to establish a national trust bank (10 July 2026)
+  url: https://investor.circle.com/news/news-details/2026/Circle-Receives-Final-OCC-Approval-to-Establish-National-Trust-Bank/default.aspx
+  checked: '2026-10-24'
+last_reviewed: '2026-10-24'

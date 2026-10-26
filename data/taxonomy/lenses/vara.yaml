@@ -1,0 +1,91 @@
+# Lens: Dubai VARA “virtual asset”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: vara
+group: jurisdiction
+menu: 'AE · Dubai (VARA): “virtual asset”'
+name: Dubai VARA “virtual asset”
+short: Dubai VARA
+color: '#0369a1'
+intro: Dubai Law No. 4 of 2022 defines a virtual asset broadly, as a digital representation of value that can be digitally traded or transferred and used for exchange, payment or investment, and lets VARA add any other digital representation of value. It has no express carve-out for securities or fiat. In practice the line is drawn by the asset inside the token. Security tokens (shares, bonds and sukuk, fund and SPV units) fall to the federal Capital Markets Authority (CMA), which replaced the Securities and Commodities Authority (SCA) on 1 January 2026. Dirham payment tokens, the Digital Dirham and bank deposits fall to the CBUAE. Applies in Dubai outside the DIFC.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: in
+  unreg: in
+  alg: in
+  pm: in
+  ocom: in
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  sec: out
+  eq: out
+  fund: out
+  fi: out
+  dv: part
+  sn: out
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: in
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  cbdc: Not regulated by VARA; the Digital Dirham is central bank money under the CBUAE.
+  td: Not regulated by VARA; bank deposits fall to the CBUAE.
+  dt: Not regulated by VARA; a deposit token is still a bank deposit under the CBUAE, whatever it is called.
+  sc: Fiat-referenced virtual assets (FRVAs) under the VARA Rulebook.
+  lsc: Fiat-referenced virtual assets (FRVAs) referencing currencies other than the dirham require VARA approval. Dirham-referenced tokens are payment tokens licensed by the CBUAE (see the AE · UAE (CBUAE) lens), and only those may be used for onshore payments for goods and services.
+  unreg: In the definition, but issuing or marketing in Dubai without VARA approval is prohibited.
+  alg: A virtual asset, but algorithmic stablecoins are prohibited under the CBUAE payment token rules.
+  pm: Asset-referenced virtual assets (ARVAs).
+  ocom: Generally ARVAs, unless structured as securities or derivatives.
+  re: Dubai Land Department / VARA tokenized title deeds are virtual assets; property tokens structured as securities (e.g. SPV shares) fall to the CMA.
+  pc: 'Usually out: typically structured as securities.'
+  coll: Assessed case by case; fractionalized ownership may be a security.
+  ip: Income-bearing royalty tokens are often securities.
+  sec: Security tokens fall to the federal CMA (formerly the SCA, under Federal Decree-Laws No. 32 and 33 of 2025), not VARA; tokens are classified by the asset inside them.
+  dv: Exchange-traded derivatives on virtual assets (futures, options, CFDs and perpetuals) are regulated by VARA under Exchange Services Rulebook v2.1 (in force 31 March 2026) and need separate approval. Derivatives on securities or commodities fall to the CMA.
+  fund: Fund units are securities under the CMA, tokenized MMFs included.
+  trk: Equity-linked instruments fall to the CMA. VARA’s definition of asset-referenced virtual assets counts an interest in a financial instrument as a real-world asset, so a token giving exposure without being a security could fall to VARA.
+  art: NFTs are assessed case by case; fractionalized NFTs may be securities.
+  game: Non-transferable or closed-loop in-game tokens are exempt virtual assets.
+  loy: Non-transferable loyalty points are exempt virtual assets.
+  id: Non-transferable credentials are generally exempt.
+  tix: Closed-loop or non-transferable tickets are exempt virtual assets.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources:
+- title: Dubai Law No. (4) of 2022 Regulating Virtual Assets, Arts. 2–3 (Dubai Legal Portal)
+  url: https://dlp.dubai.gov.ae/Legislation%20Reference/2022/Law%20No.%20(4)%20of%202022%20Regulating%20Virtual%20Assets.html
+  checked: '2026-10-24'
+- title: VARA Virtual Asset Issuance Rulebook, Schedule 2 definitions (ARVA, FRVA, RWA)
+  url: https://rulebooks.vara.ae/rulebook/schedule-1-definitions-0
+  checked: '2026-10-24'
+- title: Clyde & Co, UAE virtual assets update Q2 2026 (VARA Exchange Services Rulebook v2.1, CMA framework)
+  url: https://www.clydeco.com/en/insights/2026/05/uae-virtual-assets-update-q2-2026
+  checked: '2026-10-24'
+- title: King & Spalding, the 2025 CMA decree-laws (February 2026)
+  url: https://www.kslaw.com/insights/articles/a-new-era-for-uae-federal-securities-regulation-the-2025-cma-decree-laws-february-2026
+  checked: '2026-10-24'
+- title: Enterprise, how the UAE drew the line on tokenized assets (21 September 2026)
+  url: https://enterpriseam.com/menaplus/2026/09/21/how-the-uae-drew-the-line-on-tokenized-assets-and-why-it-matters-for-the-rest-of-the-region/
+  checked: '2026-10-24'
+- title: CBUAE Rulebook, Payment Token Services Regulation (effective 31 August 2024)
+  url: https://rulebook.centralbank.ae/en/rulebook/payment-token-services-regulation
+  checked: '2026-10-24'
+last_reviewed: '2026-10-24'

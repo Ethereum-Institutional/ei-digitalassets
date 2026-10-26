@@ -1,0 +1,148 @@
+# Lens: Canton Network, read as the Global Synchronizer and Canton Coin run by the Super Validators. `cells` places
+# each property on the level the reading falls in under themes.yaml; `notes` carries the reading, its date and its
+# source. Readings checked 26 October 2026 from the live DSO rules; the SV set, weights and validator count drift.
+# Writing rules: US spelling; no em-dashes; "Ethereum mainnet" for the chain when it is compared.
+
+id: canton
+order: 3
+name: Canton Network
+menu: Canton
+short: Canton
+color: '#a21caf'
+intro: 'Canton Network, read on 26 October 2026: the Global Synchronizer and Canton Coin as run by the Super Validators. All eleven properties at level 2. The three that define it: the synchronizer is ordered by 13 Super Validator nodes of 11 institutions, a club assembled by the vendor in which three parties can halt settlement; the rules are written and implemented by one vendor and ratified by a vote that has never gone against it; and there is no global state, so each participant verifies its own records while only Canton Coin is public. The design buys sub-transaction privacy and a membership of regulated institutions; what it does not give you is an operating record over three years, a security you can price, or a ledger anyone can check.'
+cells:
+  history: l1
+  developers: l1
+  stop: l1
+  cost: l1
+  rules: l1
+  property: l1
+  verify: l1
+  entry: l1
+  resilience: l1
+  issuance: l1
+  inclusion: l1
+readings:
+  history: '2.3 years; 4 scheduled halts, last Dec 2025'
+  developers: 'Canton repo 16 contributors; Splice 73'
+  stop: '3 of 11 entities can halt it; HHI 1,000'
+  cost: 'No bond; locked CC is never slashed'
+  rules: 'Vendor writes code and CIPs; never overruled'
+  property: 'DSO co-signs every CC; rules by SV vote'
+  verify: 'No global state; Scan shows CC only'
+  entry: 'Sponsor and committee; 831 validators'
+  resilience: '1 implementation; 13 nodes, 9 operators'
+  issuance: 'SVs minted 80%, 48%, now 20% of CC'
+  inclusion: '13 sequencers, all allowlisted; no forcing'
+notes:
+  history: '2.3 years: the Global Synchronizer went live on 1 July 2024 (Canton Network press release; the Canton Coin whitepaper says June) after a year of testing, and Canton Coin minting began with it. Production has not been continuous. Protocol upgrades were run as "Synchronizer Upgrades with Downtime": Super Validators vote a start time, traffic halts, every node exports a migration dump and the network restarts under a new migration ID. The Splice release notes mark 0.2.0, 0.3.0, 0.4.0 and 0.5.0 as requiring one; the last, CIP-0089 on 10 December 2025, was announced as 3 to 6 hours offline and completed in under a day across about 600 nodes. Logical Synchronizer Upgrades (Canton 3.5, June 2026) replace the halt with a topology freeze; the 9 to 10 October 2026 upgrade ran that way. Level 2: under three years and an operator-initiated halt within the year. No balance has been changed outside the rules.'
+  developers: 'The protocol is written by one vendor. The canton repository on GitHub shows 16 contributors, and 251 of its commits come from the canton-machine mirror bot, so the public history hides Digital Asset’s internal team; the daml repository has 191 contributors since 2019 and canton-network/splice, the synchronizer and Canton Coin code, 73 (GitHub, 26 October 2026); all three are Apache 2.0. Electric Capital does not report Canton or Daml as an ecosystem, and the Foundation’s own developer survey (January to February 2026) drew 41 active developers. What widens the base: the Protocol Development Fund, 5% of issuance under CIP-0082, had approved 42 projects with 290 million CC committed and 62.2 million paid by 24 August 2026, with outside firms building resilience and tooling work. Level 2, a few firms under one steward, and near the line with level 1 for the core.'
+  stop: 'The Global Synchronizer is ordered by the Super Validator nodes’ BFT layer, one vote per node. The live DSO rules list 13 nodes: Digital Asset (2), Cumberland (2), the Canton Foundation, MPCH, Five North, 7Ridge (C7 Technology Services), NodeOps, Liberty City Ventures, Orb-1 LP, Tradeweb and Proof Group. On one vote per node and 11 entities the HHI is about 1,006, which would read unconcentrated if this were an open set; it is not, the members admit the members, so the HHI bands do not apply and the count does. f is 4, so 5 nodes offline stall ordering and 9 (the on-chain voting threshold) are needed to act: three entities can halt it (Digital Asset with 2 nodes, Cumberland with 2, and any one more). Three parties is the handful cell, level 2, below the generic consortium on this page, which is where a 13-node club belongs. The Foundation’s own node has no disclosed operator; if it is run by or for Digital Asset, two parties can halt it and the dial reads 1. The Foundation’s node mints for about fifty members without nodes (Visa, DTCC, Nasdaq, Circle and others listed as its beneficiaries) and carries 49.7% of reward weight, but one vote. The sequencer hostnames of Liberty City Ventures and Orb-1 sit under MPCH’s domain, and Digital Asset’s two nodes resolve to one deployment; counted by operator the HHI is about 1,360, still level 4, and AWS hosts 7 of the 13. The genesis set of July 2024 was six nodes of four operators (Digital Asset 2, Cumberland 2, the Foundation, one undisclosed), and Digital Asset’s node still holds the DSO delegate role that runs the network’s automation. The nodes belong to regulated institutions, which is the strength of the design.'
+  cost: 'Super Validators post no bond: they are admitted by a two-thirds vote on a Canton Improvement Proposal and can be voted out the same way. CIP-0105 (approved 2 March 2026) asks a Tier 1 SV to lock 70% of its lifetime Canton Coin rewards, stepping down to 55% by year three, to keep its full reward weight; the penalty for under-locking is loss of weight, never of coin, and nothing in the protocol slashes for equivocation or a halt. Control of ordering therefore means compromising or compelling 9 of 13 institutions (5 to stop it), whose cost is reputational and regulatory, not a sum you can model. That is level 2, reputation only. The quality of those institutions (Tradeweb, Cumberland, Digital Asset, the Foundation) is real security, but it is not security you can price.'
+  rules: 'Changes go through Canton Improvement Proposals: anyone may author one, but a vote needs a Super Validator sponsor and a second endorser, runs ten days, and passes with "a two-thirds majority of Super Validator rights holders" (62 today, most of them minting through the Foundation’s node); on-chain adoption then needs 9 of 13 node votes in the live rules. Digital Asset writes Canton, Daml and Splice; the Canton Foundation (board capped at 25 seats, October 2026) keeps the CIP repository. Four upgrades and the tokenomics changes of 2026 (CIP-0082 development fund, CIP-0105 locking, CIP-0114 treasury companies) all passed this way. The body was bootstrapped by the vendor: CIP-0000 and CIP-0001, the tokenomics rules, were written by Digital Asset’s co-founder and approved in January 2024 by a pre-launch group, and the first membership votes of May 2024 ran on his email thread with “silence will be assumed to be in favor” (vote record in the CIP repository). Differences of view since are small but real: CIP-0033 was rejected 11 to 0 in December 2024, Cumberland withheld two votes pending scope, Copper recused over a conflict, and five CIPs were withdrawn. A closed body votes, but in about 130 proposals it has never decided against the vendor: Digital Asset writes the only implementation, authored the constitutional and tokenomics CIPs, holds the DSO delegate role, and the body’s one rejection was of an outside applicant on a working group’s recommendation. A vote that has never gone against the implementer is a ratification, so this is the vendor-decides cell, level 2, until the record shows the body amending or refusing something the vendor proposed. Nobody outside the body can force or stop a change either way.'
+  property: 'Every Canton Coin is a Daml contract with "signatory dso, owner" (Splice Amulet.daml): the DSO party, which two thirds of SV nodes control, co-signs each coin, alone controls Amulet_ExpireV2 (the holding-fee expiry) and governs AmuletRules, through which every transfer runs, by on-ledger vote. A validator can be offboarded and its IP removed from the SV allowlist by vote, which stops it transacting. There is no explicit seizure choice and no recorded rewrite of history, so this is freeze by process (level 2). Other assets are Daml contracts visible only to their stakeholders; the synchronizer orders encrypted views and cannot read or change them, so an issuer’s controls live in its own contract, as they should. Sub-transaction privacy is Canton’s genuine strength; it is a different property from freeze power.'
+  verify: 'There is no global state. A participant node "only stores the data for Daml contracts whose signatories and observers are hosted on the Participant" (Canton docs); the synchronizer sees only encrypted views, and counterparties reconcile commitments afterwards (every 1,800 seconds in the live config), with a mismatch handled operationally. Your auditor can verify your own records in full through the Ledger API, which is what level 2 describes: participants see their own records, nobody can check the whole. The exception is Canton Coin: each SV runs a Scan node that sees every transaction involving the DSO party, so coin supply, transfers and governance votes are public through the Scan API (no authentication declared on its external endpoints) and readable from any of the 13 Scans or from several compared. Nothing else is visible to an outsider, by design: a non-stakeholder cannot verify that a tokenized bond transfer was ever ordered, only that a validator bought traffic.'
+  entry: 'Using the ledger means a validator node, and a validator is admitted: a sponsoring Super Validator, approval by the Foundation’s weekly Tokenomics Committee (up to 50 MainNet validators a week), a static egress IP adopted into the SV allowlist by a majority of SVs (2 to 7 days) and a one-time secret valid 48 hours (Canton docs, onboarding process; Foundation policies). The bar is modest once admitted (2 CPUs, 8 GB RAM for a low-activity node) and 831 validators had been approved by 26 October 2026, so the gate is wide, but it is a gate. The committee is five voting members appointed by the Foundation’s board, chaired by Cumberland with Digital Asset in one seat (charter approved 16 October 2026); its approval is Foundation policy rather than a protocol check, and no criterion a validator can fail or record of a refusal is published. Super Validators are added by two-thirds vote on a CIP (one applicant rejected, December 2024); CIP-0114 (April 2026) lets listed treasury companies earn one SV weight per USD 50 million of Canton Coin, capped at 20. Level 2: members admit members, through a gate the founding vendor assembled in 2024; users are the members’ customers. Canton Coin itself trades freely.'
+  resilience: 'One implementation: Canton and Splice, written by Digital Asset, on every node; Zenith’s EVM layer runs through Daml contracts and is not a second client. The synchronizer is 13 SV nodes, each with a sequencer, a mediator and one ordering node; ordering was single-leader CometBFT, and the Canton 3.5.15 notes (27 August 2026) introduce multi-leader CantonBFT, which the 10 October 2026 upgrade was announced to adopt. Sequencer hostnames show nine operator domains, with MPCH hosting three nodes (its own, Liberty City Ventures and Orb-1 LP); five nodes offline stop ordering. Hosting is spread across institutions in several jurisdictions, which is why this reads level 2 rather than 1: one implementation, several hosts. A bug in Canton reaches all 13 nodes and all 831 validators at once.'
+  issuance: 'Canton Coin has no pre-mine and the Foundation took no allocation; coins are minted each ten-minute round on a schedule in the live AmuletRules: 40 billion a year for the first half year with 80% to Super Validators, 20 billion to 18 months with 48%, 10 billion to year five with 20%, then 10% and, after year ten, 2.5 billion a year with 5%; validators and apps take the rest and unclaimed shares are not minted. On that schedule about 27 of the 48 billion CC issuable to date were SV coupons (computed from the curve; actual minting is lower, so the SV share of what was minted is higher); supply is 39.9 billion after burns (CoinMarketCap, 26 October 2026, USD 4.1 billion). The founding set is the closed SV group, four operators holding all SV weight when 80% of issuance went to SVs; no primary source publishes what each claimed, a third-party reading of March 2026 puts about 34% of all minted coin with SVs, CIP-0067 (July 2025) moved 1.6 to 1.7 billion CC of unclaimed rewards to the Foundation, Digital Asset holds 8.0% of SV weight today (23% in January 2025) and its coin holdings are undisclosed, so the quarter-or-more reading is an inference from the schedule and the observed split, stated as such. There was no pre-mine and no owner allocation, which keeps it off the lowest cell. The schedule is changed by two-thirds vote, as CIP-0082 did. Level 2: founders hold a quarter or more, issuance not fixed.'
+  inclusion: 'Every transaction is ordered by one of the 13 SV sequencers, and only an onboarded validator whose IP is on the SV allowlist can submit, so all 13 apply the same admission filter and a two-thirds vote can remove anyone; nothing in the protocol forces a transaction in. Traffic is 200,000 bytes free per 20 minutes, then USD 60 per MB paid in Canton Coin at an SV-voted median rate and burned (live AmuletRules), a fixed, published price with no builders and no priority auction, which is what Canton does well here. The largest ordering operator runs 2 of 13 nodes (15%), 3 (23%) counted by host, so no single party orders blocks, which is what keeps this off the lowest cell. Level 2 because every block producer filters, even though the filter is membership rather than sanctions, and the allowlist is the Foundation’s policy applied by all 13: a transaction it declines has nowhere else to go.'
+sources:
+- title: 'Canton Foundation SV node, DSO rules and AmuletRules (live: 13 SV nodes, reward weights, voting threshold 9, issuance curve, traffic price)'
+  url: https://docs.global.canton.network.sync.global/dso
+  checked: '2026-10-26'
+- title: 'canton-foundation/configs, MainNet approved-sv-id-values.yaml (13 SV identities, reward weights, Foundation-node beneficiaries)'
+  url: https://github.com/canton-foundation/configs/blob/main/configs/MainNet/approved-sv-id-values.yaml
+  checked: '2026-10-26'
+- title: 'Canton Foundation (62 Super Validator nodes, 831 validators, news list)'
+  url: https://canton.foundation/
+  checked: '2026-10-26'
+- title: 'Canton docs, Super Validator governance reference (vote formula, Add SV, Offboard SV, reward weight)'
+  url: https://docs.canton.network/overview/reference/sv-governance-reference.md
+  checked: '2026-10-26'
+- title: 'Canton docs, What are CIPs (two-thirds of SV rights holders; sponsor and endorser; on-chain adoption)'
+  url: https://docs.canton.network/overview/reference/what-are-cips
+  checked: '2026-10-26'
+- title: 'Canton docs, Canton Foundation policies (validator approval by Tokenomics Committee, IP allowlist, 48-hour secret)'
+  url: https://docs.canton.network/overview/reference/gsf-policies.md
+  checked: '2026-10-26'
+- title: 'Canton docs, validator onboarding process (sponsor, allowlist adoption 2 to 7 days, one-time secret)'
+  url: https://docs.canton.network/global-synchronizer/deployment/onboarding-process.md
+  checked: '2026-10-26'
+- title: 'Canton docs, validator prerequisites (2 CPUs, 8 GB RAM, 10 GB for a low-activity production node)'
+  url: https://docs.canton.network/global-synchronizer/deployment/prerequisites.md
+  checked: '2026-10-26'
+- title: 'Canton docs, synchronizer traffic (USD per MB, free burst, price set by SV vote, median exchange rate)'
+  url: https://docs.canton.network/global-synchronizer/deployment/synchronizer-traffic.md
+  checked: '2026-10-26'
+- title: 'Canton docs, participant node overview (stores only contracts whose stakeholders it hosts)'
+  url: https://docs.canton.network/overview/reference/participant-overview
+  checked: '2026-10-26'
+- title: 'Canton docs, Super Validator components (sequencer, mediator, ordering node and Scan per SV)'
+  url: https://docs.canton.network/overview/reference/super-validator-components.md
+  checked: '2026-10-26'
+- title: 'Canton 3.5.15 release notes, 27 August 2026 (CantonBFT replaces single-leader CometBFT on the Global Synchronizer)'
+  url: https://docs.canton.network/global-synchronizer/release-notes/canton-releases/3-5-15
+  checked: '2026-10-26'
+- title: 'Splice release notes (0.2.0, 0.3.0, 0.4.0, 0.5.0 require a Synchronizer Upgrade with Downtime)'
+  url: https://docs.canton.network/global-synchronizer/release-notes/splice
+  checked: '2026-10-26'
+- title: 'Canton Network forum, MainNet v0.5.1 major upgrade announcement (10 December 2025, 3 to 6 hours offline, CIP-0089)'
+  url: https://forum.canton.network/t/canton-network-mainnet-v0-5-1-major-upgrade-announcement-and-advice/8287
+  checked: '2026-10-26'
+- title: 'Canton blog, Canton Network goes live with Logical Synchronizer Upgrades (29 June 2026; four protocol upgrades since launch)'
+  url: https://www.canton.network/blog/logical-synchronizer-upgrades
+  checked: '2026-10-26'
+- title: 'Canton Network press release, Global Synchronizer and Canton Coin go live (1 July 2024)'
+  url: https://www.canton.network/canton-network-press-releases/the-canton-networks-global-synchronizer-and-canton-coin-go-live
+  checked: '2026-10-26'
+- title: 'Linux Foundation press release, Global Synchronizer Foundation formed (1 July 2024; 18 founding members)'
+  url: https://www.linuxfoundation.org/press/leading-market-participants-partner-with-the-linux-foundation-to-form-the-global-synchronizer-foundation
+  checked: '2026-10-26'
+- title: 'Canton Foundation, Protocol Development Fund: the first report (24 August 2026; 42 projects, 290 million CC committed)'
+  url: https://canton.foundation/protocol-development-fund-the-first-report/
+  checked: '2026-10-26'
+- title: 'Canton Foundation, Governance built to grow with Canton (22 October 2026; board capped at 25 seats)'
+  url: https://canton.foundation/governance-built-to-grow-with-canton/
+  checked: '2026-10-26'
+- title: 'CIP-0105, Super Validator locking and long-term commitment framework (70% lock; weight loss, no slashing)'
+  url: https://github.com/canton-foundation/cips/blob/main/cip-0105/cip-0105.md
+  checked: '2026-10-26'
+- title: 'canton-foundation/cips (CIP-0082 development fund, CIP-0089 migration, CIP-0114 treasury companies)'
+  url: https://github.com/canton-foundation/cips
+  checked: '2026-10-26'
+- title: 'Splice, Amulet.daml (template Amulet: signatory dso, owner; Amulet_ExpireV2 controlled by dso)'
+  url: https://github.com/canton-network/splice/blob/main/daml/splice-amulet/daml/Splice/Amulet.daml
+  checked: '2026-10-26'
+- title: 'GitHub, digital-asset/canton (Apache 2.0; 16 contributors, mirror bot) and canton-network/splice (73 contributors)'
+  url: https://github.com/digital-asset/canton
+  checked: '2026-10-26'
+- title: 'CoinMarketCap, Canton (CC): supply 39.9 billion, market cap USD 4.1 billion'
+  url: https://coinmarketcap.com/currencies/canton-network/
+  checked: '2026-10-26'
+- title: 'Digital Asset, Canton Coin whitepaper (July 2024; MainNet live June 2024)'
+  url: https://www.canton.network/hubfs/Canton%20Network%20Files/Documents/Canton%20Coin_%20A%20Canton-Network-native%20payment%20application.pdf
+  checked: '2026-10-26'
+- title: 'canton-foundation/cips, CIP-0011 vote record (May 2024 email ballot run by Digital Asset; “silence will be assumed to be in favor”)'
+  url: https://github.com/canton-foundation/cips/tree/main/cip-0011
+  checked: '2026-10-26'
+- title: 'canton-foundation/cips, CIP-0033 vote record (Strange Pixels rejected 11 to 0; Cumberland hold-outs; Copper recusal)'
+  url: https://github.com/canton-foundation/cips/tree/main/cip-0033
+  checked: '2026-10-26'
+- title: 'CIP-0000, Canton Improvement Proposal process (author and approval dates; rights holders vote by GitHub Team Voting)'
+  url: https://github.com/canton-foundation/cips/blob/main/cip-0000/cip-0000.md
+  checked: '2026-10-26'
+- title: 'Canton Foundation, Tokenomics Committee (five voting members, chair Cumberland, Digital Asset one seat) and its charter (approved 16 October 2026)'
+  url: https://intro.canton.foundation/committee-tokenomics.html
+  checked: '2026-10-26'
+- title: 'Canton Foundation, About the Foundation (19 board members, chair DTCC)'
+  url: https://canton.foundation/about-the-foundation/
+  checked: '2026-10-26'
+- title: 'CIP-0067, Transfer of historical unclaimed rewards to the Foundation (1.6 to 1.7 billion CC, July 2025)'
+  url: https://github.com/canton-foundation/cips/blob/main/cip-0067/cip-0067.md
+  checked: '2026-10-26'
+- title: 'Splice, Scan OpenAPI (external endpoints without a security scheme; DSO-party scope)'
+  url: https://github.com/canton-network/splice/blob/main/apps/scan/src/main/openapi/scan.yaml
+  checked: '2026-10-26'
+- title: 'Nick Sawinyh, Canton Coin tokenomics (observed minted split, 27 March 2026; third-party, unverified)'
+  url: https://sawinyh.com/blog/canton-coin-tokenomics/
+  checked: '2026-10-26'

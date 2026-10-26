@@ -1,0 +1,69 @@
+# Privacy: circles (content)
+# Three circles for what a design hides from the public on a shared ledger: Confidential tokens (how much: amounts,
+# balances and asset type; the center of the page, drawn first and heavier), Anonymity (who: counterparties) and
+# Private execution (what: contract logic and state), after Project Epic's dimensions of institutional privacy. A badge sits in the region matching what it hides
+# from the public by default. The "Before the block" box holds designs that hide timing and intent before a
+# transaction is included, not ledger state. Positions and sizes live in layout.yaml.
+# Writing rules: US spelling; no em-dashes; quote YAML values that contain ": "; "Ethereum mainnet" for the chain.
+
+palette:
+  ledger:
+  - '#f8f6f2'
+  - '#cfc9bd'
+  who:
+  - '#e9e3ee'
+  - '#65547a'
+  amount:
+  - '#d9e1f2'
+  - '#3a4a8f'
+  logic:
+  - '#e2e8ea'
+  - '#4f6872'
+  block:
+  - '#efece6'
+  - '#9a948a'
+containers:
+- ledger
+children:
+  ledger:
+  - who
+  - amount
+  - logic
+  - block
+inherit_status: {}
+circles:
+- id: ledger
+  label:
+  - Privacy on a shared ledger
+  family: ledger
+  path: ''
+  desc: 'A public ledger shows every transaction to everyone: who, to whom, how much and what the contract did. Addresses are pseudonyms, not privacy. Privacy designs hide part of that from the public while the ledger still verifies every rule. Hiding it from the public is not hiding it from everyone: Focus on shows who else can see it.'
+- id: who
+  label:
+  - Anonymity
+  family: who
+  sub: 'who: the counterparties'
+  path: Privacy on a shared ledger
+  desc: 'Anonymity hides the parties: sender, receiver and the holders of an asset. Hiding them breaks the public link between accounts, either by pooling deposits so a withdrawal cannot be traced to its source (shielded pools and mixers) or by paying each time to a fresh address only the recipient can find (stealth addresses). This is what an analytics firm uses to map your counterparties and positions. It is also what sanctions screening and transaction monitoring rely on, which is why designs that hide it must give an issuer or a regulator another way to see.'
+- id: amount
+  label:
+  - Confidential
+  - tokens
+  family: amount
+  sub: 'how much: amounts and balances'
+  path: Privacy on a shared ledger
+  desc: 'Confidential tokens hide the value: amounts, balances and which asset moved. They are the center of privacy on Ethereum and the first thing institutions ask for. Hiding the value while the parties stay visible is confidentiality without anonymity: monitoring still sees who transacts with whom, but not your size or position. Where a design also hides the parties (the overlap with Anonymity), it is a shielded pool or a notarized token.'
+- id: logic
+  label:
+  - Private execution
+  family: logic
+  sub: 'what: contract logic and state'
+  path: Privacy on a shared ledger
+  desc: 'Private execution hides the business logic: contract terms, order books, eligibility rules and any state beyond a balance. Hiding it needs private execution: a private EVM group whose members alone hold the state, a private chain whose operator keeps the state off the public ledger and proves it correct, or an EVM privacy node run by each institution. This is what lets a repo, a fund subscription or an auction run on a shared ledger without publishing its terms.'
+- id: block
+  label:
+  - Before the block
+  family: block
+  sub: timing and intent
+  path: Privacy on a shared ledger
+  desc: 'Designs that hide a transaction only until it is included: private order flow sent straight to block builders, encrypted mempools that decrypt after ordering, and private or anonymized RPC so a node provider cannot see who asked what. They protect against front-running and leakage of intent, and they leave the ledger itself unchanged: once included, everything is public unless one of the designs in the circles is used as well. The privacy review has to follow the whole workflow, from funding through fees and RPC to withdrawal, not only the token.'

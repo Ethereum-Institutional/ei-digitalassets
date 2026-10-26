@@ -1,0 +1,59 @@
+# Lens: FSB “crypto-asset”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: fsb
+group: standard-setter
+menu: 'FSB: “crypto-asset”'
+name: FSB “crypto-asset”
+short: FSB
+color: '#1d4ed8'
+intro: The Financial Stability Board defines a crypto-asset as a private-sector digital asset that depends primarily on cryptography and distributed-ledger or similar technology. Stablecoins are crypto-assets that aim to keep a stable value against a specified asset; “global stablecoins” get additional recommendations. CBDCs are public money and fall outside. The guiding principle is “same activity, same risk, same regulation”.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: part
+  dt: part
+  sc: in
+  unreg: in
+  alg: in
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  sec: part
+  eq: part
+  fund: part
+  fi: part
+  dv: part
+  sn: part
+  trk: part
+  art: part
+  game: in
+  comm: in
+  gov: in
+  util: in
+  loy: in
+  lst: in
+  id: in
+  tix: in
+  fmi: part
+notes:
+  cbdc: Public money, outside the private-sector definition.
+  td: Not covered by the FSB stablecoin recommendations; bank deposits stay under banking rules.
+  dt: Not a stablecoin for FSB purposes; remains bank money under banking rules.
+  sc: Stablecoins are crypto-assets; those that could reach global scale are “global stablecoins” with extra requirements.
+  alg: Crypto-assets; the FSB stresses that algorithmic designs do not meet its stablecoin standards.
+  rwa: Tokenized traditional assets can meet the broad definition, but existing regulation for the underlying applies.
+  sec: Existing securities regulation applies (“same activity, same risk, same regulation”).
+  art: Unique NFTs are generally outside the FSB’s financial-stability focus.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

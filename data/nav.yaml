@@ -1,0 +1,26 @@
+# Site navigation, shared by every page. `path` is the folder under dist/ ('' is the landing page); the build works
+# out relative links from each page. `wip: true` marks a page that is still being drafted (shown with an
+# "in progress" tag in the navigation and on the landing page).
+pages:
+- label: Home
+  path: ''
+- label: Web3
+  path: web3
+- label: Taxonomy
+  path: taxonomy
+- label: Networks
+  path: networks
+- label: Decentralization
+  path: decentralization
+- label: Scenarios
+  path: scenarios
+  wip: true
+- label: Privacy
+  path: privacy
+  wip: true
+- label: Identity
+  path: identity
+  wip: true
+- label: Quantum
+  path: quantum
+  wip: true

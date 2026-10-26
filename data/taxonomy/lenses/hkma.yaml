@@ -1,0 +1,53 @@
+# Lens: Hong Kong HKMA (stablecoins, tokenized deposits & central bank money)
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: hkma
+group: jurisdiction
+menu: 'HK · Hong Kong (HKMA): stablecoins, tokenized deposits & CBDC'
+name: 'Hong Kong HKMA: stablecoins, tokenized deposits & central bank money'
+short: Hong Kong HKMA
+color: '#14130f'
+intro: 'The Hong Kong Monetary Authority licenses issuers of fiat-referenced stablecoins under the Stablecoins Ordinance: anyone issuing in Hong Kong, or issuing a token referenced to the Hong Kong dollar anywhere. The first two licenses took effect on 10 April 2026 (Anchorpoint Financial and HSBC, both HKD-referenced). Reserves must be fully backed, held on trust and matched to the reference currency, and interest to holders is prohibited. Only licensed stablecoins may be offered to retail. The HKMA also supervises banks’ tokenized deposits, which the Ordinance excludes as deposits, and runs Project Ensemble: its EnsembleTX pilot settles real-value tokenized-deposit transactions (starting with tokenized money-market funds) during 2026, first via RTGS and progressively in tokenized central bank money.'
+groups:
+- id: cbm
+  label: Central bank money
+  name: tokenized central bank money (Ensemble)
+  color: '#312e81'
+  circles:
+  - cbdc
+  - wcbdc
+- id: bank
+  label: Tokenized deposits
+  name: Banking Ordinance, Project Ensemble
+  color: '#6366f1'
+  circles:
+  - td
+  - dt
+- id: sc
+  label: Licensed stablecoins
+  name: Stablecoins Ordinance
+  color: '#0ea5e9'
+  circles:
+  - lsc
+status:
+  rcbdc: part
+  sc: part
+  unreg: part
+  alg: out
+  fmi: part
+notes:
+  rcbdc: The retail e-HKD has been researched and piloted, but there is no decision to issue it.
+  wcbdc: Tokenized central bank money is the target settlement asset for EnsembleTX.
+  td: Supervised as bank deposits and excluded from the Stablecoins Ordinance; EnsembleTX uses them for real-value settlement in 2026.
+  dt: Still a deposit under the Banking Ordinance, so excluded from the Stablecoins Ordinance whatever it is called.
+  lsc: 'Licensed issuers so far: Anchorpoint Financial (FRS01) and HSBC (FRS02), both HKD-referenced, from 10 April 2026.'
+  sc: A license is required to issue in Hong Kong or to issue an HKD-referenced token anywhere; unlicensed foreign stablecoins may be offered to professional investors only.
+  unreg: Cannot be offered to retail or advertised in Hong Kong.
+  alg: 'Outside the regime: only fully reserved, fiat-referenced tokens can be licensed.'
+  fund: Tokenized money-market funds are the first use case in EnsembleTX, settled with tokenized deposits; the fund itself is SFC territory.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

@@ -1,0 +1,23 @@
+# Web3: layout (geometry only). A radial map: an ink hub at the center, one ring per generation (inner to outer),
+# cut into wedges: one label wedge at the top (holding the ring names) and one wedge per theme, clockwise.
+# r = each ring's outer radius; the ring starts where the previous one (or the hub) ends. fs = ring label size.
+
+canvas:
+  width: 1300
+  height: 1300
+cx: 650
+cy: 650
+hub: 175          # hub radius; the hub holds the theme names
+hub_label: Theme  # caption in the hub's label wedge
+hub_fs: 17
+cell_fs: 23       # text size inside cells
+rings:
+  w1:
+    r: 330
+    fs: 26
+  w2:
+    r: 485
+    fs: 26
+  w3:
+    r: 640
+    fs: 26

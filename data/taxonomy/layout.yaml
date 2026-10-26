@@ -1,0 +1,479 @@
+# Digital Asset Taxonomy: layout (geometry only)
+# cx,cy,rx,ry = ellipse center and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# suby/sy/s3y/liney/l2y position the small sub-labels. Units are SVG user units on a 1600×1300 canvas.
+
+# bridges: corridors that join a lens group's perimeter into one continuous outline, keyed "<lens id>.<group id>".
+#   Each corridor is a list of [x, y] waypoints routed through empty space so the outline encloses no other circle.
+bridges:
+  ch.pay:
+  - [[330, 560], [372, 610], [930, 610], [964, 550]]   # Other Layer-1s → USDC, USDT
+  - [[330, 560], [372, 700], [392, 836]]               # Other Layer-1s → Community Coins
+
+# annotations: small drawn notes. `caption` = a leader line and a label that belongs to a circle (it dims with it);
+#   `connector` = a dotted link with a dot at its end and free-standing labels.
+annotations:
+- kind: caption            # the two hybrid overlaps in Financial Instruments
+  circle: sn
+  path: M1290 1071 L1290 1104
+  x: 1290
+  y: 1116
+  label: Structured notes
+- kind: caption
+  circle: trk
+  path: M1288 891 L1288 868
+  x: 1288
+  y: 861
+  label: Trackers & warrants
+- kind: connector          # "look-alike": Deposit Token ⇢ bank-issued stablecoins (Commercial Bank ∩ Stablecoins)
+  path: M786 459 Q 790 472 784 486
+  dot: [784, 488]
+  color: '#14213d'
+  labels:
+  - { x: 796, y: 470, text: look-alike, italic: true }
+  - { x: 762, y: 500, text: bank-issued, size: 9, color: '#3b4580', anchor: middle }
+canvas:
+  width: 1600
+  height: 1300
+circles:
+  da:
+    t: rect
+    x: 10
+    y: 10
+    w: 1580
+    h: 1280
+    r: 70
+    lx: 800
+    ly: 52
+    fs: 26
+    fw: 700
+  dm:
+    cx: 730
+    cy: 400
+    rx: 645
+    ry: 305
+    lx: 730
+    ly: 140
+    fs: 22
+    fw: 700
+  nat:
+    cx: 300
+    cy: 410
+    rx: 130
+    ry: 170
+    lx: 300
+    ly: 282
+    fs: 15
+    fw: 700
+  btc:
+    cx: 300
+    cy: 352
+    rx: 38
+    ry: 38
+    lx: 300
+    ly: 375
+    fs: 12
+    fw: 600
+  eth:
+    cx: 300
+    cy: 432
+    rx: 38
+    ry: 38
+    lx: 300
+    ly: 455
+    fs: 12
+    fw: 600
+  natoth:
+    cx: 300
+    cy: 522
+    rx: 80
+    ry: 46
+    lx: 300
+    ly: 497
+    fs: 11
+    fw: 600
+  tc:
+    cx: 870
+    cy: 420
+    rx: 420
+    ry: 250
+    lx: 870
+    ly: 205
+    fs: 18
+    fw: 700
+    sy: 226
+  cb:
+    cx: 588
+    cy: 440
+    rx: 88
+    ry: 140
+    lx: 588
+    ly: 335
+    fs: 14
+    fw: 700
+  cbdc:
+    cx: 588
+    cy: 455
+    rx: 70
+    ry: 92
+    lx: 588
+    ly: 394
+    fs: 15
+    fw: 700
+  rcbdc:
+    cx: 588
+    cy: 438
+    rx: 31
+    ry: 31
+    lx: 588
+    ly: 436
+    fs: 10.5
+    fw: 700
+  wcbdc:
+    cx: 588
+    cy: 505
+    rx: 31
+    ry: 31
+    lx: 588
+    ly: 503
+    fs: 10.5
+    fw: 700
+  bank:
+    cx: 776
+    cy: 440
+    rx: 88
+    ry: 140
+    lx: 776
+    ly: 328
+    fs: 14
+    fw: 700
+  td:
+    cx: 776
+    cy: 410
+    rx: 56
+    ry: 56
+    lx: 776
+    ly: 378
+    fs: 12
+    fw: 700
+  dt:
+    cx: 776
+    cy: 433
+    rx: 27
+    ry: 27
+    lx: 776
+    ly: 431
+    fs: 10
+    fw: 700
+  fin:
+    cx: 964
+    cy: 440
+    rx: 88
+    ry: 140
+    lx: 964
+    ly: 328
+    fs: 14
+    fw: 700
+    s3y: 370
+  fmi:
+    cx: 964
+    cy: 421
+    rx: 36
+    ry: 36
+    lx: 964
+    ly: 417
+    fs: 11
+    fw: 700
+  oiss:
+    cx: 1152
+    cy: 440
+    rx: 88
+    ry: 140
+    lx: 1152
+    ly: 328
+    fs: 14
+    fw: 700
+    s3y: 372
+  sc:
+    cx: 964
+    cy: 518
+    rx: 252
+    ry: 56
+    lx: 964
+    ly: 492
+    fs: 16
+    fw: 700
+  unreg:
+    cx: 964
+    cy: 518
+    rx: 252
+    ry: 56
+    lx: 1150
+    ly: 500
+    fs: 10
+    fw: 700
+  lsc:
+    cx: 840
+    cy: 534
+    rx: 85
+    ry: 32
+    lx: 840
+    ly: 530
+    fs: 11.5
+    fw: 700
+  lpt:
+    cx: 840
+    cy: 534
+    rx: 85
+    ry: 32
+    lx: 840
+    ly: 530
+    fs: 11.5
+    fw: 700
+  alg:
+    cx: 1150
+    cy: 535
+    rx: 40
+    ry: 14
+    lx: 1150
+    ly: 538.5
+    fs: 10
+    fw: 700
+  rwa:
+    cx: 1040
+    cy: 975
+    rx: 505
+    ry: 275
+    lx: 1040
+    ly: 742
+    fs: 20
+    fw: 700
+  com:
+    cx: 790
+    cy: 990
+    rx: 190
+    ry: 175
+    lx: 790
+    ly: 858
+    fs: 16
+    fw: 700
+  pm:
+    cx: 715
+    cy: 1005
+    rx: 80
+    ry: 80
+    lx: 715
+    ly: 990
+    fs: 13
+    fw: 700
+    suby: 1035
+  ocom:
+    cx: 866
+    cy: 1005
+    rx: 68
+    ry: 92
+    lx: 866
+    ly: 955
+    fs: 12
+    fw: 700
+    liney: 990
+  re:
+    cx: 1060
+    cy: 968
+    rx: 52
+    ry: 52
+    lx: 1060
+    ly: 963
+    fs: 13
+    fw: 700
+  coll:
+    cx: 1060
+    cy: 1076
+    rx: 52
+    ry: 52
+    lx: 1060
+    ly: 1071
+    fs: 12
+    fw: 700
+    suby: 1100
+  ip:
+    cx: 1060
+    cy: 1184
+    rx: 52
+    ry: 52
+    lx: 1060
+    ly: 1179
+    fs: 12
+    fw: 700
+    suby: 1208
+  pc:
+    cx: 1060
+    cy: 860
+    rx: 52
+    ry: 52
+    lx: 1060
+    ly: 855
+    fs: 11
+    fw: 700
+    suby: 885
+  sec:
+    cx: 1320
+    cy: 965
+    rx: 195
+    ry: 165
+    lx: 1320
+    ly: 836
+    fs: 13.5
+    fw: 700
+  eq:
+    cx: 1250
+    cy: 915
+    rx: 52
+    ry: 52
+    lx: 1236
+    ly: 912
+    fs: 12
+    fw: 700
+    suby: 928
+  fund:
+    cx: 1420
+    cy: 915
+    rx: 42
+    ry: 42
+    lx: 1420
+    ly: 910
+    fs: 12
+    fw: 700
+    suby: 926
+  fi:
+    cx: 1250
+    cy: 1045
+    rx: 56
+    ry: 56
+    lx: 1234
+    ly: 1032
+    fs: 12
+    fw: 700
+    l2y: 1062
+  dv:
+    cx: 1325
+    cy: 980
+    rx: 62
+    ry: 115
+    lx: 1340
+    ly: 972
+    fs: 12
+    fw: 700
+    l2y: 990
+  trk:
+    cx: 1288
+    cy: 915
+    rx: 11
+    ry: 24
+    lx: 1288
+    ly: 915
+    fs: 10
+    fw: 700
+  sn:
+    cx: 1290
+    cy: 1045
+    rx: 12
+    ry: 26
+    lx: 1290
+    ly: 1045
+    fs: 10
+    fw: 700
+  oth:
+    cx: 285
+    cy: 1000
+    rx: 240
+    ry: 240
+    lx: 285
+    ly: 808
+    fs: 18
+    fw: 700
+  art:
+    cx: 175
+    cy: 885
+    rx: 52
+    ry: 52
+    lx: 175
+    ly: 880
+    fs: 11
+    fw: 700
+  game:
+    cx: 285
+    cy: 885
+    rx: 52
+    ry: 52
+    lx: 285
+    ly: 880
+    fs: 11
+    fw: 700
+    suby: 908
+  comm:
+    cx: 395
+    cy: 885
+    rx: 52
+    ry: 52
+    lx: 395
+    ly: 880
+    fs: 11
+    fw: 700
+    suby: 908
+  gov:
+    cx: 175
+    cy: 1000
+    rx: 52
+    ry: 52
+    lx: 175
+    ly: 995
+    fs: 11
+    fw: 700
+  util:
+    cx: 285
+    cy: 1000
+    rx: 52
+    ry: 52
+    lx: 285
+    ly: 995
+    fs: 11
+    fw: 700
+  loy:
+    cx: 395
+    cy: 1000
+    rx: 52
+    ry: 52
+    lx: 395
+    ly: 995
+    fs: 11
+    fw: 700
+  lst:
+    cx: 175
+    cy: 1115
+    rx: 52
+    ry: 52
+    lx: 175
+    ly: 1110
+    fs: 11
+    fw: 700
+    suby: 1138
+  id:
+    cx: 285
+    cy: 1115
+    rx: 52
+    ry: 52
+    lx: 285
+    ly: 1110
+    fs: 11
+    fw: 700
+    suby: 1138
+  tix:
+    cx: 395
+    cy: 1115
+    rx: 52
+    ry: 52
+    lx: 395
+    ly: 1110
+    fs: 11
+    fw: 700
+    suby: 1138

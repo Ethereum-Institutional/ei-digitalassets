@@ -1,0 +1,72 @@
+# Privacy: layout (geometry only)
+# cx,cy,rx,ry = ellipse center and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# suby positions the small sub-label. Units are SVG user units on a 900×960 canvas (smaller than the other maps, and
+# pills at pill_scale 1.3 in site.yaml, so the designs read larger than the circles). Confidential tokens (left,
+# heavier line `sw`) and Anonymity overlap widely (eleven designs hide both); Private execution is smaller and below; the "Before the block" box sits underneath, as it is not the page's focus.
+# Keep every label and pill clear of the circle lines (at least 6 units; labels 30).
+
+canvas:
+  width: 900
+  height: 960
+circles:
+  ledger:
+    t: rect
+    x: 10
+    y: 10
+    w: 880
+    h: 940
+    r: 50
+    lx: 450
+    ly: 50
+    fs: 24
+    fw: 700
+  amount:
+    cx: 325
+    cy: 360
+    rx: 270
+    ry: 270
+    lx: 220
+    ly: 200
+    fs: 25
+    fw: 700
+    suby: 252
+    sw: 3.5
+  who:
+    cx: 575
+    cy: 360
+    rx: 270
+    ry: 270
+    lx: 680
+    ly: 205
+    fs: 22
+    fw: 700
+    suby: 226
+  logic:
+    cx: 450
+    cy: 570
+    rx: 190
+    ry: 190
+    lx: 450
+    ly: 712
+    fs: 22
+    fw: 700
+    suby: 732
+  block:
+    t: rect
+    x: 230
+    y: 795
+    w: 440
+    h: 118
+    r: 34
+    lx: 450
+    ly: 825
+    fs: 17
+    fw: 700
+    suby: 843
+annotations:
+- kind: connector         # explains the empty logic-only region of "What"
+  path: M0 0
+  labels:
+  - { x: 450, y: 645, text: 'No design here hides only the logic:', anchor: middle, size: 11, color: '#4f6872' }
+  - { x: 450, y: 661, text: 'running it privately hides', anchor: middle, size: 11, color: '#4f6872' }
+  - { x: 450, y: 677, text: 'the parties and amounts too', anchor: middle, size: 11, color: '#4f6872' }

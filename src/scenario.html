@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+__STYLE__
+<style>
+  /* scenario pages (kind: scenario): actors, a swimlane diagram of the steps, the taxonomy tokens and the EVM standards. */
+  .ei-title{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .ei-title svg.hero{width:120px;height:70px;flex:none}
+  .ei-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .ei-tags span{font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:2px 9px;border-radius:9px;border:1px solid var(--rule);background:#fff;color:var(--muted)}
+  .ei-tags span.m{border-color:#312e81;color:#312e81}
+  .ei-h{display:flex;flex-direction:column;gap:6px}
+  .ei-h b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-h span{font-size:14px;color:var(--muted);line-height:1.5;max-width:90ch}
+  .ei-actors{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .ei-actor{padding:14px 16px;border:1px solid var(--rule);border-radius:14px;background:var(--card)}
+  .ei-actor h3{margin:0 0 4px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .ei-actor h3 i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--ink);flex:none}
+  .ei-actor h3 i.ledger{background:#312e81}
+  .ei-actor h3 i.contract{background:#0ea5e9}
+  .ei-actor h3 i.observer{background:#6b6760}
+  .ei-actor p{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+  .ei-wrap.flow svg{min-width:860px}
+  .ei-wrap svg .step{cursor:pointer}
+  .ei-wrap svg .step:hover .bg,.ei-wrap svg .step.pinned .bg{fill:#fff;stroke:var(--ink)}
+  .ei-wrap svg .step:focus-visible{outline:none}
+  .ei-wrap svg .step:focus-visible .bg{stroke:var(--ink)}
+  .ei-wrap svg text{pointer-events:none;font-family:var(--sans)}
+  .ei-cards2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .ei-card2{padding:14px 16px;border:1px solid var(--rule);border-radius:14px;background:var(--card)}
+  .ei-card2 h3{margin:0 0 4px;font-size:14px;font-weight:600}
+  .ei-card2 h3 a{color:var(--ink)}
+  .ei-card2 p{margin:0;font-size:13px;line-height:1.5;color:var(--ink)}
+  .ei-card2 p.sub{font-size:12px;color:var(--muted);margin-bottom:4px}
+  .ei-card2 p.src{font-size:12px;color:var(--muted);margin-top:6px}
+  .ei-card2 p.src a{color:var(--muted)}
+  table.ei-std{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+  table.ei-std th,table.ei-std td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.45}
+  table.ei-std th{font-weight:600;background:var(--card);font-size:12px;color:var(--muted)}
+  table.ei-std tr:last-child td{border-bottom:none}
+  table.ei-std td a{color:var(--ink)}
+  table.ei-std .st{font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:var(--card);color:var(--muted);white-space:nowrap}
+  .ei-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .ei-section{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-section h2{margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em}
+  .ei-section h3{margin:14px 0 4px;font-size:14px;font-weight:600}
+  .ei-section p{margin:0;font-size:14px;line-height:1.55;color:var(--ink)}
+  .ei-section p.more{margin-top:6px;font-size:13px}
+  .ei-section p.more a{color:var(--ink)}
+  .ei-section p.src,.ei-panel p.src{font-size:12px;color:var(--muted);margin-top:6px}
+  .ei-section p.src a,.ei-panel p.src a{color:var(--muted)}
+  details.src{margin-top:8px;font-size:12px;color:var(--muted)}
+  details.src summary{cursor:pointer;color:var(--ink);font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:6px}
+  details.src summary::-webkit-details-marker{display:none}
+  details.src summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg);transition:transform .15s}
+  details.src[open] summary::before{transform:rotate(45deg)}
+  .ei-panel .kind{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:var(--card);color:var(--muted);margin-left:8px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="ei-taxonomy">
+  __NOTICE__
+  <div class="ei-head">
+    <span class="ei-eyebrow">__EYEBROW__</span>
+    __NAV__
+    <div class="ei-title">__ICON__<h1>__HEADING__</h1></div>
+    <p class="sub">__INTRO__</p>
+    __INTRO_MORE__
+    __TAGS__
+  </div>
+  __LEAD__
+  <div class="ei-h"><b>Who is involved</b></div>
+  __ACTORS__
+  <div class="ei-h"><b>How it works</b><span>__FLOW_HELP__</span></div>
+  <div class="ei-wrap flow"><svg id="ei-svg" role="img" aria-label="__SVG_LABEL__"></svg></div>
+  <div class="ei-panel" id="ei-panel" aria-live="polite">
+    <h2>__PANEL_TITLE__</h2>
+    <p>__PANEL_TEXT__</p>
+  </div>
+  <div class="ei-h"><b>Tokens from the taxonomy</b></div>
+  __TOKENS__
+  <div class="ei-h"><b>EVM token standards to consider</b><span>__STANDARDS_HELP__</span></div>
+  __STANDARDS__
+  __SECTIONS__
+  __CONTRIBUTE__
+  <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
+</div>
+
+<script>
+(function(){
+  const DATA = __DATA__;
+  const moreBtn=document.querySelector('.ei-more'), moreTxt=document.getElementById('ei-intro-more');
+  if(moreBtn&&moreTxt) moreBtn.addEventListener('click',()=>{ const open=moreTxt.hidden; moreTxt.hidden=!open; moreBtn.textContent=open?moreBtn.dataset.less:moreBtn.dataset.more; moreBtn.setAttribute('aria-expanded',String(open)); });
+  const svg=document.getElementById('ei-svg'), panel=document.getElementById('ei-panel');
+  const NS='http://www.w3.org/2000/svg', INK='#14130f', PAPER='#f8f6f2', MUTED='#615f5a';
+  const el=(t,a,txt)=>{ const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); if(txt!=null) e.textContent=txt; return e; };
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const actors=DATA.actors, steps=DATA.steps, A={}; actors.forEach((a,i)=>A[a.id]=i);
+  const KIND={offchain:{fill:'#f2efe9',stroke:'#cfc9bd',label:'off-ledger'},onchain:{fill:'#e1e3f2',stroke:'#312e81',label:'on the ledger'},atomic:{fill:'#312e81',stroke:'#312e81',label:'one transaction'}};
+  // Swimlanes: one column per actor, one row per step. Arrows run between the lanes a step names; a step that spans
+  // several lanes (atomic settlement) is drawn as a band across them.
+  const W=1300, LW=W/actors.length, HEAD=78, ROW=70, TOP=HEAD+18, H=TOP+steps.length*ROW+16;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const lx=i=>LW*(i+0.5);
+  const wrap=(s,max)=>{ const out=[]; let line=''; for(const w of s.split(' ')){ if(line&&(line+' '+w).length>max){ out.push(line); line=w; } else line=line?line+' '+w:w; } if(line) out.push(line); return out; };
+  actors.forEach((a,i)=>{ const x=lx(i), kind=a.kind||'institution';
+    svg.appendChild(el('rect',{x:x-LW/2+8,y:8,width:LW-16,height:HEAD-16,rx:12,fill:kind==='ledger'?'#e1e3f2':kind==='contract'?'#e3eef5':'#fff',stroke:kind==='ledger'?'#312e81':'#dfdbd2','stroke-width':1.5}));
+    const lines=wrap(a.name,Math.max(10,Math.floor((LW-30)/7.5)));
+    lines.forEach((t,k)=>svg.appendChild(el('text',{x,y:HEAD/2-(lines.length-1)*7+k*14,'text-anchor':'middle','font-size':13,'font-weight':600,fill:INK},t)));
+    svg.appendChild(el('line',{x1:x,y1:HEAD,x2:x,y2:H-8,stroke:'#cfc9bd','stroke-width':1.5,'stroke-dasharray':'4 5'})); });
+  const defs=el('defs',{}); defs.innerHTML='<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#14130f"/></marker>'; svg.appendChild(defs);
+  let pinned=null;
+  const reset=()=>{ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; };
+  const addPinBar=()=>{ panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the diagram or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>'); panel.querySelector('.unpin').addEventListener('click',e=>{ e.stopPropagation(); unpin(); }); };
+  const unpin=()=>{ if(!pinned) return; pinned.classList.remove('pinned'); pinned=null; reset(); };
+  const show=s=>{ const k=KIND[s.kind]||KIND.offchain; panel.innerHTML=`<div class="path">Step ${s.n} of ${steps.length}</div><h2>${esc(s.title)}<span class="kind">${k.label}</span></h2><p>${s.text}</p>${(s.standards||[]).length?`<p class="src">Standards: ${s.standards.map(esc).join(', ')}</p>`:''}`; };
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel')) unpin(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
+  steps.forEach((s,r)=>{ const y=TOP+r*ROW+ROW/2, k=KIND[s.kind]||KIND.offchain;
+    const g=el('g',{class:'step',tabindex:0,'aria-label':`Step ${s.n}: ${s.title}`});
+    g.appendChild(el('rect',{class:'bg',x:4,y:y-ROW/2+3,width:W-8,height:ROW-6,rx:10,fill:'transparent',stroke:'transparent','stroke-width':1.5}));
+    const lanes=(s.lanes||[s.from,s.to]).map(id=>A[id]).filter(i=>i!==undefined), x0=Math.min(...lanes), x1=Math.max(...lanes);
+    if(s.kind==='atomic'){ // a band across the lanes it names
+      g.appendChild(el('rect',{x:lx(x0)-LW/2+14,y:y-22,width:lx(x1)-lx(x0)+LW-28,height:44,rx:10,fill:k.fill,'fill-opacity':.12,stroke:k.stroke,'stroke-width':2}));
+      g.appendChild(el('text',{x:(lx(x0)+lx(x1))/2,y:y+4,'text-anchor':'middle','font-size':13,'font-weight':600,fill:INK},`${s.n}. ${s.title}`));
+    } else if(x0===x1){ // a note in one lane
+      const x=lx(x0), lines=wrap(s.title,Math.max(12,Math.floor((LW-40)/6.6)));
+      g.appendChild(el('rect',{x:x-LW/2+16,y:y-20,width:LW-32,height:40,rx:9,fill:k.fill,stroke:k.stroke,'stroke-width':1.5}));
+      lines.slice(0,2).forEach((t,i)=>g.appendChild(el('text',{x,y:y+4+(i-(Math.min(lines.length,2)-1)/2)*14,'text-anchor':'middle','font-size':12,'font-weight':600,fill:INK},`${i?'':s.n+'. '}${t}`)));
+    } else { // an arrow from one lane to another, label above it
+      const xa=lx(A[s.from]), xb=lx(A[s.to]), dir=xb>xa?1:-1;
+      g.appendChild(el('line',{x1:xa,y1:y+8,x2:xb-dir*6,y2:y+8,stroke:INK,'stroke-width':1.5,'marker-end':'url(#arr)','stroke-dasharray':s.kind==='onchain'?'':'6 4'}));
+      g.appendChild(el('circle',{cx:xa,cy:y+8,r:10,fill:k.fill,stroke:k.stroke,'stroke-width':1.5}));
+      g.appendChild(el('text',{x:xa,y:y+11.5,'text-anchor':'middle','font-size':10,'font-weight':700,fill:INK},String(s.n)));
+      const maxc=Math.floor(Math.abs(xb-xa)/6.4), label=s.title.length>maxc?s.title.slice(0,maxc-1)+'…':s.title;
+      g.appendChild(el('text',{x:(xa+xb)/2,y:y-6,'text-anchor':'middle','font-size':12,'font-weight':600,fill:INK},label));
+    }
+    svg.appendChild(g);
+    g.addEventListener('mouseenter',()=>{ if(!pinned) show(s); }); g.addEventListener('mouseleave',()=>{ if(!pinned) reset(); }); g.addEventListener('focus',()=>{ if(!pinned) show(s); });
+    const act=()=>{ if(pinned===g) unpin(); else { if(pinned) pinned.classList.remove('pinned'); pinned=g; g.classList.add('pinned'); show(s); addPinBar(); } };
+    g.addEventListener('click',e=>{ e.stopPropagation(); act(); }); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });
+  });
+})();
+</script>
+</body>
+</html>

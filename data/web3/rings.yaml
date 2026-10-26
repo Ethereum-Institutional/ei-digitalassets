@@ -1,0 +1,47 @@
+# Web3: the rings (content), inner to outer. Each generation keeps what the previous one could do and adds one thing.
+# Geometry lives in layout.yaml. Writing rules: no em-dashes; quote YAML values containing ": ".
+# Write "Web3", never "Web 3.0", except when explaining the naming.
+
+rings:
+- id: w1
+  label: Web 1.0
+  sub: Read
+  fill: '#e9e3ee'
+  stroke: '#65547a'
+  desc: 'The read-only web, from 1991 to about 2004: pages published by whoever ran a server, read by everyone else. Open-source technology plus a common standard set the pattern every later generation repeats: HTML that anyone could write, served by the free Apache HTTP Server over TCP/IP, so anyone could put up a website without asking a gatekeeper. Content was chosen by the site’s owner; where a site had user accounts at all they lived in that provider’s own directory and did not travel.'
+  sources:
+  - title: CERN, The birth of the Web (HTML and the first server, 1990 to 1991)
+    url: https://home.cern/science/computing/birth-web
+    checked: '2026-10-25'
+  - title: Apache Software Foundation, About Apache (first release 1995)
+    url: https://httpd.apache.org/ABOUT_APACHE.html
+    checked: '2026-10-25'
+- id: w2
+  label: Web 2.0
+  sub: Read / Write
+  fill: '#e3e7ea'
+  stroke: '#3f5664'
+  desc: 'The read and write web, from about 2004: users create the content, but the platform owns the accounts, the data and the rules. Asynchronous JavaScript (Ajax) and the open-source libraries that made it easy, above all jQuery, let a page update itself without reloading, which made social media possible; federated identity standards (SAML 2.0, then OAuth) let one login from Google or Facebook open many sites. What changed hands was the right to write; ownership stayed with the platforms. Tim O’Reilly named the generation in 2005.'
+  sources:
+  - title: Tim O’Reilly, What Is Web 2.0 (30 September 2005)
+    url: https://www.oreilly.com/pub/a/web2/archive/what-is-web-20.html
+    checked: '2026-10-25'
+  - title: 'Jesse James Garrett, Ajax: A New Approach to Web Applications (18 February 2005; archived)'
+    url: https://web.archive.org/web/20050223071506/http://www.adaptivepath.com/publications/essays/archives/000385.php
+    checked: '2026-10-25'
+- id: w3
+  label: Web3
+  sub: Read / Write / Own
+  fill: '#e1e3f2'
+  stroke: '#312e81'
+  desc: 'The read, write and own web, from 2015: accounts, assets and records live on shared ledgers that no single platform controls, so users and institutions hold them directly and applications compose on each other. The open-source technology is the Ethereum Virtual Machine, with Solidity as the language anyone can use to deploy a program every node runs the same way; the common standards are token interfaces such as ERC-20 and ERC-721. What people can now own is a currency, an asset or a position in a protocol, held by keys they control rather than by an account a platform grants, and identity moves with it: a Web3 account is a key pair, and the user signs. Gavin Wood described this web in April 2014; the read, write and own framing is Chris Dixon’s.'
+  sources:
+  - title: 'Gavin Wood, ĐApps: What Web 3.0 Looks Like (17 April 2014)'
+    url: https://gavwood.com/dappsweb3.html
+    checked: '2026-10-25'
+  - title: ethereum.org, What is Web3? (Web 1.0, Web 2.0 and Web3; decentralised, permissionless, native payments, trustless)
+    url: https://ethereum.org/en/web3/
+    checked: '2026-10-25'
+  - title: Chris Dixon, Read Write Own (Random House, 2024)
+    url: https://www.penguinrandomhouse.com/books/744504/read-write-own-by-chris-dixon/
+    checked: '2026-10-25'

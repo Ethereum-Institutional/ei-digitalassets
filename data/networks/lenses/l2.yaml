@@ -1,0 +1,25 @@
+# Lens: Layer 2 rollup (architecture)
+# scope: networks means the lens highlights badges, not circles. `networks` lists each badge as in | part.
+
+id: l2
+group: architecture
+menu: Layer 2 rollup
+name: Layer 2 rollup
+short: Layer 2
+scope: networks
+color: '#0ea5e9'
+intro: 'A Layer 2 rollup executes transactions off the parent chain and posts the transaction data and a proof (a validity proof, or a fraud-proof window) to it, so that the parent chain, here Ethereum mainnet, settles the result and anyone can reconstruct the rollup’s state from the parent alone. It exists to scale a public permissionless chain without weakening it. The benefit is inherited security: users can always exit or force a transaction through Ethereum mainnet even if the rollup’s operators stop. The cost is that most rollups still run one permissioned sequencer, so ordering and liveness depend on an operator until sequencing is decentralized. For an institution the cost difference is decisive: a token transfer averaged about USD 1.50 on Ethereum mainnet and USD 0.03 on Arbitrum in 2026, so a fund that mints a distribution to every holder is only economic on an inexpensive network (BENJI mints daily; a retail fund’s monthly distribution on a costly Layer 1 can exceed its whole management fee). Permissioned fund tokens move between networks by transfer-agent burn-and-mint, not through permissionless bridges, so the rollup’s bridge security is not the binding question for them.'
+networks:
+  base: in
+  arbitrum: in
+  optimism: in
+notes:
+  base: OP Stack rollup; data and settlement on Ethereum mainnet, sequencer run by Coinbase.
+  arbitrum: Nitro rollup; data and fraud proofs on Ethereum mainnet, permissionless validation (BoLD), sequencer run by Offchain Labs.
+  optimism: OP Stack rollup; data and fault proofs on Ethereum mainnet, a single sequencer set by Optimism governance.
+  polygon: A side-chain, not a rollup; its security does not come from Ethereum mainnet.
+sources:
+- title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
+  url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
+  checked: '2026-10-25'
+last_reviewed: '2026-10-25'

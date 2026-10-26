@@ -1,0 +1,35 @@
+# Quantum overview: work in progress. A short intro and four cards; the detail lives on the sub-pages.
+
+kind: static
+title: Quantum
+slug: quantum
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Quantum
+  italic: Quantum
+intro: "Quantum computing is not a digital asset problem; it is an internet problem. The same public-key cryptography secures every TLS connection, software update, passport chip, payment network and certificate your institution relies on, and a large enough quantum computer breaks all of it at once. Ledgers are where the stakes are visible and the fix is furthest along: Ethereum has a published, dated plan to rebuild its cryptography on hashes. Four short pages:"
+notice:
+  title: Work in progress.
+  text: These pages are being drafted. Each links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this page.
+  text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+cards:
+  - path: quantum/algorithms
+    icon: quantum
+    title: The two algorithms
+    text: Shor breaks today’s signatures; Grover only weakens hashes. Why the fix is to rebuild on hashes.
+  - path: quantum/ledger
+    icon: key
+    title: Where it bites a ledger
+    text: Your keys, the validators’ keys, data commitments and proofs; what is not at risk on a ledger, and what is at risk everywhere else.
+  - path: quantum/roadmap
+    icon: milestones
+    title: The Ethereum roadmap
+    text: What is post-quantum today (hashes, STARK rollups, account abstraction) and what is coming, with the community’s target dates.
+  - path: quantum/institution
+    icon: identity
+    title: Where your digital asset team fits
+    text: Inventory, exposure clocks, procurement and vendor management, crypto-agility, and the NCSC, EU and NIST timelines.

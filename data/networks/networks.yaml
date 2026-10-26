@@ -1,0 +1,1777 @@
+# Network badges: the ten largest native cryptocurrencies by market capitalization (25 October 2026; stablecoins and
+# tokens that are not native to a network excluded) plus networks that illustrate each region of the map.
+# `circle` is the circle the badge sits in; `eth: true` draws it in ink (Ethereum ecosystem: runs an Ethereum client,
+# the EVM, or settles on Ethereum mainnet), otherwise gray. Badges never move. Names, not tickers, because "ETH" and
+# "Ethereum" are overloaded across the ecosystem; the chain is always "Ethereum mainnet".
+# Every claim carries a source (url + date checked). Secondary sources say so in the title.
+
+as_of: 25 October 2026
+networks:
+# ---- Fully permissionless (proof of work) ----
+- id: bitcoin
+  name: Bitcoin
+  circle: full
+  x: 1295
+  y: 730
+  eth: false
+  desc: 'The canonical fully permissionless network and the largest digital asset (about $1.6 trillion), with a fixed supply of 21 million. Proof of work means the protocol never knows who is mining, assumes nothing about anyone staying online and prices sybils in electricity and hardware; finality is probabilistic. Smart contracts: no. Bitcoin Script is deliberately not Turing-complete (no loops), but its multisignature and timelock conditions are the building blocks of protocols such as the Lightning Network, which moves payments off-chain through channels funded by on-chain transactions and relies on the blockchain to settle, or to penalize a cheating party, when needed.'
+  sources:
+  - title: Lewis-Pye and Roughgarden, Permissionless Consensus (Bitcoin as the fully permissionless protocol)
+    url: https://arxiv.org/abs/2304.14701
+    checked: '2026-10-25'
+  - title: 'Bitcoin Wiki, Script (“intentionally not Turing-complete, with no loops”)'
+    url: https://en.bitcoin.it/wiki/Script
+    checked: '2026-10-25'
+  - title: 'Lightning BOLT 0, introduction (on-chain funding, HTLCs, on-chain enforcement)'
+    url: https://github.com/lightning/bolts/blob/master/00-introduction.md
+    checked: '2026-10-25'
+- id: dogecoin
+  name: Dogecoin
+  circle: full
+  x: 1295
+  y: 775
+  eth: false
+  desc: 'Scrypt proof of work, merge-mined with Litecoin since September 2014 (auxiliary proof of work), so Litecoin miners secure both chains with the same work. Fully permissionless, but with no supply cap: since its halvings ended at block 600,000 every one-minute block has paid a fixed 10,000 DOGE (about 5.2 billion a year), so inflation falls in percentage terms but never reaches zero. That leaves the token without economic scarcity, which suits community use better than a store of value. Smart contracts: no.'
+  sources:
+  - title: Dogecoin Core README (Scrypt proof of work)
+    url: https://github.com/dogecoin/dogecoin
+    checked: '2026-10-25'
+  - title: Dogecoin Core 1.8.0 release notes (AuxPoW from block 371,337, September 2014)
+    url: https://github.com/dogecoin/dogecoin/releases/tag/v1.8.0
+    checked: '2026-10-25'
+  - title: 'Dogecoin Core, dogecoin.cpp (block subsidy: fixed 10,000 DOGE after the halvings, “constant inflation”)'
+    url: https://github.com/dogecoin/dogecoin/blob/master/src/dogecoin.cpp
+    checked: '2026-10-25'
+  - title: 'Dogecoin Core, chainparams.cpp (100,000-block halving interval, 60-second blocks)'
+    url: https://github.com/dogecoin/dogecoin/blob/master/src/chainparams.cpp
+    checked: '2026-10-25'
+- id: monero
+  name: Monero
+  circle: full
+  x: 1295
+  y: 820
+  eth: false
+  desc: 'RandomX proof of work (since release 0.15, November 2019), designed to keep general-purpose CPUs competitive with specialized hardware. Fully permissionless, with privacy by default: amounts and counterparties are hidden on-chain, which is why most regulated venues do not list it. Unlike Bitcoin’s absolute cap, Monero pays a tail emission of 0.6 XMR per two-minute block (since May 2022), so miners are always paid to secure the network; the supply still grows by well under 1% a year and that rate keeps falling, so it remains relatively scarce. Smart contracts: no.'
+  sources:
+  - title: Moneropedia, RandomX
+    url: https://www.getmonero.org/resources/moneropedia/randomx.html
+    checked: '2026-10-25'
+  - title: 'Moneropedia, Tail emission (0.6 XMR per block from May 2022; miners need an incentive)'
+    url: https://www.getmonero.org/resources/moneropedia/tail-emission.html
+    checked: '2026-10-25'
+- id: zcash
+  name: Zcash
+  circle: full
+  x: 1295
+  y: 865
+  eth: false
+  desc: 'Equihash proof of work with a fixed supply of 21 million and Bitcoin-style halvings (the second in November 2024); about 16.9 million ZEC are in circulation. Transactions can be transparent, like Bitcoin’s, or shielded, with amounts and counterparties encrypted and validity proven with zero-knowledge proofs; roughly a quarter to a third of the supply sits in shielded pools (trackers differ). Fully permissionless. Smart contracts: no.'
+  sources:
+  - title: Electric Coin Company, Why Equihash (2016)
+    url: https://electriccoin.co/blog/why-equihash/
+    checked: '2026-10-25'
+  - title: 'Zcash, the difference between shielded and transparent Zcash'
+    url: https://z.cash/learn/what-is-the-difference-between-shielded-and-transparent-zcash/
+    checked: '2026-10-25'
+  - title: 'Zcash protocol specification (issuance and the 21 million maximum)'
+    url: https://zips.z.cash/protocol/protocol.pdf
+    checked: '2026-10-25'
+  - title: 'Blockworks, Zcash token holder report Q1 2026 (shielded pool share; secondary source)'
+    url: https://blockworks.com/api/investor-report/zcash-token-holder-report-q1-2026/pdf
+    checked: '2026-10-25'
+# ---- Dynamically available ----
+- id: cardano
+  name: Cardano
+  circle: dyn
+  x: 1295
+  y: 603
+  eth: false
+  desc: 'Ouroboros proof of stake, the paper’s canonical dynamically available protocol: a longest-chain rule in which slot leaders are drawn from registered stake pools, so the chain keeps growing however many pools are online. Anyone can register a pool (a refundable 500 ADA deposit; about 2,900 registered pools). Not EVM based. Smart contracts: yes; Plutus Core, a Turing-complete language on the extended UTXO model (contracts written in Plinth or Aiken compile to it).'
+  sources:
+  - title: Cardano docs, Consensus explained (Ouroboros)
+    url: https://docs.cardano.org/about-cardano/learn/consensus-explained
+    checked: '2026-10-25'
+  - title: Cardano docs, About stake pools (operators register their own pools)
+    url: https://docs.cardano.org/stake-pool-operators/about-stake-pools
+    checked: '2026-10-25'
+  - title: Lewis-Pye and Roughgarden, Permissionless Consensus, Table 1 (Ouroboros as the dynamically available protocol)
+    url: https://arxiv.org/abs/2304.14701
+    checked: '2026-10-25'
+  - title: 'Plutus Core and Plutus Tx user guide (Untyped Plutus Core is Turing-complete)'
+    url: https://plutus.cardano.intersectmbo.org/docs/essential-concepts/plutus-core-and-plutus-tx
+    checked: '2026-10-25'
+# ---- Quasi-permissionless ----
+- id: tron
+  name: TRON
+  circle: quasi
+  x: 1415
+  y: 418
+  eth: true
+  desc: 'Delegated proof of stake: 27 Super Representatives elected by TRX votes every six hours produce blocks; any account can stand by burning 9,999 TRX. No incumbent review, so quasi-permissionless under EI’s rule, with a very small active set. The TRON Virtual Machine is EVM compatible, so most Solidity contracts run unchanged. Tether issues USD₮ natively on TRON (TRC-20), one of its two largest deployments; Circle discontinued USDC on TRON in 2024. Smart contracts: yes; the EVM-compatible TRON Virtual Machine.'
+  sources:
+  - title: TRON developer docs, consensus (DPoS, 27 Super Representatives, 6-hour maintenance period)
+    url: https://developers.tron.network/docs/concensus
+    checked: '2026-10-25'
+  - title: TRON developer docs, Super Representatives (9,999 TRX candidate fee)
+    url: https://developers.tron.network/docs/super-representatives
+    checked: '2026-10-25'
+  - title: TRON developer docs, TVM vs EVM
+    url: https://developers.tron.network/docs/tvm-vs-evm
+    checked: '2026-10-25'
+  - title: 'Tether, supported protocols (TRC-20)'
+    url: https://tether.to/en/supported-protocols/
+    checked: '2026-10-25'
+  - title: 'Circle, discontinuing support for USDC on the Tron blockchain (February 2024)'
+    url: https://www.circle.com/blog/circle-is-discontinuing-support-for-usdc-on-the-tron-blockchain
+    checked: '2026-10-25'
+- id: hyperliquid
+  name: Hyperliquid
+  circle: quasi
+  x: 1200
+  y: 444
+  eth: true
+  desc: 'HyperBFT, a HotStuff-derived protocol. Any validator with 10,000 HYPE of self-delegation (locked for a year) can become active, and the active set is the top of the stake ranking (27 active of 35 registered on 25 October 2026), so no incumbent review is needed and it is quasi-permissionless under EI’s rule. The caveats are large: foundation-run validators hold roughly half of the stake, validators can jail peers, and the node software is distributed as prebuilt binaries without published core source. HyperEVM is EVM compatible, and both Circle (native USDC since September 2025) and Tether (USDT0) issue on it. Smart contracts: yes; HyperEVM.'
+  sources:
+  - title: Hyperliquid docs, HyperCore overview (HyperBFT, a HotStuff variant)
+    url: https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/overview
+    checked: '2026-10-25'
+  - title: Hyperliquid docs, staking (10k HYPE self-delegation to become active)
+    url: https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/staking
+    checked: '2026-10-25'
+  - title: Hyperliquid docs, HyperEVM
+    url: https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm
+    checked: '2026-10-25'
+  - title: hyperliquid-dex/node (prebuilt binaries; core source not published) and Blofin, how decentralised is Hyperliquid (foundation stake share, jailing; secondary source)
+    url: https://github.com/hyperliquid-dex/node
+    checked: '2026-10-25'
+  - title: 'Circle, USDC on Hyperliquid (native USDC and CCTP on HyperEVM, September 2025)'
+    url: https://www.circle.com/blog/circle-expands-support-for-usdc-on-hyperliquid
+    checked: '2026-10-25'
+  - title: 'USDT0 deployments (HyperEVM)'
+    url: https://docs.usdt0.to/technical-documentation/deployments
+    checked: '2026-10-25'
+- id: solana
+  name: Solana
+  circle: quasi
+  x: 1175
+  y: 418
+  eth: false
+  desc: 'Alpenglow (Votor) over a proof-of-history clock since 21 October 2026, replacing Tower BFT. Anyone can run a validator without approval (no minimum stake; an admission ticket of 1.6 SOL an epoch; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
+  sources:
+  - title: 'Solana Foundation, Alpenglow upgrade (live at epoch 1064, 21 October 2026; 80% one round, 60% two rounds; 20% adversarial plus 20% offline)'
+    url: https://solana.com/upgrades/alpenglow
+    checked: '2026-10-26'
+  - title: 'SIMD-0326, Alpenglow consensus protocol (certificate thresholds)'
+    url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md
+    checked: '2026-10-26'
+  - title: 'SIMD-0357, Alpenglow Validator Admission Ticket (1.6 SOL an epoch)'
+    url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0357-alpenglow_validator_admission_ticket.md
+    checked: '2026-10-26'
+  - title: 'Anza, validator requirements (no strict minimum stake)'
+    url: https://docs.anza.xyz/operations/requirements
+    checked: '2026-10-26'
+  - title: 'Helius, A complete history of Solana outages (restarts to February 2024)'
+    url: https://www.helius.dev/blog/solana-outages-complete-history
+    checked: '2026-10-26'
+
+- id: stellar
+  name: Stellar
+  circle: pub
+  x: 972
+  y: 480
+  eth: false
+  desc: 'The Stellar Consensus Protocol is federated Byzantine agreement: each validator chooses the quorum slices it trusts. Anyone can run a validator, but it only matters once existing validators add it to their slices, and the network’s safety rests on about ten “Tier 1” organizations, which the docs say takes months of convincing the others. Public, with consensus that the incumbents curate: permissioned under EI’s rule. Smart contracts run on Soroban (Wasm), not the EVM. Smart contracts: yes, since Stellar’s Protocol 20 upgrade on 20 February 2024; Soroban contracts are written in Rust and compiled to WebAssembly, not the EVM.'
+  sources:
+  - title: Stellar developer docs, Stellar Consensus Protocol
+    url: https://developers.stellar.org/docs/learn/fundamentals/stellar-consensus-protocol
+    checked: '2026-10-25'
+  - title: Stellar developer docs, Tier 1 organizations (must convince enough other organisations to trust them)
+    url: https://developers.stellar.org/docs/validators/tier-1-orgs
+    checked: '2026-10-25'
+  - title: 'Stellar, Protocol 20 and smart contracts are live on mainnet (February 2024)'
+    url: https://stellar.org/blog/developers/protocol-20-and-smart-contracts-are-live-on-mainnet
+    checked: '2026-10-25'
+- id: xrpl
+  name: XRP Ledger
+  circle: pub
+  x: 972
+  y: 440
+  eth: false
+  desc: 'Anyone can run a node and transact, so it is public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule. Not EVM based (the XRPL EVM is a separate chain). Smart contracts: not on the main ledger, which offers native escrows, tokens and a decentralized exchange instead; WebAssembly “smart escrows” (XLS-100) are still in development, and the XRPL EVM is a separate chain.'
+  sources:
+  - title: xrpl.org, Unique Node List (two default publishers; inclusion criteria)
+    url: https://xrpl.org/docs/concepts/consensus-protocol/unl
+    checked: '2026-10-25'
+  - title: xrpl.org, run rippled as a validator (validations alone give no say in consensus)
+    url: https://xrpl.org/docs/infrastructure/configuration/server-modes/run-rippled-as-a-validator
+    checked: '2026-10-25'
+  - title: XRPL Foundation default UNL (35 validators, decoded 25 October 2026)
+    url: https://unl.xrplf.org
+    checked: '2026-10-25'
+  - title: 'xrpl.org, known amendments (SmartEscrow: in development)'
+    url: https://xrpl.org/resources/known-amendments
+    checked: '2026-10-25'
+- id: canton
+  name: Canton
+  circle: non
+  x: 808
+  y: 680
+  eth: false
+  desc: 'Mostly a consortium network with a small public component: see the “Network of Networks” circle for EI’s reasoning. Canton Coin (about $4 billion, rank 23) is the only globally visible asset on it. Smart contracts are written in Daml; an EVM execution layer (Zenith, built on Reth) is in development, so Canton is not drawn as Ethereum ecosystem. Smart contracts: yes; Daml, a functional contract language, with an EVM layer (Zenith) in development.'
+  sources:
+  - title: Canton docs, Participant node overview (stores only the contracts its parties are stakeholders in)
+    url: https://docs.canton.network/overview/reference/participant-overview
+    checked: '2026-10-25'
+  - title: Digital Asset, Canton ledger model (the virtual global ledger as “an imaginary database”)
+    url: https://archived.docs.digitalasset.com/overview/3.4/explanations/ledger-model/index.html
+    checked: '2026-10-25'
+  - title: Canton docs, Super Validator governance reference (SVs added by vote of existing SVs)
+    url: https://docs.canton.network/overview/reference/sv-governance-reference.md
+    checked: '2026-10-25'
+  - title: Canton Foundation, becoming a validator (sponsor, Tokenomics Committee approval, IP allowlisting)
+    url: https://intro.canton.foundation/validator.html
+    checked: '2026-10-25'
+  - title: Canton docs, transaction lifecycle (synchronizers see only encrypted views; timeouts and rejections)
+    url: https://docs.canton.network/overview/reference/transaction-lifecycle
+    checked: '2026-10-25'
+  - title: Digital Asset press release, 24 June 2025 (“the first public, permissionless blockchain”)
+    url: https://www.canton.network/canton-network-press-releases/digital-asset-raises-135-million-to-accelerate-adoption-of-canton-network
+    checked: '2026-10-25'
+  - title: Canton blog, Ethereum and Canton (Zenith EVM layer, March 2026)
+    url: https://canton.network/blog/ethereum-and-canton-unifying-public-innovation-with-institutional-scale
+    checked: '2026-10-25'
+# ---- Public, permissioned consensus ----
+- id: corda
+  name: Corda
+  circle: non
+  x: 705
+  y: 680
+  eth: false
+  desc: 'R3’s Corda is the consortium-side member of the Network of Networks: a peer-to-peer network of nodes in which each node keeps only the transactions it is party to, and notary clusters “validate uniqueness and sequencing of transactions without global broadcast”, so there is no global ledger for anyone to verify. Permissioned by design and run as business networks among known parties. Apache 2.0, outside the Ethereum ecosystem.'
+  sources:
+  - title: corda/corda README (peer-to-peer nodes; notaries validate uniqueness without global broadcast; Apache 2.0)
+    url: https://github.com/corda/corda
+    checked: '2026-10-25'
+# ---- Consortium ----
+# ---- Sovereign consortia ----
+- id: fnality
+  name: Fnality (UK)
+  circle: sov
+  x: 640
+  y: 815
+  eth: true
+  desc: 'The Sterling Fnality Payment System has settled live payments since December 2023 in wholesale central bank money for its shareholder banks (24 institutions, starting with Lloyds, Santander and UBS); HM Treasury recognized it as systemically important and the Bank of England regulates it. One jurisdiction, so Sovereign. Reported to be built on Besu (Ledger Insights, LF Decentralized Trust report); Fnality’s own site does not name the client.'
+  sources:
+  - title: Fnality, initial phase of sterling payment operations (14 December 2023)
+    url: https://fnality.com/news/fnality-commences-initial-phase-of-sterling-payment-operations-in-a-world-first
+    checked: '2026-10-25'
+  - title: Fnality, British sterling payment system (regulated by the Bank of England)
+    url: https://fnality.com/payment-systems/british-sterling-payment-system
+    checked: '2026-10-25'
+  - title: Ledger Insights on Fnality’s Besu-based ledger (secondary source)
+    url: https://www.ledgerinsights.com/fnality-adhara-blockchain-settlements-integrates-liquidity/
+    checked: '2026-10-25'
+- id: hangang
+  name: Project Hangang (KR)
+  circle: sov
+  x: 640
+  y: 850
+  eth: true
+  desc: 'The Bank of Korea’s pilot of wholesale CBDC and tokenized bank deposits: a permissioned Besu network of 20 nodes with QBFT consensus, operated by the central bank and seven designated banks (phase 1, April to June 2025; a second phase with nine banks in 2026). A sovereign consortium convened by the central bank, and Ethereum ecosystem by client.'
+  sources:
+  - title: Bank of Korea, Project Hangang phase 1 report (Besu, QBFT, 20 nodes, designated banks only)
+    url: https://www.bok.or.kr/eng/bbs/E0000654/view.do?menuNo=400048&nttId=10095216
+    checked: '2026-10-25'
+  - title: Four Pillars on phase 2 (nine banks, 2026; secondary source)
+    url: https://research.4pillars.io/en/research/bank-of-korea-launches-project-hangang-phase-2-laying-groundwork-for-commercialising-digital-currency-and-deposit-tokens
+    checked: '2026-10-25'
+- id: dcjpy
+  name: DCJPY (JP)
+  circle: sov
+  x: 640
+  y: 885
+  eth: true
+  desc: 'DeCurret DCP’s tokenized deposit network in Japan, live since 2024 with GMO Aozora Net Bank minting DCJPY and other Japanese banks joining; DeCurret DCP joined LF Decentralized Trust in September 2026. A sovereign consortium. Reported to be Besu-based (LF Decentralized Trust’s 2026 adoption report); not confirmed by DeCurret DCP’s own pages.'
+  sources:
+  - title: DeCurret DCP, DCJPY service release (28 August 2024)
+    url: https://www.dcjpy.com/en/.assets/EN20240828_DCJPYservicerelease.pdf
+    checked: '2026-10-25'
+  - title: DeCurret DCP joins LF Decentralized Trust (25 September 2026)
+    url: https://www.dcjpy.com/en/news/news-20260925.html
+    checked: '2026-10-25'
+  - title: LF Decentralized Trust, Institutional adoption report 2026 (DCJPY on Besu; secondary source)
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+# ---- Participants of the public networks (live deployments unless marked pilot; evidence level in each desc) ----
+- id: abrdn_eth
+  name: abrdn
+  circle: ethereum
+  x: 1160
+  y: 592
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tokenized abrdn money market fund units offered through Archax on Ethereum mainnet and Hedera to professional investors since 2024.'
+  sources:
+  - title: 'Crowdfund Insider, Archax expands tokenised fund range (secondary source)'
+    url: https://www.crowdfundinsider.com/2024/04/224199-archax-an-fca-regulated-digital-assets-exchange-expands-range-of-fund-shares-it-offers-in-tokenized-form/
+    checked: '2026-10-25'
+- id: apollo_eth
+  name: Apollo
+  circle: ethereum
+  x: 1208
+  y: 592
+  eth: true
+  kind: participant
+  small: true
+  desc: 'ACRED, the tokenized feeder to Apollo’s Diversified Credit Fund with Securitize, launched in January 2025 on Ethereum mainnet and five other chains for qualified investors.'
+  sources:
+  - title: 'Apollo and Securitize launch ACRED (30 January 2025)'
+    url: https://www.nasdaq.com/press-release/apollo-and-securitize-announce-partnership-and-launch-tokenized-access-credit-fund
+    checked: '2026-10-25'
+- id: boc_eth
+  name: Bank of China (BOCI)
+  circle: ethereum
+  x: 1292
+  y: 592
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BOCI issued CNH 200 million of digital structured notes on Ethereum mainnet with UBS in June 2023: a one-off issuance.'
+  sources:
+  - title: 'Ledger Insights, BOCI tokenised notes on Ethereum (secondary source)'
+    url: https://www.ledgerinsights.com/bank-of-china-intl-boci-tokenized-security-ethereum/
+    checked: '2026-10-25'
+- id: blackrock_eth
+  name: BlackRock
+  circle: ethereum
+  x: 1385
+  y: 592
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BUIDL, the BlackRock USD Institutional Digital Liquidity Fund tokenized by Securitize, has been issued on Ethereum mainnet for qualified investors since March 2024; in August 2026 BlackRock added tokenized share classes of six European money market funds minted on Ethereum mainnet through Kinexys by J.P. Morgan.'
+  sources:
+  - title: 'BlackRock launches BUIDL on Ethereum (20 March 2024)'
+    url: https://www.nasdaq.com/press-release/blackrock-launches-its-first-tokenized-fund-buidl-on-the-ethereum-network-2024-03-20
+    checked: '2026-10-25'
+  - title: 'The Block, BlackRock tokenised European MMF share classes (August 2026; secondary source)'
+    url: https://www.theblock.co/post/410554/blackrock-debuts-tokenized-share-classes-for-select-european-money-market-funds-with-311-billion-in-assets
+    checked: '2026-10-25'
+- id: bny_eth
+  name: BNY
+  circle: ethereum
+  x: 1435
+  y: 592
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Digital Asset Data Insights publishes fund-accounting data for BlackRock’s BUIDL to Ethereum mainnet through smart contracts (April 2025); BNY’s own tokenized deposits run on a private chain.'
+  sources:
+  - title: 'BNY, on-chain data offering (3 April 2025)'
+    url: https://www.bny.com/corporate/global/en/about-us/newsroom/press-release/bny-expands-digital-asset-platform-with-launch-of-innovative-on-chain-offering.html
+    checked: '2026-10-25'
+- id: circle_eth
+  name: Circle
+  circle: ethereum
+  x: 1140
+  y: 616
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC and EURC natively on Ethereum mainnet, its original and largest deployment, and USYC, the tokenized Hashnote money market fund it acquired in January 2025, with subscriptions and redemptions against USDC through a teller contract around the clock.'
+  sources:
+  - title: 'Circle, USYC now available on Solana (1 October 2025: Base, Canton, Ethereum, NEAR, Solana; BNB Chain planned)'
+    url: https://www.circle.com/blog/usyc-now-available-on-solana
+    checked: '2026-10-25'
+  - title: 'Circle, multi-chain USDC (38 natively supported networks)'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+  - title: 'Circle, EURC supported networks'
+    url: https://www.circle.com/eurc
+    checked: '2026-10-25'
+- id: fidelity_eth
+  name: Fidelity
+  circle: ethereum
+  x: 1195
+  y: 616
+  eth: true
+  kind: participant
+  small: true
+  desc: 'FDIT, the on-chain share class of the Fidelity Treasury Digital Fund, has been minted on Ethereum mainnet since September 2025 for institutional investors; Fidelity itself has not announced it.'
+  sources:
+  - title: 'rwa.xyz, FDIT (secondary source)'
+    url: https://app.rwa.xyz/assets/fdit
+    checked: '2026-10-25'
+  - title: 'The Block, Fidelity on-chain treasury fund shares (secondary source)'
+    url: https://www.theblock.co/post/347637/fidelity-launches-onchain-ethereum-tracked-shares-for-treasury-money-market-fund
+    checked: '2026-10-25'
+- id: franklin_eth
+  name: Franklin Templeton
+  circle: ethereum
+  x: 1280
+  y: 616
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BENJI, the tokenized Franklin OnChain U.S. Government Money Fund (FOBXX), has been available on Ethereum mainnet since September 2024.'
+  sources:
+  - title: 'Franklin Templeton, Benji platform and supported networks'
+    url: https://digitalassets.franklintempleton.com/benji/
+    checked: '2026-10-25'
+- id: goldman_eth
+  name: Goldman Sachs
+  circle: ethereum
+  x: 1378
+  y: 616
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Joint lead manager, with Santander and Société Générale, of the European Investment Bank’s €100 million digital bond settled on Ethereum mainnet in April 2021: a one-off issuance, now matured.'
+  sources:
+  - title: 'EIB, first digital bond on a public blockchain (April 2021)'
+    url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain
+    checked: '2026-10-25'
+- id: invesco_eth
+  name: Invesco
+  circle: ethereum
+  x: 1448
+  y: 616
+  eth: true
+  kind: participant
+  small: true
+  desc: 'iSNR, a senior loan note tokenized through DigiFT on Ethereum mainnet and Arbitrum for accredited investors, February 2025.'
+  sources:
+  - title: 'Cointelegraph, DigiFT and Invesco iSNR (secondary source)'
+    url: https://cointelegraph.com/news/digift-invesco-private-credit-token-arbitrum
+    checked: '2026-10-25'
+- id: jpm_eth
+  name: J.P. Morgan
+  circle: ethereum
+  x: 1125
+  y: 640
+  eth: true
+  kind: participant
+  small: true
+  desc: 'JPM Coin (JPMD), the Kinexys deposit token, went live on Ethereum mainnet for institutional clients on 19 October 2026, after Base; J.P. Morgan Asset Management’s MONY tokenized money market fund has run on Ethereum mainnet since December 2025.'
+  sources:
+  - title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)'
+    url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum
+    checked: '2026-10-25'
+  - title: 'Bloomberg, JPMorgan debuts MONY tokenised money market fund (15 December 2025; secondary source)'
+    url: https://www.bloomberg.com/news/articles/2025-12-15/jpmorgan-debuts-first-money-market-fund-tokenized-on-ethereum
+    checked: '2026-10-25'
+- id: jh_eth
+  name: Janus Henderson
+  circle: ethereum
+  x: 1210
+  y: 640
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Sub-adviser to the Anemoy JTRSY treasury fund (September 2024) and JAAA CLO fund (June 2025) tokenized on Ethereum mainnet through Centrifuge.'
+  sources:
+  - title: 'Crypto Briefing, Centrifuge tokenises JAAA (secondary source)'
+    url: https://cryptobriefing.com/centrifuge-tokenizes-jaaa-clo-fund/
+    checked: '2026-10-25'
+- id: paypal_eth
+  name: PayPal
+  circle: ethereum
+  x: 1282
+  y: 640
+  eth: true
+  kind: participant
+  small: true
+  desc: 'PayPal USD (PYUSD), issued by Paxos, has been live on Ethereum mainnet since August 2023, and since on Solana, Arbitrum and Stellar.'
+  sources:
+  - title: 'PayPal, PYUSD expands to Arbitrum (17 July 2025)'
+    url: https://newsroom.paypal-corp.com/2025-07-17-PayPal-USD-Expands-to-Arbitrum-Bringing-Layer-2-Efficiency-to-Multi-Chain-Development-Stack
+    checked: '2026-10-25'
+- id: santander_eth
+  name: Santander
+  circle: ethereum
+  x: 1340
+  y: 640
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Issued a $20 million end-to-end bond on Ethereum mainnet in September 2019 and co-led the EIB’s 2021 digital bond: one-off issuances, now matured.'
+  sources:
+  - title: 'Santander, first end-to-end blockchain bond (12 September 2019)'
+    url: https://www.santander.com/en/press-room/press-releases/santander-launches-the-first-end-to-end-blockchain-bond
+    checked: '2026-10-25'
+  - title: 'EIB, first digital bond on a public blockchain (April 2021)'
+    url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain
+    checked: '2026-10-25'
+- id: sgforge_eth
+  name: Société Générale-FORGE
+  circle: ethereum
+  x: 1438
+  y: 640
+  eth: true
+  kind: participant
+  small: true
+  desc: 'EUR CoinVertible (a MiCA e-money token since July 2024) and USD CoinVertible (June 2025) are issued on Ethereum mainnet.'
+  sources:
+  - title: 'Société Générale-FORGE, CoinVertible product page'
+    url: https://www.sgforge.com/product/coinvertible/
+    checked: '2026-10-25'
+- id: spiko_eth
+  name: Spiko
+  circle: ethereum
+  x: 1130
+  y: 664
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, with Ethereum mainnet named first in the prospectus; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
+- id: scb_eth
+  name: Standard Chartered
+  circle: ethereum
+  x: 1208
+  y: 664
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Through SC Ventures’ Libeara, the SGD Delta Fund (Moody’s Aa, January 2024) and the Wellington-managed ULTRA fund are tokenized on Ethereum mainnet; the Standard Chartered-backed Anchorpoint HKD stablecoin, licensed by the HKMA in April 2026, began a professional-investor beta on Ethereum mainnet in August 2026.'
+  sources:
+  - title: 'Ledger Insights, Libeara tokenises Wellington fund (secondary source)'
+    url: https://www.ledgerinsights.com/stan-charts-libeara-tokenizes-wellington-us-treasury-fund-in-singapore/
+    checked: '2026-10-25'
+  - title: 'Standard Chartered, Anchorpoint granted HKMA stablecoin issuer licence (April 2026)'
+    url: https://www.sc.com/en/press-release/standard-chartered-backed-anchorpoint-granted-stablecoin-issuer-licence-by-the-hong-kong-monetary-authority/
+    checked: '2026-10-25'
+- id: stripe_eth
+  name: Stripe
+  circle: ethereum
+  x: 1288
+  y: 664
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Accepts stablecoin payments in USDC on Ethereum mainnet (also Base, Polygon, Solana and Tempo), and USDP and USDG on Ethereum mainnet, live for US businesses.'
+  sources:
+  - title: 'Stripe docs, stablecoin payments'
+    url: https://docs.stripe.com/crypto/stablecoins
+    checked: '2026-10-25'
+- id: tether_eth
+  name: Tether
+  circle: ethereum
+  x: 1338
+  y: 664
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether issues USD₮ (ERC-20) and the gold token XAU₮ natively on Ethereum mainnet, and Ethereum mainnet is the source chain for its omnichain USDT0.'
+  sources:
+  - title: 'Tether, supported protocols'
+    url: https://tether.to/en/supported-protocols/
+    checked: '2026-10-25'
+  - title: 'USDT0 deployments'
+    url: https://docs.usdt0.to/technical-documentation/deployments
+    checked: '2026-10-25'
+- id: ubs_eth
+  name: UBS Asset Management
+  circle: ethereum
+  x: 1423
+  y: 664
+  eth: true
+  kind: participant
+  small: true
+  desc: 'uMINT, “a Money Market investment built on Ethereum distributed ledger technology”, launched on 1 November 2024 through authorized distributors.'
+  sources:
+  - title: 'UBS, first tokenised investment fund (1 November 2024)'
+    url: https://www.ubs.com/global/en/media/display-page-ndp/en-20241101-first-tokenized-investment-fund.html
+    checked: '2026-10-25'
+- id: visa_eth
+  name: Visa
+  circle: ethereum
+  x: 1260
+  y: 688
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Settles with partners in USDC over Ethereum mainnet and Solana: pilots from 2023, live US settlement with Cross River Bank and Lead Bank from December 2025.'
+  sources:
+  - title: 'Visa, stablecoin settlement pilots (5 September 2023)'
+    url: https://usa.visa.com/about-visa/newsroom/press-releases.released.19881.html
+    checked: '2026-10-25'
+  - title: 'Visa, US stablecoin settlement (16 December 2025)'
+    url: https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21951.html
+    checked: '2026-10-25'
+- id: wisdomtree_eth
+  name: WisdomTree
+  circle: ethereum
+  x: 1315
+  y: 688
+  eth: true
+  kind: participant
+  small: true
+  desc: 'WisdomTree Connect offers 13 SEC-registered tokenized funds on Ethereum mainnet (September 2024), later extended to Base, Arbitrum, Optimism and Avalanche.'
+  sources:
+  - title: 'WisdomTree Connect, 13 tokenised funds across networks'
+    url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
+    checked: '2026-10-25'
+- id: circle_base
+  name: Circle
+  circle: base
+  x: 868
+  y: 857
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC and EURC natively on Base. Tether does not list Base for USD₮ or USDT0.'
+  sources:
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+  - title: 'Circle, EURC supported networks'
+    url: https://www.circle.com/eurc
+    checked: '2026-10-25'
+- id: coinbase_base
+  name: Coinbase (operator)
+  circle: base
+  x: 950
+  y: 857
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Base is built and operated by Coinbase, which runs its sequencer; live since August 2023.'
+  sources:
+  - title: 'Base docs, about Base'
+    url: https://docs.base.org/get-started/base
+    checked: '2026-10-25'
+- id: franklin_base
+  name: Franklin Templeton
+  circle: base
+  x: 1062
+  y: 857
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BENJI available on Base since October 2024.'
+  sources:
+  - title: 'Franklin Templeton, Benji platform and supported networks'
+    url: https://digitalassets.franklintempleton.com/benji/
+    checked: '2026-10-25'
+- id: jpm_base
+  name: J.P. Morgan
+  circle: base
+  x: 897
+  y: 881
+  eth: true
+  kind: participant
+  small: true
+  desc: 'JPMD, the Kinexys deposit token, went live on Base for institutional clients on 12 November 2025, the first bank deposit token on a public blockchain (pilot announced June 2025 with B2C2, Coinbase and Mastercard).'
+  sources:
+  - title: 'J.P. Morgan, Kinexys USD deposit tokens on Base'
+    url: https://www.jpmorgan.com/payments/newsroom/kinexys-usd-digital-deposit-tokens
+    checked: '2026-10-25'
+- id: spiko_base
+  name: Spiko
+  circle: base
+  x: 957
+  y: 881
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Base among them; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
+- id: stripe_base
+  name: Stripe
+  circle: base
+  x: 1005
+  y: 881
+  eth: true
+  kind: participant
+  small: true
+  desc: 'USDC payments on Base, live for US businesses.'
+  sources:
+  - title: 'Stripe docs, stablecoin payments'
+    url: https://docs.stripe.com/crypto/stablecoins
+    checked: '2026-10-25'
+- id: wisdomtree_base
+  name: WisdomTree
+  circle: base
+  x: 1065
+  y: 881
+  eth: true
+  kind: participant
+  small: true
+  desc: 'WisdomTree Connect tokenized funds on Base since April 2025.'
+  sources:
+  - title: 'WisdomTree Connect, 13 tokenised funds across networks'
+    url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
+    checked: '2026-10-25'
+- id: blackrock_arb
+  name: BlackRock
+  circle: arbitrum
+  x: 872
+  y: 897
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BUIDL share class on Arbitrum since November 2024.'
+  sources:
+  - title: 'The Block, BUIDL expands to five networks (secondary source)'
+    url: https://www.theblock.co/post/326288/blackrock-buidl-aptos-arbitrum-avalanche-optimism-polygon
+    checked: '2026-10-25'
+- id: circle_arb
+  name: Circle
+  circle: arbitrum
+  x: 930
+  y: 897
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC natively on Arbitrum.'
+  sources:
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+- id: franklin_arb
+  name: Franklin Templeton
+  circle: arbitrum
+  x: 1010
+  y: 897
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BENJI available on Arbitrum since August 2024.'
+  sources:
+  - title: 'Franklin Templeton, Benji platform and supported networks'
+    url: https://digitalassets.franklintempleton.com/benji/
+    checked: '2026-10-25'
+- id: invesco_arb
+  name: Invesco
+  circle: arbitrum
+  x: 1092
+  y: 897
+  eth: true
+  kind: participant
+  small: true
+  desc: 'iSNR senior loan note tokenized through DigiFT on Arbitrum, March 2025.'
+  sources:
+  - title: 'Cointelegraph, DigiFT and Invesco iSNR (secondary source)'
+    url: https://cointelegraph.com/news/digift-invesco-private-credit-token-arbitrum
+    checked: '2026-10-25'
+- id: paypal_arb
+  name: PayPal
+  circle: arbitrum
+  x: 897
+  y: 921
+  eth: true
+  kind: participant
+  small: true
+  desc: 'PYUSD live on Arbitrum since 17 July 2025.'
+  sources:
+  - title: 'PayPal, PYUSD expands to Arbitrum (17 July 2025)'
+    url: https://newsroom.paypal-corp.com/2025-07-17-PayPal-USD-Expands-to-Arbitrum-Bringing-Layer-2-Efficiency-to-Multi-Chain-Development-Stack
+    checked: '2026-10-25'
+- id: spiko_arb
+  name: Spiko
+  circle: arbitrum
+  x: 944
+  y: 921
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Arbitrum One among them; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
+- id: tether_arb
+  name: Tether
+  circle: arbitrum
+  x: 992
+  y: 921
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether’s omnichain USDT0 is deployed on Arbitrum One (the earlier native USD₮ migrated to it in 2025).'
+  sources:
+  - title: 'USDT0 deployments'
+    url: https://docs.usdt0.to/technical-documentation/deployments
+    checked: '2026-10-25'
+- id: wisdomtree_arb
+  name: WisdomTree
+  circle: arbitrum
+  x: 1052
+  y: 921
+  eth: true
+  kind: participant
+  small: true
+  desc: 'WisdomTree Connect tokenized funds on Arbitrum since April 2025.'
+  sources:
+  - title: 'WisdomTree Connect, 13 tokenised funds across networks'
+    url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
+    checked: '2026-10-25'
+- id: blackrock_op
+  name: BlackRock
+  circle: optimism
+  x: 895
+  y: 957
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BUIDL share class on OP Mainnet since November 2024.'
+  sources:
+  - title: 'The Block, BUIDL expands to five networks (secondary source)'
+    url: https://www.theblock.co/post/326288/blackrock-buidl-aptos-arbitrum-avalanche-optimism-polygon
+    checked: '2026-10-25'
+- id: circle_op
+  name: Circle
+  circle: optimism
+  x: 952
+  y: 957
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC natively on OP Mainnet.'
+  sources:
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+- id: tether_op
+  name: Tether
+  circle: optimism
+  x: 1002
+  y: 957
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether’s omnichain USDT0 is deployed on Optimism.'
+  sources:
+  - title: 'USDT0 deployments'
+    url: https://docs.usdt0.to/technical-documentation/deployments
+    checked: '2026-10-25'
+- id: wisdomtree_op
+  name: WisdomTree
+  circle: optimism
+  x: 1062
+  y: 957
+  eth: true
+  kind: participant
+  small: true
+  desc: 'WisdomTree Connect tokenized funds on OP Mainnet since April 2025.'
+  sources:
+  - title: 'WisdomTree Connect, 13 tokenised funds across networks'
+    url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
+    checked: '2026-10-25'
+- id: apollo_pol
+  name: Apollo
+  circle: polygon
+  x: 1182
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'ACRED available on Polygon since January 2025.'
+  sources:
+  - title: 'Apollo and Securitize launch ACRED (30 January 2025)'
+    url: https://www.nasdaq.com/press-release/apollo-and-securitize-announce-partnership-and-launch-tokenized-access-credit-fund
+    checked: '2026-10-25'
+- id: blackrock_pol
+  name: BlackRock
+  circle: polygon
+  x: 1240
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BUIDL share class on Polygon since November 2024.'
+  sources:
+  - title: 'The Block, BUIDL expands to five networks (secondary source)'
+    url: https://www.theblock.co/post/326288/blackrock-buidl-aptos-arbitrum-avalanche-optimism-polygon
+    checked: '2026-10-25'
+- id: circle_pol
+  name: Circle
+  circle: polygon
+  x: 1298
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC natively on Polygon PoS.'
+  sources:
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+- id: franklin_pol
+  name: Franklin Templeton
+  circle: polygon
+  x: 1378
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'FOBXX, the Franklin OnChain U.S. Government Money Fund, launched on Polygon in April 2023.'
+  sources:
+  - title: 'Franklin Templeton, money market fund launches on Polygon (April 2023)'
+    url: https://www.franklintempleton.com/press-releases/news-room/2023/franklin-templeton-money-market-fund-launches-on-polygon-blockchain
+    checked: '2026-10-25'
+- id: hamilton_pol
+  name: Hamilton Lane
+  circle: polygon
+  x: 1222
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'SCOPE feeder fund (May 2023) and Secondary Fund VI feeder (August 2024) tokenized with Securitize on Polygon.'
+  sources:
+  - title: 'Hamilton Lane, SCOPE available via Securitize'
+    url: https://www.hamiltonlane.com/en-us/news/scope-available-via-securitize
+    checked: '2026-10-25'
+- id: spiko_pol
+  name: Spiko
+  circle: polygon
+  x: 1288
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Polygon PoS among them; the token is the share, not a representation of it.'
+  sources:
+  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+    url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
+    checked: '2026-10-25'
+  - title: 'Spiko docs, token contract addresses by network'
+    url: https://docs.spiko.io/documentation/tokenization/addresses
+    checked: '2026-10-25'
+- id: stripe_pol
+  name: Stripe
+  circle: polygon
+  x: 1335
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'USDC payments on Polygon, live for US businesses.'
+  sources:
+  - title: 'Stripe docs, stablecoin payments'
+    url: https://docs.stripe.com/crypto/stablecoins
+    checked: '2026-10-25'
+- id: tether_pol
+  name: Tether
+  circle: polygon
+  x: 1385
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether’s omnichain USDT0 is deployed on Polygon PoS.'
+  sources:
+  - title: 'USDT0 deployments'
+    url: https://docs.usdt0.to/technical-documentation/deployments
+    checked: '2026-10-25'
+- id: apollo_avax
+  name: Apollo
+  circle: avalanche
+  x: 1230
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'ACRED available on Avalanche since January 2025.'
+  sources:
+  - title: 'Apollo and Securitize launch ACRED (30 January 2025)'
+    url: https://www.nasdaq.com/press-release/apollo-and-securitize-announce-partnership-and-launch-tokenized-access-credit-fund
+    checked: '2026-10-25'
+- id: blackrock_avax
+  name: BlackRock
+  circle: avalanche
+  x: 1288
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BUIDL share class on Avalanche since November 2024.'
+  sources:
+  - title: 'The Block, BUIDL expands to five networks (secondary source)'
+    url: https://www.theblock.co/post/326288/blackrock-buidl-aptos-arbitrum-avalanche-optimism-polygon
+    checked: '2026-10-25'
+- id: circle_avax
+  name: Circle
+  circle: avalanche
+  x: 1345
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC and EURC natively on Avalanche.'
+  sources:
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+  - title: 'Circle, EURC supported networks'
+    url: https://www.circle.com/eurc
+    checked: '2026-10-25'
+- id: franklin_avax
+  name: Franklin Templeton
+  circle: avalanche
+  x: 1425
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BENJI available on Avalanche since August 2024.'
+  sources:
+  - title: 'Franklin Templeton, Benji platform and supported networks'
+    url: https://digitalassets.franklintempleton.com/benji/
+    checked: '2026-10-25'
+- id: kkr_avax
+  name: KKR
+  circle: avalanche
+  x: 1498
+  y: 467
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tokenized exposure to KKR’s Health Care Strategic Growth Fund II with Securitize on Avalanche since September 2022.'
+  sources:
+  - title: 'KKR and Securitize tokenised fund on Avalanche (13 September 2022)'
+    url: https://www.businesswire.com/news/home/20220913005384/en/
+    checked: '2026-10-25'
+- id: mufg_avax
+  name: MUFG (Progmat)
+  circle: avalanche
+  x: 1280
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Progmat migrated all of its digital securities (over JPY 452 billion) from Corda to a dedicated Avalanche L1 by mid-2026.'
+  sources:
+  - title: 'Avalanche, Progmat migrates tokenised securities to Avalanche (2026)'
+    url: https://avax.network/about/blog/progmat-migrates-2b-tokenized-securities-to-avalanche
+    checked: '2026-10-25'
+- id: tether_avax
+  name: Tether
+  circle: avalanche
+  x: 1350
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether issues USD₮ natively on Avalanche (ERC-20).'
+  sources:
+  - title: 'Tether, supported protocols'
+    url: https://tether.to/en/supported-protocols/
+    checked: '2026-10-25'
+- id: visa_avax
+  name: Visa
+  circle: avalanche
+  x: 1395
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Stablecoin settlement extended to Avalanche in July 2025.'
+  sources:
+  - title: 'Visa, settlement expands to four stablecoins and four blockchains (31 July 2025)'
+    url: https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21581.html
+    checked: '2026-10-25'
+- id: wisdomtree_avax
+  name: WisdomTree
+  circle: avalanche
+  x: 1450
+  y: 491
+  eth: true
+  kind: participant
+  small: true
+  desc: 'WisdomTree Connect tokenized funds on Avalanche since April 2025.'
+  sources:
+  - title: 'WisdomTree Connect, 13 tokenised funds across networks'
+    url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
+    checked: '2026-10-25'
+- id: abrdn_hbar
+  name: abrdn
+  circle: hedera
+  x: 795
+  y: 937
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tokenized abrdn money market fund units through Archax on Hedera and Ethereum mainnet since 2024.'
+  sources:
+  - title: 'Crowdfund Insider, Archax expands tokenised fund range (secondary source)'
+    url: https://www.crowdfundinsider.com/2024/04/224199-archax-an-fca-regulated-digital-assets-exchange-expands-range-of-fund-shares-it-offers-in-tokenized-form/
+    checked: '2026-10-25'
+- id: circle_hbar
+  name: Circle
+  circle: hedera
+  x: 842
+  y: 937
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle issues USDC natively on Hedera.'
+  sources:
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+- id: shinhan_hbar
+  name: Shinhan Bank (pilot)
+  circle: hedera
+  x: 928
+  y: 937
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Stablecoin remittance proofs of concept on Hedera with Standard Bank (2021) and SCB TechX (July 2023): pilots, not a live product.'
+  sources:
+  - title: 'Hedera, Shinhan Bank and SCB TechX pilot (operator)'
+    url: https://hedera.com/blog/shinhan-bank-scb-techx-successfully-pilot-stablecoin-remittances-on-the-hedera-network.md
+    checked: '2026-10-25'
+- id: tether_hbar
+  name: Tether
+  circle: hedera
+  x: 880
+  y: 961
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether’s omnichain USDT0 is deployed on Hedera.'
+  sources:
+  - title: 'USDT0 deployments'
+    url: https://docs.usdt0.to/technical-documentation/deployments
+    checked: '2026-10-25'
+- id: blackrock_bnb
+  name: BlackRock
+  circle: bnb
+  x: 1190
+  y: 462
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BUIDL share class on BNB Chain since 14 November 2025, accepted as collateral on Binance.'
+  sources:
+  - title: 'BNB Chain, BUIDL launches on BNB Chain (14 November 2025)'
+    url: https://www.bnbchain.org/en/blog/blackrocks-buidl-fund-launches-bnb-chain-tokenized-by-securitize-and-accepted-as-collateral-on-binance
+    checked: '2026-10-25'
+- id: circle_bnb
+  name: Circle
+  circle: bnb
+  x: 1247
+  y: 462
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Circle’s USYC, the tokenized Hashnote money market fund for non-US institutions, is issued natively on BNB Chain and accepted as off-exchange collateral at Binance. Circle does not list BNB Smart Chain for native USDC.'
+  sources:
+  - title: 'Circle, USYC supported as off-exchange collateral for Binance institutional clients and to be issued natively on BNB Chain (24 July 2025)'
+    url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients
+    checked: '2026-10-25'
+  - title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
+    url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
+    checked: '2026-10-25'
+- id: franklin_bnb
+  name: Franklin Templeton
+  circle: bnb
+  x: 1327
+  y: 462
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BENJI on BNB Smart Chain since July 2025.'
+  sources:
+  - title: 'Franklin Templeton, Benji platform and supported networks'
+    url: https://digitalassets.franklintempleton.com/benji/
+    checked: '2026-10-25'
+- id: tether_bnb
+  name: Tether
+  circle: bnb
+  x: 1407
+  y: 462
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Tether issues the gold token XAU₮ natively on BNB Smart Chain; the USD₮ that circulates there is Binance-Peg, wrapped by Binance rather than issued by Tether. Circle does not list BNB Smart Chain for native USDC.'
+  sources:
+  - title: 'Tether, supported protocols'
+    url: https://tether.to/en/supported-protocols/
+    checked: '2026-10-25'
+  - title: 'Circle, multi-chain USDC'
+    url: https://www.circle.com/multi-chain-usdc
+    checked: '2026-10-25'
+# ---- Project Agorá participants (the seven central banks at launch) ----
+- id: banxico
+  name: Banco de México
+  circle: agora
+  x: 598
+  y: 412
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Banco de México is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+- id: boc_agora
+  name: Bank of Canada
+  circle: agora
+  x: 690
+  y: 412
+  eth: true
+  kind: participant
+  small: true
+  desc: 'The Bank of Canada joined Project Agorá as its eighth central bank in May 2026, to test improvements to wholesale cross-border payments.'
+  sources:
+  - title: 'Bank of Canada joins Project Agorá (27 May 2026)'
+    url: https://www.bankofcanada.ca/2026/05/bank-canada-joins-bis-project-agora-test-improvements-wholesale-cross-border-payments/
+    checked: '2026-10-25'
+- id: boe
+  name: Bank of England
+  circle: agora
+  x: 782
+  y: 412
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Bank of England is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+- id: boj
+  name: Bank of Japan
+  circle: agora
+  x: 598
+  y: 436
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Bank of Japan is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+- id: bok_agora
+  name: Bank of Korea
+  circle: agora
+  x: 682
+  y: 436
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Bank of Korea is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+- id: bdf
+  name: Banque de France
+  circle: agora
+  x: 775
+  y: 436
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Banque de France (representing the Eurosystem) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+- id: nyfed
+  name: NY Fed
+  circle: agora
+  x: 632
+  y: 460
+  eth: true
+  kind: participant
+  small: true
+  desc: 'NY Fed (the Federal Reserve Bank of New York) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+- id: snb
+  name: Swiss National Bank
+  circle: agora
+  x: 715
+  y: 460
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Swiss National Bank is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  sources:
+  - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
+    url: https://www.bis.org/press/p240403.htm
+    checked: '2026-10-25'
+# ---- Swift shared ledger participants (the 17 banks named by Swift on 9 July 2026) ----
+- id: anz
+  name: ANZ
+  circle: swift
+  x: 515
+  y: 457
+  eth: true
+  kind: participant
+  small: true
+  desc: 'ANZ is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: bnpp
+  name: BNP Paribas
+  circle: swift
+  x: 570
+  y: 457
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BNP Paribas is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: bny
+  name: BNY
+  circle: swift
+  x: 625
+  y: 457
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BNY is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: citi
+  name: Citi
+  circle: swift
+  x: 662
+  y: 457
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Citi is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: dbs_swift
+  name: DBS
+  circle: swift
+  x: 700
+  y: 457
+  eth: true
+  kind: participant
+  small: true
+  desc: 'DBS is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: fab
+  name: FAB
+  circle: swift
+  x: 735
+  y: 457
+  eth: true
+  kind: participant
+  small: true
+  desc: 'FAB is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: firstrand
+  name: FirstRand
+  circle: swift
+  x: 512
+  y: 481
+  eth: true
+  kind: participant
+  small: true
+  desc: 'FirstRand is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: hsbc
+  name: HSBC
+  circle: swift
+  x: 565
+  y: 481
+  eth: true
+  kind: participant
+  small: true
+  desc: 'HSBC is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger, and with Standard Chartered completed the first live bank-to-bank tokenized deposit transaction on it on 20 August 2026. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)'
+    url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain
+    checked: '2026-10-25'
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: itau
+  name: Itaú
+  circle: swift
+  x: 605
+  y: 481
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Itaú is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: lloyds
+  name: Lloyds
+  circle: swift
+  x: 650
+  y: 481
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Lloyds is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: mashreq
+  name: Mashreq
+  circle: swift
+  x: 702
+  y: 481
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Mashreq is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: mufg
+  name: MUFG
+  circle: swift
+  x: 750
+  y: 481
+  eth: true
+  kind: participant
+  small: true
+  desc: 'MUFG is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: ocbc
+  name: OCBC
+  circle: swift
+  x: 498
+  y: 505
+  eth: true
+  kind: participant
+  small: true
+  desc: 'OCBC is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: scb_swift
+  name: Standard Chartered
+  circle: swift
+  x: 572
+  y: 505
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Standard Chartered is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger, and with HSBC completed the first live bank-to-bank tokenized deposit transaction on it on 20 August 2026. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)'
+    url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain
+    checked: '2026-10-25'
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: ubs
+  name: UBS
+  circle: swift
+  x: 645
+  y: 505
+  eth: true
+  kind: participant
+  small: true
+  desc: 'UBS is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: uob
+  name: UOB
+  circle: swift
+  x: 680
+  y: 505
+  eth: true
+  kind: participant
+  small: true
+  desc: 'UOB is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: wells
+  name: Wells Fargo
+  circle: swift
+  x: 735
+  y: 505
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Wells Fargo is one of the 17 banks Swift named in July 2026 as the first to pilot live tokenized cross-border payments on its Besu-based shared ledger. Swift operates the ledger; participating banks operate their own environments and keep authority over keys, assets, funding and settlement.'
+  sources:
+  - title: 'Swift press release, 9 July 2026 (ready for use; 17 banks named)'
+    url: https://www.swift.com/news-events/press-releases/swifts-blockchain-ledger-ready-use-17-banks-set-pioneer-tokenised-cross-border-payments-trusted-global-infrastructure
+    checked: '2026-10-25'
+- id: bnpp_besu
+  name: BNP Paribas
+  circle: besu
+  x: 172
+  y: 577
+  eth: true
+  kind: participant
+  small: true
+  desc: 'BNP Paribas’ AssetFoundry tokenization platform and its exchange-traded derivatives solution run on Besu according to LF Decentralized Trust’s 2026 adoption report (AssetFoundry also issues on Ethereum mainnet); BNP Paribas’ own releases do not name the client.'
+  sources:
+  - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+  - title: 'BNP Paribas, public blockchain infrastructure for money market fund tokenisation (20 February 2026)'
+    url: https://group.bnpparibas/en/press-release/bnp-paribas-explores-public-blockchain-infrastructure-for-money-market-fund-tokenisation
+    checked: '2026-10-25'
+- id: citi_besu
+  name: Citi
+  circle: besu
+  x: 230
+  y: 577
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Citi’s Integrated Digital Assets Platform (CIDAP), the private chain under Citi Token Services for deposits and trade, is the one G-SIB platform whose bank states Besu itself: “While the platform currently uses Hyperledger Besu, it could potentially integrate with multiple blockchain protocols” (Citi, July 2024).'
+  sources:
+  - title: 'Citi, Introducing Citi Integrated Digital Assets Platform (17 July 2024)'
+    url: https://www.citigroup.com/global/news/perspective/2024/introducing-citi-integrated-digital-assets-platform
+    checked: '2026-10-25'
+  - title: 'LF Decentralized Trust case study, Citi transforms transaction banking services with Besu'
+    url: https://www.lfdecentralizedtrust.org/case-studies/citi-transforms-transaction-banking-services-with-besu
+    checked: '2026-10-25'
+- id: clearstream
+  name: Clearstream
+  circle: besu
+  x: 288
+  y: 577
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Clearstream’s D7 DLT platform runs on Besu according to LF Decentralized Trust’s 2026 adoption report, which quotes a Clearstream executive that “other FMIs equally deploy Besu as their chain of choice”; Clearstream’s own release names only its cloud provider.'
+  sources:
+  - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+  - title: 'Clearstream, D7 DLT launch release (4 November 2025)'
+    url: https://www.clearstream.com/clearstream-en/newsroom/251104-4757900
+    checked: '2026-10-25'
+- id: dtcc
+  name: DTCC
+  circle: besu
+  x: 152
+  y: 601
+  eth: true
+  kind: participant
+  small: true
+  desc: 'DTCC runs its own Besu network for tokenized securities: its July 2026 release describes conversions “on LFDT’s Besu (DTCC’s private network) and Canton (a public network)”, and its real-time collateral platform is an application on the DTCC AppChain “built atop LF Decentralized Trust’s Besu blockchain”.'
+  sources:
+  - title: 'DTCC, turning tokenization into reality (15 July 2026)'
+    url: https://www.dtcc.com/news/2026/july/15/dtcc-turns-tokenization-into-reality
+    checked: '2026-10-25'
+  - title: 'DTCC, platform for tokenized real-time collateral management (2 April 2025)'
+    url: https://www.dtcc.com/news/2025/april/02/dtcc-announces-new-platform-for-tokenized-real-time-collateral-management
+    checked: '2026-10-25'
+- id: euroclear
+  name: Euroclear
+  circle: besu
+  x: 205
+  y: 601
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Euroclear’s Project Pythagore with the Banque de France moves short-term debt (NEU CP) issuance onto “a Besu based DLT infrastructure” according to LF Decentralized Trust’s 2026 adoption report; the Banque de France release says only “DLT”.'
+  sources:
+  - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+  - title: 'Banque de France and Euroclear tokenise short-term debt (10 October 2025)'
+    url: https://www.banque-france.fr/en/press-release/banque-de-france-and-euroclear-tokenize-short-term-debt-paris
+    checked: '2026-10-25'
+- id: mtn
+  name: Mastercard MTN
+  circle: besu
+  x: 282
+  y: 601
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Mastercard’s Multi-Token Network runs on Besu according to LF Decentralized Trust’s 2026 adoption report; it is built with Kaleido, a Besu vendor, whose customer story does not name the client.'
+  sources:
+  - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+  - title: 'Kaleido customer story, Mastercard MTN'
+    url: https://www.kaleido.io/customer-stories/mastercard-mtn-network
+    checked: '2026-10-25'
+- id: nt
+  name: Northern Trust
+  circle: besu
+  x: 212
+  y: 625
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Northern Trust’s Matrix Zenith digital asset platform runs on Besu according to LF Decentralized Trust’s 2026 adoption report; Northern Trust’s own release says “private ledger digital blockchain technology”.'
+  sources:
+  - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+  - title: 'Northern Trust, Matrix Zenith launch (12 September 2024)'
+    url: https://www.businesswire.com/news/home/20240912432484/en
+    checked: '2026-10-25'
+- id: ubs_besu
+  name: UBS
+  circle: besu
+  x: 275
+  y: 625
+  eth: true
+  kind: participant
+  small: true
+  desc: 'UBS Digital Cash (tokenized deposits, live November 2024) and the UBS Gold Network run on private Besu networks according to LF Decentralized Trust’s 2026 adoption report; UBS’s own release says only “a private blockchain network to which only the permissioned clients have access”.'
+  sources:
+  - title: 'UBS, UBS Digital Cash (7 November 2024)'
+    url: https://www.ubs.com/global/en/media/display-page-ndp/en-20241107-ubs-digital-cash.html
+    checked: '2026-10-25'
+  - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
+    url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
+    checked: '2026-10-25'
+# ---- Partior participants ----
+- id: dbs_partior
+  name: DBS
+  circle: partior
+  x: 446
+  y: 655
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Founding shareholder of Partior (2021, with J.P. Morgan and Temasek) and its Singapore dollar settlement bank.'
+  sources:
+  - title: 'Partior (institutions that use the network)'
+    url: https://www.partior.com/
+    checked: '2026-10-25'
+  - title: 'DBS, J.P. Morgan and Temasek joint press release, 28 April 2021, as republished by The Asian Banker'
+    url: https://www.theasianbanker.com/press-releases/dbs,-j.p.-morgan-and-temasek-to-establish-platform-to-transform-interbank-value-movements-in-a-new-digital-era
+    checked: '2026-10-25'
+- id: db_partior
+  name: Deutsche Bank
+  circle: partior
+  x: 506
+  y: 655
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Joined Partior’s Series B as a strategic investor in November 2024 and intends to act as a euro and US dollar settlement bank.'
+  sources:
+  - title: 'Partior (institutions that use the network)'
+    url: https://www.partior.com/
+    checked: '2026-10-25'
+  - title: 'Finextra, Deutsche Bank invests in Partior (secondary source)'
+    url: https://www.finextra.com/newsarticle/45127/deutsche-bank-invests-in-partior
+    checked: '2026-10-25'
+- id: enbd_partior
+  name: Emirates NBD
+  circle: partior
+  x: 588
+  y: 655
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Went live on Partior in July 2026 for real-time US dollar payments, the first bank in the MENAT region to do so.'
+  sources:
+  - title: 'Partior (institutions that use the network)'
+    url: https://www.partior.com/
+    checked: '2026-10-25'
+  - title: 'The Asian Banker, Emirates NBD goes live on Partior (July 2026; secondary source)'
+    url: https://www.theasianbanker.com/updates-and-articles/emirates-nbd-goes-live-on-partior-for-24-7-usd-settlement-deutsche-bank-expands-apac-escrow
+    checked: '2026-10-25'
+- id: jpm_partior
+  name: J.P. Morgan
+  circle: partior
+  x: 473
+  y: 679
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Founding shareholder of Partior (2021, with DBS and Temasek) and its US dollar settlement bank.'
+  sources:
+  - title: 'Partior (institutions that use the network)'
+    url: https://www.partior.com/
+    checked: '2026-10-25'
+  - title: 'DBS, J.P. Morgan and Temasek joint press release, 28 April 2021, as republished by The Asian Banker'
+    url: https://www.theasianbanker.com/press-releases/dbs,-j.p.-morgan-and-temasek-to-establish-platform-to-transform-interbank-value-movements-in-a-new-digital-era
+    checked: '2026-10-25'
+- id: scb_partior
+  name: Standard Chartered
+  circle: partior
+  x: 566
+  y: 679
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Shareholder in Partior and a settlement bank on the network.'
+  sources:
+  - title: 'Partior (institutions that use the network)'
+    url: https://www.partior.com/
+    checked: '2026-10-25'
+# ---- Besu private chains (institutions with an announced Besu network; evidence level stated in each desc) ----
+# ---- Private ----
+- id: quorum
+  name: Quorum
+  circle: priv
+  x: 230
+  y: 810
+  eth: true
+  desc: 'The earlier enterprise Ethereum fork: a permissioned version of Geth started by J.P. Morgan in 2016 and passed to Consensys in 2020 (GoQuorum). It carried Kinexys (Onyx) and Partior, among others, but the repository is now archived (“no longer actively maintained or supported by Consensys”) and Besu dropped its compatibility modes in 2023, so new deployments go to Besu. Ethereum ecosystem by code.'
+  sources:
+  - title: Consensys GoQuorum repository (go-ethereum fork with peer permissioning; archived, no longer maintained)
+    url: https://github.com/Consensys/quorum
+    checked: '2026-10-25'
+- id: fabric
+  name: Hyperledger Fabric
+  circle: priv
+  x: 230
+  y: 850
+  eth: false
+  desc: '“An enterprise-grade permissioned distributed ledger framework” from the Hyperledger stable (now LF Decentralized Trust): modular, with pluggable consensus, written in Go under Apache 2.0. Outside the Ethereum ecosystem: no EVM by default and no public-chain upgrade path, which is the trade-off against Besu.'
+  sources:
+  - title: Hyperledger Fabric repository (LF Decentralized Trust)
+    url: https://github.com/hyperledger/fabric
+    checked: '2026-10-25'

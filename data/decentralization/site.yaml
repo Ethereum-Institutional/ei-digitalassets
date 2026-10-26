@@ -1,0 +1,57 @@
+# Decentralization page: eleven properties of a ledger, five levels from one party to an open network, and lenses that
+# place a named ledger (Ethereum mainnet, Bitcoin, Canton, Solana, Stellar) or a generic architecture (consortium, one
+# operator) on the dials.
+
+kind: gauges
+default_lens: ethereum
+title: Decentralization
+slug: decentralization
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Decentralization
+  italic: Decentralization
+intro: 'There is no generally accepted definition of decentralization. We offer eleven properties to consider, each on a dial from 1 (one party holds the property) to 5 (an open network holds it), because each answers a question your risk committee will ask.'
+intro_more_label: Why measure it this way?
+intro_more: 'The eleven questions: how long it has run, who maintains it, who can stop it, what control costs, who can change the rules, who can freeze a balance, who can verify it, who can join, what fails together, who owns the asset, and whether your transaction gets in on the same terms as everyone else’s. Decentralization is usually argued, not measured. Here each property has a definition and a scale, so that a design lands where the evidence puts it. Where a property is a share of something (stake, nodes, commits, supply), the scale uses the Herfindahl-Hirschman Index, the concentration measure regulators apply to markets, scored on the lines the US merger guidelines publish, because it counts the whole distribution rather than only the largest few; the Nakamoto coefficient (how many parties must act together) is shown beside it. Where a property is a capability (who can change the rules, who can freeze a balance), the levels describe the capability, following the academic reviews of blockchain decentralization. The levels apply to every design alike, Ethereum mainnet included, and the legitimate concerns about Ethereum mainnet sit inside the dials they belong to, with the work addressing each, because a page that hides its weak points is not believed on its strong ones. Disagree with a metric? Open an issue on GitHub and tell us what you would measure instead, and why.'
+svg_label: Eleven properties, each on a scale of 1 to 5
+panel_default:
+  title: Decentralization
+  text: Hover over a dial to read the property, its five levels and the current reading with its source; click to pin it. The dials run from 1, worst, to 5, excellent.
+lens_title: Compare a design
+lens_help: Each lens sets every dial. Ethereum mainnet first, then four public ledgers in alphabetical order, each read on the date in its notes; the consortium and private designs are generic architectures, not products.
+notice:
+  title: Under development.
+  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Readings are dated and sourced in each cell; levels and definitions may change. For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Disagree with a metric?
+  text: These ten are our proposal, not a standard. Open an issue and tell us what you would measure instead and why, or send a pull request with the change; every reading on this page is a file anyone can edit.
+score:
+  title: Weighted score
+  text: 'The default weights are ours; move the sliders to make the score yours. Your weights stay in your browser and are not sent anywhere.'
+stats:
+  title: What an open ledger attracts
+  text: 'A ledger nobody owns is the one everybody can build on, so it draws the widest participation: the most holders, the most tokenized assets, the deepest tokenized-currency liquidity and the largest developer base. That is what you join when you settle on it. Figures are for Ethereum mainnet alone unless stated, checked 25 October 2026.'
+  items:
+  - label: holders of tokenized dollars
+    value: 27.0 million
+    text: Addresses holding a stablecoin on Ethereum mainnet, beside 288,000 holders of tokenized real-world assets.
+    sources:
+    - { title: 'rwa.xyz, Ethereum network page', url: https://app.rwa.xyz/networks/ethereum, checked: '2026-10-25' }
+  - label: in tokenized real-world assets
+    value: USD 15.9 billion
+    text: Treasuries, funds, credit and other tokenized assets on Ethereum mainnet, the largest of any network.
+    sources:
+    - { title: 'rwa.xyz, Ethereum network page', url: https://app.rwa.xyz/networks/ethereum, checked: '2026-10-25' }
+  - label: in tokenized currency
+    value: USD 143 billion
+    text: Dollar stablecoins circulating on Ethereum mainnet (plus about EUR 600 million in euro tokens), the deepest pool of tokenized money on any ledger.
+    sources:
+    - { title: 'DefiLlama, stablecoins by chain', url: https://defillama.com/stablecoins/Ethereum, checked: '2026-10-25' }
+  - label: active developers
+    value: '31,900'
+    text: Developers active in the Ethereum ecosystem including its Layer 2s in Electric Capital’s data to September 2025, the largest of any ecosystem; 6,244 monthly active in its 2024 report.
+    sources:
+    - { title: 'Electric Capital, 2024 Developer Report', url: https://www.developerreport.com/reports/devs/2024, checked: '2026-10-25' }
+    - { title: 'Electric Capital data to September 2025, as reported 17 October 2025', url: https://finance.yahoo.com/news/ethereum-leads-16-000-developers-054251913.html, checked: '2026-10-25' }
+footnote: 'Readings for Ethereum mainnet were checked on 25 October 2026 and for Bitcoin, Canton, Solana and Stellar on 26 October 2026; all drift, since validator, pool, client and builder shares change weekly. The levels are an Ethereum Institutional house method informed by Srinivasan and Lee (2017), the Edinburgh SoK on measuring decentralization (2025), the US Merger Guidelines (2023) and Budish (2018, Quarterly Journal of Economics 2025). This map is a house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

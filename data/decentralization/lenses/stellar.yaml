@@ -1,0 +1,127 @@
+# Lens: Stellar (the public network). `cells` places each property on the level the reading falls in under
+# themes.yaml; `notes` carries the reading, its date and its source. Readings checked 26 October 2026; the Tier 1 set,
+# validator versions and SDF holdings drift. Writing rules: US spelling; no em-dashes; "Ethereum mainnet" for the chain
+# when it is compared.
+
+id: stellar
+order: 5
+name: Stellar
+menu: Stellar
+short: Stellar
+color: '#0369a1'
+intro: 'Stellar, read on 26 October 2026. One property at level 5, two at level 4, two at level 3 and six at level 2. Verifiability is the one at 5: a public ledger anyone can check in full on a 16 GB node. Three things define the rest. Consensus weight is membership: ten named Tier 1 organizations, each admitted by the existing ones over months, decide every vote at a threshold of seven, so four of them can halt settlement, rule changes are SDF’s proposals that the group has always ratified, inclusion sits with the same group, and nothing is staked or slashed. One client, stellar-core, written by SDF, runs every validator. And since May 2026 the base layer has a validator-voted freeze list, while SDF still holds 29% of a fixed supply. Eleven years in production and no network-wide halt since 2019 count in its favor.'
+cells:
+  history: l3
+  developers: l2
+  stop: l1
+  cost: l1
+  rules: l1
+  property: l1
+  verify: l4
+  entry: l2
+  resilience: l1
+  issuance: l1
+  inclusion: l3
+readings:
+  history: '11.1 years; last halt 15 May 2019'
+  developers: '2,968 active developers; core by SDF'
+  stop: '4 of 10 Tier 1 orgs can halt it'
+  cost: 'No stake, no slashing; reputation'
+  rules: 'SDF writes core and CAPs; never overruled'
+  property: 'Validator-voted freeze list, May 2026'
+  verify: '103 validators; 16 GB RAM, 100 GB'
+  entry: 'No stake; Tier 1 entry takes months'
+  resilience: '1 client on 100%; 16 of 30 in US'
+  issuance: 'SDF 29.2% of fixed 50 billion XLM'
+  inclusion: '10 nominators; no forced inclusion'
+notes:
+  history: 'The current network closed its first ledgers on 30 September 2015 (stellar.expert, ledger 2), 11.1 years ago; the 2014 network it replaced, on Ripple-derived code, halted for about 16 hours on 20 September 2014 and was retired. Since 2015 there have been two network-wide halts, both in May 2019: 67 minutes on 15 May, when Keybase took a validator down for maintenance while others were misconfigured, then a brief shutdown to repair quorum overlap (SDF post-mortem). On 6 April 2021 SDF’s three validators and its public Horizon stopped for about 10.5 hours; SDF states the rest of the network kept closing ledgers, while explorers showed no transactions for hours. SDF’s Q2 2026 report claims five years of 100% uptime. The October 2025 state-archival repair is disclosed (see the freeze dial). Seven years since the last halt is the 5 to 10 year band: level 4.'
+  developers: '2,968 monthly active developers on 30 June 2026, an all-time high and up 125% year over year, which SDF’s Q2 2026 report attributes to Electric Capital’s data and which it says ranks Stellar second by that measure (the figure is second-hand; Electric Capital’s own page gave no numbers). The core is another matter: stellar-core is the only implementation, with 96 contributors on GitHub, the ten largest committers by count are current or former SDF staff, and the CAP core team that decides protocol proposals is three SDF engineers. Thousands building meets the count for level 4, but one foundation writes the protocol, which is what the level 3 cell describes: a large open community with one organization writing most of the core.'
+  stop: 'Consensus weight on Stellar is membership in the Tier 1 quorum set, not stake. Obsrvr Radar’s quorum data on 26 October 2026 shows ten Tier 1 organizations, each running three validators, in every Tier 1 node’s quorum set at a threshold of 7 of 10: Blockdaemon, Creit Technologies, Figure (Figure Certificate Company), Franklin Templeton, LOBSTR, MoneyGram, OBSRVR, Public Node, Range and SDF (SatoshiPay has dropped out; MoneyGram, Figure and Range joined in July 2026). Ten equal entities give an HHI of exactly 1,000, which would read unconcentrated in an open set; the Tier 1 set admits its own members, so the HHI bands do not apply and the count does. Four organizations refusing or failing halt the network, and seven must agree to close a ledger; four parties is the handful cell, level 2. The whole weight sits in ten nameable firms, seven of them US-based, and the better side of that is that the four are well-known regulated institutions whose failure would be public within minutes. SDF holds one vote of ten; its three validators do not count three times.'
+  cost: 'Stellar validators post no bond and nothing is slashed; a Tier 1 organization’s cost of misbehaving is its reputation and its place in the other nine quorum sets, which the Tier 1 documentation says each organization grants and withdraws on its own (developers.stellar.org, Tier 1 organizations). Halting settlement needs four of the ten Tier 1 organizations to stop or be stopped; closing a wrong ledger needs seven to collude, a higher bar than most permissioned ledgers set. But none of it can be priced: there is no stake to acquire and no penalty the protocol imposes, so the risk cannot be modeled as a dollar figure, only as the legal and operational exposure of ten named firms. That is the reputation-only cell: real accountability, no security budget. Level 2.'
+  rules: 'Changes are Core Advancement Proposals: anyone may draft one, but the CAP core team that votes to accept is three SDF engineers, and SDF writes stellar-core, the only implementation (stellar-protocol, core README). A new protocol version takes effect when validators arm it and vote at the same consensus level as a transaction set (developers.stellar.org, network upgrades), today 7 of 10 Tier 1 organizations, so four organizations can block and SDF alone can neither force nor block. Twenty-nine protocol versions have shipped this way since 2015, lately one a quarter: Protocol 20 (Soroban) on 20 February 2024 after SDF disarmed its validators to postpone a buggy release, 26 on 6 May 2026, 27 on 8 July, 28 on 16 September, 29 (security fixes) on 1 October; Protocol 30, Bell, is scheduled for a 23 November 2026 vote. A self-admitting body votes on one vendor’s code, and in 29 protocol versions it has never voted against what SDF proposed; the one postponement on record was SDF disarming its own validators. The vote is real and four organizations could use it, but until they do it is a ratification: the vendor-decides cell, level 2.'
+  property: 'Since Protocol 26 (6 May 2026) the base layer has a freeze function: CAP-0077 lets validators, by the same vote that sets network configuration, put accounts, trustlines and contract entries on a frozen list, after which transactions touching them are rejected; SDF’s Q2 2026 report calls it the Quorum Freeze and says Tier 1 validators can collectively freeze compromised ledger keys. It cannot move a balance, it is visible on chain and it was written for incident response, but it is a protocol-level freeze by a governance process, the level 2 cell. The precedents: on 22 October 2025 Protocol 24 reverted 394 contract entries corrupted by the Protocol 23 archival bug to their prior values, and in April 2017 a merge bug minted about 2.2 billion XLM, which SDF offset by burning its own. Issuer flags (authorization required, revocable, clawback) remain asset-level controls.'
+  verify: 'One global state that anyone may verify: the ledger is public, every full validator publishes a complete history archive, and a node needs 8 vCPUs, 16 GB of RAM and a 100 GB NVMe disk (developers.stellar.org, prerequisites), smaller than most ledgers because the node keeps a 30 day window and reads older history from the archives. Obsrvr Radar on 26 October 2026 counted 295 known nodes, 103 active validators, 82 of them full validators publishing archives, and 120 active watcher nodes that verify without voting. Nothing requires permission; a watcher joins by connecting to peers. The limit is practical, not legal: SDF’s public Horizon no longer serves history before its retention window, so a full audit from 2015 means replaying the archives yourself. Consumer hardware and no privileged reader: level 5.'
+  entry: 'Anyone may open an account and transact; the only requirement is a small lumen reserve, and asset issuers, not the network, decide who may hold their tokens. Anyone may run a validator without asking, and 103 do, but a validator carries no consensus weight until Tier 1 organizations add it to their quorum sets. The documented path (developers.stellar.org, Tier 1 organizations) is three full validators in separate regions, SEP-1 and SEP-20 verification, 99.9% uptime for three months or more, then each existing Tier 1 organization deciding independently whether to trust you: a process the docs say to expect in months, not weeks, and not a unilateral SDF decision. No stake is needed and exit is free. Open to transact, admitted to validate: level 3.'
+  resilience: 'One implementation runs the whole network: every one of the 103 active validators on Obsrvr Radar on 26 October 2026 runs stellar-core (72 on 29.0.0, 30 on 30.0.0, one internal build), written in C++ by SDF under Apache 2.0, and the Tier 1 docs require SDF’s own Ubuntu packages. A bug in it reaches every node at once, as the Protocol 23 archival bug did in October 2025, and the Protocol 16 fix in April 2021 followed a bug that took SDF’s validators and others offline. Hosting is spread but thin: the 30 Tier 1 validators sit on AWS (7), Google (6), Hetzner (5), OVH (4), DigitalOcean (3), Cherry Servers (3) and Azure (2), with 16 of 30 in the United States and SDF’s three all on AWS in the US. One client, several hosts: level 2.'
+  issuance: '100 billion XLM were created at genesis; SDF burned 55.4 billion on 4 November 2019 and validators voted inflation off on 28 October 2019, so total supply is fixed at 50.0 billion (developers.stellar.org, lumens page, July 2026). SDF’s mandate page listed 14.6 billion XLM across its four mandate accounts on 9 to 14 October 2026, 29.2% of supply (its Q2 2026 report says roughly 15.6 billion, and the page notes an allocation update in progress), down from about 30 billion after the burn. Every wallet is published and the quarterly report itemizes what was spent, better disclosure than most founding sets give. But a founder holding over a quarter of a fixed supply is the level 2 cell, and the founding share has never been below 25% in the network’s history.'
+  inclusion: 'Every Tier 1 validator assembles its own candidate transaction set and SCP’s nomination picks one per ledger by a per-round priority among quorum-set members, so there is no standing producer; with ten organizations of equal weight each proposes roughly a tenth of ledgers (from the protocol’s design; no public dashboard measures it). When a ledger is full (1,000 classic operations and 2,000 contract transactions as of July 2026) the set is ranked by fee bid with random tie-breaks, and nothing in the protocol lets a validator force a transaction in (developers.stellar.org, fees and surge pricing). No public evidence of a validator filtering by sanctions list. Two protocol powers cut the other way: CAP-0083 (Protocol 28) lets validators vote to drop a whole transaction set, and the CAP-0077 freeze list rejects transactions on frozen keys. Largest producer under a third, no filter, no guarantee: level 4.'
+sources:
+- title: 'Obsrvr Radar API, node list (validators, watchers, versions, hosting, quorum sets; the stellarbeat successor)'
+  url: https://radar.withobsrvr.com/api/v1/node
+  checked: '2026-10-26'
+- title: 'Obsrvr Radar API, organization list (Tier 1 organizations, 30-day availability)'
+  url: https://radar.withobsrvr.com/api/v1/organization
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Tier 1 organizations (requirements; months not weeks; not an SDF decision)'
+  url: https://developers.stellar.org/docs/validators/tier-1-orgs
+  checked: '2026-10-26'
+- title: 'SDF, Decentralization, double time (seven Tier 1 organizations, threshold 5, target of 13)'
+  url: https://stellar.org/blog/developers/decentralization-double-time
+  checked: '2026-10-26'
+- title: 'SDF press release, MoneyGram, Figure Markets and Range join as Tier 1 validators (July 2026)'
+  url: https://stellar.org/press/moneygram-figure-markets-and-range-to-help-secure-the-stellar-network-by-joining-as-tier-1-validators
+  checked: '2026-10-26'
+- title: 'SDF, May 15th network halt (67 minutes; second brief shutdown)'
+  url: https://stellar.org/blog/developers/may-15th-network-halt
+  checked: '2026-10-26'
+- title: 'SDF, Statement on halted SDF validators (6 April 2021; network did not halt)'
+  url: https://stellar.org/press/statement-on-halted-sdf-validators
+  checked: '2026-10-26'
+- title: 'SDF, Decentralized to the core (April 2021 root cause; Protocol 16 vote 10 April 2021)'
+  url: https://stellar.org/blog/decentralized-to-the-core
+  checked: '2026-10-26'
+- title: 'Stellar, outage of 20 September 2014 (16-hour halt of the pre-SCP network)'
+  url: https://stellar.org/blog/stellar-outage-9-20-14
+  checked: '2026-10-26'
+- title: 'stellar.expert, ledger 2 (first ledger close of the current network, 30 September 2015)'
+  url: https://stellar.expert/explorer/public/ledger/2
+  checked: '2026-10-26'
+- title: 'SDF, Quarter in Review Q2 2026 (2,968 monthly active developers per Electric Capital; Quorum Freeze; 15.6 billion lumens; uptime claim)'
+  url: https://cdn.sanity.io/files/e2r40yh6/production-i18n/0da602cf8d9aacb3ecb1444978460a2dfce8772f.pdf
+  checked: '2026-10-26'
+- title: 'GitHub, stellar/stellar-core (C++, Apache 2.0, 96 contributors, releases v20 to v30)'
+  url: https://github.com/stellar/stellar-core
+  checked: '2026-10-26'
+- title: 'stellar-protocol, CAP process (CAP core team of three SDF engineers; validator acceptance)'
+  url: https://github.com/stellar/stellar-protocol/blob/master/core/README.md
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Network upgrades (arming and voting at transaction-set consensus level)'
+  url: https://developers.stellar.org/docs/validators/admin-guide/network-upgrades
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Software versions (Protocol 26 to 29 mainnet dates and CAPs)'
+  url: https://developers.stellar.org/docs/networks/software-versions
+  checked: '2026-10-26'
+- title: 'CAP-0077, Freeze ledger entries via network configuration (Final, Protocol 26)'
+  url: https://github.com/stellar/stellar-protocol/blob/master/core/cap-0077.md
+  checked: '2026-10-26'
+- title: 'CAP-0083, Validators vote to drop the transaction set (Final, Protocol 28)'
+  url: https://github.com/stellar/stellar-protocol/blob/master/core/cap-0083.md
+  checked: '2026-10-26'
+- title: 'SDF, Addressing state archival inconsistencies (Protocol 24 revert of 394 entries, vote 22 October 2025)'
+  url: https://stellar.org/blog/developers/addressing-state-archival-inconsistencies-protocol-upgrade-vote-next-week
+  checked: '2026-10-26'
+- title: 'SDF, Decision to disarm validators and postpone the Protocol 20 upgrade (January 2024)'
+  url: https://stellar.org/blog/developers/our-decision-to-disarm-validators-and-vote-to-postpone-the-protocol-20-upgrade
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Control access to an asset (issuer authorization, revocable and clawback flags)'
+  url: https://developers.stellar.org/docs/tokens/control-asset-access
+  checked: '2026-10-26'
+- title: 'The Block, Report: Stellar suffered a 2.2 billion XLM inflation bug in 2017 (Messari; SDF burn; press report)'
+  url: https://www.theblock.co/post/17389/report-stellar-suffered-a-2-2-billion-xlm-inflation-bug-in-2017
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Prerequisites (8 vCPUs, 16 GB RAM, 100 GB NVMe)'
+  url: https://developers.stellar.org/docs/validators/admin-guide/prerequisites
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Lumens (100 billion genesis, 55.4 billion burn, inflation ended 28 October 2019, supply July 2026)'
+  url: https://developers.stellar.org/docs/learn/fundamentals/lumens
+  checked: '2026-10-26'
+- title: 'SDF, Mandate (XLM balances by account, October 2026)'
+  url: https://stellar.org/foundation/mandate
+  checked: '2026-10-26'
+- title: 'developers.stellar.org, Fees, resource limits and metering (surge pricing, ledger capacity)'
+  url: https://developers.stellar.org/docs/learn/fundamentals/fees-resource-limits-metering
+  checked: '2026-10-26'
+- title: 'SDF, Introducing Bell, Protocol 30 (mainnet vote 23 November 2026)'
+  url: https://stellar.org/blog/developers/introducing-bell-protocol-30-on-stellar
+  checked: '2026-10-26'

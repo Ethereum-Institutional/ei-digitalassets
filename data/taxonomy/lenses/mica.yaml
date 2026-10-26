@@ -1,0 +1,72 @@
+# Lens: EU MiCA “crypto-asset”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: mica
+group: jurisdiction
+menu: 'EU · European Union (MiCA): “crypto-asset”'
+name: EU MiCA “crypto-asset”
+short: EU MiCA
+color: '#1d4ed8'
+intro: 'MiCA (Reg. (EU) 2023/1114) defines a crypto-asset as a digital representation of value or a right transferable using DLT, then excludes from scope: assets issued by central banks, unique non-fungible assets, and anything already regulated as a financial instrument, deposit, fund (unless an e-money token), securitization, insurance or pension product (Art. 2).'
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: in
+  unreg: in
+  alg: in
+  pm: in
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  sec: out
+  eq: out
+  fund: out
+  fi: out
+  dv: out
+  sn: out
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: in
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: part
+notes:
+  cbdc: Central banks acting as monetary authority are excluded (Art. 2(2)).
+  td: Deposits are excluded (Art. 2(4)(c)).
+  dt: Still a deposit, so excluded (Art. 2(4)(c)). The EBA has flagged this boundary for case-by-case assessment.
+  sc: E-money tokens (EMTs) or asset-referenced tokens (ARTs).
+  lsc: Authorized EMT/ART issuers (credit institutions or e-money institutions).
+  unreg: In the definition, but cannot lawfully be offered or admitted to trading in the EU without authorization.
+  alg: 'A crypto-asset, but not an EMT or ART: treated as an ordinary crypto-asset and cannot be presented as a stablecoin.'
+  pm: Commodity-backed tokens are typically asset-referenced tokens (ARTs).
+  ocom: An ART if it references commodities; a financial instrument if structured as a derivative.
+  re: Out if the token is a financial instrument; otherwise may be a crypto-asset.
+  pc: 'Usually out: private credit tokens are typically financial instruments.'
+  coll: A crypto-asset if fractionalized and fungible; out if unique or a financial instrument.
+  ip: Usually a financial instrument where it confers income rights.
+  sec: Financial instruments are regulated under MiFID II, not MiCA.
+  dv: Derivatives, including those on crypto-assets, are MiFID II financial instruments.
+  fund: Fund units are financial instruments, tokenized MMFs included.
+  art: Out if truly unique and non-fungible (Art. 2(3)); in if issued in large series or fractionalized.
+  game: Freely transferable items are in; closed-loop points may use the limited-network exemption.
+  loy: Closed-loop loyalty points can use the limited-network exemption (Art. 4(3)).
+  id: Unique, non-transferable names or credentials are generally out.
+  tix: Unique tickets are non-fungible (out); closed-loop passes may use the limited-network exemption.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

@@ -1,0 +1,33 @@
+# Page text (title, intro, footnote) and page settings. Design tokens are in src/template.html.
+
+title: Digital Asset Taxonomy
+slug: digital-asset-taxonomy   # output file name in dist/
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Digital Asset Taxonomy
+  italic: Taxonomy
+intro: How digital money, tokenized real-world assets and other crypto-assets relate. Hover over any circle or token to preview its definition, and click to pin it while you scroll. Then choose a regulatory lens below the map to see where each regime’s definition reaches.
+svg_label: Venn diagram of digital asset types
+panel_default:
+  title: Digital Assets
+  text: Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.
+# badge: disc (ticker chips) or pill (named badges)
+badge: disc
+# lens_groups: one dropdown per group; each lens file's `group` must be one of these ids
+lens_groups:
+- id: standard-setter
+  label: Global standard setters
+- id: jurisdiction
+  label: Jurisdictions
+lens_title: Regulatory lenses
+lens_help: Pick one lens from either list. Its perimeter is drawn as a dotted line around the circles it covers; circles inside the definition get a thick outline.
+# Optional banner shown above the heading. Remove `notice` to hide it.
+notice:
+  title: Under development.
+  text: This taxonomy is a v0.x draft and has not yet been reviewed by legal counsel. Placements, definitions and regulatory lenses may change. For discussion only; not legal advice.
+# Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help improve this taxonomy.
+  text: It is maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change, or send a pull request with your proposed edit.
+footnote: Token badges show the ten largest digital assets by market capitalization in mid-October 2026 and are placed by issuer and structure. This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).

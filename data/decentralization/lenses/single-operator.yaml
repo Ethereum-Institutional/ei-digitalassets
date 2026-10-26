@@ -1,0 +1,33 @@
+# Lens: a ledger with one operator (an architecture, not any product). Lands at level 1 on every property.
+id: single
+order: 7
+name: A private chain, one operator
+menu: Private chain
+short: a private chain
+color: '#6b6760'
+intro: 'A ledger run by one organization, whether a bank, a vendor or a market infrastructure, with permissioned nodes and a single administrator. It can be fast, confidential and compliant, and it lands at level 1 on every property on this page, because each property is held by the operator rather than by the ledger. Everything it offers is a promise; nothing is verifiable from outside; and every risk (outage, insolvency, a legal order, a change of terms) is the operator’s risk, borne by its users. Ethereum Institutional supports private deployments where that trade is the right one, and this map shows what is traded.'
+cells:
+  history: l0
+  developers: l0
+  stop: l0
+  cost: l0
+  rules: l0
+  property: l0
+  verify: l0
+  entry: l0
+  resilience: l0
+  issuance: l0
+  inclusion: l0
+notes:
+  history: The ledger’s record is the operator’s record; it starts when the operator launches it and ends if the operator stops.
+  developers: One vendor’s team maintains the software, or the operator’s own staff do; the roadmap is theirs.
+  stop: One party can halt settlement, by decision, by outage or by order.
+  cost: Control costs the operator nothing; it already has it. An attacker needs only the operator’s keys or the operator’s consent.
+  rules: The operator changes fees, formats and access terms as it chooses.
+  property: The operator can freeze, move or delete any balance.
+  verify: Participants receive statements; nobody outside can verify the state.
+  entry: The operator admits users and nodes, and can remove them.
+  resilience: One client on the operator’s infrastructure; one bug or one outage stops it.
+  inclusion: The operator assembles every block and can drop any transaction, with no recourse.
+  issuance: Balances are the operator’s liabilities; there is no neutral asset.
+sources: []

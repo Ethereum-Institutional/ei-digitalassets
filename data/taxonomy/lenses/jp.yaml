@@ -1,0 +1,77 @@
+# Lens: Japan crypto-assets & stablecoins
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: jp
+group: jurisdiction
+menu: 'JP · Japan: crypto-assets & stablecoins'
+name: Japan crypto-assets & stablecoins
+short: Japan
+color: '#14130f'
+intro: Japan regulates three token types separately. “Crypto-assets” under the Payment Services Act (transferable value usable for payment to unspecified persons, excluding currency and currency-denominated assets); “electronic payment instruments”, meaning fiat stablecoins, which since 2023 only banks, fund-transfer providers and trust companies may issue (e.g. JPYC); and security tokens (“electronically recorded transferable rights”) under the Financial Instruments and Exchange Act. A bill to reclassify crypto-assets as financial instruments cleared a lower-house committee in June 2026; check whether it has been enacted.
+groups:
+- id: ca
+  label: Crypto-assets
+  name: Payment Services Act (moving to FIEA)
+  color: '#a21caf'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - alg
+  - comm
+  - gov
+  - util
+  - lst
+- id: epi
+  label: Electronic payment instruments
+  name: licensed fiat stablecoins
+  color: '#0ea5e9'
+  circles:
+  - lsc
+- id: st
+  label: Security tokens
+  name: FIEA electronically recorded rights
+  color: '#155e75'
+  circles:
+  - sec
+  - eq
+  - fund
+  - fi
+  - dv
+  - sn
+  - trk
+status:
+  nat: part
+  sc: part
+  unreg: part
+  cbdc: out
+  td: out
+  dt: out
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  art: part
+  game: part
+  loy: part
+  id: part
+  tix: part
+  fmi: part
+notes:
+  sc: Fiat stablecoins are electronic payment instruments, not crypto-assets; algorithmic ones are crypto-assets.
+  unreg: Foreign stablecoins can only be handled by registered intermediaries under strict conditions.
+  USDC: Handled in Japan as a foreign electronic payment instrument through a registered intermediary (SBI VC Trade, from March 2025); Circle itself is not licensed in Japan.
+  lsc: Only banks, fund-transfer service providers and trust companies may issue; JPYC is the first licensed yen stablecoin.
+  alg: 'Not an electronic payment instrument: treated as a crypto-asset.'
+  td: Bank deposits. Banks can also issue stablecoins, so the deposit-token / stablecoin boundary is especially close in Japan.
+  dt: A deposit under banking law, whatever it is called.
+  rwa: Security tokens if they confer investment rights; otherwise assessed case by case.
+  art: NFTs are generally not crypto-assets unless they work as a means of payment.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources: []
+last_reviewed: '2026-10-24'

@@ -1,0 +1,90 @@
+# Lens: Switzerland FINMA token classes
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: ch
+group: jurisdiction
+menu: 'CH · Switzerland (FINMA): token classes'
+name: Switzerland FINMA token classes
+short: Switzerland
+color: '#14130f'
+intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking license. A Federal Council draft (consultation from October 2025) would add FINMA “payment instrument institution” licenses for issuers of value-stable crypto-based means of payment (wertstabile kryptobasierte Zahlungsmittel) and “crypto-institution” licenses for service providers.'
+groups:
+- id: pay
+  label: Payment tokens
+  name: means of payment (FINMA 2018)
+  color: '#a21caf'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - comm
+  tokens:
+  - USDT
+  - USDC
+- id: util
+  label: Utility tokens
+  name: access to a service
+  color: '#6366f1'
+  circles:
+  - util
+  - game
+  - loy
+  - tix
+  - id
+- id: asset
+  label: Asset tokens
+  name: claims and DLT securities
+  color: '#155e75'
+  circles:
+  - rwa
+  - com
+  - pm
+  - ocom
+  - re
+  - pc
+  - coll
+  - ip
+  - sec
+  - eq
+  - fund
+  - fi
+  - dv
+  - sn
+  - trk
+status:
+  nat: part
+  sc: part
+  cbdc: part
+  rcbdc: out
+  wcbdc: part
+  td: out
+  dt: out
+  gov: part
+  art: part
+  oth: part
+  fmi: part
+  unreg: part
+  alg: part
+  lst: part
+notes:
+  cbdc: The SNB has issued wholesale CBDC for settlement on a regulated DLT platform (Project Helvetia); there is no retail CBDC.
+  wcbdc: Live pilots under Project Helvetia.
+  td: Bank deposits under banking law.
+  dt: Bank deposits; a stablecoin without a bank default guarantee may itself be treated as a deposit.
+  sc: 'Case by case: may be a deposit, a collective investment scheme or a payment token depending on backing. Switzerland has no stablecoin license yet: a Federal Council draft (consultation 22 October 2025 to 6 February 2026) would license “value-stable crypto-based means of payment” referencing a single fiat currency, with segregated, bankruptcy-remote reserves, redemption at par and no interest, issued by FINMA-licensed payment instrument institutions (banks would not issue directly). It is not yet law.'
+  USDT: Shown as a payment token, but FINMA classifies stablecoins case by case and USDT holds no Swiss license or designation; issued abroad, it may instead be treated as deposit-like.
+  USDC: Shown as a payment token, but FINMA classifies stablecoins case by case and USDC holds no Swiss license or designation; issued abroad, it may instead be treated as deposit-like.
+  unreg: Case by case, like other stablecoins. Under FINMA’s 2024 guidance, an issuer without a Swiss banking license needs a bank default guarantee.
+  alg: Classified case by case by economic function; no Swiss regime authorizes algorithmic stablecoins.
+  lst: Depends on the claim; a token representing a claim on the underlying asset may be an asset token rather than a payment token.
+  gov: 'Hybrid: often utility, sometimes asset tokens if they carry economic rights.'
+  art: NFTs are generally outside financial-market law unless they function as payment or asset tokens.
+  fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+sources:
+- title: Federal Council, consultation on stablecoin and crypto-institution licences (22 October 2025)
+  url: https://www.admin.ch/en/newnsb/x4TMWQ1SWofNoFx7XyHhY
+  checked: '2026-10-24'
+last_reviewed: '2026-10-24'

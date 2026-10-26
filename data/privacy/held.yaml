@@ -1,0 +1,167 @@
+# Privacy: designs held for future review (not read by the build)
+# The map covers designs that run the EVM or settle on Ethereum mainnet, live (solid) or on a public testnet (hollow)
+# (owner, 26 October 2026). These were researched and written up, then held back: Canton does not run the EVM or
+# settle on Ethereum mainnet; Anonymous Zether (archived, never in production) and ERC-7945 (a Final interface standard
+# with no deployment found; still named in the How much definition) were never available; TEN Protocol (site and
+# RPC offline since June 2026, no rollups posted since October 2025) and Intmax (withdrawals and block posting
+# paused since February 2026; not EVM) are not available today. To restore one, move its entry back into
+# badges.yaml with an x, y inside its circle. The old lens entries at the end predate the Focus on sidebar.
+- id: zether
+  name: Anonymous Zether
+  circle: who
+  x: 755
+  y: 440
+  eth: true
+  desc: 'J.P. Morgan’s research contract that wraps an ERC-20 and keeps every balance encrypted (ElGamal); a sender hides among a ring of accounts, so the public sees neither the amount nor which member paid whom. No trusted setup, but no issuer view and no viewing keys, and gas is very high. The repository was archived on 25 September 2026 and never ran in production; the HKMA tested it in its e-HKD pilot (October 2025).'
+  sources:
+  - { title: 'jpmorganchase/anonymous-zether (archived)', url: 'https://github.com/jpmorganchase/anonymous-zether', checked: '2026-10-26' }
+  - { title: 'Bünz et al., Zether, ePrint 2019/191', url: 'https://eprint.iacr.org/2019/191', checked: '2026-10-26' }
+- id: canton
+  name: Canton
+  circle: logic
+  x: 735
+  y: 640
+  eth: false
+  desc: 'Shown for comparison. Each party sees only the parts of a transaction it is a stakeholder in, so parties, amounts and logic are hidden from the public and from other participants; there is no global state. The sequencer relays encrypted views; the mediator sees which parties are involved. Issuers keep whatever their templates code, and a regulator can be added as an observer. Admission is permissioned, outsiders cannot verify the ledger, and Canton Coin transfers are public.'
+  sources:
+  - { title: 'Canton docs, how transactions work', url: 'https://docs.canton.network/overview/learn/how-transactions-work', checked: '2026-10-26' }
+  - { title: 'L2BEAT Research, Canton versus Prividium (28 April 2026)', url: 'https://l2beat.com/publications/canton-vs-prividium', checked: '2026-10-26' }
+
+- id: erc7945
+  name: ERC-7945
+  circle: amount
+  x: 1040
+  y: 495
+  eth: true
+  desc: 'An Ethereum interface standard, Final since 7 October 2026, for tokens whose balances and amounts are encrypted while sender, receiver and contract stay public. It specifies only the calls (confidential balance, transfer, approve, allowance) and leaves encryption and proofs to each implementation; its example encrypts each amount to sender, receiver and auditors. Authored at Ant Group and Ant International; no deployment found. ERC-7984, the other confidential-token interface, is still a Draft.'
+  sources:
+  - { title: 'ERC-7945, Confidential Transactions Supported Token (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7945', checked: '2026-10-26' }
+  - { title: 'ERC-7984, Confidential Fungible Token (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7984', checked: '2026-10-26' }
+- id: intmax
+  name: 'Intmax'
+  circle: who
+  x: 0
+  y: 0
+  eth: true
+  status: mainnet
+  since: '2025-06-26'
+  facts:
+    evm: { in: ['no'], note: 'A payment protocol with its own circuits; no smart contracts run inside it.' }
+    pet: { in: [snark], part: [stark], note: 'Plonky2 (FRI-based) proofs wrapped in a BN254 Plonk proof for verification on chain.' }
+    proving: { in: [device], part: [server], note: 'Transfer proofs on your device; a balance-prover service exists in the stack.' }
+    pq: { in: ['no'], note: 'The BN254 Plonk wrapper and its trusted setup are not quantum-safe.' }
+    operator: { in: [self], part: [company], note: 'Block building is permissionless; Intmax runs the store vault, withdrawal and validity-prover services.' }
+    external: { in: ['yes'], note: 'Rollup contracts on Scroll; deposits need a Predicate AVS operator signature.' }
+    chains: { in: [own], note: 'An L3 on Scroll; deposits and funds held on Ethereum mainnet (LiquidityV2), block posting on Scroll.' }
+    keys: { in: [existing], note: 'The Intmax key is derived from your Ethereum wallet signature.' }
+    wallet: { in: [dedicated], note: 'Intmax wallet and web app; no custodian support found.' }
+    indexing: { in: [service], part: [client], note: 'Encrypted transfer data is relayed through Intmax’s store vault server; your client keeps the balance proofs.' }
+    tokens: { in: [eth, erc20], part: [nft], note: 'ETH, ERC-20 and NFTs supported; value held is 99.6% ETH.' }
+    hidden: { in: [public, participants, operator], note: 'Aggregators and builders see only salted hashes; data stays with sender and receiver.' }
+    controls: { in: [pause], note: 'No issuer freeze; Intmax can pause deposits and withdrawals, and has done so since February 2026.' }
+    admission: { in: [screened], note: 'Every deposit is AML-checked by Predicate AVS; transfers inside are not rechecked.' }
+    disclosure: { in: [none], note: 'No viewing key; a holder can only share individual transfer data and proofs by hand.' }
+    notary: { in: [none], note: 'No issuer, regulator or law-enforcement route.' }
+    safeguards: { in: [none], note: 'No third-party decryption route, so no safeguard applies.' }
+    upgrade: { in: [company], note: 'Scroll contracts upgradable by a 2-of-4 multisig with no delay; some Ethereum mainnet contracts by EOAs.' }
+    exit: { in: ['no'], part: ['yes'], note: 'Designed for exit by ZK balance proof; today the Exit contract needs a SUBMITTER_ROLE to queue, then a 24-hour timelock.' }
+    censorship: { in: ['yes'], note: 'Deposits can be refused by Predicate; Intmax can pause deposits and withdrawals.' }
+    failure: { in: [funds], note: 'Lose your balance data and you lose funds; a malicious upgrade could steal funds.' }
+    value: { in: [lt10m], note: 'USD 122,580 secured (L2BEAT, 26 October 2026).' }
+    institutions: { in: [none], note: 'None found.' }
+    audits: { in: ['yes'], note: 'ChainSecurity audit of the ZKP circuits (2025).' }
+    incidents: { in: [none], note: 'No loss found; paused 7 to 10 February 2026 after a balance-proof circuit vulnerability.' }
+    license: { in: [available], part: [open], note: 'Core repositories (intmax2, contracts, circuits) are public without a license; some services MIT.' }
+    steward: { in: [company], note: 'Ryodan Systems AG, Zug.' }
+    gas: { in: [unknown], note: 'Transfers have no per-transfer on-chain cost; a block root on Scroll covers many. No published figure.' }
+    latency: { in: [longer], note: 'About an hour to finality via Scroll proofs; deposits about 30 minutes, withdrawals about six hours.' }
+    anonymity: { in: [unknown], note: 'No user count published; USD 122,580 held suggests a small set.' }
+  desc: 'A stateless zk rollup for payments that hides sender, receiver, amount and asset inside the network: only salted transaction hashes go on chain, while deposits and withdrawals stay public. Proofs are made on your device and you keep your own balance data. Deposits are screened by Predicate. Contracts sit on Scroll with funds held on Ethereum mainnet; not an EVM. Live from 26 June 2025, paused in February 2026 after a balance-proof circuit flaw (no exploitation observed); exit only today. Very cheap on chain.'
+  sources:
+  - { title: 'L2BEAT, INTMAX (L3 on Scroll, Stage 0; paused February 2026; contracts, multisigs, TVS)', url: 'https://l2beat.com/scaling/projects/intmax', checked: '2026-10-26' }
+  - { title: 'INTMAX app (notice: deposits and withdrawals suspended, technical issue in the ZKP protocol; Exit page)', url: 'https://app.intmax.io', checked: '2026-10-26' }
+  - { title: 'InternetMaximalism/intmax2-contract commits (pause withdrawal, 7 February 2026; pause block posting, 10 February 2026)', url: 'https://github.com/InternetMaximalism/intmax2-contract/commits/main', checked: '2026-10-26' }
+  - { title: 'InternetMaximalism/intmax2 (store vault, withdrawal and prover services)', url: 'https://github.com/InternetMaximalism/intmax2', checked: '2026-10-26' }
+  - { title: 'InternetMaximalism/intmax3-zkp (successor in development; not deployed)', url: 'https://github.com/InternetMaximalism/intmax3-zkp', checked: '2026-10-26' }
+  - { title: 'Decrypt, press release: Intmax mainnet launch (Zug, 26 June 2025)', url: 'https://decrypt.co/327136', checked: '2026-10-26' }
+  - { title: 'ChainSecurity, Intmax2 ZKP circuits audit', url: 'https://www.chainsecurity.com/security-audit/intmax-2-zkp-circuits', checked: '2026-10-26' }
+  - { title: 'Intmax2 paper, ePrint 2023/1082', url: 'https://eprint.iacr.org/2023/1082', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Intmax', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/intmax.json', checked: '2026-10-26' }
+- id: ten
+  name: 'TEN Protocol'
+  circle: logic
+  x: 0
+  y: 0
+  eth: true
+  status: testnet
+  since: '2023-04-13'
+  facts:
+    evm: { in: ['yes'], note: 'Geth-based EVM inside the enclave; ordinary Solidity, with getStorageAt disabled and authenticated view calls.' }
+    pet: { in: [tee], part: [access], note: 'Execution and storage inside Intel SGX enclaves; contract-level data access rules decide who reads logs and receipts.' }
+    proving: { in: [none], note: 'No proofs; correctness rests on enclave attestation (optimistic design, challenge period set to 1 on mainnet).' }
+    pq: { in: ['no'], note: 'Classical elliptic-curve keys for transaction encryption and SGX attestation.' }
+    operator: { in: [company], note: 'One TEN sequencer produces all batches and rollups; mainnet config ran two validators, both TEN deployments.' }
+    external: { in: ['yes'], note: 'Enclave attestation depends on Intel’s provisioning service; nodes ran on Azure confidential computing.' }
+    chains: { in: [own], note: 'Its own rollup (chain ID 443) settling to Ethereum mainnet; Sepolia testnet (8443).' }
+    keys: { in: [existing], part: [new], note: 'Existing wallet key signs; a viewing or session key held by the TEN Gateway authenticates reads.' }
+    wallet: { in: [any], note: 'MetaMask or any EVM wallet through the TEN Gateway RPC.' }
+    indexing: { in: [service], note: 'The Gateway (in an enclave) fetches your own data with your viewing key; nothing to scan.' }
+    tokens: { in: [eth, erc20, any], note: 'Bridge whitelisted ETH, USDC, USDT and WETH (January 2026 release); any contract you write.' }
+    hidden: { in: [public, participants, operator], note: 'Operators see only ciphertext while the enclaves hold; contracts set what each participant may read.' }
+    controls: { in: [none], part: [pause], note: 'No platform freeze or forced transfer; only what a contract codes. The bridge contracts can be paused.' }
+    admission: { in: [open], note: 'Anyone could transact; no screening or allowlist at the protocol.' }
+    disclosure: { in: [grant], note: 'Contracts grant read access per event and receipt; time-based or conditional revelation is programmable.' }
+    notary: { in: [none], note: 'No issuer, regulator or law-enforcement key; disclosure only through contract rules or timed revelation.' }
+    safeguards: { in: [none], note: 'No third-party decryption route, so no safeguard applies.' }
+    upgrade: { in: [company], note: 'Ethereum mainnet contracts deployed and administered by one TEN deployer address; a multisig was planned.' }
+    exit: { in: ['no'], note: 'An escape hatch exists only as a design draft.' }
+    censorship: { in: ['yes'], note: 'The single sequencer can refuse transactions.' }
+    failure: { in: [privacy, funds], note: 'An SGX break exposes data; with no proofs and a one-unit challenge period, a forged state could move bridged funds.' }
+    value: { in: [lt10m], note: 'TEN bridge on Ethereum mainnet held 0.0109 ETH and no tokens on 26 October 2026.' }
+    institutions: { in: [none], note: 'R3 led a USD 9 million funding round (March 2024); no institution found using the network.' }
+    audits: { in: ['yes'], note: 'Halborn audit of TEN Protocol, linked from TEN docs.' }
+    incidents: { in: [none], note: 'No loss found; the network appears discontinued rather than breached.' }
+    license: { in: [available], note: 'go-ten under Business Source License 1.1 (Obscuro Labs).' }
+    steward: { in: [company], note: 'Obscuro Labs; a TEN Network Association was set up for the token.' }
+    gas: { in: [unknown], note: 'No published or measurable private transfer; the network is not reachable.' }
+    latency: { in: [block], note: 'About one-second batches on TEN; rollups to Ethereum mainnet later.' }
+    anonymity: { in: [small], note: 'Hides the sender from the public, but the user base was small; no count published.' }
+  desc: 'An encrypted EVM rollup: transactions, contract state and event logs are encrypted, so the public sees only encrypted batches on Ethereum mainnet. Contracts choose what each party may read, and data may be revealed after a set time. You trust Intel SGX enclaves and one sequencer run by TEN. No issuer controls beyond what a contract codes. A mainnet rollup posted to Ethereum mainnet from 24 September to 4 October 2025 only; ten.xyz was a parked domain by June 2026. Plain Solidity, with the operator kept out by hardware.'
+  sources:
+  - { title: 'TEN docs, Overview (encrypted EVM, TEEs, data revelation)', url: 'https://github.com/ten-protocol/ten-documentation/blob/main/docs/1-overview.md', checked: '2026-10-26' }
+  - { title: 'TEN docs, Data access (private contracts, event visibility, viewing keys)', url: 'https://github.com/ten-protocol/ten-documentation/blob/main/docs/3-smart-contract-features/1-data-access.md', checked: '2026-10-26' }
+  - { title: 'TEN docs, Chain information (TEN Mainnet chain ID 443, underlying chain Ethereum)', url: 'https://github.com/ten-protocol/ten-documentation/blob/main/docs/2-introduction/chain-info.md', checked: '2026-10-26' }
+  - { title: 'TEN docs, Node overview (single central sequencer)', url: 'https://github.com/ten-protocol/ten-documentation/blob/main/docs/5-run-ten-node/overview.md', checked: '2026-10-26' }
+  - { title: 'TEN docs, Security audit (Halborn)', url: 'https://github.com/ten-protocol/ten-documentation/blob/main/docs/security-audit/security-audit.md', checked: '2026-10-26' }
+  - { title: 'ten-protocol/ten-apps, mainnet L1 contract addresses (rollup, bridge, enclave registry)', url: 'https://github.com/ten-protocol/ten-apps/blob/main/prod-argocd-config/apps/envs/mainnet/valuesFile/l1-values.yaml', checked: '2026-10-26' }
+  - { title: 'Etherscan, TEN rollup contract on Ethereum mainnet (created 24 September 2025; last rollup 4 October 2025)', url: 'https://etherscan.io/address/0xF1476036cBA0718766AB4b185b273146DD3278de', checked: '2026-10-26' }
+  - { title: 'Etherscan, TEN bridge on Ethereum mainnet (0.0109 ETH)', url: 'https://etherscan.io/address/0x166c0b23D079eDF0C625154B760cDBF8aE6634E4', checked: '2026-10-26' }
+  - { title: 'ten-protocol/go-ten, LICENSE.md (Business Source License 1.1) and changelog', url: 'https://github.com/ten-protocol/go-ten', checked: '2026-10-26' }
+  - { title: 'Internet Archive, ten.xyz capture of 7 June 2026 (domain parking page)', url: 'https://web.archive.org/web/20260607135622/https://ten.xyz/', checked: '2026-10-26' }
+  - { title: 'The DeFiant, press release: R3 leads USD 9 million round in TEN (March 2024)', url: 'https://thedefiant.io/news/press-releases/banking-consortium-r3-leads-9m-round-in-encrypted-layer-2-on-ethereum', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, TEN Protocol (pending, no properties)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/ten-protocol.json', checked: '2026-10-26' }
+# Lens entries removed with them (file: key: value), to restore alongside the badge:
+# issuer: canton: in
+# issuer: aztec: part
+# issuer: nightfall: part
+# issuer: aztec: 'Only if the token’s own code adds them.'
+# membership: canton: in
+# membership: canton: 'The stakeholders of each transaction.'
+# operator: aztec: in
+# operator: zether: in
+# operator: nightfall: in
+# operator: canton: part
+# operator: canton: 'The sequencer sees only ciphertext; the mediator sees which parties are involved.'
+# regulator: canton: in
+# regulator: aztec: part
+# regulator: aztec: 'The holder’s viewing secret cannot be rotated or scoped.'
+# regulator: nightfall: 'No viewing key.'
+# zkp: aztec: in
+# zkp: nightfall: in
+# zkp: zether: in
+# zkp: aztec: 'Critical proving bugs found on 17 March and 27 July 2026.'
+# issuer: erc7945: part
+# operator: erc7945: part
+# regulator: erc7945: part
+# zkp: erc7945: part
+# zkp: erc7945: 'The standard’s example is Zether-style; the scheme is left to implementers.'

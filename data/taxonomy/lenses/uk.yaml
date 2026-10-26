@@ -1,0 +1,55 @@
+# Lens: UK “qualifying cryptoasset”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+
+id: uk
+group: jurisdiction
+menu: 'UK · United Kingdom: “qualifying cryptoasset”'
+name: UK “qualifying cryptoasset”
+short: UK
+color: '#4338ca'
+intro: The UK brings “qualifying cryptoassets” and “qualifying stablecoins” (fiat-referenced) into FCA regulation under HM Treasury’s 2025 order. The FCA finalized its rules in 2026; the regime applies from 25 October 2027, with applications open from 30 September 2026. Specified investments (tokenized securities, deposits), e-money and fiat currency are outside the new crypto definitions. Systemic stablecoins will also be supervised by the Bank of England.
+status:
+  nat: in
+  btc: in
+  eth: in
+  natoth: in
+  cbdc: out
+  td: out
+  dt: out
+  sc: in
+  lsc: in
+  unreg: in
+  alg: in
+  pm: part
+  ocom: part
+  re: part
+  pc: part
+  coll: part
+  ip: part
+  art: part
+  game: part
+  comm: in
+  gov: in
+  util: in
+  loy: part
+  lst: in
+  id: part
+  tix: part
+  fmi: out
+notes:
+  td: Deposits are specified investments, outside the cryptoasset definitions.
+  dt: Still a deposit, outside the cryptoasset definitions.
+  cbdc: Fiat currency, so outside.
+  lsc: UK-issued qualifying stablecoins need FCA authorization from October 2027; systemic ones are also overseen by the Bank of England.
+  sc: 'Qualifying stablecoins: fiat-referenced tokens backed by reserves.'
+  alg: Not a qualifying stablecoin; treated as a qualifying cryptoasset.
+  unreg: In scope; offering to UK consumers will require authorization from October 2027.
+  sec: Specified investments, regulated as securities, including via the Digital Securities Sandbox.
+  rwa: Out where the token is a specified investment; otherwise assessed case by case.
+  art: Non-fungible tokens are generally outside the qualifying definition.
+  fmi: Regulated as a systemic payment system overseen by the Bank of England (e.g. Fnality), not as a cryptoasset.
+sources: []
+last_reviewed: '2026-10-24'
