@@ -7,6 +7,24 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Privacy map (in progress).** The stub becomes a public Venn map of what each privacy design hides from the
+  public, with confidential tokens at the center: **Confidential tokens** (how much), **Anonymity** (who) and
+  **Private execution** (what), plus a **Before the block** box underneath for designs that hide only intent (context,
+  without facts). It places 26 confidential-token designs that run the EVM or settle on Ethereum mainnet, from Zama,
+  Hyperledger Paladin (Noto, Zeto, Pente), Railgun, 0xbow Privacy Pools and ZKsync Prividium to Aztec and COTI,
+  cross-checked against the PSE private transfers benchmark; designs only on a public testnet (Bermuda Bay,
+  Nightfall, Horizen Vela) are hollow pills. A **Focus on** sidebar replaces lenses: 18 filters (permissioning and
+  compliance, including who else can see it, with a notary route that leaves an on-chain notice; technology; running
+  it; tokens; track record) and 16 more facts in each design's fact sheet, all dated and sourced. **The
+  institutional wish list** button applies what institutions ask for, filters only by its must-haves (permissioned
+  privacy and compliance checks) and ranks the rest by choices met; no design meets it all yet. Sections under the
+  map open with what institutions are asking for; the roadmap section covers the drafts that let privacy
+  protocols spend without a relayer (EIP-8141, EIP-8250, EIP-8272, EIP-8369) and the Hegotá privacy testnet that runs them. Canton, Anonymous Zether, ERC-7945, TEN Protocol and Intmax are
+  held for future review in `data/privacy/held.yaml`. Engine: the Venn map template honors `layout.yaml` `canvas`
+  (it was fixed at 1600 by 1300), gains a sections slot, `pill_scale`, hollow testnet pills, a heavier line per
+  circle (`sw`), and the facets sidebar (`facets`, `facet_groups`, `facet_presets` with `require`, `facts`,
+  `match: all`, `neutral`, `filter: false`). Home tile tagline updated.
+
 - **Decentralization: three dials re-yardsticked again (owner, 26 October 2026).** Developer base: level 5 is
   thousands of developers with no single employer or funder paying most core maintainers; the number of
   implementations is scored only on the resilience dial, so it is no longer counted twice. Open entry: level 5 is

@@ -1,18 +1,492 @@
-# Privacy map: work in progress. Rendered from src/static.html until the diagram data exists.
+# Privacy map: page text and settings. A Venn map (no `kind`) of what each design hides from the public, with
+# badges for protocols and techniques (badges.yaml), a "Focus on" sidebar of facts (`facets` below, values in each
+# badge's `facts`) and the
+# narrative in `sections` under the map. The whole page is public (owner, 26 October 2026).
+# Writing rules: US spelling; no em-dashes; quote YAML values that contain ": "; "Ethereum mainnet" for the chain;
+# legal history as dates and holdings only.
 
-kind: static
 title: Privacy
 slug: privacy
 eyebrow: Ethereum Institutional · Research
 heading:
   text: Privacy
   italic: Privacy
-intro: 'How confidentiality is achieved on shared ledgers and what each approach gives up. The map will range from restricting who can see the ledger at all (private and consortium networks, stakeholder-only data as in Canton and Corda) to keeping a public ledger verifiable while hiding amounts and counterparties (shielded pools, zero-knowledge proofs, validity rollups, privacy-preserving tokens on Ethereum mainnet), and will set each against what institutions need: selective disclosure to regulators, auditability and settlement finality.'
+intro: 'Confidential tokens are the center of privacy on Ethereum, and privacy here is thriving in many forms, on Ethereum mainnet, on Layer 2s and on private networks. The map shows what each design hides from the public; Focus on picks out the designs that fit what you need, and the institutional wish list shows which come closest.'
+panel_default:
+  title: Privacy on a shared ledger
+  text: Hover over a circle or a design to read what it hides; click to pin it here with all its facts. Use Focus on to pick what matters to you, or start from the institutional wish list.
+badge: pill
+pill_scale: 1.3
+facts_as_of: '2026-10-26'
+legend:
+- kind: pill
+  color: '#627eea'
+  text: 'Live on an EVM ledger or a Layer 2 that settles on Ethereum mainnet'
+- kind: pill
+  hollow: true
+  color: '#627eea'
+  text: 'On a public testnet'
+# Facets: the "Focus on" sidebar. Each design (badges.yaml `facts`) gives one or more values per facet: `in` (it
+# has this), `part` (partly, or a supporting part of the design), a `note` with figure and date, and `sources`.
+# `filter: false` facets are information only (shown in each design's fact sheet, not in the sidebar).
+# Readers pick values; within a facet any picked value matches (`match: all`: every one must), across facets all must. Values `na` (does not apply)
+# and `unknown` (not yet researched) are always allowed and never match. Facets marked `from: status` or
+# `from: since` are filled by the build from the badge's `status` or `since` date. Aligned with the PSE private
+# transfers benchmark (`pse:` names its property) so a reading can cite it. `neutral: true` marks a facet that readers
+# value differently (a notary is a requirement to a compliance officer and a defect to a cypherpunk): its marks in a
+# design's fact sheet are plain ink boxes, never green or red.
+facets_title: Focus on
+facets_help: Pick what matters to you. Designs that have all of it stay highlighted; dashed means partly.
+facet_presets:
+- id: wishlist
+  label: The institutional wish list
+  text: 'Permissioned privacy institutions can use: verified participants, compliance checks, a notary, issuer controls, any EVM ledger, open code, and operators you run yourself, with no fee beyond gas or a commercial license, in production or a public pilot. No permissioned design yet has five years live, native ERC-3643 or ERC-7943 support, a notary whose decryptions leave an on-chain notice, or full post-quantum cryptography.'
+  require: [permission, checks]     # must-haves: a design must at least partly meet these to be ranked
+  picks:
+    permission: [permissioned]
+    association: ['no']
+    checks: [builtin, capable]
+    visibility: [notice, notary]
+    controls: [freeze, forced, pause, mint]
+    chains: [anyevm]
+    pq: ['yes', hashes]
+    license: [open]
+    operator: [self]
+    external: ['no']
+    fees: [none, license]
+    upgrade: [operator]
+    institutions: [production, public]
+facet_groups:
+- id: compliance
+  label: Permissioning and disclosure
+- id: tech
+  label: Technology
+- id: run
+  label: Running it
+- id: tokens
+  label: Tokens
+- id: safety
+  label: Trust and safety
+- id: record
+  label: Track record
+- id: perf
+  label: Performance
+facets:
+- id: pet
+  group: tech
+  label: Privacy technology
+  help: 'The technique that keeps the data hidden. Who may see it is a separate question: see Permissioned or permissionless privacy.'
+  pse: Categories
+  values:
+  - { id: snark, label: ZK-SNARK }
+  - { id: stark, label: ZK-STARK }
+  - { id: fhe, label: Fully homomorphic encryption }
+  - { id: he, label: Partially homomorphic encryption }
+  - { id: mpc, label: MPC or garbled circuits }
+  - { id: tee, label: Trusted hardware (TEE) }
+  - { id: offchain, label: 'Data kept off chain (only commitments or roots on chain)' }
+- id: proving
+  group: tech
+  filter: false
+  label: Where proofs are made
+  pse: Client-side proving
+  values:
+  - { id: device, label: On your device }
+  - { id: server, label: On a server or prover network }
+  - { id: none, label: No proofs needed }
+- id: pq
+  group: tech
+  label: Post-quantum
+  help: 'Post-quantum cryptography protects the data wherever it is. A design that keeps only salted hashes or state roots on chain leaves nothing on the public record to decrypt later, though its signatures and the channels that carry the private data stay classical.'
+  pse: Post-quantum secure
+  values:
+  - { id: 'yes', label: 'Yes, post-quantum cryptography' }
+  - { id: hashes, label: 'Only salted hashes or roots on chain' }
+  - { id: 'no', label: 'No' }
+- id: verify
+  group: tech
+  label: Correctness checked on chain
+  help: 'Whether the ledger itself verifies that each private transfer or computation followed the rules, or trusts the signatures of whoever ran it.'
+  pse: Verifiability
+  values:
+  - { id: 'yes', label: 'Yes, the chain verifies a proof' }
+  - { id: 'no', label: 'No, it trusts the operators’ signatures' }
+- id: status
+  group: run
+  filter: false
+  label: Status
+  from: status
+  values:
+  - { id: mainnet, label: Live on mainnet }
+  - { id: testnet, label: Public testnet }
+- id: operator
+  group: run
+  label: Who operates it
+  help: 'Every component a transfer needs: prover, indexer, key service, relayer, sequencer.'
+  values:
+  - { id: self, label: You can run it all yourself }
+  - { id: committee, label: A named committee or network }
+  - { id: company, label: One company }
+- id: external
+  group: run
+  label: Depends on another network
+  pse: External network dependence
+  values:
+  - { id: 'no', label: 'No' }
+  - { id: 'yes', label: 'Yes' }
+- id: chains
+  group: run
+  label: Where it runs
+  values:
+  - { id: mainnet, label: Ethereum mainnet }
+  - { id: l2, label: Ethereum Layer 2s }
+  - { id: evm, label: Other EVM chains }
+  - { id: anyevm, label: Any EVM you deploy it on }
+  - { id: own, label: Its own EVM chain or rollup }
+  - { id: nonevm, label: Its own non-EVM rollup or chain }
+  - { id: private, label: Private EVM network }
+- id: fees
+  group: run
+  label: Fees beyond gas
+  help: 'What it costs to use or run, beyond the gas of the underlying chain.'
+  values:
+  - { id: none, label: None }
+  - { id: protocol, label: A protocol fee per transfer or operation }
+  - { id: token, label: Paid in the project’s own token }
+  - { id: license, label: A commercial license }
+- id: keys
+  group: run
+  filter: false
+  label: Keys
+  pse: Number of secrets
+  values:
+  - { id: existing, label: Your existing Ethereum key }
+  - { id: new, label: A new privacy key }
+- id: wallet
+  group: run
+  filter: false
+  label: Wallet
+  values:
+  - { id: any, label: Any wallet }
+  - { id: app, label: An app or SDK to see balances }
+  - { id: dedicated, label: A dedicated wallet }
+  - { id: custodian, label: Supported by a custodian }
+- id: indexing
+  group: run
+  filter: false
+  label: Finding your balance
+  pse: Client-side indexing
+  values:
+  - { id: none, label: Nothing to scan }
+  - { id: client, label: Your device scans the chain }
+  - { id: service, label: A service scans for you }
+- id: tokens
+  group: tokens
+  label: Tokens supported
+  help: 'ERC-20 covers most stablecoins and deposit tokens (USDC, USDT, JPMD). Picking several asks for all of them.'
+  match: all
+  values:
+  - { id: eth, label: Native ETH }
+  - { id: erc20, label: ERC-20 }
+  - { id: erc3643, label: ERC-3643 }
+  - { id: erc7943, label: ERC-7943 }
+  - { id: erc7984, label: ERC-7984 }
+  - { id: nft, label: ERC-721 or ERC-1155 }
+  - { id: erc4626, label: ERC-4626 vault shares }
+  - { id: any, label: Any contract you write }
+- id: permission
+  group: compliance
+  neutral: true
+  label: Permissioned or permissionless privacy
+  help: 'Fully permissionless: anyone, and only the holder can reveal anything (Tornado Cash). Selective disclosure: anyone may enter, but entry is screened or a view can be given (Railgun). Permissioned: only verified participants, by an allow list or verified credentials (Paladin). A design capable of several has each.'
+  pse: Type of compliance
+  values:
+  - { id: permissionless, label: Fully permissionless }
+  - { id: selective, label: Selective disclosure or screening }
+  - { id: permissioned, label: 'Permissioned: allow list or verified credentials' }
+- id: association
+  group: compliance
+  neutral: true
+  label: Associated with a permissionless privacy service
+  help: 'Reputational risk: whether your deployment shares a pool or network with permissionless users, or a service under the same name serves permissionless privacy. Software each institution deploys for itself does not count, even if others deploy it openly.'
+  values:
+  - { id: 'no', label: 'No' }
+  - { id: shared, label: 'Yes: permissionless users share the pool or network' }
+  - { id: name, label: 'Yes: a service under the same name serves permissionless privacy' }
+- id: checks
+  group: compliance
+  neutral: true
+  label: Sanctions and compliance checks
+  help: 'Whether entry or transfers are checked against sanctions lists or monitoring, or the design lets you add your own checks.'
+  values:
+  - { id: builtin, label: 'Built in: sanctions screening or transaction monitoring' }
+  - { id: capable, label: 'Capable: hooks or policies for your own checks' }
+  - { id: none, label: None }
+- id: hidden
+  group: compliance
+  filter: false
+  label: Hidden from
+  help: 'Picking several asks for all of them.'
+  match: all
+  values:
+  - { id: public, label: The public }
+  - { id: participants, label: Other participants }
+  - { id: operator, label: The operator }
+- id: controls
+  group: compliance
+  neutral: true
+  label: Issuer controls that survive
+  help: 'Picking several asks for all of them.'
+  match: all
+  values:
+  - { id: freeze, label: Freeze }
+  - { id: forced, label: Forced transfer }
+  - { id: pause, label: Pause }
+  - { id: mint, label: Mint and burn }
+  - { id: none, label: None }
+- id: disclosure
+  group: compliance
+  filter: false
+  neutral: true
+  label: How a view is given
+  pse: 'Selective disclosure: viewing control'
+  values:
+  - { id: viewkey, label: The holder shares a viewing key }
+  - { id: auditor, label: An auditor key built in }
+  - { id: grant, label: The operator or contract grants access }
+  - { id: none, label: No disclosure route }
+- id: visibility
+  group: compliance
+  neutral: true
+  label: Who else can see it
+  help: 'Besides the parties to a transfer: nobody; a notary (the institution, a regulator or law enforcement on an order) who can decrypt without the holder, with or without an on-chain notice that makes each decryption auditable; or an operator who sees everything by design.'
+  pse: 'Selective disclosure: viewing entity'
+  values:
+  - { id: parties, label: Only the parties }
+  - { id: notice, label: 'A notary, with an on-chain notice' }
+  - { id: notary, label: A notary }
+  - { id: operator, label: The operator sees everything }
+- id: upgrade
+  group: safety
+  label: Who can change the code
+  pse: Upgradeability
+  values:
+  - { id: immutable, label: Nobody (immutable) }
+  - { id: governance, label: A token or DAO vote }
+  - { id: company, label: A company or multisig }
+  - { id: operator, label: Each deployment’s operator }
+- id: exit
+  group: safety
+  filter: false
+  label: Leave without the operator
+  pse: Escape hatch
+  values:
+  - { id: 'yes', label: 'Yes' }
+  - { id: 'no', label: 'No' }
+- id: censorship
+  group: safety
+  filter: false
+  label: Can one party block you
+  pse: Censorship resistance
+  values:
+  - { id: 'no', label: 'No' }
+  - { id: 'yes', label: 'Yes, an operator can' }
+- id: failure
+  group: safety
+  filter: false
+  label: If it breaks, you lose
+  values:
+  - { id: privacy, label: Privacy }
+  - { id: funds, label: Funds }
+- id: since
+  group: record
+  label: Live since
+  from: since
+  values:
+  - { id: lt1, label: Under a year }
+  - { id: y1to3, label: 1 to 3 years }
+  - { id: y3to5, label: 3 to 5 years }
+  - { id: y5plus, label: 5 years or more }
+- id: value
+  group: record
+  filter: false
+  label: Value held
+  help: 'Value in the pool or wrapper, which is public even when balances are not. Dated; private chains do not show it.'
+  values:
+  - { id: lt10m, label: Under USD 10 million }
+  - { id: m10to100, label: USD 10 to 100 million }
+  - { id: m100to1b, label: USD 100 million to 1 billion }
+  - { id: gt1b, label: Over USD 1 billion }
+  - { id: unseen, label: Not visible }
+- id: institutions
+  group: record
+  label: Institutional use
+  help: 'A public pilot names its institutions and has a published report or announcement; unnamed claims do not count.'
+  values:
+  - { id: production, label: In production }
+  - { id: public, label: 'Public pilot: named institutions, published results' }
+  - { id: none, label: None found }
+- id: audits
+  group: record
+  label: Audited
+  values:
+  - { id: 'yes', label: 'Yes' }
+  - { id: 'no', label: 'No' }
+- id: incidents
+  group: record
+  filter: false
+  label: Incidents
+  values:
+  - { id: none, label: None found }
+  - { id: privacy, label: Privacy was lost }
+  - { id: funds, label: Funds were lost }
+- id: license
+  group: record
+  label: License
+  pse: Open source
+  values:
+  - { id: open, label: Open source }
+  - { id: available, label: Source-available }
+  - { id: proprietary, label: Proprietary }
+- id: steward
+  group: record
+  filter: false
+  label: Steward
+  values:
+  - { id: foundation, label: A foundation }
+  - { id: dao, label: A DAO }
+  - { id: company, label: A company }
+- id: gas
+  group: perf
+  filter: false
+  label: Gas per private transfer
+  pse: 'On-chain gas cost: transfer'
+  values:
+  - { id: lt200k, label: Under 200,000 }
+  - { id: k200to500, label: 200,000 to 500,000 }
+  - { id: gt500k, label: Over 500,000 }
+- id: latency
+  group: perf
+  filter: false
+  label: Time to a private transfer
+  pse: Time-to-finality
+  values:
+  - { id: block, label: About one block }
+  - { id: minute, label: Under a minute }
+  - { id: longer, label: Longer }
+- id: anonymity
+  group: perf
+  filter: false
+  label: Anonymity set
+  help: 'How many others you hide among, for designs that hide who.'
+  pse: Anonymity set size
+  values:
+  - { id: large, label: Over 10,000 }
+  - { id: medium, label: 1,000 to 10,000 }
+  - { id: small, label: Under 1,000 }
 notice:
-  title: Work in progress.
-  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+  title: Under development.
+  text: This map is a v0.x draft and has not been reviewed by legal counsel. Placements and readings are dated and sourced; they will change as the designs do. For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.
-  text: It will be built in the open on GitHub like the others. Open an issue to suggest a technique, a source or a deployment to include.
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  text: Open an issue to suggest a design, a correction or a deployment we have missed, or send a pull request; every placement on this page is a file anyone can edit.
+footnote: 'Placements were checked on 26 October 2026 and drift as designs ship. Regulatory history is given as dates and holdings only. This page is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+sections:
+- title: What institutions are asking for
+  text: 'Confidential tokens are what institutions want from privacy, with requirements that differ from an individual’s. No design meets them all yet: pick the institutional wish list in Focus on to see which come closest.'
+  items:
+  - title: Permissioned, with a notary
+    text: 'In our work with institutions, permissionless privacy, open to anyone with no check on who enters, is treated as a reputational risk, and the concern travels with the service: a pool, network or named service that also serves permissionless privacy raises it even when your own deployment is permissioned, while software you deploy for yourself does not. Institutions want privacy among verified participants holding verified assets, with a notary (the institution, its regulator, or law enforcement on an order) who can decrypt in a way that leaves an on-chain notice: the auditability Project Epic names beside anonymity and confidentiality. Standard setters ask firms to manage anonymity-enhancing technology or stay away from it; US Treasury, for its part, told Congress in March 2026 that lawful users may use mixers for financial privacy.'
+    sources:
+    - - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and VASPs (28 October 2021), paragraph 174', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-26' }
+    - - { title: 'J.P. Morgan Kinexys, Project Epic whitepaper (2024), What is on-chain privacy', url: 'https://www.jpmorgan.com/kinexys/documents/JPMC-Kinexys-Project-Epic-Whitepaper-2024.pdf', checked: '2026-10-26' }
+    - - { title: 'US Treasury, GENIUS Act report to Congress on innovative methods (March 2026)', url: 'https://home.treasury.gov/system/files/246/GENIUS-Act-Illicit-Finance-Innovation-Congressional-Report-March-2026.pdf', checked: '2026-10-26' }
+  - title: Any EVM ledger, any token
+    text: 'One design for private, consortium and public ledgers under any consensus, carrying ERC-20 stablecoins and deposit tokens, permissioned securities (ERC-3643, ERC-7943), non-fungible tokens and vault shares, with the issuer’s freeze, forced transfer and recovery intact.'
+  - title: Open, verifiable and built to last
+    text: 'Open-source code on open standards, independently audited, with every private transfer verified by the chain rather than trusted to an operator’s signature, and nothing on the public record a quantum computer could decrypt later. Every component (prover, indexer, key service, relayer) is one you can run yourself, with no dependence on another network and no fee beyond gas, and it works with keys your custodian already manages. If the privacy layer fails, you should lose privacy, not funds.'
+- title: Privacy across the whole workflow
+  text: 'A confidential token does not make the workflow private. Check every layer a transaction touches.'
+  items:
+  - title: Getting in and out
+    text: 'Deposits into and withdrawals from a shielded pool are public, and the address that pays gas links to the one that acts unless a relayer or an ERC-4337 paymaster pays instead.'
+    sources:
+    - { title: 'Privacy Pools docs, deposit and withdrawal (public deposits; direct versus relayed withdrawals)', url: 'https://docs.privacypools.com/protocol/withdrawal', checked: '2026-10-26' }
+    - { title: 'ERC-4337, Account Abstraction (paymasters pay gas on the sender’s behalf; Final)', url: 'https://eips.ethereum.org/EIPS/eip-4337', checked: '2026-10-26' }
+  - title: Data kept off chain
+    text: 'Keeping data off chain (a private group, a validium or a notary’s ledger) hides it from the public, but the operator and whoever holds the data still see everything, and you rely on them to keep it available.'
+    sources:
+    - { title: 'ethereum.org, Validium (off-chain data remains visible to the operator)', url: 'https://ethereum.org/en/developers/docs/scaling/validium/', checked: '2026-10-26' }
+  - title: Messages beside the ledger
+    text: 'Payment messages travel off chain beside any confidential token, and ISO 20022 calls for structured identification of every party.'
+    sources:
+    - { title: 'CPMI, Harmonised ISO 20022 data requirements (October 2023)', url: 'https://www.bis.org/cpmi/publ/d218.pdf', checked: '2026-10-26' }
+- title: The Ethereum roadmap for privacy
+  text: 'Privacy is a stated goal of the Ethereum roadmap, built in three pillars: private writes, private reads and private proving. Dates are targets, not guarantees; items move a reading on this page only once they are live.'
+  items:
+  - title: Live today
+    text: 'Stealth addresses and their registry (ERC-5564 and ERC-6538, both Final); account abstraction (ERC-4337, and EIP-7702 since Pectra in May 2025), which lets a third party pay gas so a private address need not be funded from a linked one; and the confidential-token interface ERC-7945, Final on 7 October 2026. ERC-7984, the other confidential-token interface, is a Draft.'
+    more: { title: ethereum.org, the privacy roadmap, url: 'https://ethereum.org/en/roadmap/privacy/' }
+    sources:
+    - { title: 'ERC-5564, Stealth Addresses (Final, 28 May 2024)', url: 'https://eips.ethereum.org/EIPS/eip-5564', checked: '2026-10-26' }
+    - { title: 'ERC-6538, Stealth Meta-Address Registry (Final, 25 June 2024)', url: 'https://eips.ethereum.org/EIPS/eip-6538', checked: '2026-10-26' }
+    - { title: 'ERC-7945, Confidential Transactions Supported Token (Final, 7 October 2026)', url: 'https://eips.ethereum.org/EIPS/eip-7945', checked: '2026-10-26' }
+    - { title: 'ERC-7984, Confidential Fungible Token (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7984', checked: '2026-10-26' }
+    - { title: 'EIP-7702, Set Code for EOAs (Final; live since Pectra, 7 May 2025)', url: 'https://eips.ethereum.org/EIPS/eip-7702', checked: '2026-10-26' }
+  - title: 'Coming next: private transfers without a relayer'
+    text: 'Frame transactions (EIP-8141, scheduled for the Hegotá upgrade) let a transaction’s authorization be any program, including a zero-knowledge proof. Three drafts make that fast and reliable for privacy protocols: keyed nonces (EIP-8250) let many users spend through one shared sender at once, each spend’s nonce derived from its nullifier, instead of queuing behind a single nonce; recent roots (EIP-8272) let a spend prove against a privacy tree root from a recent slot, so nodes can admit it to the public mempool without a relayer; and EIP-8369 defines which of these spends inclusion lists (FOCIL, EIP-7805) must include, so a builder cannot leave them out. All four are Drafts, running together on a public Hegotá privacy testnet (chain 8141, the ethrex client) since 11 August 2026, where a transaction carrying a proof costs about 352,800 gas.'
+    sources:
+    - { title: 'EIP-8081, Hardfork Meta: Hegotá (scheduled, considered and declined items)', url: 'https://eips.ethereum.org/EIPS/eip-8081', checked: '2026-10-26' }
+    - { title: 'EIP-8141, Frame Transaction (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-8141', checked: '2026-10-26' }
+    - { title: 'EIP-8250, Keyed Nonces for Frame Transactions (Draft, 16 April 2026)', url: 'https://eips.ethereum.org/EIPS/eip-8250', checked: '2026-10-26' }
+    - { title: 'EIP-8272, Recent Roots for Frame Transactions (Draft, 15 May 2026)', url: 'https://eips.ethereum.org/EIPS/eip-8272', checked: '2026-10-26' }
+    - { title: 'EIP-8369, VOPS Profiles for FOCIL Eligibility (Draft, Informational, 5 August 2026)', url: 'https://eips.ethereum.org/EIPS/eip-8369', checked: '2026-10-26' }
+    - { title: 'EIP-7805, Fork-choice enforced Inclusion Lists (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7805', checked: '2026-10-26' }
+    - { title: 'Hegotá privacy testnet (ethrex, chain 8141): faucet and changelog', url: 'https://faucet.privacy.ethrex.xyz/', checked: '2026-10-26' }
+  - title: 'Built into the protocol: not yet'
+    text: 'A protocol-level shielded pool (EIP-8182) was declined for Hegotá; an enshrined encrypted mempool (EIP-8105), which would hide transactions until their order is fixed, is a Draft.'
+    sources:
+    - { title: 'EIP-8081, Hardfork Meta: Hegotá (scheduled, considered and declined items)', url: 'https://eips.ethereum.org/EIPS/eip-8081', checked: '2026-10-26' }
+    - { title: 'EIP-8105, Universal Enshrined Encrypted Mempool (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-8105', checked: '2026-10-26' }
+    - { title: 'Ethereum Foundation, EF Protocol: current and emerging priorities (7 September 2026)', url: 'https://blog.ethereum.org/2026/09/07/protocol-priorities', checked: '2026-10-26' }
+  - title: Who is building it
+    text: 'The Ethereum Foundation’s Privacy Stewards of Ethereum (formerly PSE) lead the work, including the Kohaku wallet toolkit (alpha) and a public benchmark of private-transfer protocols.'
+    more: { title: PSE, private transfers benchmark, url: 'https://private-transfers.pse.dev/' }
+    sources:
+    - { title: 'PSE, Roadmap: 2025 and beyond (Privacy Stewards of Ethereum)', url: 'https://pse.dev/blog/pse-roadmap-2025', checked: '2026-10-26' }
+    - { title: 'Ethereum Foundation, The EF’s commitment to privacy (8 October 2025)', url: 'https://blog.ethereum.org/2025/10/08/privacy-commitment', checked: '2026-10-26' }
+    - { title: 'ethereum/kohaku repository (alpha, unaudited)', url: 'https://github.com/ethereum/kohaku', checked: '2026-10-26' }
+    - { title: 'Vitalik Buterin, A maximally simple L1 privacy roadmap (11 April 2025)', url: 'https://ethereum-magicians.org/t/a-maximally-simple-l1-privacy-roadmap/23459', checked: '2026-10-26' }
+- title: Confidentiality that has to last
+  text: 'Ledger data is permanent, so ask how long each secret must stay secret, and what a quantum computer would expose.'
+  items:
+  - title: What lasts and what does not
+    text: 'Fully homomorphic encryption is built on lattices, believed safe against quantum attack, and hash-based STARK proofs are too. Pairing-based SNARKs are not: a quantum computer could forge proofs, though a stored proof does not reveal its secret inputs. The notes many shielded pools encrypt on chain with elliptic-curve keys could be decrypted later: harvest now, decrypt later. A design that keeps only salted hashes or state roots on chain leaves nothing public to decrypt, though its signatures and the channels carrying the private data stay classical.'
+    more: { title: Quantum, where it bites a ledger, url: '../quantum/ledger/' }
+    sources:
+    - { title: 'Zama TFHE-rs, security and cryptography (LWE, quantum-resistant)', url: 'https://docs.zama.org/tfhe-rs/get-started/security-and-cryptography', checked: '2026-10-26' }
+    - { title: 'ethereum.org, Quantum resistance (SNARKs, KZG and STARKs)', url: 'https://ethereum.org/en/roadmap/future-proofing/quantum-resistance/', checked: '2026-10-26' }
+    - { title: 'Zcash ZIP 2005, quantum recoverability (balance versus privacy against a quantum adversary)', url: 'https://zips.z.cash/zip-2005', checked: '2026-10-26' }
+    - { title: 'NIST IR 8547 initial public draft (harvest now, decrypt later; 2030 and 2035)', url: 'https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8547.ipd.pdf', checked: '2026-10-26' }
+- title: What regulators have said
+  text: 'Dates and holdings only. Informational, not legal advice.'
+  items:
+  - title: Standard setters and the EU
+    text: 'The FATF’s updated guidance of 28 October 2021 says virtual asset service providers must be able to manage the risks of anonymity-enhancing technologies, including mixers and privacy wallets, or should not engage with them. The EU anti-money-laundering regulation bars anonymous accounts and accounts allowing anonymity-enhancing coins from 10 July 2027.'
+    sources:
+    - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and VASPs (28 October 2021), paragraph 174', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-26' }
+    - { title: 'Regulation (EU) 2024/1624, Article 79 (to verify against the Official Journal)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj/eng', checked: '2026-10-26' }
+  - title: United States
+    text: 'OFAC designated Tornado Cash on 8 August 2022. On 26 November 2024 the Fifth Circuit held that its immutable smart contracts are not property under IEEPA, and Treasury removed the designation on 21 March 2025. Treasury’s March 2026 report to Congress under the GENIUS Act says lawful users may use mixers for financial privacy on public blockchains.'
+    sources:
+    - { title: 'US Treasury, Tornado Cash designation (8 August 2022)', url: 'https://home.treasury.gov/news/press-releases/jy0916', checked: '2026-10-26' }
+    - { title: 'Fifth Circuit, Van Loon v. Department of the Treasury, No. 23-50669 (26 November 2024)', url: 'https://www.ca5.uscourts.gov/opinions/pub/23/23-50669-CV0.pdf', checked: '2026-10-26' }
+    - { title: 'US Treasury, Tornado Cash delisting (21 March 2025)', url: 'https://home.treasury.gov/news/press-releases/sb0057', checked: '2026-10-26' }
+    - { title: 'US Treasury, GENIUS Act report to Congress on innovative methods (March 2026)', url: 'https://home.treasury.gov/system/files/246/GENIUS-Act-Illicit-Finance-Innovation-Congressional-Report-March-2026.pdf', checked: '2026-10-26' }
+  - title: Central banks and supervisors
+    text: 'The BIS Project Agorá prototype (report of 27 May 2026) used Hyperledger Paladin for token-level and workflow-level privacy. The HKMA’s e-HKD pilot tested Zeto and Anonymous Zether on public chains (October 2025). The FCA and the Bank of England wrote in May 2026 that “technological advances mean that public chains can now also maintain privacy standards”.'
+    sources:
+    - { title: 'BIS, Project Agorá report (27 May 2026; Paladin Noto and Pente)', url: 'https://www.bis.org/publications/project-agora-shared-programmable-platform-wholesale-cross-border-payments.pdf', checked: '2026-10-26' }
+    - { title: 'HKMA, e-HKD Pilot Programme Phase 2 report (October 2025)', url: 'https://www.hkma.gov.hk/media/eng/doc/key-functions/financial-infrastructure/e-HKD_Pilot_Programme_Phase_2_Report.pdf', checked: '2026-10-26' }
+    - { title: 'FCA and Bank of England, The future of tokenisation, call for input (May 2026), paragraph 3.18', url: 'https://www.fca.org.uk/publication/call-for-input/future-tokenisation-joint-vision-authorities-uk-wholesale-financial-markets.pdf', checked: '2026-10-26' }

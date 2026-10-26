@@ -33,7 +33,7 @@ cards:
 - path: privacy
   icon: privacy
   title: Privacy
-  text: 'What stays confidential on a shared ledger, and how.'
+  text: 'Privacy on Ethereum is thriving today, in many forms: what each design hides, from whom, and what you have to trust.'
 - path: quantum
   icon: quantum
   title: Quantum

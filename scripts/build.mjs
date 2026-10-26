@@ -318,7 +318,7 @@ function validate(page) {
     for (const pts of Array.isArray(paths) ? paths : [null])
       if (!Array.isArray(pts) || pts.length < 2 || pts.some(p => !Array.isArray(p) || p.length !== 2)) errors.push(`${where('layout.yaml')}: each corridor in bridge "${key}" needs two or more [x, y] points`);
   }
-  for (const k of ['title', 'eyebrow', 'intro', 'lens_help', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
+  for (const k of ['title', 'eyebrow', 'intro', 'footnote', ...((site.lens_groups || []).length ? ['lens_help'] : [])]) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
   if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
   if (site.badge && !['disc', 'pill'].includes(site.badge)) errors.push(`${where('site.yaml')}: badge must be disc or pill`);
   if (site.contribute && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(site.contribute.repo || '')) errors.push(`${where('site.yaml')}: contribute.repo must be a https://github.com/<owner>/<repo> URL`);
@@ -328,7 +328,59 @@ function validate(page) {
   for (const t of tokens.tokens) if (t.kind && !['network', 'participant', 'element'].includes(t.kind)) errors.push(`${where('badges')}: "${t.ticker}" kind must be network, participant or element`);
   for (const x of [...circles.circles, ...tokens.tokens]) for (const s of x.sources || [])
     if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('data')}: source on "${x.id || x.ticker}" needs a title and a URL`);
+  // facets (the "Focus on" sidebar): every value a badge gives must be defined; `na` and `unknown` are always allowed
+  if (site.facets) {
+    const F = Object.fromEntries(site.facets.map(f => [f.id, f])), groups = new Set((site.facet_groups || []).map(g => g.id));
+    if (Object.keys(F).length !== site.facets.length) errors.push(`${where('site.yaml')}: duplicate facet ids`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(site.facts_as_of || '')) errors.push(`${where('site.yaml')}: facts_as_of (YYYY-MM-DD) is needed with facets`);
+    for (const f of site.facets) {
+      if (!f.label || !(f.values || []).length) errors.push(`${where('site.yaml')}: facet "${f.id}" needs a label and values`);
+      if (!groups.has(f.group)) errors.push(`${where('site.yaml')}: facet "${f.id}" names unknown group "${f.group}"`);
+      if (f.from && !['status', 'since'].includes(f.from)) errors.push(`${where('site.yaml')}: facet "${f.id}" from must be status or since`);
+      if (f.filter !== undefined && typeof f.filter !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" filter must be true or false`);
+      if (f.neutral !== undefined && typeof f.neutral !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" neutral must be true or false`);
+      if (f.match && !['any', 'all'].includes(f.match)) errors.push(`${where('site.yaml')}: facet "${f.id}" match must be any or all`);
+    }
+    for (const pr of site.facet_presets || []) {
+      if (!pr.id || !pr.label || !pr.text) errors.push(`${where('site.yaml')}: every facet preset needs id, label and text`);
+      for (const r of pr.require || []) if (!(pr.picks || {})[r]) errors.push(`${where('site.yaml')}: preset "${pr.id}" requires "${r}", which it does not pick`);
+      for (const [fid, vs] of Object.entries(pr.picks || {})) {
+        if (!F[fid]) { errors.push(`${where('site.yaml')}: preset "${pr.id}" picks unknown facet "${fid}"`); continue; }
+        for (const v of [].concat(vs)) if (!F[fid].values.some(x => String(x.id) === String(v))) errors.push(`${where('site.yaml')}: preset "${pr.id}" picks unknown value "${v}" of "${fid}"`);
+      }
+    }
+    for (const t of tokens.tokens) {
+      if (t.status && !['mainnet', 'testnet'].includes(t.status)) errors.push(`${where('badges')}: "${t.ticker}" status must be mainnet or testnet`);
+      if (t.since && !/^\d{4}-\d{2}-\d{2}$/.test(String(t.since))) errors.push(`${where('badges')}: "${t.ticker}" since must be YYYY-MM-DD`);
+      for (const [fid, raw] of Object.entries(t.facts || {})) {
+        const f = F[fid], v = fact(raw);
+        if (!f) { errors.push(`${where('badges')}: "${t.ticker}" gives unknown facet "${fid}"`); continue; }
+        if (f.from) { errors.push(`${where('badges')}: "${t.ticker}" facet "${fid}" is filled from "${f.from}"; set that on the badge`); continue; }
+        const ok = new Set([...f.values.map(x => String(x.id)), 'na', 'unknown']);
+        for (const x of [...v.in, ...v.part]) if (!ok.has(x)) errors.push(`${where('badges')}: "${t.ticker}" facet "${fid}" has unknown value "${x}"`);
+        for (const s of v.sources) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${where('badges')}: source on "${t.ticker}" facet "${fid}" needs a title and a URL`);
+      }
+    }
+  }
   return errors;
+}
+// a badge's facet value: a string, a list, or { in, part, note, sources }
+const fact = raw => { const o = typeof raw === 'string' || Array.isArray(raw) ? { in: [].concat(raw) } : (raw || {});
+  return { in: [].concat(o.in ?? []).map(String), part: [].concat(o.part ?? []).map(String), note: o.note || '', sources: o.sources || [] }; };
+// facets filled by the build: status (default mainnet) and years since `since`, banded as the `since` facet's values
+function facts(t, site) {
+  if (!t.facts) return null; // a badge without facts (context only) is left out of the sidebar and its counts
+  const out = Object.fromEntries(Object.entries(t.facts || {}).map(([k, v]) => [k, fact(v)]));
+  for (const f of site.facets || []) {
+    if (f.from === 'status') out[f.id] = { in: [t.status || 'mainnet'], part: [], note: t.status_note || '', sources: [] };
+    if (f.from === 'since') {
+      if (!t.since) { out[f.id] = { in: ['unknown'], part: [], note: '', sources: [] }; continue; }
+      const y = (Date.parse(site.facts_as_of) - Date.parse(String(t.since))) / (365.25 * 864e5);
+      out[f.id] = { in: [y < 1 ? 'lt1' : y < 3 ? 'y1to3' : y < 5 ? 'y3to5' : 'y5plus'], part: [], sources: [],
+        note: `${t.status === 'testnet' ? 'Public testnet' : 'Live'} since ${new Date(String(t.since)).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}.` };
+    }
+  }
+  return out;
 }
 
 // ---------- version ----------
@@ -437,7 +489,8 @@ function renderStatic({ site, out }) {
     .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
 const swatch = l => l.kind === 'pill'
-    ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`
+    ? (l.hollow ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#fff" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/></svg>`
+      : `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`)
     : l.kind === 'expand'
     ? `<svg width="40" height="18" aria-hidden="true"><ellipse cx="17" cy="9" rx="15" ry="7" fill="#e3e7ea" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><text x="36" y="13" text-anchor="middle" font-size="12" font-weight="600" fill="#615f5a">+</text></svg>`
     : l.kind === 'mark'
@@ -462,12 +515,17 @@ function render({ circles, layout, tokens, site, lenses, out }) {
   const data = {
     palette: circles.palette, containers: circles.containers || [], children: circles.children || {}, inherit_status: circles.inherit_status || {},
     circles: circles.circles.map(c => Object.assign({}, c, layout.circles[c.id])),
-    tokens: tokens.tokens, lenses, version, bridges: layout.bridges || {}, annotations: layout.annotations || [],
-    lens_groups: site.lens_groups || [], badge: site.badge || 'disc',
+    tokens: site.facets ? tokens.tokens.map(t => Object.assign({}, t, { facts: facts(t, site) })) : tokens.tokens,
+    lenses, version, bridges: layout.bridges || {}, annotations: layout.annotations || [], canvas: layout.canvas,
+    facets: site.facets ? { title: site.facets_title || 'Focus on', help: site.facets_help || '', groups: site.facet_groups || [], list: site.facets, presets: site.facet_presets || [],
+      as_of: new Date(site.facts_as_of).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) } : null,
+    lens_groups: site.lens_groups || [], badge: site.badge || 'disc', pill_scale: site.pill_scale || 1,
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
   };
   return fillCommon(read('src/template.html'), { site, out, data })
-    .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help));
+    .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))
+    .replace('__CANVAS_W__', layout.canvas.width).replace('__CANVAS_H__', layout.canvas.height)
+    .replace('__SECTIONS__', sectionsHtmlC(site)); // narrative under the map (sources collapsed, optional `more` links)
 }
 // sources: inline when three or fewer, otherwise collapsed behind a "Sources (n)" toggle
 const srcList = src => src.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.checked ? ` (checked ${esc(s.checked)})` : ''}`).join('; ');

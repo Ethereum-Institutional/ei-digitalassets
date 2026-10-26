@@ -18,7 +18,9 @@ and generated from plain-text data in this repository:
   (delivery versus payment), the rest planned.
 - **Quantum**: an overview and four short sub-pages (the two algorithms, where it bites a ledger, the Ethereum roadmap,
   where your digital asset team fits), in progress.
-- **Privacy and Identity**: planned pages, stubbed as "in progress".
+- **Privacy**: a Venn map of what each privacy design hides from the public (who, how much, what, or only intent before the
+  block), with 22 named designs and lenses for who can still see the data and what you have to trust, in progress.
+- **Identity**: a planned page, stubbed as "in progress".
 
 **View the live site: https://ethereum-institutional.github.io/ei-digitalassets/** 
 - [Web3](https://ethereum-institutional.github.io/ei-digitalassets/web3/)

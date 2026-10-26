@@ -4,7 +4,7 @@ This repository generates Ethereum Institutional's interactive, sourced maps beh
 map (a radial map: three generations of the web as rings, cut into theme wedges), the **Digital Asset Taxonomy** (a
 Venn diagram of digital money, tokenized real-world assets and other crypto-assets, with single-select **regulatory
 lenses**) and the **Digital Asset Networks** map (network types crossed by consensus admission, with named networks,
-their institutional participants and **architecture lenses**), plus a **Decentralization** page (eleven gauges, levels 1 to 5, with lenses), with Privacy, Identity and **Quantum**
+their institutional participants and **architecture lenses**), plus a **Decentralization** page (eleven gauges, levels 1 to 5, with lenses), a **Privacy** map (in progress), with Identity and **Quantum**
 pages stubbed as work in progress (Quantum carries drafted sections: Shor and Grover, where they bite a ledger, the
 Ethereum roadmap now and next), with a **Scenarios** index (one written scenario, the rest planned). Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
 `/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
@@ -23,12 +23,12 @@ and decisions behind them.
 ## How the build works
 
 - `data/taxonomy/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
-  folders (`data/decentralization`, `data/privacy`, `data/identity`, `kind: static`) and `data/web3/*.yaml` and `data/decentralization/*.yaml` (radial
+  folders (`data/identity`, `kind: static`), `data/privacy/*.yaml` (a Venn map with `badges.yaml`) and `data/web3/*.yaml` and `data/decentralization/*.yaml` (radial
   maps, `kind: radial`: `rings.yaml`, `themes.yaml`, `layout.yaml`, optional `lenses/`) are the only places content lives;
   `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html` holds the
   Venn map page's styling and rendering code only; `src/radial.html` renders radial pages and `src/static.html` the
-  landing page and stubs, both with the same styles. Per-page settings (`lens_groups`, `badge`, `legend`, `panel_default`, `intro_more`) live in each
-  `site.yaml`, and drawn notes in `layout.yaml` `annotations:`. Never put page-specific content in a template. A new
+  landing page and stubs, both with the same styles. Per-page settings (`lens_groups`, `badge`, `pill_scale`, `legend`, `panel_default`, `intro_more`, `facets`) live in each
+  `site.yaml`, and drawn notes in `layout.yaml` `annotations:`; `layout.yaml` `canvas` sets each map's size. Never put page-specific content in a template. A new
   page is a folder with a `site.yaml`, an entry in `PAGES` in `scripts/build.mjs` and an entry in `data/nav.yaml`.
 - `npm run build` validates the data (unknown circle ids or badges, missing definitions, bad statuses, lens colors,
   lens-only circles, `licensed_under`, `bridges`, `networks` maps; rings, themes and cells on radial pages) and
@@ -235,6 +235,85 @@ and decisions behind them.
   inside the notes of the dials they belong to (inclusion, resilience, stop, issuance), each with the work addressing
   it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",
   "your risk committee"), not about "an institution".
+
+## Privacy page (`data/privacy/`, in progress)
+
+- A Venn map (no `kind`) of what each design hides **from the public** by default, with **confidential tokens at
+  the center** (owner, 26 October 2026: the conversation institutions and individuals are having, with differing
+  requirements): three circles after Project Epic's dimensions, **Confidential tokens** (how much: amounts and
+  balances, asset type counts here; left, read first, heavier line `sw`), **Anonymity** (who: counterparties) and
+  **Private execution** (what: contract logic and state, smaller and below), inside "Privacy on a shared ledger", plus a **Before the block** box under the
+  Venn for designs that hide only timing and intent until inclusion (private RPC, order flow auctions, encrypted
+  mempools): it is not the page's focus. No design hides logic alone; a note in the empty region says so. The
+  narrative sits under the map in `sections` (the map template's `__SECTIONS__` slot, sources collapsed). The
+  canvas is smaller than the other maps and `pill_scale: 1.3` enlarges the pills, so the designs read larger than
+  the circles; keep labels and pills clear of every circle line. The intro's claim is that privacy on Ethereum is
+  thriving today, in many forms.
+- **House view (owner, 26 October 2026):** institutions and regulators broadly agree that permissionless privacy
+  (anyone may enter, no check) is a reputational risk that lets unlawful actors evade reasonable controls. What they
+  want is permissioned privacy among verified participants and assets, ideally with a notary for lawful, auditable
+  decryption, on any EVM ledger (private, consortium or public, any consensus), for fungible and non-fungible tokens
+  (ERC-20 stablecoins and deposit tokens through ERC-3643 and ERC-7943), on open audited standards, correct by
+  on-chain verification, post-quantum, with operators you choose or run yourself (no fixed operator set, no
+  dependence on another network, no fee beyond gas) and flexible wallets, with no association with a permissionless
+  privacy service (owner: using a service that also serves permissionless privacy can itself raise concern); fees may
+  be none or a commercial license. This is the first section under the map
+  and the `wishlist` preset in `facet_presets`; no design meets all of it, and the page says so without calling any
+  design flawed.
+- **Scope (owner, 26 October 2026; to review later):** designs that run the EVM or settle on Ethereum mainnet (so
+  Aztec, an Ethereum Layer 2 with its own virtual machine, is in, read as "Its own non-EVM rollup or chain" under Where it runs; there is no separate EVM facet). Live designs are solid pills;
+  designs on a public testnet only (`status: testnet`: Bermuda, Nightfall) are hollow pills. Non-EVM ledgers
+  (Canton) and designs archived or never deployed (Anonymous Zether; ERC-7945, a Final standard with no deployment)
+  are held, fully written, in `data/privacy/held.yaml` (not read by the build) so the decision can be revisited.
+- **Badges** (`badges.yaml`) are designs, named, placed by what they hide from the public, `eth: true` blue. Each
+  `desc` says what is hidden, from whom else, what you trust, what survives for the issuer, where it runs and its
+  track record, in that order, and says what the design does well. Removed products are not drawn (Besu private
+  transactions with Tessera, removed in Besu 25.6.0, are named in Pente's note as its predecessor).
+- **Focus on** (the sidebar; `facets` and `facet_groups` in `site.yaml`, each badge's `status`, `since` and
+  `facts`): factual facets of a confidential token in seven groups, permissioning and disclosure first (the scale
+  fully permissionless, e.g. Tornado Cash / selective disclosure or screening, e.g. Railgun / permissioned by allow
+  list or verified credentials, e.g. Paladin, examples in the help text only, never in the labels; a design
+  capable of several has each; association with a permissionless privacy service, because the reputational risk travels
+  with a shared pool or network or a named service, not with software each institution deploys for itself (owner: so
+  Paladin Zeto's open variants do not taint Noto, Pente or a permissioned Zeto deployment); sanctions and compliance checks, built in or capable; and who else can see
+  it, where a notary with an on-chain notice is the owner's auditable route), then technology, running it, tokens, trust and safety, track
+  record, performance. Access control is a permissioning model, not a privacy technology (owner, 26 October 2026):
+  designs whose data is simply kept from the public read `offchain` (data off chain, commitments or roots on chain). A reader picks values; within a facet any value matches, across facets all must, and
+  `part` makes a dashed partial match; `match: all` (Tokens supported, Hidden from, Issuer controls) requires every picked value; "partly" is never its own value but a `part` of the value it partly meets (post-quantum and on-chain verification read `part: ['yes']`). Post-quantum has a third value, only salted hashes
+  or roots on chain (owner, 26 October 2026: institutions want post-quantum cryptography or this): nothing on the
+  public record to decrypt later, though signatures and the channels carrying the private data stay classical;
+  Paladin Noto and Pente, ZKsync Prividium and Rayls read it, and the wish list accepts either. A facet with nothing
+  picked never filters. A preset (the institutional wish list) applies a set of picks and stays active while the
+  reader edits them: it filters only by its `require` must-haves (the wish list requires permissioned privacy and compliance checks, so a
+  fully permissionless design never ranks), keeps every design that meets them highlighted (solid with every choice,
+  dashed otherwise) and ranks them in the panel by choices met, a partial counting half; removing a choice re-ranks
+  but never hides a design. Every value has a chip, muted when no design has it, so a preset never picks something
+  the reader cannot see. Institutional use reads in production, a public pilot (named institutions, published results) or
+  none found; unnamed claims do not count, and the wish list accepts production or a public pilot (owner, 26 October 2026). Without a preset, if nothing holds every pick the closest designs are dashed and ranked, with a tick or cross per choice in its
+  fact sheet; facets readers value differently (permissioning, association, compliance checks, who else can see it,
+  issuer controls, disclosure) carry `neutral: true` and get plain ink boxes instead, never green or red (owner: a
+  cypherpunk reads a notary as a defect, a compliance officer will not consider a protocol without one). Status and years live are filled by the build from `status` and `since`
+  against `facts_as_of`. The facets follow the PSE private transfers benchmark (private-transfers.pse.dev; `pse:`
+  names its property) so a reading can cite it, verified against the project's own sources. Facts only, no house
+  requirements and no ranking: the institutional wish list is a reader's preset, not a score. Every figure (value
+  held, gas, anonymity set) carries its date and source in the fact's `note` and `sources`.
+- **Legal history is dates and holdings only** (designation, court holding, delisting), never intent or character;
+  people are not named. Say which version a fact applies to (Privacy Pools v1 and v2).
+- **The whole page is public** (owner, 26 October 2026); there is no registered or gated version for now. The earlier
+  plan for a registered confidential-tokens matrix is on hold.
+- **Filters and information:** 18 facets are filters in the sidebar (permissioning and compliance: permissioned or
+  permissionless privacy, association, compliance checks, who else can see it, issuer controls; technology: privacy
+  technology, correctness checked on chain, post-quantum; running it: where it runs, who operates it, dependence on
+  another network, fees, who can change the code; tokens; track record: live since, institutional use, audited,
+  license). Facets marked `filter: false` are information only, in each design's fact sheet (hidden from, how a view
+  is given, where proofs are made, status, keys, wallet, finding your balance, exit, censorship, failure, value held,
+  steward, incidents, gas, latency, anonymity set): they barely separate the designs or are mostly unknown.
+  **Who else can see it** merges the notary and the operator's view: only the parties; a notary, with an on-chain
+  notice; a notary; the operator sees everything (owner: the notary is captured once, not twice).
+- **Before the block** designs (Flashbots Protect, MEV Blocker, Shutter) have no `facts`: they are context on the
+  map, not confidential tokens, so the sidebar counts 26 designs. A badge's `status_note` explains its status in the
+  fact sheet (Paladin: generally available software each institution deploys; no named production deployment).
+- Names: Bermuda Bay (not Bermuda); 0xbow Privacy Pools (not Privacy Pools alone).
 
 ## Quantum page (`data/quantum/`, stub with drafted sections)
 

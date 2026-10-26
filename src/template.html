@@ -60,6 +60,16 @@
   .ei-regions button.all{border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
   .ei-wrap svg .node.pinned{stroke:var(--ink) !important;stroke-width:4.5 !important}
   .ei-wrap svg .asset.pinned circle,.ei-wrap svg .asset.pinned rect{stroke:#0ea5e9;stroke-width:3.5}
+  .ei-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px}
+  .ei-section{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-section h2{margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em}
+  .ei-section h3{margin:14px 0 4px;font-size:14px;font-weight:600}
+  .ei-section p{margin:0;font-size:14px;line-height:1.55;color:var(--ink)}
+  .ei-section p.more{margin-top:6px;font-size:13px}
+  .ei-section p.more a{color:var(--ink)}
+  .ei-section details.src{margin-top:8px;font-size:12px;color:var(--muted)}
+  .ei-section p.src{font-size:12px;color:var(--muted);margin-top:6px}
+  .ei-section p.src a{color:var(--muted)}
   .ei-panel .pinbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
   .ei-panel .pinbar button:hover{border-color:var(--ink)}
@@ -119,6 +129,52 @@
   .ei-contrib a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .ei-foot{font-size:12px;color:var(--muted);line-height:1.5}
   .ei-ver{opacity:.7}
+  /* "Focus on" sidebar (site.yaml `facets`): beside the map on wide screens, below it on narrow ones */
+  .ei-stage{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+  .ei-stage.has-facets{grid-template-columns:minmax(0,1fr) 340px}
+  .ei-facets{border:1px solid var(--rule);border-radius:16px;background:var(--card);padding:16px 16px 8px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;font-size:13px}
+  @media (max-width:1040px){ .ei-stage.has-facets{grid-template-columns:minmax(0,1fr)} .ei-facets{position:static;max-height:none} }
+  .ei-facets .fx-head b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em;display:block}
+  .ei-facets .fx-head>span{color:var(--muted);font-size:12px;line-height:1.45;display:block;margin-top:4px}
+  .ei-facets .fx-key{display:flex;gap:12px;font-size:11px;color:var(--muted);margin-top:8px}
+  .ei-facets .fx-key span{display:inline-flex;align-items:center;gap:5px}
+  .ei-facets .fx-key i{width:18px;height:10px;border-radius:5px;border:2.5px solid var(--ink);display:inline-block}
+  .ei-facets .fx-key i.p{border-style:dashed}
+  .ei-facets .fx-key i.o{border:1.5px solid var(--rule)}
+  .ei-facets .fx-bar{display:flex;justify-content:space-between;align-items:center;margin:10px 0 2px;padding-bottom:8px;border-bottom:1px solid var(--rule);font-size:12px}
+  .ei-facets .clear{font:inherit;font-size:12px;border:none;background:none;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px}
+  .ei-facets .fx-g{border-bottom:1px solid var(--rule);padding:9px 0}
+  .ei-facets .fx-g summary{cursor:pointer;font-weight:600;font-size:13px}
+  .ei-facets .fx-c{color:var(--muted);font-weight:400}
+  .ei-facets .fx-f{margin-top:10px}
+  .ei-facets .fx-l{font-size:12px;color:var(--muted);margin-bottom:5px}
+  .ei-facets .fx-v{display:flex;flex-wrap:wrap;gap:5px}
+  .ei-facets .fx-v button{font:inherit;font-size:12px;line-height:1.3;padding:4px 9px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;gap:6px;align-items:baseline;text-align:left}
+  .ei-facets .fx-v button small{color:var(--muted);font-size:10px}
+  .ei-facets .fx-v button.zero{color:var(--muted);border-style:dashed}
+  .ei-facets .fx-v button:hover{border-color:var(--ink)}
+  .ei-facets .fx-v button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .ei-facets .fx-v button.on small{color:var(--paper);opacity:.75}
+  .ei-facets .fx-v button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ei-facets .fx-pre{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .ei-facets .fx-pre button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border-radius:12px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer}
+  .ei-facets .fx-pre button.on{background:var(--ink);color:var(--paper)}
+  /* the preset pulses until the reader first uses the sidebar, so it reads as the place to start */
+  @keyframes ei-pulse{0%{box-shadow:0 0 0 0 rgba(20,19,15,.45)}70%{box-shadow:0 0 0 10px rgba(20,19,15,0)}100%{box-shadow:0 0 0 0 rgba(20,19,15,0)}}
+  .ei-facets .fx-pre button.pulse{animation:ei-pulse 1.8s ease-out infinite}
+  @media (prefers-reduced-motion: reduce){ .ei-facets .fx-pre button.pulse{animation:none;outline:2px solid var(--ink);outline-offset:2px} }
+  .ei-facets .fx-pre button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ei-panel table.fx .mk{display:inline-block;width:16px;font-weight:700}
+  .ei-panel table.fx .mk.y{color:#15803d} .ei-panel table.fx .mk.p{color:#d97706} .ei-panel table.fx .mk.n{color:#c81e1e}
+  .ei-panel table.fx .mk.q{color:var(--ink);font-weight:400;font-size:16px;line-height:1;vertical-align:-1px} .ei-panel table.fx .mk.q.o{color:var(--muted)}
+  .ei-panel details.facts{margin-top:12px}
+  .ei-panel details.facts summary{cursor:pointer;color:var(--muted);font-size:12px}
+  .ei-panel table.fx{border-collapse:collapse;width:100%;margin-top:6px;font-size:13px;line-height:1.45}
+  .ei-panel table.fx th{text-align:left;font-weight:400;color:var(--muted);padding:4px 12px 4px 0;vertical-align:top;width:34%;font-size:12px}
+  .ei-panel table.fx td{padding:4px 0;vertical-align:top}
+  .ei-panel table.fx tr.g th{color:var(--ink);font-weight:600;padding-top:12px}
+  .ei-panel table.fx tr.hit th,.ei-panel table.fx tr.hit td{background:#f1efe9}
+  .ei-panel table.fx .fn{display:block;color:var(--muted);font-size:12px}
   @media (prefers-reduced-motion: reduce){ .ei-wrap svg .node, .ei-lens button{transition:none} }
 </style>
 </head>
@@ -132,7 +188,10 @@
     <p class="sub">__INTRO__</p>
     __INTRO_MORE__
   </div>
-  <div class="ei-wrap"><svg id="ei-svg" viewBox="0 0 1600 1300" role="img" aria-label="__SVG_LABEL__"></svg></div>
+  <div class="ei-stage">
+    <div class="ei-wrap"><svg id="ei-svg" viewBox="0 0 __CANVAS_W__ __CANVAS_H__" role="img" aria-label="__SVG_LABEL__"></svg></div>
+    <aside class="ei-facets" id="ei-facets" aria-label="Focus on" hidden></aside>
+  </div>
   __LEGEND__
   <div class="ei-lens" id="ei-lens">
     <div class="ei-lens-head"><b>__LENS_TITLE__</b><span>__LENS_HELP__</span></div>
@@ -147,6 +206,7 @@
     <h2>__PANEL_TITLE__</h2>
     <p>__PANEL_TEXT__</p>
   </div>
+  __SECTIONS__
   __CONTRIBUTE__
   <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
 </div>
@@ -258,11 +318,11 @@
     if(open){ gTop.append(x.s,...x.texts,...kids.map(a=>a.g)); }
     else { gShapes.appendChild(x.s); x.texts.forEach(t=>gText.appendChild(t)); kids.forEach(a=>gText.appendChild(a.g)); }
   };
-  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel, #ei-lens')) unpin(); });
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel, #ei-lens, #ei-facets')) unpin(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
   N.forEach(n=>{
     const [fill,stroke]=n.c;
-    const common={class:'node',fill,'fill-opacity':n.id===OUTER?1:.55,stroke,'stroke-width':2,tabindex:0,'aria-label':n.label.join(' ')};
+    const common={class:'node',fill,'fill-opacity':n.id===OUTER?1:.55,stroke,'stroke-width':n.sw||2,tabindex:0,'aria-label':n.label.join(' ')}; // `sw`: a heavier line
     // lens-only circles are paths: under a lens they stretch to take in the badges of tokens it licenses
     const s = n.t==='rect' ? el('rect',Object.assign({x:n.x,y:n.y,width:n.w,height:n.h,rx:n.r},common))
       : n.lens_only ? el('path',Object.assign({d:ellPath(n)},common))
@@ -273,7 +333,7 @@
       s.setAttribute('clip-path','url(#clip-'+n.id+')'); s.setAttribute('fill-opacity',.9);
     }
     gShapes.appendChild(s);
-    curTexts=[]; byId[n.id]={n,s,texts:curTexts,base:{stroke,fill:s.getAttribute('fill'),fop:s.getAttribute('fill-opacity')}};
+    curTexts=[]; byId[n.id]={n,s,texts:curTexts,base:{stroke,sw:n.sw||2,fill:s.getAttribute('fill'),fop:s.getAttribute('fill-opacity')}};
     const lh=n.fs*1.15;
     n.label.forEach((line,i)=>txt(n.lx,n.ly+i*lh,line,n.fs,n.fw,n.tc||(n.c[1]==='#8a857a'?'#3d3b36':'#14130f')));
     byId[n.id].labelTexts=curTexts.slice(); const subStart=curTexts.length;
@@ -339,8 +399,32 @@
   // Badges never move. Under a lens listed in a token's `licensed_under`, the lens-only circle that lens shows
   // (e.g. Licensed or Recognized Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
   // Pills (DATA.badge==='pill') show the badge's name; ink = Ethereum ecosystem (`eth: true`), gray = other.
-  const PILL = DATA.badge==='pill';
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[]}));
+  const PILL = DATA.badge==='pill', PK = DATA.pill_scale||1;
+  // ---------- facts (site.yaml `facets`, badges `facts`): a fact sheet in the panel and the "Focus on" sidebar ----------
+  const FX = DATA.facets, pick = new Map(); // pick: facet id -> Set of chosen value ids
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  const has=(a,f,v)=>{ const x=a.facts&&a.facts[f]; return x ? (x.in.includes(v)?'in':x.part.includes(v)?'part':null) : null; };
+  // a picked facet holds when any picked value does; with `match: all` (tokens) every one must, and half or more is partial
+  const ALL=new Set(FX?FX.list.filter(f=>f.match==='all').map(f=>f.id):[]);
+  const meets=(a,f)=>{ const hs=[...pick.get(f)].map(v=>has(a,f,v));
+    if(ALL.has(f)) return hs.every(h=>h==='in')?'in':hs.filter(Boolean).length*2>=hs.length?'part':null;
+    return hs.includes('in')?'in':hs.includes('part')?'part':null; };
+  const MARK={in:'<span class="mk y" title="Has your choice">✓</span>',part:'<span class="mk p" title="Partly">½</span>',none:'<span class="mk n" title="Does not have your choice">✗</span>'};
+  // `neutral` facets (valued differently by different readers): plain boxes in ink, no green or red
+  const NMARK={in:'<span class="mk q" title="Has your choice">☑</span>',part:'<span class="mk q" title="Partly">◩</span>',none:'<span class="mk q o" title="Does not have your choice">☐</span>'};
+  const vlabel=(f,id)=> id==='na'?'Does not apply':id==='unknown'?'Not yet researched':((f.values.find(v=>String(v.id)===id)||{}).label||id);
+  const factHtml=a=>{
+    if(!FX||!a.facts) return '';
+    const body=FX.groups.map(g=>{
+      const rows=FX.list.filter(f=>f.group===g.id&&a.facts[f.id]).map(f=>{ const x=a.facts[f.id];
+        const val=[...x.in.map(v=>vlabel(f,v)),...x.part.map(v=>vlabel(f,v)+' (partly)')].join('; ');
+        const src=x.sources.map(s=>` <a href="${s.url}" target="_blank" rel="noopener">source</a>`).join('');
+        const mk=pick.has(f.id)?(f.neutral?NMARK:MARK)[meets(a,f.id)||'none']:'';
+        return `<tr${pick.has(f.id)?' class="hit"':''}><th>${mk}${f.label}</th><td>${val}${src}${x.note?`<span class="fn">${x.note}</span>`:''}</td></tr>`; }).join('');
+      return rows?`<tr class="g"><th colspan="2">${g.label}</th></tr>${rows}`:''; }).join('');
+    return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
+  };
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet'}));
   const srcHtml=src=>src.length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
@@ -349,10 +433,13 @@
     const g=el('g',{class:'asset',tabindex:0,'aria-label':PILL?a.name:`${a.name} (${a.t})`});
     if(PILL){
       // `small` pills list a network's participants inside its circle
-      const w=a.small ? Math.round(a.name.length*5)+12 : Math.round(a.name.length*5.6)+16, h=a.small?16:19;
-      a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.eth?ETH_BLUE:'#6b6760',stroke:'#f8f6f2','stroke-width':1.5});
+      // `pill_scale` (site.yaml) enlarges a page's named pills
+      const k=a.small?1:PK, w=a.small ? Math.round(a.name.length*5)+12 : Math.round((a.name.length*5.6+16)*k), h=a.small?16:Math.round(19*k);
+      // a design on a public testnet (`status: testnet`) is a hollow pill in the same color
+      const col=a.eth?ETH_BLUE:'#6b6760'; a.bs=a.hollow?col:'#f8f6f2';
+      a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.hollow?'#fff':col,stroke:a.bs,'stroke-width':1.5});
       g.appendChild(a.ring);
-      const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4),'text-anchor':'middle','font-size':a.small?8.5:9.5,'font-weight':600,fill:'#f2efe9'}); t.textContent=a.name;
+      const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4*k),'text-anchor':'middle','font-size':a.small?8.5:9.5*k,'font-weight':600,fill:a.hollow?col:'#f2efe9'}); t.textContent=a.name;
       g.appendChild(t);
       // `mark`: a small disc on the pill's right end (e.g. ETH on rollups that settle on Ethereum mainnet)
       if(a.mark){ const mx=a.x+w/2+2, my=a.y-7;
@@ -369,7 +456,7 @@
       let sc='', where=byId[a.p].n.label.filter(Boolean).join(' ');
       activeLenses.forEach(L=>{
         if(L.nets){
-          const st=L.nets[a.t], word={in:'Inside',part:'Depends; see the note'}[st]||'Outside';
+          const st=L.nets[a.t], word=(L.close&&L.close[a.t]) || (L.id==='focus'?{in:'Matches every choice',part:'Partly matches'}:{in:'Inside',part:'Depends; see the note'})[st]||(L.id==='focus'?'Does not match':'Outside');
           sc+=`<div class="scope" style="--c:${L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||''}</div>`; return;
         }
         const J=joined(a,L), p=J||a.p, G=tokGroup(a,L)||L.g[p], st=status(L,p);
@@ -377,8 +464,11 @@
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||L.n[p]||''}</div>`;
       });
-      const what=PILL ? ({participant:'Participant',element:'Element'}[a.kind]||'Network') : 'Token';
-      panel.innerHTML=`<div class="path">${what} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.t})`}</h2><p>${a.d}</p>${sc}${srcHtml(a.src)}`;
+      const what=FX ? 'Design' : PILL ? ({participant:'Participant',element:'Element'}[a.kind]||'Network') : 'Token';
+      // on a page with facts, name every circle the design sits in (its point is inside each)
+      if(FX){ const inC=N.filter(n=>n.id!==OUTER&&n.t!=='rect'&&!n.lens_only&&((a.x-n.cx)/n.rx)**2+((a.y-n.cy)/n.ry)**2<=1).map(n=>n.label.join(' '));
+        if(inC.length) where=inC.join(' and '); }
+      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.t})`}</h2><p>${a.d}</p>${sc}${factHtml(a)}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);
   });
@@ -393,7 +483,7 @@
   const center=n=> n.t==='rect' ? [n.x+n.w/2,n.y+n.h/2] : [n.cx,n.cy];
   const hiddenBy=(px,py,self)=>[...hiddenRegions].some(id=>{ const r=byId[id].n; if(self&&(self.id===OUTER||self.id===r.id||(self.straddles||[]).includes(id))) return false; return inside(r,px,py); });
   const rbar=document.createElement('div'); rbar.className='ei-regions'; rbar.hidden=true;
-  document.querySelector('.ei-wrap').insertAdjacentElement('afterend',rbar);
+  document.querySelector('.ei-stage').insertAdjacentElement('afterend',rbar);
   const BAND={x:40,y:66,w:1520,h:36,r:18,ly:89,fs:13};
   function relayout(){
     Object.values(byId).forEach(({n,s,texts,ctl})=>{
@@ -433,7 +523,7 @@
   // ---------- outlines: union of shapes via marching squares (lens perimeters and lens-only blobs) ----------
   // Shapes: ellipses (optionally clipped), discs around token badges and capsules along `bridges` waypoints.
   // Fields are approximate signed distances in px (positive inside), joined with a smooth max so unions read as blobs.
-  const W=1600,H=1300,STEP=5,SMOOTH=6;
+  const W=DATA.canvas.width,H=DATA.canvas.height,STEP=5,SMOOTH=6; // layout.yaml `canvas`
   const ellShape=n=>({k:'e',cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry,clip:n.clip?byId[n.clip].n:null});
   const disc=(a,r)=>({k:'d',cx:a.x,cy:a.y,r});
   function sdEll(e,x,y,pad){
@@ -522,7 +612,87 @@
     sels.forEach(sel=>{ sel.value = L&&L.group===sel.dataset.grp ? id : ''; sel.classList.toggle('on',!!sel.value); });
     clr.hidden=!L; applyLens(L, !!L);
   };
-  sels.forEach(sel=>sel.addEventListener('change',()=>setLens(sel.value)));
+  sels.forEach(sel=>sel.addEventListener('change',()=>{ if(FX&&pick.size){ pick.clear(); fxSync(); } setLens(sel.value); }));
+  if(!DATA.lens_groups.length) bar.style.display='none'; // a page may have only the sidebar
+
+  // "Focus on": picks combine across facets (all must hold) and within one facet (any value matches).
+  // A design matches when each picked facet has a picked value `in`; `part` on any of them makes it a partial match.
+  let fxSync=()=>{};
+  if(FX){
+    document.querySelector('.ei-stage').classList.add('has-facets');
+    const aside=document.getElementById('ei-facets'); aside.hidden=false;
+    const DES=ASSETS.filter(a=>a.facts), total=DES.length;
+    const count=(f,v)=>DES.filter(a=>has(a,f,v)).length;
+    aside.innerHTML=`<div class="fx-head"><b>${esc(FX.title)}</b><span>${esc(FX.help)}</span>`+
+      `<div class="fx-key"><span><i></i>Has it</span><span><i class="p"></i>Partly</span><span><i class="o"></i>Does not</span></div>`+
+      (FX.presets.length?`<div class="fx-pre">${FX.presets.map((pr,i)=>`<button type="button" data-preset="${pr.id}" aria-pressed="false"${i?'':' class="pulse"'}>${esc(pr.label)}</button>`).join('')}</div>`:'')+
+      `<div class="fx-bar"><span id="fx-n"></span><button type="button" class="clear" id="fx-clear" hidden>Clear all</button></div></div>`+
+      // `filter: false` facets are information only: in each design's fact sheet, not in the sidebar
+      FX.groups.filter(g=>FX.list.some(f=>f.group===g.id&&f.filter!==false)).map((g,i)=>`<details class="fx-g"${i<2?' open':''}><summary>${esc(g.label)}<span class="fx-c" data-g="${g.id}"></span></summary>`+
+        FX.list.filter(f=>f.group===g.id&&f.filter!==false).map(f=>`<div class="fx-f"><div class="fx-l"${f.help?` title="${esc(f.help)}"`:''}>${esc(f.label)}</div><div class="fx-v">`+
+            f.values.map(v=>{ const c=count(f.id,String(v.id)); return `<button type="button" data-f="${f.id}" data-v="${v.id}" aria-pressed="false"${c?'':' class="zero"'}>${esc(v.label)}<small>${c}</small></button>`; }).join('')+`</div></div>`).join('')+
+        `</details>`).join('');
+    const fxn=document.getElementById('fx-n'), fxc=document.getElementById('fx-clear');
+    fxSync=()=>{
+      aside.querySelectorAll('button[data-f]').forEach(b=>{ const on=!!(pick.get(b.dataset.f)&&pick.get(b.dataset.f).has(b.dataset.v)); b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
+      aside.querySelectorAll('.fx-c').forEach(c=>{ const n=FX.list.filter(f=>f.group===c.dataset.g).reduce((s,f)=>s+(pick.has(f.id)?pick.get(f.id).size:0),0); c.textContent=n?` · ${n} chosen`:''; });
+      fxc.hidden=!pick.size;
+    };
+    // the preset last applied stays active while its picks are edited, until it is toggled off or everything is cleared
+    let activeP=null;
+    const samePicks=pr=>{ const k=Object.keys(pr.picks||{}); return k.length===pick.size && k.every(f=>pick.has(f) && [].concat(pr.picks[f]).length===pick.get(f).size && [].concat(pr.picks[f]).every(v=>pick.get(f).has(String(v)))); };
+    const score=a=>{ let y=0,p=0; for(const f of pick.keys()){ const r=meets(a,f); if(r==='in') y++; else if(r==='part') p++; } return {a,y,p,s:y+p/2}; };
+    const ranked=list=>list.map(score).sort((u,v)=>v.s-u.s||v.y-u.y);
+    const listed=(rs,n)=>rs.slice(0,8).map(r=>`${r.a.name} (${r.y} of ${n}${r.p?`, ${r.p} partly`:''})`).join(', ')+(rs.length>8?', and more':'');
+    const update=()=>{
+      fxSync();
+      if(!pick.size) activeP=null;
+      aside.querySelectorAll('button[data-preset]').forEach(b=>{ const on=!!activeP&&activeP.id===b.dataset.preset; b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
+      if(!pick.size){ fxn.textContent=`${total} designs`; activeLenses.length=0; applyLens(null,false); return; }
+      const n=pick.size, nets={}; let intro, close=null;
+      if(activeP){
+        // a preset filters only by its must-haves (`require`, while still picked); every design that meets them stays
+        // highlighted (solid if it has every choice, dashed otherwise) and the panel ranks them, so removing a choice
+        // re-ranks the designs but never hides one
+        const P=activeP, req=(P.require||[]).filter(f=>pick.has(f)), rs=ranked(DES.filter(a=>req.every(f=>meets(a,f))));
+        rs.forEach(r=>nets[r.a.t]=r.y===n?'in':'part');
+        const full=rs.filter(r=>r.y===n);
+        close=Object.fromEntries([...DES.map(a=>[a.t,'Does not meet the must-haves']),...rs.map(r=>[r.a.t,`Meets ${r.y} of your ${n} choices${r.p?`, ${r.p} more partly`:''}`])]);
+        fxn.textContent=full.length?`${full.length} of ${total} have all ${n}`:`No design has all ${n}; ${rs.length} ranked`;
+        const mh=req.length?` that meet the must-haves (${req.map(f=>esc(FX.list.find(x=>x.id===f).label.toLowerCase())).join(', ')})`:'';
+        intro=`<b>${esc(P.label)}${samePicks(P)?'':', edited'}.</b> ${esc(P.text)} ${full.length?`${full.length} design${full.length>1?'s have':' has'} everything you picked.`:'No design has everything you picked.'} The ${rs.length} designs${mh}, ranked by the choices each meets (a partial counts half): ${listed(rs,n)}. Click one to see which choices it meets and misses.`;
+      } else {
+        // your own picks: a design must hold every picked facet (a partial makes it dashed); a facet with nothing
+        // picked never filters. If nothing holds them all, the closest designs are dashed and ranked in the panel.
+        DES.forEach(a=>{ let st='in';
+          for(const f of pick.keys()){ const r=meets(a,f); if(r==='in') continue; if(r==='part'){ st='part'; continue; } st=null; break; }
+          if(st) nets[a.t]=st; });
+        const m=DES.filter(a=>nets[a.t]);
+        if(m.length){ fxn.textContent=`${m.length} of ${total} designs match`;
+          intro=`${m.length} of ${total} designs match: ${m.map(a=>a.name+(nets[a.t]==='part'?' (partly)':'')).join(', ')}. Click a design to read its facts.`; }
+        else {
+          const rs=ranked(DES), best=rs.length?rs[0].s:0, near=rs.filter(r=>r.s>0&&r.s>=best-2).slice(0,6);
+          near.forEach(r=>nets[r.a.t]='part');
+          close=Object.fromEntries(rs.map(r=>[r.a.t,`Meets ${r.y} of your ${n} choices${r.p?`, ${r.p} more partly`:''}`]));
+          fxn.textContent=`No design has all ${n}; closest dashed`;
+          intro=`No design has everything you picked. Closest, counting each choice once: ${listed(near,n)}. Click one to see which choices it meets and misses.`; }
+      }
+      const L={id:'focus',nets,n:{},color:'#14130f',name:'Your focus',short:'Your focus',intro,close};
+      sels.forEach(sel=>{ sel.value=''; sel.classList.remove('on'); }); clr.hidden=true;
+      activeLenses.length=0; activeLenses.push(L); applyLens(L,true);
+    };
+    aside.addEventListener('click',()=>aside.querySelectorAll('.pulse').forEach(x=>x.classList.remove('pulse')),{capture:true}); // first use stops the pulse
+    aside.addEventListener('click',e=>{ const pb=e.target.closest('button[data-preset]');
+      if(pb){ const pr=FX.presets.find(x=>x.id===pb.dataset.preset), off=activeP&&activeP.id===pr.id; pick.clear(); activeP=null;
+        if(!off){ activeP=pr; Object.entries(pr.picks).forEach(([f,vs])=>pick.set(f,new Set([].concat(vs).map(String)))); }
+        aside.querySelectorAll('.fx-g').forEach(d=>{ if([...d.querySelectorAll('button[data-f]')].some(b=>pick.has(b.dataset.f))) d.open=true; });
+        update(); return; }
+      const b=e.target.closest('button[data-f]'); if(!b) return;
+      const s=pick.get(b.dataset.f)||new Set(); s.has(b.dataset.v)?s.delete(b.dataset.v):s.add(b.dataset.v);
+      if(s.size) pick.set(b.dataset.f,s); else pick.delete(b.dataset.f); update(); });
+    fxc.addEventListener('click',()=>{ pick.clear(); update(); });
+    update();
+  }
   clr.addEventListener('click',()=>setLens('')); clr.hidden=true;
 
   // legend swatches drawn with the same strokes as the map
@@ -546,7 +716,7 @@
           s.setAttribute('stroke',st?activeLenses[0].color:(asPill?'#f8f6f2':base.stroke)); s.setAttribute('stroke-width',st==='in'?3:(asPill?1.5:2));
           s.setAttribute('stroke-dasharray',st==='part'?'4 3':'none'); return;
         }
-        s.classList.remove('dim'); texts.forEach(t=>t.classList.remove('dim')); s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',2); s.setAttribute('stroke-dasharray','none'); s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); return; }
+        s.classList.remove('dim'); texts.forEach(t=>t.classList.remove('dim')); s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',base.sw); s.setAttribute('stroke-dasharray','none'); s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); return; }
       if(n.pill && !n.open){ s.setAttribute('stroke','#f8f6f2'); s.setAttribute('stroke-width',1.5); s.setAttribute('stroke-dasharray','none'); return; }
       if(n.lens_only){
         const L=activeLenses.find(L=>L.reveal.has(n.id)); s.classList.toggle('hide',!L); texts.forEach(t=>t.classList.toggle('hide',!L));
@@ -559,7 +729,7 @@
       const isBox = n.id===OUTER || (CONTAINERS.has(n.id) && !(inL && inL[0].g[n.id]));
       if(inL && !isBox){ const G=inL[0].g[n.id]; s.setAttribute('stroke',G?G.color:inL[0].color); s.setAttribute('stroke-width',5.5); s.setAttribute('stroke-dasharray','none'); }
       else if(partL && n.id!==OUTER){ s.setAttribute('stroke',partL[0].color); s.setAttribute('stroke-width',3.5); s.setAttribute('stroke-dasharray','16 8'); }
-      else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',2); s.setAttribute('stroke-dasharray','none'); }
+      else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',base.sw); s.setAttribute('stroke-dasharray','none'); }
       // prohibition-style lenses also tint each circle in its group color
       const T=activeLenses.find(L=>L.tint && L.g[n.id]);
       if(T && !n.clip){ s.setAttribute('fill',T.g[n.id].color); s.setAttribute('fill-opacity',CONTAINERS.has(n.id)?.14:.32); }
@@ -568,12 +738,12 @@
     // token badges stay put: they dim with the circle they count in, and take a group's color when a group lists them
     ASSETS.forEach(a=>{
       if(netScope){ const st=activeLenses.map(L=>L.nets[a.t]).find(Boolean);
-        a.g.classList.toggle('dim',!st); a.ring.setAttribute('stroke',st?activeLenses[0].color:'#f8f6f2'); a.ring.setAttribute('stroke-width',st==='in'?3:1.5);
+        a.g.classList.toggle('dim',!st); a.ring.setAttribute('stroke',st?activeLenses[0].color:(a.bs||'#f8f6f2')); a.ring.setAttribute('stroke-width',st==='in'?3:1.5);
         a.ring.setAttribute('stroke-dasharray',st==='part'?'4 3':'none'); return; }
       a.ring.setAttribute('stroke-dasharray','none');
       const G=activeLenses.map(L=>tokGroup(a,L)).find(Boolean), J=activeLenses.map(L=>joined(a,L)).find(Boolean);
       a.g.classList.toggle('dim',!G && byId[J||a.p].s.classList.contains('dim'));
-      a.ring.setAttribute('stroke',G?G.color:'#f8f6f2'); a.ring.setAttribute('stroke-width',G?3:1.5);
+      a.ring.setAttribute('stroke',G?G.color:(a.bs||'#f8f6f2')); a.ring.setAttribute('stroke-width',G?3:1.5);
     });
     // perimeters (nested: later lenses drawn a little wider so lines never coincide)
     gPer.innerHTML='';
@@ -589,7 +759,7 @@
     });
     // panel
     if(pinned){ pinned.show(); addPinBar(); }
-    else if(changed && added){ panel.innerHTML=`<h2 style="color:${changed.color}">${changed.name}</h2><p>${changed.intro}</p>`; }
+    else if(changed && added){ panel.innerHTML=`<h2 style="color:${changed.color}">${changed.name}</h2><p>${changed.intro}</p>`; }  // intro may hold markup (focus)
     else if(!on){ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; }
     else { const L=activeLenses[activeLenses.length-1]; panel.innerHTML=`<h2 style="color:${L.color}">${L.name}</h2><p>${L.intro}</p>`; }
   }
