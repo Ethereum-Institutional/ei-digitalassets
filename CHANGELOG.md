@@ -7,6 +7,45 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Decentralization: four named ledgers to compare.** The "Compare a design" menu now reads Ethereum mainnet, then
+  Bitcoin, Canton, Solana and Stellar in alphabetical order, then the two generic architectures. Each new lens
+  (`data/decentralization/lenses/{bitcoin,canton,solana,stellar}.yaml`) carries a level, a hard-number reading and a
+  dated, sourced note for all eleven properties, measured the same way as Ethereum mainnet (HHI on consensus weight,
+  cost to the safety threshold and whether it is slashable, client share, years since genesis with every halt
+  disclosed), checked 26 October 2026. Solana is read under Alpenglow (live on mainnet-beta since 21 October 2026),
+  Canton as the Global Synchronizer's 13 Super Validator nodes, Stellar as its ten Tier 1 organizations, Bitcoin by
+  mining-pool share. Lens help, footnote, README and CLAUDE.md updated.
+- **Decentralization: two cell definitions refined (owner, 26 October 2026).** Cost of control: level 4 now also
+  covers more than USD 10 billion of chain-specific proof-of-work hardware, which the attacker loses by the market
+  rather than by the protocol (Budish); stake that is neither slashed nor chain-specific stays capped at 3. Neutral
+  issuance: the founding share counts holdings an identifiable party can sell or vote; unattributed coins dormant for
+  more than ten years are disclosed, not counted. Bitcoin moves from 4.00 to 4.14 at the default weights (cost 3 to 4,
+  issuance 4 to 5); no other lens changes.
+- **Decentralization: the stop dial no longer trusts the HHI alone (owner, 26 October 2026).** The index is
+  count-insensitive, so a closed club of equal members scored as unconcentrated. Now the HHI bands apply only to an
+  open consensus set; a set that admits its own members reads at most level 3; three or four parties able to halt
+  settlement reads level 2 whatever the HHI; a party is whoever can switch validators off or sign for them (a
+  staking pool counts by its node operators). Canton (three parties can halt) and Stellar (four of ten) move from
+  4 to 2 on that dial; Ethereum mainnet, Bitcoin and Solana are open sets and do not move.
+- **Decentralization: a vote that has never gone against the implementer is a ratification (owner, 26 October
+  2026).** The rules dial's "a closed body votes" cell now requires the body to have amended, delayed or rejected
+  something the implementer proposed, or more than one party writing proposals and code; otherwise "a vendor
+  decides, operators follow". Canton (Digital Asset writes the code and the constitutional CIPs; never overruled in
+  about 130 proposals) and Stellar (SDF writes stellar-core and the CAPs; never overruled in 29 protocols) move from
+  3 to 2 on that dial.
+- **Decentralization: the developer dial is absolute, not a race (owner, 26 October 2026).** "The largest open
+  base" is replaced by thousands of monthly active developers with several independent production implementations
+  and no single funder paying most core maintainers; level 3 is hundreds to about a thousand developers, or one
+  organization writing most of the core, or one code base gated by a handful of maintainers. Bitcoin reads 4 on that dial
+  (thousands active on the broad measure, one production implementation, five maintainers); Ethereum mainnet keeps
+  5 on the absolute test with eleven client teams.
+- **Networks: Ethereum blue.** `eth: true` pills are Ethereum blue `#627eea` instead of ink, the ETH mark disc is
+  Ethereum gray `#3c3c3d`, and the legend shows the mark on a blue pill (`pill:` on the legend's `mark` item). The
+  middle permissionless band is labeled "Dynamically Available", the paper's term, instead of "Dynamically
+  Permissionless" (paths updated). The Solana badge now describes Alpenglow: finality at 80% of stake in one round or
+  60% in two, a halt when more than 40% is offline (or 20% beside 20% adversarial), replacing the two-thirds rule of
+  Tower BFT; the quasi-permissionless band note says the same.
+
 - **Quantum: overview and four sub-pages.** The stub becomes a short overview (the risk reaches everything on the
   internet; Ethereum is among the first large systems with a dated plan) with cards to four sub-pages: the two
   algorithms, where it bites a ledger, the Ethereum roadmap, and where your digital asset team fits (inventory,

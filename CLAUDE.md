@@ -102,7 +102,7 @@ and decisions behind them.
   permissionless** (center: the protocol knows nothing about who runs it; proof of work), **dynamically available**
   (known staked identifiers, some honest staker online; longest-chain PoS, Ethereum mainnet's fork choice),
   **quasi-permissionless** (the model assumes every honest staker online; in practice a two-thirds quorum must keep
-  voting; BFT-style PoS and elected sets). Band labels on the map read "Quasi / Dynamically / Fully Permissionless". The three
+  voting; BFT-style PoS and elected sets). Band labels on the map read "Quasi Permissionless / Dynamically Available / Fully Permissionless", the paper's own terms. The three
   challenges (unknown players, player inactivity, sybils) are explained in the Permissionless definition, never
   drawn as circles.
 - **House rule:** a network is permissioned whenever joining consensus requires review by existing participants.
@@ -121,8 +121,10 @@ and decisions behind them.
   consortium. Daml and Canton are Apache 2.0, so what is closed is its data and membership, not its code.
   Corda shares the ellipse on the consortium side (same model). Cosmos and Polkadot do not belong there: each member
   chain is a complete shared ledger. Hedera is the contrast: council-run consensus but one shared verifiable state.
-- **Badges** are networks, named (not tickers, because "ETH" is overloaded). `eth: true` = ink pill (runs an
-  Ethereum client, the EVM, or settles on Ethereum mainnet); otherwise gray. The set is the ten largest native
+- **Badges** are networks, named (not tickers, because "ETH" is overloaded). `eth: true` = Ethereum blue pill
+  `#627eea` (runs an Ethereum client, the EVM, or settles on Ethereum mainnet); otherwise gray `#6b6760`. The ETH
+  mark disc is Ethereum gray `#3c3c3d`. These two brand colors are used only on this map (`ETH_BLUE`, `ETH_GRAY` in
+  `src/template.html`; the legend's `mark` item takes `pill:` for its pill color). The set is the ten largest native
   cryptocurrencies by market cap (stablecoins and non-native tokens excluded; checked 25 October 2026) plus
   illustrative networks per region. Rollups that settle on Ethereum mainnet, and Ethereum mainnet itself, carry
   `mark: ETH` (a small disc). **Expandable circles** (`expand: collapsed | expanded` in circles.yaml, `collapsed:`
@@ -179,28 +181,52 @@ and decisions behind them.
   beneath. Each cell says what that level means; thresholds cite their standard (the 2023 US Merger Guidelines' HHI
   lines for share-based properties, ethereum.org's one-third and two-thirds client lines, Budish for cost of attack,
   securities-law disclosure thresholds for the founding share). The purpose is to show what a global shared ledger
-  gives an institution that no single-party ledger can, and where Ethereum mainnet lands; it never names a competitor.
+  gives an institution that no single-party ledger can, and where Ethereum mainnet lands beside four other public
+  ledgers measured the same way (Bitcoin, Canton, Solana, Stellar; owner decision, 26 October 2026). The prose of the
+  page never argues against a named ledger: each named lens states its readings, its dates and its sources, and says
+  inside each note what that ledger does well on the property.
 - **Gauge colours** are the one semantic scale on the site: 1 red `#991b1b`, 2 orange `#ea580c`, 3 yellow `#d9a406`,
   4 yellow-green `#65a30d`, 5 green `#166534` (`scale:` in `site.yaml` may override). The numeral on every segment and
   in the dial's centre carries the value, because the yellow and yellow-green steps are close for red-green
   colour-blind readers; never use these hues elsewhere.
 - **Lenses** (`lenses/*.yaml`, `cells` maps each property to a level, `notes` carries the reading, date and source):
   *Ethereum mainnet* first and default (`default_lens`), with measured readings and a short hard-number `readings`
-  line under each dial, then two generic architectures, *A typical consortium ledger* (levels 2 and 3) and *A
-  private chain, one operator* (level 1 everywhere). A lens sets every needle; the panel shows the property, its
-  five levels and the lens note for the current level. Keep the architectures generic;
-  product names belong on the networks map.
+  line under each dial, then the named public ledgers in alphabetical order (`order` 2 to 5: *Bitcoin*, *Canton*,
+  *Solana*, *Stellar*), each with its own readings, notes and dated sources, then two generic architectures, *A
+  typical consortium ledger* (levels 2 and 3) and *A private chain, one operator* (level 1 everywhere). A lens sets
+  every needle; the panel shows the property, its five levels and the lens note for the current level. Keep the
+  architectures generic; other product names belong on the networks map. Canton is read as the Global Synchronizer
+  and Canton Coin run by its Super Validator nodes (one vote per ordering node, 13 nodes on 26 October 2026); Solana
+  is read under Alpenglow (live since 21 October 2026: 80% of stake finalizes in one round, 60% in two, more than
+  40% offline halts it); Stellar's consensus weight is Tier 1 membership (ten equal organizations, threshold 7);
+  Bitcoin's is pool hashrate share.
 - **Measurement choices (house):** share-based properties are scored on the HHI (counts the whole distribution; a
-  long tail of small operators counts) with the Nakamoto coefficient shown beside it, not scored, because it is
-  tail-insensitive (Ovezik et al. 2025); the cost-of-control reading is the value of stake to the safety threshold
+  long tail of small operators counts) with the Nakamoto coefficient shown beside it, because it is tail-insensitive
+  (Ovezik et al. 2025); but the HHI is count-insensitive, so on the stop dial its bands apply only to an open
+  consensus set, a set that admits its own members reads at most level 3, and three or four parties able to halt
+  settlement reads level 2 whatever the HHI (owner, 26 October 2026; Canton and Stellar read 2, the generic
+  consortium 3). A party is whoever can switch the validators off or sign for them, so a staking pool counts by its
+  node operators, not its brand; on the rules dial a closed body that votes reads level 3 only once it has amended,
+  delayed or rejected something the implementer proposed, otherwise the vote is a ratification and the ledger reads
+  level 2, vendor decides (owner, 26 October 2026; Canton and Stellar read 2); the developer dial is absolute, not a race: level 5 is thousands of monthly
+  active developers with several independent production implementations and no single funder paying most core
+  maintainers, level 3 is hundreds to about a thousand or one organization writing most of the core; the count is
+  Electric Capital's broad measure and applications count in it, but only protocol implementations count as
+  implementers (owner, 26 October 2026; Bitcoin reads 4 with one implementation); the cost-of-control reading is the value of stake to the safety threshold
   and whether it is slashable; client share is read from the community's own series (clientdiversity.org, the
   ethereum.org snapshot) with the basis stated; years of operation count from genesis (30 July 2015) and the 2016
-  DAO fork is always disclosed. These readings are a public, simplified cousin of the registered scorecard in the
+  DAO fork is always disclosed. The same rules apply to every named lens: stake that is neither slashed nor specific
+  to the chain caps the cost dial at level 3, while chain-specific proof-of-work hardware over USD 10 billion reads
+  level 4 (the attacker loses it by the market, Budish) and only protocol slashing over USD 10 billion reads 5; a
+  validator-voted freeze list is "freeze by process" (level 2); a ledger with no global state reads "participants see
+  their own records" on the verify dial; on issuance we count holdings an identifiable party can sell or vote, so
+  unattributed coins dormant for more than ten years (Patoshi) are disclosed, not counted, and a founding share of a
+  quarter or more reads level 2. These readings are a public, simplified cousin of the registered scorecard in the
   eiplatform repository; keep the two consistent and do not publish the registered method's text here.
 - **"What an open ledger attracts"** (`stats:` in `site.yaml`): four figures for Ethereum mainnet (holders of
   tokenized dollars, tokenized real-world asset value, tokenized currency in circulation, active developers), each
   dated and sourced; say when a figure includes Layer 2s. **Weighted score** (`score:` in `site.yaml`, `weight` per
-  theme, default weights summing to 100): one number from the ten dials, with sliders so a reader can set their own
+  theme; the default weights sum to 105 since the inclusion dial was added, and the score divides by the sum): one number from the ten dials, with sliders so a reader can set their own
   weights (kept in their browser only). The legitimate concerns about Ethereum mainnet (builder concentration and FOCIL / ePBS; clients above a
   third; node concentration by provider and jurisdiction; unattributed stake and the undisclosed 2014 pool) live
   inside the notes of the dials they belong to (inclusion, resilience, stop, issuance), each with the work addressing

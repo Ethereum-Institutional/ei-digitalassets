@@ -156,14 +156,24 @@ networks:
   x: 1175
   y: 418
   eth: false
-  desc: 'Tower BFT over a proof-of-history clock. Anyone can run a validator without approval (no minimum stake, though voting costs up to about 1.1 SOL a day; around 690 vote accounts), but finality needs two-thirds of the stake to vote: block production continues below that, nothing becomes final, and when more than a third of the stake has been lost the cluster has needed coordinated restarts (most recently February 2024). Validators therefore have to stay online within a one-third budget: quasi-permissionless. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
+  desc: 'Alpenglow (Votor) over a proof-of-history clock since 21 October 2026, replacing Tower BFT. Anyone can run a validator without approval (no minimum stake; an admission ticket of 1.6 SOL an epoch; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
   sources:
-  - title: Solana, Tower BFT (PoH as a clock before consensus)
-    url: https://solana.com/news/tower-bft--solana-s-high-performance-implementation-of-pbft
-    checked: '2026-10-25'
-  - title: Anza, validator requirements (no strict minimum stake; vote costs up to 1.1 SOL a day)
+  - title: 'Solana Foundation, Alpenglow upgrade (live at epoch 1064, 21 October 2026; 80% one round, 60% two rounds; 20% adversarial plus 20% offline)'
+    url: https://solana.com/upgrades/alpenglow
+    checked: '2026-10-26'
+  - title: 'SIMD-0326, Alpenglow consensus protocol (certificate thresholds)'
+    url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md
+    checked: '2026-10-26'
+  - title: 'SIMD-0357, Alpenglow Validator Admission Ticket (1.6 SOL an epoch)'
+    url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0357-alpenglow_validator_admission_ticket.md
+    checked: '2026-10-26'
+  - title: 'Anza, validator requirements (no strict minimum stake)'
     url: https://docs.anza.xyz/operations/requirements
-    checked: '2026-10-25'
+    checked: '2026-10-26'
+  - title: 'Helius, A complete history of Solana outages (restarts to February 2024)'
+    url: https://www.helius.dev/blog/solana-outages-complete-history
+    checked: '2026-10-26'
+
 - id: stellar
   name: Stellar
   circle: pub
