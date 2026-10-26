@@ -166,11 +166,11 @@ circles:
   - known staked identifiers,
   - two-thirds must stay online
   path: Digital Asset Networks › Public › Permissionless consensus
-  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. In practice that means a two-thirds quorum of stake must keep voting: validators can go offline only within the one-third fault budget, and once more than a third of the stake is silent the chain stops finalizing (Solana, for example, has needed coordinated restarts after such halts). This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
+  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. In practice that means a two-thirds quorum of stake must keep voting: validators can go offline only within the one-third fault budget, and once more than a third of the stake is silent the chain stops finalizing (Solana, for example, needed coordinated restarts after such halts under Tower BFT; since October 2026 its Alpenglow protocol tolerates 40% of stake offline, with 60% needed to finalize). This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
 - id: dyn
   label:
   - Dynamically
-  - Permissionless
+  - Available
   family: dyn
   lines:
   - known staked identifiers,
@@ -274,7 +274,7 @@ circles:
   mark: ETH
   expand: collapsed
   sub: live institutional deployments
-  path: Digital Asset Networks › Public › Permissionless consensus › Dynamically Permissionless
+  path: Digital Asset Networks › Public › Permissionless consensus › Dynamically available
   desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so blocks keep coming at any level of participation, and absent validators lose stake slowly through the inactivity leak, in proportion to what they would have earned. Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online, and a validator that signs two conflicting messages (for example the same key run in two places) is slashed heavily and ejected, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
   sources:
   - title: ethereum.org, Proof-of-stake (32 ETH deposit, slashing and ejection)

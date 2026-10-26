@@ -1,6 +1,6 @@
 # Lens: a ledger with one operator (an architecture, not any product). Lands at level 1 on every property.
 id: single
-order: 3
+order: 7
 name: A private chain, one operator
 menu: Private chain
 short: a private chain

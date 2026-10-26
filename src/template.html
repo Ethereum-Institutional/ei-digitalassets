@@ -155,6 +155,8 @@
 (function(){
   // Palette per family
   const DATA = __DATA__;
+  // Ethereum brand colours, used only on the networks map: `eth: true` pills are Ethereum blue, the ETH mark disc Ethereum gray
+  const ETH_BLUE='#627eea', ETH_GRAY='#3c3c3d';
   // "More" after the intro reveals the longer framing (site.yaml intro_more)
   const moreBtn=document.querySelector('.ei-more'), moreTxt=document.getElementById('ei-intro-more');
   if(moreBtn&&moreTxt) moreBtn.addEventListener('click',()=>{ const open=moreTxt.hidden; moreTxt.hidden=!open; moreBtn.textContent=open?moreBtn.dataset.less:moreBtn.dataset.more; moreBtn.setAttribute('aria-expanded',String(open)); });
@@ -242,7 +244,7 @@
     const x=byId[n.id], g=open?n:n.collapsed; n.open=open;
     const asPill=n.pill&&!open;
     x.s.setAttribute('cx',mx(g.cx)); x.s.setAttribute('cy',g.cy); x.s.setAttribute('rx',asPill?g.rx:g.rx*XM.k); x.s.setAttribute('ry',g.ry);
-    x.s.setAttribute('fill',asPill?(n.eth?'#14130f':'#6b6760'):x.base.fill); x.s.setAttribute('fill-opacity',asPill?1:(open?.97:x.base.fop));
+    x.s.setAttribute('fill',asPill?(n.eth?ETH_BLUE:'#6b6760'):x.base.fill); x.s.setAttribute('fill-opacity',asPill?1:(open?.97:x.base.fop));
     if(!activeLenses.length){ x.s.setAttribute('stroke',asPill?'#f8f6f2':x.base.stroke); x.s.setAttribute('stroke-width',asPill?1.5:2); }
     const fs=open?n.fs:(g.fs||10), lh=fs*1.15, ink=asPill?'#f2efe9':'#14130f';
     const lx=mx(g.cx)+((open?n.lx:g.lx)-g.cx); // label keeps its unscaled offset from the shape's center
@@ -290,7 +292,7 @@
     if(n.expand){ // the + / − hint sits just after the label; `mark` (e.g. ETH) is a small disc after the hint
       const h=el('text',{'text-anchor':'middle','font-size':12,'font-weight':600,fill:'#615f5a'}); gText.appendChild(h); curTexts.push(h); byId[n.id].hint=h;
       s.classList.add('exp');
-      if(n.mark){ const mg=el('g',{'pointer-events':'none'}), c=el('circle',{r:8.5,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5}),
+      if(n.mark){ const mg=el('g',{'pointer-events':'none'}), c=el('circle',{r:8.5,fill:ETH_GRAY,stroke:'#f8f6f2','stroke-width':1.5}),
           t=el('text',{'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=n.mark;
         mg.append(c,t); gText.appendChild(mg); curTexts.push(mg); byId[n.id].mark={c,t}; }
     }
@@ -348,13 +350,13 @@
     if(PILL){
       // `small` pills list a network's participants inside its circle
       const w=a.small ? Math.round(a.name.length*5)+12 : Math.round(a.name.length*5.6)+16, h=a.small?16:19;
-      a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.eth?'#14130f':'#6b6760',stroke:'#f8f6f2','stroke-width':1.5});
+      a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.eth?ETH_BLUE:'#6b6760',stroke:'#f8f6f2','stroke-width':1.5});
       g.appendChild(a.ring);
       const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4),'text-anchor':'middle','font-size':a.small?8.5:9.5,'font-weight':600,fill:'#f2efe9'}); t.textContent=a.name;
       g.appendChild(t);
       // `mark`: a small disc on the pill's right end (e.g. ETH on rollups that settle on Ethereum mainnet)
       if(a.mark){ const mx=a.x+w/2+2, my=a.y-7;
-        g.appendChild(el('circle',{cx:mx,cy:my,r:8.5,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5}));
+        g.appendChild(el('circle',{cx:mx,cy:my,r:8.5,fill:ETH_GRAY,stroke:'#f8f6f2','stroke-width':1.5}));
         const m=el('text',{x:mx,y:my+2.2,'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); m.textContent=a.mark; g.appendChild(m); }
     } else {
       a.ring=el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5});

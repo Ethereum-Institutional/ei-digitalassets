@@ -441,7 +441,7 @@ const swatch = l => l.kind === 'pill'
     : l.kind === 'expand'
     ? `<svg width="40" height="18" aria-hidden="true"><ellipse cx="17" cy="9" rx="15" ry="7" fill="#e3e7ea" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><text x="36" y="13" text-anchor="middle" font-size="12" font-weight="600" fill="#615f5a">+</text></svg>`
     : l.kind === 'mark'
-    ? `<svg width="40" height="18" aria-hidden="true"><rect x="1" y="4" width="28" height="12" rx="6" fill="#6b6760"/><circle cx="30" cy="8" r="7.5" fill="${esc(l.color || '#14130f')}" stroke="#f8f6f2" stroke-width="1.5"/><text x="30" y="10" text-anchor="middle" font-size="5" font-weight="700" fill="#f2efe9">ETH</text></svg>`
+    ? `<svg width="40" height="18" aria-hidden="true"><rect x="1" y="4" width="28" height="12" rx="6" fill="${esc(l.pill || '#6b6760')}"/><circle cx="30" cy="8" r="7.5" fill="${esc(l.color || '#14130f')}" stroke="#f8f6f2" stroke-width="1.5"/><text x="30" y="10" text-anchor="middle" font-size="5" font-weight="700" fill="#f2efe9">ETH</text></svg>`
     : `<svg width="22" height="18" aria-hidden="true"><ellipse cx="11" cy="9" rx="10" ry="8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><ellipse cx="11" cy="9" rx="6" ry="4.8" fill="none" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><circle cx="11" cy="9" r="2" fill="${esc(l.color || '#14130f')}"/></svg>`;
 const legendHtml = site => (site.legend || []).length ? `<div class="ei-legend">${site.legend.map(l => `<span>${swatch(l)} ${esc(l.text)}</span>`).join('')}</div>` : '';
 // placeholders common to every page that carries a diagram (map and radial templates)

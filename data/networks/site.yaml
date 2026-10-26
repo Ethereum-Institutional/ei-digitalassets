@@ -18,13 +18,14 @@ panel_default:
 badge: pill
 legend:
 - kind: pill
-  color: '#14130f'
+  color: '#627eea'
   text: 'Ethereum ecosystem: runs an Ethereum client, the EVM, or settles on Ethereum mainnet'
 - kind: pill
   color: '#6b6760'
   text: Other technology
 - kind: mark
-  color: '#14130f'
+  color: '#3c3c3d'
+  pill: '#627eea'
   text: 'ETH mark: secured by ETH, on Ethereum mainnet itself or on a rollup that settles there'
 - kind: expand
   color: '#14130f'

@@ -1,6 +1,6 @@
 # Lens: a consortium ledger (an architecture, not any product). Several members run it and admit new members by vote.
 id: consortium
-order: 2
+order: 6
 name: A typical consortium ledger
 menu: Typical consortium
 short: a typical consortium
