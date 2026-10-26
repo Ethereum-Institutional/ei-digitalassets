@@ -7,6 +7,16 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Decentralization: three dials re-yardsticked again (owner, 26 October 2026).** Developer base: level 5 is
+  thousands of developers with no single employer or funder paying most core maintainers; the number of
+  implementations is scored only on the resilience dial, so it is no longer counted twice. Open entry: level 5 is
+  no approval and no mandatory requirement beyond a modest fixed one, so proof of work at any scale qualifies.
+  Property rights: level 5 is no freeze function and no balance changed outside the rules in the last ten years,
+  with older interventions disclosed for ever. Bitcoin moves to 5 on all three (4.14 to 4.38); Ethereum mainnet
+  moves to 5 on property rights (the DAO fork passed ten years in July 2026; EIP-999 was declined in 2018), 4.57
+  to 4.67. The rules dial is unchanged: Bitcoin and Ethereum mainnet both read 4, because miners or the maintainers
+  of the dominant client can still block a change. Solana, Stellar, Canton and the generic designs do not move.
+
 - **Decentralization: four named ledgers to compare.** The "Compare a design" menu now reads Ethereum mainnet, then
   Bitcoin, Canton, Solana and Stellar in alphabetical order, then the two generic architectures. Each new lens
   (`data/decentralization/lenses/{bitcoin,canton,solana,stellar}.yaml`) carries a level, a hard-number reading and a

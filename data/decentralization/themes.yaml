@@ -21,13 +21,13 @@ themes:
   weight: 10
   hub: Developers
   label: Developer base
-  desc: 'Who maintains and improves the ledger, and whether they all depend on one employer. If one vendor’s team maintains it, the ledger improves at the vendor’s pace and stops when the vendor does; if thousands of developers and several independent core teams maintain it, it keeps improving without anyone’s permission, including yours. The test is absolute, not a race: if the biggest employer of core developers walked away, would the protocol keep improving? We measure developers active in the ecosystem on Electric Capital’s counts (the broad yearly measure, with monthly active beside it; wallets, applications and tooling count here, because they are what the base builds) and how many independent organizations maintain the protocol itself, with their own production implementations or under one.'
+  desc: 'Who maintains and improves the ledger, and whether they all depend on one employer. If one vendor’s team maintains it, the ledger improves at the vendor’s pace and stops when the vendor does; if thousands of developers and several independent core teams maintain it, it keeps improving without anyone’s permission, including yours. The test is absolute, not a race: if the biggest employer of core developers walked away, would the protocol keep improving? We measure developers active in the ecosystem on Electric Capital’s counts (the broad yearly measure, with monthly active beside it; wallets, applications and tooling count here, because they are what the base builds) and how many independent organizations employ or fund the people who maintain the protocol itself.'
   cells:
     l0: { name: One vendor’s team, desc: 'Protocol and tooling are maintained by one company. Roadmap, pace and continuity are the vendor’s decisions.' }
     l1: { name: A few firms, desc: 'A handful of companies maintain the software, usually under one licence and one steward.' }
-    l2: { name: Hundreds to a thousand, sub: or one organization leads, desc: 'An open-source community of hundreds to about a thousand monthly active developers; or a larger one in which one foundation or company writes most of the core, or one code base is gated by a handful of maintainers.' }
-    l3: { name: Thousands, sub: several organizations, desc: 'Thousands of monthly active developers and core-protocol work spread across several independent organizations, none writing a majority, but one implementation or one funder still carries most of the core.' }
-    l4: { name: Thousands, sub: many independent implementers, desc: 'Thousands of monthly active developers, and a core maintained by several independent organizations each with its own production implementation, with no single funder paying most core maintainers. Measured by Electric Capital’s developer report, the count of production client teams and the share of core work from the largest organization.' }
+    l2: { name: Hundreds to a thousand, sub: or one organization leads, desc: 'An open-source community of hundreds to about a thousand monthly active developers; or a larger one in which one foundation or company writes most of the core.' }
+    l3: { name: Thousands, sub: several organizations, desc: 'Thousands of active developers and core work spread across several independent organizations, but one of them still writes or funds close to half of it.' }
+    l4: { name: Thousands, sub: core funded independently, desc: 'Thousands of active developers, and a core maintained by people at several independent organizations, with no single employer or funder paying most core maintainers, so the protocol keeps improving if any one of them walks away. The number of production implementations is scored on the resilience dial, not here, so it is not counted twice. Measured by Electric Capital’s developer report and the employers and funders of core maintainers.' }
 - id: stop
   weight: 15
   hub: Who can stop it
@@ -65,13 +65,13 @@ themes:
   weight: 10
   hub: Freeze power
   label: Property rights at the base layer
-  desc: 'Whether the ledger itself can freeze, move or seize your balance. On a neutral base layer it cannot: the controls the law requires live with the issuer of each asset, in the token contract, where your regulator can see them and where they stop at that asset. We measure whether a protocol-level freeze or seizure function exists and whether balances have ever been changed outside the rules.'
+  desc: 'Whether the ledger itself can freeze, move or seize your balance. On a neutral base layer it cannot: the controls the law requires live with the issuer of each asset, in the token contract, where your regulator can see them and where they stop at that asset. We measure whether a protocol-level freeze or seizure function exists and whether balances have been changed outside the rules in the last ten years. A decade without an intervention, including a decade of declining to make one, is better evidence of what the ledger will do today than a permanent mark; any older intervention is disclosed beside the dial.'
   cells:
     l0: { name: Operator can freeze, sub: or move any balance, desc: 'The ledger operator can freeze, move or delete any balance on its own authority.' }
     l1: { name: Freeze by process, desc: 'A protocol-level freeze or seizure exists and needs a multi-party or governance process to use.' }
     l2: { name: No freeze function, sub: intervention within 10 years, desc: 'No protocol-level freeze, but balances or history were changed by social or operator decision within the last ten years.' }
-    l3: { name: No freeze function, sub: intervention over 10 years ago, desc: 'No protocol-level freeze or seizure; one disclosed intervention more than ten years ago. The precedent is recorded for ever; issuer-level controls remain in token contracts.' }
-    l4: { name: No freeze function, sub: never intervened, desc: 'No protocol-level freeze or seizure, no balance or history ever changed outside the rules, ten or more years of production. Asset-level controls (an issuer’s freeze on its own token) are an application property and are listed beside this, not scored here.' }
+    l3: { name: No freeze function, sub: clean record under 10 years, desc: 'No protocol-level freeze or seizure and no balance changed outside the rules, but under ten years of production to show it. Issuer-level controls remain in token contracts.' }
+    l4: { name: No freeze function, sub: none in 10+ years, desc: 'No protocol-level freeze or seizure, ten or more years of production, and no balance or history changed outside the rules in the last ten years; any older intervention is disclosed in the reading, for ever. Asset-level controls (an issuer’s freeze on its own token) are an application property and are listed beside this, not scored here.' }
 - id: verify
   weight: 10
   hub: Verifiability
@@ -92,8 +92,8 @@ themes:
     l0: { name: Operator admits, sub: users and nodes, desc: 'The operator decides who may use the ledger and who may run it.' }
     l1: { name: Members admit members, desc: 'A group admits new members and operators by its own vote; users are the members’ customers.' }
     l2: { name: Anyone can transact, sub: validators admitted, desc: 'Anyone may hold and send assets, but joining consensus needs review by existing participants.' }
-    l3: { name: Anyone can validate, sub: high bar, desc: 'Anyone may transact and validate without approval, but the stake or hardware required puts validation beyond most participants.' }
-    l4: { name: Anyone can transact, sub: 'and validate, modest fixed bar', desc: 'Anyone may transact and anyone may validate without approval, at a fixed and modest requirement, and may leave at any time with their assets. Exit is a withdrawal, not a negotiation.' }
+    l3: { name: Anyone can validate, sub: high mandatory bar, desc: 'Anyone may transact and validate without approval, but a mandatory stake, fee or hardware requirement to take part in consensus at all puts validation beyond most participants.' }
+    l4: { name: Anyone can transact, sub: 'and validate, modest or no bar', desc: 'Anyone may transact and anyone may take part in consensus without approval, with no mandatory requirement beyond a fixed and modest one (a stake deposit, or proof of work at any scale paid pro rata through a pool), and may leave at any time with their assets. Exit is a withdrawal, not a negotiation.' }
 - id: resilience
   weight: 10
   hub: Single points of failure

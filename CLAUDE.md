@@ -208,14 +208,17 @@ and decisions behind them.
   consortium 3). A party is whoever can switch the validators off or sign for them, so a staking pool counts by its
   node operators, not its brand; on the rules dial a closed body that votes reads level 3 only once it has amended,
   delayed or rejected something the implementer proposed, otherwise the vote is a ratification and the ledger reads
-  level 2, vendor decides (owner, 26 October 2026; Canton and Stellar read 2); the developer dial is absolute, not a race: level 5 is thousands of monthly
-  active developers with several independent production implementations and no single funder paying most core
-  maintainers, level 3 is hundreds to about a thousand or one organization writing most of the core; the count is
-  Electric Capital's broad measure and applications count in it, but only protocol implementations count as
-  implementers (owner, 26 October 2026; Bitcoin reads 4 with one implementation); the cost-of-control reading is the value of stake to the safety threshold
+  level 2, vendor decides (owner, 26 October 2026; Canton and Stellar read 2); the developer dial is absolute, not a race: level 5 is thousands of active
+  developers with no single employer or funder paying most core maintainers, level 3 is hundreds to about a thousand
+  or one organization writing most of the core; the count is Electric Capital's broad measure with applications
+  included, and the number of implementations is scored only on the resilience dial, never twice (owner, 26 October
+  2026); open entry reads 5 when taking part in consensus needs no approval and no mandatory requirement beyond a
+  modest fixed one, so proof of work at any scale through a pool qualifies; property rights read 5 with no freeze
+  function and no balance changed outside the rules in the last ten years, older interventions disclosed for ever
+  (Bitcoin 2010 and 2013, the 2016 DAO fork); the cost-of-control reading is the value of stake to the safety threshold
   and whether it is slashable; client share is read from the community's own series (clientdiversity.org, the
   ethereum.org snapshot) with the basis stated; years of operation count from genesis (30 July 2015) and the 2016
-  DAO fork is always disclosed. The same rules apply to every named lens: stake that is neither slashed nor specific
+  DAO fork is always disclosed, with the 2018 refusal of EIP-999 beside it. The same rules apply to every named lens: stake that is neither slashed nor specific
   to the chain caps the cost dial at level 3, while chain-specific proof-of-work hardware over USD 10 billion reads
   level 4 (the attacker loses it by the market, Budish) and only protocol slashing over USD 10 billion reads 5; a
   validator-voted freeze list is "freeze by process" (level 2); a ledger with no global state reads "participants see
