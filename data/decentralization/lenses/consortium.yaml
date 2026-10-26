@@ -5,7 +5,7 @@ name: A typical consortium ledger
 menu: Typical consortium
 short: a typical consortium
 color: '#0ea5e9'
-intro: 'A ledger run by a defined group of organizations that admit new members by vote, each running its own node under one software implementation, typically with a shared governance body and a treasury rather than a neutral asset. It removes the single point of failure and spreads control across the members, which is a real gain over one operator, and it lands at levels 2 and 3 on most properties: the group can be compelled as a whole, outsiders cannot verify it, nobody outside can join or build on it without permission, and the software usually has one maintainer. Typical of the consortium networks on the Digital Asset Networks map.'
+intro: 'A ledger run by a defined group of organizations that admit new members by vote, each running its own node under one software implementation, typically with a shared governance body and a treasury rather than a neutral asset. It removes the single operator and spreads control across the members, which is a real gain over one operator, though one implementation stays a single point of technical failure; and it lands at levels 2 and 3 on most properties: the group can be compelled as a whole, outsiders cannot verify it, nobody outside can join or build on it without permission, and the software usually has one maintainer. Typical of the consortium networks on the Digital Asset Networks map.'
 cells:
   history: l2
   developers: l1
@@ -15,7 +15,7 @@ cells:
   property: l1
   verify: l1
   entry: l1
-  resilience: l1
+  resilience: l0
   issuance: l0
   inclusion: l1
 notes:
@@ -27,7 +27,7 @@ notes:
   property: A multi-party process can freeze or reverse a balance, and usually must be able to, by design.
   verify: Each member sees its own records, or the group’s; no outsider can verify the state.
   entry: Members admit members; users are the members’ customers and cannot join the ledger directly.
-  resilience: One client implementation, so every node shares every bug, spread across the members’ clouds.
+  resilience: 'One client implementation, so every node shares every bug: level 1, however the members’ clouds spread the nodes, because the dial takes the weakest of client count, the largest client’s share and node spread.'
   inclusion: Members’ nodes order the blocks and the group decides what may be included; a member can be excluded by vote, and an outsider never gets in.
   issuance: Balances are claims on the members or on a treasury; there is no neutral asset.
 sources: []

@@ -193,13 +193,17 @@ and decisions behind them.
   *Ethereum mainnet* first and default (`default_lens`), with measured readings and a short hard-number `readings`
   line under each dial, then the named public ledgers in alphabetical order (`order` 2 to 5: *Bitcoin*, *Canton*,
   *Solana*, *Stellar*), each with its own readings, notes and dated sources, then two generic architectures, *A
-  typical consortium ledger* (levels 2 and 3) and *A private chain, one operator* (level 1 everywhere). A lens sets
+  typical consortium ledger* (levels 1 to 3) and *A private chain, one operator* (level 1 everywhere). A lens sets
   every needle; the panel shows the property, its five levels and the lens note for the current level. Keep the
   architectures generic; other product names belong on the networks map. Canton is read as the Global Synchronizer
   and Canton Coin run by its Super Validator nodes (one vote per ordering node, 13 nodes on 26 October 2026); Solana
   is read under Alpenglow (live since 21 October 2026: 80% of stake finalizes in one round, 60% in two, more than
   40% offline halts it); Stellar's consensus weight is Tier 1 membership (ten equal organizations, threshold 7);
   Bitcoin's is pool hashrate share.
+- **Re-read every lens when a cell changes.** Whenever a dial's cell definitions in `themes.yaml` change, every
+  lens file is re-read against the new cells in the same change, not only Ethereum mainnet: the named ledgers and the
+  two generic designs alike, with the level, the reading and the note updated and each lens's weighted score
+  recomputed. A lens left on old cells reads against definitions it no longer meets.
 - **Measurement choices (house):** share-based properties are scored on the HHI (counts the whole distribution; a
   long tail of small operators counts) with the Nakamoto coefficient shown beside it, because it is tail-insensitive
   (Ovezik et al. 2025); but the HHI is count-insensitive, so on the stop dial its bands apply only to an open
@@ -216,8 +220,13 @@ and decisions behind them.
   modest fixed one, so proof of work at any scale through a pool qualifies; property rights read 5 with no freeze
   function and no balance changed outside the rules in the last ten years, older interventions disclosed for ever
   (Bitcoin 2010 and 2013, the 2016 DAO fork); the cost-of-control reading is the value of stake to the safety threshold
-  and whether it is slashable; client share is read from the community's own series (clientdiversity.org, the
-  ethereum.org snapshot) with the basis stated; years of operation count from genesis (30 July 2015) and the 2016
+  and whether it is slashable; the resilience dial (no single point of technical failure) takes the weakest of three
+  readings, as the registered scorecard does (eiplatform D52): the number of client implementations in production
+  (one is level 1, five or more is level 5), the largest client's share of nodes on the lines a quarter, a third, a
+  half and two thirds (above two thirds is level 1), and node spread on the HHI by provider, country and legal
+  jurisdiction with the EU as one (the stop dial's lines); where a ledger publishes no node-spread figures the note
+  says so and the level rests on the readings that can be measured; client share is read from the community's own
+  series (clientdiversity.org, the ethereum.org snapshot) with the basis stated; years of operation count from genesis (30 July 2015) and the 2016
   DAO fork is always disclosed, with the 2018 refusal of EIP-999 beside it. The same rules apply to every named lens: stake that is neither slashed nor specific
   to the chain caps the cost dial at level 3, while chain-specific proof-of-work hardware over USD 10 billion reads
   level 4 (the attacker loses it by the market, Budish) and only protocol slashing over USD 10 billion reads 5; a
@@ -230,7 +239,8 @@ and decisions behind them.
   tokenized dollars, tokenized real-world asset value, tokenized currency in circulation, active developers), each
   dated and sourced; say when a figure includes Layer 2s. **Weighted score** (`score:` in `site.yaml`, `weight` per
   theme; the default weights sum to 105 since the inclusion dial was added, and the score divides by the sum): one number from the ten dials, with sliders so a reader can set their own
-  weights (kept in their browser only). The legitimate concerns about Ethereum mainnet (builder concentration and FOCIL / ePBS; clients above a
+  weights (kept in their browser only, keyed to the default weights so a change of defaults resets them; a "Your
+  weights" tag shows while custom weights apply). The legitimate concerns about Ethereum mainnet (builder concentration and FOCIL / ePBS; clients above a
   third; node concentration by provider and jurisdiction; unattributed stake and the undisclosed 2014 pool) live
   inside the notes of the dials they belong to (inclusion, resilience, stop, issuance), each with the work addressing
   it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",

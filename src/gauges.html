@@ -32,6 +32,7 @@ __STYLE__
   .ei-score b.t{font-weight:600;color:var(--ink)}
   .ei-score .n{font-family:var(--serif);font-size:24px;letter-spacing:-.03em;line-height:1;color:var(--ink)}
   .ei-score .of{font-size:12px}
+  .ei-score .mine{font-size:11px;font-weight:600;padding:1px 8px;border-radius:8px;background:var(--sand);color:var(--ink)}
   .ei-score .bar{width:110px;height:8px;border-radius:4px;background:var(--sand);overflow:hidden}
   .ei-score .bar i{display:block;height:100%;border-radius:4px;transition:width .5s,background .5s}
   .ei-score button,.ei-sliders button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:4px 10px;cursor:pointer}
@@ -170,22 +171,29 @@ __STYLE__
     const c=li>=0?g.T.cells[rings[li].id]:null, rd=lens&&lens.readings&&lens.readings[g.T.id];
     g.read.innerHTML=rd?`<b>${esc(rd)}</b>`:c?`<b>${esc(c.name)}</b>${c.sub?' · '+esc(c.sub):''}`:'Pick a lens'; });
   // Weighted score: default weights from themes.yaml (`weight`), adjustable with sliders; kept per viewer in localStorage.
+  // Saved weights are keyed to the default weights they were set against: when the defaults change, a viewer's old
+  // weights are ignored instead of silently overriding the new defaults. "Your weights" shows while custom weights apply.
   const scoreBox=document.getElementById('ei-score');
   const KEY='ei-decentralization-weights';
-  let weights={}; themes.forEach(T=>weights[T.id]=T.weight||10);
-  try{ const saved=JSON.parse(localStorage.getItem(KEY)||'null'); if(saved&&typeof saved==='object') themes.forEach(T=>{ if(typeof saved[T.id]==='number') weights[T.id]=saved[T.id]; }); }catch(e){}
+  const DEF={}; themes.forEach(T=>DEF[T.id]=T.weight||10);
+  const SIG=themes.map(T=>`${T.id}:${DEF[T.id]}`).join(',');
+  let weights={...DEF};
+  try{ const saved=JSON.parse(localStorage.getItem(KEY)||'null'); if(saved&&saved.defaults===SIG&&saved.weights&&typeof saved.weights==='object') themes.forEach(T=>{ if(typeof saved.weights[T.id]==='number') weights[T.id]=saved.weights[T.id]; }); }catch(e){}
+  const custom=()=>themes.some(T=>weights[T.id]!==DEF[T.id]);
+  let mine=null; if(scoreBox){ mine=document.createElement('span'); mine.className='mine'; mine.textContent='Your weights'; mine.title='You have changed the default weights; Reset weights restores them.'; scoreBox.querySelector('.of').after(mine); }
   const score=()=>{ let num=0, den=0; themes.forEach(T=>{ const li=levelOf(T); if(li>=0){ num+=weights[T.id]*(li+1); den+=weights[T.id]; } }); return den?num/den:0; };
   const slidersBox=document.getElementById('ei-sliders');
   const renderScore=()=>{ if(!scoreBox) return; const v=score(), total=Object.values(weights).reduce((a,b)=>a+b,0);
+    if(mine) mine.hidden=!custom();
     scoreBox.querySelector('.n').textContent=v.toFixed(2); scoreBox.querySelector('.of').textContent=lens?`/ 5 for ${lens.short||lens.name}`:'/ 5';
     const bar=scoreBox.querySelector('.bar i'); bar.style.width=`${Math.max(0,(v-1)/4*100)}%`; bar.style.background=SCALE[Math.min(4,Math.max(0,Math.round(v)-1))];
     if(slidersBox) slidersBox.querySelectorAll('input[type=range]').forEach(r=>{ r.value=weights[r.dataset.theme]; r.nextElementSibling.textContent=total?`${Math.round(weights[r.dataset.theme]/total*100)}%`:'0%'; }); };
   if(scoreBox&&slidersBox){
     slidersBox.querySelector('.sliders').innerHTML=themes.map(T=>`<label><span>${esc(T.label)}</span><input type="range" min="0" max="30" step="1" data-theme="${T.id}" value="${weights[T.id]}" aria-label="Weight of ${esc(T.label)}"><output>0%</output></label>`).join('');
-    slidersBox.querySelectorAll('input[type=range]').forEach(r=>r.addEventListener('input',()=>{ weights[r.dataset.theme]=+r.value; try{ localStorage.setItem(KEY,JSON.stringify(weights)); }catch(e){} renderScore(); }));
+    slidersBox.querySelectorAll('input[type=range]').forEach(r=>r.addEventListener('input',()=>{ weights[r.dataset.theme]=+r.value; try{ if(custom()) localStorage.setItem(KEY,JSON.stringify({defaults:SIG,weights})); else localStorage.removeItem(KEY); }catch(e){} renderScore(); }));
     const tog=scoreBox.querySelector('.adjust');
     tog.addEventListener('click',e=>{ e.stopPropagation(); const open=slidersBox.hidden; slidersBox.hidden=!open; tog.setAttribute('aria-expanded',String(open)); tog.textContent=open?'Hide weights':'Adjust weights'; });
-    slidersBox.querySelector('.resetw').addEventListener('click',e=>{ e.stopPropagation(); themes.forEach(T=>weights[T.id]=T.weight||10); try{ localStorage.removeItem(KEY); }catch(e){} renderScore(); });
+    slidersBox.querySelector('.resetw').addEventListener('click',e=>{ e.stopPropagation(); weights={...DEF}; try{ localStorage.removeItem(KEY); }catch(e){} renderScore(); });
     scoreBox.addEventListener('click',e=>e.stopPropagation()); slidersBox.addEventListener('click',e=>e.stopPropagation());
   }
   const _setNeedles=setNeedles; 

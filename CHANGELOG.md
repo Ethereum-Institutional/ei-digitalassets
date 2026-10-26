@@ -7,6 +7,20 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Decentralization: every lens re-read against the new resilience cells.** The single points of failure dial
+  takes the weakest of client count, the largest client's share and node spread on the HHI (eiplatform D52), but only
+  the Ethereum mainnet lens had been re-read. Bitcoin (one code base on over 99% of nodes), Solana (Agave-based
+  clients on 82.4% of stake), Stellar and Canton (one implementation each) and the generic consortium (one client)
+  now read level 1 there, with node spread read where the lens has the figures (Solana and Stellar) and said to be
+  unavailable where it does not. Weighted scores: Bitcoin 4.38 to 4.19, Solana 3.48 to 3.29, Stellar 2.81 to 2.71,
+  Canton 2.00 to 1.90, the generic consortium 2.33 to 2.24; Ethereum mainnet (4.48) and the single operator (1.00)
+  are unchanged. CLAUDE.md now states the resilience cells and that every lens is re-read whenever a cell changes.
+
+- **Decentralization: saved weights follow the defaults.** A reader's slider weights are now stored with the default
+  weights they were set against, so a change to the defaults resets them instead of being silently overridden;
+  weights saved before this change are ignored once. A "Your weights" tag shows beside the score while custom
+  weights apply, and moving every slider back to its default clears what is stored.
+
 - **Privacy map (in progress).** The stub becomes a public Venn map of what each privacy design hides from the
   public, with confidential tokens at the center: **Confidential tokens** (how much), **Anonymity** (who) and
   **Private execution** (what), plus a **Before the block** box underneath for designs that hide only intent (context,
