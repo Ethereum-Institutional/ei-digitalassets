@@ -1,0 +1,1239 @@
+# Digital asset architecture: the components a digital asset team runs inside an institution, by domain, and how they
+# connect. This file is the content of the Architecture blueprint; layout.yaml places each component, site.yaml holds
+# the page text, and systems/<id>/system.yaml holds the due diligence questions for each system you may procure.
+#
+# Conventions
+#   status:  existing | extend | new | evaluate
+#   source:  brief (drawn from practice at a global bank; generic) | suggested (a gap worth considering); a domain's
+#            source applies to its components
+#   status:  how most global banks and similar institutions are likely to meet the need (generic, not one firm's plan)
+#   maps_to: links into the reference maps (scenarios, taxonomy, identity, core directory, privacy, networks,
+#            decentralization, quantum)
+#   sources: optional [{ title, url, checked }] for the standard, regulation or guidance behind a component
+#   short:   the label drawn on the blueprint when the name is too long for a box
+#   type:    system (system of record) | process | technology | control | key; components drawn as boxes need one
+#   any other list (examples, techniques, controls, topics, operating_models) is shown in the component's detail card
+
+meta:
+  title: Digital Asset Architecture
+  status_legend:
+    existing: Usually met by the core platform as it is
+    extend: Usually an existing core capability, extended for digital assets
+    new: Usually new for digital assets
+    evaluate: A technology choice most institutions assess before they commit
+  flow_groups:
+    client: Client and staff journeys
+    ledger: Ledger and post-trade
+    oversight: Incidents and oversight
+  reference_maps:
+    scenarios_map: Business scenarios supported (the Scenarios page)
+    taxonomy_map: Digital asset classification (the Taxonomy map)
+    identity_map: Permissions and entitlements (the Identity map)
+    core_directory: Existing client directory in core architecture
+    privacy_map: Privacy designs, confidential tokens and the institutional wish list (the Privacy page)
+    networks_map: Ledger networks by type and consensus (the Networks map)
+    decentralization_map: How decentralized a ledger is, property by property (the Decentralization page)
+    quantum_map: Quantum risk and the Ethereum roadmap (the Quantum page)
+
+# ---------------------------------------------------------------------------
+# TOP BAND: who is being served, and from where
+# ---------------------------------------------------------------------------
+client_context:
+  segments:
+    - id: retail
+      name: Retail
+      states: [new, existing, third_party]
+    - id: wholesale
+      name: Wholesale
+      states: [new, existing, third_party]
+    - id: staff
+      name: Staff & administrators
+      states: [operator, approver, administrator]
+    - id: authority
+      name: Authorities
+      states: [regulator, law_enforcement, court, tax_authority]
+  access_origin: [domestic, abroad, unknown]
+  nationality: [domestic, foreign, unknown]
+  routing_rule: 'Segment, client state, access origin and nationality together resolve to a scenario (Scenarios page), an asset class (Taxonomy map) and a permission set (Identity map), and set the risk tier that drives onboarding depth, screening intensity and limits.'
+
+# ---------------------------------------------------------------------------
+# DOMAINS (placed on the page by layout.yaml)
+# ---------------------------------------------------------------------------
+domains:
+
+  - id: D0
+    name: Core Architecture
+    components:
+      - id: D0.1
+        name: Client channels (portal, app, API)
+        type: technology
+        status: extend
+        source: suggested
+        notes: Where every client and counterparty request enters; extended for wallet and digital asset journeys
+      - id: D0.2
+        name: Core client directory
+        type: system
+        status: existing
+        source: brief
+        maps_to: [core_directory]
+        notes: The institution's system of record for clients; identity and wallets resolve back to it
+      - id: D0.3
+        name: Books & records (general ledger)
+        type: system
+        status: extend
+        source: suggested
+        notes: Positions and valuations of digital assets, reconciled against the chain and against custodian statements
+        sources:
+          - { title: 'FASB, Accounting Standards Update 2023-08, Intangibles, Goodwill and Other: Crypto Assets (Subtopic 350-60), December 2023 (fair value measurement, separate presentation and disclosure)', url: 'https://storage.fasb.org/ASU%202023-08.pdf', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.125(5) (valuation risk)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D0.4
+        name: Internal tools & admin console
+        short: Internal tools & admin console
+        type: technology
+        status: extend
+        source: brief
+        notes: How staff and administrators reach digital asset systems, under privileged access management and separate from client channels
+
+  - id: D1
+    name: Reference Maps & Client Directory
+    components:
+      - id: D1.1
+        name: Scenarios map linkage
+        short: Scenarios map
+        type: system
+        status: extend
+        source: brief
+        maps_to: [scenarios_map]
+      - id: D1.2
+        name: Digital asset taxonomy linkage
+        short: Taxonomy map
+        type: system
+        status: extend
+        source: brief
+        maps_to: [taxonomy_map]
+        notes: Asset class, chain, token standard, regulatory classification
+        sources:
+          - { title: 'Basel Framework, SCO60 Cryptoasset exposures (in force 1 January 2026), SCO60.6 to SCO60.19 (classification conditions; Groups 1a, 1b, 2a and 2b)', url: 'https://www.bis.org/basel_framework/chapter/SCO/60.htm', checked: '2026-10-27' }
+          - { title: 'ISO 24165-1:2025, Digital token identifier (DTI), Part 1: Method for registration and assignment (edition 2, May 2025)', url: 'https://www.iso.org/standard/85546.html', checked: '2026-10-27' }
+      - id: D1.3
+        name: Identity & permissions linkage
+        short: Identity map & permissions
+        type: system
+        status: extend
+        source: brief
+        maps_to: [identity_map, core_directory]
+        notes: Permissions resolve back to the existing core client directory
+      - id: D1.4
+        name: Chain & protocol registry
+        type: system
+        status: new
+        source: suggested
+        maps_to: [taxonomy_map]
+        notes: Approved chains, protocol versions, contract addresses
+        sources:
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.125(1) (cryptoasset technology risk: network stability, permissioned or permissionless validation, node operator diversity)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+          - { title: 'ISO 24165-1:2025, Digital token identifier (DTI), Part 1: Method for registration and assignment (identifies tokens and the distributed ledgers they run on)', url: 'https://www.iso.org/standard/85546.html', checked: '2026-10-27' }
+
+  - id: D2
+    name: Identity, KYC/KYB & Wallet Ownership
+    components:
+      - id: D2.1
+        name: KYC/KYB extension for digital assets
+        short: KYC/KYB for digital assets
+        type: process
+        status: extend
+        source: brief
+        notes: Source of funds and wealth in digital assets, exchange history, wallet declarations
+        sources:
+          - { title: 'FATF Recommendations, Recommendation 10 (customer due diligence) and Recommendation 15 with its Interpretive Note (virtual assets and VASPs)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+          - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021), section on preventive measures for VASPs (customer due diligence)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2024/1624 (AMLR), Articles 19 and 20 (application of customer due diligence; customer due diligence measures)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj', checked: '2026-10-27' }
+      - id: D2.2
+        name: Wallet ownership proof
+        type: process
+        status: new
+        source: brief
+        techniques:
+          - Message signature (account-based chains, e.g. ERC-191 or EIP-712)
+          - UTXO ownership proof (e.g. BIP-322 message signing)
+          - Micro-deposit test
+          - Custodian attestation for hosted wallets
+        sources:
+          - { title: 'EBA, Travel Rule Guidelines (EBA/GL/2024/11, 4 July 2024), section 4.8.4, paragraph 83 (proof of ownership or control of a self-hosted address: test transfer of a predefined amount, signed message, attended or unattended verification)', url: 'https://www.eba.europa.eu/sites/default/files/2024-07/6de6e9b9-0ed9-49cd-985d-c0834b5b4356/Travel%20Rule%20Guidelines.pdf', checked: '2026-10-27' }
+          - { title: 'EIP-712: Typed structured data hashing and signing (Final)', url: 'https://eips.ethereum.org/EIPS/eip-712', checked: '2026-10-27' }
+          - { title: 'BIP-322: Generic Signed Message Format', url: 'https://github.com/bitcoin/bips/blob/master/bip-0322.mediawiki', checked: '2026-10-27' }
+      - id: D2.3
+        name: Wallet-to-client binding in directory
+        short: Wallet-to-client binding
+        type: system
+        status: new
+        source: brief
+        maps_to: [core_directory, identity_map]
+      - id: D2.4
+        name: Travel Rule / VASP counterparty identification
+        short: Travel Rule & VASP identification
+        type: process
+        status: new
+        source: suggested
+        notes: Originator and beneficiary data exchange, VASP discovery, self-hosted wallet rules
+        sources:
+          - { title: 'FATF Recommendations, Interpretive Note to Recommendation 15, paragraph 7(b), and Recommendation 16 (payment transparency, revised June 2025)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2023/1113 (Transfer of Funds Regulation), Articles 14 to 18 (information accompanying crypto-asset transfers; self-hosted addresses in Articles 14(5) and 16(2); missing information; assessment and reporting)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1113/oj', checked: '2026-10-27' }
+          - { title: 'EBA, Travel Rule Guidelines (EBA/GL/2024/11, 4 July 2024), sections 4.5 to 4.8 (detecting missing information, repeatedly failing CASPs, transfers from or to self-hosted addresses)', url: 'https://www.eba.europa.eu/sites/default/files/2024-07/6de6e9b9-0ed9-49cd-985d-c0834b5b4356/Travel%20Rule%20Guidelines.pdf', checked: '2026-10-27' }
+      - id: D2.6
+        name: Decentralized identity & verifiable credentials
+        short: Decentralized identity
+        type: technology
+        status: evaluate
+        source: brief
+        maps_to: [identity_map]
+        notes: Credentials a client holds in a wallet and presents to prove KYC status, accreditation or jurisdiction without resubmitting documents
+        examples: [W3C Verifiable Credentials, W3C Decentralized Identifiers, On-chain attestations]
+        sources:
+          - { title: 'W3C, Verifiable Credentials Data Model v2.0 (W3C Recommendation, 15 May 2025)', url: 'https://www.w3.org/TR/vc-data-model-2.0/', checked: '2026-10-27' }
+          - { title: 'W3C, Decentralized Identifiers (DIDs) v1.0 (W3C Recommendation; v1.1 is a Candidate Recommendation, March 2026)', url: 'https://www.w3.org/TR/did-core/', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2024/1183 (European Digital Identity Framework, eIDAS 2), Articles 5a and 5b (European Digital Identity Wallets)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1183/oj', checked: '2026-10-27' }
+      - id: D2.5
+        name: Right-sized EDD for clients with digital asset exposure
+        short: Enhanced due diligence
+        type: process
+        status: extend
+        source: brief
+        notes: Includes clients adjacent to the technology (miners, developers, VASPs)
+        sources:
+          - { title: 'Regulation (EU) 2024/1624 (AMLR), Article 34 (scope of enhanced due diligence measures) and Article 40 (measures to mitigate risks in transactions with a self-hosted address)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj', checked: '2026-10-27' }
+          - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021), risk indicators and enhanced due diligence for higher-risk VA activity', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-27' }
+
+  - id: D3
+    name: AML / Financial Crime
+    components:
+      - id: D3.1
+        name: Blockchain analytics & AML platform
+        short: Blockchain analytics platform
+        type: technology
+        status: new
+        source: brief
+        notes: Extends beyond the core AML system; integrates alerts into existing case management
+        sources:
+          - { title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021), Internal Controls, pages 13 to 17 (transaction monitoring and investigation; sanctions screening of wallet addresses)', url: 'https://ofac.treasury.gov/media/913571/download?inline', checked: '2026-10-27' }
+          - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021), ongoing monitoring of VA transactions', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-27' }
+      - id: D3.2
+        name: Exposure tolerance configuration
+        short: Exposure tolerances
+        type: control
+        status: new
+        source: brief
+        exposure_types: [direct, counterparty, indirect]
+        signal_strength: [positive_confirmation, strong_indicator, weak_suspicious]
+        risk_categories:
+          - Sanctions
+          - Darknet markets
+          - Ransomware, hacks and stolen funds
+          - Mixers and privacy protocols
+          - Scams and fraud
+          - Gambling
+          - High-risk jurisdictions and unlicensed VASPs
+          - Terrorist financing
+          - CSAM-linked
+        notes: A tolerance matrix (exposure x signal x category) mapped to an action (allow, review, hold, block, report)
+        sources:
+          - { title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021), Risk Assessment, page 12', url: 'https://ofac.treasury.gov/media/913571/download?inline', checked: '2026-10-27' }
+          - { title: 'EBA, Guidelines on internal policies, procedures and controls to ensure the implementation of Union and national restrictive measures (EBA/GL/2024/14 and EBA/GL/2024/15, 14 November 2024), section 4.2 of GL/2024/14 (restrictive measures exposure assessment)', url: 'https://www.eba.europa.eu/sites/default/files/2024-11/eaeae49d-81a5-4154-8af9-5014f6ee8881/Final%20Report%20Guidelines%20restrictive%20measures%20.pdf', checked: '2026-10-27' }
+      - id: D3.3
+        name: Wallet and transaction screening
+        short: Wallet & transaction screening
+        type: process
+        status: new
+        source: brief
+        notes: Orchestrates screening at onboarding, before each transaction, periodically, after settlement and retrospectively
+        trigger_points:
+          - onboarding
+          - pre_transaction_approval
+          - periodic_activity_review
+          - post_transaction_monitoring
+          - retrospective_rescreening
+        sources:
+          - { title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021), Internal Controls: Sanctions Screening, page 16 (screening customers at onboarding and transactions for physical, digital wallet and IP addresses)', url: 'https://ofac.treasury.gov/media/913571/download?inline', checked: '2026-10-27' }
+          - { title: 'EBA, Guidelines on restrictive measures under Regulation (EU) 2023/1113 (EBA/GL/2024/15, 14 November 2024), section 4.1 (restrictive measures screening, including originator and beneficiary wallet addresses)', url: 'https://www.eba.europa.eu/sites/default/files/2024-11/eaeae49d-81a5-4154-8af9-5014f6ee8881/Final%20Report%20Guidelines%20restrictive%20measures%20.pdf', checked: '2026-10-27' }
+      - id: D3.4
+        name: Case management
+        type: system
+        status: extend
+        source: suggested
+      - id: D3.5
+        name: Investigations & expert witness capability
+        short: Investigations & expert witness
+        type: process
+        status: new
+        source: brief
+        notes: Evidence preservation, chain of custody, reproducible tracing methodology
+        sources:
+          - { title: 'ISO/IEC 27037:2012, Guidelines for identification, collection, acquisition and preservation of digital evidence (confirmed 2018)', url: 'https://www.iso.org/standard/44381.html', checked: '2026-10-27' }
+      - id: D3.6
+        name: Staff / third-party processes & training
+        status: new
+        source: brief
+        sources:
+          - { title: 'FATF Recommendations, Recommendation 18 (internal controls, including ongoing employee training)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+          - { title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021), Training, page 19', url: 'https://ofac.treasury.gov/media/913571/download?inline', checked: '2026-10-27' }
+      - id: D3.7
+        name: Deposit quarantine
+        type: control
+        status: new
+        source: brief
+        notes: 'Inbound assets from unknown or flagged sources are held in a segregated address until cleared, returned, frozen or reported; funds of a sanctioned person are blocked property, held and reported to OFAC within 10 business days, never returned'
+        sources:
+          - { title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021), How Do You Block Virtual Currency?, page 5, and Reporting Requirements (blocked virtual currency reported within 10 business days)', url: 'https://ofac.treasury.gov/media/913571/download?inline', checked: '2026-10-27' }
+          - { title: '31 CFR 501.603, Reports of blocked, unblocked, or transferred blocked property', url: 'https://www.ecfr.gov/current/title-31/subtitle-B/chapter-V/part-501/subpart-C/section-501.603', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2023/1113 (Transfer of Funds Regulation), Article 17 (rejecting, returning or suspending crypto-asset transfers with missing or incomplete information)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1113/oj', checked: '2026-10-27' }
+      - id: D3.8
+        name: Suspicious activity reporting (SAR/STR)
+        short: Suspicious activity reporting
+        type: process
+        status: extend
+        source: brief
+        notes: Filing to the financial intelligence unit, with on-chain evidence and without tipping off the client
+        sources:
+          - { title: 'FATF Recommendations, Recommendation 20 (reporting of suspicious transactions) and Recommendation 21 (tipping-off and confidentiality)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2024/1624 (AMLR), Article 69 (reporting of suspicions) and Article 73 (prohibition of disclosure)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj', checked: '2026-10-27' }
+
+  - id: D4
+    name: Transaction Control & Approvals
+    components:
+      - id: D4.1
+        name: Transaction approval workflow
+        type: process
+        status: new
+        source: brief
+        dimensions: [scenario, asset, chain, internal_custody, external_custody]
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.05 Key Material Usage, control 1.05.8 Spend Verification (destination and amount verified over an approved channel before key material is used)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D4.2
+        name: Address & protocol allowlisting
+        short: Allowlisting & limits
+        type: control
+        status: new
+        source: brief
+        controls:
+          - Approved addresses
+          - Approved protocols and contract functions
+          - Notional limits
+          - Volume limits
+          - Fat-finger limits
+          - Velocity and time-window limits
+      - id: D4.3
+        name: Integration with existing order control systems
+        short: Order control systems
+        type: technology
+        status: extend
+        source: brief
+      - id: D4.4
+        name: Multi-signature approvals for key flows
+        short: Multi-signature approvals
+        type: control
+        status: new
+        source: brief
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.02 Wallet Generation (signing configuration, redundant key, geographic and operator distribution) and control 1.05.9 Multi-Signer Mechanism Usage', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D4.5
+        name: Segregation of duties
+        type: control
+        status: extend
+        source: brief
+        sources:
+          - { title: 'NIST SP 800-53 Rev. 5, Security and Privacy Controls for Information Systems and Organizations, control AC-5 (Separation of Duties)', url: 'https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final', checked: '2026-10-27' }
+          - { title: 'ISO/IEC 27001:2022, Information security management systems, Annex A control 5.3 (Segregation of duties)', url: 'https://www.iso.org/standard/27001', checked: '2026-10-27' }
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, control 1.02.4 Entity Key Material Distribution (multi-signer keys held by distinct operators)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D4.6
+        name: Transaction simulation / pre-sign decoding
+        short: Transaction simulation
+        type: technology
+        status: new
+        source: suggested
+        notes: Human-readable preview of what a signature actually does
+        sources:
+          - { title: 'EIP-712: Typed structured data hashing and signing (Final)', url: 'https://eips.ethereum.org/EIPS/eip-712', checked: '2026-10-27' }
+          - { title: 'ERC-7730: Structured Data Clear Signing Format (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7730', checked: '2026-10-27' }
+
+  - id: D5
+    name: Custody
+    components:
+      - id: D5.1
+        name: Custody technology platform (in-house)
+        short: Custody technology (in-house)
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Software you run or subscribe to, with keys in infrastructure you control; you remain the custodian
+        examples: [Fireblocks, Ripple Custody (formerly Metaco), Taurus-PROTECT]
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 75 (custody and administration of crypto-assets on behalf of clients), in particular 75(3) (custody policy)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'Federal Reserve, OCC and FDIC, Crypto-Asset Safekeeping by Banking Organizations (joint statement, 14 July 2025)', url: 'https://www.federalreserve.gov/newsevents/pressreleases/files/bcreg20250714a1.pdf', checked: '2026-10-27' }
+          - { title: 'ISO/TR 23576:2020, Blockchain and distributed ledger technologies: Security management of digital asset custodians', url: 'https://www.iso.org/standard/76072.html', checked: '2026-10-27' }
+      - id: D5.2
+        name: Wallet-as-a-service for self-custody clients
+        short: Wallet-as-a-service
+        type: technology
+        status: new
+        source: brief
+        sources:
+          - { title: 'ERC-4337: Account Abstraction Using Alt Mempool (Final)', url: 'https://eips.ethereum.org/EIPS/eip-4337', checked: '2026-10-27' }
+          - { title: 'EIP-7702: Set Code for EOAs (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7702', checked: '2026-10-27' }
+      - id: D5.3
+        name: Wallet tiering (hot / warm / cold)
+        short: Wallet tiering (hot, warm, cold)
+        type: control
+        status: new
+        source: suggested
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.03 Key Material Storage and control 1.05.2 Operational Key Material Environment', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'ISO/TR 23576:2020, Blockchain and distributed ledger technologies: Security management of digital asset custodians', url: 'https://www.iso.org/standard/76072.html', checked: '2026-10-27' }
+      - id: D5.4
+        name: Reconciliation & proof of reserves
+        type: process
+        status: new
+        source: suggested
+        notes: On-chain balances against books and records and against custodian statements
+        sources:
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 15 (Client Asset Reconciliation and Independent Assurance)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 75(2) (register of positions per client) and 75(5) (statement of position at least every three months)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+      - id: D5.5
+        name: Third-party custodian
+        type: technology
+        status: evaluate
+        source: brief
+        notes: A regulated custodian holds the keys and signs on the institution's authenticated instruction
+        examples: [Anchorage Digital Bank, BitGo Trust Company, Coinbase Custody Trust Company]
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 75(9) (use of other authorized custodians) and 75(8) (liability for loss of crypto-assets or means of access)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'Federal Reserve, OCC and FDIC, Crypto-Asset Safekeeping by Banking Organizations (joint statement, 14 July 2025)', url: 'https://www.federalreserve.gov/newsevents/pressreleases/files/bcreg20250714a1.pdf', checked: '2026-10-27' }
+          - { title: 'OCC, Interpretive Letter 1184 (May 2025): bank crypto-asset custody and execution services, including through sub-custodians', url: 'https://www.occ.gov/topics/charters-and-licensing/interpretations-and-actions/2025/int1184.pdf', checked: '2026-10-27' }
+
+      - id: D5.6
+        name: Confidential tokens and privacy layer
+        short: Confidential tokens
+        type: technology
+        status: evaluate
+        source: suggested
+        notes: 'Hides amounts, and often counterparties, from the public while the ledger still checks every rule. Choose on permissioning (verified participants or anyone), who else can see the data (a notary with an on-chain notice, or the operator), the issuer controls that survive, the ledgers and token standards supported, and whether a service under the same name also serves permissionless privacy. The Privacy page compares the designs and its institutional wish list shows which come closest.'
+        maps_to: [privacy_map]
+        examples: ['Hyperledger Paladin (Noto, Zeto and Pente)', 'Zama confidential tokens (ERC-7984)', ZKsync Prividium]
+        sources:
+          - { title: 'Ethereum Institutional, Privacy map: designs, facets and the institutional wish list', url: 'https://ethereum-institutional.github.io/ei-digitalassets/privacy/', checked: '2026-10-27' }
+          - { title: 'J.P. Morgan Kinexys, Project Epic whitepaper (2024), What is on-chain privacy', url: 'https://www.jpmorgan.com/kinexys/documents/JPMC-Kinexys-Project-Epic-Whitepaper-2024.pdf', checked: '2026-10-27' }
+          - { title: 'ERC-7984, Confidential Fungible Token (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7984', checked: '2026-10-27' }
+  - id: D6
+    name: Key Management & Cryptography
+    components:
+      - id: D6.1
+        name: Approved cryptographic inventory
+        short: Cryptographic inventory
+        type: system
+        status: new
+        source: brief
+        sources:
+          - { title: 'Commission Delegated Regulation (EU) 2024/1774 (DORA RTS on ICT risk management), Article 6 (encryption and cryptographic controls) and Article 7 (cryptographic key management, register of certificates)', url: 'https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Section 9.2 (key and certificate inventories)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+          - { title: 'NIST CSWP 39, Considerations for Achieving Crypto Agility: Strategies and Practices (December 2025)', url: 'https://csrc.nist.gov/pubs/cswp/39/upd1/considerations-for-achieving-crypto-agility/final', checked: '2026-10-27' }
+      - id: D6.2
+        name: Private key lifecycle management
+        short: Signing & key lifecycle
+        type: technology
+        status: new
+        source: brief
+        sources:
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Sections 7 and 8 (key states and transitions; key-management phases and functions)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspects 1.01 to 1.05 (key material generation, wallet generation, storage, access and usage)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'Commission Delegated Regulation (EU) 2024/1774 (DORA RTS on ICT risk management), Article 7 (cryptographic key management across the full key lifecycle)', url: 'https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj', checked: '2026-10-27' }
+      - id: D6.3
+        name: Key ceremony
+        type: process
+        status: new
+        source: brief
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.01 Key Material Generation (actor-generated keys, validated methodology, NIST SP 800-90A DRBG, entropy)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Section 8.1.5 (key establishment: generation and distribution of key pairs)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+      - id: D6.4
+        name: Hard key recovery
+        type: process
+        status: new
+        source: brief
+        sources:
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Section 9.5 (key-management system survivability) and Appendix B (key recovery)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, control 1.02.2 Key Material Redundancy and control 1.03.2 Key Material Backup(s)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D6.5
+        name: Multi-jurisdictional key material vaulting
+        short: Key material vault
+        type: system
+        status: new
+        source: brief
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.03 Key Material Storage (backups geographically separate, environmentally protected, access-controlled, tamper-evident, encrypted) and control 1.02.3 Geographic Key Material Distribution', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D6.6
+        name: Multi-signature schemes
+        type: control
+        status: new
+        source: brief
+        notes: On-chain multisig (e.g. Safe smart accounts on EVM chains, multisig scripts on Bitcoin) as an alternative or complement to MPC
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.02 Wallet Generation (multi-signer mechanisms) and control 1.05.9 Multi-Signer Mechanism Usage', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'ERC-1271: Standard Signature Validation Method for Contracts (Final)', url: 'https://eips.ethereum.org/EIPS/eip-1271', checked: '2026-10-27' }
+      - id: D6.7
+        name: Key storage technology evaluation
+        short: Key technology evaluation
+        type: process
+        status: evaluate
+        source: brief
+        items: [MPC, TEE, HSM, FHE, ZKP]
+        sources:
+          - { title: 'NIST FIPS 140-3, Security Requirements for Cryptographic Modules (March 2019)', url: 'https://csrc.nist.gov/pubs/fips/140-3/final', checked: '2026-10-27' }
+          - { title: 'NIST IR 8214C, NIST First Call for Multi-Party Threshold Schemes (January 2026)', url: 'https://csrc.nist.gov/pubs/ir/8214/c/final', checked: '2026-10-27' }
+      - id: D6.8
+        maps_to: [quantum_map]
+        name: Post-quantum cryptography evaluation & migration plan
+        short: Post-quantum cryptography
+        type: process
+        status: evaluate
+        source: brief
+        sources:
+          - { title: 'NIST IR 8547 (initial public draft), Transition to Post-Quantum Cryptography Standards (November 2024)', url: 'https://csrc.nist.gov/pubs/ir/8547/ipd', checked: '2026-10-27' }
+          - { title: 'NIST FIPS 204, Module-Lattice-Based Digital Signature Standard (ML-DSA), August 2024', url: 'https://csrc.nist.gov/pubs/fips/204/final', checked: '2026-10-27' }
+          - { title: 'Commission Delegated Regulation (EU) 2024/1774 (DORA RTS on ICT risk management), Article 6(4) (updating cryptographic technology on the basis of developments in cryptanalysis)', url: 'https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj', checked: '2026-10-27' }
+      - id: D6.9
+        name: Private keys
+        type: key
+        status: new
+        source: brief
+        notes: The key material (whole keys, MPC shares or multisig signers) that authorizes every movement of assets on chain
+        sources:
+          - { title: 'SECG, SEC 2: Recommended Elliptic Curve Domain Parameters, version 2.0 (secp256k1)', url: 'https://www.secg.org/sec2-v2.pdf', checked: '2026-10-27' }
+          - { title: 'NIST FIPS 186-5, Digital Signature Standard (DSS), February 2023 (ECDSA and EdDSA)', url: 'https://csrc.nist.gov/pubs/fips/186-5/final', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Section 6 (protection requirements for key information)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+      - id: D6.10
+        name: On-premise HSM
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Certified hardware in your own data centers; check native support for secp256k1, ed25519 and BLS12-381
+        examples: [Thales Luna, Entrust nShield, Utimaco]
+        sources:
+          - { title: 'NIST FIPS 140-3, Security Requirements for Cryptographic Modules (March 2019)', url: 'https://csrc.nist.gov/pubs/fips/140-3/final', checked: '2026-10-27' }
+          - { title: 'NIST and CCCS, Cryptographic Module Validation Program (CMVP), validated modules search', url: 'https://csrc.nist.gov/projects/cryptographic-module-validation-program', checked: '2026-10-27' }
+      - id: D6.11
+        name: Cloud HSM & KMS
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Hyperscaler key services and enclaves; keys stay in the provider's region and hardware under your account
+        examples: [AWS CloudHSM, AWS KMS, AWS Nitro Enclaves, Google Cloud KMS and Cloud HSM, Azure Key Vault Managed HSM]
+        sources:
+          - { title: 'NIST FIPS 140-3, Security Requirements for Cryptographic Modules (March 2019)', url: 'https://csrc.nist.gov/pubs/fips/140-3/final', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 28 (ICT third-party risk, general principles) and Article 30 (key contractual provisions, including data location)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+      - id: D6.12
+        name: MPC signing
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Threshold signing where no single party ever holds the whole key; implementations differ in protocol, audits and share refresh
+        examples: ['Threshold ECDSA (e.g. CGGMP21, DKLs)', FROST for Schnorr and EdDSA, Vendor and open-source libraries]
+        sources:
+          - { title: 'NIST IR 8214C, NIST First Call for Multi-Party Threshold Schemes (January 2026)', url: 'https://csrc.nist.gov/pubs/ir/8214/c/final', checked: '2026-10-27' }
+          - { title: 'IETF RFC 9591, The Flexible Round-Optimized Schnorr Threshold (FROST) Protocol for Two-Round Schnorr Signatures (June 2024)', url: 'https://www.rfc-editor.org/rfc/rfc9591', checked: '2026-10-27' }
+      - id: D6.13
+        name: Key rotation
+        type: process
+        status: new
+        source: brief
+        notes: 'For an ordinary account (including under EIP-7702) a key cannot be rotated in place: rotation means new keys or addresses and moving assets, or refreshing MPC shares. Smart contract accounts (Safe, ERC-4337) can replace their signers without moving assets'
+        sources:
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Section 5.3 (cryptoperiods)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+          - { title: 'Commission Delegated Regulation (EU) 2024/1774 (DORA RTS on ICT risk management), Article 7 (key renewal, revocation and replacement of lost, compromised or damaged keys)', url: 'https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj', checked: '2026-10-27' }
+      - id: D6.14
+        name: Key compromise response
+        short: Key compromise response
+        type: process
+        status: new
+        source: brief
+        notes: Suspected or confirmed exposure of key material; sweep assets to fresh keys, revoke, investigate and report
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 2.04 Key Compromise Documentation (key compromise policy, training and rehearsals)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: General (May 2020), Section 5.5 (compromise of keys) and Section 9.5.4 (compromise recovery)', url: 'https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final', checked: '2026-10-27' }
+      - id: D6.15
+        name: Data spill response
+        type: process
+        status: new
+        source: brief
+        notes: Seed phrases, key shares, backups or signing credentials found in logs, tickets, chats, screenshots or backups
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.06 Data Sanitization Documentation', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization', url: 'https://csrc.nist.gov/pubs/sp/800/88/r2/final', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-61 Rev. 3, Incident Response Recommendations and Considerations for Cybersecurity Risk Management (April 2025)', url: 'https://csrc.nist.gov/pubs/sp/800/61/r3/final', checked: '2026-10-27' }
+
+  - id: D7
+    name: Ledger, Nodes & Data
+    components:
+      - id: D7.1
+        maps_to: [networks_map, decentralization_map]
+        name: Distributed ledger technology selection
+        short: Ledger networks
+        type: system
+        status: evaluate
+        source: brief
+        notes: Public, permissioned and tokenization platforms
+        sources:
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.15 (classification condition 2: transferability and settlement finality) and SCO60.125(1) (cryptoasset technology risk)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+          - { title: 'CPMI-IOSCO, Principles for Financial Market Infrastructures (April 2012), Principle 8 (settlement finality) and Principle 17 (operational risk)', url: 'https://www.bis.org/publications/principles-financial-market-infrastructures.pdf', checked: '2026-10-27' }
+      - id: D7.2
+        name: Node operations (RPC)
+        short: RPC nodes
+        type: technology
+        status: new
+        source: brief
+        operating_models: [in_house, third_party_managed_endpoint, third_party_dedicated_node]
+        sources:
+          - { title: 'Ethereum JSON-RPC Specification (ethereum/execution-apis)', url: 'https://ethereum.github.io/execution-apis/', checked: '2026-10-27' }
+      - id: D7.3
+        name: Full-history / archive node for data
+        short: Archive node
+        type: technology
+        status: new
+        source: brief
+        sources:
+          - { title: 'ethereum.org, Archive nodes (developer documentation)', url: 'https://ethereum.org/en/developers/docs/nodes-and-clients/archive-nodes/', checked: '2026-10-27' }
+      - id: D7.4
+        name: Indexing strategy for high-frequency calls
+        short: Indexer
+        type: technology
+        status: new
+        source: brief
+      - id: D7.5
+        name: Blockchain data analytics
+        short: Blockchain data analytics
+        type: technology
+        status: new
+        source: brief
+      - id: D7.6
+        name: Pricing & market data
+        type: technology
+        status: new
+        source: suggested
+      - id: D7.9
+        name: Reference & static data (asset master, closing prices)
+        short: Reference & static data
+        type: system
+        status: new
+        source: brief
+        notes: Asset identifiers (DTI, ISIN where one exists), contract addresses, decimals, chains, and official end-of-day prices for valuation and reporting
+        sources:
+          - { title: 'ISO 24165-1:2025, Digital token identifier (DTI), Part 1: Method for registration and assignment (edition 2, May 2025)', url: 'https://www.iso.org/standard/85546.html', checked: '2026-10-27' }
+      - id: D7.10
+        name: Oracles & attestations
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Price and reference oracles used by on-chain contracts, and attestations (proof of reserves, NAV, collateral) published on chain
+        sources:
+          - { title: 'IOSCO, Policy Recommendations for Decentralized Finance (FR/14/2023, December 2023), Recommendation 5, Oracles and Bridges', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD754.pdf', checked: '2026-10-27' }
+      - id: D7.11
+        name: Bridges & cross-chain messaging
+        short: Bridges & cross-chain
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Moving assets or messages between chains; among the largest sources of losses, so each bridge is a third-party risk decision
+        sources:
+          - { title: 'IOSCO, Policy Recommendations for Decentralized Finance (FR/14/2023, December 2023), Recommendation 5, Oracles and Bridges', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD754.pdf', checked: '2026-10-27' }
+      - id: D7.7
+        name: Validator client operations
+        short: Validator operations
+        type: technology
+        status: evaluate
+        source: brief
+        notes: Running consensus and execution clients that propose and attest; in-house or through an operator
+        operating_models: [in_house, third_party_non_custodial, third_party_custodial]
+        sources:
+          - { title: 'Ethereum consensus specifications, Honest Validator (phase0 validator.md)', url: 'https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/validator.md', checked: '2026-10-27' }
+          - { title: 'ethereum.org, Proof-of-stake (developer documentation)', url: 'https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/', checked: '2026-10-27' }
+      - id: D7.8
+        name: Validator keys
+        type: key
+        status: new
+        source: brief
+        notes: Signing keys are online and slashable if run twice; withdrawal credentials control the stake and should point to an address you hold
+        techniques: [Remote signer, Slashing protection database, Distributed validator technology, HSM-backed signing]
+        sources:
+          - { title: 'ERC-2335: BLS12-381 Keystore (Review)', url: 'https://eips.ethereum.org/EIPS/eip-2335', checked: '2026-10-27' }
+          - { title: 'EIP-3076: Slashing Protection Interchange Format (Last Call)', url: 'https://eips.ethereum.org/EIPS/eip-3076', checked: '2026-10-27' }
+          - { title: 'EIP-7002: Execution layer triggerable withdrawals (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7002', checked: '2026-10-27' }
+
+  - id: D8
+    name: Cybersecurity & Engineering Assurance
+    components:
+      - id: D8.1
+        name: Cybersecurity front door for new tools
+        status: extend
+        source: brief
+      - id: D8.2
+        name: Software supply chain mirror
+        notes: Approved tools and dependencies stored locally and refreshed
+        status: new
+        source: brief
+        sources:
+          - { title: 'NIST SP 800-161 Rev. 1 (update 1), Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations', url: 'https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-218, Secure Software Development Framework (SSDF) Version 1.1', url: 'https://csrc.nist.gov/pubs/sp/800/218/final', checked: '2026-10-27' }
+          - { title: 'OpenSSF, SLSA (Supply-chain Levels for Software Artifacts) specification v1.0', url: 'https://slsa.dev/spec/v1.0/', checked: '2026-10-27' }
+      - id: D8.3
+        name: Secure smart contract development lifecycle
+        status: new
+        source: brief
+        sources:
+          - { title: 'NIST SP 800-218, Secure Software Development Framework (SSDF) Version 1.1', url: 'https://csrc.nist.gov/pubs/sp/800/218/final', checked: '2026-10-27' }
+          - { title: 'Enterprise Ethereum Alliance, EEA EthTrust Security Levels Specification, version 2', url: 'https://entethalliance.org/specs/ethtrust-sl/v2/', checked: '2026-10-27' }
+          - { title: 'OWASP Smart Contract Security Verification Standard (SCSVS)', url: 'https://owasp.org/www-project-smart-contract-security-verification-standard/', checked: '2026-10-27' }
+      - id: D8.4
+        name: IT training in smart contract best practices
+        status: new
+        source: brief
+        sources:
+          - { title: 'OWASP Smart Contract Top 10', url: 'https://owasp.org/www-project-smart-contract-top-10/', checked: '2026-10-27' }
+      - id: D8.5
+        name: In-house code audits
+        status: new
+        source: brief
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, control 2.01.2 Smart Contract Software Code Audit Documentation', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'Enterprise Ethereum Alliance, EEA EthTrust Security Levels Specification, version 2', url: 'https://entethalliance.org/specs/ethtrust-sl/v2/', checked: '2026-10-27' }
+      - id: D8.6
+        name: Penetration testing
+        status: extend
+        source: brief
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 25 (testing of ICT tools and systems, including penetration tests and source code reviews)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-115, Technical Guide to Information Security Testing and Assessment', url: 'https://csrc.nist.gov/pubs/sp/800/115/final', checked: '2026-10-27' }
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, control 2.01.1 Security Development and Documentation (independent vulnerability and penetration testing)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D8.7
+        name: Formal verification of low-level protocols
+        status: new
+        source: brief
+      - id: D8.8
+        name: Incident response for on-chain events
+        status: new
+        source: suggested
+        notes: Exploit response, freeze or pause procedures, chain halts and forks
+        sources:
+          - { title: 'NIST SP 800-61 Rev. 3, Incident Response Recommendations and Considerations for Cybersecurity Risk Management (April 2025)', url: 'https://csrc.nist.gov/pubs/sp/800/61/r3/final', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 17 (ICT-related incident management process) and Article 19 (reporting of major ICT-related incidents)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+      - id: D8.9
+        name: Red team testing
+        status: new
+        source: brief
+        notes: Adversary simulation across people, process and technology, including social engineering of key holders
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 26 (advanced testing based on threat-led penetration testing)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'ECB, TIBER-EU framework (threat intelligence-based ethical red teaming)', url: 'https://www.ecb.europa.eu/paym/cyber-resilience/tiber-eu/html/index.en.html', checked: '2026-10-27' }
+      - id: D8.11
+        name: On-chain monitoring & automated response
+        short: On-chain monitoring & response
+        type: technology
+        status: new
+        source: brief
+        notes: Watches contracts, wallets and protocols you depend on for exploits and anomalies, and can trigger a pre-approved response (pause, withdraw, block)
+        examples: [Hypernative]
+        sources:
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, control 2.02.4 Blockchain State Monitoring', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 10 (detection of anomalous activities)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+      - id: D8.10
+        name: Threat intelligence (advanced persistent threats)
+        short: Threat intelligence (APT)
+        status: new
+        source: brief
+        notes: Intelligence on state-sponsored and organized groups that target digital asset firms, their tooling and indicators
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 45 (information-sharing arrangements on cyber threat information and intelligence)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'CISA, FBI and US Treasury, Advisory AA22-108A, TraderTraitor: North Korean State-Sponsored APT Targets Blockchain Companies (April 2022)', url: 'https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-108a', checked: '2026-10-27' }
+          - { title: 'FBI, Public Service Announcement I-022625-PSA, North Korea Responsible for $1.5 Billion Bybit Hack (26 February 2025)', url: 'https://www.ic3.gov/PSA/2025/PSA250226', checked: '2026-10-27' }
+
+  - id: D9
+    name: Third-Party, Legal & Procurement
+    components:
+      - id: D9.1
+        name: Third-party risk assessment of tokens, protocols, applications
+        status: new
+        source: brief
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 28 (ICT third-party risk, general principles)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'OCC Bulletin 2023-17, Third-Party Relationships: Interagency Guidance on Risk Management (June 2023)', url: 'https://www.occ.gov/news-issuances/bulletins/2023/bulletin-2023-17.html', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.125(1)(d) (trustworthiness of node operators and operator diversity in third-party risk management)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D9.2
+        name: Vendor procurement & legal process
+        status: extend
+        source: brief
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Articles 28 to 30 (ICT third-party risk, concentration risk, key contractual provisions)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'OCC Bulletin 2023-17, Third-Party Relationships: Interagency Guidance on Risk Management (June 2023)', url: 'https://www.occ.gov/news-issuances/bulletins/2023/bulletin-2023-17.html', checked: '2026-10-27' }
+      - id: D9.3
+        name: Specie insurance (custody and crime)
+        short: Specie insurance
+        status: new
+        source: brief
+        notes: Physical loss or theft of assets in custody, including key material; check hot, warm and cold sub-limits
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 67(4) to (6) (insurance policy as a prudential safeguard; required cover includes gross negligence in safeguarding clients'' crypto-assets and liability under Article 75(8))', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+      - id: D9.4
+        name: Professional liability (errors & omissions)
+        short: Professional liability
+        status: new
+        source: brief
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 67(6) (required cover for misrepresentations, acts, errors or omissions, and business disruption or system failures)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+      - id: D9.5
+        name: Cyber liability
+        status: new
+        source: brief
+        notes: Network security and privacy events; many policies exclude digital asset losses, so map overlaps and gaps with specie cover
+
+  - id: D10
+    name: Governance, Reporting & Operations
+    source: suggested
+    components:
+      - id: D10.1
+        name: Risk appetite & policy framework
+        status: extend
+        sources:
+          - { title: 'FSB, Principles for an Effective Risk Appetite Framework (18 November 2013)', url: 'https://www.fsb.org/2013/11/r_131118/', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.121 to SCO60.125 (bank risk management of cryptoasset activities)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D10.2
+        name: Regulatory reporting
+        status: extend
+        sources:
+          - { title: 'Basel Framework, DIS55 Cryptoasset exposures (disclosure, in force 1 January 2026)', url: 'https://www.bis.org/basel_framework/chapter/DIS/55.htm', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.123 (informing supervisors of cryptoasset exposures, policies and assessments)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D10.3
+        name: Accounting & tax treatment
+        status: extend
+        sources:
+          - { title: 'FASB, Accounting Standards Update 2023-08, Intangibles, Goodwill and Other: Crypto Assets (Subtopic 350-60), December 2023', url: 'https://storage.fasb.org/ASU%202023-08.pdf', checked: '2026-10-27' }
+          - { title: 'SEC, Staff Accounting Bulletin No. 122 (January 2025), rescinding SAB 121 on safeguarding obligations for crypto-assets', url: 'https://www.sec.gov/rules-regulations/staff-guidance/staff-accounting-bulletins/staff-accounting-bulletin-122', checked: '2026-10-27' }
+      - id: D10.4
+        name: Business continuity & resilience
+        status: extend
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 11 (response and recovery, ICT business continuity policy) and Article 12 (backup, restoration and recovery)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 68(7) (continuity and business continuity policy for crypto-asset service providers)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'BCBS, Principles for operational resilience (March 2021)', url: 'https://www.bis.org/bcbs/publ/d516.htm', checked: '2026-10-27' }
+      - id: D10.5
+        name: New product approval committee
+        status: extend
+        sources:
+          - { title: 'BCBS, Revisions to the principles for the sound management of operational risk (March 2021), Principle 7 (change management, including new products and activities)', url: 'https://www.bis.org/bcbs/publ/d515.htm', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.121 (policies and procedures to identify and assess risks before and during cryptoasset activities)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D10.6
+        name: Operating model & RACI
+        status: new
+      - id: D10.7
+        name: External audit & SOC reporting for digital assets
+        status: extend
+        sources:
+          - { title: 'AICPA, 2017 Trust Services Criteria (with revised points of focus, 2022), the criteria for SOC 2 examinations', url: 'https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022', checked: '2026-10-27' }
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 15 (Client Asset Reconciliation and Independent Assurance)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+      - id: D10.8
+        name: Wind-down & exit planning
+        status: new
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 74 (orderly wind-down of crypto-asset service providers)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'CPMI-IOSCO, Principles for Financial Market Infrastructures (April 2012), Principle 3, key consideration 3.4 (recovery and orderly wind-down plans) and Principle 15 (general business risk)', url: 'https://www.bis.org/publications/principles-financial-market-infrastructures.pdf', checked: '2026-10-27' }
+      - id: D10.9
+        name: Tax event handling
+        status: new
+        source: brief
+        scenarios:
+          - Acquisition and disposal, with cost basis and lot selection
+          - Staking and validator rewards
+          - Airdrops and hard forks
+          - Gas and network fees
+          - Token swaps, wrapping and bridging
+          - Lending and collateral transfers
+          - Income on tokenized securities and withholding
+          - Client reporting under the OECD Crypto-Asset Reporting Framework (CARF) and EU DAC8
+        sources:
+          - { title: 'OECD, International Standards for Automatic Exchange of Information in Tax Matters: Crypto-Asset Reporting Framework and 2023 update to the Common Reporting Standard', url: 'https://www.oecd.org/en/publications/international-standards-for-automatic-exchange-of-information-in-tax-matters_896d79d1-en.html', checked: '2026-10-27' }
+          - { title: 'Council Directive (EU) 2023/2226 (DAC8), amending Directive 2011/16/EU on administrative cooperation in the field of taxation', url: 'https://eur-lex.europa.eu/eli/dir/2023/2226/oj', checked: '2026-10-27' }
+          - { title: 'US Treasury and IRS, T.D. 10000, Gross Proceeds and Basis Reporting by Brokers and Determination of Amount Realized and Basis for Digital Asset Transactions (89 FR 56480, 9 July 2024; Form 1099-DA)', url: 'https://www.govinfo.gov/content/pkg/FR-2024-07-09/pdf/2024-14004.pdf', checked: '2026-10-27' }
+
+  - id: D11
+    name: Trading, Settlement & Treasury
+    source: suggested
+    components:
+      - id: D11.1
+        name: Execution & venue connectivity
+        short: Execution & venues
+        type: technology
+        status: new
+        notes: Exchanges, OTC desks, liquidity providers, best execution
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 78 (execution of orders for crypto-assets on behalf of clients, best execution)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 4 (Client Order Handling)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+      - id: D11.2
+        name: Fiat on/off ramps
+        type: process
+        status: extend
+      - id: D11.3
+        name: DvP / atomic settlement
+        type: process
+        status: new
+        notes: Stablecoins and tokenized deposits as settlement leg
+        sources:
+          - { title: 'CPMI-IOSCO, Principles for Financial Market Infrastructures (April 2012), Principle 8 (settlement finality), Principle 9 (money settlements) and Principle 12 (exchange-of-value settlement systems)', url: 'https://www.bis.org/publications/principles-financial-market-infrastructures.pdf', checked: '2026-10-27' }
+          - { title: 'ERC-7573: Conditional-upon-Transfer-Decryption for DvP (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7573', checked: '2026-10-27' }
+      - id: D11.4
+        name: Collateral & margin management
+        short: Collateral & margin
+        type: process
+        status: extend
+        sources:
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.29 to SCO60.30 (recognition of cryptoassets as collateral) and SCO60.125(3)(b) (legal risk of taking control of cryptoasset collateral)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D11.5
+        name: Gas & fee wallet management
+        short: Gas & fee wallets
+        type: process
+        status: new
+        notes: Small balances of each network's native token, topped up within limits from a screened source
+
+  - id: D12
+    name: Asset Lifecycle Events
+    source: suggested
+    components:
+      - id: D12.1
+        name: Chain events (corporate-action equivalent)
+        short: Chain events
+        type: process
+        status: new
+        events: [hard_fork, airdrop, token_migration, contract_upgrade, governance_vote]
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 75(4) (rights created by changes to the underlying DLT or other events, such as forks and airdrops, recorded and passed to clients)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.125(1)(a) (governance of changes to protocol rules, including forks)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D12.4
+        name: Token administration runbooks & break glass
+        short: Runbooks & break glass
+        type: control
+        status: new
+        source: brief
+        notes: Pre-approved, rehearsed procedures with named quorums for privileged token and wallet actions, including the emergency path
+        actions: [Mint, Burn, Pause token, Freeze wallet, Forced transfer, Quarantine deposit, Upgrade contract]
+        sources:
+          - { title: 'ERC-3643: T-REX, Token for Regulated EXchanges (Final): pause, freeze and forced transfer functions', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-10-27' }
+          - { title: 'ERC-7943: uRWA, Universal Real World Asset Interface (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7943', checked: '2026-10-27' }
+          - { title: 'GENIUS Act (Public Law 119-27, 18 July 2025), Section 4(a)(5)(A)(iv) (technical capability to block, freeze and reject transactions) and Section 2(16) (lawful orders to seize, freeze, burn or prevent transfer)', url: 'https://www.govinfo.gov/content/pkg/PLAW-119publ27/pdf/PLAW-119publ27.pdf', checked: '2026-10-27' }
+      - id: D12.2
+        name: Staking & validator operations
+        status: evaluate
+        notes: Slashing risk, reward accounting, client entitlement
+        sources:
+          - { title: 'SEC Division of Corporation Finance, Statement on Certain Protocol Staking Activities (29 May 2025)', url: 'https://www.sec.gov/newsroom/speeches-statements/statement-certain-protocol-staking-activities-052925', checked: '2026-10-27' }
+          - { title: 'ethereum.org, Proof-of-stake rewards and penalties (developer documentation)', url: 'https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/', checked: '2026-10-27' }
+      - id: D12.3
+        name: Token issuance lifecycle
+        status: evaluate
+        notes: Admin key governance, pause and upgrade rights, transfer agent role
+        sources:
+          - { title: 'ERC-3643: T-REX, Token for Regulated EXchanges (Final)', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-10-27' }
+          - { title: 'ERC-1967: Proxy Storage Slots (Final)', url: 'https://eips.ethereum.org/EIPS/eip-1967', checked: '2026-10-27' }
+
+  - id: D13
+    name: Risk & Capital
+    source: suggested
+    components:
+      - id: D13.1
+        name: Prudential capital treatment (Basel cryptoasset standard)
+        status: extend
+        notes: Group 1a, 1b, 2a and 2b classification linked to the taxonomy map
+        maps_to: [taxonomy_map]
+        sources:
+          - { title: 'Basel Framework, SCO60 Cryptoasset exposures (in force 1 January 2026)', url: 'https://www.bis.org/basel_framework/chapter/SCO/60.htm', checked: '2026-10-27' }
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+          - { title: 'BCBS, Cryptoasset standard amendments (July 2024)', url: 'https://www.bis.org/publications/202407-standards-cryptoasset-standard-amendments.pdf', checked: '2026-10-27' }
+      - id: D13.2
+        name: Market, liquidity & counterparty risk
+        status: extend
+        notes: Includes stablecoin depeg risk
+        sources:
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.11 to SCO60.12 (stabilization mechanism and redemption risk test) and SCO60.125(5) (valuation)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+          - { title: 'BCBS, Cryptoasset standard amendments (July 2024), revised SCO60.11 and SCO60.12 (reserve asset quality, bankruptcy remoteness, reverse repo in reserves)', url: 'https://www.bis.org/publications/202407-standards-cryptoasset-standard-amendments.pdf', checked: '2026-10-27' }
+      - id: D13.3
+        name: Oracle & bridge dependency risk
+        status: new
+        sources:
+          - { title: 'IOSCO, Policy Recommendations for Decentralized Finance (FR/14/2023, December 2023), Recommendation 5, Oracles and Bridges', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD754.pdf', checked: '2026-10-27' }
+      - id: D13.4
+        name: Market abuse surveillance
+        status: new
+        notes: Wash trading, front-running, MEV exposure
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 92 (prevention and detection of market abuse)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 8 (Fraud and Market Abuse) and Recommendation 9 (Market Surveillance)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+      - id: D13.6
+        name: Liquidity treatment (LCR and NSFR)
+        short: Liquidity treatment (LCR, NSFR)
+        status: extend
+        source: brief
+        notes: Under the Basel cryptoasset standard (under review in 2026) only tokenized traditional assets whose underlying qualifies can count as high-quality liquid assets; other cryptoassets receive conservative LCR and NSFR treatment
+        maps_to: [taxonomy_map]
+        sources:
+          - { title: 'BCBS, Prudential treatment of cryptoasset exposures (December 2022), SCO60.101 to SCO60.112 (minimum liquidity risk requirements: HQLA eligibility, LCR and NSFR treatment)', url: 'https://www.bis.org/publications/202212-standards-prudential-treatment-cryptoasset-exposures.pdf', checked: '2026-10-27' }
+      - id: D13.5
+        name: Model risk for blockchain analytics
+        status: extend
+        notes: Vendor attribution accuracy; underpins expert witness credibility (D3.5)
+        sources:
+          - { title: 'Federal Reserve SR 26-2 (with OCC Bulletin 2026-13 and the FDIC), Revised Guidance on Model Risk Management (17 April 2026; supersedes SR 11-7 and SR 21-8)', url: 'https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm', checked: '2026-10-27' }
+
+  - id: D14
+    name: Client Protection & Conduct
+    source: suggested
+    components:
+      - id: D14.1
+        name: Geofencing & VPN / IP-spoofing detection
+        short: Geofencing & VPN detection
+        type: control
+        status: new
+        notes: Resolves an unknown access origin in the client context
+        sources:
+          - { title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021), Internal Controls, page 13 (geolocation tools and IP address blocking)', url: 'https://ofac.treasury.gov/media/913571/download?inline', checked: '2026-10-27' }
+      - id: D14.2
+        name: Suitability & appropriateness
+        type: process
+        status: extend
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 81 (advice on crypto-assets and portfolio management, suitability)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'ESMA, Guidelines on certain aspects of the suitability requirements and format of the periodic statement for portfolio management activities under MiCA (ESMA35-1872330276-2031, March 2025)', url: 'https://www.esma.europa.eu/sites/default/files/2025-03/ESMA35-1872330276-2031_Guidelines_on_suitability_and_periodic_statement_MiCA.pdf', checked: '2026-10-27' }
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 18 (Retail Client Appropriateness and Disclosure)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+      - id: D14.3
+        name: Retail disclosures & financial promotions
+        status: extend
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 7 (marketing communications) and Article 66(2) to (3) (fair, clear and not misleading information; risk warnings)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 18 (Retail Client Appropriateness and Disclosure)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+      - id: D14.4
+        name: Complaints handling
+        status: extend
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 71 (complaints-handling procedures)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+      - id: D14.5
+        name: Client asset segregation & bankruptcy remoteness
+        status: new
+        notes: Supported by legal opinions per jurisdiction
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 70 (safekeeping of clients'' crypto-assets and funds) and Article 75(7) (legal and operational segregation from the provider''s estate)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023), Recommendation 13 (Segregation and Handling of Client Monies and Assets) and Recommendation 14 (Disclosure of Custody and Safekeeping Arrangements)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf', checked: '2026-10-27' }
+          - { title: 'Federal Reserve, OCC and FDIC, Crypto-Asset Safekeeping by Banking Organizations (joint statement, 14 July 2025)', url: 'https://www.federalreserve.gov/newsevents/pressreleases/files/bcreg20250714a1.pdf', checked: '2026-10-27' }
+
+  - id: D15
+    name: Regulator Access & Data
+    source: suggested
+    components:
+      - id: D15.1
+        name: Supervisory observer access (portal or node)
+        status: evaluate
+        notes: Rare in banking today; some permissioned ledger pilots give a supervisor a read-only observer node. Most supervision runs through requests, reporting and on-site inspection
+        sources:
+          - { title: 'BIS Working Paper No. 811, Embedded supervision: how to build regulation into decentralised finance (Raphael Auer, 2019)', url: 'https://www.bis.org/publ/work811.htm', checked: '2026-10-27' }
+      - id: D15.4
+        name: Authority request handling
+        short: Authority request handling
+        type: process
+        status: extend
+        source: brief
+        notes: Staff receive, verify, collect and respond to requests from authorities, under tipping-off controls; authorities rarely have direct access to systems
+        requests:
+          - Supervisory information requests and on-site inspections
+          - Production orders, subpoenas and warrants
+          - Freezing and seizure orders (executed through the break-glass runbook)
+          - Tax authority requests
+          - Requests from the financial intelligence unit following a report
+        sources:
+          - { title: 'Regulation (EU) 2024/1624 (AMLR), Article 73 (prohibition of disclosure)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj', checked: '2026-10-27' }
+          - { title: 'FATF Recommendations, Recommendation 21 (tipping-off and confidentiality)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+      - id: D15.2
+        name: Data privacy vs immutable ledger
+        status: new
+        notes: GDPR erasure, on-chain position confidentiality
+        sources:
+          - { title: 'Regulation (EU) 2016/679 (GDPR), Article 17 (right to erasure) and Article 25 (data protection by design and by default)', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj', checked: '2026-10-27' }
+          - { title: 'EDPB, Guidelines 02/2025 on processing of personal data through blockchain technologies, version 2.0 (adopted 7 July 2026)', url: 'https://www.edpb.europa.eu/system/files/2026-07/edpb_guidelines_202502_blockchain_v2_en.pdf', checked: '2026-10-27' }
+      - id: D15.3
+        name: Records retention & evidence archive
+        status: extend
+        sources:
+          - { title: 'Regulation (EU) 2023/1114 (MiCA), Article 68(9) (records of all crypto-asset services, orders and transactions, kept five years, up to seven on request)', url: 'https://eur-lex.europa.eu/eli/reg/2023/1114/oj', checked: '2026-10-27' }
+          - { title: 'Regulation (EU) 2024/1624 (AMLR), Article 77 (record retention)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj', checked: '2026-10-27' }
+          - { title: 'FATF Recommendations, Recommendation 11 (record-keeping)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+
+  - id: D16
+    name: People & Physical Security
+    source: suggested
+    components:
+      - id: D16.1
+        name: Insider threat controls
+        status: extend
+        sources:
+          - { title: 'CISA, Insider Threat Mitigation Guide', url: 'https://www.cisa.gov/resources-tools/resources/insider-threat-mitigation-guide', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-53 Rev. 5, Security and Privacy Controls for Information Systems and Organizations, control PM-12 (Insider Threat Program) and the PS family (personnel security)', url: 'https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final', checked: '2026-10-27' }
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, controls 1.05.3 to 1.05.5 (operator reference, ID and background checks)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D16.2
+        name: Duress protocols for key holders
+        status: new
+      - id: D16.3
+        name: Key holder physical security & travel rules
+        status: new
+      - id: D16.4
+        name: Address poisoning & social-engineering defenses
+        status: new
+      - id: D16.6
+        name: Privileged access management (joiner, mover, leaver)
+        short: Privileged access management
+        status: extend
+        source: suggested
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 9(4)(c) (limit physical and logical access to what legitimate, approved functions require)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'NIST SP 800-53 Rev. 5, Security and Privacy Controls for Information Systems and Organizations, controls AC-2 (Account Management) and AC-6 (Least Privilege)', url: 'https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final', checked: '2026-10-27' }
+          - { title: 'C4, CryptoCurrency Security Standard (CCSS) v9.0, aspect 1.04 Key Material Access (grant and revoke checklists, approved channels, audit trail)', url: 'https://cryptoconsortium.org/ccss-table-v9/', checked: '2026-10-27' }
+      - id: D16.5
+        name: Digital asset handling training
+        status: new
+        source: brief
+        notes: For all staff who touch digital assets or the clients who hold them
+        topics:
+          - Basics of digital assets
+          - Common scams
+          - Exploits
+          - Social engineering techniques
+          - Self-custody best practices
+          - Privacy
+          - Regulated exchanges
+          - Password management
+        sources:
+          - { title: 'Regulation (EU) 2022/2554 (DORA), Article 13(6) (ICT security awareness programmes and digital operational resilience training)', url: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj', checked: '2026-10-27' }
+          - { title: 'FATF Recommendations, Recommendation 18 (internal controls, including ongoing employee training)', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html', checked: '2026-10-27' }
+
+# ---------------------------------------------------------------------------
+# CONNECTIONS: how the components feed each other (the lines on the blueprint)
+#   kind: instruction (an order or request moves; the default) | data (records or signals) | control (a check, limit or rule)
+#   sides: [from, to] forces the sides a line leaves and enters (t, b, l, r); [l, l] or [r, r] runs it along the margin
+#   CL.<segment> are the client segments of client_context
+# ---------------------------------------------------------------------------
+connections:
+  # clients in
+  - { from: CL.retail, to: D0.1 }
+  - { from: CL.wholesale, to: D0.1 }
+  - { from: CL.staff, to: D0.4 }
+  - { from: CL.authority, to: D15.4, label: requests and orders }
+  - { from: D0.4, to: D1.3, label: staff entitlements }
+  - { from: D14.1, to: D0.1, kind: control, label: access origin }
+  # confidential tokens: custody instructs, screening gates entry
+  - { from: D5.1, to: D5.6, label: confidential transfer }
+  - { from: D3.3, to: D5.6, kind: control, label: screen on entry }
+  # identity and onboarding
+  - { from: D0.1, to: D2.1, label: new client }
+  - { from: D0.1, to: D1.3, label: existing client }
+  - { from: D2.1, to: D2.2 }
+  - { from: D2.1, to: D2.5 }
+  - { from: D2.5, to: D0.2, kind: data, label: client record }
+  - { from: D2.2, to: D2.3, label: proven wallet }
+  - { from: D2.3, to: D0.2, kind: data }
+  - { from: D2.3, to: D3.3, label: onboarding screen }
+  - { from: D14.2, to: D1.3, kind: control }
+  - { from: D1.3, to: D0.2, kind: data, label: entitlements }
+  - { from: D1.3, to: D1.1, kind: control }
+  - { from: D1.4, to: D1.2, kind: data }
+  - { from: D1.2, to: D1.1, kind: data }
+  - { from: D15.4, to: D3.4, kind: data, label: collect and respond, sides: [r, r] }
+  - { from: D2.6, to: D1.3, kind: data, label: credentials }
+  # orders and transaction control
+  - { from: D1.1, to: D4.3, kind: control, label: permitted scenarios }
+  - { from: D1.2, to: D4.3, kind: control, label: approved assets }
+  - { from: D1.4, to: D4.3, kind: control, label: approved protocols }
+  - { from: D11.1, to: D4.3 }
+  - { from: D11.1, to: D11.5, label: buy gas }
+  - { from: D11.1, to: D11.3, label: settle, sides: [l, l] }
+  - { from: D11.4, to: D4.2, label: margin moves }
+  - { from: D4.3, to: D4.2 }
+  - { from: D7.6, to: D4.2, kind: data, label: prices for limits }
+  # screening and approval
+  - { from: D4.2, to: D3.3, label: pre-transaction screen }
+  - { from: D3.2, to: D3.3, kind: control, label: tolerances }
+  - { from: D3.1, to: D3.3, kind: data, label: risk scores }
+  - { from: D3.3, to: D3.4, label: alerts }
+  - { from: D3.4, to: D3.5 }
+  - { from: D3.4, to: D3.8, label: file, sides: [r, r] }
+  - { from: D3.3, to: D3.7, kind: control, label: hold inbound }
+  - { from: D3.3, to: D4.1, kind: control, label: clear or hold }
+  - { from: D2.4, to: D4.1, kind: control, label: travel rule }
+  - { from: D4.6, to: D4.1, kind: data }
+  - { from: D4.1, to: D4.4 }
+  - { from: D4.5, to: D4.4, kind: control }
+  # custody and settlement
+  - { from: D4.4, to: D5.1, label: approved instruction }
+  - { from: D4.4, to: D5.5, label: instruction }
+  - { from: D11.3, to: D5.1 }
+  - { from: D11.2, to: D11.3 }
+  - { from: D5.1, to: D5.3 }
+  - { from: D5.1, to: D5.4, kind: data }
+  - { from: D5.5, to: D5.4, kind: data, label: statements }
+  - { from: D12.1, to: D5.4, kind: data }
+  - { from: D5.4, to: D0.3, kind: data }
+  - { from: D5.3, to: D6.2, label: signing request }
+  - { from: D5.2, to: D6.2 }
+  # signing and keys
+  - { from: D6.8, to: D6.1 }
+  - { from: D6.1, to: D6.2, kind: control }
+  - { from: D6.2, to: D6.3 }
+  - { from: D6.2, to: D6.13 }
+  - { from: D6.2, to: D6.4 }
+  - { from: D6.2, to: D6.10 }
+  - { from: D6.2, to: D6.12, label: sign }
+  - { from: D6.2, to: D6.11 }
+  - { from: D6.6, to: D6.9, kind: control }
+  - { from: D6.10, to: D6.9 }
+  - { from: D6.12, to: D6.9 }
+  - { from: D6.11, to: D6.9 }
+  - { from: D6.5, to: D6.9, kind: data }
+  - { from: D6.14, to: D6.9, kind: control, label: sweep and replace }
+  - { from: D6.15, to: D6.9, kind: control, label: contain }
+  # ledger, nodes, validators and data
+  - { from: D6.2, to: D7.2, label: signed transaction }
+  - { from: D7.2, to: D7.1, label: broadcast }
+  - { from: D7.1, to: D7.3, kind: data }
+  - { from: D7.3, to: D7.4, kind: data }
+  - { from: D7.4, to: D7.5, kind: data, sides: [r, r] }
+  - { from: D7.9, to: D1.4, kind: data, label: asset master }
+  - { from: D7.9, to: D7.6, kind: data, label: closing prices, sides: [r, r] }
+  - { from: D7.10, to: D7.6, kind: data }
+  - { from: D7.11, to: D7.1 }
+  - { from: D7.4, to: D8.11, kind: data }
+  - { from: D8.11, to: D12.4, label: automated response }
+  - { from: D8.11, to: D3.4, kind: data, label: alerts, sides: [l, r] }
+  - { from: D7.5, to: D3.1, kind: data }
+  - { from: D7.4, to: D12.1, kind: data }
+  - { from: D7.4, to: D5.4, kind: data, label: on-chain balances }
+  - { from: D7.3, to: D7.7, kind: data, label: chain data, sides: [r, r] }
+  - { from: D7.7, to: D7.1, label: propose and attest }
+  - { from: D7.7, to: D7.8, label: sign duties }
+
+# ---------------------------------------------------------------------------
+# KEY FLOWS: an ordered path through the blueprint; a step follows a drawn connection where there is one.
+# Numbered in journey order: client and staff journeys first, then the ledger, then incidents and oversight.
+# group: one of meta.flow_groups (the headings in the flow menu)
+# ---------------------------------------------------------------------------
+flows:
+  - { id: F1, group: client, name: Client onboarding, path: [CL.retail, D0.1, D2.1, D2.2, D2.3, D3.3, D3.4] }
+  - { id: F2, group: client, name: Staff approval, path: [CL.staff, D0.4, D1.3, D4.5, D4.4, D5.1] }
+  - { id: F3, group: client, name: Outbound transaction, path: [CL.wholesale, D0.1, D1.3, D1.1, D4.3, D4.2, D3.3, D4.1, D4.4, D5.1, D5.3, D6.2, D6.12, D6.9] }
+  - { id: F4, group: client, name: Trade to settlement, path: [CL.wholesale, D0.1, D1.3, D1.1, D4.3, D11.1, D11.3, D5.1, D5.4, D0.3] }
+  - { id: F5, group: client, name: Inbound deposit, path: [D7.1, D7.3, D7.4, D3.3, D3.7, D3.4, D3.5, D3.8] }
+  - { id: F6, group: ledger, name: Signed transaction to the ledger, path: [D6.2, D7.2, D7.1, D7.3, D7.4, D5.4, D0.3] }
+  - { id: F7, group: ledger, name: Post-trade and retrospective review, path: [D7.1, D7.3, D7.4, D7.5, D3.1, D3.3, D3.4, D3.5] }
+  - { id: F8, group: ledger, name: Chain event handling, path: [D7.1, D7.3, D7.4, D12.1, D5.4, D0.3] }
+  - { id: F9, group: ledger, name: Validator duties, path: [D7.1, D7.3, D7.7, D7.8] }
+  - { id: F10, group: oversight, name: On-chain incident, path: [D7.1, D7.3, D7.4, D8.11, D12.4] }
+  - { id: F11, group: oversight, name: Authority request, path: [CL.authority, D15.4, D3.4, D3.5, D15.3] }
+  - { id: F12, group: oversight, name: New tool or vendor intake, path: [D9.2, D8.1, D8.2, D9.1] }

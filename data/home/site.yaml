@@ -30,6 +30,10 @@ cards:
   icon: scenarios
   title: Scenarios
   text: 'What you do with digital assets: payments, DvP, repo and more.'
+- path: architecture
+  icon: architecture
+  title: Architecture
+  text: 'What a digital asset team builds inside an institution: from client onboarding to keys and nodes.'
 - path: privacy
   icon: privacy
   title: Privacy

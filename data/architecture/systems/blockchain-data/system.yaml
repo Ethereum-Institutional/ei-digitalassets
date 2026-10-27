@@ -1,0 +1,76 @@
+# Due diligence: blockchain data, indexing and pricing. The page /architecture/blockchain-data/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Blockchain data, reference data and pricing
+short: Data, reference data & pricing
+group: ledger
+tagline: 'Indexers, analytics, reference data and prices'
+order: 10
+summary: 'The data services between the ledger and your systems: indexers that turn raw chain data into balances and events your applications can query at high frequency, analytics, static and reference data (the asset master and official closing prices), and price feeds for limits, valuation and accounting.'
+components: [D7.3, D7.4, D7.5, D7.6, D7.9, D12.1]
+last_reviewed: 2026-10-27
+
+models:
+- name: Run your own
+  text: 'Your own archive nodes and indexer. Full control over data lineage; you carry the engineering and storage cost.'
+- name: Data provider
+  text: 'Indexed data, analytics and prices by API or data share. Fast to adopt; check finality handling, lineage and licensing.'
+
+guidance:
+- title: Finality is a data question
+  text: 'An indexer that reports a balance before the block is final can show a deposit that later disappears in a chain reorganization. Ask how each provider treats unfinalized blocks, and make your reconciliation use finalized data.'
+
+sections:
+- title: Coverage and correctness
+  questions:
+  - q: 'Which chains, layer 2 networks and token standards do you index, and how complete is historical data?'
+  - q: 'How do you handle chain reorganizations and finality, and can we query only finalized data?'
+    must: true
+  - q: 'Can every figure be traced to the blocks and transactions it came from?'
+    why: Reconciliation, audit and investigations all need lineage back to the chain.
+
+- title: Performance
+  questions:
+  - q: 'What latency from block to API, query rates and availability do you commit to?'
+  - q: 'Do you offer streaming (webhooks or subscriptions) for balances and events on our addresses?'
+
+- title: Pricing data
+  questions:
+  - q: 'How are reference prices built: sources, weighting, outlier handling and resistance to manipulation on thin markets?'
+    must: true
+  - q: 'Do you provide prices suitable for fair value accounting and for limits, with a documented methodology and change log?'
+  - q: 'How are new assets, forks and airdrops priced when there is little or no market?'
+
+- title: Static and reference data
+  questions:
+  - q: 'Do you maintain an asset master with identifiers (Digital Token Identifier, ISIN where one exists), contract addresses per chain, decimals and issuer details?'
+    must: true
+  - q: 'Do you publish an official end-of-day closing price per asset, at a fixed time and time zone, with a documented fallback when a source fails?'
+    why: Valuation, NAV, collateral and regulatory reporting all need one agreed price per asset per day.
+  - q: 'How are corporate-action-like events (redenominations, migrations, forks) reflected in the asset master, and how quickly?'
+  - q: 'Can we audit historical static data as it was on a given date (point-in-time history)?'
+
+- title: Licensing and exit
+  questions:
+  - q: 'May we store, redistribute or show your data to clients and regulators?'
+  - q: 'Can we export our history if we leave, and in what format?'
+
+sources:
+- title: 'ethereum.org, Archive nodes'
+  url: https://ethereum.org/developers/docs/nodes-and-clients/archive-nodes/
+  checked: '2026-10-27'
+- title: 'ethereum.org, Gasper: how Ethereum mainnet reaches finality'
+  url: https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/
+  checked: '2026-10-27'
+- title: 'ISO 24165-1:2025, Digital token identifier (DTI), Part 1: Method for registration and assignment'
+  url: https://www.iso.org/standard/85546.html
+  checked: '2026-10-27'
+- title: 'IOSCO, Principles for Financial Benchmarks (July 2013), Principles 6 to 12 on design, data sufficiency, methodology and changes to it'
+  url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD415.pdf
+  checked: '2026-10-27'
+- title: 'FASB, ASU 2023-08, Crypto Assets (Subtopic 350-60): Accounting for and Disclosure of Crypto Assets (December 2023)'
+  url: https://storage.fasb.org/ASU%202023-08.pdf
+  checked: '2026-10-27'
+- title: 'IFRS Foundation, IFRS 13 Fair Value Measurement'
+  url: https://www.ifrs.org/issued-standards/list-of-standards/ifrs-13-fair-value-measurement/
+  checked: '2026-10-27'

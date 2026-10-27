@@ -1,0 +1,81 @@
+# Due diligence: confidential tokens and privacy layers. The page /architecture/confidential-tokens/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+# The questions follow the facets of the Privacy page (data/privacy/site.yaml), so a provider's answers can be read
+# against the designs compared there.
+
+title: Confidential tokens and privacy layers
+short: Confidential tokens
+group: custody
+tagline: 'Hide amounts and counterparties from the public, keep your controls'
+order: 11
+summary: 'A privacy layer or confidential token hides amounts, and often counterparties, from the public while the ledger still checks every rule. What matters is less the cryptography than who may use it, who else can see the data, which controls survive for the issuer, and where it runs. The Privacy page compares the designs and shows which come closest to what institutions ask for.'
+components: [D5.6]
+last_reviewed: 2026-10-27
+
+models:
+- name: Notarized or permissioned tokens you run
+  text: 'An issuer or notary validates each transfer and only commitments reach the ledger; you run every component yourself, usually on a private or permissioned EVM network.'
+  examples: ['Hyperledger Paladin (Noto)', 'Hyperledger Paladin (Pente)']
+- name: Encrypted-balance tokens on a public ledger
+  text: 'Balances and amounts are encrypted on chain while addresses stay visible; a key service or coprocessor network run by others does the encrypted computation.'
+  examples: ['Zama confidential tokens (ERC-7984)', Fhenix CoFHE, Inco]
+- name: A private chain or validium
+  text: 'A chain run by you or for you keeps the data off the public ledger and posts only state roots and proofs; privacy is access control by the operator.'
+  examples: [ZKsync Prividium, Rayls]
+
+guidance:
+- title: Permissioned, with a notary
+  text: 'Decide first who may use the private side and who may decrypt without the holder. Most institutions want verified participants only, and a notary (the issuer, a regulator, or law enforcement on an order) whose every decryption leaves an on-chain notice.'
+- title: The name travels with the service
+  text: 'A pool, network or named service that also serves permissionless privacy can raise reputational concern even when your own deployment is permissioned. Software you deploy for yourself does not.'
+- title: Compare on the Privacy page
+  text: 'The Privacy page places each design by what it hides and lets you filter on these questions; its institutional wish list shows which designs come closest today, and which gaps no design has closed yet.'
+
+sections:
+- title: Permissioning and who can see
+  questions:
+  - q: 'Can we restrict the private side to verified participants (an allow list or verified credentials), and can anyone outside that list hold or receive the token?'
+    must: true
+  - q: 'Does any pool, network or service under your name also serve permissionless privacy, and could our deployment share a pool or network with it?'
+    why: The reputational risk follows the service, not only your own configuration.
+  - q: 'Who besides the parties can see amounts and counterparties: the operator, a key committee, a coprocessor network, a notary, other participants?'
+    must: true
+  - q: 'Can a named party (the issuer, our regulator, law enforcement on an order) decrypt without the holder, and does each decryption leave an on-chain notice or wait out a timelock?'
+    why: An auditable decryption route is what makes privacy acceptable to supervisors.
+
+- title: Issuer controls and compliance
+  questions:
+  - q: 'Which issuer controls survive inside the privacy layer: freeze, forced transfer, pause, and mint and burn?'
+    must: true
+  - q: 'Is sanctions screening built in at entry and exit, or can we add our own checks through hooks or policies?'
+  - q: 'How do you support the Travel Rule and suspicious activity reporting when amounts and counterparties are hidden from public analytics?'
+
+- title: Reach and tokens
+  questions:
+  - q: 'On which ledgers does it run today: Ethereum mainnet, Layer 2s, other EVM chains, a private EVM network, or only your own chain?'
+  - q: 'Which token standards does it carry: ERC-20 stablecoins and deposit tokens, ERC-3643 or ERC-7943 securities, ERC-7984, non-fungible tokens, vault shares?'
+  - q: 'Can a confidential leg settle atomically against another asset (delivery versus payment) on the same or another ledger?'
+
+- title: Operation and cost
+  questions:
+  - q: 'Can we run every component ourselves (prover, indexer, key service, relayer, sequencer), or does it depend on your operators or another network?'
+    must: true
+  - q: 'Which wallets and custodians support it today, and does it work with keys our custodian already manages?'
+  - q: 'What does it cost beyond gas: a protocol fee, a token we must hold, or a commercial license?'
+
+- title: Assurance and track record
+  questions:
+  - q: 'Does the chain verify each private transfer with a proof, or does it trust the signatures of operators, enclaves or a notary?'
+  - q: 'Which independent audits cover the contracts, circuits and key service, and which findings remain open?'
+  - q: 'Is the confidentiality post-quantum, or does the ledger hold only salted hashes or roots that leave nothing to decrypt later?'
+    why: Data on a public ledger is permanent, so what can be harvested now matters.
+  - q: 'Which regulated institutions use it in production or in a public pilot, with named participants and published results?'
+  - q: 'What incidents or vulnerabilities have you had, and if the privacy layer fails, do we lose privacy or funds?'
+
+sources:
+- { title: 'Ethereum Institutional, Privacy map: designs, facets and the institutional wish list', url: 'https://ethereum-institutional.github.io/ei-digitalassets/privacy/', checked: '2026-10-27' }
+- { title: 'Privacy Stewards of Ethereum, private transfers benchmark', url: 'https://private-transfers.pse.dev/', checked: '2026-10-27' }
+- { title: 'J.P. Morgan Kinexys, Project Epic whitepaper (2024), What is on-chain privacy', url: 'https://www.jpmorgan.com/kinexys/documents/JPMC-Kinexys-Project-Epic-Whitepaper-2024.pdf', checked: '2026-10-27' }
+- { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and VASPs (28 October 2021), paragraph 174', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-27' }
+- { title: 'ERC-7984, Confidential Fungible Token (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7984', checked: '2026-10-27' }
+- { title: 'ERC-3643, T-REX: Token for Regulated EXchanges', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-10-27' }

@@ -1,0 +1,112 @@
+# Architecture blueprint layout. Lanes run from the clients (top) to the private keys (bottom). Columns sit on a
+# 200-unit grid (x = 124, 324, 524, 724, 924); x = 524 is the spine that the main transaction runs down:
+# client channels, identity, scenarios, order control, allowlisting, approval, multi-signature, custody, signing, keys.
+# The ledger column sits to the right. The two rails (domains that apply to every lane) are listed under the
+# blueprint, not drawn in it, so `rails` only names their items.
+# nodes: id: [x, y] or [x, y, width] (centers, in canvas units). Every component is placed once: as a node or in a rail.
+canvas: { width: 1276, height: 1460 }
+node: { w: 176, h: 50 }
+main: { x0: 16, x1: 1024 }
+lanes:
+- { id: clients, label: 'Clients, staff and authorities', y0: 16, y1: 130 }
+- { id: access, label: Access and channels, y0: 130, y1: 240 }
+- { id: identity, label: Identity and onboarding, y0: 240, y1: 400 }
+- { id: records, label: Systems of record and reference maps, y0: 400, y1: 530 }
+- { id: order, label: Order and transaction control, y0: 530, y1: 690 }
+- { id: screening, label: Screening and approval, y0: 690, y1: 930 }
+- { id: custody, label: Custody and settlement, y0: 930, y1: 1100 }
+- { id: signing, label: Signing and key management, y0: 1100, y1: 1270 }
+- { id: keys, label: Private keys, y0: 1270, y1: 1440 }
+column: { label: 'Ledger, nodes and data', x0: 1040, x1: 1260, y0: 410, y1: 1440 }
+rails:
+- id: governance
+  label: 'Governance, risk and conduct'
+  items: [D10.1, D10.2, D10.3, D10.4, D10.5, D10.6, D10.7, D10.8, D10.9, D13.1, D13.2, D13.6, D13.3, D13.4, D13.5, D14.3, D14.4, D14.5, D15.1, D15.2, D15.3, D3.6, D6.7]
+- id: security
+  label: 'Security, third parties and people'
+  items: [D8.1, D8.2, D8.3, D8.4, D8.5, D8.6, D8.7, D8.8, D8.9, D8.10, D9.1, D9.2, D9.3, D9.4, D9.5, D16.1, D16.2, D16.3, D16.4, D16.5, D16.6, D12.2, D12.3]
+context: [124, 76, 190]
+nodes:
+  # clients
+  CL.retail: [324, 76]
+  CL.wholesale: [524, 76]
+  CL.staff: [724, 76]
+  CL.authority: [924, 76]
+  # access and channels
+  D14.1: [324, 190]
+  D0.1: [524, 190]
+  D0.4: [724, 190]
+  D15.4: [924, 190]
+  # identity and onboarding
+  D2.1: [124, 295]
+  D2.2: [324, 295]
+  D1.3: [524, 295]
+  D14.2: [724, 295]
+  D2.5: [124, 365]
+  D2.6: [724, 365]
+  # systems of record and reference maps
+  D0.2: [124, 465]
+  D2.3: [324, 465]
+  D1.1: [524, 465]
+  D1.2: [724, 465]
+  D1.4: [924, 465]
+  # order and transaction control
+  D11.1: [124, 585]
+  D4.3: [524, 585]
+  D11.4: [924, 585]
+  D11.5: [124, 655]
+  D4.2: [524, 655]
+  # screening and approval
+  D3.2: [124, 755]
+  D3.3: [324, 755]
+  D3.4: [924, 755]
+  D2.4: [324, 825]
+  D4.1: [524, 825]
+  D3.1: [724, 825]
+  D3.5: [924, 825]
+  D3.7: [124, 825]
+  D3.8: [924, 895]
+  D4.5: [324, 895]
+  D4.4: [524, 895]
+  D4.6: [724, 895]
+  # custody and settlement
+  D11.3: [124, 995]
+  D5.6: [324, 995]
+  D5.1: [524, 995]
+  D5.5: [724, 995]
+  D12.1: [924, 995]
+  D11.2: [124, 1065]
+  D5.2: [324, 1065]
+  D5.3: [524, 1065]
+  D5.4: [724, 1065]
+  D0.3: [924, 1065]
+  # signing and key management
+  D6.8: [124, 1165]
+  D6.1: [324, 1165]
+  D6.2: [524, 1165]
+  D7.2: [924, 1165]
+  D6.3: [124, 1235]
+  D6.13: [324, 1235]
+  D6.4: [724, 1235]
+  D7.11: [924, 1235]
+  # private keys and where they live
+  D6.6: [124, 1335]
+  D6.10: [324, 1335]
+  D6.12: [524, 1335]
+  D6.11: [724, 1335]
+  D6.5: [924, 1335]
+  D6.14: [124, 1405]
+  D6.9: [524, 1405, 300]
+  D6.15: [924, 1405]
+  # ledger, nodes and data
+  D7.9: [1150, 465]
+  D7.10: [1150, 555]
+  D7.6: [1150, 655]
+  D7.5: [1150, 755]
+  D12.4: [1150, 825]
+  D8.11: [1150, 895]
+  D7.4: [1150, 995]
+  D7.3: [1150, 1065]
+  D7.1: [1150, 1165]
+  D7.7: [1150, 1335]
+  D7.8: [1150, 1405]

@@ -1,0 +1,77 @@
+# Due diligence: digital asset insurance. The page /architecture/insurance/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Digital asset insurance
+short: Insurance
+group: custody
+tagline: 'Specie, professional liability and cyber cover, and how to read a policy'
+order: 13
+summary: 'The policies that respond when digital assets are lost or a digital asset service fails: specie insurance for assets in custody, professional liability for errors and omissions, and cyber liability for network security and privacy events. When selecting a policy, assess all terms and conditions: coverage, limits and sub-limits, extensions, exclusions and the reputation of the insurers.'
+components: [D9.3, D9.4, D9.5, D5.1, D5.5, D6.9]
+last_reviewed: 2026-10-27
+
+models_title: Types of cover
+models:
+- name: Specie insurance
+  text: 'Covers physical loss or theft of assets in custody, which for digital assets means the keys. Limits often differ sharply between cold, warm and hot storage.'
+- name: Professional liability (errors and omissions)
+  text: 'Covers claims that your service or advice caused a client loss: a mistaken transfer, a missed corporate action, a failed control.'
+- name: Cyber liability
+  text: 'Covers breach response, business interruption, privacy liability and extortion. Many cyber policies exclude the loss of digital assets themselves, so it rarely replaces specie cover.'
+
+guidance:
+- title: Read the whole policy, not the headline limit
+  text: 'Assess coverage, limits and sub-limits, extensions, exclusions and the reputation of the insurers, together. A large aggregate limit can hide a small sub-limit for hot wallets, a shared limit across every client of a custodian, or an exclusion for the most likely loss.'
+- title: Map the gaps between policies
+  text: 'Lay specie, professional liability, cyber and crime policies side by side against your loss scenarios (external theft, insider theft, social engineering of an approver, smart contract exploit, mistaken transfer, vendor failure) and mark which policy responds to each, and which none does.'
+
+sections:
+- title: Coverage and triggers
+  questions:
+  - q: 'Which loss scenarios trigger the policy: external theft, insider collusion, social engineering, key compromise at a vendor, smart contract failure, mistaken transfer?'
+    must: true
+  - q: 'Does cover depend on where the keys are held (cold, warm, hot, MPC, third-party custodian), and how is each defined?'
+  - q: 'Is loss of key material without theft (destruction, lost backups) covered?'
+  - q: 'How is the value of a loss measured: price at discovery, at claim or at settlement, from which price source?'
+    why: Digital asset prices move fast; the valuation date can change a claim by a large amount.
+
+- title: Limits, sub-limits and extensions
+  questions:
+  - q: 'What is the aggregate limit, and which sub-limits apply by storage tier, asset, location, event or client?'
+    must: true
+  - q: 'Is the limit dedicated to us or shared with other policyholders, for example all clients of a custodian?'
+    must: true
+  - q: 'Which extensions are available (transit of assets, key holders and their travel, third-party custodians, staked assets), and at what cost?'
+  - q: 'What deductible or retention applies, per event and in aggregate?'
+
+- title: Exclusions and conditions
+  questions:
+  - q: 'Which exclusions apply: war and state actors, sanctions, unapproved assets or chains, decentralized finance, voluntary transfers induced by deception?'
+    why: State-sponsored theft and social engineering are leading causes of loss; exclusions for either can empty a policy.
+    must: true
+  - q: 'Which security controls are conditions of cover (quorums, ceremonies, audits, allowlists), and what happens if one lapses?'
+  - q: 'How quickly must a loss be notified, and what evidence is required to prove it on chain?'
+
+- title: Insurers and claims
+  questions:
+  - q: 'Who are the insurers and reinsurers on each layer, and what are their financial strength ratings?'
+  - q: 'Have the insurers paid digital asset claims before, and how long did settlement take?'
+  - q: 'Who handles claims, and what forensic support is provided after a loss?'
+  - q: 'How do the specie, professional liability, cyber and crime policies interact when one event touches several?'
+
+sources:
+- title: 'Basel Committee on Banking Supervision, Prudential treatment of cryptoasset exposures (December 2022)'
+  url: https://www.bis.org/bcbs/publ/d545.htm
+  checked: '2026-10-27'
+- title: 'ESMA interactive single rulebook, MiCA Article 67(4) to (6), insurance policy as a prudential safeguard and the risks it must cover'
+  url: https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-67-prudential-requirements
+  checked: '2026-10-27'
+- title: 'ESMA interactive single rulebook, MiCA Article 75(8), custodian liability for loss of clients'' crypto-assets'
+  url: https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-75-providing-custody-and
+  checked: '2026-10-27'
+- title: 'Lloyd''s, Market Bulletin Y5381, State backed cyber-attack exclusions (August 2022)'
+  url: https://assets.lloyds.com/media/e9a4058c-4c25-48d6-99d3-0c466987e099/Y5381%20Market%20Bulletin%20-%20Cyber-attack%20exclusions.pdf
+  checked: '2026-10-27'
+- title: 'FBI, North Korea Responsible for $1.5 Billion Bybit Hack (public service announcement, February 2025)'
+  url: https://www.ic3.gov/PSA/2025/PSA250226
+  checked: '2026-10-27'

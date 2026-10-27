@@ -1,0 +1,81 @@
+# Due diligence: third-party custodian. The page /architecture/custodian/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Third-party custodian
+short: Third-party custodian
+group: custody
+tagline: 'A regulated firm holds the keys and signs on your instruction'
+order: 3
+summary: 'A regulated firm that holds digital assets on your behalf: it controls the keys and signs on your authenticated instruction. You move operational key risk to the custodian and take on counterparty, legal and concentration risk in its place.'
+components: [D5.5, D5.4, D14.5]
+last_reviewed: 2026-10-27
+
+models:
+- name: Regulated digital asset custodian
+  text: 'A trust company, bank or licensed custodian holding assets in its own key infrastructure, usually with cold, warm and hot tiers.'
+  examples: [Anchorage Digital Bank, BitGo Trust Company, Coinbase Custody Trust Company]
+- name: Sub-custody through a bank
+  text: 'Your existing global custodian offers digital assets through a specialist sub-custodian. One relationship for you, two layers of risk to understand.'
+- name: Custody technology in-house
+  text: 'You hold the keys yourself on vendor software. Covered on its own page.'
+  link: custody-technology
+
+guidance:
+- title: Bankruptcy remoteness comes first
+  text: 'Before technology, establish what happens to your assets if the custodian fails: whether they are segregated and held for you, not lent or used by the custodian, and whether a legal opinion in the custodian''s jurisdiction supports that. Then look at keys and operations.'
+
+sections:
+- title: Regulation and legal status
+  questions:
+  - q: 'Which licenses do you hold, from which regulators, and are you a qualified custodian for our client types in each jurisdiction we operate in?'
+    must: true
+  - q: 'Are our assets segregated from yours and from other clients, on chain and in your books, and is that supported by a legal opinion on insolvency?'
+    must: true
+  - q: 'Do your terms prohibit lending, rehypothecation or any other use of our assets?'
+    must: true
+  - q: 'Which sub-custodians or technology providers sit behind you, and are they disclosed and contractually bound to the same standards?'
+
+- title: Keys and operations
+  questions:
+  - q: 'Which key technologies do you use for cold, warm and hot storage, and in which jurisdictions is key material held?'
+  - q: 'How are our instructions authenticated, and can we require our own quorum of approvers on every withdrawal?'
+  - q: 'Can we enforce address allowlists and limits on your side, so that a compromised instruction channel cannot move assets elsewhere?'
+  - q: 'What are your withdrawal times from each storage tier, including cut-offs, weekends and public holidays?'
+
+- title: Assurance and insurance
+  questions:
+  - q: 'Which reports can you share (SOC 1 and SOC 2 Type II), covering which period and which services?'
+  - q: 'Do you publish proof of reserves or attestations, and what exactly do they prove?'
+  - q: 'What insurance covers our assets: insurer, limit, per-client or shared, exclusions, and does it cover insider theft and hot wallets?'
+    why: Headline limits are often shared across all clients and exclude the scenarios that matter most.
+
+- title: Reporting and reconciliation
+  questions:
+  - q: 'Which statements and APIs give us positions, transactions and on-chain addresses daily, so we can reconcile against the chain ourselves?'
+  - q: 'How do you treat forks, airdrops and staking rewards, and how are they reported to us?'
+
+- title: Incidents and exit
+  questions:
+  - q: 'What security or operational incidents have you had, and how were clients affected?'
+  - q: 'How long would it take to move all our assets to another custodian, and what would it cost?'
+  - q: 'What is your wind-down plan, and who would return assets to clients if you stopped operating?'
+
+sources:
+- title: 'Regulation (EU) 2023/1114 on markets in crypto-assets (MiCA), Article 75 on custody and administration'
+  url: https://eur-lex.europa.eu/eli/reg/2023/1114/oj
+  checked: '2026-10-27'
+- title: 'ESMA interactive single rulebook, MiCA Article 74, Orderly wind-down of crypto-asset service providers'
+  url: https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-74-orderly-wind-down-crypto-asset
+  checked: '2026-10-27'
+- title: 'NYDFS, Updated Guidance on Custodial Structures for Customer Protection in the Event of Insolvency (30 September 2025; replaces the January 2023 guidance)'
+  url: https://www.dfs.ny.gov/industry-guidance/industry-letters/il20250930-updated-guidance-custodial-structures
+  checked: '2026-10-27'
+- title: 'Federal Reserve, FDIC and OCC, Joint statement on risk-management considerations for crypto-asset safekeeping (14 July 2025)'
+  url: https://www.federalreserve.gov/newsevents/pressreleases/bcreg20250714a.htm
+  checked: '2026-10-27'
+- title: 'AICPA, System and Organization Controls (SOC) suite of services: SOC 1, SOC 2 and SOC 3 reports'
+  url: https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services
+  checked: '2026-10-27'
+- title: 'CryptoCurrency Certification Consortium (C4), CryptoCurrency Security Standard (CCSS) v9: key generation, storage, usage and compromise controls'
+  url: https://cryptoconsortium.org/ccss-table-v9/
+  checked: '2026-10-27'

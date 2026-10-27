@@ -1,0 +1,49 @@
+# Architecture page (kind: architecture): a blueprint driven by architecture.yaml (content) and layout.yaml (geometry).
+# Rendered from src/architecture.html. Each folder under systems/ becomes a due diligence page linked from the blueprint.
+
+kind: architecture
+title: Digital Asset Architecture
+slug: architecture
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Digital Asset Architecture
+  italic: Architecture
+intro: 'A blueprint of what a digital asset team runs inside an institution: from the clients it serves at the top, through channels, identity, systems of record, order control, screening and approval, custody and signing, down to the private keys that move assets on the ledger. Lines show how the components feed each other: instructions, data and controls. Hover over a component to see its connections, pick a flow to trace it end to end, and follow the DDQ tags to due diligence questions for the systems you may procure.'
+intro_more: 'Every request is first classified by who is asking (a retail or wholesale client, new, existing or acting through a third party; a member of staff or an administrator; or an authority such as a regulator, law enforcement, a court or a tax authority), where they are accessing from and their nationality. That classification resolves to a scenario on the Scenarios page, an asset class on the Taxonomy map and a permission set on the Identity map, tied back to the client directory in the core architecture, and sets the risk tier that drives onboarding depth, screening intensity and limits. The main transaction runs straight down the middle of the blueprint. The two side rails hold what applies to every lane: governance, risk and conduct on the left; security, third parties and people on the right.'
+svg_label: Blueprint of a digital asset team's architecture, from clients at the top to private keys at the bottom, with the connections between components
+panel_default:
+  title: Components
+  text: Hover over a component to see what it covers and what it connects to; click to pin it, then follow its connections from the card. On a narrow screen, scroll the blueprint sideways.
+# reference maps in architecture.yaml that have a page on this site
+reference_links:
+  scenarios_map: scenarios
+  taxonomy_map: taxonomy
+  identity_map: identity
+  privacy_map: privacy
+  networks_map: networks
+  decentralization_map: decentralization
+  quantum_map: quantum
+# due diligence pages (systems/<id>/system.yaml): shared text
+ddq:
+  title: Due diligence questions
+  text: 'Questions to put to the vendors and service providers behind each system on the blueprint, built from one YAML file per system so anyone can propose a question on GitHub. Use them as a starting point for your own questionnaire, not as a checklist to pass.'
+  # the headings the due diligence pages are listed under (each system.yaml names one as its group)
+  groups:
+    custody: Custody and keys
+    fincrime: Financial crime and compliance
+    ledger: Ledger, data and trading
+    security: Security, resilience and people
+  notice:
+    title: Work in progress.
+    text: These questions are a v0.x draft for discussion. Vendor names are examples for orientation, not endorsements or assessments. Not legal advice.
+  contribute:
+    title: Suggest a question.
+    text: Each page is built from one YAML file. Edit it on GitHub to add or sharpen a question, or open an issue to propose one.
+notice:
+  title: Work in progress.
+  text: This architecture map is a v0.x draft for discussion. Components, connections and flows may change; nothing here is a recommendation for a specific institution.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this map.
+  text: Open an issue to suggest a component, a connection, a flow or a due diligence question.
+footnote: 'This map is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

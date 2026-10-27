@@ -1,0 +1,56 @@
+# Due diligence: wallet-as-a-service for self-custody clients. The page /architecture/wallet-as-a-service/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Wallet-as-a-service
+short: Wallet-as-a-service
+group: custody
+tagline: 'Embedded wallets for clients who hold their own keys'
+order: 11
+summary: 'Embedded wallets the institution offers to clients who want to hold their own assets: the client controls the key (often through a passkey or a share of an MPC key), while the institution provides the experience, the screening and the recovery options.'
+components: [D5.2, D2.2, D16.5]
+last_reviewed: 2026-10-27
+
+guidance:
+- title: Be precise about who holds what
+  text: 'If the provider or the institution can sign, freeze or recover without the client, the client is not self-custodying and the service may be custody in law. Map exactly which parties hold which key material, and take legal advice on the result.'
+
+sections:
+- title: Key custody model
+  questions:
+  - q: 'Which key model do you use (passkeys, MPC shares, smart accounts), and which shares or keys do the client, the institution and you each hold?'
+    must: true
+  - q: 'Can you or the institution sign, freeze or move a client''s assets without the client?'
+    must: true
+  - q: 'How does a client recover after losing a device, and who can block a fraudulent recovery?'
+  - q: 'Can clients export their keys or move to another wallet without your involvement?'
+
+- title: Security and experience
+  questions:
+  - q: 'Do you support smart accounts (ERC-4337, EIP-7702), spending limits and transaction simulation for clients?'
+  - q: 'How do you protect clients from address poisoning, phishing approvals and wallet drainers?'
+  - q: 'Which audits and penetration tests cover the wallet, the key infrastructure and the SDK?'
+
+- title: Compliance
+  questions:
+  - q: 'Can screening and Travel Rule checks run on transfers from client wallets, and what happens to a flagged transfer?'
+  - q: 'How do you treat clients in jurisdictions we do not serve, and how is access origin enforced?'
+
+sources:
+- title: 'ERC-4337, Account Abstraction Using Alt Mempool'
+  url: https://eips.ethereum.org/EIPS/eip-4337
+  checked: '2026-10-27'
+- title: 'EIP-7702, Set Code for EOAs'
+  url: https://eips.ethereum.org/EIPS/eip-7702
+  checked: '2026-10-27'
+- title: 'W3C, Web Authentication Level 3 (WebAuthn, the standard behind passkeys)'
+  url: https://www.w3.org/TR/webauthn-3/
+  checked: '2026-10-27'
+- title: 'Regulation (EU) 2023/1114 on markets in crypto-assets (MiCA), Recital 83 (providers of non-custodial wallet hardware or software are out of scope)'
+  url: https://eur-lex.europa.eu/eli/reg/2023/1114/oj
+  checked: '2026-10-27'
+- title: 'FinCEN, Application of FinCEN''s Regulations to Certain Business Models Involving Convertible Virtual Currencies (FIN-2019-G001, May 2019), on hosted and unhosted wallets'
+  url: https://www.fincen.gov/system/files/2019-05/FinCEN%20Guidance%20CVC%20FINAL%20508.pdf
+  checked: '2026-10-27'
+- title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021)'
+  url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Guidance-rba-virtual-assets-2021.html
+  checked: '2026-10-27'

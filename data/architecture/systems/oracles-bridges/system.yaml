@@ -1,0 +1,60 @@
+# Due diligence: oracles, attestations and bridges. The page /architecture/oracles-bridges/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Oracles, attestations and bridges
+short: Oracles, attestations & bridges
+group: ledger
+tagline: 'Third-party risk in price feeds, attestations and bridges'
+order: 15
+summary: 'The external dependencies that on-chain assets rely on: oracles that bring prices and reference data on chain, attestations that prove reserves, NAV or collateral, and bridges that move assets and messages between chains. Each one is a third party whose failure can change what your tokens are worth.'
+components: [D7.10, D7.11, D13.3, D9.1, D5.4]
+last_reviewed: 2026-10-27
+
+guidance:
+- title: Know what you depend on
+  text: 'List every oracle, attestation and bridge that any token you hold, issue or accept depends on, including the dependencies of the protocols you use. Most institutions find more than they expect.'
+- title: Bridged assets are claims on the bridge
+  text: 'A token bridged to another chain is usually a claim on assets locked by the bridge. If the bridge is exploited, the bridged token can lose its backing. Treat the bridge as the issuer of that token for risk purposes.'
+
+sections:
+- title: Oracles
+  questions:
+  - q: 'Which data sources feed the oracle, how are they aggregated, and how is manipulation on thin markets resisted?'
+    must: true
+  - q: 'Who operates the oracle nodes, how many are there, and what threshold of them must agree?'
+  - q: 'What happens when the feed is stale, deviates sharply or stops, and is there a circuit breaker?'
+  - q: 'Who can change the feed configuration or the contracts, and with what delay and approval?'
+
+- title: Attestations
+  questions:
+  - q: 'Who performs the attestation, under which professional standard, and how often?'
+  - q: 'What exactly is attested (assets only, or assets against liabilities), and at which point in time?'
+    why: An asset-only snapshot does not prove solvency.
+  - q: 'How is the attestation published on chain, and can anyone verify it independently?'
+
+- title: Bridges and cross-chain messaging
+  questions:
+  - q: 'What security model does the bridge use (validator set, light client, zero-knowledge proofs, optimistic with challenge period), and who are the validators?'
+    must: true
+  - q: 'How much value does the bridge secure, and has it been exploited or paused before?'
+  - q: 'Who can upgrade the bridge contracts or pause transfers, and with what time lock?'
+  - q: 'Which audits and formal verification cover the bridge, and is there an active bug bounty?'
+  - q: 'Is there a canonical (issuer-native) route for the asset that avoids a third-party bridge?'
+    why: Native issuance on each chain, or the chain's own canonical bridge, often removes a layer of risk.
+
+sources:
+- title: 'FSB, High-level Recommendations for the Regulation, Supervision and Oversight of Crypto-asset Activities and Markets (July 2023)'
+  url: https://www.fsb.org/2023/07/high-level-recommendations-for-the-regulation-supervision-and-oversight-of-crypto-asset-activities-and-markets-final-report/
+  checked: '2026-10-27'
+- title: 'IOSCO, Final Report with Policy Recommendations for Decentralized Finance (DeFi) (December 2023)'
+  url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD754.pdf
+  checked: '2026-10-27'
+- title: 'BIS, Bulletin No 76, The oracle problem and the future of DeFi (September 2023)'
+  url: https://www.bis.org/publ/bisbull76.htm
+  checked: '2026-10-27'
+- title: 'AICPA, 2025 Criteria for Stablecoin Reporting: Specific to Asset-Backed Fiat-Pegged Tokens'
+  url: https://www.aicpa-cima.com/resources/download/stablecoin-reporting-criteria
+  checked: '2026-10-27'
+- title: 'ethereum.org, Bridges: types of bridge and their trust assumptions'
+  url: https://ethereum.org/developers/docs/bridges/
+  checked: '2026-10-27'

@@ -15,6 +15,7 @@ const PAGES = [
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
   { dir: 'data/scenarios', out: 'scenarios' },               // scenario index (filterable list)
   { dir: 'data/scenarios/dvp-deposit-token-tmmf', out: 'scenarios/dvp-deposit-token-tmmf' }, // first scenario
+  { dir: 'data/architecture', out: 'architecture' },         // Architecture: components of a digital asset team
   { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
@@ -25,6 +26,23 @@ const PAGES = [
   { dir: 'data/quantum/institution', out: 'quantum/institution' },
 ];
 const NAV = parse(read('data/nav.yaml')).pages; // shared navigation; links are made relative per page
+// Due diligence pages: every data/architecture/systems/<id>/system.yaml becomes a page at architecture/<id>.
+// Contributors add a folder; there is no list to edit here.
+const SYS_DIR = 'data/architecture/systems';
+const SYSTEMS = fs.existsSync(path.join(root, SYS_DIR)) ? fs.readdirSync(path.join(root, SYS_DIR))
+  .filter(d => fs.existsSync(path.join(root, SYS_DIR, d, 'system.yaml')))
+  .map(d => Object.assign(parse(read(`${SYS_DIR}/${d}/system.yaml`)) || {}, { id: d, dir: `${SYS_DIR}/${d}`, out: `architecture/${d}` }))
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999) || a.id.localeCompare(b.id)) : [];
+for (const s of SYSTEMS) PAGES.push({ dir: s.dir, out: s.out, sys: s });
+const blurb = t => { const s = String(t).split(/(?<=\.) /)[0]; if (s.length <= 130) return s; const c = s.slice(0, 128); return c.slice(0, c.lastIndexOf(' ')).replace(/[,:;]$/, '') + '…'; };
+const ARCH_SITE = (() => { let m; return () => m || (m = parse(read('data/architecture/site.yaml'))); })();
+function ddqListHtml(out, except) {
+  const G = ARCH_SITE().ddq?.groups || {};
+  return `<div class="ei-ddq">${Object.entries(G).map(([g, label]) => { const list = SYSTEMS.filter(x => x.group === g && x.id !== except);
+    return list.length ? `<section><h3>${esc(label)}</h3><ul>${list.map(x => `<li><a href="${relHref(out, x.out)}"><b>${esc(x.title)}</b><span>${esc(x.tagline || '')}</span><em>${qCount(x)}</em></a></li>`).join('')}</ul></section>` : ''; }).join('')}</div>`;
+}
+const ARCH = (() => { let m; return () => m || (m = parse(read('data/architecture/architecture.yaml'))); })();
+const qCount = s => (s.sections || []).reduce((n, sec) => n + (sec.questions || []).length, 0);
 
 // ---------- load ----------
 function load(dir) {
@@ -33,6 +51,7 @@ function load(dir) {
   if (site.kind === 'static') return { dir, site, static: true };
   // index pages list scenarios with filters; scenario pages hold one scenario (actors, steps, tokens, standards)
   if (site.kind === 'index') return { dir, site, index: true };
+  if (site.kind === 'architecture') return { dir, site, arch: true, map: yml('architecture.yaml'), layout: yml('layout.yaml') };
   if (site.kind === 'scenario') return { dir, site, scenario: true, sc: yml('scenario.yaml') };
   // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
   // gauges pages use the radial data files (rings = levels, themes = properties, lenses) with a dial per property
@@ -191,6 +210,7 @@ const GLYPHS = {
   quantum: () => `<ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(60 48 28)"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(-60 48 28)"/><circle cx="48" cy="28" r="5" fill="#14130f"/>`,
   key: () => `<circle cx="30" cy="28" r="12" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="30" cy="28" r="4" fill="#14130f"/><path d="M42 28H84M72 28V38M80 28V36" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   milestones: () => `<path d="M12 28H78" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><circle cx="26" cy="28" r="6" fill="#14130f"/><circle cx="48" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="68" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-dasharray="3 2"/>`,
+  architecture: () => `<rect x="10" y="8" width="56" height="10" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="10" y="23" width="56" height="10" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="10" y="38" width="56" height="10" rx="3" fill="#14130f"/><rect x="72" y="8" width="14" height="40" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-dasharray="4 3"/>`,
   agent: () => `<rect x="10" y="14" width="26" height="24" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="19" cy="25" r="2.5" fill="#14130f"/><circle cx="27" cy="25" r="2.5" fill="#14130f"/><path d="M23 14V8" stroke="#14130f" stroke-width="2"/>` + PART.arrow(40, 28, 58, 28) + PART.disc(74, 28, 13),
 };
 const iconSvg = (id, cls) => GLYPHS[id] ? `<svg class="${cls || 'ei-icon'}" viewBox="0 0 96 56" aria-hidden="true">${ICON_DEFS}${GLYPHS[id]()}</svg>` : '';
@@ -226,9 +246,11 @@ function validateScenario({ dir, site, sc }) {
   return errors;
 }
 function validate(page) {
+  if (page.system) return validateSystem(page);
   if (page.static) return validateStatic(page);
   if (page.index) return validateIndex(page);
   if (page.scenario) return validateScenario(page);
+  if (page.arch) return validateArchitecture(page);
   if (page.radial) return validateRadial(page);
   const { dir, circles, layout, tokens, site, lenses } = page;
   const errors = [];
@@ -550,23 +572,219 @@ function renderRadial({ site, rings, themes, layout, lenses, out, gauges }) {
     .replace('__LENSES__', radialLensHtml(site, sorted)).replace('__SECTIONS__', sectionsHtml(site)).replace('__STATS__', statsHtml(site)).replace('__SCORE__', site.score ? `<div class="ei-score" id="ei-score"><b class="t">${esc(site.score.title)}</b><span class="n">0</span><span class="of"></span><span class="bar"><i></i></span><button type="button" class="adjust" aria-expanded="false" aria-controls="ei-sliders">Adjust weights</button></div>` : '').replace('__SCORE_TEXT__', esc(site.score?.text || ''));
 }
 
-const pages = PAGES.filter(p => fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, load(p.dir)));
+// ---------- architecture page ----------
+// kind: architecture, a blueprint. architecture.yaml holds client_context, domains (each with components), connections
+// (from, to, kind, label), flows and meta; layout.yaml places each component as a node in a lane or in a side rail.
+const ARCH_STATUS = ['existing', 'extend', 'new', 'evaluate'];
+const ARCH_SOURCE = ['brief', 'suggested'];
+const ARCH_TYPES = ['system', 'process', 'technology', 'control', 'key'];
+const ARCH_KINDS = ['instruction', 'data', 'control'];
+const ARCH_FIELDS = new Set(['id', 'name', 'short', 'status', 'source', 'maps_to', 'notes', 'domain', 'type', 'sources']);
+const human = k => String(k).replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
+const refLabel = k => human(String(k).replace(/_map$/, ''));
+const refAbbr = k => String(k).replace(/_map$/, '').split('_').map(w => w[0].toUpperCase()).join('');
+const archComponents = map => (map.domains || []).flatMap(d => (d.components || []).map(c => Object.assign({ source: d.source || 'brief' }, c, { domain: d.id })));
+const archClients = map => (map.client_context?.segments || []).map(s => ({ id: `CL.${s.id}`, name: s.name, states: s.states || [] }));
+function validateArchitecture({ dir, site, map, layout }) {
+  const errors = validateStatic({ dir, site }), w = f => `${dir}/${f}`;
+  const doms = map.domains || [], dIds = new Set(doms.map(d => d.id));
+  if (dIds.size !== doms.length) errors.push(`${w('architecture.yaml')}: duplicate domain ids`);
+  const comps = archComponents(map), cIds = new Set(comps.map(c => c.id));
+  if (cIds.size !== comps.length) errors.push(`${w('architecture.yaml')}: duplicate component ids: ${comps.map(c => c.id).filter((x, i, a) => a.indexOf(x) !== i).join(', ')}`);
+  const nodeIds = new Set([...cIds, ...archClients(map).map(c => c.id)]);
+  const refs = new Set(Object.keys(map.meta?.reference_maps || {}));
+  for (const k of ARCH_STATUS) if (!map.meta?.status_legend?.[k]) errors.push(`${w('architecture.yaml')}: meta.status_legend needs "${k}"`);
+  for (const d of doms) {
+    if (!d.id || !d.name) errors.push(`${w('architecture.yaml')}: every domain needs an id and a name`);
+    if (!(d.components || []).length) errors.push(`${w('architecture.yaml')}: domain "${d.id}" has no components`);
+  }
+  for (const c of comps) {
+    if (!c.id || !c.name) errors.push(`${w('architecture.yaml')}: every component needs an id and a name (in ${c.domain})`);
+    if (c.id && !String(c.id).startsWith(c.domain + '.')) errors.push(`${w('architecture.yaml')}: component "${c.id}" should be numbered under its domain ${c.domain}`);
+    if (!ARCH_STATUS.includes(c.status)) errors.push(`${w('architecture.yaml')}: component "${c.id}" status must be ${ARCH_STATUS.join(' | ')}`);
+    if (!ARCH_SOURCE.includes(c.source)) errors.push(`${w('architecture.yaml')}: component "${c.id}" source must be ${ARCH_SOURCE.join(' or ')}`);
+    if (c.type && !ARCH_TYPES.includes(c.type)) errors.push(`${w('architecture.yaml')}: component "${c.id}" type must be ${ARCH_TYPES.join(' | ')}`);
+    for (const r of c.maps_to || []) if (!refs.has(r)) errors.push(`${w('architecture.yaml')}: component "${c.id}" maps to unknown reference map "${r}"`);
+    for (const x of c.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '') || !/^\d{4}-\d{2}-\d{2}$/.test(String(x.checked || ''))) errors.push(`${w('architecture.yaml')}: source on component "${c.id}" needs a title, a URL and checked (YYYY-MM-DD)`);
+  }
+  // placement: every component once, as a node (needs a type) or a rail item; clients are always nodes
+  const asNode = Object.keys(layout.nodes || {}), asRail = (layout.rails || []).flatMap(r => r.items || []), placed = [...asNode, ...asRail];
+  for (const id of placed) if (!nodeIds.has(id)) errors.push(`${w('layout.yaml')}: places unknown component "${id}"`);
+  for (const id of nodeIds) { const n = placed.filter(x => x === id).length; if (n !== 1) errors.push(`${w('layout.yaml')}: "${id}" is placed ${n} times (must be once)`); }
+  for (const [id, p] of Object.entries(layout.nodes || {})) {
+    if (!Array.isArray(p) || p.length < 2 || p.some(v => typeof v !== 'number')) errors.push(`${w('layout.yaml')}: node "${id}" needs [x, y] or [x, y, width]`);
+    const c = comps.find(x => x.id === id); if (c && !c.type) errors.push(`${w('architecture.yaml')}: "${id}" is drawn as a node, so it needs a type`);
+  }
+  for (const k of ['canvas', 'node', 'main', 'lanes']) if (!layout[k]) errors.push(`${w('layout.yaml')}: missing "${k}"`);
+  for (const e of map.connections || []) {
+    for (const k of ['from', 'to']) if (!nodeIds.has(e[k])) errors.push(`${w('architecture.yaml')}: connection ${e.from} to ${e.to} names unknown "${e[k]}"`);
+    for (const k of ['from', 'to']) if (asRail.includes(e[k])) errors.push(`${w('architecture.yaml')}: connection ${e.from} to ${e.to}: "${e[k]}" sits in a rail; only nodes connect`);
+    if (e.kind && !ARCH_KINDS.includes(e.kind)) errors.push(`${w('architecture.yaml')}: connection ${e.from} to ${e.to} kind must be ${ARCH_KINDS.join(' | ')}`);
+    if (e.sides && !(Array.isArray(e.sides) && e.sides.length === 2 && e.sides.every(x => ['t', 'b', 'l', 'r'].includes(x)))) errors.push(`${w('architecture.yaml')}: connection ${e.from} to ${e.to} sides must be [from, to], each t, b, l or r`);
+  }
+  for (const f of map.flows || []) {
+    if (!f.id || !f.name || !(f.path || []).length) errors.push(`${w('architecture.yaml')}: every flow needs an id, a name and a path`);
+    if (!(map.meta?.flow_groups || {})[f.group]) errors.push(`${w('architecture.yaml')}: flow "${f.id}" group must be one of meta.flow_groups`);
+    for (const n of f.path || []) if (!nodeIds.has(n)) errors.push(`${w('architecture.yaml')}: flow "${f.id}" names unknown component "${n}"`);
+  }
+  for (const [k, p] of Object.entries(site.reference_links || {})) {
+    if (!refs.has(k)) errors.push(`${w('site.yaml')}: reference_links names unknown reference map "${k}"`);
+    if (!PAGES.some(x => x.out === p)) errors.push(`${w('site.yaml')}: reference_links.${k} "${p}" is not a page`);
+  }
+  for (const f of site.features || []) {
+    const c = comps.find(x => x.id === f.component);
+    if (!['timeline', 'matrix'].includes(f.kind)) errors.push(`${w('site.yaml')}: feature kind must be timeline or matrix`);
+    if (!c) { errors.push(`${w('site.yaml')}: feature names unknown component "${f.component}"`); continue; }
+    for (const k of f.kind === 'timeline' ? ['field'] : ['rows', 'cols']) if (!Array.isArray(c[f[k]])) errors.push(`${w('site.yaml')}: feature on ${c.id}: "${f[k]}" is not a list on that component`);
+  }
+  return errors;
+}
+function renderArchitecture({ site, map, layout, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const comps = archComponents(map), byId = Object.fromEntries(comps.map(c => [c.id, c]));
+  const doms = Object.fromEntries((map.domains || []).map(d => [d.id, d]));
+  const refs = map.meta?.reference_maps || {}, legendTxt = map.meta?.status_legend || {}, flows = map.flows || [];
+  const count = f => comps.filter(f).length;
+  const cx = map.client_context || {};
+  const clients = archClients(map);
+  const sw = st => `<i class="sw st-${st}"></i>`;
+  const FG = map.meta?.flow_groups || {};
+  const controls = `<div class="ei-flowbar"><label for="ei-flow-sel">Trace a key flow</label><div class="sel"><select id="ei-flow-sel"><option value="">None</option>`
+    + Object.entries(FG).map(([g, label]) => `<optgroup label="${esc(label)}">${flows.filter(f => f.group === g).map(f => `<option value="${esc(f.id)}">${esc(f.id)} · ${esc(f.name)}</option>`).join('')}</optgroup>`).join('')
+    + `</select></div><span class="hint">Numbered steps show the path; press Esc to clear.</span></div>`;
+  const shape = t => ({ system: '<svg width="26" height="18"><rect x="5" y="2" width="16" height="14" rx="1" fill="#fff" stroke="#14130f" stroke-width="1.3"/><path d="M5 5H21" stroke="#14130f" stroke-width="1.3"/><path d="M9 2V16" stroke="#14130f" stroke-width="1"/></svg>',
+    process: '<svg width="26" height="18"><rect x="1" y="3" width="24" height="12" rx="6" fill="#fff" stroke="#14130f" stroke-width="1.3"/></svg>',
+    technology: '<svg width="26" height="18"><rect x="1" y="3" width="24" height="12" rx="1" fill="#fff" stroke="#14130f" stroke-width="1.3"/><path d="M4 6V12" stroke="#14130f" stroke-width="2"/></svg>',
+    control: '<svg width="26" height="18"><path d="M5 3H21L25 9L21 15H5L1 9Z" fill="#fff" stroke="#14130f" stroke-width="1.3"/></svg>',
+    key: '<svg width="26" height="18"><rect x="1" y="2" width="24" height="14" rx="4" fill="#14130f"/><circle cx="8" cy="9" r="3" fill="none" stroke="#f8f6f2" stroke-width="1.4"/><path d="M11 9H20M17 9V12" stroke="#f8f6f2" stroke-width="1.4"/></svg>' })[t];
+  const legend = `<details class="ei-legend-box"><summary>Legend</summary><div class="ei-legend bottom"><span class="lt">Shapes</span>`
+    + ['system', 'process', 'technology', 'control', 'key'].map(t => `<span>${shape(t)} ${({ system: 'System of record', process: 'Process', technology: 'Technology or platform', control: 'Control, limit or gate', key: 'Key material' })[t]}</span>`).join('')
+    + `<span class="lt">Lines</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#4b4740" stroke-width="1.4"/></svg> Instruction</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#0369a1" stroke-width="1.4" stroke-dasharray="5 4"/></svg> Data</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#4338ca" stroke-width="1.6" stroke-dasharray="1.5 3" stroke-linecap="round"/></svg> Control</span>`
+    + `<span class="lt">Tags</span><span><svg width="30" height="14"><rect x="1" y="1" width="28" height="12" rx="3" fill="#0369a1"/><text x="15" y="10" text-anchor="middle" font-size="8" font-weight="700" fill="#fff" font-family="Archivo, sans-serif">DDQ</text></svg> Due diligence questions on their own page</span></div></details>`;
+  const features = featuresHtml(site.features, byId);
+  const D = site.ddq || {};
+  const systems = SYSTEMS.length ? `<div class="ei-h ddq"><b>${esc(D.title || 'Due diligence questions')}</b>${D.text ? `<span>${esc(D.text)}</span>` : ''}</div>${ddqListHtml(out)}` : '';
+  const ddq = {}; for (const sy of SYSTEMS) for (const id of sy.components || []) (ddq[id] = ddq[id] || []).push({ id: sy.id, title: sy.title, href: relHref(out, sy.out), n: qCount(sy) });
+  const N = layout.node || { w: 176, h: 50 };
+  const nodes = Object.entries(layout.nodes || {}).map(([id, p]) => { const cl = clients.find(c => c.id === id), c = byId[id];
+    return cl ? { id, x: p[0], y: p[1], w: p[2] || N.w, h: N.h, type: 'actor', name: cl.name, sub: cl.states.map(human).join(' · ') }
+      : { id, x: p[0], y: p[1], w: p[2] || N.w, h: N.h, type: c.type, name: c.short || c.name, status: c.status, source: c.source }; });
+  const data = { kind: 'architecture', version, flows, status_legend: legendTxt,
+    canvas: layout.canvas, main: layout.main, lanes: layout.lanes, column: layout.column || null,
+    rails: (layout.rails || []).map(r => Object.assign({}, r, { items: r.items.map(id => ({ id, name: byId[id].short || byId[id].name, status: byId[id].status, source: byId[id].source, domain: byId[id].domain })) })),
+    context: layout.context ? { x: layout.context[0], y: layout.context[1], w: layout.context[2] || N.w, lines: [['Accessing from', (cx.access_origin || []).map(human).join(' · ')], ['Nationality', (cx.nationality || []).map(human).join(' · ')]], rule: cx.routing_rule || '' } : null,
+    nodes, edges: (map.connections || []).map(e => ({ from: e.from, to: e.to, kind: e.kind || 'instruction', label: e.label || '', sides: e.sides || null })), ddq,
+    clients: Object.fromEntries(clients.map(c => [c.id, c])),
+    refs: Object.fromEntries(Object.keys(refs).map(r => [r, { label: refLabel(r), abbr: refAbbr(r), text: refs[r], href: site.reference_links?.[r] ? relHref(out, site.reference_links[r]) : null }])),
+    domains: Object.fromEntries(Object.values(doms).map(d => [d.id, { name: d.name }])),
+    components: Object.fromEntries(comps.map(c => [c.id, Object.assign({}, c, { lists: Object.entries(c).filter(([k, v]) => !ARCH_FIELDS.has(k) && Array.isArray(v)).map(([k, v]) => [human(k), v.map(x => human(x))]) })])),
+    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a component to see what it covers and how it connects; click to pin it.' } };
+  return fillCommon(read('src/architecture.html').replace('__STYLE__', style), { site, out, data })
+    .replace('__CONTROLS__', controls).replace('__ARCH_LEGEND__', legend).replace('__FEATURES__', features).replace('__SYSTEMS__', () => systems)
+    .replace('__CANVAS_W__', layout.canvas.width).replace('__CANVAS_H__', layout.canvas.height).replace('__SECTIONS__', sectionsHtmlC(site));
+}
+
+// timeline and matrix panels drawn from one component's lists (screening lifecycle, tolerance matrix)
+function featuresHtml(list, byId) {
+  return (list || []).map(f => { const c = byId[f.component];
+    const head = `<div class="ei-tier-h"><b>${esc(f.title || c.name)}</b>${f.text ? `<span>${esc(f.text)}</span>` : ''}</div>`;
+    if (f.kind === 'timeline') return `<div class="ei-feature">${head}<ol class="ei-tl">${c[f.field].map((k, i) => { const L = (f.labels || {})[k] || {};
+      return `<li><span class="num">${i + 1}</span><b>${esc(L.title || human(k))}</b>${L.text ? `<p>${esc(L.text)}</p>` : ''}</li>`; }).join('')}</ol><p class="from">From ${esc(c.id)}, ${esc(c.name)}</p></div>`;
+    return `<div class="ei-feature">${head}<div class="ei-mx"><table class="ei-std"><thead><tr><th></th>${c[f.cols].map(x => `<th>${esc(human(x))}</th>`).join('')}</tr></thead><tbody>`
+      + c[f.rows].map(r => `<tr><th>${esc(human(r))} exposure</th>${c[f.cols].map(() => `<td><span class="cell">Action per category</span></td>`).join('')}</tr>`).join('') + `</tbody></table>`
+      + (f.list && c[f.list] ? `<div class="cats"><span class="rl">${esc(human(f.list))}</span>${c[f.list].map(x => `<span>${esc(x)}</span>`).join('')}</div>` : '') + `</div><p class="from">From ${esc(c.id)}, ${esc(c.name)}</p></div>`; }).join('');
+}
+
+// ---------- due diligence pages (data/architecture/systems/<id>/system.yaml) ----------
+const SYS_KEYS = ['title', 'short', 'group', 'tagline', 'order', 'summary', 'components', 'last_reviewed', 'models', 'models_title', 'guidance', 'curriculum', 'features', 'sections', 'sources', 'id', 'dir', 'out'];
+function validateSystem({ dir, sys }) {
+  const errors = [], w = `${dir}/system.yaml`, comps = archComponents(ARCH()), byId = Object.fromEntries(comps.map(c => [c.id, c]));
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(sys.id)) errors.push(`${w}: the folder name must be lowercase letters, digits and hyphens`);
+  for (const k of ['title', 'short', 'tagline', 'summary']) if (!sys[k]) errors.push(`${w}: missing "${k}"`);
+  const groups = ARCH_SITE().ddq?.groups || {};
+  if (!groups[sys.group]) errors.push(`${w}: group must be one of ${Object.keys(groups).join(', ')} (ddq.groups in data/architecture/site.yaml)`);
+  for (const k of Object.keys(sys)) if (!SYS_KEYS.includes(k)) errors.push(`${w}: unknown key "${k}"`);
+  if (typeof sys.order !== 'number') errors.push(`${w}: order must be a number`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(sys.last_reviewed || ''))) errors.push(`${w}: last_reviewed must be YYYY-MM-DD`);
+  if (!(sys.components || []).length) errors.push(`${w}: components must list at least one blueprint component`);
+  for (const id of sys.components || []) if (!byId[id]) errors.push(`${w}: unknown component "${id}" (see data/architecture/architecture.yaml)`);
+  for (const m of sys.models || []) {
+    if (!m.name || !m.text) errors.push(`${w}: every model needs a name and a text`);
+    if (m.link && !SYSTEMS.some(x => x.id === m.link)) errors.push(`${w}: model "${m.name}" links to unknown system "${m.link}"`);
+  }
+  for (const g of [...(sys.guidance || []), ...(sys.curriculum || [])]) if (!g.title || !g.text) errors.push(`${w}: every guidance and curriculum entry needs a title and a text`);
+  if (!(sys.sections || []).length) errors.push(`${w}: needs at least one section of questions`);
+  for (const sec of sys.sections || []) {
+    if (!sec.title || !(sec.questions || []).length) errors.push(`${w}: every section needs a title and questions`);
+    for (const q of sec.questions || []) {
+      if (!q.q) errors.push(`${w}: a question in "${sec.title}" has no "q"`);
+      for (const k of Object.keys(q)) if (!['q', 'why', 'must'].includes(k)) errors.push(`${w}: a question in "${sec.title}" has unknown key "${k}" (a comma or colon inside an unquoted value?)`);
+      if (q.must !== undefined && typeof q.must !== 'boolean') errors.push(`${w}: "must" must be true or false`);
+    }
+  }
+  for (const f of sys.features || []) {
+    const c = byId[f.component];
+    if (!['timeline', 'matrix'].includes(f.kind)) errors.push(`${w}: feature kind must be timeline or matrix`);
+    if (!c) { errors.push(`${w}: feature names unknown component "${f.component}"`); continue; }
+    for (const k of f.kind === 'timeline' ? ['field'] : ['rows', 'cols']) if (!Array.isArray(c[f[k]])) errors.push(`${w}: feature on ${c.id}: "${f[k]}" is not a list on that component`);
+  }
+  SRC_OK(errors, w, sys.title, sys.sources);
+  return errors;
+}
+function renderSystem({ sys, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const archSite = parse(read('data/architecture/site.yaml')), D = archSite.ddq || {}, repo = archSite.contribute?.repo || '';
+  const comps = archComponents(ARCH()), byId = Object.fromEntries(comps.map(c => [c.id, c]));
+  const archHref = relHref(out, 'architecture');
+  const chips = (sys.components || []).map(id => `<a class="chip" href="${archHref}#${esc(id)}"><span class="cid">${esc(id)}</span>${esc(byId[id].short || byId[id].name)}</a>`).join('');
+  const models = (sys.models || []).length ? `<div class="ei-h"><b>${esc(sys.models_title || 'Ways to buy or run it')}</b></div><div class="ei-models">${sys.models.map(m => `<div class="ei-model"><h3>${esc(m.name)}</h3><p>${esc(m.text)}</p>`
+    + ((m.examples || []).length ? `<p class="ex"><span>Examples</span>${m.examples.map(x => `<i>${esc(x)}</i>`).join('')}</p>` : '')
+    + (m.link ? `<p class="more"><a href="${relHref(out, `architecture/${m.link}`)}">${esc(SYSTEMS.find(x => x.id === m.link).title)} questions →</a></p>` : '') + '</div>').join('')}</div>` : '';
+  const guidance = (sys.guidance || []).length ? `<div class="ei-guides">${sys.guidance.map(g => `<div class="ei-guide"><h3>${esc(g.title)}</h3><p>${esc(g.text)}</p></div>`).join('')}</div>` : '';
+  const curriculum = (sys.curriculum || []).length ? `<div class="ei-h"><b>Curriculum</b><span>The minimum to cover, for everyone who handles digital assets or the clients who hold them.</span></div><ol class="ei-curr">${sys.curriculum.map(c => `<li><b>${esc(c.title)}</b><p>${esc(c.text)}</p></li>`).join('')}</ol>` : '';
+  const features = (sys.features || []).length ? `<div class="ei-features">${featuresHtml(sys.features, byId)}</div>` : '';
+  const questions = sys.sections.map((sec, i) => `<section class="ei-qs"><h2><span class="n">${i + 1}</span>${esc(sec.title)}</h2><ol>`
+    + sec.questions.map((q, j) => `<li id="q${i + 1}-${j + 1}"><span class="qn">${i + 1}.${j + 1}</span><div><p class="q">${esc(q.q)}${q.must ? ' <span class="must">Can rule a provider out</span>' : ''}</p>${q.why ? `<p class="why">${esc(q.why)}</p>` : ''}</div></li>`).join('') + '</ol></section>').join('');
+  const text = [`${sys.title}: due diligence questions`, `Source: Ethereum Institutional, ${sys.dir}/system.yaml (reviewed ${sys.last_reviewed})`, '',
+    ...sys.sections.flatMap((sec, i) => [`${i + 1}. ${sec.title}`, ...sec.questions.map((q, j) => `${i + 1}.${j + 1} ${q.q}${q.must ? ' [can rule a provider out]' : ''}`), ''])].join('\n');
+  // the same questions as a spreadsheet: one row per question, for a reader's own questionnaire
+  const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const csv = '\ufeff' + [['Number', 'Section', 'Question', 'Can rule a provider out', 'What a good answer shows'],
+    ...sys.sections.flatMap((sec, i) => sec.questions.map((q, j) => [`${i + 1}.${j + 1}`, sec.title, q.q, q.must ? 'Yes' : '', q.why || '']))]
+    .map(r => r.map(cell).join(',')).join('\r\n');
+  const csvLink = `<a class="btn" download="${esc(sys.id)}-due-diligence-questions.csv" href="data:text/csv;charset=utf-8,${encodeURIComponent(csv)}">Download CSV</a>`;
+  const sources = (sys.sources || []).length ? `<div class="ei-section"><h2>Sources</h2>${srcHtmlC(sys.sources)}</div>` : '';
+  const contrib = repo ? `<div class="ei-contrib"><p><b>${esc(D.contribute?.title || 'Suggest a question.')}</b> ${esc(D.contribute?.text || '')}</p><p class="links"><a href="${repo}/edit/main/${sys.dir}/system.yaml">Edit this page's YAML</a><a href="${repo}/issues/new?title=${encodeURIComponent(`DDQ: ${sys.title}`)}">Open an issue</a><a href="${repo}/tree/main/${sys.dir}">View on GitHub</a></p></div>` : '';
+  const others = ddqListHtml(out, sys.id);
+  const notice = D.notice ? `<div class="ei-notice" role="note"><b>${esc(D.notice.title)}</b> ${esc(D.notice.text)}</div>` : '';
+  const musts = sys.sections.reduce((n, sec) => n + sec.questions.filter(q => q.must).length, 0);
+  return read('src/system.html').replace('__STYLE__', () => style)
+    .replace(/__TITLE__/g, () => esc(sys.title)).replace('__NAV__', () => navHtml(out)).replace('__ARCH_HREF__', () => archHref).replace('__INTRO__', () => esc(sys.summary)).replace('__NOTICE__', () => notice)
+    .replace('__CHIPS__', () => chips).replace('__MODELS__', () => models).replace('__GUIDANCE__', () => guidance).replace('__CURRICULUM__', () => curriculum).replace('__FEATURES__', () => features)
+    .replace('__QCOUNT__', () => `${qCount(sys)} questions in ${sys.sections.length} sections${musts ? `; ${musts} can rule a provider out` : ''}. Reviewed ${esc(String(sys.last_reviewed))}.`)
+    .replace('__QUESTIONS__', () => questions).replace('__CSV__', () => csvLink).replace('__COPYTEXT__', () => JSON.stringify(text).replace(/<\//g, '<\\/'))
+    .replace('__SOURCES__', () => sources).replace('__CONTRIB__', () => contrib).replace('__OTHERS__', () => others)
+    .replace('__FOOTNOTE__', () => esc(archSite.footnote || '')).replace('__VERSION__', () => `Version ${esc(version)} · built ${stamp}`);
+}
+
+const pages = PAGES.filter(p => p.sys || fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, p.sys ? { system: true } : load(p.dir)));
 const errors = pages.flatMap(validate);
 if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
 
 for (const p of pages) {
   const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });
+  if (p.system) { fs.writeFileSync(path.join(outDir, 'index.html'), renderSystem(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (due diligence, ${qCount(p.sys)} questions)`); continue; }
   if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), renderStatic(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
   if (p.index) { fs.writeFileSync(path.join(outDir, 'index.html'), renderIndex(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (index, ${(p.site.scenarios || []).length} scenarios)`); continue; }
-  const page = p.scenario ? renderScenario(p) : p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
+  const page = p.scenario ? renderScenario(p) : p.arch ? renderArchitecture(p) : p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
   // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
   const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);
   const body = page.slice(page.indexOf('<body>') + 6, page.lastIndexOf('</body>'));
   fs.writeFileSync(path.join(root, 'dist', `${slug}.fragment.html`), head + '\n' + body);
   fs.writeFileSync(path.join(outDir, 'index.html'), page);
-  console.log(p.scenario ? `Built ${path.join('dist', p.out, 'index.html')} (scenario, ${p.sc.actors.length} actors, ${p.sc.steps.length} steps)` : p.radial
+  console.log(p.arch ? `Built ${path.join('dist', p.out, 'index.html')} (architecture, ${archComponents(p.map).length} components, ${(p.map.connections || []).length} connections, ${(p.map.flows || []).length} flows)` : p.scenario ? `Built ${path.join('dist', p.out, 'index.html')} (scenario, ${p.sc.actors.length} actors, ${p.sc.steps.length} steps)` : p.radial
     ? `Built ${path.join('dist', p.out, 'index.html')} (${p.rings.rings.length} ${p.gauges ? 'levels' : 'rings'}, ${p.themes.themes.length} ${p.gauges ? 'gauges' : 'themes'}, ${(p.lenses || []).length} lenses), version ${version}`
     : `Built ${path.join('dist', p.out, 'index.html')} (${p.circles.circles.length} circles, ${p.lenses.length} lenses, ${p.tokens.tokens.length} badges), version ${version}`);
 }

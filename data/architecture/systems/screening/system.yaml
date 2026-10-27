@@ -1,0 +1,111 @@
+# Due diligence: wallet and transaction screening. The page /architecture/screening/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Wallet and transaction screening
+short: Wallet & transaction screening
+group: fincrime
+tagline: 'Screen wallets and transactions through the client lifecycle'
+order: 1
+summary: 'How an institution screens client wallets and counterparty addresses through the whole relationship, sets its tolerance for exposure to illicit activity, and chooses the blockchain analytics tools that do the work. Risk on a public ledger can be attributed to an address long after a transaction settles, so screening never stops at the point of payment.'
+components: [D3.1, D3.2, D3.3, D3.4, D3.5, D3.7, D3.8, D13.5]
+last_reviewed: 2026-10-27
+
+features:
+- kind: timeline
+  component: D3.3
+  field: trigger_points
+  title: Screening through the client lifecycle
+  text: 'Screening runs at onboarding and before each transaction, then continues: risk can be attributed to an address long after a transaction settles, so past activity is re-screened for as long as records are kept.'
+  labels:
+    onboarding: { title: Onboarding, text: Screen every wallet the client declares and proves they control. }
+    pre_transaction_approval: { title: Pre-transaction, text: Screen the counterparty address before approval, against the tolerance matrix. }
+    periodic_activity_review: { title: Periodic review, text: Re-screen client wallets on a cycle set by risk tier. }
+    post_transaction_monitoring: { title: Post-transaction, text: Monitor settled flows for exposure that only shows after the fact. }
+    retrospective_rescreening: { title: Retrospective, text: Re-attribute history whenever new risk intelligence arrives, with no end date. }
+- kind: matrix
+  component: D3.2
+  rows: exposure_types
+  cols: signal_strength
+  list: risk_categories
+  title: Exposure tolerance matrix
+  text: 'Tolerance is set per risk category in each cell: how a direct, counterparty or indirect exposure is treated depending on how strong the signal is. Each cell resolves to an action (allow, review, hold, block, report), set by your risk appetite framework, not by a vendor default.'
+
+guidance:
+- title: Set your tolerances before you buy
+  text: 'Write the matrix first: for each risk category, how you treat direct, counterparty and indirect exposure at each signal strength, and how many hops of indirect exposure you count. Then test every provider against it. A tool whose categories or hop logic cannot express your matrix will make your policy fit the tool.'
+- title: One provider or several?
+  text: 'Providers attribute addresses with their own clustering heuristics and their own investigations, so the same address can score differently. A common pattern is one primary provider for real-time screening and a second for escalations, high-value transactions and investigations, which also serves as a model risk control. A second provider adds cost, alert volume and work reconciling conflicting scores, so decide in advance which score governs and how disagreements are resolved. Chain coverage often decides it: if no single provider covers every chain and token you support, you need more than one.'
+- title: Prove it on your own data
+  text: 'Ask each shortlisted provider to screen a sample of your historical transactions and a set of known cases (sanctioned addresses, hack proceeds, mixer flows) without telling them which is which. Compare hits, misses, alert volume and how well each alert explains itself.'
+
+sections:
+- title: Coverage and attribution
+  questions:
+  - q: 'Which chains, tokens and layer 2 networks do you cover today, and for which do you provide full attribution rather than balances only?'
+    why: Coverage must match the chains and assets you approve in your taxonomy and chain registry; support for newer chains is often partial.
+    must: true
+  - q: 'How do you attribute addresses to entities (clustering heuristics, investigations, data partnerships, law enforcement sources), and how large is your attributed dataset?'
+    why: Attribution quality drives everything downstream. Look for a clear method and numbers that are measured, not marketing.
+  - q: 'How quickly are newly sanctioned addresses and the proceeds of a newly reported hack added? Can you show timestamps for recent cases?'
+    why: Hours matter for sanctions. Evidence of past response times is better than a promise.
+    must: true
+  - q: 'How do you trace value across bridges, swaps, mixers and privacy protocols when measuring indirect exposure?'
+    why: Cross-chain flows are where tracing breaks; ask how the tool shows a flow it could not follow.
+  - q: 'What are your false positive and false negative rates on a benchmark, and will you run a blind proof of concept on our historical transactions?'
+
+- title: Risk scoring and configuration
+  questions:
+  - q: 'Can we configure rules per risk category by direct, counterparty and indirect exposure, number of hops and value thresholds, so the tool expresses our tolerance matrix?'
+    must: true
+  - q: 'Can every risk score be explained down to the underlying transfers and attributions?'
+    why: An alert you cannot explain to a client, an auditor or a court is of limited use.
+  - q: 'Can rules differ by client segment, product, asset and direction (inbound or outbound)?'
+  - q: 'When you re-attribute an address we cleared before, are we alerted, and can we see what changed and when?'
+    why: Retrospective attribution is the reason screening never ends; the tool must push changes, not wait to be asked.
+  - q: 'How do you treat self-hosted wallets, smart contract addresses and addresses with no history?'
+  - q: 'Can inbound deposits that fail screening be routed automatically to a quarantine address and held for review?'
+    why: Quarantine keeps tainted funds out of omnibus wallets while compliance decides whether to return, freeze or report them.
+
+- title: Integration and operations
+  questions:
+  - q: 'What latency and availability do you commit to for pre-transaction screening, and what should our flow do when your API is unavailable?'
+    why: A screening outage either stops payments or lets them through unscreened; agree the fallback before go-live.
+    must: true
+  - q: 'Can alerts flow into our existing case management system, and does your tool keep its own audit trail of every screen and decision?'
+  - q: 'Do you offer continuous monitoring of client wallets with push notifications (webhooks)?'
+  - q: 'What data do we send you, where is it stored and processed, how long is it kept, and is it used to improve your attribution for other clients?'
+    why: Your screening queries reveal your clients and counterparties; treat them as confidential data.
+
+- title: Investigations and evidence
+  questions:
+  - q: 'Can investigators export reproducible graphs and evidence, with the version of the attribution data used, suitable for court?'
+  - q: 'Will your staff support expert witness testimony, and has your methodology been accepted or challenged in court?'
+    why: If a case turns on an attribution, the provider's method will be examined; ask for precedent.
+  - q: 'What training and certification do you provide for our investigators?'
+
+- title: Model risk and commercials
+  questions:
+  - q: 'What documentation, change logs and back-testing can you give us so we can validate your model independently?'
+    why: Most institutions treat a screening provider's scoring as a model under their model risk framework.
+  - q: 'How is pricing structured (per screen, per monitored address, per chain, per seat), and what happens when volumes spike?'
+  - q: 'Which regulated institutions use you for this purpose, and have their supervisors reviewed that use?'
+
+sources:
+- title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021)'
+  url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Guidance-rba-virtual-assets-2021.html
+  checked: '2026-10-27'
+- title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021)'
+  url: https://ofac.treasury.gov/media/913571/download?inline
+  checked: '2026-10-27'
+- title: 'FATF, The FATF Recommendations, Recommendation 15 and its Interpretive Note on virtual assets'
+  url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html
+  checked: '2026-10-27'
+- title: 'OFAC, A Framework for OFAC Compliance Commitments (May 2019)'
+  url: https://ofac.treasury.gov/media/16331/download?inline
+  checked: '2026-10-27'
+- title: 'NYDFS, Industry letter extending the Guidance on Use of Blockchain Analytics to banking organizations (17 September 2025)'
+  url: https://www.dfs.ny.gov/industry-guidance/industry-letters/il20250917-blockchain
+  checked: '2026-10-27'
+- title: 'Federal Reserve, SR 26-2, Revised Guidance on Model Risk Management (17 April 2026; replaces SR 11-7)'
+  url: https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm
+  checked: '2026-10-27'

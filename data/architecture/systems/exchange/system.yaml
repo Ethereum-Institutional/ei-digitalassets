@@ -1,0 +1,81 @@
+# Due diligence: exchanges and trading venues, including buying gas. The page /architecture/exchange/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Exchanges and trading venues
+short: Exchanges & venues
+group: ledger
+tagline: 'Where to trade, including buying gas'
+order: 6
+summary: 'Where an institution buys and sells digital assets: regulated exchanges, brokers, OTC desks and liquidity providers. That includes the unglamorous case every team meets first: buying small amounts of each network''s native token to pay transaction fees (gas).'
+components: [D11.1, D11.5, D11.2, D11.3]
+last_reviewed: 2026-10-27
+
+models:
+- name: Regulated exchange
+  text: 'A licensed venue with an order book. Choose by license in your jurisdiction, liquidity and how assets are held while you trade.'
+- name: Broker or OTC desk
+  text: 'Request-for-quote execution for size or for assets with thin order books, often settled bilaterally.'
+- name: Off-exchange settlement
+  text: 'You trade on a venue while assets stay with your custodian, which settles net positions with the venue. Reduces exposure to the venue holding your assets.'
+
+guidance:
+- title: Buying gas
+  text: 'You need small, frequent amounts of each network''s native token to pay fees. Usually the simplest route is a regulated exchange or broker you already use, with withdrawals only to allowlisted gas wallets, automated top-ups within limits and screening of the source. Check that the venue withdraws on the exact network you need (a native token on a layer 2 is not the same asset on mainnet), and consider fee sponsorship (paymasters under ERC-4337) where your custody platform supports it, so fewer wallets need gas at all.'
+- title: Do not leave assets on a venue
+  text: 'Exchange failures are the most common way institutions have lost client digital assets. Prefer off-exchange settlement or prompt withdrawal to custody, and size any balance left on a venue as a credit exposure.'
+
+sections:
+- title: License and regulation
+  questions:
+  - q: 'Which licenses do you hold, from which regulators, and do they cover us and our clients in our jurisdictions?'
+    must: true
+  - q: 'How are client assets held: segregated, in whose name, and protected in your insolvency?'
+    must: true
+  - q: 'Do you publish proof of reserves and liabilities, and who verifies it?'
+
+- title: Execution quality
+  questions:
+  - q: 'What liquidity and spreads can you show for the assets and sizes we trade, and do you provide best execution data?'
+  - q: 'Do you offer request-for-quote or OTC execution, and how are conflicts with your own trading managed?'
+  - q: 'What API availability and rate limits do you commit to?'
+
+- title: Custody, settlement and withdrawals
+  questions:
+  - q: 'Do you support off-exchange settlement with our custodian, and on what terms?'
+  - q: 'Can withdrawals be restricted to allowlisted addresses, with changes requiring our quorum and a cooling-off period?'
+    must: true
+  - q: 'On which networks can each asset be withdrawn, and how do you prevent withdrawals on the wrong network?'
+  - q: 'How do you comply with the Travel Rule for withdrawals to our wallets and to third parties?'
+
+- title: Buying gas
+  questions:
+  - q: 'What are the minimum withdrawal sizes and fees for each native token we need, on each network?'
+    why: Small top-ups are uneconomic if minimums or flat fees are high.
+  - q: 'Can we automate small purchases and withdrawals by API, with per-day limits enforced on your side?'
+  - q: 'How fast are withdrawals processed, including weekends?'
+
+- title: Financial crime and security
+  questions:
+  - q: 'How do you screen deposits and withdrawals, and what happens to funds flagged after they reach us?'
+  - q: 'Which security controls protect our account: hardware keys, API key permissions, IP allowlists, withdrawal confirmations?'
+  - q: 'Which reports can you share (SOC 2 Type II, penetration tests), and what incidents have you had?'
+
+sources:
+- title: 'ERC-4337, Account Abstraction Using Alt Mempool'
+  url: https://eips.ethereum.org/EIPS/eip-4337
+  checked: '2026-10-27'
+- title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (November 2023)'
+  url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf
+  checked: '2026-10-27'
+- title: 'ESMA interactive single rulebook, MiCA Article 70, Safekeeping of clients'' crypto-assets and funds'
+  url: https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-70-safekeeping-clients-crypto-assets
+  checked: '2026-10-27'
+- title: 'ESMA interactive single rulebook, MiCA Article 76, Operation of a trading platform for crypto-assets'
+  url: https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-76-operation-trading-platform-crypto
+  checked: '2026-10-27'
+- title: 'ESMA interactive single rulebook, MiCA Article 78, Execution of orders for crypto-assets on behalf of clients (best execution)'
+  url: https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-78-execution-orders-crypto-assets
+  checked: '2026-10-27'
+- title: 'Regulation (EU) 2023/1113 on information accompanying transfers of funds and certain crypto-assets, Article 14 on what the originator''s crypto-asset service provider must send'
+  url: https://eur-lex.europa.eu/eli/reg/2023/1113/oj
+  checked: '2026-10-27'

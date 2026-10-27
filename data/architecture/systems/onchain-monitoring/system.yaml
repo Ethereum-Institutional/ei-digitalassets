@@ -1,0 +1,74 @@
+# Due diligence: on-chain monitoring, automated response and break-glass runbooks. The page /architecture/onchain-monitoring/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: On-chain monitoring and automated response
+short: On-chain monitoring & response
+group: security
+tagline: 'Detect exploits on chain and respond through rehearsed runbooks'
+order: 14
+summary: 'Monitoring of the contracts, wallets and protocols you depend on, with automated responses and the runbooks behind them: break-glass procedures for minting, burning, pausing tokens, freezing wallets, forced transfers and quarantining deposits from unknown or sanctioned parties.'
+components: [D8.11, D12.4, D3.7, D3.8, D8.8, D12.3]
+last_reviewed: 2026-10-27
+
+models:
+- name: Monitoring and automated response platform
+  text: 'A service that watches the chain and mempool for exploit patterns and anomalies on addresses you choose, and can execute a pre-approved response through a dedicated key.'
+  examples: [Hypernative, Hexagate (Chainalysis), Cyvers]
+- name: In-house monitoring
+  text: 'Your own indexer and rules, with alerts into your security operations. Full control; slower to keep up with new attack patterns.'
+
+guidance:
+- title: Automate only what you have rehearsed
+  text: 'An automated pause or withdrawal is a privileged action taken without a human in the loop. Limit it to actions with a small, known blast radius, give it its own key with narrow permissions, and rehearse the manual path for everything else.'
+- title: Every privileged token action needs a runbook
+  text: 'Minting, burning, pausing a token, freezing a wallet, forcing a transfer and quarantining a deposit each need a written procedure: who may request it, which quorum approves it, which key signs, which legal basis applies, who is told, and how it is reversed. Write the break-glass variant for when the normal quorum cannot be reached.'
+- title: Quarantine before you decide
+  text: 'Deposits from unknown or sanctioned sources should land in a segregated address and stay there until screening, legal review and, where required, a suspicious activity report decide whether to return, freeze or release them. Never send funds back to a sanctioned address without legal advice.'
+
+sections:
+- title: Detection
+  questions:
+  - q: 'Which chains, contracts and protocols can you monitor, and can we add our own contracts and the protocols we depend on?'
+  - q: 'How early do you detect an exploit, for example from pending transactions in the mempool, and what is your record on recent incidents?'
+    why: Ask for timestamps of detection against the first malicious transaction in past incidents.
+    must: true
+  - q: 'What is the false positive rate, and how do you tune alerts for our risk appetite?'
+  - q: 'Which anomaly types are covered: governance attacks, oracle manipulation, admin key misuse, unusual approvals, large outflows?'
+
+- title: Automated response
+  questions:
+  - q: 'Which responses can be automated (pause, withdraw, revoke approvals, block), and through which key and permissions?'
+    must: true
+  - q: 'Who holds the response key, how is it protected, and what stops it being used to harm us?'
+    must: true
+  - q: 'Can an automated response be limited by amount, contract and time, and be approved by a human within seconds instead of fully automatic?'
+  - q: 'How are automated actions logged and reported to us and, where required, to regulators?'
+
+- title: Runbooks and break glass
+  questions:
+  - q: 'Do you provide or help build runbooks for mint, burn, pause, freeze, forced transfer and deposit quarantine?'
+  - q: 'How do you test runbooks, including the break-glass path when the normal quorum is unavailable?'
+  - q: 'How do responses integrate with our incident response, case management and suspicious activity reporting?'
+
+- title: Integration and resilience
+  questions:
+  - q: 'How do alerts reach us (API, webhooks, messaging, phone), and what availability do you commit to?'
+  - q: 'What happens if your service is down during an attack?'
+  - q: 'What data about our contracts and wallets do you hold, and who can see it?'
+
+sources:
+- title: 'ERC-3643, T-REX: Token for Regulated EXchanges (freeze, forced transfer and recovery functions)'
+  url: https://eips.ethereum.org/EIPS/eip-3643
+  checked: '2026-10-27'
+- title: 'GENIUS Act (Public Law 119-27, July 2025), Section 4(a)(5)(A)(iv) and 4(a)(6)(B): technical capability to block, freeze and reject transactions and to comply with lawful orders'
+  url: https://www.govinfo.gov/content/pkg/PLAW-119publ27/html/PLAW-119publ27.htm
+  checked: '2026-10-27'
+- title: 'OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (October 2021)'
+  url: https://ofac.treasury.gov/media/913571/download?inline
+  checked: '2026-10-27'
+- title: 'NIST, SP 800-61 Rev. 3, Incident Response Recommendations and Considerations for Cybersecurity Risk Management (April 2025)'
+  url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+  checked: '2026-10-27'
+- title: 'Security Alliance (SEAL), Security Frameworks, incident management and operational security'
+  url: https://frameworks.securityalliance.org/
+  checked: '2026-10-27'

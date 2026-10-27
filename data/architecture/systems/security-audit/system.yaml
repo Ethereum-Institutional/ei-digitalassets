@@ -1,0 +1,72 @@
+# Due diligence: security audits, penetration and red team testing. The page /architecture/security-audit/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Security audits, penetration and red team testing
+short: Security audits & red team
+group: security
+tagline: 'Choosing teams for code audits, penetration tests and red teams'
+order: 7
+summary: 'How to choose the teams that test your smart contracts, protocols, infrastructure and people: code audits, formal verification, penetration tests and red team exercises that target the signing workflow and the staff who approve transactions.'
+components: [D8.3, D8.5, D8.6, D8.7, D8.9, D9.1]
+last_reviewed: 2026-10-27
+
+guidance:
+- title: Match the team to the code
+  text: 'Smart contracts on the EVM, Rust programs, zero-knowledge circuits and MPC cryptography each need different specialists. Read a firm''s public reports for code like yours, and ask for the named people who will do your work.'
+- title: One audit is a sample, not a guarantee
+  text: 'For contracts that will hold significant value, plan two independent audits, invariant testing or formal verification of the core logic, and a bug bounty after launch. An audit finds what a few people find in a few weeks.'
+- title: Test the people, not only the code
+  text: 'Most large losses in digital assets came from compromised keys, signers and front ends rather than contract bugs. Red team exercises should include social engineering of approvers, the transaction signing workflow and the software supply chain.'
+
+sections:
+- title: Expertise and track record
+  questions:
+  - q: 'Can we read public reports for code similar to ours, and will the people who wrote them work on our engagement?'
+    must: true
+  - q: 'Has any code you audited later been exploited, and what did your post-mortem conclude?'
+    why: Every active firm has had this happen; a candid answer is a good sign.
+  - q: 'What is your experience with our stack (language, chain, standards such as ERC-20, ERC-4626 or ERC-3643, and any cryptography we use)?'
+
+- title: Method and scope
+  questions:
+  - q: 'How do you combine manual review, static analysis, fuzzing and invariant testing, and when do you recommend formal verification?'
+  - q: 'How many engineer-weeks do you propose for our scope, and how did you size it?'
+    why: Compare effort per line of code across bids; very fast reviews of complex code are a warning.
+  - q: 'Is a review of our fixes included, and how are severities defined?'
+  - q: 'Will you review the off-chain parts too: key management, deployment scripts, admin keys, upgrade paths and front end?'
+    must: true
+
+- title: Penetration and red team testing
+  questions:
+  - q: 'Will the exercise target the signing workflow end to end, including approvers, devices and the policy engine?'
+  - q: 'Is social engineering, including impersonation of executives and vendors, in scope, and how is it controlled?'
+  - q: 'Do you test the software supply chain: build pipelines, dependencies and the tools that reach signing infrastructure?'
+  - q: 'Do you run tabletop exercises for key compromise, data spills and on-chain exploits with our incident team?'
+
+- title: Independence and conflicts
+  questions:
+  - q: 'Do you audit or advise vendors we depend on, or competitors, and how are conflicts handled?'
+  - q: 'Do your staff hold tokens or positions related to the code under review?'
+  - q: 'Who owns the report, can we publish it, and can you publish it without our consent?'
+
+- title: After the engagement
+  questions:
+  - q: 'Do you offer monitoring or incident response after launch?'
+  - q: 'Will you help design and triage a bug bounty program?'
+
+sources:
+- title: 'OWASP, Smart Contract Top 10'
+  url: https://owasp.org/www-project-smart-contract-top-10/
+  checked: '2026-10-27'
+- title: 'OWASP, Smart Contract Security Verification Standard (SCSVS)'
+  url: https://scs.owasp.org/SCSVS/
+  checked: '2026-10-27'
+- title: 'Enterprise Ethereum Alliance, EthTrust Security Levels Specification, version 2'
+  url: https://entethalliance.org/specs/ethtrust-sl/v2/
+  checked: '2026-10-27'
+- title: 'Regulation (EU) 2022/2554 on digital operational resilience (DORA), Articles 24 to 27 on resilience testing and threat-led penetration testing'
+  url: https://eur-lex.europa.eu/eli/reg/2022/2554/oj
+  checked: '2026-10-27'
+- title: 'ECB, TIBER-EU framework for threat intelligence-based ethical red teaming'
+  url: https://www.ecb.europa.eu/paym/cyber-resilience/tiber-eu/html/index.en.html
+  checked: '2026-10-27'

@@ -7,6 +7,22 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Architecture page (in progress), with due diligence questions.** A new `kind: architecture` page draws the
+  architecture of a digital asset team inside a global bank or similar institution as a blueprint: lanes run from the
+  clients at the top (retail, wholesale, staff and administrators, and authorities) to the private keys at the
+  bottom, with the main transaction running down a central spine (channels, identity, scenarios, order control,
+  allowlisting, screening, approval, multi-signature, custody, signing, MPC, keys), a ledger column for data, nodes
+  and validator operations, and two rails (governance, risk and conduct; security, third parties and people) listed
+  under the drawing. 115 components and 88 typed connections (instruction, data, control); twelve key flows (F1 to
+  F12) trace numbered paths. Statuses are generic (how most institutions are likely to meet the need), and 94
+  components carry dated sources for the standard or regulation behind them (MiCA, DORA, the Transfer of Funds
+  Regulation, Basel SCO60, NIST, FIPS 140-3, CCSS, FATF, IOSCO, OFAC and others). A confidential tokens component
+  links to the Privacy page; post-quantum cryptography links to Quantum and ledger selection to Networks and
+  Decentralization. **Due diligence pages:** every `data/architecture/systems/<id>/system.yaml` becomes a page at
+  `/architecture/<id>/`: 16 systems and 238 questions (45 marked as able to rule a provider out), each page with ways to
+  buy or run it, guidance, a copy button, a CSV download, five or six dated sources and an edit link. Vendor examples
+  are two or three named products or none. `architecture/#<id>` opens the blueprint with that component pinned.
+
 - **Decentralization: every lens re-read against the new resilience cells.** The single points of failure dial
   takes the weakest of client count, the largest client's share and node spread on the HHI (eiplatform D52), but only
   the Ethereum mainnet lens had been re-read. Bitcoin (one code base on over 99% of nodes), Solana (Agave-based

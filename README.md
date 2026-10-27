@@ -37,7 +37,8 @@ self-contained HTML file. Every placement and definition carries its sources, sh
 
 **Where edits go.** Since 26 October 2026 the maps are maintained in the `maps/` folder of the Ethereum
 Institutional platform repository (`ei-platform`, private). The public repository `ei-digitalassets` is a mirror
-that publishes the site; its contents are pushed by the platform's `maps-mirror.yml` workflow (or by hand with
+that publishes the site; its contents are pushed by the platform's `maps-mirror.yml` workflow, run on request from `main` rather than on
+every merge (or by hand with
 `rsync -a --delete --exclude .git maps/ <clone of ei-digitalassets>/` followed by a commit and push) and nobody
 edits it directly. Open issues on the public repository; send changes to the platform repository.
 
@@ -46,12 +47,12 @@ validate your change, build the pages and attach a rendered preview to the pull 
 `README.md` with the editing guide for that map:
 [Web3](data/web3/README.md), [Digital Asset Taxonomy](data/taxonomy/README.md),
 [Digital Asset Networks](data/networks/README.md), [Decentralization](data/decentralization/README.md),
-[Scenarios](data/scenarios/README.md).
+[Scenarios](data/scenarios/README.md), [Architecture](data/architecture/README.md).
 
 **Page settings** live in each `site.yaml`: `lens_groups` (one dropdown per group), `badge` (`disc` for ticker
 chips, `pill` for named badges), `legend`, `panel_default` and the intro's `intro_more`. Navigation between pages is
 `data/nav.yaml`. **Add a page** by adding a folder with a `site.yaml` (`kind: static` for a page without a diagram,
-`kind: radial` for rings and wedges, `kind: gauges` for dials, no `kind` for a Venn map), listing it in `scripts/build.mjs` `PAGES` and in
+`kind: radial` for rings and wedges, `kind: gauges` for dials, `kind: architecture` for a layered component map, no `kind` for a Venn map), listing it in `scripts/build.mjs` `PAGES` and in
 `data/nav.yaml`.
 
 ## Building locally

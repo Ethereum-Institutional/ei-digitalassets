@@ -15,6 +15,9 @@ pages:
 - label: Scenarios
   path: scenarios
   wip: true
+- label: Architecture
+  path: architecture
+  wip: true
 - label: Privacy
   path: privacy
   wip: true

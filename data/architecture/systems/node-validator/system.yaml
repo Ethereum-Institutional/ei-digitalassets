@@ -1,0 +1,85 @@
+# Due diligence: node and validator operators. The page /architecture/node-validator/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Node and validator operators
+short: Nodes & validators
+group: ledger
+tagline: 'RPC, archive and validator operations, in-house or third party'
+order: 5
+summary: 'The infrastructure that reads from and writes to the ledger: RPC nodes that broadcast your transactions, archive nodes that hold full history, and validators that propose and attest blocks. Each can run in-house or through a third party, and for validators the operator can be custodial or non-custodial.'
+components: [D7.2, D7.3, D7.7, D7.8, D7.1, D12.2]
+last_reviewed: 2026-10-27
+
+models:
+- name: In-house
+  text: 'You run execution and consensus clients, archive nodes and validators yourself, on hardware or cloud you control. Full control and no counterparty, at the cost of a specialist operations team.'
+- name: Third-party, non-custodial
+  text: 'An operator runs the validators, but the stake is withdrawable only to an address you hold (on Ethereum mainnet, the withdrawal credentials). The operator can cause penalties through downtime or slashing but cannot move the stake.'
+- name: Third-party, custodial
+  text: 'The operator or a custodian controls both the validator keys and the stake. Simplest operationally; you take full counterparty risk on the operator.'
+- name: Managed RPC endpoints
+  text: 'Shared or dedicated endpoints from a node provider for reading the chain and broadcasting transactions.'
+
+guidance:
+- title: Validator keys are not custody keys
+  text: 'A validator signing key is online all the time and can be slashed if it signs twice, so it is usually kept apart from custody keys, in a remote signer with a slashing protection database. The key that matters for ownership is the withdrawal credential: make sure it points to an address you control.'
+- title: Your RPC provider sees your intentions
+  text: 'Every query and transaction you send through a third-party endpoint reveals addresses and timing before they are on chain. Treat the provider as a recipient of confidential data, and consider your own nodes for sending transactions even if you buy data access elsewhere.'
+
+sections:
+- title: Keys and operating model
+  questions:
+  - q: 'Who generates the validator keys, where are signing keys held (remote signer, HSM), and can we hold them ourselves?'
+  - q: 'Are withdrawal credentials set to an address we control, and can you show it on chain for every validator?'
+    must: true
+  - q: 'How do you maintain the slashing protection database, and what is the procedure when validators are moved between machines or operators?'
+    why: Running the same key in two places is the most common cause of slashing.
+    must: true
+  - q: 'Do you support distributed validator technology, so that no single machine or operator holds a whole signing key?'
+
+- title: Resilience and client diversity
+  questions:
+  - q: 'Which execution and consensus clients do you run, in what proportions, and how quickly can you switch if one has a critical bug?'
+    why: A bug in a client run by a large share of validators can cause mass penalties; diversity is a resilience control.
+  - q: 'How are your nodes spread across hosting providers, regions and jurisdictions?'
+  - q: 'How do you apply client upgrades and hard forks, and when did you last miss one?'
+
+- title: Performance, slashing and liability
+  questions:
+  - q: 'What has been your validator uptime and effectiveness over the last year, measured by a third-party source?'
+  - q: 'Have any validators you operate been slashed, and what happened?'
+  - q: 'What do you compensate for slashing and downtime, up to what limit, and is that insured?'
+  - q: 'What is your policy on block building and MEV (relays used, rewards shared), and can we set it per validator?'
+
+- title: RPC and archive data
+  questions:
+  - q: 'What rate limits, archive depth and response times do you commit to, on shared and dedicated endpoints?'
+  - q: 'Do you log our requests and IP addresses, for how long, and who can see them?'
+    must: true
+  - q: 'How do you detect and recover from chain reorganizations and data inconsistencies?'
+
+- title: Reporting and regulation
+  questions:
+  - q: 'Do you report rewards, penalties and balances per validator in a form our accounting and tax teams can use?'
+  - q: 'Which licenses or registrations do you hold, and how do you screen your own counterparties and staff?'
+  - q: 'How would we move all our validators to another operator or in-house, and how long would exit and re-entry take?'
+
+sources:
+- title: 'ethereum.org, Staking'
+  url: https://ethereum.org/staking/
+  checked: '2026-10-27'
+- title: 'ethereum.org, Staking withdrawals (withdrawal credentials)'
+  url: https://ethereum.org/staking/withdrawals/
+  checked: '2026-10-27'
+- title: 'ethereum.org, Client diversity'
+  url: https://ethereum.org/developers/docs/nodes-and-clients/client-diversity/
+  checked: '2026-10-27'
+- title: 'EIP-3076, Slashing Protection Interchange Format'
+  url: https://eips.ethereum.org/EIPS/eip-3076
+  checked: '2026-10-27'
+- title: 'ethereum.org, Distributed validator technology'
+  url: https://ethereum.org/staking/dvt/
+  checked: '2026-10-27'
+- title: 'ethereum.org, Proposer-builder separation (block building and MEV)'
+  url: https://ethereum.org/roadmap/pbs/
+  checked: '2026-10-27'

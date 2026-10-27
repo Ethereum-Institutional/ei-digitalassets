@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__ · Due diligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+__STYLE__
+<style>
+  /* due diligence pages (data/architecture/systems/<id>/system.yaml): where the system sits on the blueprint, the ways
+     to buy or run it, guidance, then numbered questions a reader can copy into their own questionnaire. */
+  .ei-taxonomy.ddq{max-width:1080px}
+  .ei-crumb{font-size:13px;color:var(--muted)}
+  .ei-crumb a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .ei-crumb a:hover{color:var(--ink);border-color:var(--ink)}
+  .ei-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .ei-chips .rl{font-size:12px;color:var(--muted);margin-right:4px}
+  .ei-chips a.chip{display:inline-flex;gap:6px;align-items:baseline;font-size:12.5px;padding:4px 10px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:var(--ink);text-decoration:none}
+  .ei-chips a.chip:hover{border-color:var(--ink)}
+  .ei-chips .cid{font-size:10px;font-weight:700;color:var(--muted)}
+  .ei-h{display:flex;flex-direction:column;gap:4px}
+  .ei-h b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
+  .ei-h span{font-size:14px;color:var(--muted);line-height:1.5;max-width:80ch}
+  .ei-models{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .ei-model{padding:16px 18px;border:1px solid var(--rule);border-radius:14px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-width:0}
+  .ei-model h3{margin:0;font-size:15px;font-weight:600}
+  .ei-model p{margin:0;font-size:14px;line-height:1.5}
+  .ei-model .ex{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:auto}
+  .ei-model .ex span{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+  .ei-model .ex i{font-style:normal;font-size:12px;padding:2px 8px;border-radius:8px;background:#fff;border:1px solid var(--rule)}
+  .ei-model .more{font-size:13px}
+  .ei-model .more a{color:var(--ink)}
+  .ei-guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .ei-guide{padding:16px 18px;border-left:3px solid var(--ink);background:#fff;border-radius:0 12px 12px 0}
+  .ei-guide h3{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:18px;letter-spacing:-.01em}
+  .ei-guide p{margin:0;font-size:14px;line-height:1.55}
+  ol.ei-curr{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;counter-reset:c}
+  ol.ei-curr li{padding:12px 14px;background:#fff;border:1px solid var(--rule);border-radius:12px;counter-increment:c}
+  ol.ei-curr li b{display:flex;gap:8px;align-items:baseline;font-size:14px;font-weight:600;margin-bottom:4px}
+  ol.ei-curr li b::before{content:counter(c);font-size:11px;color:var(--muted);font-weight:700}
+  ol.ei-curr li p{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+  .ei-qbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid var(--rule);border-radius:14px;background:var(--card)}
+  .ei-qbar p{margin:0;font-size:13px;color:var(--muted)}
+  .ei-qbar .acts{display:flex;gap:8px;flex-wrap:wrap}
+  .ei-qbar button,.ei-qbar a.btn{font:inherit;font-size:13px;padding:7px 12px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:var(--ink);cursor:pointer}
+  .ei-qbar a.btn{text-decoration:none;display:inline-flex;align-items:center}
+  .ei-qbar button:hover,.ei-qbar a.btn:hover{border-color:var(--ink)}
+  .ei-qbar button.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .ei-qbar button:focus-visible,.ei-qbar a.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ei-qs{display:flex;flex-direction:column;gap:6px}
+  .ei-qs h2{margin:6px 0 4px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em;display:flex;gap:10px;align-items:baseline}
+  .ei-qs h2 .n{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--muted)}
+  .ei-qs ol{list-style:none;margin:0;padding:0;border:1px solid var(--rule);border-radius:14px;background:#fff;overflow:hidden}
+  .ei-qs li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px;padding:12px 16px 12px 12px;border-bottom:1px solid var(--rule)}
+  .ei-qs li:last-child{border-bottom:none}
+  .ei-qs li:target{background:#f4f8fb}
+  .ei-qs .qn{font-size:12px;font-weight:700;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+  .ei-qs p{margin:0}
+  .ei-qs p.q{font-size:15px;line-height:1.5}
+  .ei-qs p.why{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+  .ei-qs.nowhy p.why{display:none}
+  .ei-qs .must{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--ink);color:var(--ink);vertical-align:2px;margin-left:4px;white-space:nowrap}
+  .ei-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px}
+  @media (max-width:520px){.ei-features{grid-template-columns:1fr}}
+  .ei-feature{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card);display:flex;flex-direction:column;gap:12px;min-width:0}
+  .ei-feature .from{margin:0;font-size:12px;color:var(--muted)}
+  .ei-tier-h{display:flex;flex-direction:column;gap:2px}
+  .ei-tier-h b{font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:-.02em}
+  .ei-tier-h span{font-size:13px;color:var(--muted);line-height:1.45}
+  ol.ei-tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
+  ol.ei-tl li{padding:10px 12px;background:#fff;border:1px solid var(--rule);border-radius:12px}
+  ol.ei-tl .num{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;align-items:center;justify-content:center;margin-bottom:6px}
+  ol.ei-tl li:last-child .num{background:#fff;color:var(--ink);border:1.5px dashed var(--ink)}
+  ol.ei-tl b{display:block;font-size:13px;font-weight:600;margin-bottom:3px}
+  ol.ei-tl p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+  .ei-mx{overflow-x:auto}
+  table.ei-std{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+  table.ei-std th,table.ei-std td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:middle;line-height:1.4}
+  table.ei-std thead th{font-weight:600;background:var(--card);font-size:12px;color:var(--muted)}
+  table.ei-std tbody th{font-weight:600;font-size:13px}
+  table.ei-std tr:last-child td,table.ei-std tr:last-child th{border-bottom:none}
+  table.ei-std .cell{display:inline-block;font-size:11px;color:var(--muted);padding:2px 8px;border:1px dashed var(--rule);border-radius:8px}
+  .ei-mx .cats{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:10px}
+  .ei-mx .cats .rl{font-size:12px;color:var(--muted);margin-right:4px}
+  .ei-mx .cats span:not(.rl){font-size:11px;padding:2px 8px;border-radius:8px;background:#fff;border:1px solid var(--rule)}
+  .ei-section{padding:18px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  .ei-section h2{margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:-.02em}
+  details.src{margin-top:4px;font-size:12px;color:var(--muted)}
+  details.src summary{cursor:pointer;color:var(--ink);font-weight:600}
+  details.src p.src{margin:6px 0 0;line-height:1.6}
+  details.src a{color:var(--muted)}
+  .ei-ddq{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px}
+  .ei-ddq section{border:1px solid var(--rule);border-radius:16px;background:var(--card);overflow:hidden}
+  .ei-ddq h3{margin:0;padding:12px 18px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule)}
+  .ei-ddq ul{list-style:none;margin:0;padding:0}
+  .ei-ddq li+li{border-top:1px solid var(--rule)}
+  .ei-ddq a{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;row-gap:2px;padding:11px 18px;color:var(--ink);text-decoration:none;background:#fff}
+  .ei-ddq a:hover,.ei-ddq a:focus-visible{background:#f4f8fb;outline:none}
+  .ei-ddq b{font-size:15px;font-weight:600}
+  .ei-ddq span{grid-column:1;font-size:13px;color:var(--muted);line-height:1.4}
+  .ei-ddq em{grid-column:2;grid-row:1 / span 2;align-self:center;font-style:normal;font-size:12px;font-weight:600;color:#0369a1;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .ei-ddq em::after{content:' questions →'}
+  .ei-toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:13px;padding:8px 14px;border-radius:10px}
+  .ei-toast[hidden]{display:none}
+  textarea.ei-copy{position:fixed;left:-9999px;top:0}
+</style>
+</head>
+<body>
+<div class="ei-taxonomy ddq">
+  __NOTICE__
+  <div class="ei-head">
+    <span class="ei-crumb">Ethereum Institutional · Research · <a href="__ARCH_HREF__">Architecture</a> · Due diligence</span>
+    __NAV__
+    <h1>__TITLE__</h1>
+    <p class="sub">__INTRO__</p>
+    <div class="ei-chips"><span class="rl">On the blueprint</span>__CHIPS__</div>
+  </div>
+  __MODELS__
+  __GUIDANCE__
+  __CURRICULUM__
+  __FEATURES__
+  <div class="ei-h"><b>Questions to ask</b></div>
+  <div class="ei-qbar"><p>__QCOUNT__</p><div class="acts"><button type="button" id="ei-why" aria-pressed="true">Hide notes</button>__CSV__<button type="button" class="primary" id="ei-copy">Copy questions</button></div></div>
+  <div id="ei-qs">__QUESTIONS__</div>
+  __SOURCES__
+  __CONTRIB__
+  <div class="ei-h"><b>Other due diligence questions</b></div>
+  __OTHERS__
+  <p class="ei-foot">__FOOTNOTE__ <span class="ei-ver">__VERSION__</span></p>
+</div>
+<div class="ei-toast" id="ei-toast" role="status" hidden></div>
+<script>
+(function(){
+  const TEXT = __COPYTEXT__;
+  const toast=document.getElementById('ei-toast'); let t=0;
+  const say=m=>{ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(()=>toast.hidden=true,2200); };
+  document.getElementById('ei-copy').addEventListener('click',()=>{
+    const fallback=()=>{ const ta=document.createElement('textarea'); ta.className='ei-copy'; ta.value=TEXT; document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand('copy'); }catch(e){} ta.remove(); say(ok?'Questions copied':'Select and copy the questions below'); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(TEXT).then(()=>say('Questions copied'),fallback); else fallback(); });
+  const why=document.getElementById('ei-why');
+  why.addEventListener('click',()=>{ const on=why.getAttribute('aria-pressed')==='true'; document.querySelectorAll('.ei-qs').forEach(s=>s.classList.toggle('nowhy',on)); why.setAttribute('aria-pressed',String(!on)); why.textContent=on?'Show notes':'Hide notes'; });
+})();
+</script>
+</body>
+</html>

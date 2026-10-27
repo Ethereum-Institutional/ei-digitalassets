@@ -1,0 +1,59 @@
+# Due diligence: threat intelligence and incident response. The page /architecture/threat-intelligence/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Threat intelligence and incident response
+short: Threat intelligence
+group: security
+tagline: 'Intelligence on advanced persistent threats and an incident retainer'
+order: 8
+summary: 'Intelligence on the advanced persistent threat groups that target digital asset firms, and the help you will need on the day something goes wrong: indicators, early warning, on-chain tracing of stolen funds and an incident response retainer.'
+components: [D8.10, D8.8, D6.14, D16.4]
+last_reviewed: 2026-10-27
+
+guidance:
+- title: Know the adversary
+  text: 'State-sponsored groups have been attributed with many of the largest thefts from digital asset firms, often through fake job offers, poisoned software packages and compromised signing devices. Intelligence is useful when it changes what your staff and systems do this week.'
+- title: Join the community
+  text: 'Industry sharing groups and emergency response networks (for example Crypto-ISAC and the Security Alliance SEAL 911) often see an attack pattern before it reaches you. Membership is cheap compared with a single incident.'
+
+sections:
+- title: Coverage and quality
+  questions:
+  - q: 'Which threat groups targeting digital asset firms do you track, and what have you published on them?'
+  - q: 'How do you rate confidence in an attribution or indicator, and how quickly do you update it?'
+  - q: 'Do you cover software supply chain threats such as malicious npm or PyPI packages and fake developer tools?'
+    why: Package and tooling compromises have been a recurring route into signing infrastructure.
+
+- title: Delivery and integration
+  questions:
+  - q: 'In which formats do you deliver indicators (STIX and TAXII, API), and can they feed our security monitoring directly?'
+  - q: 'Do you monitor for impersonation of our brand, executives and domains, and handle takedowns?'
+  - q: 'Do you alert us to on-chain activity involving our addresses or attacker addresses we care about?'
+
+- title: Incident response
+  questions:
+  - q: 'Do you offer an incident response retainer with guaranteed response times, including outside business hours?'
+    must: true
+  - q: 'Can you trace stolen funds on chain and coordinate freezes with exchanges, issuers and law enforcement?'
+  - q: 'Will you run a tabletop exercise with our team on a key compromise scenario?'
+  - q: 'What evidence handling do you follow, so that findings can support legal action?'
+
+sources:
+- title: 'FBI, North Korea Responsible for $1.5 Billion Bybit Hack (public service announcement, February 2025)'
+  url: https://www.ic3.gov/PSA/2025/PSA250226
+  checked: '2026-10-27'
+- title: 'CISA, FBI and Treasury, TraderTraitor: North Korean State-Sponsored APT Targets Blockchain Companies (advisory AA22-108A, April 2022)'
+  url: https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-108a
+  checked: '2026-10-27'
+- title: 'MITRE ATT&CK, Lazarus Group (G0032)'
+  url: https://attack.mitre.org/groups/G0032/
+  checked: '2026-10-27'
+- title: 'NIST, SP 800-61 Rev. 3, Incident Response Recommendations and Considerations for Cybersecurity Risk Management (April 2025)'
+  url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+  checked: '2026-10-27'
+- title: 'OASIS Cyber Threat Intelligence Technical Committee, STIX and TAXII documentation'
+  url: https://oasis-open.github.io/cti-documentation/
+  checked: '2026-10-27'
+- title: 'Regulation (EU) 2022/2554 on digital operational resilience (DORA), Article 45 on sharing cyber threat information and intelligence'
+  url: https://eur-lex.europa.eu/eli/reg/2022/2554/oj
+  checked: '2026-10-27'

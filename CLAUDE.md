@@ -325,6 +325,34 @@ and decisions behind them.
   fact sheet (Paladin: generally available software each institution deploys; no named production deployment).
 - Names: Bermuda Bay (not Bermuda); 0xbow Privacy Pools (not Privacy Pools alone).
 
+## Architecture page (`data/architecture/`, in progress)
+
+- A blueprint (`kind: architecture`, rendered by `src/architecture.html`) of what a digital asset team runs inside a
+  global bank or similar institution: lanes from the clients at the top to the private keys at the bottom, the main
+  transaction down a central spine (x = 524), a ledger column on the right, and two rails (governance, risk and
+  conduct; security, third parties and people) listed under the drawing, not drawn in it, because nothing connects
+  to them. Content in `architecture.yaml` (`domains` with `components`, `connections`, `flows`, `meta`), geometry in
+  `layout.yaml` (a 1,276 by 1,460 canvas; columns on a 200-unit grid), page text in `site.yaml`.
+- **Generic, not one firm's plan** (owner, 27 October 2026): the components come from practice at a global bank
+  (`source: brief`) or are gaps worth considering (`source: suggested`). `status` says how most institutions are
+  likely to meet the need (usually met by the core platform, extended, new, or a choice to assess), in that generic
+  voice, never "we" or "our".
+- **Boxes** differ only by shape, which shows the type (system of record, process, technology, control, key
+  material); status, source and the component id sit in the detail card, not on the drawing. Connections are
+  instruction (solid), data (dashed, deep sky `#0369a1`) or control (dotted, indigo `#4338ca`); a traced flow is sky
+  `#0ea5e9`. A connection runs between drawn nodes only, never a rail item.
+- **Sources:** a component may carry `sources` (title, URL, checked date) for the standard, regulation or guidance
+  behind it; every due diligence page carries its own, dated. `maps_to` links a component to the other pages (Privacy
+  for confidential tokens, Quantum for post-quantum cryptography, Networks and Decentralization for ledger selection,
+  Scenarios, Taxonomy, Identity).
+- **Due diligence pages** (`systems/<id>/system.yaml`, `src/system.html`): ways to buy or run it, guidance, numbered
+  questions (`must: true` marks a question whose wrong answer rules a provider out), a copy button and a CSV
+  download, sources and an edit link. Vendor examples are two or three named products of the kind, or none, never a
+  single name (it reads as an endorsement); the page notice says names are examples, not endorsements. The confidential
+  tokens page follows the Privacy page's facets.
+- Quote flow-list items that contain a comma (`['Hyperledger Paladin (Noto, Zeto and Pente)']`); unquoted, YAML splits
+  them into two items.
+
 ## Quantum page (`data/quantum/`, stub with drafted sections)
 
 - An overview (`site.yaml`, short intro and four cards) with four static sub-pages under `data/quantum/<topic>/`

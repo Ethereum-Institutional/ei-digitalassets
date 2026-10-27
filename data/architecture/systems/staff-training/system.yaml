@@ -1,0 +1,65 @@
+# Due diligence: digital asset handling training. The page /architecture/staff-training/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Digital asset handling training
+short: Staff training
+group: security
+tagline: 'What every member of staff should know about digital assets'
+order: 12
+summary: 'Training for every member of staff, and any third party, who touches digital assets or the clients who hold them. Most losses start with a person: a convincing message, a fake job offer, a poisoned link or a reused password. The curriculum below is the minimum; the questions help choose a provider or build it in-house.'
+components: [D16.5, D3.6, D8.4, D16.4]
+last_reviewed: 2026-10-27
+
+curriculum:
+- title: Basics of digital assets
+  text: 'What a key, an address, a wallet and a transaction are; why a confirmed transfer cannot be reversed; how custody differs from self-custody.'
+- title: Common scams
+  text: 'Investment and romance scams, fake support, fake exchanges, impersonation of executives and of the institution itself.'
+- title: Exploits
+  text: 'Phishing approvals and wallet drainers, malicious contracts, address poisoning, compromised front ends and blind signing.'
+- title: Social engineering techniques
+  text: 'Pretexting, urgency and authority, fake job offers and coding tests, deepfake calls, and how to verify a request out of band.'
+- title: Self-custody best practices
+  text: 'Seed phrase handling, hardware wallets, test transactions, allowlists and what to tell clients who hold their own assets.'
+- title: Privacy
+  text: 'Why addresses are public and linkable, what not to share, and the privacy of clients and colleagues on a public ledger.'
+- title: Regulated exchanges
+  text: 'How to tell a licensed venue from an imitation, and why assets should not sit on an exchange.'
+- title: Password management
+  text: 'Password managers, hardware security keys, and why seed phrases and key shares never go into either a chat or a ticket.'
+
+sections:
+- title: Content
+  questions:
+  - q: 'How current is the content, how often is it updated, and how quickly do new attack patterns reach it?'
+    why: Scams and exploits change monthly; annual content goes stale.
+  - q: 'Is training role-based: different modules for approvers and key holders, engineers, client-facing staff and executives?'
+    must: true
+  - q: 'Does it include realistic simulations: phishing with wallet approvals, fake job offers, deepfake voice calls?'
+
+- title: Delivery and evidence
+  questions:
+  - q: 'How is understanding assessed, and can we track completion and results by person for audit?'
+  - q: 'Can the content be adapted to our policies, systems and languages?'
+  - q: 'Can we extend it to third parties and contractors with access to our systems?'
+
+- title: Client education
+  questions:
+  - q: 'Do you provide material we can give to clients who self-custody, in plain language?'
+
+sources:
+- title: 'FBI Internet Crime Complaint Center, Annual reports'
+  url: https://www.ic3.gov/AnnualReport/Reports
+  checked: '2026-10-27'
+- title: 'FBI, North Korea Aggressively Targeting Crypto Industry with Well-Disguised Social Engineering Attacks (public service announcement, September 2024)'
+  url: https://www.ic3.gov/PSA/2024/PSA240903
+  checked: '2026-10-27'
+- title: 'CISA, FBI and Treasury, TraderTraitor: North Korean State-Sponsored APT Targets Blockchain Companies (advisory AA22-108A, April 2022)'
+  url: https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-108a
+  checked: '2026-10-27'
+- title: 'NIST, SP 800-50 Rev. 1, Building a Cybersecurity and Privacy Learning Program (September 2024)'
+  url: https://csrc.nist.gov/pubs/sp/800/50/r1/final
+  checked: '2026-10-27'
+- title: 'Regulation (EU) 2022/2554 on digital operational resilience (DORA), Article 13(6) on ICT security awareness and digital operational resilience training'
+  url: https://eur-lex.europa.eu/eli/reg/2022/2554/oj
+  checked: '2026-10-27'

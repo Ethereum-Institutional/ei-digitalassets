@@ -1,0 +1,98 @@
+# Due diligence: key management, HSM, cloud KMS and MPC. The page /architecture/key-management/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Key management, HSM and MPC
+short: Key management, HSM & MPC
+group: custody
+tagline: 'HSM, cloud KMS, MPC and multisig, and the key processes around them'
+order: 4
+summary: 'Where private keys are generated, stored and used, and the processes around them: ceremonies, rotation, recovery, compromise and data spills. The technologies are on-premise hardware security modules, hyperscaler key services and enclaves, threshold (MPC) signing and on-chain multisig, often combined.'
+components: [D6.9, D6.10, D6.11, D6.12, D6.6, D6.5, D6.3, D6.4, D6.13, D6.14, D6.15, D6.1, D6.8]
+last_reviewed: 2026-10-27
+
+models:
+- name: On-premise HSM
+  text: 'Certified hardware in your own data centers holds whole keys and signs inside the device. Strongest control; you run the hardware, the ceremonies and the resilience.'
+  examples: [Thales Luna, Entrust nShield, Utimaco]
+- name: Cloud HSM, KMS and enclaves
+  text: 'Hyperscaler key services and confidential compute. Fast to deploy and resilient across regions; you depend on the provider''s hardware, staff controls and legal jurisdiction.'
+  examples: ['AWS KMS, CloudHSM and Nitro Enclaves', Google Cloud KMS and Cloud HSM, Azure Key Vault Managed HSM]
+- name: MPC (threshold signing)
+  text: 'The key never exists whole: shares on separate machines, people or organizations sign together. Common protocols are threshold ECDSA (for example CGGMP21 and DKLs) and FROST (RFC 9591) for Schnorr and EdDSA. Protocol choice, implementation quality and share refresh matter more than the label.'
+- name: On-chain multisig
+  text: 'Several independent keys and a rule enforced by the chain itself (for example Safe smart accounts on EVM chains). Transparent and auditable; behavior differs by chain and costs gas.'
+
+guidance:
+- title: Check curve support first
+  text: 'Ledgers sign with specific curves: secp256k1 (Bitcoin, Ethereum accounts), ed25519 (Solana, Stellar and others), BLS12-381 (Ethereum validators). Many HSM models and key services support only some of them natively; a product that cannot sign on the curve you need inside the hardware forces keys out of it.'
+- title: Rotation on a ledger is a migration
+  text: 'For an ordinary account an address is tied to its key, so you cannot rotate a key in place (smart contract accounts such as Safe or ERC-4337 wallets can replace their signers without moving assets). Rotation means new keys, new addresses, updated allowlists everywhere and moving assets, or refreshing MPC shares while the public key stays the same. Plan and rehearse it before a compromise forces it.'
+- title: A data spill is not always a compromise, but treat it as one
+  text: 'Seed phrases, key shares, backup passwords or signing credentials found in a log, ticket, chat, screenshot or backup must trigger the same containment as a suspected compromise until proven otherwise: move assets to fresh keys, then investigate.'
+
+sections:
+- title: Algorithms, curves and certification
+  questions:
+  - q: 'Which curves and signature schemes do you support natively inside the hardware or protocol (secp256k1, ed25519, BLS12-381, Schnorr)?'
+    must: true
+  - q: 'Which certifications apply to the exact product and firmware we would use (for example FIPS 140-3 level and Common Criteria)?'
+    why: 'FIPS 140-2 validations moved to NIST''s historical list in September 2026; ask for an active FIPS 140-3 certificate that names the module and firmware version.'
+  - q: 'What is your roadmap for post-quantum signatures (ML-DSA, SLH-DSA), and can keys and algorithms be changed without replacing the platform?'
+    why: Crypto-agility matters because ledgers will migrate signature schemes over the coming decade.
+
+- title: Generation, ceremony and access
+  questions:
+  - q: 'Where are keys generated, and can you prove generation happened inside certified hardware or the agreed protocol (attestation)?'
+  - q: 'Does administration require an M-of-N quorum of named people, and can ceremonies be witnessed and recorded?'
+  - q: 'For a cloud service: who at the provider can access the hardware or the key, under what process, and would we be told?'
+    must: true
+  - q: 'In which regions and jurisdictions is key material held, and how do you respond to legal process seeking access to it?'
+  - q: 'For enclaves: can we verify the code running in the enclave through remote attestation before releasing keys or shares to it?'
+
+- title: Backup, rotation and recovery
+  questions:
+  - q: 'How are keys or shares backed up, in how many jurisdictions, and under whose control?'
+  - q: 'Have you recovered a key from backup in a test with a client, and how long did it take?'
+    must: true
+  - q: 'How is rotation handled: share refresh for MPC, new keys and asset migration for HSM and multisig?'
+  - q: 'Can we leave your product with our keys, or must assets be moved to new keys on exit?'
+
+- title: Compromise and data spill
+  questions:
+  - q: 'What logs and alerts would show us a key or share being used outside policy, and how fast?'
+  - q: 'What is your documented response to a suspected compromise, and what help do you give clients during one?'
+  - q: 'How do you prevent key material, share backups and credentials from reaching logs, support tickets and diagnostics?'
+    why: Many key exposures are accidental; the product should make spills hard, not rely on staff care.
+
+- title: MPC specifics
+  questions:
+  - q: 'Which protocol do you implement, has the implementation (not only the paper) been independently audited, and can we read the reports?'
+    must: true
+  - q: 'How many parties take part, where does each run, and who controls each share?'
+  - q: 'Do you refresh shares proactively, and how did you respond to published attacks on threshold ECDSA implementations?'
+  - q: 'Is the library open source or available for review under NDA?'
+
+- title: Performance and operations
+  questions:
+  - q: 'What signing throughput and latency can you sustain, and how does that change across regions or during failover?'
+  - q: 'How is the service monitored, and what availability do you commit to?'
+
+sources:
+- title: 'NIST, FIPS 140-3, Security Requirements for Cryptographic Modules'
+  url: https://csrc.nist.gov/pubs/fips/140-3/final
+  checked: '2026-10-27'
+- title: 'NIST, FIPS 204, Module-Lattice-Based Digital Signature Standard (ML-DSA)'
+  url: https://csrc.nist.gov/pubs/fips/204/final
+  checked: '2026-10-27'
+- title: 'NIST, SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: Part 1, General (key states, cryptoperiods and compromise)'
+  url: https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final
+  checked: '2026-10-27'
+- title: 'NIST, IR 8547 (initial public draft), Transition to Post-Quantum Cryptography Standards (November 2024)'
+  url: https://csrc.nist.gov/pubs/ir/8547/ipd
+  checked: '2026-10-27'
+- title: 'IETF, RFC 9591, The Flexible Round-Optimized Schnorr Threshold (FROST) Protocol for Two-Round Schnorr Signatures (June 2024)'
+  url: https://www.rfc-editor.org/rfc/rfc9591.html
+  checked: '2026-10-27'
+- title: 'CryptoCurrency Certification Consortium (C4), CryptoCurrency Security Standard (CCSS) v9: key generation, storage, usage and compromise controls'
+  url: https://cryptoconsortium.org/ccss-table-v9/
+  checked: '2026-10-27'

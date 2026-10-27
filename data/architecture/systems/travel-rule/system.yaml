@@ -1,0 +1,56 @@
+# Due diligence: Travel Rule solution. The page /architecture/travel-rule/ is built from this file.
+# To propose a question, add it under the right section (q, and why: what a good answer shows) and open a pull request.
+
+title: Travel Rule solution
+short: Travel Rule
+group: fincrime
+tagline: 'Exchange originator and beneficiary data with counterparty VASPs'
+order: 9
+summary: 'Software that exchanges originator and beneficiary information with the counterparty institution (VASP) when digital assets are transferred, identifies whether the counterparty is a VASP or a self-hosted wallet, and holds transfers that do not meet the rule.'
+components: [D2.4, D2.2, D4.1]
+last_reviewed: 2026-10-27
+
+guidance:
+- title: Interoperability decides it
+  text: 'The Travel Rule only works if your counterparties can receive your messages. Providers use different messaging protocols; ask which of your actual counterparties each provider can reach today, not how many VASPs are on its network.'
+
+sections:
+- title: Reach and interoperability
+  questions:
+  - q: 'Which messaging protocols do you support, and can you reach counterparties on other providers'' networks?'
+    must: true
+  - q: 'Of the counterparties we send to and receive from most, how many can you reach today?'
+  - q: 'How do you discover whether an address belongs to a VASP, and how do you assess that VASP before sending personal data to it?'
+
+- title: Rules and jurisdictions
+  questions:
+  - q: 'How do you apply different thresholds and data requirements by jurisdiction, and how quickly are rule changes reflected?'
+  - q: 'How do you handle transfers to and from self-hosted wallets, including proof of ownership?'
+  - q: 'How do you handle counterparties in jurisdictions where the rule is not yet in force?'
+
+- title: Integration and data protection
+  questions:
+  - q: 'Can a transfer be held in our approval flow until the Travel Rule exchange completes, and released or rejected automatically?'
+  - q: 'Where is personal data stored, encrypted with whose keys, and for how long?'
+    must: true
+  - q: 'Can the data be retrieved for audit and regulatory requests years later?'
+
+sources:
+- title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021)'
+  url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Guidance-rba-virtual-assets-2021.html
+  checked: '2026-10-27'
+- title: 'FATF, Revised Recommendation 16 on payment transparency (June 2025), applied to virtual asset transfers through Recommendation 15'
+  url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/update-Recommendation-16-payment-transparency-june-2025.html
+  checked: '2026-10-27'
+- title: 'Regulation (EU) 2023/1113 on information accompanying transfers of funds and certain crypto-assets, Articles 14 to 17, including transfers to self-hosted addresses (Article 14(5))'
+  url: https://eur-lex.europa.eu/eli/reg/2023/1113/oj
+  checked: '2026-10-27'
+- title: 'EBA, Travel Rule Guidelines (EBA/GL/2024/11, July 2024)'
+  url: https://www.eba.europa.eu/sites/default/files/2024-07/6de6e9b9-0ed9-49cd-985d-c0834b5b4356/Travel%20Rule%20Guidelines.pdf
+  checked: '2026-10-27'
+- title: 'FinCEN, Application of FinCEN''s Regulations to Certain Business Models Involving Convertible Virtual Currencies (FIN-2019-G001, May 2019), on the US Travel Rule for CVC transfers'
+  url: https://www.fincen.gov/system/files/2019-05/FinCEN%20Guidance%20CVC%20FINAL%20508.pdf
+  checked: '2026-10-27'
+- title: 'Joint Working Group on interVASP Messaging Standards, IVMS 101 data model'
+  url: https://www.intervasp.org/
+  checked: '2026-10-27'
