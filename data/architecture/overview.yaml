@@ -1,0 +1,66 @@
+# Architecture overview: the simple view the page opens on (owner, 27 October 2026: the full blueprint was too much
+# to take in at once). Seven areas run from the clients to the ledger; a click on an area opens the blueprint
+# components it holds, and a click on a component opens its detail card. The full blueprint stays one click away.
+#
+#   areas:   in reading order. Each has an id, a name, a one-line `text`, and `components` (blueprint ids).
+#   sub:     a short second line under the name (for example HSM or MPC).
+#   parts:   steps drawn inside the area, in order, each with its own components (the custody platform).
+#   callout: on a part, the id of a side area it calls out to (approval calls screening).
+#   beside:  a side area drawn next to the area that names it, not on the main line (screening, key management).
+#   optional: components an institution may or may not need, drawn as dashed tags inside the area.
+# Every component with a `type` in architecture.yaml appears exactly once across the areas; the rails (governance,
+# risk and conduct; security, third parties and people) stay listed under the page.
+
+areas:
+- id: clients
+  name: Clients
+  text: 'Retail and wholesale clients, staff and administrators, and authorities: who is asking, from where, decides the scenario, the permissions and the risk tier.'
+  clients: true
+  components: []
+
+- id: institution
+  name: Institutional systems
+  text: 'The systems the institution already runs: the channels clients use, the client directory, books and records, and internal tools, extended for digital assets.'
+  components: [D0.1, D0.2, D0.3, D0.4, D15.4]
+
+- id: iam
+  name: Identity and access management
+  text: 'Who the client is and what they may do: KYC and KYB, enhanced due diligence, permissions, suitability and where they connect from.'
+  components: [D1.3, D2.1, D2.5, D14.1, D14.2]
+  optional:
+  - { name: Wallet verification, components: [D2.2, D2.3] }
+  - { name: Decentralized identity, components: [D2.6] }
+
+- id: scenarios
+  name: Scenarios and tokens
+  text: 'What the client is doing and with which asset: the business scenario, the token and its class, trading and settlement, and the token''s own lifecycle events.'
+  components: [D1.1, D1.2, D7.9, D7.6, D11.1, D11.2, D11.3, D11.4, D12.1, D12.4, D5.6]
+
+- id: custody
+  name: Custody platform
+  text: 'Where a transaction is prepared, approved and signed, whether the platform is built, bought or run by a third-party custodian.'
+  components: [D5.1, D5.5]
+  parts:
+  - { id: transactions, name: Transaction management, components: [D4.3, D4.2, D5.3, D5.4, D11.5] }
+  - { id: approval, name: Approval, components: [D4.1, D4.4, D4.5], callout: screening }
+  - { id: signing, name: Signing, components: [D4.6, D6.6], callout: keys }
+  optional:
+  - { name: Wallet as a service, components: [D5.2] }
+
+- id: screening
+  name: Screening
+  beside: custody
+  text: 'Checks every wallet and transaction against sanctions and risk tolerances before approval, quarantines what fails, and reports what is suspicious, including the Travel Rule.'
+  components: [D3.1, D3.2, D3.3, D3.7, D3.4, D3.5, D3.8, D2.4]
+
+- id: keys
+  name: Key management
+  sub: HSM or MPC
+  beside: custody
+  text: 'The private keys that sign, and everything around them: HSMs or MPC, ceremonies, vaulting, recovery, rotation and the plan for post-quantum cryptography.'
+  components: [D6.9, D6.10, D6.11, D6.12, D6.2, D6.1, D6.3, D6.4, D6.5, D6.7, D6.13, D6.14, D6.15, D6.8]
+
+- id: ledger
+  name: Distributed ledger
+  text: 'The ledger the custody platform submits to, and what reads from it: ledger selection, nodes, data and indexing, oracles and bridges, monitoring and validators.'
+  components: [D7.1, D1.4, D7.2, D7.3, D7.4, D7.5, D8.11, D7.10, D7.11, D7.7, D7.8]

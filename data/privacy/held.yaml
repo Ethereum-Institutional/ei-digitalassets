@@ -4,7 +4,10 @@
 # settle on Ethereum mainnet; Anonymous Zether (archived, never in production) and ERC-7945 (a Final interface standard
 # with no deployment found; still named in the How much definition) were never available; TEN Protocol (site and
 # RPC offline since June 2026, no rollups posted since October 2025) and Intmax (withdrawals and block posting
-# paused since February 2026; not EVM) are not available today. To restore one, move its entry back into
+# paused since February 2026; not EVM) are not available today. Reviewed from the PSE benchmark on 27 October 2026
+# and held: Scroll Cloak (hosted devnets removed 11 February 2026, endpoints down; no production deployment) and Payy
+# (Ethereum mainnet rollup drained and halted 24 September 2026; testnet unreachable). Miden is excluded, not held: a
+# non-EVM chain whose state Ethereum mainnet does not verify (owner, 27 October 2026). To restore one, move its entry back into
 # badges.yaml with an x, y inside its circle. The old lens entries at the end predate the Focus on sidebar.
 - id: zether
   name: Anonymous Zether
@@ -86,7 +89,7 @@
   - { title: 'Decrypt, press release: Intmax mainnet launch (Zug, 26 June 2025)', url: 'https://decrypt.co/327136', checked: '2026-10-26' }
   - { title: 'ChainSecurity, Intmax2 ZKP circuits audit', url: 'https://www.chainsecurity.com/security-audit/intmax-2-zkp-circuits', checked: '2026-10-26' }
   - { title: 'Intmax2 paper, ePrint 2023/1082', url: 'https://eprint.iacr.org/2023/1082', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Intmax', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/intmax.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Intmax', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/intmax.json', checked: '2026-10-26' }
 - id: ten
   name: 'TEN Protocol'
   circle: logic
@@ -139,7 +142,85 @@
   - { title: 'ten-protocol/go-ten, LICENSE.md (Business Source License 1.1) and changelog', url: 'https://github.com/ten-protocol/go-ten', checked: '2026-10-26' }
   - { title: 'Internet Archive, ten.xyz capture of 7 June 2026 (domain parking page)', url: 'https://web.archive.org/web/20260607135622/https://ten.xyz/', checked: '2026-10-26' }
   - { title: 'The DeFiant, press release: R3 leads USD 9 million round in TEN (March 2024)', url: 'https://thedefiant.io/news/press-releases/banking-consortium-r3-leads-9m-round-in-encrypted-layer-2-on-ethereum', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, TEN Protocol (pending, no properties)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/ten-protocol.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, TEN Protocol (pending, no properties)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/ten-protocol.json', checked: '2026-10-26' }
+- id: cloak
+  name: Scroll Cloak
+  circle: logic
+  x: 0
+  y: 0
+  eth: true
+  pse: scroll-cloak
+  status: testnet
+  since: '2025-09-12'
+  status_note: 'Public devnet on Scroll Sepolia deployed 12 September 2025 (the docs warn devnets are reset regularly). The cloak-js SDK removed every hosted devnet config on 11 February 2026, and the devnet RPC endpoints did not answer on 27 October 2026. Two test instances on Scroll mainnet last committed a batch on 17 November 2025. No mainnet date announced; production instances are set up by the Scroll team on request.'
+  facts:
+    verify: { in: ['yes'], note: 'The Cloak contract on Scroll verifies a validity proof for each batch (OpenVM STARK wrapped in a Halo2 KZG SNARK), and Scroll in turn proves to Ethereum mainnet. Only the operator’s sequencer and prover roles can commit and finalize.', sources: [{ title: 'scroll-tech/scroll-contracts, ScrollChainValidium.sol (roles, verifier, pause)', url: 'https://github.com/scroll-tech/scroll-contracts/blob/main/src/validium/ScrollChainValidium.sol', checked: '2026-10-27' }, { title: 'L2BEAT ZK catalog, OpenVM prover (STARK wrapped in Halo2 KZG over BN254)', url: 'https://l2beat.com/zk-catalog/openvmprover', checked: '2026-10-27' }] }
+    fees: { part: [license], note: 'L3 gas is free, and the RPC gateway returns a zero gas price. Production instances are set up by the Scroll team on request; no price or license terms are published.' }
+    pet: { in: [offchain], note: 'Privacy comes from an authenticated RPC gateway over a validium that never publishes data. Deposit recipients are encrypted on Scroll to a 33-byte elliptic-curve key; the ZK proofs prove correctness, not secrecy.' }
+    proving: { in: [server], note: 'The operator’s dedicated zkEVM prover cluster; nothing is proven on user devices.' }
+    pq: { in: ['no'], part: [hashes], note: 'Only state roots, withdraw roots and proofs go on chain, but each deposit’s recipient is encrypted on Scroll to an elliptic-curve key, so it could be harvested now and decrypted later. The BN254 SNARK and ECDSA are classical.' }
+    operator: { in: [company], part: [self], note: 'Scroll sets up each instance (sequencer, RPC gateway, indexer, provers). The client controls the bridge contracts and admin rights, and the sequencer if it self-hosts. The docs page on running a local instance is "Coming soon".' }
+    external: { in: ['yes'], note: 'Settles on Scroll, an Ethereum Layer 2 with its own sequencer and Security Council. Scroll’s Stage 1 forced withdrawal covers Scroll’s sequencer, not Cloak’s.' }
+    chains: { in: [private], part: [own, l2], note: 'One isolated L3 validium per client, hosted on Scroll; the docs say an instance can sit on any EVM chain. Devnets ran on Scroll Sepolia and test instances on Scroll mainnet.' }
+    keys: { in: [existing], note: 'One Ethereum key signs both transactions and the Sign-In with Ethereum login; the docs advise a fresh address used only on Cloak.' }
+    wallet: { in: [app], part: [any], note: 'Any wallet can sign, but reads need a JWT from the gateway, and eth_call and eth_getLogs are admin-only in the published gateway, so balances come through the client’s app or the cloak-js SDK.' }
+    indexing: { in: [none], note: 'Account balances are served by the gateway or the client’s indexer; there is nothing to scan.' }
+    tokens: { in: [erc20, any], part: [eth], note: 'Any ERC-20 bridges permissionlessly to a standard L3 copy, and ETH arrives as WETH. Any EVM contract runs, but only admin tokens can deploy through the gateway.' }
+    hidden: { in: [public, participants], note: 'Users cannot query each other’s accounts or transactions. The operator and admin-token holders see all plaintext; each deposit’s sender and amount are public on Scroll.' }
+    controls: { in: [pause], part: [freeze, forced, mint], note: 'The admin can pause batch commits, and the gateway can refuse any transaction. Bridged ERC-20 copies have no freeze; tokens issued inside the L3 keep whatever controls their code has.' }
+    permission: { in: [selective], part: [permissioned], note: 'The published gateway gives a scoped token to any wallet that signs in. KYB/KYC hooks are announced but not documented; the operator decides whom its gateway serves.' }
+    disclosure: { in: [grant], note: 'The operator issues admin tokens with full access. Selective-disclosure APIs are announced but not documented, and holders have no viewing key.' }
+    visibility: { in: [operator, notary], note: 'The operator reads everything through admin tokens, and the docs name regulators as viewers. Access is granted off chain, with no timelock or on-chain notice.' }
+    checks: { in: [capable], note: 'KYB/KYC hook support and real-time monitoring were announced in August 2025, and Scroll said it was working with KYT providers. None of this is in the published code.' }
+    association: { in: ['no'], note: 'Each client runs an isolated instance; there is no shared pool.' }
+    upgrade: { in: [operator], part: [company], note: 'Each instance’s admin can upgrade it. On the Scroll mainnet test instance one externally owned account owns the proxy admin of the host contract, with no timelock (27 October 2026); PSE found the same on the Sepolia devnet. "Contract admin management" is unticked on the roadmap.', sources: [{ title: 'Scrollscan (Blockscout), Cloak host contract of the cloak-xen mainnet test instance (proxy, batch history)', url: 'https://scrollscan.com/address/0xb67fcb0C2A14DF77B3DFA773750F580B43776b31', checked: '2026-10-27' }] }
+    exit: { in: ['no'], note: 'The L3 has no forced inclusion and no permissionless prover. A withdrawal needs the operator to include it, prove it and serve its Merkle proof, and outsiders cannot rebuild validium data.' }
+    censorship: { in: ['yes'], note: 'Every read and write passes the operator’s gateway; a call without a token returns "unauthorized".' }
+    failure: { in: [privacy, funds], note: 'A gateway or database breach exposes everything. Proofs stop forged state, but an instant upgrade or withheld data could lose or strand funds.' }
+    value: { in: [lt10m], note: 'The two Scroll mainnet test gateways held 33.53 USDC and 3.00 USDC plus dust WETH (27 October 2026); the hosted devnets held test tokens.', sources: [{ title: 'Scrollscan (Blockscout), cloak-xen mainnet ERC-20 gateway (token balances; deposits 4 February 2026)', url: 'https://scrollscan.com/address/0x1efF9B6FD12E373e21749534172Cd35c2a2719C2', checked: '2026-10-27' }] }
+    institutions: { in: [none], note: 'The design partners named at launch are fintechs (Shiga payments, ether.fi Cash), and Scroll’s USX stablecoin planned its privacy through Cloak. No regulated institution is named.' }
+    audits: { in: ['yes'], note: 'Zellic reviewed the Cloak V1 contracts on Scroll from 16 to 22 October 2025 (report 27 October 2025): two medium findings, one low, none critical. The gateway, sequencer and provers were out of scope, and the docs still call Cloak unaudited.' }
+    incidents: { in: [none], note: 'None found.' }
+    license: { in: [available], part: [open], note: '"Open-source" is unticked on the roadmap. The contracts (MIT headers), sequencer (LGPL-3.0), provers (Apache-2.0) and SDK (MIT) are open; the RPC gateway and withdrawal services are public with no license.' }
+    steward: { in: [company], note: 'Scroll (scroll-tech).' }
+    gas: { in: ['na'], note: 'Transfers run inside the L3 at a zero gas price; Scroll sees one commitment and proof per batch.' }
+    latency: { in: [block], note: 'Settlement in under 2 seconds is claimed. A slow withdrawal waits for the L3 proof on Scroll and then Scroll’s own roughly hourly proof to Ethereum mainnet; a fast withdrawal is paid at once from an operator vault.' }
+    anonymity: { in: ['na'], note: 'Only deposits and withdrawals reach the public, on Scroll, with L3 recipients encrypted; the operator sees everyone.' }
+  desc: 'A private validium (a Layer 3) on Scroll: parties, amounts, balances and contract state stay in the operator’s database, and only batch commitments and validity proofs reach Scroll and, through it, Ethereum mainnet. Other users see only their own accounts; the operator, and any regulator it hands an admin token, sees everything. Proofs stop forged state, but the operator can refuse, pause or withhold data, with no exit around it. Full EVM with free gas inside; tokens issued inside keep the controls their code has. Public devnet on Scroll Sepolia since 12 September 2025, contracts audited by Zellic; no production deployment.'
+  sources:
+  - { title: 'Scroll blog, Introducing Cloak: Practical Privacy for Onchain Finance (26 August 2025; design partners, compliance suite, FAQ)', url: 'https://scroll.io/blog/introducing-cloak', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, overview (access control; experimental, unaudited software as of October 2025)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/index.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, authentication (bearer tokens, admin tokens, SIWE JWT)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/integration/auth.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, deposits (stealth deposits, token mapping, free L3 gas)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/integration/deposits.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, withdrawals (slow and fast paths)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/integration/withdrawals.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, transfers (who can query a transaction)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/integration/transfers.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, address book (Scroll Sepolia devnet deployed 12 September 2025; mainnet "Coming soon")', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/integration/address-book.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, roadmap (production deployment, audit, open source unticked)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/technology/roadmap.md', checked: '2026-10-27' }
+  - { title: 'Cloak documentation, source code (repositories)', url: 'https://github.com/scroll-tech/cloak-documentation/blob/main/docs/technology/source-code.md', checked: '2026-10-27' }
+  - { title: 'scroll-tech/cloak-js, commit removing deprecated chain configs (11 February 2026)', url: 'https://github.com/scroll-tech/cloak-js/commit/5b8fd3563dd09890075e3b6239e607b4bb156e5b', checked: '2026-10-27' }
+  - { title: 'scroll-tech/rpc-auth-proxy (access levels; eth_call and logs admin-only; no license file)', url: 'https://github.com/scroll-tech/rpc-auth-proxy', checked: '2026-10-27' }
+  - { title: 'Zellic, Cloak V1 smart contract security assessment (27 October 2025)', url: 'https://github.com/Zellic/publications/blob/master/Cloak%20V1%20-%20Zellic%20Audit%20Report.pdf', checked: '2026-10-27' }
+  - { title: 'Scroll blog, USX: A private, gasless and spendable stablecoin (14 October 2025; privacy via Cloak "coming soon")', url: 'https://scroll.io/blog/usx-pre-deposits', checked: '2026-10-27' }
+  - { title: 'Scroll blog, 2025 Wrapped up (30 December 2025)', url: 'https://scroll.io/blog/2025-wrapped-up', checked: '2026-10-27' }
+  - { title: 'PSE evaluation, Scroll Cloak', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/scroll-cloak.json', checked: '2026-10-27' }
+- id: payy
+  name: Payy
+  circle: who
+  x: 0
+  y: 0
+  eth: true
+  pse: payy
+  desc: 'A stablecoin payments network (Polybase Labs) with a non-custodial wallet and a Visa card: a UTXO rollup hiding sender, receiver and amount with client-made Noir proofs. Its Polygon validium closed on 12 September 2025 and its Ethereum mainnet rollup went live on 17 February 2026 (USDC only, about 3.8 million at peak). On 24 September 2026 forged proofs drained about USD 1.92 million through a Barretenberg verifier soundness bug; Payy paused deposits, withdrawals, transfers and card payments and opened a claims window. Its EVM Layer 2 (chain ID 7298) is an alpha testnet whose endpoints did not answer on 27 October 2026.'
+  sources:
+  - { title: 'Payy docs, Get Started (testnet alpha)', url: 'https://docs.payy.network/build-on-payy/get-started.md', checked: '2026-10-27' }
+  - { title: 'polybase/payy, eth/README.md (Polygon and Ethereum deployments, migration)', url: 'https://github.com/polybase/payy/blob/main/eth/README.md', checked: '2026-10-27' }
+  - { title: 'Etherscan, Payy RollupV1 proxy', url: 'https://etherscan.io/address/0x367c1eaf14aa06b78ce76bd0243297de79d85270', checked: '2026-10-27' }
+  - { title: 'Etherscan, exploit transaction (24 September 2026)', url: 'https://etherscan.io/tx/0xf43abdac5422087f645d77923eb1c825178bff3eb86d17d40fa18d89701e1814', checked: '2026-10-27' }
+  - { title: 'PolygonScan, Payy: Bridge (last activity 12 September 2025)', url: 'https://polygonscan.com/address/0x4cbb5041df8d815d752239960fba5e155ba2687e', checked: '2026-10-27' }
+  - { title: 'Certora, The Payy Exploit: a USD 1.92 million forged ZK proof attack (security firm analysis, 12 October 2026)', url: 'https://www.certora.com/blog/payy-exploit-forged-zk-proof-attack', checked: '2026-10-27' }
+  - { title: 'Unchained, Payy rules out a compromised key in USD 1.92 million drain (press, 25 September 2026)', url: 'https://unchainedcrypto.com/payy-rules-out-a-compromised-key-in-1-92-million-drain-of-users-deposits/', checked: '2026-10-27' }
+  - { title: 'TokenPost, Payy opens claims (press, 13 October 2026)', url: 'https://www.tokenpost.com/news/technology/30895', checked: '2026-10-27' }
+  - { title: 'PSE evaluation, Payy', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/payy.json', checked: '2026-10-27' }
 # Lens entries removed with them (file: key: value), to restore alongside the badge:
 # issuer: canton: in
 # issuer: aztec: part

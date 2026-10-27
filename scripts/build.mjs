@@ -51,7 +51,7 @@ function load(dir) {
   if (site.kind === 'static') return { dir, site, static: true };
   // index pages list scenarios with filters; scenario pages hold one scenario (actors, steps, tokens, standards)
   if (site.kind === 'index') return { dir, site, index: true };
-  if (site.kind === 'architecture') return { dir, site, arch: true, map: yml('architecture.yaml'), layout: yml('layout.yaml') };
+  if (site.kind === 'architecture') return { dir, site, arch: true, map: yml('architecture.yaml'), layout: yml('layout.yaml'), overview: yml('overview.yaml') };
   if (site.kind === 'scenario') return { dir, site, scenario: true, sc: yml('scenario.yaml') };
   // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
   // gauges pages use the radial data files (rings = levels, themes = properties, lenses) with a dial per property
@@ -358,7 +358,7 @@ function validate(page) {
     for (const f of site.facets) {
       if (!f.label || !(f.values || []).length) errors.push(`${where('site.yaml')}: facet "${f.id}" needs a label and values`);
       if (!groups.has(f.group)) errors.push(`${where('site.yaml')}: facet "${f.id}" names unknown group "${f.group}"`);
-      if (f.from && !['status', 'since'].includes(f.from)) errors.push(`${where('site.yaml')}: facet "${f.id}" from must be status or since`);
+      if (f.from && !['status', 'since', 'pse'].includes(f.from)) errors.push(`${where('site.yaml')}: facet "${f.id}" from must be status, since or pse`);
       if (f.filter !== undefined && typeof f.filter !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" filter must be true or false`);
       if (f.neutral !== undefined && typeof f.neutral !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" neutral must be true or false`);
       if (f.match && !['any', 'all'].includes(f.match)) errors.push(`${where('site.yaml')}: facet "${f.id}" match must be any or all`);
@@ -374,6 +374,7 @@ function validate(page) {
     for (const t of tokens.tokens) {
       if (t.status && !['mainnet', 'testnet'].includes(t.status)) errors.push(`${where('badges')}: "${t.ticker}" status must be mainnet or testnet`);
       if (t.since && !/^\d{4}-\d{2}-\d{2}$/.test(String(t.since))) errors.push(`${where('badges')}: "${t.ticker}" since must be YYYY-MM-DD`);
+      for (const id of [].concat(t.pse || [])) if (!/^[a-z0-9-]+$/.test(String(id))) errors.push(`${where('badges')}: "${t.ticker}" pse must be PSE evaluation ids (lower-case, hyphens)`);
       for (const [fid, raw] of Object.entries(t.facts || {})) {
         const f = F[fid], v = fact(raw);
         if (!f) { errors.push(`${where('badges')}: "${t.ticker}" gives unknown facet "${fid}"`); continue; }
@@ -389,12 +390,16 @@ function validate(page) {
 // a badge's facet value: a string, a list, or { in, part, note, sources }
 const fact = raw => { const o = typeof raw === 'string' || Array.isArray(raw) ? { in: [].concat(raw) } : (raw || {});
   return { in: [].concat(o.in ?? []).map(String), part: [].concat(o.part ?? []).map(String), note: o.note || '', sources: o.sources || [] }; };
-// facets filled by the build: status (default mainnet) and years since `since`, banded as the `since` facet's values
+// facets filled by the build: status (default mainnet), years since `since` (banded as the `since` facet's values), and
+// `pse`: a pointer to the design's evaluations in the PSE private transfers benchmark, which measures what we do not
+const PSE_EVAL = 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/';
 function facts(t, site) {
   if (!t.facts) return null; // a badge without facts (context only) is left out of the sidebar and its counts
   const out = Object.fromEntries(Object.entries(t.facts || {}).map(([k, v]) => [k, fact(v)]));
   for (const f of site.facets || []) {
     if (f.from === 'status') out[f.id] = { in: [t.status || 'mainnet'], part: [], note: t.status_note || '', sources: [] };
+    if (f.from === 'pse' && t.pse) out[f.id] = { in: [String(f.values[0].id)], part: [], note: f.note || '',
+      sources: [].concat(t.pse).map(id => ({ title: `PSE evaluation, ${id}`, url: `${PSE_EVAL}${id}.json` })) };
     if (f.from === 'since') {
       if (!t.since) { out[f.id] = { in: ['unknown'], part: [], note: '', sources: [] }; continue; }
       const y = (Date.parse(site.facts_as_of) - Date.parse(String(t.since))) / (365.25 * 864e5);
@@ -574,7 +579,8 @@ function renderRadial({ site, rings, themes, layout, lenses, out, gauges }) {
 
 // ---------- architecture page ----------
 // kind: architecture, a blueprint. architecture.yaml holds client_context, domains (each with components), connections
-// (from, to, kind, label), flows and meta; layout.yaml places each component as a node in a lane or in a side rail.
+// (from, to, kind, label), flows and meta; overview.yaml groups every drawn component (one with a type) into the areas
+// the page draws and lays out itself; layout.yaml lists the two rails (components without a type, listed under it).
 const ARCH_STATUS = ['existing', 'extend', 'new', 'evaluate'];
 const ARCH_SOURCE = ['brief', 'suggested'];
 const ARCH_TYPES = ['system', 'process', 'technology', 'control', 'key'];
@@ -585,7 +591,7 @@ const refLabel = k => human(String(k).replace(/_map$/, ''));
 const refAbbr = k => String(k).replace(/_map$/, '').split('_').map(w => w[0].toUpperCase()).join('');
 const archComponents = map => (map.domains || []).flatMap(d => (d.components || []).map(c => Object.assign({ source: d.source || 'brief' }, c, { domain: d.id })));
 const archClients = map => (map.client_context?.segments || []).map(s => ({ id: `CL.${s.id}`, name: s.name, states: s.states || [] }));
-function validateArchitecture({ dir, site, map, layout }) {
+function validateArchitecture({ dir, site, map, layout, overview }) {
   const errors = validateStatic({ dir, site }), w = f => `${dir}/${f}`;
   const doms = map.domains || [], dIds = new Set(doms.map(d => d.id));
   if (dIds.size !== doms.length) errors.push(`${w('architecture.yaml')}: duplicate domain ids`);
@@ -607,15 +613,11 @@ function validateArchitecture({ dir, site, map, layout }) {
     for (const r of c.maps_to || []) if (!refs.has(r)) errors.push(`${w('architecture.yaml')}: component "${c.id}" maps to unknown reference map "${r}"`);
     for (const x of c.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '') || !/^\d{4}-\d{2}-\d{2}$/.test(String(x.checked || ''))) errors.push(`${w('architecture.yaml')}: source on component "${c.id}" needs a title, a URL and checked (YYYY-MM-DD)`);
   }
-  // placement: every component once, as a node (needs a type) or a rail item; clients are always nodes
-  const asNode = Object.keys(layout.nodes || {}), asRail = (layout.rails || []).flatMap(r => r.items || []), placed = [...asNode, ...asRail];
-  for (const id of placed) if (!nodeIds.has(id)) errors.push(`${w('layout.yaml')}: places unknown component "${id}"`);
-  for (const id of nodeIds) { const n = placed.filter(x => x === id).length; if (n !== 1) errors.push(`${w('layout.yaml')}: "${id}" is placed ${n} times (must be once)`); }
-  for (const [id, p] of Object.entries(layout.nodes || {})) {
-    if (!Array.isArray(p) || p.length < 2 || p.some(v => typeof v !== 'number')) errors.push(`${w('layout.yaml')}: node "${id}" needs [x, y] or [x, y, width]`);
-    const c = comps.find(x => x.id === id); if (c && !c.type) errors.push(`${w('architecture.yaml')}: "${id}" is drawn as a node, so it needs a type`);
-  }
-  for (const k of ['canvas', 'node', 'main', 'lanes']) if (!layout[k]) errors.push(`${w('layout.yaml')}: missing "${k}"`);
+  // placement: a component with a type is drawn in an area (overview.yaml, checked below); one without sits in a rail
+  const asRail = (layout.rails || []).flatMap(r => r.items || []);
+  for (const id of asRail) { const c = comps.find(x => x.id === id); if (!c) errors.push(`${w('layout.yaml')}: rail lists unknown component "${id}"`); else if (c.type) errors.push(`${w('layout.yaml')}: "${id}" has a type, so it is drawn in an area, not listed in a rail`); }
+  for (const c of comps.filter(x => !x.type)) { const n = asRail.filter(x => x === c.id).length; if (n !== 1) errors.push(`${w('layout.yaml')}: "${c.id}" (no type) is in the rails ${n} times (must be once)`); }
+  for (const r of layout.rails || []) if (!r.id || !r.label || !(r.items || []).length) errors.push(`${w('layout.yaml')}: every rail needs an id, a label and items`);
   for (const e of map.connections || []) {
     for (const k of ['from', 'to']) if (!nodeIds.has(e[k])) errors.push(`${w('architecture.yaml')}: connection ${e.from} to ${e.to} names unknown "${e[k]}"`);
     for (const k of ['from', 'to']) if (asRail.includes(e[k])) errors.push(`${w('architecture.yaml')}: connection ${e.from} to ${e.to}: "${e[k]}" sits in a rail; only nodes connect`);
@@ -626,7 +628,25 @@ function validateArchitecture({ dir, site, map, layout }) {
     if (!f.id || !f.name || !(f.path || []).length) errors.push(`${w('architecture.yaml')}: every flow needs an id, a name and a path`);
     if (!(map.meta?.flow_groups || {})[f.group]) errors.push(`${w('architecture.yaml')}: flow "${f.id}" group must be one of meta.flow_groups`);
     for (const n of f.path || []) if (!nodeIds.has(n)) errors.push(`${w('architecture.yaml')}: flow "${f.id}" names unknown component "${n}"`);
+    // a flow is traced in the diagram, so every step must be drawn there: a client or a component with a type, not a rail item
+    for (const n of f.path || []) { const c = comps.find(x => x.id === n); if (c && !c.type) errors.push(`${w('architecture.yaml')}: flow "${f.id}" step "${n}" sits in a rail, which the diagram does not draw; a flow runs through the diagram only`); }
   }
+  // overview: the simple view. Every drawn component (one with a type) sits in exactly one area, part or optional tag
+  const areas = overview?.areas || [], aIds = new Set(areas.map(a => a.id)), wo = w('overview.yaml');
+  if (!areas.length) errors.push(`${wo}: needs areas`);
+  if (aIds.size !== areas.length) errors.push(`${wo}: duplicate area ids`);
+  const inOverview = areas.flatMap(a => [...(a.components || []), ...(a.parts || []).flatMap(p => p.components || []), ...(a.optional || []).flatMap(o => o.components || [])]);
+  for (const a of areas) {
+    if (!a.id || !a.name || !a.text) errors.push(`${wo}: every area needs an id, a name and a text`);
+    if (a.beside && !aIds.has(a.beside)) errors.push(`${wo}: area "${a.id}" is beside unknown area "${a.beside}"`);
+    for (const p of a.parts || []) {
+      if (!p.id || !p.name || !(p.components || []).length) errors.push(`${wo}: every part of "${a.id}" needs an id, a name and components`);
+      if (p.callout && !areas.some(b => b.id === p.callout && b.beside === a.id)) errors.push(`${wo}: part "${p.id}" calls out to "${p.callout}", which must be an area beside "${a.id}"`);
+    }
+    for (const o of a.optional || []) if (!o.name || !(o.components || []).length) errors.push(`${wo}: every optional tag in "${a.id}" needs a name and components`);
+  }
+  for (const id of inOverview) { const c = comps.find(x => x.id === id); if (!c) errors.push(`${wo}: names unknown component "${id}"`); else if (!c.type) errors.push(`${wo}: "${id}" sits in a rail, not in an area`); }
+  for (const c of comps.filter(x => x.type)) { const n = inOverview.filter(x => x === c.id).length; if (n !== 1) errors.push(`${wo}: "${c.id}" appears ${n} times across the areas (must be once)`); }
   for (const [k, p] of Object.entries(site.reference_links || {})) {
     if (!refs.has(k)) errors.push(`${w('site.yaml')}: reference_links names unknown reference map "${k}"`);
     if (!PAGES.some(x => x.out === p)) errors.push(`${w('site.yaml')}: reference_links.${k} "${p}" is not a page`);
@@ -639,7 +659,7 @@ function validateArchitecture({ dir, site, map, layout }) {
   }
   return errors;
 }
-function renderArchitecture({ site, map, layout, out }) {
+function renderArchitecture({ site, map, layout, overview, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const comps = archComponents(map), byId = Object.fromEntries(comps.map(c => [c.id, c]));
   const doms = Object.fromEntries((map.domains || []).map(d => [d.id, d]));
@@ -659,29 +679,26 @@ function renderArchitecture({ site, map, layout, out }) {
     key: '<svg width="26" height="18"><rect x="1" y="2" width="24" height="14" rx="4" fill="#14130f"/><circle cx="8" cy="9" r="3" fill="none" stroke="#f8f6f2" stroke-width="1.4"/><path d="M11 9H20M17 9V12" stroke="#f8f6f2" stroke-width="1.4"/></svg>' })[t];
   const legend = `<details class="ei-legend-box"><summary>Legend</summary><div class="ei-legend bottom"><span class="lt">Shapes</span>`
     + ['system', 'process', 'technology', 'control', 'key'].map(t => `<span>${shape(t)} ${({ system: 'System of record', process: 'Process', technology: 'Technology or platform', control: 'Control, limit or gate', key: 'Key material' })[t]}</span>`).join('')
-    + `<span class="lt">Lines</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#4b4740" stroke-width="1.4"/></svg> Instruction</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#0369a1" stroke-width="1.4" stroke-dasharray="5 4"/></svg> Data</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#4338ca" stroke-width="1.6" stroke-dasharray="1.5 3" stroke-linecap="round"/></svg> Control</span>`
+    + `<span class="lt">Lines</span><span><svg width="34" height="10"><path d="M1 5H31" stroke="#4b4740" stroke-width="2"/></svg> The flow between areas</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#0ea5e9" stroke-width="3"/></svg> A traced key flow</span>`
+    + `<span class="lt">Areas</span><span><svg width="34" height="16"><rect x="1" y="1" width="32" height="14" rx="4" fill="none" stroke="#14130f" stroke-width="1.2" stroke-dasharray="4 3"/></svg> Optional</span><span><svg width="34" height="10"><path d="M1 5H33" stroke="#4338ca" stroke-width="2" stroke-dasharray="1.5 4" stroke-linecap="round"/></svg> Calls out to</span>`
     + `<span class="lt">Tags</span><span><svg width="30" height="14"><rect x="1" y="1" width="28" height="12" rx="3" fill="#0369a1"/><text x="15" y="10" text-anchor="middle" font-size="8" font-weight="700" fill="#fff" font-family="Archivo, sans-serif">DDQ</text></svg> Due diligence questions on their own page</span></div></details>`;
   const features = featuresHtml(site.features, byId);
   const D = site.ddq || {};
   const systems = SYSTEMS.length ? `<div class="ei-h ddq"><b>${esc(D.title || 'Due diligence questions')}</b>${D.text ? `<span>${esc(D.text)}</span>` : ''}</div>${ddqListHtml(out)}` : '';
   const ddq = {}; for (const sy of SYSTEMS) for (const id of sy.components || []) (ddq[id] = ddq[id] || []).push({ id: sy.id, title: sy.title, href: relHref(out, sy.out), n: qCount(sy) });
-  const N = layout.node || { w: 176, h: 50 };
-  const nodes = Object.entries(layout.nodes || {}).map(([id, p]) => { const cl = clients.find(c => c.id === id), c = byId[id];
-    return cl ? { id, x: p[0], y: p[1], w: p[2] || N.w, h: N.h, type: 'actor', name: cl.name, sub: cl.states.map(human).join(' · ') }
-      : { id, x: p[0], y: p[1], w: p[2] || N.w, h: N.h, type: c.type, name: c.short || c.name, status: c.status, source: c.source }; });
   const data = { kind: 'architecture', version, flows, status_legend: legendTxt,
-    canvas: layout.canvas, main: layout.main, lanes: layout.lanes, column: layout.column || null,
     rails: (layout.rails || []).map(r => Object.assign({}, r, { items: r.items.map(id => ({ id, name: byId[id].short || byId[id].name, status: byId[id].status, source: byId[id].source, domain: byId[id].domain })) })),
-    context: layout.context ? { x: layout.context[0], y: layout.context[1], w: layout.context[2] || N.w, lines: [['Accessing from', (cx.access_origin || []).map(human).join(' · ')], ['Nationality', (cx.nationality || []).map(human).join(' · ')]], rule: cx.routing_rule || '' } : null,
-    nodes, edges: (map.connections || []).map(e => ({ from: e.from, to: e.to, kind: e.kind || 'instruction', label: e.label || '', sides: e.sides || null })), ddq,
-    clients: Object.fromEntries(clients.map(c => [c.id, c])),
+    context: { lines: [['Accessing from', (cx.access_origin || []).map(human).join(' · ')], ['Nationality', (cx.nationality || []).map(human).join(' · ')]], rule: cx.routing_rule || '' },
+    edges: (map.connections || []).map(e => ({ from: e.from, to: e.to, kind: e.kind || 'instruction', label: e.label || '', sides: e.sides || null })), ddq,
+    clients: Object.fromEntries(clients.map(c => [c.id, Object.assign({}, c, { sub: c.states.map(human).join(' · ') })])),
     refs: Object.fromEntries(Object.keys(refs).map(r => [r, { label: refLabel(r), abbr: refAbbr(r), text: refs[r], href: site.reference_links?.[r] ? relHref(out, site.reference_links[r]) : null }])),
     domains: Object.fromEntries(Object.values(doms).map(d => [d.id, { name: d.name }])),
     components: Object.fromEntries(comps.map(c => [c.id, Object.assign({}, c, { lists: Object.entries(c).filter(([k, v]) => !ARCH_FIELDS.has(k) && Array.isArray(v)).map(([k, v]) => [human(k), v.map(x => human(x))]) })])),
-    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a component to see what it covers and how it connects; click to pin it.' } };
+    panel: site.panel_default || { title: site.heading.text, text: 'Hover over a component to see what it covers and how it connects; click to pin it.' },
+    overview: overview.areas.map(a => Object.assign({}, a, { components: a.components || [], parts: a.parts || [], optional: a.optional || [] })) };
   return fillCommon(read('src/architecture.html').replace('__STYLE__', style), { site, out, data })
     .replace('__CONTROLS__', controls).replace('__ARCH_LEGEND__', legend).replace('__FEATURES__', features).replace('__SYSTEMS__', () => systems)
-    .replace('__CANVAS_W__', layout.canvas.width).replace('__CANVAS_H__', layout.canvas.height).replace('__SECTIONS__', sectionsHtmlC(site));
+    .replace('__SECTIONS__', sectionsHtmlC(site));
 }
 
 // timeline and matrix panels drawn from one component's lists (screening lifecycle, tolerance matrix)

@@ -1200,8 +1200,11 @@ connections:
   - { from: D6.14, to: D6.9, kind: control, label: sweep and replace }
   - { from: D6.15, to: D6.9, kind: control, label: contain }
   # ledger, nodes, validators and data
+  - { from: D6.12, to: D6.2, kind: data, label: signature }
   - { from: D6.2, to: D7.2, label: signed transaction }
   - { from: D7.2, to: D7.1, label: broadcast }
+  - { from: D7.1, to: D7.2, kind: data, label: blocks and state }
+  - { from: D7.2, to: D7.4, kind: data, label: current state and logs }
   - { from: D7.1, to: D7.3, kind: data }
   - { from: D7.3, to: D7.4, kind: data }
   - { from: D7.4, to: D7.5, kind: data, sides: [r, r] }
@@ -1211,12 +1214,13 @@ connections:
   - { from: D7.11, to: D7.1 }
   - { from: D7.4, to: D8.11, kind: data }
   - { from: D8.11, to: D12.4, label: automated response }
+  - { from: D12.4, to: D6.2, label: pause or remediation transaction }
   - { from: D8.11, to: D3.4, kind: data, label: alerts, sides: [l, r] }
   - { from: D7.5, to: D3.1, kind: data }
   - { from: D7.4, to: D12.1, kind: data }
   - { from: D7.4, to: D5.4, kind: data, label: on-chain balances }
-  - { from: D7.3, to: D7.7, kind: data, label: chain data, sides: [r, r] }
-  - { from: D7.7, to: D7.1, label: propose and attest }
+  - { from: D7.2, to: D7.7, kind: data, label: chain data }
+  - { from: D7.7, to: D7.2, label: propose and attest }
   - { from: D7.7, to: D7.8, label: sign duties }
 
 # ---------------------------------------------------------------------------
@@ -1227,13 +1231,12 @@ connections:
 flows:
   - { id: F1, group: client, name: Client onboarding, path: [CL.retail, D0.1, D2.1, D2.2, D2.3, D3.3, D3.4] }
   - { id: F2, group: client, name: Staff approval, path: [CL.staff, D0.4, D1.3, D4.5, D4.4, D5.1] }
-  - { id: F3, group: client, name: Outbound transaction, path: [CL.wholesale, D0.1, D1.3, D1.1, D4.3, D4.2, D3.3, D4.1, D4.4, D5.1, D5.3, D6.2, D6.12, D6.9] }
-  - { id: F4, group: client, name: Trade to settlement, path: [CL.wholesale, D0.1, D1.3, D1.1, D4.3, D11.1, D11.3, D5.1, D5.4, D0.3] }
-  - { id: F5, group: client, name: Inbound deposit, path: [D7.1, D7.3, D7.4, D3.3, D3.7, D3.4, D3.5, D3.8] }
-  - { id: F6, group: ledger, name: Signed transaction to the ledger, path: [D6.2, D7.2, D7.1, D7.3, D7.4, D5.4, D0.3] }
+  - { id: F3, group: client, name: Outbound transaction, path: [CL.wholesale, D0.1, D1.3, D1.1, D4.3, D4.2, D3.3, D4.1, D4.4, D5.1, D5.3, D6.2, D6.12, D6.9, D6.2, D7.2, D7.1] }
+  - { id: F4, group: client, name: Trade to settlement, path: [CL.wholesale, D0.1, D1.3, D1.1, D4.3, D11.1, D11.3, D5.1, D5.3, D6.2, D7.2, D7.1, D7.2, D7.4, D5.4, D0.3] }
+  - { id: F5, group: client, name: Inbound deposit, path: [D7.1, D7.2, D7.4, D3.3, D3.7, D3.4, D3.5, D3.8] }
+  - { id: F6, group: ledger, name: Signed transaction to the ledger, path: [D6.2, D7.2, D7.1, D7.2, D7.4, D5.4, D0.3] }
   - { id: F7, group: ledger, name: Post-trade and retrospective review, path: [D7.1, D7.3, D7.4, D7.5, D3.1, D3.3, D3.4, D3.5] }
-  - { id: F8, group: ledger, name: Chain event handling, path: [D7.1, D7.3, D7.4, D12.1, D5.4, D0.3] }
-  - { id: F9, group: ledger, name: Validator duties, path: [D7.1, D7.3, D7.7, D7.8] }
-  - { id: F10, group: oversight, name: On-chain incident, path: [D7.1, D7.3, D7.4, D8.11, D12.4] }
-  - { id: F11, group: oversight, name: Authority request, path: [CL.authority, D15.4, D3.4, D3.5, D15.3] }
-  - { id: F12, group: oversight, name: New tool or vendor intake, path: [D9.2, D8.1, D8.2, D9.1] }
+  - { id: F8, group: ledger, name: Chain event handling, path: [D7.1, D7.2, D7.4, D12.1, D5.4, D0.3] }
+  - { id: F9, group: ledger, name: Validator duties, path: [D7.1, D7.2, D7.7, D7.8, D7.7, D7.2, D7.1] }
+  - { id: F10, group: oversight, name: On-chain incident, path: [D7.1, D7.2, D7.4, D8.11, D12.4, D6.2, D7.2, D7.1] }
+  - { id: F11, group: oversight, name: Authority request, path: [CL.authority, D15.4, D3.4, D3.5] }

@@ -14,7 +14,8 @@ site.yaml      intro, legend, the facets (filters, and `filter: false` informati
                preset for the "Focus on" sidebar, and the sections under the map
 ```
 
-**Scope** (owner, 26 October 2026, to review later): designs that run the EVM or settle on Ethereum mainnet. Live
+**Scope** (owner, 26 October 2026, to review later): designs that run the EVM or settle on Ethereum mainnet, meaning
+Ethereum mainnet verifies their state (a chain only bridged to it, such as Miden, is out; owner, 27 October 2026). Live
 designs are solid pills; designs only on a public testnet (`status: testnet`) are hollow.
 
 **Place a design** by what it hides from the public by default, not by what it can be configured to hide: the
@@ -26,7 +27,11 @@ dates and holdings only.
 **Before the block** designs carry no `facts`: they are context on the map, not confidential tokens, and stay out
 of the sidebar and its counts.
 
-**Give it facts** for every facet in `site.yaml` except `status` and `since` (the build fills those):
+**Link its PSE evaluation** with `pse: <id>` (or a list) when the PSE private transfers benchmark evaluates it; the
+build turns it into the "Entering and leaving" row, which points to the benchmark for shield and unshield gas and
+waits.
+
+**Give it facts** for every facet in `site.yaml` except `status`, `since` and `entry` (the build fills those):
 `{ in: [values], part: [values], note: '...', sources: [...] }`. `in` means it has this; `part` means partly or a
 supporting part of the design; `na` does not apply; `unknown` only after a real search. Every figure (value held,
 gas, anonymity set) carries its date in the note and a source. Cross-check against the PSE benchmark

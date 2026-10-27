@@ -374,6 +374,14 @@ facets:
   - { id: block, label: About one block }
   - { id: minute, label: Under a minute }
   - { id: longer, label: Longer }
+- id: entry
+  group: perf
+  filter: false
+  from: pse
+  label: Entering and leaving
+  note: 'The PSE private transfers benchmark (private-transfers.pse.dev) measures the gas to shield and unshield and any wait to enter or leave, such as a shield delay or an association set review, and keeps it current; the link opens its evaluation of this design.'
+  values:
+  - { id: pse, label: See the PSE benchmark }
 - id: anonymity
   group: perf
   filter: false

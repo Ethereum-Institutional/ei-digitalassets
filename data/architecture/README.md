@@ -1,18 +1,22 @@
 # Architecture page
 
-A blueprint of what a digital asset team runs inside an institution, from the clients at the top to the private keys
-at the bottom, with a due diligence page for each system an institution may procure. Rendered by
-`src/architecture.html` (the blueprint) and `src/system.html` (each due diligence page).
+What a digital asset team runs inside an institution, with a due diligence page for each system an institution may
+procure. The page draws one fixed blueprint with each area under a cover, so a reader first sees the simple flow from
+the clients to the ledger; a click lifts a cover to reveal its components, and the panel beside the diagram explains
+what is revealed or picked. Connection lines are drawn only when a key flow is traced. Rendered by `src/architecture.html` and
+`src/system.html` (each due diligence page).
 
+- `overview.yaml`: the areas, in reading order (Clients, Institutional systems, Identity and access management,
+  Scenarios and tokens, Custody platform, Distributed ledger), each with `components`. The custody platform has `parts`
+  (Transaction management, Approval, Signing); a part may `callout` to an area drawn `beside` it (Screening, Key
+  management); `optional` items are drawn dashed (wallet verification, decentralized identity, wallet as a service).
+  The page lays out the diagram from this file. Every component with a `type` sits in exactly one area, part or
+  optional item; the build checks.
 - `architecture.yaml`: the content. `client_context` (segments and their states, access origin, nationality, the
   routing rule), `domains` (each with `components`), `connections`, `flows` and `meta` (`status_legend`,
-  `reference_maps`).
-- `layout.yaml`: the geometry. `lanes` (top to bottom), `main` (the lanes' x range), `column` (ledger, nodes and data),
-  `rails` (domains that apply to every lane, listed as `items`; they are listed under the blueprint, not drawn in it),
-  `context` (the access and nationality box) and `nodes` (`id: [x, y]` or `[x, y, width]`, centers in canvas units).
-  Columns sit on a 200-unit grid (x = 124, 324, 524, 724, 924) and x = 524 is the spine the main transaction runs down; keep connected components in the same
-  column or in adjacent columns so lines stay short. Every component is placed exactly once, as a node or a rail item;
-  client segments are nodes named `CL.<segment id>`.
+  `reference_maps`). Client segments are named `CL.<segment id>` in connections and flows.
+- `layout.yaml`: the two `rails` (domains that apply to every area, listed under the diagram, not drawn in it): every
+  component without a `type` is listed in exactly one rail.
 - `site.yaml`: page text, `reference_links` (reference map id to a page on this site) and `ddq` (the shared text of the
   due diligence pages).
 - `systems/<id>/system.yaml`: one due diligence page per system, found by the build automatically. See

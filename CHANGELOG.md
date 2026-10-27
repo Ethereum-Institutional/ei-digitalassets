@@ -7,6 +7,29 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Architecture: a covered blueprint.** The blueprint is laid out by area and each area sits under a cover, so the
+  page opens on the simple flow (Clients, Institutional systems, Identity and access management, Scenarios and
+  tokens, a Custody platform of transaction management, approval and signing that calls out to Screening and Key
+  management, and the Distributed ledger as a column on the right), with optional wallet verification, decentralized
+  identity and wallet as a service drawn dashed. The covers pulse until the first one is revealed, so they read as the thing to click. A click lifts a cover in
+  place; connection lines appear only when a
+  key flow is traced, and a picked component lights up the components it connects to. A panel on the right explains what is revealed or
+  picked, so explanations no longer sit under the drawing. Flows reveal the areas they cross, and every flow
+  that touches the ledger now passes through the RPC nodes: outbound and settlement transactions are submitted
+  through them to the ledger, and deposits, confirmations, chain events, incidents and validator duties are read in
+  through them (new connections: signature back to signing, ledger to RPC nodes, RPC nodes to the indexer and the
+  validator client, and the incident response back to signing). The new tool or vendor intake flow (F12), whose
+  steps all sit in the rails, is removed because the diagram cannot show it, and the authority request (F11) ends at
+  investigations; the build now rejects a flow step that is not drawn. The page lays the
+  blueprint out from the new `data/architecture/overview.yaml`; `layout.yaml` keeps only the rails.
+- **Privacy: designs from the PSE benchmark.** Every protocol in the PSE private transfers benchmark was reviewed
+  against the page's scope. Added: Tongo (encrypted ERC-20 balances on Starknet, an Ethereum Layer 2) and Merces
+  (TACEO; amounts and counterparties hidden by MPC operators with a proof checked on chain; live with caps on World
+  Chain and Monad). Held, written up in `held.yaml`: Scroll Cloak and Payy. Miden is out of scope: a non-EVM chain
+  whose state Ethereum mainnet does not verify. A new "Entering and leaving" row in
+  each fact sheet links the design's PSE evaluation for shield and unshield gas and waits, which the benchmark keeps
+  current; links to the benchmark now use its new home, `github.com/ethereum/private-transfers-benchmarks`.
+- `CLAUDE.md` says where the source lives (ei-platform `maps/`; this repository is its mirror) and how a change ships; releases are paused.
 - **Architecture page (in progress), with due diligence questions.** A new `kind: architecture` page draws the
   architecture of a digital asset team inside a global bank or similar institution as a blueprint: lanes run from the
   clients at the top (retail, wholesale, staff and administrators, and authorities) to the private keys at the

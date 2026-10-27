@@ -7,17 +7,29 @@ lenses**) and the **Digital Asset Networks** map (network types crossed by conse
 their institutional participants and **architecture lenses**), plus a **Decentralization** page (eleven gauges, levels 1 to 5, with lenses), a **Privacy** map (in progress), with Identity and **Quantum**
 pages stubbed as work in progress (Quantum carries drafted sections: Shor and Grover, where they bite a ledger, the
 Ethereum roadmap now and next), with a **Scenarios** index (one written scenario, the rest planned). Live site: https://ethereum-institutional.github.io/ei-digitalassets/ (landing),
-`/web3/`, `/taxonomy/`, `/networks/` (published from `main`).
+`/web3/`, `/taxonomy/`, `/networks/` and the other pages.
 Read `README.md` for the layout and each map folder's `README.md` for its editing guide; this file records conventions
 and decisions behind them.
+
+## Where the source lives and how it ships
+
+- The source of truth is the `maps/` folder of the private repository ei-platform. The public repository
+  `ei-digitalassets` is a mirror written only by ei-platform's `maps-mirror.yml`; never edit it directly (a change made
+  there is overwritten by the next mirror run). The ei-platform root `CLAUDE.md` says how a session works with the owner.
+- Flow: a branch (in ei-platform, a worktree under `.worktrees/<topic>`), a pull request, CI (`maps.yml`), a merge to
+  ei-platform `main`, then, when the owner asks to publish, `gh workflow run maps-mirror.yml --ref main`. The mirror's
+  own `build.yml` and `pages.yml` then build and publish the live site from the mirror's `main`.
+- Commands run from `maps/`: `cd maps && npm run build`, then `npm run check`.
 
 ## Status and versioning
 
 - The taxonomy is a **v0.x draft that has not been reviewed by legal counsel**. Keep the amber
   "Under development" banner (`notice:` in `data/taxonomy/site.yaml`) until counsel review is complete; 1.0.0 follows that review.
-- SemVer as described in `CHANGELOG.md`. Record every change under `## [Unreleased]`.
-- Releases: tag `vX.Y.Z` on `main` and push the tag. `release.yml` builds the versioned HTML, attaches it, and
-  marks `v0.x` releases as pre-releases with a warning at the top of the notes.
+- SemVer as described in `CHANGELOG.md`. Record every change under `## [Unreleased]`, and add a dated entry to the
+  ei-platform root `CHANGELOG.md`.
+- No release is published for now (v0.1.0 and its tag were deleted and the mirror's history squashed, 27 October
+  2026). A release is a tag `vX.Y.Z` pushed to the mirror after a mirror run; the mirror's `release.yml` builds the
+  versioned HTML, attaches it, and marks `v0.x` releases as pre-releases with a warning at the top of the notes.
 - License: CC BY-NC-ND 4.0, © Ethereum Institutional (see `LICENSE`). Do not change it without explicit instruction.
 
 ## How the build works
@@ -36,7 +48,8 @@ and decisions behind them.
   writes `dist/preview.png`, `dist/networks/preview.png` and `dist/web3/preview.png`. Run both before committing; CI runs them on every push and pull request.
 - `dist/` and `node_modules/` are git-ignored. Never hand-edit generated HTML.
 - CI runners are pinned to `ubuntu-24.04` because Playwright 1.56 cannot install Chromium on Ubuntu 26.04.
-- Writing `.github/workflows/*` requires a token with the `workflow` scope; commit those from a local clone.
+- Writing `.github/workflows/*` (ei-platform's or `maps/.github/`) requires a token with the `workflow` scope; commit
+  those from a local clone.
 
 ## Diagram conventions
 
@@ -271,10 +284,16 @@ and decisions behind them.
   and the `wishlist` preset in `facet_presets`; no design meets all of it, and the page says so without calling any
   design flawed.
 - **Scope (owner, 26 October 2026; to review later):** designs that run the EVM or settle on Ethereum mainnet (so
-  Aztec, an Ethereum Layer 2 with its own virtual machine, is in, read as "Its own non-EVM rollup or chain" under Where it runs; there is no separate EVM facet). Live designs are solid pills;
+  Aztec, an Ethereum Layer 2 with its own virtual machine, is in, read as "Its own non-EVM rollup or chain" under Where it runs; there is no separate EVM facet).
+  Settling on Ethereum mainnet means Ethereum mainnet verifies the design's state; a non-EVM chain only bridged to it
+  (Miden, through Agglayer) is out and not held (owner, 27 October 2026: if Ethereum does not verify it, it is not
+  important enough to include). Live designs are solid pills;
   designs on a public testnet only (`status: testnet`: Bermuda, Nightfall) are hollow pills. Non-EVM ledgers
   (Canton) and designs archived or never deployed (Anonymous Zether; ERC-7945, a Final standard with no deployment)
   are held, fully written, in `data/privacy/held.yaml` (not read by the build) so the decision can be revisited.
+  The PSE benchmark's protocols were reviewed on 27 October 2026: Tongo (Starknet, read like Aztec) and Merces (live
+  with caps on World Chain and Monad) were added; Scroll Cloak (dormant) and Payy (rollup drained and halted 24 September
+  2026) are held; Miden is excluded (above); the rest are non-EVM, prototypes, or not a privacy design on a ledger.
 - **Badges** (`badges.yaml`) are designs, named, placed by what they hide from the public, `eth: true` blue. Each
   `desc` says what is hidden, from whom else, what you trust, what survives for the issuer, where it runs and its
   track record, in that order, and says what the design does well. Removed products are not drawn (Besu private
@@ -304,7 +323,10 @@ and decisions behind them.
   issuer controls, disclosure) carry `neutral: true` and get plain ink boxes instead, never green or red (owner: a
   cypherpunk reads a notary as a defect, a compliance officer will not consider a protocol without one). Status and years live are filled by the build from `status` and `since`
   against `facts_as_of`. The facets follow the PSE private transfers benchmark (private-transfers.pse.dev; `pse:`
-  names its property) so a reading can cite it, verified against the project's own sources. Facts only, no house
+  names its property) so a reading can cite it, verified against the project's own sources. The benchmark repository
+  is now `github.com/ethereum/private-transfers-benchmarks`. What it measures and we do not (gas to shield and
+  unshield, waits to enter or leave) is not repeated here: a badge's `pse:` (one or more evaluation ids) fills the
+  "Entering and leaving" row (`from: pse`) with a link to its evaluation (owner, 27 October 2026). Facts only, no house
   requirements and no ranking: the institutional wish list is a reader's preset, not a score. Every figure (value
   held, gas, anonymity set) carries its date and source in the fact's `note` and `sources`.
 - **Legal history is dates and holdings only** (designation, court holding, delisting), never intent or character;
@@ -321,18 +343,38 @@ and decisions behind them.
   **Who else can see it** merges the notary and the operator's view: only the parties; a notary, with an on-chain
   notice; a notary; the operator sees everything (owner: the notary is captured once, not twice).
 - **Before the block** designs (Flashbots Protect, MEV Blocker, Shutter) have no `facts`: they are context on the
-  map, not confidential tokens, so the sidebar counts 26 designs. A badge's `status_note` explains its status in the
+  map, not confidential tokens, so the sidebar counts 28 designs. A badge's `status_note` explains its status in the
   fact sheet (Paladin: generally available software each institution deploys; no named production deployment).
-- Names: Bermuda Bay (not Bermuda); 0xbow Privacy Pools (not Privacy Pools alone).
+- Names: Bermuda Bay (not Bermuda); 0xbow Privacy Pools (not Privacy Pools alone); Merces (TACEO's, named in its
+  description; the short label keeps the pill clear of the circle lines).
 
 ## Architecture page (`data/architecture/`, in progress)
 
-- A blueprint (`kind: architecture`, rendered by `src/architecture.html`) of what a digital asset team runs inside a
-  global bank or similar institution: lanes from the clients at the top to the private keys at the bottom, the main
-  transaction down a central spine (x = 524), a ledger column on the right, and two rails (governance, risk and
-  conduct; security, third parties and people) listed under the drawing, not drawn in it, because nothing connects
-  to them. Content in `architecture.yaml` (`domains` with `components`, `connections`, `flows`, `meta`), geometry in
-  `layout.yaml` (a 1,276 by 1,460 canvas; columns on a 200-unit grid), page text in `site.yaml`.
+- **A covered blueprint** (owner, 27 October 2026: the full blueprint, with every line, was overwhelming): one fixed
+  blueprint (`kind: architecture`, `src/architecture.html`) in the left 70% of the page, a sticky panel in the right
+  30%, so the explanation sits beside what it explains. Each area is one region of the blueprint under a cover card
+  (name, what it is, what it holds, its dashed optional items); covered, the page shows only the simple flow:
+  Clients, Institutional systems, Identity and access management (optional: wallet verification, decentralized
+  identity), Scenarios and tokens, the Custody platform (the platform, optional wallet as a service, then
+  Transaction management, Approval calling out to Screening, and Signing with Key management, HSM or MPC), Screening
+  and Key management below it, and the Distributed ledger as a column on the right that custody submits to. A click
+  lifts a cover in place (nothing moves); the region's label covers it again. The covers pulse until the reader first
+  reveals one (owner, 27 October 2026: it was not clear they could be clicked), as the Privacy wish list does. No connection lines are drawn except
+  when a key flow is traced (owner, 27 October 2026: the lines were hard to follow); a picked component lights up the
+  components it connects to, and outlines the covers that hold them, and the panel lists its connections. A flow
+  reveals only the areas on its path and draws and numbers its steps.
+- **Flows reach the ledger through the RPC nodes** (owner, 27 October 2026): a flow that changes the ledger ends with
+  the signed transaction going out through the RPC nodes to the ledger networks, and every read of current state
+  (deposits, confirmations, chain events, incidents, validator duties) comes in from the ledger through the RPC nodes;
+  history is read through the archive node. A flow may pass a component twice, and its step numbers sit side by side.
+  Every step of a flow is drawn in the diagram (a client or a component with a type); rail items cannot be traced, so
+  the build rejects a flow that names one (owner, 27 October 2026: the vendor intake flow, all in the rails, showed
+  nothing and was removed; the authority request now ends at investigations). On a narrow screen the panel is a sheet at the bottom and the diagram scrolls sideways.
+- The page lays the blueprint out itself, fixed, from `overview.yaml` (areas, `parts`, `callout`, `beside`,
+  `optional`; the order there is the order on the page; the build checks every component with a `type` sits in
+  exactly one of them); `layout.yaml` holds only the two rails (governance, risk and conduct; security, third parties
+  and people: components without a type, listed under the diagram because nothing connects to them). Content in
+  `architecture.yaml` (`domains` with `components`, `connections`, `flows`, `meta`), page text in `site.yaml`.
 - **Generic, not one firm's plan** (owner, 27 October 2026): the components come from practice at a global bank
   (`source: brief`) or are gaps worth considering (`source: suggested`). `status` says how most institutions are
   likely to meet the need (usually met by the core platform, extended, new, or a choice to assess), in that generic

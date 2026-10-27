@@ -13,10 +13,11 @@ badges:
   x: 190
   y: 290
   eth: true
+  pse: zama
   status: mainnet
   since: '2025-12-30'
   facts:
-    verify: { in: ['no'], note: 'Ethereum mainnet checks 3-of-5 coprocessor signatures on inputs and KMS signatures on decryptions; FHE computation has no validity proof.', sources: [{ title: 'L2BEAT Privacy, Zama confidential tokens (coprocessors trusted for validity; KMSVerifier thresholds)', url: 'https://l2beat.com/privacy/projects/zama-confidential-tokens', checked: '2026-10-26' }, { title: 'PSE evaluation, Zama (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zama.json', checked: '2026-10-26' }] }
+    verify: { in: ['no'], note: 'Ethereum mainnet checks 3-of-5 coprocessor signatures on inputs and KMS signatures on decryptions; FHE computation has no validity proof.', sources: [{ title: 'L2BEAT Privacy, Zama confidential tokens (coprocessors trusted for validity; KMSVerifier thresholds)', url: 'https://l2beat.com/privacy/projects/zama-confidential-tokens', checked: '2026-10-26' }, { title: 'PSE evaluation, Zama (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zama.json', checked: '2026-10-26' }] }
     fees: { in: [token], note: 'Gateway fees in ZAMA: 1 ZAMA per encrypted input, 0.1 ZAMA per decryption, paid by the relayer today; prices set by the gateway Safe.', sources: [{ title: 'L2BEAT Privacy, Zama confidential tokens (fees)', url: 'https://l2beat.com/privacy/projects/zama-confidential-tokens', checked: '2026-10-26' }] }
     pet: { in: [fhe], part: [mpc, tee, snark], note: 'TFHE (lattice). Key held by a 13-node threshold MPC in AWS Nitro Enclaves; a ZK proof of knowledge on each encrypted input.' }
     proving: { in: [device], note: 'The client encrypts inputs and builds the proof of knowledge; coprocessors re-verify it.' }
@@ -63,7 +64,7 @@ badges:
   - { title: 'OpenZeppelin, Zama confidential contracts 0.3.0 release audit (18 March 2026)', url: 'https://www.openzeppelin.com/news/zama-confidential-contracts-0.3.0-release-audit', checked: '2026-10-26' }
   - { title: 'BitGo developer docs, Ethereum ERC7984 tokens (custody and per-enterprise viewing key)', url: 'https://developers.bitgo.com/docs/ethereum-erc7984-tokens.md', checked: '2026-10-26' }
   - { title: 'Kinexys by J.P. Morgan, Project EPIC report (November 2024)', url: 'https://www.jpmorgan.com/kinexys/content-hub/project-epic-enterprise-privacy-identity-composability', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Zama (ACL, proof of knowledge, no escape hatch, post-quantum)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zama.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Zama (ACL, proof of knowledge, no escape hatch, post-quantum)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zama.json', checked: '2026-10-26' }
   - { title: 'zama-ai/fhevm repository (license, releases)', url: 'https://github.com/zama-ai/fhevm', checked: '2026-10-26' }
   - { title: 'Etherscan, cUSDT wrapper transactions (our gas measurement over 300 transactions, 15 to 26 October 2026)', url: 'https://etherscan.io/address/0xAe0207C757Aa2B4019Ad96edD0092ddc63EF0c50', checked: '2026-10-26' }
 - id: fhenix
@@ -72,10 +73,11 @@ badges:
   x: 190
   y: 325
   eth: true
+  pse: redact
   status: mainnet
   since: '2026-10-21'
   facts:
-    verify: { in: ['no'], note: 'The chain accepts decryption results signed by one registered enclave key (Teecryptor); no proof of FHE computation correctness.', sources: [{ title: 'Fhenix docs, Teecryptor (decryptResultSigner checked on chain)', url: 'https://cofhe-docs.fhenix.zone/cofhe/deep-dive/cofhe-components/teecryptor', checked: '2026-10-26' }, { title: 'PSE evaluation, Redact (CoFHE; Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/redact.json', checked: '2026-10-26' }] }
+    verify: { in: ['no'], note: 'The chain accepts decryption results signed by one registered enclave key (Teecryptor); no proof of FHE computation correctness.', sources: [{ title: 'Fhenix docs, Teecryptor (decryptResultSigner checked on chain)', url: 'https://cofhe-docs.fhenix.zone/cofhe/deep-dive/cofhe-components/teecryptor', checked: '2026-10-26' }, { title: 'PSE evaluation, Redact (CoFHE; Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/redact.json', checked: '2026-10-26' }] }
     fees: { in: [unknown], note: 'No fee schedule published for partner mainnet; docs mention only host-chain gas; mainnet use needs Fhenix allowlisting.', sources: [{ title: 'Fhenix docs, gas costs and benchmarks', url: 'https://cofhe-docs.fhenix.zone/cofhe/fhe-library/core-concepts/gas-and-benchmarks', checked: '2026-10-26' }, { title: 'Fhenix blog, mainnet goes live (21 October 2026)', url: 'https://www.fhenix.io/blog/fhenix-mainnet-goes-live-bringing-confidentiality-to-arbitrum', checked: '2026-10-26' }] }
     pet: { in: [fhe], part: [tee, snark], note: 'TFHE via TFHE-rs; decryption in one Intel TDX enclave (Teecryptor), key Shamir-split 3 of 6; ZK proof of knowledge on inputs.' }
     proving: { in: [device], note: 'The client SDK encrypts inputs and attaches a proof of knowledge, checked by a ZK verifier running in a TEE.' }
@@ -116,7 +118,7 @@ badges:
   - { title: 'Fhenix docs, extending ERC20Confidential (freeze, observer, ObserverSet)', url: 'https://cofhe-docs.fhenix.zone/cofhe/fhe-library/confidential-contracts/dual-mode/extending', checked: '2026-10-26' }
   - { title: 'Fhenix docs, Access Control Permissions', url: 'https://cofhe-docs.fhenix.zone/cofhe/client-sdk/guides/acps', checked: '2026-10-26' }
   - { title: 'Fhenix docs, gas costs and benchmarks', url: 'https://cofhe-docs.fhenix.zone/cofhe/fhe-library/core-concepts/gas-and-benchmarks', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Redact (CoFHE transfer app; testnet)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/redact.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Redact (CoFHE transfer app; testnet)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/redact.json', checked: '2026-10-26' }
   - { title: 'Redact docs, roadmap (Phase 0, testnet deployment, current stage)', url: 'https://docs.redact.money/roadmap', checked: '2026-10-26' }
   - { title: 'Kinexys by J.P. Morgan, Project EPIC report (November 2024)', url: 'https://www.jpmorgan.com/kinexys/content-hub/project-epic-enterprise-privacy-identity-composability', checked: '2026-10-26' }
 - id: inco
@@ -125,10 +127,11 @@ badges:
   x: 190
   y: 360
   eth: true
+  pse: inco
   status: mainnet
   since: '2026-06-15'
   facts:
-    verify: { in: ['no'], note: 'Contracts check covalidator signatures over enclave-attested results; no re-checkable proof of computation; quorum size not published.', sources: [{ title: 'PSE evaluation, Inco (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/inco.json', checked: '2026-10-26' }, { title: 'Inco docs, cToken contracts and covalidators', url: 'https://docs.inco.org/ctoken/raw', checked: '2026-10-26' }] }
+    verify: { in: ['no'], note: 'Contracts check covalidator signatures over enclave-attested results; no re-checkable proof of computation; quorum size not published.', sources: [{ title: 'PSE evaluation, Inco (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/inco.json', checked: '2026-10-26' }, { title: 'Inco docs, cToken contracts and covalidators', url: 'https://docs.inco.org/ctoken/raw', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.000001 ETH per encrypted input or random value, paid in the host chain currency by the user or the contract.', sources: [{ title: 'Inco docs, fees (getFee, operations that require fees)', url: 'https://docs.inco.org/quickstart/fees', checked: '2026-10-26' }] }
     pet: { in: [tee], note: 'Computation and decryption in trusted hardware enclaves, not FHE; on-chain ACL decides who may decrypt. Inputs use the X-Wing hybrid KEM.' }
     proving: { in: [none], note: 'No proof system; correctness rests on enclave attestations and a signing quorum.' }
@@ -164,7 +167,7 @@ badges:
   sources:
   - { title: 'Inco blog, cToken live on Base mainnet (2 September 2026)', url: 'https://www.inco.org/blog/confidential-token-live-on-base-mainnet', checked: '2026-10-26' }
   - { title: 'Inco docs, architecture components (TEE)', url: 'https://docs.inco.org/architecture/components', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Inco', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/inco.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Inco', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/inco.json', checked: '2026-10-26' }
   - { title: 'Inco blog, Lightning on Base mainnet (15 June 2026)', url: 'https://www.inco.org/blog/inco-lightning-live-on-base-mainnet', checked: '2026-10-26' }
   - { title: 'Inco docs, access control (e.allow, e.reveal)', url: 'https://docs.inco.org/guide/guide-access-control', checked: '2026-10-26' }
   - { title: 'Inco docs, cToken contracts and covalidators', url: 'https://docs.inco.org/ctoken/raw', checked: '2026-10-26' }
@@ -172,6 +175,62 @@ badges:
   - { title: 'Inco blog, post-quantum security (X-Wing, 26 January 2026)', url: 'https://www.inco.org/blog/post-quantum-security', checked: '2026-10-26' }
   - { title: 'Basescan, Inco cToken wrapper factory on Base (118 wrappers created)', url: 'https://basescan.org/address/0x6f9a0ECD77C3Dade8Dc14a507cAbABFD746575f8', checked: '2026-10-26' }
   - { title: 'Basescan, USDC cToken wrapper on Base (proxy; our gas measurement over 300 transactions, 25 to 26 October 2026)', url: 'https://basescan.org/address/0xff49729d315d923739a6c3dd72fddf1f97a58647', checked: '2026-10-26' }
+- id: tongo
+  name: Tongo
+  circle: amount
+  x: 190
+  y: 465
+  eth: true
+  pse: tongo
+  status: mainnet
+  since: '2025-11-14'
+  status_note: 'Two generations live on Starknet mainnet: seven v1 ledgers (14 November 2025, USDC on 18 December 2025) with an auditor key, and five v2 ledgers behind per-token Vaults (13 July 2026) with none.'
+  facts:
+    verify: { in: ['yes'], note: 'The Tongo contract verifies a proof for every fund, transfer, rollover, withdrawal and ragequit; Starknet proves its execution to Ethereum mainnet with STARKs.', sources: [{ title: 'L2BEAT, Starknet (Stage 1; STARK validity proofs verified on Ethereum)', url: 'https://l2beat.com/scaling/projects/starknet', checked: '2026-10-27' }] }
+    fees: { in: [none], note: 'No protocol fee in the contracts. An optional relayer (AVNU paymaster) takes a fee in the transferred token, set by the relayer owner; Starknet fees are paid in STRK.' }
+    pet: { in: [he], note: 'Additively homomorphic ElGamal on the Stark curve, with sigma-protocol proofs (Fiat-Shamir), not SNARKs, so there is no trusted setup.' }
+    proving: { in: [device], note: 'The SDK makes every proof on your device; there is no proving service.' }
+    pq: { in: ['no'], note: 'ElGamal on the Stark curve rests on discrete logarithms: a future quantum computer could decrypt the ciphertexts stored on chain.', sources: [{ title: 'PSE evaluation, Tongo (Post-quantum secure)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tongo.json', checked: '2026-10-27' }] }
+    operator: { in: [self], note: 'No Tongo service is needed: the SDK makes the proofs and anyone may submit, and the relayer is optional. Starknet’s sequencer orders transactions.' }
+    external: { in: ['no'], note: 'Only Starknet, which settles to Ethereum mainnet; the AVNU paymaster used by the relayer is optional.' }
+    chains: { in: [nonevm], note: 'Starknet only. It is an Ethereum Layer 2 that settles to Ethereum mainnet but runs the Cairo VM, not the EVM. Tongo is Cairo code and does not run on EVM chains.' }
+    keys: { in: [new], note: 'A separate Stark-curve key that is not derived from the Starknet wallet key (Starkzap docs). You also need a Starknet account to submit, or a relayer.' }
+    wallet: { in: [app], note: 'Balances are read and decrypted through the Tongo SDK or Starkzap; no wallet or custodian support found.' }
+    indexing: { in: [none], note: 'The encrypted balance and a decryption hint are stored per public key in the contract; there is nothing to scan.' }
+    tokens: { in: [erc20], note: 'Starknet ERC-20s, one ledger per token: USDC, USDT, STRK, ETH and WBTC on v2; USDC.e and DAI also on v1. Not ERC-7984.' }
+    hidden: { in: [public, participants], part: [operator], note: 'There is no operator. On ledgers with an auditor key, the instance owner can rotate that key to one it holds.' }
+    controls: { in: [none], note: 'The instance owner can only rotate an existing auditor key and approve other ledgers for cross-ledger transfers. There is no freeze, pause, mint or forced transfer.' }
+    permission: { in: [permissionless, selective], note: 'Anyone may fund and transfer, with no screening. The v2 ledgers have no auditor, so only the holder can disclose; the v1 ledgers, and any ledger deployed with an auditor key, give a view.' }
+    disclosure: { in: [auditor], part: [viewkey], note: 'An optional auditor key is fixed at deployment (a single key, or one split across several auditors). A holder can also make an ex-post proof of one transfer for any third party, checked off chain.' }
+    visibility: { in: [parties, notice], note: 'The v2 ledgers (13 July 2026) have no auditor, so only the parties see amounts. The v1 ledgers carry an auditor key, rotatable by the owner, that decrypts every balance and amount without the holder. Setting or rotating the key emits AuditorPubKeySet, and each audited operation stores the auditor ciphertext on chain; the decryption itself leaves no notice.' }
+    checks: { in: [none], note: 'No screening in the v2.0.0 contracts. The docs describe range, velocity and allow-list proofs, but no shipped code implements them.' }
+    association: { in: [shared], part: [name], note: 'The canonical ledgers are open to anyone. A new ledger deployed through a v2 Vault leaves its tokens in that Vault, alongside the open ledgers’ tokens. A self-deployed Vault would carry only the shared name.' }
+    upgrade: { in: [immutable], note: 'The deployed v1 and v2 classes have no upgrade function (read from Starknet mainnet). Starknet’s own contracts can be upgraded instantly by its 9-of-12 Security Council (L2BEAT).' }
+    exit: { in: ['yes'], note: 'You withdraw or ragequit with your own proof; no operator is involved. Starknet has no forced inclusion, so an exit stuck at the sequencer needs its Security Council (L2BEAT).' }
+    censorship: { in: ['no'], part: ['yes'], note: 'No Tongo owner can block an account. Starknet’s sequencer can delay or refuse a transaction, and users cannot force inclusion (L2BEAT).' }
+    failure: { in: [funds, privacy], note: 'A proof or contract bug could drain a ledger: zkSecurity found two proof-forgery issues, marked fixed. A leaked auditor key exposes every amount on its ledger.' }
+    value: { in: [lt10m], note: 'About USD 40 across all twelve ledgers: 7.78 USDC in the v2 Vaults; 296 STRK, 12.1 in stablecoins and dust ETH and WBTC in v1 (our Starknet reading, 27 October 2026).' }
+    institutions: { in: [none], note: 'No named institution, pilot or partner found (27 October 2026).' }
+    audits: { in: ['yes'], note: 'zkSecurity, October 2025: contracts, the SHE library and the TypeScript provers. It made 11 findings, including two high (proof forgery), all marked fixed. No published audit covers the v2 Vault, relayer or external transfers (July 2026).', sources: [{ title: 'zkSecurity, Audit of Tongo (engaged 13 October 2025)', url: 'https://reports.zksecurity.xyz/reports/tongo/', checked: '2026-10-27' }] }
+    incidents: { in: [none], note: 'None found.' }
+    license: { in: [open], note: 'Apache-2.0 for the contracts, the SDK and the SHE library.' }
+    steward: { in: [company], note: 'FAT Solutions (GitHub organization fatlabsxyz).' }
+    gas: { in: ['na'], note: 'Not EVM gas. A v2 private transfer used 42.4 million Starknet L2 gas plus 1,696 L1 data gas, a fee of 1.33 to 1.46 STRK (about USD 0.07 at the 27 October 2026 price). Measured on the three v2 transfers (13 to 29 July 2026, our reading); there is no EVM-comparable bucket.' }
+    latency: { in: [block], note: 'One Starknet transaction, with proofs made on the device. The receiver needs a rollover transaction before spending, and Ethereum mainnet finality follows with the STARK proof.' }
+    anonymity: { in: ['na'] }
+  desc: 'Hides balances and transfer amounts with ElGamal encryption on the Stark curve and sigma-protocol proofs made on your device; sender and receiver keys, the token and fund and withdraw amounts stay public. On ledgers deployed with an auditor key (v1), that key decrypts every amount; the v2 ledgers have none. You trust the contracts, the discrete-log assumption and Starknet: no trusted setup, operator or key service, and anyone exits with their own proof. No issuer freeze, pause or mint. Runs on Starknet, a non-EVM Ethereum Layer 2; live since 14 November 2025, audited by zkSecurity, about 130 private transfers and USD 40 held.'
+  sources:
+  - { title: 'Tongo docs, introduction (what is hidden; ElGamal on the Stark curve; no trusted setup)', url: 'https://docs.tongo.cash/protocol/introduction.html', checked: '2026-10-27' }
+  - { title: 'Tongo docs, contracts (v1 and v2 mainnet addresses; our Starknet RPC reading of deployment blocks, owners, auditor keys, balances and transfers, 27 October 2026)', url: 'https://docs.tongo.cash/protocol/contracts.html', checked: '2026-10-27' }
+  - { title: 'Tongo docs, auditor (global auditor, rotation, threshold, ex-post proving)', url: 'https://docs.tongo.cash/protocol/auditor.html', checked: '2026-10-27' }
+  - { title: 'Tongo docs, ragequit', url: 'https://docs.tongo.cash/sdk/operations/ragequit.html', checked: '2026-10-27' }
+  - { title: 'Tongo docs, accounts (key, decryption hints)', url: 'https://docs.tongo.cash/sdk/accounts.html', checked: '2026-10-27' }
+  - { title: 'Tongo, website (built by Fat Solutions; relayer fee paid in the transferred asset)', url: 'https://tongo.cash', checked: '2026-10-27' }
+  - { title: 'fatlabsxyz/tongo repository (Apache-2.0; v2.0.0 of 13 July 2026; Tongo, Vault and Relayer source)', url: 'https://github.com/fatlabsxyz/tongo', checked: '2026-10-27' }
+  - { title: 'zkSecurity, Audit of Tongo (October 2025)', url: 'https://reports.zksecurity.xyz/reports/tongo/', checked: '2026-10-27' }
+  - { title: 'Starknet docs, Starkzap confidential transfers (Tongo key separate from the wallet key)', url: 'https://docs.starknet.io/build/starkzap/confidential.md', checked: '2026-10-27' }
+  - { title: 'L2BEAT, Starknet (sequencer, forced transactions, Security Council)', url: 'https://l2beat.com/scaling/projects/starknet', checked: '2026-10-27' }
+  - { title: 'PSE evaluation, Tongo', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tongo.json', checked: '2026-10-27' }
 # ---- Who only: counterparties hidden, amounts visible ----
 - id: tornado
   name: Tornado Cash
@@ -179,10 +238,11 @@ badges:
   x: 710
   y: 265
   eth: true
+  pse: tornado-cash
   status: mainnet
   since: '2019-12-16'
   facts:
-    verify: { in: ['yes'], note: 'The pool contract verifies a Groth16 proof for every withdrawal.', sources: [{ title: 'PSE evaluation, Tornado Cash (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tornado-cash.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'The pool contract verifies a Groth16 proof for every withdrawal.', sources: [{ title: 'PSE evaluation, Tornado Cash (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tornado-cash.json', checked: '2026-10-26' }] }
     fees: { in: [none], note: 'No pool fee. Relayer fees are optional: you can withdraw directly from the contract.', sources: [{ title: 'Tornado Cash docs, relayers', url: 'https://docs.tornadocash.eth.limo/general/guides/relayer.html', checked: '2026-10-26' }, { title: 'tornadocash/tornado-core', url: 'https://github.com/tornadocash/tornado-core', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Groth16 on BN254, Pedersen commitments, MiMC Merkle tree; phase-2 ceremony May 2020.' }
     proving: { in: [device], note: 'Proof made in the browser or CLI from the secret note.' }
@@ -231,17 +291,18 @@ badges:
   - { title: 'The Block, governance takeover, 21 May 2023 (press report)', url: 'https://www.theblock.co/news/ecosystems/2023-05-21-attacker-uses-malicious-proposal-to-take-over-tornado-cash-governance-231637', checked: '2026-10-26' }
   - { title: 'CryptoSlate, malicious code found in the IPFS frontend, February 2024 (press report)', url: 'https://cryptoslate.com/tornado-cash-website-discord-offline-after-community-finds-malicious-code-in-protocols-backend/', checked: '2026-10-26' }
   - { title: 'US Treasury, delisting and redesignation (8 November 2022)', url: 'https://home.treasury.gov/news/press-releases/jy1087', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Tornado Cash', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tornado-cash.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Tornado Cash', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tornado-cash.json', checked: '2026-10-26' }
 - id: stealth
   name: Stealth addresses
   circle: who
   x: 710
   y: 300
   eth: true
+  pse: [umbra-cash, fluidkey]
   status: mainnet
   since: '2021-04-30'
   facts:
-    verify: { in: ['yes'], note: 'Ordinary execution: payments are plain ETH or ERC-20 transfers the chain executes; nothing is accepted on an operator''s word.', sources: [{ title: 'PSE evaluation, Umbra Cash (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/umbra-cash.json', checked: '2026-10-26' }, { title: 'PSE evaluation, Fluidkey (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/fluidkey.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'Ordinary execution: payments are plain ETH or ERC-20 transfers the chain executes; nothing is accepted on an operator''s word.', sources: [{ title: 'PSE evaluation, Umbra Cash (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/umbra-cash.json', checked: '2026-10-26' }, { title: 'PSE evaluation, Fluidkey (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/fluidkey.json', checked: '2026-10-26' }] }
     fees: { in: [none], note: 'Umbra toll is 0 on Ethereum mainnet (our read, 26 October 2026). Fluidkey bank features charge 0.10% to 0.30% above USD 3,000 monthly, optional.', sources: [{ title: 'Etherscan, Umbra contract (toll() returns 0; our read)', url: 'https://etherscan.io/address/0xFb2dc580Eed955B528407b4d36FfaFe3da685401#readContract', checked: '2026-10-26' }, { title: 'Fluidkey docs, fee structure', url: 'https://docs.fluidkey.com/readme/fee-structure', checked: '2026-10-26' }] }
     pet: { in: ['na'], note: 'Elliptic-curve key exchange (ECDH on secp256k1) with view tags; no proofs and no encrypted balances.' }
     proving: { in: [none], note: 'No proofs; the sender derives the address, the receiver scans announcements.' }
@@ -285,8 +346,8 @@ badges:
   - { title: 'Fluidkey FAQ (seven EVM chains; Dedaub audit May 2024)', url: 'https://docs.fluidkey.com/readme/frequently-asked-questions', checked: '2026-10-26' }
   - { title: 'Fluidkey, how to complete KYC (bank features only)', url: 'https://docs.fluidkey.com/guides/how-to-complete-kyc-on-fluidkey', checked: '2026-10-26' }
   - { title: 'Kovács and Seres, Anonymity Analysis of the Umbra Stealth Address Scheme on Ethereum (arXiv 2308.01703)', url: 'https://arxiv.org/abs/2308.01703', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Umbra Cash (ScopeLift Umbra)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/umbra-cash.json', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Fluidkey', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/fluidkey.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Umbra Cash (ScopeLift Umbra)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/umbra-cash.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Fluidkey', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/fluidkey.json', checked: '2026-10-26' }
 # ---- Who and how much: shielded pools and notarized or ZK UTXO tokens ----
 - id: railgun
   name: Railgun
@@ -294,10 +355,11 @@ badges:
   x: 450
   y: 180
   eth: true
+  pse: railgun
   status: mainnet
   since: '2022-05-01'
   facts:
-    verify: { in: ['yes'], note: 'The contract verifies a Groth16 proof for every shielded transaction.', sources: [{ title: 'PSE evaluation, Railgun (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/railgun.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'The contract verifies a Groth16 proof for every shielded transaction.', sources: [{ title: 'PSE evaluation, Railgun (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/railgun.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.25% on every shield and unshield, to the treasury; private transfers carry none. Broadcaster fees (about 10% of gas) are optional.', sources: [{ title: 'RAILGUN docs, deductions', url: 'https://docs.railgun.org/wiki/learn/railgun-deductions', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Groth16 on BN254, Poseidon commitments; phase 1 from Perpetual Powers of Tau.' }
     proving: { in: [device], note: 'snarkjs in browser or Node, a native prover on mobile.' }
@@ -334,7 +396,7 @@ badges:
   - { title: 'RAILGUN docs, zero-knowledge cryptography', url: 'https://docs.railgun.org/wiki/learn/privacy-system/zero-knowledge-cryptography', checked: '2026-10-26' }
   - { title: 'RAILGUN docs, Private Proofs of Innocence', url: 'https://docs.railgun.org/wiki/assurance/private-proofs-of-innocence', checked: '2026-10-26' }
   - { title: 'Railgun-Privacy/contract (UNLICENSED)', url: 'https://github.com/Railgun-Privacy/contract', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Railgun (costs)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/railgun.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Railgun (costs)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/railgun.json', checked: '2026-10-26' }
   - { title: 'RAILGUN docs, wallets and keys (viewing keys)', url: 'https://docs.railgun.org/wiki/learn/wallets-and-keys', checked: '2026-10-26' }
   - { title: 'RAILGUN docs, protocol governance (RAIL votes)', url: 'https://docs.railgun.org/wiki/rail-token/protocol-governance', checked: '2026-10-26' }
   - { title: 'RAILGUN developer guide, private balances (client sync)', url: 'https://docs.railgun.org/developer-guide/wallet/private-balances', checked: '2026-10-26' }
@@ -349,10 +411,11 @@ badges:
   x: 407
   y: 316
   eth: true
+  pse: privacy-pools
   status: mainnet
   since: '2025-03-31'
   facts:
-    verify: { in: ['yes'], note: 'Groth16 proofs verified on chain; the ASP root it checks against decides eligibility, not correctness.', sources: [{ title: 'PSE evaluation, Privacy Pools (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/privacy-pools.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'Groth16 proofs verified on chain; the ASP root it checks against decides eligibility, not correctness.', sources: [{ title: 'PSE evaluation, Privacy Pools (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/privacy-pools.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.5% vetting fee on ETH and USDC deposits (our read of the Entrypoint, 26 October 2026), 0% on others. Relayer fees optional.', sources: [{ title: 'L2BEAT Privacy, Privacy Pools (vetting and relayer fees)', url: 'https://l2beat.com/privacy/projects/privacy-pools', checked: '2026-10-26' }, { title: 'Etherscan, Privacy Pools Entrypoint (assetConfig vettingFeeBPS 50; our read)', url: 'https://etherscan.io/address/0x6818809eefce719e480a7526d76bd3e561526b46#readProxyContract', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Circom and Groth16 on BN254; v2 ceremony keys (500 contributions per circuit) since v2.0.1, 20 October 2026.' }
     proving: { in: [device], note: 'Proofs made on the user''s device in v1 and v2.' }
@@ -400,17 +463,18 @@ badges:
   - { title: 'Etherscan, v1 ETH pool (LeafInserted index 13,195 on 11 October 2026)', url: 'https://etherscan.io/address/0xf241d57c6debae225c0f2e6ea1529373c9a9c9fb#events', checked: '2026-10-26' }
   - { title: 'DefiLlama, Privacy Pools (value held)', url: 'https://defillama.com/protocol/privacy-pools', checked: '2026-10-26' }
   - { title: 'Bankless, Privacy Pools v2 goes live, 21 October 2026 (press report)', url: 'https://www.bankless.com/read/news/privacy-pools-v2-goes-live-with-bigger-feature-suite', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Privacy Pools (v1)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/privacy-pools.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Privacy Pools (v1)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/privacy-pools.json', checked: '2026-10-26' }
 - id: hinkal
   name: Hinkal
   circle: who
   x: 417
   y: 214
   eth: true
+  pse: hinkal
   status: mainnet
   since: '2023-11-21'
   facts:
-    verify: { in: ['yes'], note: 'Groth16 proofs verified on chain; the owner can swap verifiers, and a contract bug allowed the July 2026 double-spend.', sources: [{ title: 'PSE evaluation, Hinkal (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/hinkal.json', checked: '2026-10-26' }, { title: 'BlockSec, Hinkal double-spend analysis', url: 'https://blocksec.com/blog/web3-security-hinkal-double-spend', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'Groth16 proofs verified on chain; the owner can swap verifiers, and a contract bug allowed the July 2026 double-spend.', sources: [{ title: 'PSE evaluation, Hinkal (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/hinkal.json', checked: '2026-10-26' }, { title: 'BlockSec, Hinkal double-spend analysis', url: 'https://blocksec.com/blog/web3-security-hinkal-double-spend', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.25% on shield, unshield and private transfer; 0.35% on private swaps (Hinkal Wallet).', sources: [{ title: 'Hinkal docs, Hinkal Wallet fees', url: 'https://hinkal-team.gitbook.io/hinkal/hinkal-wallet/fees', checked: '2026-10-26' }] }
     pet: { in: [snark], part: [tee], note: 'Circom with Groth16 on BN254, Poseidon commitments, Babyjubjub stealth addresses; an enclave prover handles complex proofs unless you choose local proving.' }
     proving: { in: [device], part: [server], note: 'Simple proofs in your browser; complex ones go to a Hinkal-run enclave (AWS Nitro per PSE) unless "Extra Security" is on.' }
@@ -457,17 +521,18 @@ badges:
   - { title: 'KuCoin News, Hinkal to return funds by 22 July (press)', url: 'https://www.kucoin.com/news/flash/hinkal-to-begin-returning-funds-to-completed-recovery-users-by-july-22', checked: '2026-10-26' }
   - { title: 'Odaily, Hinkal deployed to six EVM mainnets (21 November 2023, press)', url: 'https://www.odaily.news/en/post/5191158', checked: '2026-10-26' }
   - { title: 'DefiLlama, Hinkal (value held)', url: 'https://defillama.com/protocol/hinkal', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Hinkal', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/hinkal.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Hinkal', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/hinkal.json', checked: '2026-10-26' }
 - id: bermuda
   name: Bermuda Bay
   circle: who
   x: 403
   y: 248
   eth: true
+  pse: bermudabay
   status: testnet
   since: '2026-03-11'
   facts:
-    verify: { in: ['yes'], note: 'Non-upgradeable verifiers check a Noir UltraHonk proof for each transfer, including policy and screening (testnet).', sources: [{ title: 'PSE evaluation, Bermuda Bay (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/bermudabay.json', checked: '2026-10-26' }, { title: 'Ethereum Foundation ethsystems, Bermuda Bay', url: 'https://ethsystems.org/vendors/bermuda/', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'Non-upgradeable verifiers check a Noir UltraHonk proof for each transfer, including policy and screening (testnet).', sources: [{ title: 'PSE evaluation, Bermuda Bay (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/bermudabay.json', checked: '2026-10-26' }, { title: 'Ethereum Foundation ethsystems, Bermuda Bay', url: 'https://ethsystems.org/vendors/bermuda/', checked: '2026-10-26' }] }
     fees: { in: [unknown], note: 'A governor sets fees; no rate published and no mainnet deployment yet.', sources: [{ title: 'Ethereum Foundation ethsystems, Bermuda Bay (governor sets fees)', url: 'https://ethsystems.org/vendors/bermuda/', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Noir circuits proved with Barretenberg UltraHonk on BN254 and Grumpkin; FROST threshold Schnorr for spend authorization.' }
     proving: { in: [device], note: 'All proofs made in the SDK on your device; proving cost on constrained devices not published.' }
@@ -509,7 +574,7 @@ badges:
   - { title: 'bermudabay/wdk-wallet-evm-bermuda (beta; Plasma testnet only; Apache-2.0)', url: 'https://github.com/bermudabay/wdk-wallet-evm-bermuda', checked: '2026-10-26' }
   - { title: 'Gnosisscan, Bermuda test pool (created 12 May 2026)', url: 'https://gnosisscan.io/address/0xb8ed8415f15d46bca5f31aeb548b9c630fb5f0c1', checked: '2026-10-26' }
   - { title: 'Blockchain.News, Linea and Bermuda private atomic DvP proof of concept (15 June 2026, press)', url: 'https://blockchain.news/zh/news/linea-bermuda-atomic-dvp-privacy', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Bermuda', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/bermudabay.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Bermuda', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/bermudabay.json', checked: '2026-10-26' }
 - id: noto
   name: Paladin Noto
   circle: who
@@ -617,6 +682,76 @@ badges:
   - { title: 'Besu docs, Privacy with Paladin (Zeto latency and visibility)', url: 'https://docs.besu-eth.org/private-networks/concepts/privacy-with-paladin', checked: '2026-10-26' }
   - { title: 'LFDT-Paladin/paladin release v1.0.0 (25 June 2026; bundles Zeto)', url: 'https://github.com/LFDT-Paladin/paladin/releases/tag/v1.0.0', checked: '2026-10-26' }
   - { title: 'IACR ePrint 2026/015, Qurrency', url: 'https://eprint.iacr.org/2026/015', checked: '2026-10-26' }
+- id: merces
+  name: Merces
+  circle: who
+  x: 523
+  y: 350
+  eth: true
+  pse: merces
+  status: mainnet
+  since: '2026-09-16'
+  status_note: 'Live on Monad and World Chain mainnet with limited users and volume caps; the SDK test group TACEO publishes allows 1 USDC per transaction and 100 members. Public testnets since 18 November 2025 (Base testnet), later Arc, Plasma, Stable and Polygon Amoy.'
+  facts:
+    verify: { in: ['yes'], note: 'The contract verifies the client’s Groth16 proof on submission and the operators’ coSNARK (a standard Groth16 proof) before committing each update. The owner Safe can replace both verifiers.' }
+    fees: { part: [license, protocol], note: 'No published pricing; offered as a white-label service, with operators paid by TACEO and no token. The ID registry can charge a join fee per user group (zero on the published test group).' }
+    pet: { in: [mpc, snark], note: 'REP3 secret sharing across three MPC nodes; collaborative Groth16 proofs (co-snarks) on BN254; Poseidon2 commitments; BabyJubJub ECDH with Poseidon2 encryption of shares to the nodes.' }
+    proving: { in: [device, server], note: 'The client proves its own inputs locally (Circom, SnarkJS); the three MPC nodes jointly prove each balance update without seeing the witness.' }
+    pq: { in: ['no'], note: 'Shares are encrypted to the nodes with elliptic-curve key agreement and posted on chain, open to harvest-now-decrypt-later (TACEO roadmap: migration to a post-quantum KEM is in progress). The MPC layer is information-theoretic; Groth16 is pairing-based.' }
+    operator: { in: [committee], part: [self], note: 'Three MPC nodes run by TACEO’s permissioned operator set ("managed"), or by operators an institution nominates ("bring your own"), with TACEO monitoring and approving deployments. The nodes on the mainnet deployments are not named.' }
+    external: { in: ['yes'], note: 'Every action waits for the TACEO Network’s MPC committee to process it and post a proof; screening calls Predicate.' }
+    chains: { in: [l2, evm, anyevm], note: 'Mainnet: World Chain (an OP Stack rollup on Ethereum mainnet) and Monad. Testnets: Base, Arc, Plasma, Stable, Polygon Amoy, Sepolia. Not on Ethereum mainnet; TACEO says it deploys on any EVM chain.' }
+    keys: { in: [existing], part: [new], note: 'Users sign with their existing wallet. Registration commits to an authentication secret, which the demo derives from a wallet signature (PSE evaluation).' }
+    wallet: { in: [app], note: 'Balances are read through the Merces SDK or a white-label app; TACEO’s own payment app (Tapa) runs on Monad mainnet.' }
+    indexing: { in: [none], part: [service], note: 'The client asks the MPC nodes for its encrypted balance shares and recombines them; transaction history comes from a scan the nodes run. The nodes learn who is asking.' }
+    tokens: { in: [erc20], note: 'One ERC-20 per deployment (USDC on both mainnets); EIP-2612 permit or EIP-3009 deposits. Multiple assets per tree are future work.' }
+    permission: { in: [selective, permissioned], note: 'Accounts must register in an on-chain ID registry, and registration, deposits and withdrawals pass a compliance contract. User groups can gate joining through an admin contract (for example a KYC credential).' }
+    association: { in: ['no'], note: 'Each deployment is its own contract and pool. The public Monad and World Chain deployments screen every registration, deposit and withdrawal through Predicate.' }
+    checks: { in: [builtin, capable], note: 'Predicate attestations, verified on chain by the BasicPredicateCompliance contract on World Chain, screen addresses against OFAC, EU, UK and UN sanctions lists, AML and CFT rules, and the operator’s own allow and block lists. Private-mode transfers are not screened.' }
+    hidden: { in: [public, participants], part: [operator], note: 'Operators see the transaction graph in the default mode but no balance or amount; two of three colluding could reconstruct everything. A graph-private mode (oblivious RAM) also hides the graph, on testnet only. Deposits and withdrawals are public, and the wallet that submits a transaction is visible unless a relayer sends it.' }
+    controls: { in: [freeze, pause], note: 'The owner Safe can pause the contract and permanently freeze an account (moved to a banned group); per-group caps on amount and transfers per epoch. No forced transfer; no minting.' }
+    disclosure: { in: [grant], note: 'No viewing keys. An authorized party requests a wallet’s history for a time range; each node verifies and approves, then the nodes threshold-decrypt to the requester’s key.' }
+    visibility: { in: [notary], note: 'The operators jointly act as notary for authorized requests (court orders use the same route); the docs do not say whether a request leaves an on-chain notice. On the public testnet anyone could query any account’s history.' }
+    upgrade: { in: [company], note: 'Mainnet contracts are UUPS proxies owned by a 3-of-6 Safe on World Chain and a 3-of-4 Safe on Monad, which can also swap verifiers and the MPC key; no timelock found. The Plasma testnet demo contract is immutable (PSE).' }
+    exit: { in: ['no'], note: 'Withdrawals need the MPC network. A self-triggering escape hatch is in beta and not deployed; the mainnet contract source marks it "not implemented yet".' }
+    censorship: { in: ['yes'], note: 'The MPC committee, the owner’s pause and freeze, and Predicate screening can each stop a user.' }
+    failure: { in: [privacy, funds], note: 'Two colluding operators lose privacy. The operators cannot forge an update, but an owner upgrade or verifier swap could put funds at risk, and a network halt locks them with no exit.' }
+    value: { in: [lt10m], note: 'USD 211 in the Monad contract and USD 2 in the World Chain contract (USDC, read on chain 27 October 2026).', sources: [{ title: 'Monadscan, Merces contract on Monad mainnet', url: 'https://monadscan.com/address/0x9Dd5DE40592AdfcDD60F0f3fF3B014553998f7c1', checked: '2026-10-27' }, { title: 'Worldscan, Merces contract on World Chain', url: 'https://worldscan.org/address/0x458838De82E065A84e947D7dAC3844E473c404DA', checked: '2026-10-27' }] }
+    institutions: { in: [none], note: 'Integration partners named for demos (IntellectEU CatalyX payroll, LayerZero, Orion Finance, Zenith); no regulated institution in production or in a public pilot found.' }
+    audits: { in: ['no'], note: 'No public audit of Merces found; the demo repository says the code is not audited. The specification has a UC security proof (IACR ePrint 2026/850), which is not an audit.' }
+    incidents: { in: [none] }
+    license: { in: [open], note: 'Mainnet contracts verified on explorers under MIT; merces1-paper MIT; merces1-x402 MIT or Apache-2.0; co-snarks MIT or Apache-2.0. The production node software was not found in a public repository.' }
+    steward: { in: [company], note: 'TACEO GmbH, a TU Graz spin-out (July 2022).' }
+    gas: { in: [k200to500], part: [gt500k], note: 'About 445,000 gas per transfer call, plus about 347,000 for the operators’ processMpc, which carried one action per call: about 793,000 in all (27 transfers and 64 processMpc calls on World Chain, 22 September to 16 October 2026).', sources: [{ title: 'Worldscan, Merces contract transactions on World Chain (our gas measurement over 131 transactions)', url: 'https://worldscan.org/address/0x458838De82E065A84e947D7dAC3844E473c404DA', checked: '2026-10-27' }] }
+    latency: { in: [minute], note: 'The operators finalized each action 2 to 6 seconds (average 3.7) after the user’s transaction on World Chain; the paper’s demo reports about 8.4 seconds end to end.' }
+    anonymity: { in: [small], note: 'Registered accounts in the ID registry: 39 on Monad and 3 on World Chain (27 October 2026).' }
+  desc: 'Hides the sender, receiver and amount of each transfer behind commitments; balances are secret-shared across three MPC operators, who see the transaction graph but no amounts. Deposits and withdrawals stay public. You trust that no two operators collude and that the network stays live (the escape hatch is not yet deployed); correctness does not depend on them, because the chain verifies a Groth16 proof of every update. The owner can pause and freeze accounts, Predicate screens entry and exit, and authorized parties can request threshold decryption. You can nominate your own operators. Live with caps on Monad and World Chain since September 2026; testnets since November 2025.'
+  sources:
+  - { title: 'TACEO docs, Finance Solutions overview (Merces)', url: 'https://docs.taceo.io/docs/finance-solutions/overview/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, deployments and status (Monad and World Chain mainnet with caps; testnets; addresses)', url: 'https://docs.taceo.io/docs/start-here/deployments-and-status/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, privacy model (private, graph-private and partial-private modes)', url: 'https://docs.taceo.io/docs/finance-solutions/concepts/privacy-model/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, architecture (operators see the graph; coSNARK verified on chain)', url: 'https://docs.taceo.io/docs/finance-solutions/concepts/architecture/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, private virtual account (three operators, components)', url: 'https://docs.taceo.io/docs/finance-solutions/private-virtual-account/overview/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, escape hatch (beta, not on mainnet)', url: 'https://docs.taceo.io/docs/finance-solutions/concepts/escape-hatch/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, pre-transaction screening (Predicate; sanctions lists)', url: 'https://docs.taceo.io/docs/finance-solutions/compliance/pre-transaction-screening/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, post-transaction disclosure (threshold decryption on request)', url: 'https://docs.taceo.io/docs/finance-solutions/compliance/post-transaction-disclosure/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, compliance overview (no viewing keys)', url: 'https://docs.taceo.io/docs/finance-solutions/compliance/overview/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, node operators (permissioned; managed or bring your own)', url: 'https://docs.taceo.io/docs/taceo-network/node-operators/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, network governance', url: 'https://docs.taceo.io/docs/taceo-network/governance/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, Finance Solutions roadmap (post-quantum migration)', url: 'https://docs.taceo.io/docs/finance-solutions/roadmap/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, Confidential x402 protocol reference (REP3; TACEO runs all three testnet nodes)', url: 'https://docs.taceo.io/docs/x402/protocol-reference/', checked: '2026-10-27' }
+  - { title: 'TACEO docs, public repositories', url: 'https://docs.taceo.io/docs/start-here/public-repos/', checked: '2026-10-27' }
+  - { title: 'TACEO Core, Merces deep dive (Merces II, 25 March 2026)', url: 'https://core.taceo.io/articles/merces-deep-dive/', checked: '2026-10-27' }
+  - { title: 'TACEO Core, confidential token transfers demo on Base testnet (18 November 2025)', url: 'https://core.taceo.io/articles/confidential-token-transfers-demo/', checked: '2026-10-27' }
+  - { title: 'TACEO Core, Merces at six months (29 May 2026)', url: 'https://core.taceo.io/articles/merces-6-months/', checked: '2026-10-27' }
+  - { title: 'TACEO Core, Merces on mainnet (24 September 2026)', url: 'https://core.taceo.io/articles/merces-mainnet/', checked: '2026-10-27' }
+  - { title: 'TACEO Core, Merces and Predicate (23 June 2026)', url: 'https://core.taceo.io/articles/merces-predicate/', checked: '2026-10-27' }
+  - { title: 'TACEO Core, escape hatches in MPC (prototype, 3 August 2026)', url: 'https://core.taceo.io/articles/escape-hatch/', checked: '2026-10-27' }
+  - { title: 'Merces: Confidential Token Transfers via MPC and CoSNARKs (IACR ePrint 2026/850)', url: 'https://eprint.iacr.org/2026/850', checked: '2026-10-27' }
+  - { title: 'Worldscan, MercesV1 implementation source (UUPS, pause, verifiers, compliance)', url: 'https://worldscan.org/address/0x6ff32fe92247d18dc775965ceefa911a9490cbd9#code', checked: '2026-10-27' }
+  - { title: 'TaceoLabs/merces1-x402 repository (demo; "not audited")', url: 'https://github.com/TaceoLabs/merces1-x402', checked: '2026-10-27' }
+  - { title: 'TaceoLabs/merces1-paper repository (MIT)', url: 'https://github.com/TaceoLabs/merces1-paper', checked: '2026-10-27' }
+  - { title: 'PSE evaluation, Merces', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/merces.json', checked: '2026-10-27' }
 # ---- All three: parties, amounts and logic ----
 - id: pente
   name: Paladin Pente
@@ -676,11 +811,12 @@ badges:
   x: 450
   y: 491
   eth: true
+  pse: zksync-prividium
   status: mainnet
   since: '2025-05-27'
   facts:
-    verify: { in: ['yes'], note: 'Ethereum mainnet verifies a validity proof of every batch; data is withheld, so the RPC permission layer and data availability are trusted.', sources: [{ title: 'ZKsync docs, Prividium overview (validity proof per batch)', url: 'https://docs.zksync.io/zk-stack/prividium/overview', checked: '2026-10-26' }, { title: 'PSE evaluation, ZKsync Prividium (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zksync-prividium.json', checked: '2026-10-26' }] }
-    fees: { in: [license], note: 'A licensed product: live deployments need a commercial contract with Matter Labs; Prividium Core is Apache 2.0. No price published.', sources: [{ title: 'ZKsync docs, Prividium overview (licensed product)', url: 'https://docs.zksync.io/zk-stack/prividium/overview', checked: '2026-10-26' }, { title: 'PSE evaluation, ZKsync Prividium (Open source: commercial licence)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zksync-prividium.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'Ethereum mainnet verifies a validity proof of every batch; data is withheld, so the RPC permission layer and data availability are trusted.', sources: [{ title: 'ZKsync docs, Prividium overview (validity proof per batch)', url: 'https://docs.zksync.io/zk-stack/prividium/overview', checked: '2026-10-26' }, { title: 'PSE evaluation, ZKsync Prividium (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zksync-prividium.json', checked: '2026-10-26' }] }
+    fees: { in: [license], note: 'A licensed product: live deployments need a commercial contract with Matter Labs; Prividium Core is Apache 2.0. No price published.', sources: [{ title: 'ZKsync docs, Prividium overview (licensed product)', url: 'https://docs.zksync.io/zk-stack/prividium/overview', checked: '2026-10-26' }, { title: 'PSE evaluation, ZKsync Prividium (Open source: commercial licence)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zksync-prividium.json', checked: '2026-10-26' }] }
     pet: { in: [offchain], note: 'Privacy is a proxy RPC with roles; its STARK proofs, wrapped in a KZG SNARK, prove correctness, not secrecy.' }
     proving: { in: [server], note: 'The operator’s sequencer and prover farm in a private subnet; nothing proven on user devices.' }
     pq: { in: [hashes], note: 'Only state roots and proofs on chain; data is never published, so nothing public to harvest. The final SNARK (BN254, KZG) and ECDSA are classical.' }
@@ -715,7 +851,7 @@ badges:
   sources:
   - { title: 'ZKsync docs, Prividium overview', url: 'https://docs.zksync.io/zk-stack/prividium/overview', checked: '2026-10-26' }
   - { title: 'ZKsync blog, Cari selects Prividium (17 March 2026)', url: 'https://www.zksync.io/blog/cari-selects-zksyncs-prividium', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, ZKsync Prividium', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zksync-prividium.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, ZKsync Prividium', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zksync-prividium.json', checked: '2026-10-26' }
   - { title: 'ZKsync docs, Prividium features (roles, auditor views, selective disclosure)', url: 'https://docs.zksync.io/zk-stack/prividium/features', checked: '2026-10-26' }
   - { title: 'ZKsync docs, Prividium architecture (proxy RPC, sequencer, prover, database)', url: 'https://docs.zksync.io/zk-stack/prividium/architecture', checked: '2026-10-26' }
   - { title: 'ZKsync blog, Introducing Prividium (27 May 2025)', url: 'https://www.zksync.io/blog/introducing-zksync-prividium-private-blockchain-infra', checked: '2026-10-26' }
@@ -782,10 +918,11 @@ badges:
   x: 530
   y: 316
   eth: true
+  pse: anoma-pay
   status: mainnet
   since: '2026-04-02'
   facts:
-    verify: { in: ['yes'], note: 'The Protocol Adapter verifies RISC Zero proofs (via a Groth16 wrapper) before moving funds.', sources: [{ title: 'PSE evaluation, AnomaPay (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/anoma-pay.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'The Protocol Adapter verifies RISC Zero proofs (via a Groth16 wrapper) before moving funds.', sources: [{ title: 'PSE evaluation, AnomaPay (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/anoma-pay.json', checked: '2026-10-26' }] }
     fees: { in: [none], note: 'Deposits and withdrawals free; transfers pay only chain gas, deducted from the token sent. XAN not required.', sources: [{ title: 'Anoma blog, AnomaPay V1 is Live (2 June 2026; fees)', url: 'https://anoma.net/blog/anomapay-v1-is-live', checked: '2026-10-26' }] }
     pet: { in: [stark], part: [snark], note: 'RISC Zero zkVM proofs (STARK-based), checked on chain through RISC Zero’s Groth16 verifier router.' }
     proving: { in: [server], note: 'A hosted Proving Service on Vast.ai GPUs makes all proofs; client-side proving is on the roadmap, not live.' }
@@ -830,17 +967,18 @@ badges:
   - { title: 'anoma/pa-evm (Protocol Adapter, MIT; audits folder; deployment addresses)', url: 'https://github.com/anoma/pa-evm', checked: '2026-10-26' }
   - { title: 'anoma/anomapay-erc20-forwarder (MIT; Informal Systems audit)', url: 'https://github.com/anoma/anomapay-erc20-forwarder', checked: '2026-10-26' }
   - { title: 'Etherscan, Anoma Protocol Adapter on Ethereum mainnet', url: 'https://etherscan.io/address/0x0eA3B55b68A3f307c8FE3fe66E443247c95F0CfF', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, AnomaPay', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/anoma-pay.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, AnomaPay', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/anoma-pay.json', checked: '2026-10-26' }
 - id: aztec
   name: Aztec
   circle: logic
   x: 417
   y: 425
   eth: true
+  pse: aztec
   status: mainnet
   since: '2026-03-30'
   facts:
-    verify: { in: ['yes'], note: 'Ethereum mainnet verifies a recursive rollup proof per epoch; docs warn some circuits are under-constrained.', sources: [{ title: 'PSE evaluation, Aztec (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/aztec.json', checked: '2026-10-26' }, { title: 'Aztec docs, Alpha Network (under-constrained circuits)', url: 'https://docs.aztec.network/participate/alpha', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'Ethereum mainnet verifies a recursive rollup proof per epoch; docs warn some circuits are under-constrained.', sources: [{ title: 'PSE evaluation, Aztec (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/aztec.json', checked: '2026-10-26' }, { title: 'Aztec docs, Alpha Network (under-constrained circuits)', url: 'https://docs.aztec.network/participate/alpha', checked: '2026-10-26' }] }
     fees: { in: [token], note: 'Fees paid in Fee Juice, AZTEC bridged one way from Ethereum mainnet; a fee-paying contract can accept other tokens. Under USD 0.05 per private transfer.', sources: [{ title: 'Aztec docs, fees (Fee Juice)', url: 'https://docs.aztec.network/developers/docs/foundational-topics/fees', checked: '2026-10-26' }, { title: 'Aztec docs, paying fees on mainnet (bridge AZTEC)', url: 'https://docs.aztec.network/participate/basics/fees', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Client-side CHONK proofs (Plonk family) and UltraHonk rollup proofs on BN254, KZG setup from the 2019 Ignition ceremony.' }
     proving: { in: [device], note: 'Private functions are proven in your PXE: about 2.5 s native, 6.8 s in a browser (Aztec).' }
@@ -885,17 +1023,18 @@ badges:
   - { title: 'Aztec blog, Introducing Alpha V5 (proving times, fee)', url: 'https://aztec.network/blog/introducing-alpha-v5', checked: '2026-10-26' }
   - { title: 'Aztec blog, Post-Quantum Aztec', url: 'https://aztec.network/blog/post-quantum-aztec', checked: '2026-10-26' }
   - { title: 'Aztec blog, Who controls your privacy off-switch?', url: 'https://aztec.network/blog/who-controls-your-privacy-off-switch', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Aztec', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/aztec.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Aztec', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/aztec.json', checked: '2026-10-26' }
 - id: blanksquare
   name: 'Blanksquare'
   circle: who
   x: 710
   y: 335
   eth: true
+  pse: blanksquare
   status: mainnet
   since: '2025-07-23'
   facts:
-    verify: { in: ['yes'], note: 'The Shielder contract verifies a Halo2 proof; the owner can upgrade the verifier.', sources: [{ title: 'PSE evaluation, Blanksquare (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/blanksquare.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'The Shielder contract verifies a Halo2 proof; the owner can upgrade the verifier.', sources: [{ title: 'PSE evaluation, Blanksquare (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/blanksquare.json', checked: '2026-10-26' }] }
     fees: { in: [none], note: 'Owner-set deposit and withdrawal fees are 0 bps on Base (our read, 26 October 2026). Relayer fees optional: you can self-broadcast.', sources: [{ title: 'Basescan, Shielder contract (protocolDepositFeeBps and protocolWithdrawFeeBps return 0; our read)', url: 'https://basescan.org/address/0x064A67a5484DF6baf36be42F9554d45E7741dCFf#readProxyContract', checked: '2026-10-26' }, { title: 'Blanksquare docs, understanding fees', url: 'https://docs.blanksquare.io/integration-guides/fees', checked: '2026-10-26' }] }
     pet: { in: [snark], part: [tee], note: 'Halo2 (Ultraplonk, KZG on BN256); AWS Nitro enclaves run the optional one-click scheduler and Shielder Guard.' }
     proving: { in: [device], note: 'WASM prover in the browser, 600 to 800 ms on consumer hardware; TEE proof delegation is work in progress.' }
@@ -940,17 +1079,18 @@ badges:
   - { title: 'zkSecurity, Audit of Aleph Zero Shielder (25 March 2025)', url: 'https://reports.zksecurity.xyz/reports/aleph-zero-shielder/', checked: '2026-10-26' }
   - { title: 'Basescan, Shielder contract (created 23 July 2025; transactions, balances, gas)', url: 'https://basescan.org/address/0x064A67a5484DF6baf36be42F9554d45E7741dCFf', checked: '2026-10-26' }
   - { title: 'Basescan, Shielder creation transaction', url: 'https://basescan.org/tx/0xf63c31263f7dc17c56862a7d763b4d24f1fd9e0f141e488d5d43401730068045', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Blanksquare', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/blanksquare.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Blanksquare', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/blanksquare.json', checked: '2026-10-26' }
 - id: coti
   name: 'COTI'
   circle: amount
   x: 190
   y: 430
   eth: true
+  pse: coti
   status: mainnet
   since: '2025-03-26'
   facts:
-    verify: { in: ['no'], note: 'Results of the garbled-circuit MPC are trusted from the executors; no proof that encrypted operations were computed correctly.', sources: [{ title: 'PSE evaluation, COTI (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/coti.json', checked: '2026-10-26' }, { title: 'COTI docs, COTI architecture (sequencer, executors, garbler)', url: 'https://docs.coti.io/coti-documentation/how-coti-works/introduction/coti-architecture', checked: '2026-10-26' }] }
+    verify: { in: ['no'], note: 'Results of the garbled-circuit MPC are trusted from the executors; no proof that encrypted operations were computed correctly.', sources: [{ title: 'PSE evaluation, COTI (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/coti.json', checked: '2026-10-26' }, { title: 'COTI docs, COTI architecture (sequencer, executors, garbler)', url: 'https://docs.coti.io/coti-documentation/how-coti-works/introduction/coti-architecture', checked: '2026-10-26' }] }
     fees: { in: [token], note: 'Gas on COTI V2 is paid in the COTI token; no separate portal fee found.', sources: [{ title: 'COTI docs, Mainnet (native currency COTI)', url: 'https://docs.coti.io/coti-documentation/networks/mainnet', checked: '2026-10-26' }, { title: 'COTI docs, Privacy Portal', url: 'https://docs.coti.io/coti-documentation/coti-privacy-portal', checked: '2026-10-26' }] }
     pet: { in: [mpc], note: 'Garbled circuits evaluated by two executors in MPC; AES-encrypted ciphertexts on chain. Secure enclaves only planned as an extra layer.' }
     proving: { in: [none], note: 'No proofs; the device only encrypts inputs with the user’s AES key.' }
@@ -999,17 +1139,18 @@ badges:
   - { title: 'COTIscan, PrivateBridgedUSDC transfer, 884,893 gas (18 October 2026)', url: 'https://mainnet.cotiscan.io/tx/0xc3568ea0ed5c118b67857943b26359cca9c90fb4da178fd744899b0e129b193d', checked: '2026-10-26' }
   - { title: 'DefiLlama, chains (COTI TVL)', url: 'https://defillama.com/chain/coti', checked: '2026-10-26' }
   - { title: 'The Block, press release: COTI launches its mainnet (26 March 2025)', url: 'https://www.theblock.co/post/348275/coti-launches-its-mainnet-to-spark-new-era-in-web3-privacy', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, COTI', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/coti.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, COTI', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/coti.json', checked: '2026-10-26' }
 - id: curvy
   name: 'Curvy'
   circle: who
   x: 486
   y: 214
   eth: true
+  pse: curvy
   status: mainnet
   since: '2025-11-04'
   facts:
-    verify: { in: ['yes'], note: 'The aggregator verifies Groth16 proofs for shielding, aggregation and unshielding before the vault moves funds.', sources: [{ title: 'Curvy docs, privacy aggregator', url: 'https://docs.curvy.box/for-the-curious/building-blocks/privacy-aggregator.html', checked: '2026-10-26' }, { title: 'PSE evaluation, Curvy (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/curvy.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'The aggregator verifies Groth16 proofs for shielding, aggregation and unshielding before the vault moves funds.', sources: [{ title: 'Curvy docs, privacy aggregator', url: 'https://docs.curvy.box/for-the-curious/building-blocks/privacy-aggregator.html', checked: '2026-10-26' }, { title: 'PSE evaluation, Curvy (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/curvy.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.1% to shield, 0.1% per aggregation (private transfer), 0.2% to unshield; relayer gas paid from a note in the token.', sources: [{ title: 'Curvy docs, FAQ (how Curvy makes money)', url: 'https://docs.curvy.box/faq.html', checked: '2026-10-26' }, { title: 'Curvy docs, privacy aggregator (fees)', url: 'https://docs.curvy.box/for-the-curious/building-blocks/privacy-aggregator.html', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Groth16 circuits (Circom) over Baby Jubjub notes, plus secp256k1 stealth addresses; a trusted-setup ceremony tool appeared in October 2026.' }
     proving: { in: [device], part: [server], note: 'Current docs: aggregation and withdrawal proofs made by the SDK on your device; Curvy''s batch prover commits new notes.' }
@@ -1055,14 +1196,15 @@ badges:
   - { title: 'Arbiscan, Curvy admin Safe (4 of 6)', url: 'https://arbiscan.io/address/0xB2c10d9e523B6d7792F1825f4Bb2552860f64b9F', checked: '2026-10-26' }
   - { title: 'Arbitrum Foundation, Builder''s Block 006 (Curvy v2 stealth address aggregator, November 2025)', url: 'https://blog.arbitrum.foundation/builders-block-006-arbitrum-update-on-l2-privacy-and-devconnect-highlights/', checked: '2026-10-26' }
   - { title: 'ethresear.ch, Curvy decentralized proving (single prover risk)', url: 'https://ethresear.ch/t/curvy-decentralized-proving/24352', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Curvy', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/curvy.json', checked: '2026-10-26' }
-  - { title: 'PSE benchmark, Curvy contracts and test transactions', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/subgraph/src/curvy/README.md', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Curvy', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/curvy.json', checked: '2026-10-26' }
+  - { title: 'PSE benchmark, Curvy contracts and test transactions', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/subgraph/src/curvy/README.md', checked: '2026-10-26' }
 - id: eerc
   name: 'AvaCloud eERC'
   circle: amount
   x: 190
   y: 395
   eth: true
+  pse: eerc20
   status: mainnet
   since: '2025-05-28'
   facts:
@@ -1114,13 +1256,14 @@ badges:
   - { title: 'Kinexys by J.P. Morgan, Project EPIC report (November 2024)', url: 'https://www.jpmorgan.com/kinexys/content-hub/project-epic-enterprise-privacy-identity-composability', checked: '2026-10-26' }
   - { title: 'Taurus, Tokenization privacy solutions: an institutional review (26 January 2026; third party)', url: 'https://www.taurushq.com/blog/tokenization-privacy-solutions-an-institutional-review/', checked: '2026-10-26' }
   - { title: 'Snowtrace, earliest C-Chain contract emitting eERC PrivateTransfer events (created 24 May 2025; first transfer 28 May 2025; our log search)', url: 'https://snowtrace.io/address/0x8c6ae98db339fb884cf81f64fc6d18a23589ad56', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, AvaCloud eERC20 (pending, no properties yet)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/eerc20.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, AvaCloud eERC20 (pending, no properties yet)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/eerc20.json', checked: '2026-10-26' }
 - id: horizen
   name: 'Horizen Vela'
   circle: logic
   x: 330
   y: 582
   eth: true
+  pse: horizen
   status: testnet
   since: '2026-04-22'
   facts:
@@ -1166,17 +1309,18 @@ badges:
   - { title: 'Horizen Labs, Vela (live on Base Sepolia for early-access developers; Base mainnet next)', url: 'https://horizenlabs.io/vela', checked: '2026-10-26' }
   - { title: 'HorizenOfficial/vela (Business Source License 1.1; v0.1.0 tagged 22 April 2026)', url: 'https://github.com/HorizenOfficial/vela', checked: '2026-10-26' }
   - { title: 'The Block, Horizen relaunches as a Layer 3 on Base (December 2025; press)', url: 'https://www.theblock.co/post/381846/privacy-horizen-launches-layer-3-base-mainnet', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Horizen (pending, no properties)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/horizen.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Horizen (pending, no properties)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/horizen.json', checked: '2026-10-26' }
 - id: nightfall
   name: Nightfall
   circle: who
   x: 505
   y: 248
   eth: true
+  pse: nightfall
   status: testnet
   since: '2025-09-30'
   facts:
-    verify: { in: ['yes'], note: 'The contract verifies a rollup proof per block; a deployment left on the default mock prover accepts any proof.', sources: [{ title: 'PSE evaluation, Nightfall (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nightfall.json', checked: '2026-10-26' }, { title: 'EYBlockchain/nightfall_4_CE README', url: 'https://github.com/EYBlockchain/nightfall_4_CE', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'The contract verifies a rollup proof per block; a deployment left on the default mock prover accepts any proof.', sources: [{ title: 'PSE evaluation, Nightfall (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nightfall.json', checked: '2026-10-26' }, { title: 'EYBlockchain/nightfall_4_CE README', url: 'https://github.com/EYBlockchain/nightfall_4_CE', checked: '2026-10-26' }] }
     fees: { in: [none], note: 'No protocol fee; a per-transaction proposer fee in the host chain''s base token may be zero.', sources: [{ title: 'Nightfall_4 design document (fees)', url: 'https://github.com/EYBlockchain/nightfall_4_CE/blob/master/doc/nf_4.md', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'UltraPlonk client proofs and a recursive rollup proof (Nightfish), universal setup from Perpetual Powers of Tau; Babyjubjub keys.' }
     proving: { in: [device], part: [server], note: 'Transfers and withdrawals proven by your client; the proposer proves deposits and each rollup block.' }
@@ -1214,7 +1358,7 @@ badges:
   - { title: 'EY, EY upgrades Nightfall (3 April 2025)', url: 'https://www.ey.com/en_gl/newsroom/2025/04/ey-upgrades-nightfall-a-zero-knowledge-roll-up-enabling-private-transactions-on-the-ethereum-blockchain', checked: '2026-10-26' }
   - { title: 'EYBlockchain/nightfall_4_CE README (experimental; not owned by EY; CC0)', url: 'https://github.com/EYBlockchain/nightfall_4_CE', checked: '2026-10-26' }
   - { title: 'Nightfall_4 upgradable contracts guide (UUPS, single owner)', url: 'https://github.com/EYBlockchain/nightfall_4_CE/blob/master/doc/Upgradable%20Contracts%20Guide.md', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Nightfall (public testnet; no escape hatch; no viewing key)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nightfall.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Nightfall (public testnet; no escape hatch; no viewing key)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nightfall.json', checked: '2026-10-26' }
   - { title: 'Celo docs, Nightfall integration (testnet on Celo Sepolia only)', url: 'https://docs.celo.org/infra-partners/integration/nightfall', checked: '2026-10-26' }
   - { title: 'Celo Foundation via Business Wire, Celo deploys Nightfall privacy layer (30 September 2025)', url: 'https://www.businesswire.com/news/home/20250930088197/en/Celo-Becomes-First-Payments-Focused-Blockchain-to-Deploy-Nightfall-Privacy-Layer-for-Enterprise-Payments', checked: '2026-10-26' }
   - { title: 'Plume blog, Nightfall comes to Plume (19 September 2025)', url: 'https://plume.org/blog/nightfall-comes-to-plume-privacy-meets-scale-for-institutional-rwas', checked: '2026-10-26' }
@@ -1222,13 +1366,14 @@ badges:
 - id: nullmask
   name: 'Nullmask'
   circle: who
-  x: 403
+  x: 360
   y: 350
   eth: true
+  pse: nullmask
   status: mainnet
   since: '2026-10-01'
   facts:
-    verify: { in: ['yes'], note: 'An on-chain verifier checks an UltraHonk proof for every shielded action; one admin key can upgrade it.', sources: [{ title: 'PSE evaluation, Nullmask (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nullmask.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'An on-chain verifier checks an UltraHonk proof for every shielded action; one admin key can upgrade it.', sources: [{ title: 'PSE evaluation, Nullmask (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nullmask.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.5% on deposits and on withdrawals, 0.2% on bridging; private transfers and swaps pay no Nullmask fee.', sources: [{ title: 'Nullmask docs, fees', url: 'https://nullmask.io/docs/fees', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'UltraHonk proofs over BN254 with Poseidon2; privacy from the operator rests on access control only, since its servers hold your keys.' }
     proving: { in: [server], note: 'Proofs are made by Nullmask’s RPC proxy servers by default; a self-hosted device mode was described in earlier docs but is not the default.' }
@@ -1271,13 +1416,14 @@ badges:
   - { title: 'Nullmask pool contract source (Etherscan, verified; self-submitted fee-less withdrawals)', url: 'https://etherscan.io/address/0xd64EF1417EB047ed0b54736a5a41F01178C391c6#code', checked: '2026-10-26' }
   - { title: 'DefiLlama, Nullmask (TVL by chain)', url: 'https://defillama.com/protocol/nullmask', checked: '2026-10-26' }
   - { title: 'The Block, Nullmask press release (company; 19 October 2026; chains and volume)', url: 'https://www.theblock.co/press-releases/nullmask-passes-50-million-in-private-volume-and-launches-points-season-one-421056', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Nullmask', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nullmask.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Nullmask', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/nullmask.json', checked: '2026-10-26' }
 - id: veilcash
   name: 'Veil Cash'
   circle: who
-  x: 494
+  x: 444
   y: 350
   eth: true
+  pse: veil-cash
   status: mainnet
   since: '2025-06-12'
   facts:
@@ -1323,17 +1469,18 @@ badges:
   - { title: 'Basescan, Veil ETH pool (created 12 June 2025)', url: 'https://basescan.org/address/0x293dCda114533FF8f477271c5cA517209FFDEEe7', checked: '2026-10-26' }
   - { title: 'rekt.news, Default Settings (third party; 6 March 2026; Veil Cash pool exploit and recovery)', url: 'https://rekt.news/default-settings', checked: '2026-10-26' }
   - { title: 'DefiLlama, Veil Cash (TVL)', url: 'https://defillama.com/protocol/veil-cash', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, Veil Cash', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/veil-cash.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, Veil Cash', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/veil-cash.json', checked: '2026-10-26' }
 - id: worm
   name: 'WORM'
   circle: who
   x: 710
   y: 405
   eth: true
+  pse: worm
   status: mainnet
   since: '2026-02-11'
   facts:
-    verify: { in: ['yes'], note: 'BETH verifies a Groth16 proof that the burn address holds ETH in Ethereum mainnet state.', sources: [{ title: 'PSE evaluation, WORM (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/worm.json', checked: '2026-10-26' }] }
+    verify: { in: ['yes'], note: 'BETH verifies a Groth16 proof that the burn address holds ETH in Ethereum mainnet state.', sources: [{ title: 'PSE evaluation, WORM (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/worm.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.5% of each minted amount goes to the WORM reward pool; prover and broadcaster fees are optional if you prove yourself.', sources: [{ title: 'worm-privacy/worm, BETH.sol (poolFee 0.5%, prover and broadcaster fees)', url: 'https://github.com/worm-privacy/worm/blob/main/src/BETH.sol', checked: '2026-10-26' }, { title: 'Etherscan, BETH on Ethereum mainnet (reward pool set; our read)', url: 'https://etherscan.io/address/0x5624344235607940d4d4EE76Bf8817d403EB9Cf8#readContract', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Groth16 Circom circuits proving the burn address in Ethereum mainnet state (Merkle Patricia Trie).' }
     proving: { in: [server], note: 'External provers by default, paid a prover fee; you can run your own on a powerful server.' }
@@ -1375,17 +1522,18 @@ badges:
   - { title: 'Etherscan, BETH on Ethereum mainnet (created 11 February 2026)', url: 'https://etherscan.io/address/0x5624344235607940d4d4EE76Bf8817d403EB9Cf8', checked: '2026-10-26' }
   - { title: 'EIP-7503, Zero-Knowledge Wormholes', url: 'https://eips.ethereum.org/EIPS/eip-7503', checked: '2026-10-26' }
   - { title: 'ethresear.ch, Wormholes and the cost of plausible deniability (third party, on anonymity set size)', url: 'https://ethresear.ch/t/wormholes-and-the-cost-of-plausible-deniability/23728', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, WORM', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/worm.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, WORM', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/worm.json', checked: '2026-10-26' }
 - id: zerc20
   name: 'zERC20'
   circle: who
   x: 710
   y: 370
   eth: true
+  pse: zerc20
   status: mainnet
   since: '2026-02-04'
   facts:
-    verify: { part: ['yes'], note: 'Redemptions and transfer roots are proven on chain; the cross-chain global root arrives over LayerZero, trusted rather than proven.', sources: [{ title: 'zERC20 docs, Architecture overview', url: 'https://zerc20.gitbook.io/zerc20/for-developers/architecture', checked: '2026-10-26' }, { title: 'PSE evaluation, zERC20 (Verifiability)', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zerc20.json', checked: '2026-10-26' }] }
+    verify: { part: ['yes'], note: 'Redemptions and transfer roots are proven on chain; the cross-chain global root arrives over LayerZero, trusted rather than proven.', sources: [{ title: 'zERC20 docs, Architecture overview', url: 'https://zerc20.gitbook.io/zerc20/for-developers/architecture', checked: '2026-10-26' }, { title: 'PSE evaluation, zERC20 (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zerc20.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: 'Redeem fee 0.35% (maximum 1%); unwrapping on low-liquidity chains costs up to 10%. Gasless relay fee optional.', sources: [{ title: 'zERC20 docs, fees and rewards', url: 'https://zerc20.gitbook.io/zerc20/for-users/fees-and-rewards', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Groth16 for single redemptions, Nova folding for batches, Poseidon trees on BN254.' }
     proving: { in: [device], part: [server], note: 'Single proofs in the browser (about 105 ms); batch proofs are finished by a decider prover service.' }
@@ -1427,7 +1575,7 @@ badges:
   - { title: 'kbizikav/zERC20 (source and BSL 1.1 license; the docs link zerc20io/zERC20 now returns 404)', url: 'https://github.com/kbizikav/zERC20', checked: '2026-10-26' }
   - { title: 'Etherscan, zETH on Ethereum mainnet (created 4 February 2026)', url: 'https://etherscan.io/address/0x410056c6F0A9ABD8c42b9eEF3BB451966Fb0d924', checked: '2026-10-26' }
   - { title: 'DefiLlama, zERC20 (TVL by chain)', url: 'https://defillama.com/protocol/zerc20', checked: '2026-10-26' }
-  - { title: 'PSE evaluation, zERC20', url: 'https://github.com/privacy-ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zerc20.json', checked: '2026-10-26' }
+  - { title: 'PSE evaluation, zERC20', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zerc20.json', checked: '2026-10-26' }
 # ---- Before the block: intent hidden until inclusion ----
 - id: flashbots
   name: Flashbots Protect
