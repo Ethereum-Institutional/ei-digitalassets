@@ -47,6 +47,9 @@ and decisions behind them.
   writes `dist/` for every page. `npm run check` renders each map in headless Chromium, applies every lens and
   writes `dist/preview.png`, `dist/networks/preview.png` and `dist/web3/preview.png`. Run both before committing; CI runs them on every push and pull request.
 - `dist/` and `node_modules/` are git-ignored. Never hand-edit generated HTML.
+- The favicon is Ethereum Institutional's own (`src/icons/`, taken from ethereuminstitutional.org on 28 October 2026):
+  the build inlines it in every page's head, so it works on nested pages and in the release HTML. Replace the three
+  files if the site's mark changes.
 - CI runners are pinned to `ubuntu-24.04` because Playwright 1.56 cannot install Chromium on Ubuntu 26.04.
 - Writing `.github/workflows/*` (ei-platform's or `maps/.github/`) requires a token with the `workflow` scope; commit
   those from a local clone.
@@ -76,8 +79,8 @@ and decisions behind them.
   zone and the Algorithmic circle sit only with Other Issuers.
 - **Licensed or Recognized Stablecoins** and **Licensed or Recognized Payment Tokens** are `lens_only` circles sharing
   one position: hidden on the default map, shown only under a lens that mentions them (a lens may mention only one).
-  "Payment token" is used inconsistently (CBUAE and the Swiss draft: fiat-backed tokens; FINMA 2018 and Singapore
-  DPT: broad crypto incl. BTC), so use the Payment Tokens circle only where the regime's legal term is a payment token
+  "Payment token" is used inconsistently (CBUAE and the Swiss draft: fiat-backed tokens; FINMA 2018, Singapore
+  DPT and the UK FCA's 2019 guidance: broad crypto incl. BTC), so use the Payment Tokens circle only where the regime's legal term is a payment token
   limited to fiat-backed tokens; otherwise the Stablecoins one.
   - **Licensed** = that regime gave the issuer a license (never inherited from another regime). **Recognized** = its
     regulator made a token-specific decision (accepted list, verification, registration, no-objection). Tolerance

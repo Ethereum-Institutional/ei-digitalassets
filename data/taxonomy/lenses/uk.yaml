@@ -10,7 +10,7 @@ menu: 'UK · United Kingdom: “qualifying cryptoasset”'
 name: UK “qualifying cryptoasset”
 short: UK
 color: '#4338ca'
-intro: The UK brings “qualifying cryptoassets” and “qualifying stablecoins” (fiat-referenced) into FCA regulation under HM Treasury’s 2025 order. The FCA finalized its rules in 2026; the regime applies from 25 October 2027, with applications open from 30 September 2026. Specified investments (tokenized securities, deposits), e-money and fiat currency are outside the new crypto definitions. Systemic stablecoins will also be supervised by the Bank of England.
+intro: 'The UK brings “qualifying cryptoassets” and “qualifying stablecoins” (tokens that hold backing assets to keep a stable value against one fiat currency) into FCA regulation under the Financial Services and Markets Act 2000 (Cryptoassets) Regulations 2026, passed on 4 February 2026. The FCA’s final rules (PS26/9 to PS26/13, 30 June 2026) and perimeter guidance (PS26/18, PERG 18) apply from 25 October 2027; the application window runs from 30 September 2026 to 28 February 2027. Already today, cryptoasset firms register with the FCA for money laundering supervision (since January 2020) and promotions to UK consumers are regulated (since October 2023). Specified investments (tokenized securities and funds, deposits), e-money, fiat currency and central bank digital currencies are outside the new crypto definitions. Systemic stablecoins will be regulated jointly with the Bank of England.'
 status:
   nat: in
   btc: in
@@ -40,16 +40,35 @@ status:
   tix: part
   fmi: out
 notes:
+  nat: 'Qualifying cryptoassets. Firms already register with the FCA for money laundering (since 10 January 2020) and promotions to UK consumers are regulated (since 8 October 2023); trading platforms, dealing, arranging, custody, staking and lending need FCA authorization from 25 October 2027.'
   td: Deposits are specified investments, outside the cryptoasset definitions.
-  dt: Still a deposit, outside the cryptoasset definitions.
-  cbdc: Fiat currency, so outside.
-  lsc: UK-issued qualifying stablecoins need FCA authorization from October 2027; systemic ones are also overseen by the Bank of England.
-  sc: 'Qualifying stablecoins: fiat-referenced tokens backed by reserves.'
-  alg: Not a qualifying stablecoin; treated as a qualifying cryptoasset.
-  unreg: In scope; offering to UK consumers will require authorization from October 2027.
-  sec: Specified investments, regulated as securities, including via the Digital Securities Sandbox.
+  dt: Still a deposit, outside the cryptoasset definitions; tokenized deposits are to join stablecoin payments in a future payments regime.
+  cbdc: Fiat currency, including a central bank digital currency, is excluded from the qualifying cryptoasset definition (PERG 18.4).
+  sc: 'Qualifying stablecoin: a qualifying cryptoasset that seeks a stable value against a single fiat currency and holds backing assets to keep it (PERG 18.5). It need not be UK-issued: stablecoins issued overseas are qualifying stablecoins too.'
+  lsc: 'Issuing a qualifying stablecoin in the UK needs FCA authorization from 25 October 2027: fully backed, redeemable at par by the end of the next business day, backing assets on a statutory trust with an unconnected third party, and up to 5% excess in the backing pool (PS26/10). Systemic stablecoins are regulated jointly with the Bank of England; stablecoin payments are to move into a future payments regime.'
+  alg: 'Not a qualifying stablecoin: value kept partly or wholly by algorithm rather than backing assets does not count (PERG 18.5), so it is treated as a qualifying cryptoasset. A wrapped stablecoin is not automatically a qualifying stablecoin.'
+  unreg: 'In scope as qualifying stablecoins wherever issued; only issuing one in the UK needs authorization. Dealing, arranging, custody and trading for UK consumers need authorization from October 2027, and promotions are already regulated.'
+  sec: 'Specified investments, regulated as securities, including via the Digital Securities Sandbox. A token that is also a specified investment (a specified investment cryptoasset) stays under its existing rules (PERG 18.4.6).'
+  fund: 'A tokenized fund unit is still a unit in a collective investment scheme, a specified investment; the FCA works on fund tokenization with industry (the Investment Association’s Blueprint, November 2023; Project Guardian).'
   rwa: Out where the token is a specified investment; otherwise assessed case by case.
-  art: Non-fungible tokens are generally outside the qualifying definition.
+  art: 'Judged on substance, not the label: a token called an NFT is a qualifying cryptoasset if its units are in practice interchangeable (PERG 18.4.2); unique tokens are generally outside.'
+  loy: Excluded where the token can only be redeemed with the issuer or used within a limited network (PERG 18.4); transferable points are assessed like other tokens.
   fmi: Regulated as a systemic payment system overseen by the Bank of England (e.g. Fnality), not as a cryptoasset.
-sources: []
-last_reviewed: '2026-10-24'
+sources:
+- title: FCA, Cryptoassets (firms page; token categories in the 2019 guidance, AML supervision since 10 January 2020, financial promotions since 8 October 2023)
+  url: https://www.fca.org.uk/firms/cryptoassets
+  checked: '2026-10-28'
+- title: FCA, Cryptoasset regime policy statements (PS26/9 to PS26/13, 30 June 2026; application window; Cryptoassets Regulations of 4 February 2026)
+  url: https://www.fca.org.uk/publications/policy-statements/cryptoasset-regime
+  checked: '2026-10-28'
+- title: FCA, PS26/10 Crypto Regime, Stablecoin issuance (June 2026)
+  url: https://www.fca.org.uk/publication/policy/ps26-10.pdf
+  checked: '2026-10-28'
+- title: FCA, PS26/18 Cryptoasset Perimeter Guidance (September 2026; PERG 18)
+  url: https://www.fca.org.uk/publication/policy/ps26-18.pdf
+  checked: '2026-10-28'
+- title: FCA, Fund tokenisation
+  url: https://www.fca.org.uk/firms/cryptoassets-our-work/fund-tokenisation
+  checked: '2026-10-28'
+
+last_reviewed: '2026-10-28'

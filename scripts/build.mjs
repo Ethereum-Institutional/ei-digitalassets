@@ -784,6 +784,14 @@ function renderSystem({ sys, out }) {
     .replace('__FOOTNOTE__', () => esc(archSite.footnote || '')).replace('__VERSION__', () => `Version ${esc(version)} · built ${stamp}`);
 }
 
+// the Ethereum Institutional favicon (src/icons, taken from ethereuminstitutional.org), inlined in every page's head so
+// it works on nested pages, in the downloadable release HTML and in the fragment variant alike
+const ICONS = (() => { const b64 = f => fs.readFileSync(path.join(root, 'src/icons', f)).toString('base64');
+  return `\n<link rel="icon" href="data:image/svg+xml;base64,${b64('favicon.svg')}" type="image/svg+xml">`
+    + `\n<link rel="icon" href="data:image/png;base64,${b64('favicon-32.png')}" type="image/png" sizes="32x32">`
+    + `\n<link rel="apple-touch-icon" href="data:image/png;base64,${b64('apple-touch-icon.png')}" sizes="180x180">`; })();
+const withIcons = html => html.replace('</title>', '</title>' + ICONS);
+
 const pages = PAGES.filter(p => p.sys || fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, p.sys ? { system: true } : load(p.dir)));
 const errors = pages.flatMap(validate);
 if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
@@ -791,10 +799,10 @@ if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  '
 for (const p of pages) {
   const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });
-  if (p.system) { fs.writeFileSync(path.join(outDir, 'index.html'), renderSystem(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (due diligence, ${qCount(p.sys)} questions)`); continue; }
-  if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), renderStatic(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
-  if (p.index) { fs.writeFileSync(path.join(outDir, 'index.html'), renderIndex(p)); console.log(`Built ${path.join('dist', p.out, 'index.html')} (index, ${(p.site.scenarios || []).length} scenarios)`); continue; }
-  const page = p.scenario ? renderScenario(p) : p.arch ? renderArchitecture(p) : p.radial ? renderRadial(p) : render(p), slug = p.site.slug || 'digital-asset-taxonomy';
+  if (p.system) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderSystem(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (due diligence, ${qCount(p.sys)} questions)`); continue; }
+  if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderStatic(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
+  if (p.index) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderIndex(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (index, ${(p.site.scenarios || []).length} scenarios)`); continue; }
+  const page = withIcons(p.scenario ? renderScenario(p) : p.arch ? renderArchitecture(p) : p.radial ? renderRadial(p) : render(p)), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);
   // Artifact variant: same page without the document skeleton (for hosts that wrap the fragment themselves)
   const head = page.slice(page.indexOf('<title>'), page.indexOf('</style>') + 8);

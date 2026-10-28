@@ -7,6 +7,16 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **UK lens re-sourced from the FCA.** The lens had no sources; it now cites the FCA cryptoassets page, the
+  regime's policy statements (PS26/9 to PS26/13, 30 June 2026), the stablecoin issuance rules (PS26/10) and the
+  perimeter guidance (PS26/18, PERG 18). The intro names the Financial Services and Markets Act 2000 (Cryptoassets)
+  Regulations 2026 (it said a 2025 order), the full application window (30 September 2026 to 28 February 2027) and
+  what applies today (money laundering registration since January 2020, financial promotions since October 2023).
+  Notes now say that overseas-issued stablecoins are qualifying stablecoins too, give the UK issuance rules (full
+  backing, redemption at par by the next business day, statutory trust, up to 5% excess), exclude algorithmic and
+  hybrid stabilization and limited-network tokens, judge NFTs on substance, and keep tokenized fund units as
+  specified investments. No circle changes status.
+- **Favicon.** Every page now carries Ethereum Institutional's favicon, inlined from `src/icons/`.
 - **Architecture: a covered blueprint.** The blueprint is laid out by area and each area sits under a cover, so the
   page opens on the simple flow (Clients, Institutional systems, Identity and access management, Scenarios and
   tokens, a Custody platform of transaction management, approval and signing that calls out to Screening and Key
