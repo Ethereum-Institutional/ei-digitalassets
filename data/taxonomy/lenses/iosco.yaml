@@ -43,8 +43,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: in
 notes:
   sec: Tokenized securities stay under IOSCO’s existing Objectives and Principles.
   rwa: Covered by existing securities principles where the token is a security; otherwise the crypto recommendations apply.

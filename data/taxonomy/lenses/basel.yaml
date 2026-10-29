@@ -54,6 +54,7 @@ groups:
   - natoth
   - unreg
   - alg
+  - syn
   - oth
   - art
   - game
@@ -63,7 +64,6 @@ groups:
   - loy
   - lst
   - id
-  - tix
 status:
   nat: part
   sc: part
@@ -85,5 +85,6 @@ notes:
   dv: 'Depends on the underlying: tokenized derivatives on traditional assets can be Group 1a; derivatives on Group 2 cryptoassets (e.g. BTC perps) are Group 2.'
   oth: Group 2b.
   fmi: Classification still under discussion; the industry argues for treatment equivalent to the central bank money behind it.
+  syn: 'Group 2: not stabilized by a reserve of traditional assets.'
 sources: []
 last_reviewed: '2026-10-24'

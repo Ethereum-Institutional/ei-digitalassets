@@ -37,8 +37,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: out
+  syn: in
 notes:
   nat: 'Qualifying cryptoassets. Firms already register with the FCA for money laundering (since 10 January 2020) and promotions to UK consumers are regulated (since 8 October 2023); trading platforms, dealing, arranging, custody, staking and lending need FCA authorization from 25 October 2027.'
   td: Deposits are specified investments, outside the cryptoasset definitions.
@@ -54,6 +54,7 @@ notes:
   art: 'Judged on substance, not the label: a token called an NFT is a qualifying cryptoasset if its units are in practice interchangeable (PERG 18.4.2); unique tokens are generally outside.'
   loy: Excluded where the token can only be redeemed with the issuer or used within a limited network (PERG 18.4); transferable points are assessed like other tokens.
   fmi: Regulated as a systemic payment system overseen by the Bank of England (e.g. Fnality), not as a cryptoasset.
+  syn: 'A qualifying cryptoasset; a qualifying stablecoin only if it holds backing assets to keep its value (PERG 18.5).'
 sources:
 - title: FCA, Cryptoassets (firms page; token categories in the 2019 guidance, AML supervision since 10 January 2020, financial promotions since 8 October 2023)
   url: https://www.fca.org.uk/firms/cryptoassets

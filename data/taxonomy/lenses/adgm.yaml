@@ -66,8 +66,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: part
 notes:
   natoth: Firms may only deal in “Accepted Virtual Assets” approved by the FSRA.
   cbdc: Legal tender issued by a jurisdiction, not a virtual asset.
@@ -91,9 +91,8 @@ notes:
   art: NFTs are assessed case by case.
   util: Assessed case by case.
   game: Closed-loop items generally fall outside.
-  loy: Closed-loop points generally fall outside.
+  loy: 'Closed-loop points generally fall outside. Tickets and passes: generally outside.'
   id: Generally outside.
-  tix: Generally outside.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than as a virtual asset.
 sources: []
 last_reviewed: '2026-10-24'

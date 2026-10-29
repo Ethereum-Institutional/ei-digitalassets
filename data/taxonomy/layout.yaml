@@ -7,7 +7,7 @@
 bridges:
   ch.pay:
   - [[330, 560], [372, 610], [930, 610], [964, 550]]   # Other Layer-1s → USDC, USDT
-  - [[330, 560], [372, 700], [392, 836]]               # Other Layer-1s → Community Coins
+  - [[330, 560], [412, 700], [406, 792], [380, 838]]   # Other Layer-1s → Community Coins (clear of the Other Crypto-Assets title)
 
 # annotations: small drawn notes. `caption` = a leader line and a label that belongs to a circle (it dims with it);
 #   `connector` = a dotted link with a dot at its end and free-standing labels.
@@ -31,6 +31,19 @@ annotations:
   labels:
   - { x: 796, y: 470, text: look-alike, italic: true }
   - { x: 762, y: 500, text: bank-issued, size: 9, color: '#3b4580', anchor: middle }
+- kind: connector          # "look-alike": Synthetic Dollars ⇢ Stablecoins (in Other Issuers)
+  path: M1152 449 Q 1160 465 1154 480
+  dot: [1154, 482]
+  color: '#14213d'
+  labels:
+  - { x: 1164, y: 468, text: look-alike, italic: true }
+- kind: connector          # "claim on": Staked & Wrapped ⇢ Native Cryptocurrencies, shown while Staked & Wrapped is picked
+  'on': lst
+  path: M189 840 C 150 780, 168 660, 296 584
+  dot: [298, 582]
+  color: '#14213d'
+  labels:
+  - { x: 120, y: 760, text: claim on, italic: true }
 canvas:
   width: 1600
   height: 1300
@@ -208,7 +221,7 @@ circles:
     rx: 252
     ry: 56
     lx: 1150
-    ly: 500
+    ly: 506
     fs: 10
     fw: 700
   lsc:
@@ -228,6 +241,15 @@ circles:
     lx: 840
     ly: 530
     fs: 11.5
+    fw: 700
+  syn:
+    cx: 1152
+    cy: 424
+    rx: 46
+    ry: 23
+    lx: 1152
+    ly: 421
+    fs: 10
     fw: 700
   alg:
     cx: 1150
@@ -333,7 +355,7 @@ circles:
     ly: 912
     fs: 12
     fw: 700
-    suby: 928
+    l2y: 927
   fund:
     cx: 1420
     cy: 915
@@ -392,41 +414,42 @@ circles:
     fs: 18
     fw: 700
   art:
-    cx: 175
-    cy: 885
+    cx: 417.6
+    cy: 969.7
     rx: 52
     ry: 52
-    lx: 175
-    ly: 880
+    lx: 417.6
+    ly: 966.7
     fs: 11
     fw: 700
+    suby: 982.7
   game:
-    cx: 285
-    cy: 885
+    cx: 391.3
+    cy: 1084.8
     rx: 52
     ry: 52
-    lx: 285
-    ly: 880
+    lx: 391.3
+    ly: 1081.8
     fs: 11
     fw: 700
-    suby: 908
+    suby: 1097.8
   comm:
-    cx: 395
-    cy: 885
+    cx: 344.0
+    cy: 877.5
     rx: 52
     ry: 52
-    lx: 395
-    ly: 880
+    lx: 344.0
+    ly: 872.5
     fs: 11
     fw: 700
-    suby: 908
+    suby: 897.5
   gov:
-    cx: 175
-    cy: 1000
+    cx: 152.4
+    cy: 969.7
     rx: 52
     ry: 52
-    lx: 175
-    ly: 995
+    lx: 152.4
+    ly: 964.7
     fs: 11
     fw: 700
   util:
@@ -439,41 +462,32 @@ circles:
     fs: 11
     fw: 700
   loy:
-    cx: 395
-    cy: 1000
+    cx: 178.7
+    cy: 1084.8
     rx: 52
     ry: 52
-    lx: 395
-    ly: 995
+    lx: 178.7
+    ly: 1079.8
     fs: 11
     fw: 700
+    suby: 1104.8
   lst:
-    cx: 175
-    cy: 1115
+    cx: 226.0
+    cy: 877.5
     rx: 52
     ry: 52
-    lx: 175
-    ly: 1110
+    lx: 226.0
+    ly: 872.5
     fs: 11
     fw: 700
-    suby: 1138
+    suby: 897.5
   id:
-    cx: 285
-    cy: 1115
+    cx: 285.0
+    cy: 1136.0
     rx: 52
     ry: 52
-    lx: 285
-    ly: 1110
+    lx: 285.0
+    ly: 1131.0
     fs: 11
     fw: 700
-    suby: 1138
-  tix:
-    cx: 395
-    cy: 1115
-    rx: 52
-    ry: 52
-    lx: 395
-    ly: 1110
-    fs: 11
-    fw: 700
-    suby: 1138
+    suby: 1156.0

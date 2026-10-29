@@ -1,6 +1,6 @@
 # Editing the Decentralization page
 
-Live page: https://ethereum-institutional.github.io/ei-digitalassets/decentralization/
+Live page: https://ethereum-institutional.github.io/ei-digitalassets/adoption/
 
 ```
 rings.yaml        content: the five levels, 1 (one party) to 5 (open network)

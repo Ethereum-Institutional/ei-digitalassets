@@ -21,7 +21,7 @@ reference_links:
   identity_map: identity
   privacy_map: privacy
   networks_map: networks
-  decentralization_map: decentralization
+  adoption_map: adoption
   quantum_map: quantum
 # due diligence pages (systems/<id>/system.yaml): shared text
 ddq:

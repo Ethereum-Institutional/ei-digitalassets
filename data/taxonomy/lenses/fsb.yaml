@@ -43,8 +43,8 @@ status:
   loy: in
   lst: in
   id: in
-  tix: in
   fmi: part
+  syn: in
 notes:
   cbdc: Public money, outside the private-sector definition.
   td: Not covered by the FSB stablecoin recommendations; bank deposits stay under banking rules.

@@ -35,7 +35,7 @@ and decisions behind them.
 ## How the build works
 
 - `data/taxonomy/*.yaml` (taxonomy), `data/networks/*.yaml` (networks), `data/home/site.yaml` (landing page) and the stub
-  folders (`data/identity`, `kind: static`), `data/privacy/*.yaml` (a Venn map with `badges.yaml`) and `data/web3/*.yaml` and `data/decentralization/*.yaml` (radial
+  folders (`data/identity`, `kind: static`), `data/privacy/*.yaml` (a Venn map with `badges.yaml`) and `data/web3/*.yaml` and `data/adoption/*.yaml` (radial
   maps, `kind: radial`: `rings.yaml`, `themes.yaml`, `layout.yaml`, optional `lenses/`) are the only places content lives;
   `data/nav.yaml` is the shared navigation (`wip: true` adds the "in progress" tag). `src/template.html` holds the
   Venn map page's styling and rendering code only; `src/radial.html` renders radial pages and `src/static.html` the
@@ -75,8 +75,15 @@ and decisions behind them.
 - Digital Money = Native Cryptocurrencies + Tokenized Currencies. Tokenized Currencies are grouped **by issuer**:
   Central Bank (CBDC, split retail/wholesale), Commercial Bank, Regulated Non-Bank (incl. FMI Tokens), Other Issuers.
 - **Stablecoins** cut across Commercial Bank, Regulated Non-Bank and Other Issuers; the word must never appear
-  only inside Other Issuers. The licensed circles sit in bank ∩ non-bank; the hatched "Unlicensed / higher risk"
-  zone and the Algorithmic circle sit only with Other Issuers.
+  only inside Other Issuers. The licensed circles sit in bank ∩ non-bank; the hatched "Unlicensed" zone and the
+  Algorithmic circle sit only with Other Issuers.
+- **Unlicensed, not "higher risk"** (owner, 29 October 2026, after a colleague's review): the label states the fact
+  (no regime reviewed licenses these designs as stablecoins); how much risk a coin carries is for each institution
+  and jurisdiction to judge. The red hatching stays because prudential treatment is sourced (Basel Group 2b).
+  **Algorithmic** means only reflexive mint-and-burn designs (TerraUSD); crypto-collateralized stablecoins (DAI,
+  USDS) are unlicensed stablecoins, not algorithmic. **Synthetic Dollars** (Ethena's USDe: crypto plus short futures,
+  a basis trade) are a separate circle in Other Issuers, outside Stablecoins, joined by a look-alike line, in the
+  issuer's own words; their lens status follows Algorithmic unless a note says otherwise.
 - **Licensed or Recognized Stablecoins** and **Licensed or Recognized Payment Tokens** are `lens_only` circles sharing
   one position: hidden on the default map, shown only under a lens that mentions them (a lens may mention only one).
   "Payment token" is used inconsistently (CBUAE and the Swiss draft: fiat-backed tokens; FINMA 2018, Singapore
@@ -91,11 +98,29 @@ and decisions behind them.
   nearer the licensed circle because more regimes recognize it. `licensed_under` in `tokens.yaml` makes the
   licensed circle a lens shows stretch to take the badge in; lens groups can list `tokens`; `bridges` in `layout.yaml`
   route a group's outline through empty space so it stays continuous without enclosing other circles.
-  Re-check `licensed_under` whenever licenses change.
-- RWA: Commodities, Loans & Trade Finance, Real Estate, Collectibles & Luxury, IP & Royalties, Financial
+  Re-check `licensed_under` whenever licenses change. The licensed circle stretches towards the side its badges sit
+  on, so a badge left of it (HSBC RedCoin, HKMA) does not drag it over unlicensed badges. HSBC RedCoin (RCHKD) is a
+  bank-issued stablecoin on HSBC's own DLT network, placed in Commercial Bank ∩ Stablecoins, and drawn only under the
+  HKMA lens (`only_under` in `tokens.yaml`: a badge relevant to one regime stays off the general map).
+- **Text clears the border:** the build rejects a subtitle or sub-line wider than its circle at that height (a width
+  estimate of 0.52 of the font size per character, 4 units in), so shorten it or split it over `lines2`.
+- RWA: Commodities, Credit & Trade Finance (private credit, loans, receivables; renamed 29 October 2026 so "credit"
+  is where readers look for it), Real Estate, Collectibles & Luxury, IP & Royalties, Financial
   Instruments (Equities, Funds, Fixed Income, Derivatives, with hybrid overlaps for structured notes and
   trackers/warrants). Funds do not overlap Derivatives. Loans packaged into bonds (e.g. MBS) move to Fixed Income.
   Settlement/collateral tokens are treated as part of the asset they carry; there is no separate settlement-token circle.
+  Perps are not on the Derivatives sub-label (they are almost always exchange positions, not tokens) but stay in its
+  definition, because legally they are derivatives in every lens that addresses them.
+- **Other Crypto-Assets** (29 October 2026): drawn as a ring, Utility & Infrastructure in the center and the other seven
+  equally spaced around it (owner: no 3 by 3 grid); Community Coins sits top right so the Swiss lens corridor clears
+  the title. Digital Art (subtitle NFTs), Gaming, Community Coins, Governance Tokens, Utility &
+  Infrastructure (DePIN, AI compute; DeFi is a sector, its tokens land here or in Governance), Loyalty & Access
+  (loyalty points, tickets and passes, merged because regulators carve out closed-loop tokens), Staking & Wrapped,
+  Identity & Domains. Staking & Wrapped stays here (a claim on a native coin, not money or a real-world asset); a
+  "claim on" connector to Native Cryptocurrencies shows while it is hovered or picked (`on:` in `layout.yaml`).
+- **Native cryptocurrencies stay in Digital Money** (EI house view, reaffirmed 29 October 2026): they are the money of
+  their own ledgers. Only the ten largest are badged; L2 tokens are governance tokens (L2s use ETH for gas), and the
+  L2 networks themselves are on the Networks map.
 - **Tokenized money market funds** stay in Funds (sourced to the Taurus design paper, September 2026, and the ECB
   Macroprudential Bulletin, April 2026): even a constant-price fund is a share with a dealing cut-off; income arrives
   as more units (BUIDL, BENJI) or a rising price (Spiko, uMINT, USYC). Ondo USDY is a note from a bankruptcy-remote
@@ -187,7 +212,14 @@ and decisions behind them.
   (Apache and HTML over TCP/IP; Ajax and jQuery with SAML 2.0 and OAuth; the EVM and Solidity with ERC-20 and
   ERC-721), and identity moved from one provider's directory (LDAP) to federated providers to self-custodied keys.
 
-## Decentralization page (`data/decentralization/`)
+## Adoption page (`data/adoption/`; was Decentralization)
+
+- **Renamed Adoption** (owner, 29 October 2026; URL `/adoption/`, the old `/decentralization/` redirects): adoption
+  follows decentralization, so the page leads with that claim and measures the decentralization behind it on the same
+  eleven dials. Its first section names a dated outcome from a closed-membership ledger of the same era (TradeLens,
+  built on Hyperledger Fabric, closed in 2022 for want of industry-wide collaboration), as facts with sources and our
+  view stated as ours; this narrows the earlier rule below that the prose never argues against a named ledger.
+
 
 - A gauges page (`kind: gauges`, rendered by `src/gauges.html` from the same files as a radial page: `rings.yaml` =
   the five levels, `themes.yaml` = the ten properties with a cell per level, `lenses/`): eleven dials, one per property
@@ -436,7 +468,10 @@ and decisions behind them.
   1 January 2026. Dubai's VA law has no express securities carve-out; security tokens fall to the CMA.
 - Lenses currently cover FATF, FSB, Basel (standard under review), BIS/CPMI, IMF (2019 classification), IOSCO, and
   AE (ADGM, CBUAE, DIFC, VARA), CH, CN, EU (MiCA), HK (SFC and HKMA separately), IN, JP, KR, SG, SV (CNAD and
-  the Bitcoin Law), UK, US (GENIUS Act).
+  the Bitcoin Law), UK, US (GENIUS Act), US SEC (`us-sec`, securities: "in" means a security; built on the Commission's
+  17 March 2026 interpretation with the CFTC, Release 33-11412, which sorts tokens into digital commodities,
+  collectibles, tools, stablecoins and digital securities, the 28 January 2026 staff statement on tokenized securities,
+  and the 17 September 2026 Innovation Exemption for tokenized NMS stock, Release 34-106402).
 - Regulatory facts were last checked October 2026 and will drift; re-verify before changing them.
 
 ## Planned / open

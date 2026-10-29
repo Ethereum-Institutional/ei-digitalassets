@@ -16,7 +16,7 @@ const PAGES = [
   { dir: 'data/scenarios', out: 'scenarios' },               // scenario index (filterable list)
   { dir: 'data/scenarios/dvp-deposit-token-tmmf', out: 'scenarios/dvp-deposit-token-tmmf' }, // first scenario
   { dir: 'data/architecture', out: 'architecture' },         // Architecture: components of a digital asset team
-  { dir: 'data/decentralization', out: 'decentralization' }, // work in progress (static stub)
+  { dir: 'data/adoption', out: 'adoption' },                 // Adoption: eleven decentralization dials (was /decentralization/)
   { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
   { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
   { dir: 'data/quantum', out: 'quantum' },                   // work in progress (static stub with planned sections)
@@ -260,6 +260,24 @@ function validate(page) {
     if (!layout.circles[c.id]) errors.push(`${where('layout.yaml')}: no geometry for circle "${c.id}"`);
     if (!c.desc) errors.push(`${where('circles.yaml')}: "${c.id}" has no definition (desc)`);
     if (c.family && !circles.palette[c.family]) errors.push(`${where('circles.yaml')}: "${c.id}" uses unknown palette family "${c.family}"`);
+    // small text inside a circle must clear its border (owner, 29 October 2026): estimate each sub-label's width
+    // (about 0.52 of the font size per character) and check it against the circle's chord at that height, 4 units in
+    const g = layout.circles[c.id];
+    if (g && g.t !== 'rect' && g.rx) {
+      const lh = (g.fs || 12) * 1.15, nLab = [].concat(c.label || []).length;
+      const rows = [];
+      if (c.sub) rows.push([c.sub, g.suby || (g.ly + nLab * lh), 10]);
+      if (c.sub2 && g.sy) rows.push([c.sub2, g.sy, 12]);
+      if (c.sub3 && g.s3y) rows.push([c.sub3, g.s3y, 10]);
+      (c.lines || []).forEach((t, i) => rows.push([t, g.liney + i * 15, 11]));
+      (c.lines2 || []).forEach((t, i) => rows.push([t, g.l2y + i * 12, 9.5]));
+      for (const [t, y, fs] of rows) {
+        const half = String(t).length * fs * 0.52 / 2, off = Math.abs((g.lx ?? g.cx) - g.cx);
+        const worst = Math.max(Math.abs(y - fs * 0.75 - g.cy), Math.abs(y + fs * 0.25 - g.cy));
+        const chord = worst >= g.ry ? 0 : g.rx * Math.sqrt(1 - (worst / g.ry) ** 2);
+        if (half + off + 4 > chord) errors.push(`${where('circles.yaml')}: "${c.id}" text "${t}" touches the circle's border (about ${Math.round(2 * half)} wide, ${Math.round(2 * Math.max(0, chord - off - 4))} available at that height)`);
+      }
+    }
     if (c.clip && !ids.has(c.clip)) errors.push(`${where('circles.yaml')}: "${c.id}" clips to unknown circle "${c.clip}"`);
   }
   for (const id of Object.keys(layout.circles)) if (!ids.has(id)) errors.push(`${where('layout.yaml')}: geometry for unknown circle "${id}"`);
@@ -277,6 +295,7 @@ function validate(page) {
   for (const a of layout.annotations || []) {
     if (!['caption', 'connector'].includes(a.kind)) errors.push(`${where('layout.yaml')}: annotation kind "${a.kind}" must be caption or connector`);
     if (a.circle && !ids.has(a.circle)) errors.push(`${where('layout.yaml')}: annotation for unknown circle "${a.circle}"`);
+    if (a.on && !ids.has(a.on)) errors.push(`${where('layout.yaml')}: connector shown "on" unknown circle "${a.on}"`);
   }
   const tickers = new Set(tokens.tokens.map(t => t.ticker));
   if (tickers.size !== tokens.tokens.length) errors.push(`${where('badges')}: duplicate badge ids: ${tokens.tokens.map(t => t.ticker).filter((t, i, a) => a.indexOf(t) !== i).join(', ')}`);
@@ -329,6 +348,7 @@ function validate(page) {
     }
   }
   // tokens licensed under a lens join the lens-only circle it shows
+  for (const t of tokens.tokens) for (const lid of t.only_under || []) if (!lenses.some(L => L.id === lid)) errors.push(`${where('tokens.yaml')}: "${t.ticker}" only_under names unknown lens "${lid}"`);
   for (const t of tokens.tokens) for (const lid of t.licensed_under || []) {
     if (!lensById[lid]) errors.push(`${where('badges')}: "${t.ticker}" is licensed under unknown lens "${lid}"`);
     else if (!lensOnly.some(id => mentions(lensById[lid]).has(id))) errors.push(`${where('badges')}: "${t.ticker}" is licensed under "${lid}", but that lens shows no licensed or recognized circle (${lensOnly.join(', ')})`);
@@ -794,8 +814,15 @@ const withIcons = html => html.replace('</title>', '</title>' + ICONS);
 
 const pages = PAGES.filter(p => p.sys || fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, p.sys ? { system: true } : load(p.dir)));
 const errors = pages.flatMap(validate);
+// pages that moved: the old path keeps working as a redirect to the new one
+const REDIRECTS = [{ from: 'decentralization', to: 'adoption', title: 'Adoption' }];
 if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
 
+for (const r of REDIRECTS) {
+  const d = path.join(root, 'dist', r.from); fs.mkdirSync(d, { recursive: true });
+  fs.writeFileSync(path.join(d, 'index.html'), withIcons(`<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${r.title}</title><meta http-equiv="refresh" content="0; url=../${r.to}/"><link rel="canonical" href="../${r.to}/"></head><body><p>This page has moved to <a href="../${r.to}/">${r.title}</a>.</p></body></html>`));
+  console.log(`Built ${path.join('dist', r.from, 'index.html')} (redirect to /${r.to}/)`);
+}
 for (const p of pages) {
   const outDir = path.join(root, 'dist', p.out);
   fs.mkdirSync(outDir, { recursive: true });

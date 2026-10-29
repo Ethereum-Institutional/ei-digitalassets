@@ -32,7 +32,7 @@ meta:
     core_directory: Existing client directory in core architecture
     privacy_map: Privacy designs, confidential tokens and the institutional wish list (the Privacy page)
     networks_map: Ledger networks by type and consensus (the Networks map)
-    decentralization_map: How decentralized a ledger is, property by property (the Decentralization page)
+    adoption_map: How decentralized a ledger is, property by property, and why that drives adoption (the Adoption page)
     quantum_map: Quantum risk and the Ethereum roadmap (the Quantum page)
 
 # ---------------------------------------------------------------------------
@@ -573,7 +573,7 @@ domains:
     name: Ledger, Nodes & Data
     components:
       - id: D7.1
-        maps_to: [networks_map, decentralization_map]
+        maps_to: [networks_map, adoption_map]
         name: Distributed ledger technology selection
         short: Ledger networks
         type: system

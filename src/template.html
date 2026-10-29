@@ -50,7 +50,7 @@
   .ei-wrap svg text.serif{font-family:var(--serif);letter-spacing:-.02em}
   .ei-wrap svg .node{cursor:pointer;transition:stroke-width .15s, opacity .2s}
   .ei-wrap svg .node.on{stroke-width:3.5}
-  .ei-wrap svg .hide,.ei-wrap svg .rhide{display:none}
+  .ei-wrap svg .hide,.ei-wrap svg .rhide,.ei-wrap svg .lhide{display:none}
   .ei-wrap svg text.ctl{pointer-events:auto;cursor:pointer}
   .ei-wrap svg text.ctl:hover,.ei-wrap svg text.ctl:focus-visible{fill:var(--ink)}
   .ei-wrap svg text.ctl:focus{outline:none}
@@ -279,6 +279,7 @@
   let active=null, hovered=null;
   // Hover previews a definition; click pins it until you click outside the circles (or press Esc).
   let pinned=null;
+  const ONCONN=[];   // connectors drawn only while their circle (`on`) is hovered or picked
   function addPinBar(){
     panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the circles or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
     panel.querySelector('.unpin').addEventListener('click',e=>{e.stopPropagation(); unpin();});
@@ -361,6 +362,7 @@
     const show=()=>{
       if(active) active.classList.remove('on');
       active=s; s.classList.add('on'); hovered=n;
+      ONCONN.forEach(c=>c.g.classList.toggle('hide',c.on!==n.id));
       let sc='';
       activeLenses.forEach(L=>{
         if(L.nets){ if(!n.pill) return; const st=L.nets[n.id], word={in:'Inside',part:'Depends; see the note'}[st]||'Outside';
@@ -377,7 +379,7 @@
   });
 
   // annotations from layout.yaml: `caption` (a leader line and label that belongs to a circle) and `connector`
-  // (a dotted link with a dot at its end and free-standing labels)
+  // (a dotted link with a dot at its end and free-standing labels; with `on: <circle>`, shown only while that circle is hovered or picked)
   (DATA.annotations||[]).forEach(a=>{
     const g=el('g',{'pointer-events':'none'});
     if(a.kind==='caption'){
@@ -385,6 +387,7 @@
       const t=el('text',{x:a.x,y:a.y,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:'#14130f',stroke:'#f8f6f2','stroke-width':3,'paint-order':'stroke'}); t.textContent=a.label;
       g.append(t); if(a.circle) byId[a.circle].texts.push(g);
     } else {
+      if(a.on){ g.classList.add('hide'); ONCONN.push({g,on:a.on}); }
       g.appendChild(el('path',{d:a.path,fill:'none',stroke:a.color||'#14213d','stroke-width':1.8,'stroke-dasharray':'2.5 3','stroke-linecap':'round'}));
       if(a.dot) g.appendChild(el('circle',{cx:a.dot[0],cy:a.dot[1],r:2.8,fill:a.color||'#14213d'}));
       (a.labels||[]).forEach(l=>{
@@ -424,7 +427,7 @@
       return rows?`<tr class="g"><th colspan="2">${g.label}</th></tr>${rows}`:''; }).join('');
     return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
   };
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet'}));
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet',only:a.only_under||[]}));
   const srcHtml=src=>src.length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
@@ -451,7 +454,7 @@
       const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.t.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.t;
       g.appendChild(t);
     }
-    gText.appendChild(g); a.g=g;
+    gText.appendChild(g); a.g=g; if(a.only.length) g.classList.add('lhide'); // `only_under`: drawn only while one of those lenses is on
     const show=()=>{
       let sc='', where=byId[a.p].n.label.filter(Boolean).join(' ');
       activeLenses.forEach(L=>{
@@ -573,11 +576,13 @@
     }
     return d;
   }
-  // a lens-only circle under lens L: its ellipse, stretched rightwards just enough to hold the badges L licenses
+  // a lens-only circle under lens L: its ellipse, stretched just enough to hold the badges L licenses, towards the side
+  // they sit on (rightwards, leftwards, or both ways when they sit on both sides)
   function lensOnlyGeom(n,L){
-    const g={cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry}, x0=n.cx-n.rx, ts=ASSETS.filter(a=>joined(a,L)===n.id), m=17;
-    const fits=()=>ts.every(a=>a.x+m<=g.cx+g.rx && ((a.x-g.cx)/g.rx)**2+((Math.abs(a.y-g.cy)+m)/g.ry)**2<=1);
-    while(!fits() && g.rx<n.rx+300){ g.rx+=1; g.cx=x0+g.rx; }
+    const g={cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry}, x0=n.cx-n.rx, x1=n.cx+n.rx, ts=ASSETS.filter(a=>joined(a,L)===n.id), m=17;
+    const left=ts.some(a=>a.x<n.cx), right=ts.some(a=>a.x>=n.cx);
+    const fits=()=>ts.every(a=>a.x+m<=g.cx+g.rx && a.x-m>=g.cx-g.rx && ((a.x-g.cx)/g.rx)**2+((Math.abs(a.y-g.cy)+m)/g.ry)**2<=1);
+    while(!fits() && g.rx<n.rx+300){ g.rx+=1; g.cx=left&&right?n.cx:left?x1-g.rx:x0+g.rx; }
     return g;
   }
   // shapes for a set of circles under lens L (lens-only circles use their stretched geometry)
@@ -701,6 +706,7 @@
     tint:'<svg width="16" height="14" aria-hidden="true"><rect x="1" y="1" width="14" height="12" rx="6" fill="var(--c)" fill-opacity=".32"/></svg>'};
   function applyLens(changed, added){
     const on=activeLenses.length>0;
+    ASSETS.forEach(a=>{ if(a.only.length) a.g.classList.toggle('lhide',!activeLenses.some(L=>a.only.includes(L.id))); });
     document.getElementById('ei-scope').classList.toggle('show',on);
     const netScope=on && activeLenses.every(L=>L.nets);
     document.getElementById('ei-scope').classList.toggle('nets',netScope);

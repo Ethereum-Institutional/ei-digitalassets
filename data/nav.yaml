@@ -10,8 +10,8 @@ pages:
   path: taxonomy
 - label: Networks
   path: networks
-- label: Decentralization
-  path: decentralization
+- label: Adoption
+  path: adoption
 - label: Scenarios
   path: scenarios
   wip: true

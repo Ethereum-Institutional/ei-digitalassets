@@ -1,0 +1,127 @@
+# Lens: US SEC “security”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# Please add sources (URL + date) for every regulatory claim you change.
+# Here “in” means a security (inside the SEC’s perimeter), “part” depends on the facts, “out” means the Commission or
+#   its staff has said it is not a security. Deposits, CBDC and FMI tokens are left unlisted (outside) with notes.
+
+id: us-sec
+group: jurisdiction
+menu: 'US · United States (SEC): securities'
+name: US SEC “security”
+short: US SEC
+color: '#3b5b7a'
+intro: 'The Securities and Exchange Commission (SEC) regulates securities under the Securities Act of 1933 and the Securities Exchange Act of 1934; a token that is not a listed instrument such as a share or a bond is a security only if it is sold as an investment contract under the Supreme Court’s Howey test (an investment of money in a common enterprise with a reasonable expectation of profits from the essential managerial efforts of others). After staff statements in 2025 under Chairman Atkins’ Project Crypto, the Commission itself issued an interpretation on 17 March 2026, joined by the CFTC, that sorts crypto assets into digital commodities, digital collectibles, digital tools, stablecoins and digital securities: the first three are not securities in themselves, stablecoins depend on their design, and a security stays a security whether it is recorded on chain or off. On 17 September 2026 its “Innovation Exemption” let tokenized NMS stock trade in permissioned automated market maker pools on public, permissionless ledgers until 17 September 2031. Staff statements are not rules and have no legal force, and the March 2026 interpretation supersedes them; the statutory definition can change only by law, and the CLARITY Act, which would draw the line in statute, failed a Senate procedural vote in September 2026 (press report).'
+status:
+  btc: out
+  eth: out
+  natoth: out
+  sc: part
+  unreg: part
+  alg: part
+  syn: part
+  pm: part
+  ocom: part
+  re: part
+  coll: part
+  ip: part
+  pc: part
+  eq: in
+  fund: in
+  fi: in
+  dv: part
+  trk: in
+  sn: in
+  art: out
+  game: out
+  comm: out
+  gov: part
+  util: part
+  loy: out
+  lst: out
+  id: out
+notes:
+  nat: 'Digital commodities, not securities (Commission interpretation, 17 March 2026): native assets of a functional crypto system whose value comes from its programmatic operation and from supply and demand, not from the managerial efforts of others. Any of them can still be sold subject to an investment contract, for example in a token sale backed by promises of development work; the asset itself does not become a security.'
+  btc: 'Named by the Commission as a digital commodity (17 March 2026). Protocol mining, alone or through a pool, does not involve the offer and sale of a security.'
+  eth: 'Named by the Commission as a digital commodity (17 March 2026). Protocol staking (solo, self-custodial with a node operator, custodial or liquid), in the manner the interpretation describes, does not involve the offer and sale of a security.'
+  natoth: 'The Commission named 16 digital commodities on 17 March 2026, among them SOL, XRP, ADA, AVAX, HBAR, XLM, DOT and LINK, each with a futures contract on a CFTC-regulated market; ALGO is named too. Native assets not named are judged by the same test.'
+  BNB: 'Not among the Commission’s named examples (17 March 2026); whether it is a digital commodity turns on the same test.'
+  TRX: 'Not among the Commission’s named examples (17 March 2026); whether it is a digital commodity turns on the same test.'
+  HYPE: 'Not among the Commission’s named examples (17 March 2026); whether it is a digital commodity turns on the same test.'
+  ZEC: 'Not among the Commission’s named examples (17 March 2026); whether it is a digital commodity turns on the same test.'
+  cbdc: 'Not a security: currency is excluded from the Exchange Act definition (section 3(a)(10)). The United States has no CBDC, and Executive Order 14178 (23 January 2025, section 5) prohibits federal agencies from any action to establish, issue or promote one.'
+  td: 'A bank deposit, generally not a security: the Supreme Court held that a federally insured bank’s certificate of deposit is not one (Marine Bank v. Weaver, 1982), and securities issued by a bank are exempt from Securities Act registration. The SEC has not addressed tokenized deposits specifically.'
+  dt: 'Still a bank deposit, so generally outside the securities laws on the same reasoning; the SEC has not addressed deposit tokens specifically.'
+  fmi: 'Not addressed by the SEC; a wholesale settlement claim backed by central bank reserves is treated here as outside the securities laws.'
+  sc: 'Depends on the design. Payment stablecoins from a permitted issuer are excluded from “security” by the GENIUS Act once it takes effect (18 January 2027 at the latest), and the Commission already treats “Covered Stablecoins” (pegged one-for-one to the US dollar, redeemable on demand, backed by low-risk liquid reserves, no interest to holders) as not securities (17 March 2026). Other stablecoins are securities or not on their facts.'
+  unreg: 'Not excluded by the GENIUS Act, which covers only permitted (and OCC-registered foreign) issuers; a US dollar coin that meets the Covered Stablecoin criteria is still not a security in the Commission’s view. Crypto-collateralized, yield-bearing or non-dollar designs fall outside those criteria and turn on the facts.'
+  alg: 'Outside the Covered Stablecoin criteria (the staff statement of 4 April 2025 expressly took no view on algorithmic designs) and not a payment stablecoin, so whether it is a security turns on the facts under Howey.'
+  syn: 'Neither a Covered Stablecoin (no reserve of low-risk liquid assets) nor a payment stablecoin, so it turns on the facts; the April 2025 staff statement expressly took no view on yield-bearing stablecoins.'
+  rwa: 'The token takes the character of what it represents: a share, note or fund unit in a vehicle that holds the asset is a security, and a fractional interest in an asset managed by others can be an investment contract under Howey.'
+  pm: 'Not addressed by the Commission; turns on the facts under Howey (for example, whether holders rely on a manager for returns). Commodity derivatives are for the CFTC.'
+  ocom: 'Not addressed by the Commission; turns on the facts under Howey. Commodity derivatives are for the CFTC.'
+  re: 'Usually a security: tokens are commonly shares or notes of a special-purpose vehicle, and fractional interests in a managed property can be investment contracts (Howey itself concerned subdivided citrus groves sold with a service contract).'
+  coll: 'Fractional interests in a single collectible can be investment contracts (Commission interpretation, 17 March 2026, citing fractionalized artwork); a token for a whole item held in custody turns on the facts.'
+  ip: 'A right to a share of royalties or licensing income is an investment in an enterprise run by others and is typically a security; it turns on the facts.'
+  pc: 'Tokenized loans and receivables can be notes or investment contracts, depending on the facts.'
+  sec: 'Securities whatever the format: “a security is a security regardless of whether it is issued, or otherwise represented, offchain or onchain” (Commission interpretation, 17 March 2026). SEC staff (28 January 2026) separate securities tokenized by the issuer from those tokenized by a third party, either custodial (a security entitlement or receipt for the real share) or synthetic (the third party’s own linked security or security-based swap).'
+  eq: 'Securities. Under the Innovation Exemption (17 September 2026 to 17 September 2031) a Tokenized Securities Venue may trade tokenized NMS stock (listed US shares tokenized by the issuer or an unaffiliated third party, with the same rights as the share) in permissioned automated market maker pools on a public, permissionless ledger without registering as an exchange, within 75 Tier 1 and 250 Tier 2 symbols and 0.25% or 2.5% of the share’s average daily volume; liquidity providers get a matching exemption from dealer registration. It covers trading only; issuing the token still needs Securities Act registration or an exemption.'
+  fund: 'Securities: fund units, tokenized money market funds included (BUIDL, BENJI). A tokenized money market fund may be the other leg of a pair with tokenized NMS stock under the Innovation Exemption, but the order gives no Investment Company Act relief and flags multi-class and pricing issues for tokenized funds.'
+  fi: 'Securities, tokenized Treasuries and corporate bonds included; US Treasuries are exempt from Securities Act registration (section 3(a)(2)) but remain securities. The Innovation Exemption covers only NMS stock, not bonds.'
+  dv: 'Security-based swaps are securities (Exchange Act section 3(a)(10)); swaps and futures on non-security crypto assets such as Bitcoin are commodity derivatives for the CFTC. SEC staff warn that a token giving synthetic exposure to a stock may be a security-based swap, which may be sold to investors who are not eligible contract participants only with a registration statement and on a national securities exchange.'
+  trk: 'Securities: a linked security or a security-based swap issued by the third party, with no shareholder rights (SEC staff, 28 January 2026). Excluded from the Innovation Exemption, which also excludes rights and warrants.'
+  sn: 'Securities (notes with an embedded derivative); outside the Innovation Exemption.'
+  oth: 'Mostly outside: digital commodities, digital collectibles and digital tools are not securities in themselves (Commission interpretation, 17 March 2026). Any of them is subject to an investment contract while an issuer sells it on explicit promises of essential managerial efforts, and ceases to be once those promises are fulfilled or abandoned; the token itself never becomes a security.'
+  art: 'Digital collectibles, not securities (17 March 2026), creator royalties and collections included; fractional interests in a single collectible can be investment contracts.'
+  game: 'Digital collectibles, not securities: in-game items, skins and reward points (17 March 2026).'
+  comm: 'Meme coins are digital collectibles, not securities (Commission, 17 March 2026, after a staff statement of 27 February 2025). A meme coin can later become a digital commodity if it gains a function in a working network.'
+  gov: 'Depends. Votes alone do not make a token a security: a digital commodity may carry votes on upgrades and treasury spending (17 March 2026). A token giving rights to income, profits or assets of an enterprise is a security, and one sold on promises of essential managerial efforts is subject to an investment contract.'
+  util: 'Depends. A token needed to use a functional network can be a digital commodity, and a membership or access token a digital tool, neither a security in itself; a token sold before its network works, on promises to build it, is subject to an investment contract (17 March 2026). Regulation Crypto Assets, proposed on 18 August 2026, would add offering exemptions (up to USD 5 million over four years, or USD 75 million a year) and a safe harbor once the promised efforts end.'
+  loy: 'Not securities: tickets and memberships are digital tools, and reward points are digital collectibles (17 March 2026).'
+  lst: 'Not securities where the underlying asset is not: issuing, redeeming and trading staking receipt tokens, and one-for-one redeemable wrapped tokens that offer no return, do not involve the offer and sale of a security (Commission, 17 March 2026, after staff statements of 29 May and 5 August 2025). A receipt for a security is a security.'
+  id: 'Digital tools, not securities: the Commission names Ethereum Name Service domain names as an example, and credentials and soul-bound badges are digital tools too (17 March 2026).'
+sources:
+- title: SEC press release 2026-90, SEC issues “Innovation Exemption” to facilitate the trading of tokenized NMS stock (17 September 2026)
+  url: https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment
+  checked: '2026-10-29'
+- title: SEC, Release No. 34-106402, Order granting temporary conditional exemptive relief for tokenized NMS stock on Tokenized Securities Venues (17 September 2026; effective to 17 September 2031)
+  url: https://www.sec.gov/files/rules/exorders/2026/34-106402.pdf
+  checked: '2026-10-29'
+- title: SEC, Fact sheet, Release No. 34-106402 (September 2026)
+  url: https://www.sec.gov/files/34-106402-fact-sheet.pdf
+  checked: '2026-10-29'
+- title: SEC and CFTC, Release No. 33-11412, Application of the Federal Securities Laws to Certain Types of Crypto Assets and Certain Transactions Involving Crypto Assets (17 March 2026; effective 23 March 2026; 91 FR 13714)
+  url: https://www.sec.gov/files/rules/interp/2026/33-11412.pdf
+  checked: '2026-10-29'
+- title: SEC, Fact sheet, Release No. 33-11412 (March 2026)
+  url: https://www.sec.gov/files/33-11412-fact-sheet.pdf
+  checked: '2026-10-29'
+- title: SEC Divisions of Corporation Finance, Investment Management and Trading and Markets, Statement on Tokenized Securities (28 January 2026; staff statement)
+  url: https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities
+  checked: '2026-10-29'
+- title: SEC Division of Corporation Finance, Staff Statement on Stablecoins (4 April 2025)
+  url: https://www.sec.gov/newsroom/speeches-statements/statement-stablecoins-040425
+  checked: '2026-10-29'
+- title: SEC Chairman Paul S. Atkins, The SEC’s Approach to Digital Assets, Inside “Project Crypto” (12 November 2025; personal views)
+  url: https://www.sec.gov/newsroom/speeches-statements/atkins-111225-secs-approach-digital-assets-inside-project-crypto
+  checked: '2026-10-29'
+- title: SEC press release 2026-76, SEC proposes Regulation Crypto Assets (18 August 2026)
+  url: https://www.sec.gov/newsroom/press-releases/2026-76-sec-proposes-new-regulation-crypto-assets
+  checked: '2026-10-29'
+- title: The White House, Executive Order 14178, Strengthening American Leadership in Digital Financial Technology (23 January 2025)
+  url: https://www.whitehouse.gov/presidential-actions/2025/01/strengthening-american-leadership-in-digital-financial-technology/
+  checked: '2026-10-29'
+- title: Cornell LII, 15 U.S.C. 78c (Exchange Act section 3(a)(10), definition of “security”)
+  url: https://www.law.cornell.edu/uscode/text/15/78c
+  checked: '2026-10-29'
+- title: Cornell LII, 15 U.S.C. 77c (Securities Act section 3(a)(2), government and bank securities)
+  url: https://www.law.cornell.edu/uscode/text/15/77c
+  checked: '2026-10-29'
+- title: Cornell LII, Marine Bank v. Weaver, 455 U.S. 551 (8 March 1982)
+  url: https://www.law.cornell.edu/supremecourt/text/455/551
+  checked: '2026-10-29'
+- title: The Defiant, Senate blocks CLARITY Act 49-50 (press report, September 2026; date not confirmed from Senate records)
+  url: https://thedefiant.io/news/regulation/senate-blocks-clarity-act-49-50-with-no-democratic-votes-to-proceed
+  checked: '2026-10-29'
+last_reviewed: '2026-10-29'

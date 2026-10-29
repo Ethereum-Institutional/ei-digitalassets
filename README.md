@@ -46,7 +46,7 @@ You do not need to run anything locally. Edit a file on GitHub, open a pull requ
 validate your change, build the pages and attach a rendered preview to the pull request. Each map's folder has a
 `README.md` with the editing guide for that map:
 [Web3](data/web3/README.md), [Digital Asset Taxonomy](data/taxonomy/README.md),
-[Digital Asset Networks](data/networks/README.md), [Decentralization](data/decentralization/README.md),
+[Digital Asset Networks](data/networks/README.md), [Adoption](data/adoption/README.md),
 [Scenarios](data/scenarios/README.md), [Architecture](data/architecture/README.md).
 
 **Page settings** live in each `site.yaml`: `lens_groups` (one dropdown per group), `badge` (`disc` for ticker

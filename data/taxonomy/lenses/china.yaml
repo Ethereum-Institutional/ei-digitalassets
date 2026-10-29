@@ -33,6 +33,7 @@ groups:
   - sc
   - unreg
   - alg
+  - syn
   - rwa
   - com
   - pm
@@ -57,7 +58,6 @@ groups:
   - loy
   - lst
   - id
-  - tix
 status:
   td: part
   dt: part

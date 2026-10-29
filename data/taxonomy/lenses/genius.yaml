@@ -17,6 +17,7 @@ status:
   unreg: part
   alg: out
   fmi: out
+  syn: out
 notes:
   lsc: 'Payment stablecoins from permitted issuers: subsidiaries of insured banks, OCC-approved non-banks, and state-qualified issuers (or foreign issuers under a comparable regime). The Act takes effect on 18 January 2027, so no issuer is yet permitted. Circle (USDC) received final OCC approval for a national trust bank on 10 July 2026, which at launch provides custody only.'
   sc: Only tokens redeemable for a fixed amount of money; yield-paying or algorithmic designs do not qualify as permitted payment stablecoins.
@@ -31,6 +32,7 @@ notes:
   fund: Securities are excluded, tokenized MMFs included.
   nat: Not a payment stablecoin (no issuer, no redemption).
   fmi: 'Not a payment stablecoin: a wholesale claim backed by central bank reserves.'
+  syn: 'Not a permitted payment stablecoin: issuers must hold identifiable reserves of cash-like assets.'
 sources:
 - title: OCC news release 2026-92, final rule implementing the GENIUS Act (21 October 2026)
   url: https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html

@@ -21,6 +21,7 @@ groups:
   - eth
   - natoth
   - alg
+  - syn
   - comm
   - gov
   - util
@@ -60,7 +61,6 @@ status:
   game: part
   loy: part
   id: part
-  tix: part
   fmi: part
 notes:
   sc: Fiat stablecoins are electronic payment instruments, not crypto-assets; algorithmic ones are crypto-assets.

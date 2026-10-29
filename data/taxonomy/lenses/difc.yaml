@@ -60,8 +60,8 @@ status:
   util: out
   loy: part
   id: out
-  tix: out
   fmi: part
+  syn: part
 notes:
   btc: A DFSA-recognized Crypto Token.
   eth: A DFSA-recognized Crypto Token.
@@ -86,9 +86,8 @@ notes:
   art: NFTs are Excluded Tokens.
   util: Utility tokens are Excluded Tokens.
   game: Excluded where it is a utility or non-fungible token.
-  loy: Generally an Excluded (utility) Token.
+  loy: 'Generally an Excluded (utility) Token. Tickets and passes: non-fungible / utility: an Excluded Token.'
   id: 'Non-fungible / utility: an Excluded Token.'
-  tix: 'Non-fungible / utility: an Excluded Token.'
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than as a crypto token.
 sources:
 - title: DFSA, updated rules on the regulation of crypto tokens in the DIFC (effective 12 January 2026)

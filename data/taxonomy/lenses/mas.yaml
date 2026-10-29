@@ -42,8 +42,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: in
 notes:
   cbdc: Money, not a DPT.
   td: Bank deposits; MAS will issue separate guidance on tokenized deposits.
@@ -64,9 +64,8 @@ notes:
   gov: A DPT if used as a medium of exchange; otherwise may fall outside.
   util: A DPT if used as a medium of exchange; otherwise may fall outside.
   game: Limited-purpose in-game tokens are excluded.
-  loy: Limited-purpose loyalty points are excluded.
+  loy: 'Limited-purpose loyalty points are excluded. Tickets and passes: generally limited-purpose, so outside.'
   id: Generally outside.
-  tix: Generally limited-purpose, so outside.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
 sources:
 - title: MAS, consultation on legislative amendments to implement the stablecoin regulatory framework (1 September 2026)

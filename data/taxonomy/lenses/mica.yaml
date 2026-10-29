@@ -43,8 +43,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: in
 notes:
   cbdc: Central banks acting as monetary authority are excluded (Art. 2(2)).
   td: Deposits are excluded (Art. 2(4)(c)).
@@ -64,9 +64,9 @@ notes:
   fund: Fund units are financial instruments, tokenized MMFs included.
   art: Out if truly unique and non-fungible (Art. 2(3)); in if issued in large series or fractionalized.
   game: Freely transferable items are in; closed-loop points may use the limited-network exemption.
-  loy: Closed-loop loyalty points can use the limited-network exemption (Art. 4(3)).
+  loy: 'Closed-loop loyalty points can use the limited-network exemption (Art. 4(3)). Tickets and passes: unique tickets are non-fungible (out); closed-loop passes may use the limited-network exemption.'
   id: Unique, non-transferable names or credentials are generally out.
-  tix: Unique tickets are non-fungible (out); closed-loop passes may use the limited-network exemption.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
+  syn: 'A crypto-asset; whether it is an e-money or asset-referenced token depends on its design and backing.'
 sources: []
 last_reviewed: '2026-10-24'

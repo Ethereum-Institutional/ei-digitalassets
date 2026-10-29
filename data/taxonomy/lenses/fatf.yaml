@@ -23,6 +23,7 @@ groups:
   - sc
   - unreg
   - alg
+  - syn
   - comm
   - gov
   - util
@@ -55,7 +56,6 @@ status:
   game: part
   loy: part
   id: part
-  tix: part
 notes:
   cbdc: 'Fiat currency: outside the virtual-asset definition, but covered as fiat.'
   td: Not a virtual asset (a digital representation of fiat), but squarely within FATF standards through bank AML rules.

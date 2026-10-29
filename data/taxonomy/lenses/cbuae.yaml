@@ -23,6 +23,7 @@ status:
   dt: out
   sec: out
   fund: out
+  syn: out
 notes:
   lpt: 'Dirham payment tokens from licensed issuers (AE Coin; approvals reported for Zand AED and DDSC) and registered foreign payment tokens (USDU was the first; USDC and USDT were not registered as of early 2026). Issuers must be UAE companies outside the financial free zones, redeem at par by the next business day and pay no interest. Banks may issue only through a subsidiary.'
   sc: Only tokens referencing a single fiat currency can be payment tokens.

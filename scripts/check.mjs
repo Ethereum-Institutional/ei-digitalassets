@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 import path from 'node:path';
 import fs from 'node:fs';
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const PAGES = [['dist/digital-asset-taxonomy.html', 'dist/preview.png'], ['dist/digital-asset-networks.html', 'dist/networks/preview.png'], ['dist/web3.html', 'dist/web3/preview.png'], ['dist/decentralization.html', 'dist/decentralization/preview.png'], ['dist/dvp-deposit-token-tmmf.html', 'dist/scenarios/dvp-deposit-token-tmmf/preview.png']];
+const PAGES = [['dist/digital-asset-taxonomy.html', 'dist/preview.png'], ['dist/digital-asset-networks.html', 'dist/networks/preview.png'], ['dist/web3.html', 'dist/web3/preview.png'], ['dist/adoption.html', 'dist/adoption/preview.png'], ['dist/dvp-deposit-token-tmmf.html', 'dist/scenarios/dvp-deposit-token-tmmf/preview.png']];
 const browser = await chromium.launch();
 const errors = [];
 for (const [html, png] of PAGES) {

@@ -36,8 +36,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: in
 notes:
   cbdc: CBDC is expressly excluded.
   td: Deposits; the Bank of Korea has piloted deposit tokens (Project Hangang).

@@ -53,7 +53,7 @@ tokens:
   circle: natoth
   x: 334
   y: 546
-  desc: 'The native asset of Zcash, about $18 billion. A privacy coin: the DIFC treats privacy tokens as Prohibited Tokens, and many venues restrict them.'
+  desc: 'The native asset of Zcash, about $18 billion. A privacy coin, with optional shielded transfers: some regulators list privacy tokens as prohibited, and many venues restrict them.'
 - ticker: USDT
   name: Tether USDt
   circle: sc
@@ -68,3 +68,15 @@ tokens:
   y: 534
   licensed_under: [mica, jp, adgm, difc, sv]
   desc: 'Issued by Circle, a regulated fintech. Authorized as an e-money token under MiCA through Circle’s French e-money license, and recognized in Japan, ADGM, the DIFC and El Salvador. Not yet a US payment stablecoin: the GENIUS Act takes effect on 18 January 2027, although Circle’s national trust bank received final OCC approval on 10 July 2026. Switch on a lens to see where it counts as licensed.'
+- ticker: RCHKD
+  name: HSBC RedCoin
+  circle: sc
+  x: 764
+  y: 532
+  licensed_under: [hkma]
+  only_under: [hkma]     # shown only under the HKMA lens (owner, 29 October 2026)
+  desc: 'A Hong Kong dollar stablecoin issued by HSBC under HKMA stablecoin issuer licence FRS02 (effective 10 April 2026): fully backed by cash, redeemable 1:1 for HKD, and not a protected deposit. HKD 83.2 million in circulation against HKD 84.2 million of reserves on 29 October 2026. It runs on HSBC’s own DLT network, not a public blockchain; live in PayMe, coming to the HSBC HK app. A bank-issued stablecoin, so it sits where Commercial Bank meets Stablecoins.'
+  sources:
+  - title: HSBC Hong Kong, HSBC RedCoin (RCHKD) stablecoin page (licence FRS02, reserves, network, PayMe)
+    url: https://www.hsbc.com.hk/stablecoins/
+    checked: '2026-10-29'

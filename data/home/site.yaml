@@ -22,10 +22,10 @@ cards:
   icon: networks
   title: Networks
   text: 'Where digital assets live: private, consortium and public ledgers.'
-- path: decentralization
+- path: adoption
   icon: decentralization
-  title: Decentralization
-  text: 'Why a global shared ledger, measured on eleven dials.'
+  title: Adoption
+  text: 'Why open ledgers win adoption: decentralization, measured on eleven dials.'
 - path: scenarios
   icon: scenarios
   title: Scenarios

@@ -33,11 +33,11 @@ status:
   comm: in
   gov: in
   util: in
-  loy: out
+  loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: in
 notes:
   cbdc: The e-rupee is currency, not a VDA.
   td: Currency held as deposits, not a VDA.

@@ -7,6 +7,27 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Decentralization is now Adoption** (`/adoption/`; `/decentralization/` redirects). The page leads with adoption
+  following decentralization (a flywheel of public innovation) and adds a section, "Why decentralization drives
+  adoption", citing TradeLens on Hyperledger Fabric (closed 2022). The eleven dials, lenses and weights are unchanged.
+- **Taxonomy review with a colleague.** "Unlicensed" replaces "Unlicensed / higher risk" (the red hatching stays,
+  sourced to Basel Group 2b); Algorithmic now means only mint-and-burn designs, so DAI and USDS are no longer called
+  algorithmic; a new Synthetic Dollars circle (Ethena's USDe) sits in Other Issuers outside Stablecoins with a
+  look-alike line. Other Crypto-Assets: Gaming (was Gaming Points), Loyalty & Access (Loyalty Points merged with
+  Tickets & Memberships, lens statuses and notes merged), Utility & Infrastructure (DePIN, AI). Staking & Wrapped
+  shows a "claim on" line to Native Cryptocurrencies while picked. Loans & Trade Finance is now Credit & Trade
+  Finance; perps leave the Derivatives sub-label but stay in its definition.
+- **Other Crypto-Assets as a ring** (Utility & Infrastructure in the center); Digital Art has NFTs as its subtitle;
+  every subtitle now clears its circle's border, and the build checks it.
+- **HSBC RedCoin (RCHKD)** badge in Commercial Bank ∩ Stablecoins, shown only under the HKMA lens (`only_under`),
+  licensed under it (licence FRS02); the
+  HKMA lens gains its first sources (the HKMA register and HSBC). The licensed circle now stretches towards the side
+  its badges sit on.
+- **New lens: US SEC "security"** (`lenses/us-sec.yaml`): the Commission's March 2026 interpretation (digital
+  commodities, collectibles and tools are not securities; a security stays a security on chain), the January 2026
+  staff statement on tokenized securities and the September 2026 Innovation Exemption for tokenized NMS stock, with
+  sec.gov sources throughout.
+- **Zcash:** the badge says some regulators list privacy tokens as prohibited, without naming one.
 - **UK lens re-sourced from the FCA.** The lens had no sources; it now cites the FCA cryptoassets page, the
   regime's policy statements (PS26/9 to PS26/13, 30 June 2026), the stablecoin issuance rules (PS26/10) and the
   perimeter guidance (PS26/18, PERG 18). The intro names the Financial Services and Markets Act 2000 (Cryptoassets)

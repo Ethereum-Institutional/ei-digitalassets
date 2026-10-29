@@ -45,7 +45,7 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
+  syn: part
 notes:
   nat: Within the broad LEAD definition of a digital asset.
   btc: 'Governed by the Bitcoin Law. Since the January 2025 amendment, private-sector acceptance is voluntary and taxes are paid only in US dollars. An October 2024 LEAD reform reportedly brought bitcoin into the digital-asset framework; sources differ on whether CNAD or the central bank (BCR) and the SSF supervise bitcoin service providers.'

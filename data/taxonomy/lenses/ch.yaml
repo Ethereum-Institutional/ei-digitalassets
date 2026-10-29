@@ -32,7 +32,6 @@ groups:
   - util
   - game
   - loy
-  - tix
   - id
 - id: asset
   label: Asset tokens
@@ -69,6 +68,7 @@ status:
   unreg: part
   alg: part
   lst: part
+  syn: part
 notes:
   cbdc: The SNB has issued wholesale CBDC for settlement on a regulated DLT platform (Project Helvetia); there is no retail CBDC.
   wcbdc: Live pilots under Project Helvetia.

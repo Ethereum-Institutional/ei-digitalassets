@@ -38,16 +38,24 @@ status:
   unreg: part
   alg: out
   fmi: part
+  syn: out
 notes:
   rcbdc: The retail e-HKD has been researched and piloted, but there is no decision to issue it.
   wcbdc: Tokenized central bank money is the target settlement asset for EnsembleTX.
   td: Supervised as bank deposits and excluded from the Stablecoins Ordinance; EnsembleTX uses them for real-value settlement in 2026.
   dt: Still a deposit under the Banking Ordinance, so excluded from the Stablecoins Ordinance whatever it is called.
-  lsc: 'Licensed issuers so far: Anchorpoint Financial (FRS01) and HSBC (FRS02), both HKD-referenced, from 10 April 2026.'
+  lsc: 'Licensed issuers so far: Anchorpoint Financial (FRS01) and HSBC (FRS02), both HKD-referenced, from 10 April 2026. HSBC RedCoin (RCHKD) is live in PayMe, on HSBC’s own DLT network.'
   sc: A license is required to issue in Hong Kong or to issue an HKD-referenced token anywhere; unlicensed foreign stablecoins may be offered to professional investors only.
   unreg: Cannot be offered to retail or advertised in Hong Kong.
   alg: 'Outside the regime: only fully reserved, fiat-referenced tokens can be licensed.'
   fund: Tokenized money-market funds are the first use case in EnsembleTX, settled with tokenized deposits; the fund itself is SFC territory.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
-last_reviewed: '2026-10-24'
+  syn: 'Outside the regime: only fully reserved, fiat-referenced tokens can be licensed.'
+sources:
+- title: HKMA, Register of Licensees under the Stablecoins Ordinance (Cap. 656) (Anchorpoint Financial FRS01, HSBC FRS02, effective 10 April 2026)
+  url: https://www.hkma.gov.hk/eng/regulatory-resources/registers/register-of-licensed-stablecoin-issuers/
+  checked: '2026-10-29'
+- title: HSBC Hong Kong, HSBC RedCoin (RCHKD) stablecoin page
+  url: https://www.hsbc.com.hk/stablecoins/
+  checked: '2026-10-29'
+last_reviewed: '2026-10-29'

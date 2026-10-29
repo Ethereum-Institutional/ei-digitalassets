@@ -55,8 +55,8 @@ status:
   game: part
   loy: part
   id: part
-  tix: part
   fmi: part
+  syn: part
 notes:
   lsc: '“Relevant Stablecoins”: issued by HKMA licensees and listed on SFC-licensed platforms with lighter liquidity and disclosure requirements.'
   sc: Unlicensed stablecoins such as USDT and USDC remain virtual assets but may be offered only to professional investors.

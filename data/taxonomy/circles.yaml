@@ -102,6 +102,7 @@ children:
   - sc
   - unreg
   - alg
+  - syn
   rwa:
   - com
   - pc
@@ -128,7 +129,6 @@ children:
   - loy
   - lst
   - id
-  - tix
 inherit_status:
   rcbdc: cbdc
   wcbdc: cbdc
@@ -246,7 +246,7 @@ circles:
   family: iss
   path: Digital Money › Tokenized Currencies
   sub3: unlicensed issuers
-  desc: 'Issuers without a recognized license in the relevant jurisdiction. Higher risk: participants and reserves are often unknown or unverified; designs may be algorithmic or backed by multiple volatile assets (crypto-collateralized or synthetic dollars); and some have collapsed or proven fraudulent.'
+  desc: 'Issuers without a recognized license in the relevant jurisdiction. Participants and reserves are often unknown or unverified; designs may be backed by fiat reserves or crypto collateral, hedged (synthetic dollars) or algorithmic; and some have collapsed or proven fraudulent.'
 - id: sc
   label:
   - Stablecoins
@@ -256,14 +256,13 @@ circles:
 - id: unreg
   label:
   - Unlicensed
-  - higher risk
   colors:
     fill: url(#ei-hatch)
     stroke: '#a8402f'
   path: Stablecoins › Other Issuers
   tc: '#8e2f22'
   clip: oiss
-  desc: 'Unlicensed stablecoins: issued without a license, often by unknown parties, sometimes algorithmic or backed by multiple volatile assets, and in some cases have collapsed or proven fraudulent. Holders may have no enforceable redemption right.'
+  desc: 'Unlicensed stablecoins: issued without a license from the relevant regime, often by parties outside its reach, and backed by fiat reserves, by crypto collateral (DAI, USDS) or by an algorithm; some have collapsed or proven fraudulent, and holders may have no enforceable redemption right. The red hatching follows prudential treatment: the Basel standard puts stablecoins without a supervised issuer or effective stabilization in Group 2b, its strictest category. How much risk a given coin carries is for each institution and jurisdiction to judge.'
 - id: lsc
   label:
   - Licensed or Recognized
@@ -288,7 +287,20 @@ circles:
     stroke: '#a8402f'
   path: Stablecoins › Other Issuers
   tc: '#7a1a10'
-  desc: 'Stablecoins that try to hold their peg through code (minting and burning a companion token, or over-collateralizing with volatile crypto) rather than holding cash-equivalent reserves. Prone to “death spirals” (e.g. TerraUSD, 2022). Sits only with unregulated issuers: no major licensing regime permits them as stablecoins.'
+  desc: 'Stablecoins that try to hold their peg by algorithm, minting and burning a companion token to absorb demand, with little or no reserve behind them. Prone to “death spirals” (TerraUSD, 2022). Crypto-collateralized stablecoins such as DAI and USDS, which lock up more crypto than they issue, are not algorithmic: they sit with the other unlicensed stablecoins. No regime reviewed licenses algorithmic designs as stablecoins: the GENIUS Act excludes them, and MiCA and Japan treat them as ordinary crypto-assets.'
+- id: syn
+  label:
+  - Synthetic
+  - Dollars
+  colors:
+    fill: '#e4e1db'
+    stroke: '#6b6760'
+  path: Tokenized Currencies › Other Issuers
+  desc: 'Dollar-tracking tokens that their issuers do not call stablecoins: they hold their value with a hedge rather than a reserve of cash-like assets. Ethena’s USDe, the largest, is backed by crypto assets and matching short futures positions (a delta-neutral basis trade), and only approved counterparties can mint or redeem it directly. They look and behave like stablecoins (dotted “look-alike” line) but give no claim on fiat; returns and risks come from the trade, including funding rates and exchange exposure. Some regimes may still capture them as stablecoins case by case.'
+  sources:
+  - title: 'Ethena docs, Ethena overview (USDe a “synthetic dollar”, “not the same as a fiat stablecoin like USDC or USDT”)'
+    url: https://docs.ethena.fi/overview/ethena-overview
+    checked: '2026-10-29'
 - id: rwa
   label:
   - Tokenized Real-World Assets
@@ -347,7 +359,7 @@ circles:
   - '& Luxury'
   family: re
   path: Digital Assets › Real-World Assets
-  sub: art, wine, watches
+  sub: art, wine
   desc: Tokenized ownership of physical collectibles held in custody (fine art, wine, watches, classic cars), often fractionalized. Digital-native art (NFTs) sits under Other Crypto-Assets.
 - id: ip
   label:
@@ -359,12 +371,12 @@ circles:
   desc: 'Tokenized rights to income from intellectual property: music and media royalties, patents and licensing streams.'
 - id: pc
   label:
-  - Loans &
+  - Credit &
   - Trade Finance
   family: re
   path: Digital Assets › Real-World Assets
-  sub: credit · mortgages
-  desc: 'Tokenized loans and credit exposures: private credit, mortgages and home-equity loans, trade finance (letters of credit, supply-chain and invoice financing) and receivables. One of the largest RWA categories by value, with tokenized mortgage and home-equity lending a major component. If the exposure is packaged into a bond (a mortgage-backed security, for example), it moves into Fixed Income.'
+  sub: private credit
+  desc: 'Tokenized credit that is not a security: private credit, mortgages and home-equity loans, trade finance (letters of credit, supply-chain and invoice financing) and receivables. One of the largest RWA categories by value, with tokenized mortgage and home-equity lending a major component. If the exposure is packaged into a bond (a mortgage-backed security, for example), it moves into Fixed Income.'
 - id: sec
   label:
   - Financial Instruments
@@ -376,7 +388,9 @@ circles:
   - Equities
   family: sec
   path: Real-World Assets › Financial Instruments
-  sub: listed · private
+  lines2:
+  - listed ·
+  - private
   desc: 'Tokenized shares: listed (public) equities and private company shares, either issued natively on-chain or as tokenized representations of existing shares that carry shareholder rights. “Cash equities” is the trading term for the same thing: shares as opposed to equity derivatives.'
 - id: fund
   label:
@@ -409,8 +423,8 @@ circles:
   path: Real-World Assets › Financial Instruments
   lines2:
   - futures · options
-  - perps · swaps
-  desc: 'Contracts whose value derives from an underlying asset: futures, forwards, options, swaps and crypto-native perpetual futures (“perps”: futures with no expiry, kept near spot by a funding rate). Options and perps are both derivatives. Legally they are financial instruments whatever the underlying, including Bitcoin or Ether. Only derivatives issued or recorded as tokens (on-chain options, tokenized positions, DeFi perps) are digital assets; most are positions on an exchange, not tokens.'
+  - swaps
+  desc: 'Contracts whose value derives from an underlying asset: futures, forwards, options and swaps. Legally they are financial instruments whatever the underlying, including Bitcoin or Ether, and that includes crypto-native perpetual futures (“perps”: futures with no expiry, kept near spot by a funding rate). Only derivatives issued or recorded as tokens (on-chain options, tokenized positions) are digital assets: perps are almost always positions on an exchange, not tokens, and where perp exposure is tokenized it is through vault or liquidity tokens. Synthetic dollars such as USDe are backed by short perp positions.'
 - id: trk
   label:
   - ''
@@ -436,18 +450,17 @@ circles:
 - id: art
   label:
   - Digital Art
-  - '& NFTs'
+  sub: NFTs
   family: oth
   path: Other Crypto-Assets
   desc: Digital-native art and collectibles (NFTs). Tokenized physical artwork would sit under Real-World Assets instead.
 - id: game
   label:
   - Gaming
-  - Points
   family: oth
   path: Other Crypto-Assets
-  sub: '& in-game items'
-  desc: In-game currencies, points and items issued as tokens.
+  sub: coins, items
+  desc: In-game currencies, points, items and assets issued as tokens.
 - id: comm
   label:
   - Community
@@ -465,18 +478,19 @@ circles:
   desc: Tokens granting voting rights over a protocol (e.g. UNI, AAVE). Often the largest “other” category by market value.
 - id: util
   label:
-  - Utility
-  - Tokens
+  - Utility &
+  - Infrastructure
   family: oth
   path: Other Crypto-Assets
-  desc: Tokens giving access to a service or network resource (e.g. storage, compute, oracle data).
+  desc: 'Tokens giving access to, or rewarding the supply of, a service or network resource: storage, compute, bandwidth, oracle data, AI models and decentralized physical infrastructure networks (DePIN). DeFi is a sector, not a token type: its tokens land here or in Governance Tokens.'
 - id: loy
   label:
-  - Loyalty
-  - Points
+  - Loyalty &
+  - Access
   family: oth
   path: Other Crypto-Assets
-  desc: Tokenized airline, retail and brand loyalty points.
+  sub: points, tickets
+  desc: 'Tokenized loyalty points, event tickets, club memberships and access passes: usually closed-loop, and often non-transferable. Many regimes carve out such limited-network tokens (MiCA’s limited-network exemption, the UK FCA’s perimeter guidance); unique tickets are non-fungible.'
 - id: lst
   label:
   - Staking &
@@ -484,7 +498,7 @@ circles:
   family: oth
   path: Other Crypto-Assets
   sub: stETH, WBTC
-  desc: Derivative tokens representing staked or bridged native assets (liquid staking tokens, wrapped tokens). They carry smart-contract and custodian risk on top of the underlying asset.
+  desc: 'Tokens representing staked or bridged native assets (liquid staking tokens, wrapped tokens): each is a claim on a native coin (dotted line), not money or a real-world asset, and carries smart-contract and custodian risk on top of the underlying.'
 - id: id
   label:
   - Identity &
@@ -493,11 +507,3 @@ circles:
   path: Other Crypto-Assets
   sub: ENS, credentials
   desc: On-chain names (ENS), credentials and non-transferable (“soulbound”) attestations.
-- id: tix
-  label:
-  - Tickets &
-  - Memberships
-  family: oth
-  path: Other Crypto-Assets
-  sub: events, clubs
-  desc: Tokenized event tickets, club memberships and access passes, usually closed-loop and often non-transferable.

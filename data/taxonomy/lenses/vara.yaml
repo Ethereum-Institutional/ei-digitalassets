@@ -43,8 +43,8 @@ status:
   loy: part
   lst: in
   id: part
-  tix: part
   fmi: part
+  syn: in
 notes:
   cbdc: Not regulated by VARA; the Digital Dirham is central bank money under the CBUAE.
   td: Not regulated by VARA; bank deposits fall to the CBUAE.
@@ -65,9 +65,8 @@ notes:
   trk: Equity-linked instruments fall to the CMA. VARA’s definition of asset-referenced virtual assets counts an interest in a financial instrument as a real-world asset, so a token giving exposure without being a security could fall to VARA.
   art: NFTs are assessed case by case; fractionalized NFTs may be securities.
   game: Non-transferable or closed-loop in-game tokens are exempt virtual assets.
-  loy: Non-transferable loyalty points are exempt virtual assets.
+  loy: 'Non-transferable loyalty points are exempt virtual assets. Tickets and passes: closed-loop or non-transferable tickets are exempt virtual assets.'
   id: Non-transferable credentials are generally exempt.
-  tix: Closed-loop or non-transferable tickets are exempt virtual assets.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
 sources:
 - title: Dubai Law No. (4) of 2022 Regulating Virtual Assets, Arts. 2–3 (Dubai Legal Portal)
