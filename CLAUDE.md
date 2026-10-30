@@ -16,6 +16,9 @@ and decisions behind them.
 - The source of truth is the `maps/` folder of the private repository ei-platform. The public repository
   `ei-digitalassets` is a mirror written only by ei-platform's `maps-mirror.yml`; never edit it directly (a change made
   there is overwritten by the next mirror run). The ei-platform root `CLAUDE.md` says how a session works with the owner.
+- These maps are the source of truth for the rest of ei-platform (owner, 29 October 2026): its definitions and source
+  register follow `data/`. After changing `data/`, run `python3 tools/align.py` from the ei-platform root; its CI fails
+  until you do.
 - Flow: a branch (in ei-platform, a worktree under `.worktrees/<topic>`), a pull request, CI (`maps.yml`), a merge to
   ei-platform `main`, then, when the owner asks to publish, `gh workflow run maps-mirror.yml --ref main`. The mirror's
   own `build.yml` and `pages.yml` then build and publish the live site from the mirror's `main`.
