@@ -415,7 +415,7 @@ circles:
   lines2:
   - bonds · notes
   - T-bills
-  desc: 'Tokenized debt securities: government, supranational and corporate bonds, notes, T-bills and commercial paper (e.g. digital bonds issued by the EIB, HSBC Orion, UBS), and securitizations such as mortgage-backed securities. Loans and trade finance belong here once packaged into a bond; otherwise they sit under Loans & Trade Finance.'
+  desc: 'Tokenized debt securities: government, supranational and corporate bonds, notes, T-bills and commercial paper (e.g. digital bonds issued by the EIB, HSBC Orion, UBS), and securitizations such as mortgage-backed securities. Loans and trade finance belong here once packaged into a bond; otherwise they sit under Credit & Trade Finance.'
 - id: dv
   label:
   - Derivatives

@@ -7,6 +7,7 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy:** the Fixed Income description says "Credit & Trade Finance", the node's name since 29 October, not "Loans & Trade Finance".
 - **Decentralization is now Adoption** (`/adoption/`; `/decentralization/` redirects). The page leads with adoption
   following decentralization (a flywheel of public innovation) and adds a section, "Why decentralization drives
   adoption", citing TradeLens on Hyperledger Fabric (closed 2022). The eleven dials, lenses and weights are unchanged.
