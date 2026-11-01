@@ -50,7 +50,7 @@ scenarios:
   icon: treasury
   short: Treasury
   map: { x: 230, y: 120 }
-  text: Intraday liquidity and cash sweeps into tokenized money market funds, and back, without a cut-off.
+  text: Cash sweeps into tokenized money market funds and back, on each fund’s dealing and liquidity terms; eligible holders may transfer units outside dealing hours.
   moves: [cash]
   roles: [corporate, asset_manager, bank]
 - title: Foreign exchange, payment versus payment
