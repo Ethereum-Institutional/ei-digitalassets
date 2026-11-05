@@ -3,6 +3,8 @@
 # Badges never move. `licensed_under` lists the lenses that license the token: under those lenses the lens-only circle
 # the lens shows (Licensed or Recognized Stablecoins / Payment Tokens) stretches to take the badge in. List a lens only
 # where that regime licensed the issuer or its regulator specifically recognized the token; tolerance does not count.
+# `ticker` is the badge id and, unless `label` is set, its chip text; `label` lets two badges print the same text
+# (e-CNY retail and wholesale). `only_under` draws a badge only while one of those lenses is on.
 
 as_of: October 2026
 tokens:
@@ -80,3 +82,48 @@ tokens:
   - title: HSBC Hong Kong, HSBC RedCoin (RCHKD) stablecoin page (licence FRS02, reserves, network, PayMe)
     url: https://www.hsbc.com.hk/stablecoins/
     checked: '2026-10-29'
+- ticker: ECNY-R
+  label: e-CNY
+  name: e-CNY (retail)
+  circle: rcbdc
+  x: 588
+  y: 412
+  only_under: [china]    # shown only under the Mainland China lens (owner, 5 November 2026: retail and wholesale both shown)
+  desc: "The retail form of e-CNY, the digital renminbi issued by the People's Bank of China (PBoC) and distributed by authorized operators under a two-tier system. The PBoC's 2021 white paper defines it as a retail CBDC, positioned as M0 and a PBoC liability to the public, with legal tender status. Since 1 January 2026 the PBoC's action plan books e-CNY held in commercial bank wallets as the bank's own account-based deposit liability: interest-bearing at deposit rates, covered by deposit insurance and counted in the bank's reserve base; wallets at non-bank payment institutions are backed 100 percent by e-CNY. Read against this circle's rule, a bank-wallet balance since then is a bank deposit; Ethereum Institutional keeps the badge here as the PBoC's own retail CBDC and names the tension. For the wholesale use on Project mBridge, see the Wholesale CBDC badge."
+  sources:
+  - title: 'PBoC working group, Progress of Research & Development of E-CNY in China (July 2021): e-CNY is a retail CBDC, positioned as M0 and a PBoC liability, issued to authorized operators, legal tender'
+    url: https://www.pbc.gov.cn/en/3688110/3688172/4157443/4293696/2021072014364791207.pdf
+    checked: '2026-11-05'
+  - title: 'Lu Lei, PBoC deputy governor, 守正创新 稳步发展数字人民币, Financial News (29 December 2025), as reproduced by 21st Century Business Herald: the action plan in force from 1 January 2026; balances in commercial bank wallets an account-based commercial bank liability; interest; deposit insurance; reserve base'
+    url: https://www.21jingji.com/article/20251229/herald/92834d4139b621e74c8d2b1761d2ce70.html
+    checked: '2026-11-05'
+  - title: 'Xinhua, on the State Council site, China to enhance digital yuan management with deposit features starting 2026 (29 December 2025): e-CNY in commercial bank wallets classed as bank deposit liabilities, interest at deposit rates, deposit insurance, reserve base; non-bank payment institutions hold 100 percent'
+    url: https://english.www.gov.cn/news/202512/29/content_WS69526d4ec6d00ca5f9a08511.html
+    checked: '2026-11-05'
+- ticker: ECNY-W
+  label: e-CNY
+  name: e-CNY (wholesale use)
+  circle: wcbdc
+  x: 588
+  y: 530
+  only_under: [china]    # shown only under the Mainland China lens (owner, 5 November 2026: retail and wholesale both shown)
+  desc: "The wholesale use of e-CNY, the central bank digital currency of the People's Bank of China (PBoC). On Project mBridge, the multi-CBDC platform of the Hong Kong Monetary Authority, the Bank of Thailand, the PBoC's Digital Currency Institute and the Central Bank of the UAE (the Saudi Central Bank joined in 2024, and the BIS Innovation Hub handed the platform to its central bank participants in October 2024), the PBoC is the exclusive issuer and redeemer of e-CNY, and the platform is integrated with its live domestic e-CNY system. The six-week pilot of 2022 issued ¥11.8 million and settled ¥23.6 million of payments and foreign exchange payment-versus-payment transactions in e-CNY; by December 2025 mBridge had processed 4,047 cross-border payments worth about RMB 387.2 billion, about 95 percent of it in e-CNY. Legal tender in mainland China, so a transfer takes effect on delivery. For the retail form, booked as a commercial bank deposit liability in bank wallets since 1 January 2026, see the Retail CBDC badge."
+  sources:
+  - title: 'PBoC working group, Progress of Research & Development of E-CNY in China (July 2021): e-CNY is a retail CBDC, positioned as M0 and a PBoC liability, issued to authorized operators'
+    url: https://www.pbc.gov.cn/en/3688110/3688172/4157443/4293696/2021072014364791207.pdf
+    checked: '2026-11-05'
+  - title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022): e-CNY on the platform means its wholesale use; central banks the exclusive issuers and redeemers; pilot figures; e-CNY transfers final on delivery'
+    url: https://www.bis.org/publ/othp59.pdf
+    checked: '2026-11-05'
+  - title: 'BIS Innovation Hub, Project mBridge: MVP stage in mid-2024, the Saudi Central Bank joined in 2024, handed over to the partners in October 2024'
+    url: https://www.bis.org/about/bisih/topics/cbdc/mcbdc_bridge.htm
+    checked: '2026-11-05'
+  - title: 'HKMA, Project mBridge reaches MVP stage (5 June 2024): each founding central bank runs a validating node; commercial banks conduct real-value transactions'
+    url: https://www.hkma.gov.hk/eng/news-and-media/press-releases/2024/06/20240605-4/
+    checked: '2026-11-05'
+  - title: 'Lu Lei, PBoC deputy governor, 守正创新 稳步发展数字人民币, Financial News (29 December 2025), as reproduced by 21st Century Business Herald: mBridge 4,047 payments and RMB 387.2 billion with e-CNY 95.3 percent of value; balances in commercial bank wallets an account-based bank liability from 1 January 2026'
+    url: https://www.21jingji.com/article/20251229/herald/92834d4139b621e74c8d2b1761d2ce70.html
+    checked: '2026-11-05'
+  - title: 'Xinhua, on the State Council site, China to enhance digital yuan management with deposit features starting 2026 (29 December 2025): e-CNY in commercial bank wallets classed as bank deposit liabilities, interest at deposit rates, deposit insurance, reserve base; non-bank payment institutions hold 100 percent'
+    url: https://english.www.gov.cn/news/202512/29/content_WS69526d4ec6d00ca5f9a08511.html
+    checked: '2026-11-05'

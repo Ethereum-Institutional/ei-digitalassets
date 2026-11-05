@@ -102,10 +102,13 @@ tokens:
   sources:
   - { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
   - { title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
-- name: Wholesale CBDC (future cash leg)
+- name: Wholesale central bank money (cash leg)
   circle: wcbdc
   place: Digital Money › Tokenized Currencies › Central Bank › Wholesale CBDC
-  role: Central bank money on the same ledger would make the cash leg risk-free and bank-neutral. Not live on a public ledger today; the subject of central bank experiments.
+  role: Central bank money on the same ledger would make the cash leg risk-free and bank-neutral. Not live on a public ledger today. The Eurosystem has settled tokenized assets in central bank money through Pontes since 21 September 2026, with cash tokens on its own DLT platform or settlement in T2; immediate finality on that platform is planned for 2027. Elsewhere it is in pilots and experiments.
+  sources:
+  - { title: 'ECB, Pontes (initial launch 21 September 2026): links market DLT platforms and TARGET Services; cash tokens on the Eurosystem DLT platform or settlement in T2', url: https://www.ecb.europa.eu/paym/target/pontes/html/index.en.html, checked: '2026-11-02' }
+  - { title: 'ECB, speech, Next-day securities settlement, tokenisation and the transformation of Europe’s financial infrastructure (29 October 2026): immediate settlement finality on the Eurosystem DLT platform planned for 2027', url: https://ecb.europa.eu/press/key/date/2026/html/ecb.sp261029~e9b57c3495.en.html, checked: '2026-11-02' }
 
 standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by its register model, its cash leg and the systems that must read the tokens, and several (CMTAT, ERC-1400) are alternatives to those listed.'
 standards:
@@ -180,7 +183,7 @@ sections:
   - title: Primary-market subscription
     text: The fund itself is the seller. The buyer places a subscription request with the cash leg in escrow (ERC-7540), the administrator strikes the net asset value at the cut-off, and the buyer claims the units at that price; a constant-price fund with a teller contract can subscribe and redeem continuously against the cash leg.
   - title: Stablecoin or central bank money as the cash leg
-    text: Replace the deposit token with a regulated stablecoin (the common case today) or, in future, wholesale central bank money on the same ledger. The steps are the same; who the obligor on the cash leg is changes.
+    text: Replace the deposit token with a regulated stablecoin (the common case today) or wholesale central bank money, which the Eurosystem has offered for tokenized assets through Pontes since September 2026 and other central banks are piloting. The steps are the same; who the obligor on the cash leg is changes.
   - title: Trading in a permissioned pool
     text: 'Instead of a bilateral trade settled by a DvP contract, the venue can be an automated market maker whose pool is the counterparty: every swap is itself the DvP, and a compliance hook on the pool checks the trader against the fund share’s identity registry at the moment of the swap, so a wallet frozen or revoked in the token stops trading with no action by the venue; providing liquidity can be gated separately (for instance to professional investors). Uniswap v4 hooks are the open interface for this, and Ethereum Institutional maintains a reference build of it (an ERC-3643 money market fund trading against USDC in a permissioned pool, with segregated custody and tests that prove each control binds); contact Ethereum Institutional for access to the quickstart. The caveat is pricing: a pool quotes continuously, so this venue suits a constant-price fund or a fund with a published feed, not one priced once a day at a cut-off.'
   - title: Cash and asset on different ledgers

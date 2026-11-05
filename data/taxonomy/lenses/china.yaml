@@ -70,5 +70,13 @@ notes:
   art: “Digital collectibles” on permissioned platforms without secondary trading are tolerated; tradeable NFTs are not.
   rwa: Tokenizing asset ownership or income rights is illegal unless approved and carried out within designated financial infrastructure.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
-last_reviewed: '2026-10-24'
+  ECNY-R: 'Permitted: the PBoC''s own retail CBDC. Since 1 January 2026 a balance in a commercial bank wallet is booked as the bank''s deposit liability.'
+  ECNY-W: 'Permitted: the wholesale use of e-CNY, issued and redeemed by the PBoC on Project mBridge.'
+sources:
+- title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022)'
+  url: https://www.bis.org/publ/othp59.pdf
+  checked: '2026-11-05'
+- title: 'Xinhua, on the State Council site, China to enhance digital yuan management with deposit features starting 2026 (29 December 2025)'
+  url: https://english.www.gov.cn/news/202512/29/content_WS69526d4ec6d00ca5f9a08511.html
+  checked: '2026-11-05'
+last_reviewed: '2026-11-05'

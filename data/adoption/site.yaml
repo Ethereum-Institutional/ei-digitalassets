@@ -26,7 +26,7 @@ notice:
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Disagree with a metric?
-  text: These ten are our proposal, not a standard. Open an issue and tell us what you would measure instead and why, or send a pull request with the change; every reading on this page is a file anyone can edit.
+  text: These eleven are our proposal, not a standard. Open an issue and tell us what you would measure instead and why, or send a pull request with the change; every reading on this page is a file anyone can edit.
 score:
   title: Weighted score
   text: 'The default weights are ours; move the sliders to make the score yours. Your weights stay in your browser and are not sent anywhere.'

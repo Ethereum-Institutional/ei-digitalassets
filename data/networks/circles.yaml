@@ -120,7 +120,7 @@ circles:
   zoom: [0, 395]
   sub: one operator
   path: Digital Asset Networks › Permissioned consensus
-  desc: 'One organization operates every node, so it alone decides who may read or write, and it can change the rules or roll back history. Useful for internal books and records, testing and settlement inside a group, at the price of giving outsiders nothing to verify independently. Institutions building private Ethereum chains overwhelmingly choose Besu. EI’s reading of why, a house view: its Apache 2.0 license, which Besu’s own history says was needed because enterprise pilots were being blocked by open-source license policies; permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in, where GoQuorum, the earlier enterprise fork, is no longer actively developed; governance by a neutral foundation (Hyperledger, now LF Decentralized Trust) with several commercial support vendors; Ethereum mainnet compatibility, so the EVM specification and the team’s skills carry across to public chains; and Java, which enterprise IT and security teams already run and audit. Private ledgers outside the Ethereum ecosystem (Hyperledger Fabric, Corda) sit here too, without the public-chain upgrade path.'
+  desc: 'One organization operates every node, so it alone decides who may read or write, and it can change the rules or roll back history. Useful for internal books and records, testing and settlement inside a group, at the price of giving outsiders nothing to verify independently. Institutions building private Ethereum-technology networks use clients such as Besu. EI’s reading of why Besu suits them, a house view: its Apache 2.0 license, which Besu’s own history says was needed because enterprise pilots were being blocked by open-source license policies; permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in, where GoQuorum, the earlier enterprise fork, is no longer actively developed; governance by a neutral foundation (Hyperledger, now LF Decentralized Trust) with several commercial support vendors; Ethereum mainnet compatibility, so the EVM specification and the team’s skills carry across to public chains; and Java, which enterprise IT and security teams already run and audit. Private ledgers outside the Ethereum ecosystem (Hyperledger Fabric, Corda) sit here too, without the public-chain upgrade path.'
 - id: cons
   label:
   - Consortium
@@ -176,7 +176,7 @@ circles:
   - known staked identifiers,
   - any share may go offline
   path: Digital Asset Networks › Public › Permissionless consensus
-  desc: 'The protocol knows the list of staked identifiers but assumes only that some honest staker is online, so it keeps producing blocks at any level of participation, as a longest-chain rule does. Cardano’s Ouroboros is the paper’s canonical example. Ethereum mainnet’s fork choice (LMD-GHOST) runs here: the chain keeps growing when most validators are offline, and the inactivity leak slowly removes the stake of those who are absent, while Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online. That pairing keeps Ethereum mainnet live like Bitcoin and final like a BFT chain.'
+  desc: 'The protocol knows the list of staked identifiers but assumes only that some honest staker is online, so block production can continue as participation falls, as under a longest-chain rule. Cardano’s Ouroboros is the paper’s canonical example. Ethereum mainnet’s fork choice (LMD-GHOST) runs here: the chain can keep growing when most validators are offline, with empty slots for absent proposers, and the inactivity leak slowly removes the stake of those who are absent, while Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online. That pairing keeps Ethereum mainnet live like Bitcoin and final like a BFT chain.'
 - id: full
   label:
   - Fully
@@ -275,7 +275,7 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissionless consensus › Dynamically available
-  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so blocks keep coming at any level of participation, and absent validators lose stake slowly through the inactivity leak, in proportion to what they would have earned. Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online, and a validator that signs two conflicting messages (for example the same key run in two places) is slashed heavily and ejected, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
+  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so block production can continue as participation falls, with empty slots for absent proposers, and absent validators lose stake slowly through the inactivity leak, in proportion to what they would have earned. Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online, and a validator that signs two conflicting messages (for example the same key run in two places) is slashed heavily and ejected, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
   sources:
   - title: ethereum.org, Proof-of-stake (32 ETH deposit, slashing and ejection)
     url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/
@@ -299,14 +299,17 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissioned consensus
-  desc: 'An Ethereum Layer 2 rollup (OP Stack) operated by Coinbase. The ledger is public and every transaction is posted to Ethereum mainnet, which settles the result and lets anyone reconstruct the state, but ordering runs through a single sequencer that Coinbase operates, so consensus is permissioned today. Users can force transactions through Ethereum mainnet (within about 12 hours) if the sequencer censors or stops, and fraud-proof submission is open. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  desc: 'An Ethereum Layer 2 rollup (OP Stack) operated by Coinbase. The ledger is public and every transaction is posted to Ethereum mainnet, which settles the result and lets anyone reconstruct the state, but ordering runs through a single sequencer that Coinbase operates, so consensus is permissioned today. Users can force transactions through Ethereum mainnet (within about 12 hours) if the sequencer censors or stops. Since the Azul upgrade (May 2026) Base uses a multiproof system in place of the OP Stack’s interactive fault proofs: each state proposal starts with an attestation from a permissioned trusted execution environment (TEE) prover or a zero-knowledge (ZK) proof, and anyone with a valid ZK proof can challenge an invalid one. A proposal backed by one proof resolves after 5 days (7 before the Beryl upgrade), and after 1 day when both back it. Base left the Optimism Superchain in March 2026. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
   sources:
   - title: Base terms of service (the Coinbase Sequencer is a node operated by Coinbase)
     url: https://docs.base.org/terms-of-service
     checked: '2026-10-25'
-  - title: L2BEAT, Base (Stage 1, forced inclusion, open fraud proofs; secondary source)
+  - title: Base documentation, Azul proofs (TEE and ZK multiproof; 5-day and 1-day windows)
+    url: https://docs.base.org/base-chain/specs/upgrades/azul/proofs.md
+    checked: '2026-11-02'
+  - title: L2BEAT, Base (Stage 1, forced inclusion, AggregateVerifier; secondary source)
     url: https://l2beat.com/scaling/projects/base
-    checked: '2026-10-25'
+    checked: '2026-11-02'
 - id: arbitrum
   label:
   - Arbitrum One

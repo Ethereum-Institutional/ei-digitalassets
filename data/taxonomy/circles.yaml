@@ -188,21 +188,36 @@ circles:
   - CBDC
   family: cbdc
   path: Tokenized Currencies › Central Bank
-  desc: 'Central Bank Digital Currency: a digital form of central bank money. Retail CBDC is for the public (e.g. e-CNY, Digital Euro pilot); wholesale CBDC is for interbank settlement (e.g. Project mBridge, Digital Dirham).'
+  desc: 'Central Bank Digital Currency: a digital form of central bank money. Retail CBDC is for the public (e.g. e-CNY, the planned Digital Euro); wholesale CBDC is for interbank settlement (e.g. Project mBridge, Digital Dirham). CBDCs are placed here whatever ledger they run on, because the map groups money by who owes it: some retail designs, such as the planned digital euro, use a centralized platform rather than a distributed ledger (owner, 2 November 2026).'
+  sources:
+  - title: 'ECB, FAQs on the digital euro (updated 17 August 2026): Eurosystem aiming to be ready for a potential first issuance during 2029; a centralized settlement platform, not based on DLT'
+    url: https://www.ecb.europa.eu/euro/digital_euro/faqs/html/ecb.faq_digital_euro.en.html
+    checked: '2026-11-02'
 - id: rcbdc
   label:
   - Retail
   - CBDC
   family: cbdc
   path: Central Bank › CBDC
-  desc: A CBDC for the general public (households and businesses), used for everyday payments (e.g. e-CNY, the planned Digital Euro, Digital Dirham retail). Usually issued with holding limits and run through intermediaries, and may be a different token from its wholesale counterpart.
+  desc: 'A CBDC for the general public (households and businesses), used for everyday payments (e.g. e-CNY, the planned Digital Euro, Digital Dirham retail). Usually issued with holding limits and run through intermediaries, and may be a different token from its wholesale counterpart. Distribution through an intermediary does not by itself change who owes the balance; where the intermediary books a balance as its own deposit liability, that balance is a bank deposit, not a CBDC.'
+  sources:
+  - title: 'BIS, Annual Economic Report 2021, chapter III (29 June 2021): a CBDC is a direct liability of the central bank; in hybrid and intermediated designs, payment service providers onboard users and process payments'
+    url: https://www.bis.org/publ/arpdf/ar2021e3.htm
+    checked: '2026-11-02'
 - id: wcbdc
   label:
   - Wholesale
   - CBDC
   family: cbdc
   path: Central Bank › CBDC
-  desc: A CBDC restricted to banks and financial institutions for interbank and securities settlement (e.g. Project mBridge, Project Agorá). Often a separate token and ledger from any retail CBDC.
+  desc: 'A CBDC restricted to banks and financial institutions for interbank and securities settlement (e.g. Project mBridge, Project Agorá). Often a separate token and ledger from any retail CBDC. EI convention: a wholesale CBDC is central bank money held as a token outside the central bank’s existing accounts (a new token, tokenized reserves or a central bank cash token); settlement in central bank money through a link to the existing real-time gross settlement system, with no token, is a neighbor, not a wholesale CBDC.'
+  sources:
+  - title: 'BIS, Annual Economic Report 2023, chapter III: wholesale CBDC as “a tokenised means of settlement” in a role similar to reserves'
+    url: https://www.bis.org/publ/arpdf/ar2023e3.htm
+    checked: '2026-11-02'
+  - title: 'ECB, Pontes (initial launch 21 September 2026): cash tokens on the Eurosystem DLT platform or settlement in T2'
+    url: https://www.ecb.europa.eu/paym/target/pontes/html/index.en.html
+    checked: '2026-11-02'
 - id: bank
   label:
   - Commercial

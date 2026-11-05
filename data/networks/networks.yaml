@@ -156,7 +156,7 @@ networks:
   x: 1175
   y: 418
   eth: false
-  desc: 'Alpenglow (Votor) over a proof-of-history clock since 21 October 2026, replacing Tower BFT. Anyone can run a validator without approval (no minimum stake; an admission ticket of 1.6 SOL an epoch; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
+  desc: 'Alpenglow (Votor) since 21 October 2026, replacing the consensus based on Proof of History and Tower BFT; local timeouts now do the pacing Proof of History did. Anyone can run validator software without approval; voting needs a registered BLS public key, an admission ticket of 0.8 SOL an epoch and a place in the top 2,000 by stake (no fixed minimum stake; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
   sources:
   - title: 'Solana Foundation, Alpenglow upgrade (live at epoch 1064, 21 October 2026; 80% one round, 60% two rounds; 20% adversarial plus 20% offline)'
     url: https://solana.com/upgrades/alpenglow
@@ -164,7 +164,13 @@ networks:
   - title: 'SIMD-0326, Alpenglow consensus protocol (certificate thresholds)'
     url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md
     checked: '2026-10-26'
-  - title: 'SIMD-0357, Alpenglow Validator Admission Ticket (1.6 SOL an epoch)'
+  - title: 'Solana Foundation, BLS public keys and VAT (Alpenglow live since epoch 1064; 0.8 SOL an epoch)'
+    url: https://solana.com/upgrades/bls-pubkey-vat
+    checked: '2026-11-02'
+  - title: 'SIMD-0326, Alpenglow (replaces the consensus based on Proof of History and Tower BFT)'
+    url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md
+    checked: '2026-11-02'
+  - title: 'SIMD-0357, Alpenglow Validator Admission Ticket'
     url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0357-alpenglow_validator_admission_ticket.md
     checked: '2026-10-26'
   - title: 'Anza, validator requirements (no strict minimum stake)'
@@ -526,9 +532,9 @@ networks:
   small: true
   desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, with Ethereum mainnet named first in the prospectus; the token is the share, not a representation of it.'
   sources:
-  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+  - title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)'
     url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
-    checked: '2026-10-25'
+    checked: '2026-11-01'
   - title: 'Spiko docs, token contract addresses by network'
     url: https://docs.spiko.io/documentation/tokenization/addresses
     checked: '2026-10-25'
@@ -684,9 +690,9 @@ networks:
   small: true
   desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Base among them; the token is the share, not a representation of it.'
   sources:
-  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+  - title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)'
     url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
-    checked: '2026-10-25'
+    checked: '2026-11-01'
   - title: 'Spiko docs, token contract addresses by network'
     url: https://docs.spiko.io/documentation/tokenization/addresses
     checked: '2026-10-25'
@@ -791,9 +797,9 @@ networks:
   small: true
   desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Arbitrum One among them; the token is the share, not a representation of it.'
   sources:
-  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+  - title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)'
     url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
-    checked: '2026-10-25'
+    checked: '2026-11-01'
   - title: 'Spiko docs, token contract addresses by network'
     url: https://docs.spiko.io/documentation/tokenization/addresses
     checked: '2026-10-25'
@@ -950,9 +956,9 @@ networks:
   small: true
   desc: 'Spiko, a French MiFID investment firm, keeps the share register of its AMF-approved UCITS money market funds (EUTBL, USTBL) on public ledgers under French law, Polygon PoS among them; the token is the share, not a representation of it.'
   sources:
-  - title: 'Spiko SICAV prospectus (4 May 2026): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink and Stellar'
+  - title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)'
     url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf
-    checked: '2026-10-25'
+    checked: '2026-11-01'
   - title: 'Spiko docs, token contract addresses by network'
     url: https://docs.spiko.io/documentation/tokenization/addresses
     checked: '2026-10-25'

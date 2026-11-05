@@ -427,13 +427,13 @@
       return rows?`<tr class="g"><th colspan="2">${g.label}</th></tr>${rows}`:''; }).join('');
     return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
   };
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet',only:a.only_under||[]}));
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet',only:a.only_under||[]}));
   const srcHtml=src=>src.length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
   const tokGroup=(a,L)=>(L.groups||[]).find(G=>(G.tokens||[]).includes(a.t));
   ASSETS.forEach(a=>{
-    const g=el('g',{class:'asset',tabindex:0,'aria-label':PILL?a.name:`${a.name} (${a.t})`});
+    const g=el('g',{class:'asset',tabindex:0,'aria-label':PILL?a.name:`${a.name} (${a.label})`});
     if(PILL){
       // `small` pills list a network's participants inside its circle
       // `pill_scale` (site.yaml) enlarges a page's named pills
@@ -451,7 +451,7 @@
     } else {
       a.ring=el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5});
       g.appendChild(a.ring);
-      const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.t.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.t;
+      const t=el('text',{x:a.x,y:a.y+3,'text-anchor':'middle','font-size':a.label.length>3?7:8,'font-weight':600,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=a.label; // `label` (tokens.yaml) overrides the chip text; the id stays unique
       g.appendChild(t);
     }
     gText.appendChild(g); a.g=g; if(a.only.length) g.classList.add('lhide'); // `only_under`: drawn only while one of those lenses is on
@@ -471,7 +471,7 @@
       // on a page with facts, name every circle the design sits in (its point is inside each)
       if(FX){ const inC=N.filter(n=>n.id!==OUTER&&n.t!=='rect'&&!n.lens_only&&((a.x-n.cx)/n.rx)**2+((a.y-n.cy)/n.ry)**2<=1).map(n=>n.label.join(' '));
         if(inC.length) where=inC.join(' and '); }
-      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.t})`}</h2><p>${a.d}</p>${sc}${factHtml(a)}${srcHtml(a.src)}`;
+      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2><p>${a.d}</p>${sc}${factHtml(a)}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);
   });
