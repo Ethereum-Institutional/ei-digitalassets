@@ -92,7 +92,7 @@ circles:
     rx: 38
     ry: 38
     lx: 300
-    ly: 455
+    ly: 452    # 3 units up so the label clears the border (the label check, 6 November 2026)
     fs: 12
     fw: 600
   natoth:

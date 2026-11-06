@@ -1,18 +1,283 @@
-# Identity map: work in progress. Rendered from src/static.html until the diagram data exists.
+# Identity map: page text and settings. A Venn map (no `kind`) of the three questions an institution answers before
+# an asset moves on a shared ledger (who, which key, what may it do), with badges for the mechanisms that answer them
+# (badges.yaml), a "Focus on" sidebar of facts (`facets` below, values in each badge's `facts`) and the narrative in
+# `sections` under the map. The whole page is public. Draft: not yet checked by a second model or reviewed by counsel.
+# Writing rules: US spelling; no em-dashes; quote YAML values that contain ": "; "Ethereum mainnet" for the chain;
+# third person ("Ethereum Institutional"), never "we".
 
-kind: static
 title: Identity
 slug: identity
 eyebrow: Ethereum Institutional · Research
 heading:
   text: Identity
   italic: Identity
-intro: 'How participants are identified and permissioned on digital asset networks. The map will cover the ways an institution knows who it is dealing with on a shared ledger: network-level allowlists of nodes and accounts, token-level transfer restrictions, verifiable credentials and on-chain attestations, wallet screening and travel-rule messaging, and the standards behind them, and will show which of these each deployment style on the Digital Asset Networks map relies on.'
+intro: 'A shared ledger knows keys, not people. Native cryptocurrencies are bearer assets for that reason, and the same ledger lets smart contracts build tokens and applications that admit only verified people, entities and agents. The map shows the mechanisms that carry an institution''s existing checks onto the ledger, by the question each one answers: who this party is, whether the key acting is theirs, and what it may do.'
+intro_more: 'Every mechanism here supplements the know-your-customer, know-your-business and screening processes an institution already runs; none replaces them. What changes with a ledger is where the result of those processes lives and who can act on it: a list the issuer keeps, an attestation anyone can read, or a credential the customer presents and proves without revealing. The choice decides what the public can infer, how a permission is revoked, and whether a smart contract, which is itself only an address, can take part at all. This is a draft for review: placements and facts are Ethereum Institutional''s reading as of 6 November 2026 and will change.'
 notice:
   title: Work in progress.
-  text: This map is being drafted. The framing above is the plan, not a finding; nothing on this page is final, and no placements have been made yet.
+  text: This map is being drafted. Placements, facts and the framing are a first reading for review, checked 6 November 2026; nothing on this page is final, and none of it is legal advice.
+panel_default:
+  title: Identity on a shared ledger
+  text: Hover over a circle or a mechanism to read what it establishes; click to pin it here with all its facts. Use Focus on to pick what matters to you.
+badge: pill
+pill_scale: 1.1
+facts_as_of: '2026-11-06'
+legend:
+- kind: pill
+  color: '#627eea'
+  text: 'On an Ethereum chain, or an Ethereum standard'
+- kind: pill
+  color: '#6b6760'
+  text: 'Off the ledger: feeds the ledger through a mechanism in the overlaps'
+# Facets: the "Focus on" sidebar. Each mechanism (badges.yaml `facts`) gives one or more values per facet: `in`
+# (it has this), `part` (partly), a `note`. Readers pick values; within a facet any picked value matches, across
+# facets all must. `na` (does not apply) and `unknown` never match. `neutral: true` marks a facet readers value
+# differently (what the ledger reveals is a privacy cost to one reader and an audit trail to another).
+facets_title: Focus on
+facets_noun: mechanism
+facets_help: Pick what matters to you. Mechanisms that have all of it stay highlighted; dashed means partly.
+facet_presets:
+- id: issuer
+  label: A regulated token issuer's needs
+  text: 'Verified people and entities, anchored in a sovereign or licensed source, checked by the token contract itself at transfer time, with revocation that can be audited, and nothing revealed to the public beyond the fact that a proof passed. Only the zero-knowledge credential designs give all of it today; allowlists and attestations come close but publish membership, which reveals counterparties.'
+  require: [subject, checked]
+  picks:
+    subject: [person, org]
+    anchor: [sovereign, licensed]
+    checked: [onchain]
+    reveals: [proof]
+    revocation: [history, list]
+facet_groups:
+- id: subject
+  label: Who it identifies
+- id: trust
+  label: Trust and revocation
+- id: ledger
+  label: On the ledger
+- id: standards
+  label: Standards
+facets:
+- id: subject
+  group: subject
+  label: Subject
+  help: 'The kind of party the mechanism identifies: a natural person (KYC), a legal entity and those who act for it (KYB), or a software agent or device and its principal (KYA).'
+  values:
+  - { id: person, label: A person }
+  - { id: org, label: An organization }
+  - { id: agent, label: An agent or device }
+- id: anchor
+  group: trust
+  label: Trust anchor
+  help: 'Where the trust ultimately comes from. A self-sovereign or decentralized design can still anchor in a sovereign registry or a licensed issuer; what it removes is the need to ask a registry for permission to hold the identifier.'
+  values:
+  - { id: sovereign, label: A government registry or national eID }
+  - { id: licensed, label: A regulated or qualified issuer }
+  - { id: commercial, label: A company''s own check or attestation }
+  - { id: dns, label: A web domain (DNS and TLS) }
+  - { id: selfkey, label: The key itself (self-asserted) }
+- id: revocation
+  group: trust
+  label: Revocation
+  help: 'How a verification is withdrawn, and whether the withdrawal leaves a record a third party can audit.'
+  values:
+  - { id: history, label: Recorded on the ledger, with history }
+  - { id: list, label: An issuer-held list or registry, checked at use }
+  - { id: replace, label: The record is replaced, with no history }
+  - { id: expiry, label: Expiry only }
+- id: checked
+  group: ledger
+  label: Checked by a contract
+  help: 'Whether a smart contract can verify the mechanism itself at transfer time, whether an operator writes a conclusion to the ledger for contracts to read, or whether it stays off the ledger entirely.'
+  values:
+  - { id: onchain, label: 'Yes, a contract verifies it' }
+  - { id: written, label: 'An operator writes the result on chain' }
+  - { id: offchain, label: 'No, it stays off the ledger' }
+- id: reveals
+  group: ledger
+  label: What the public ledger shows
+  neutral: true
+  help: 'What an observer of the public ledger learns. Membership (that an address passed a check) reveals counterparty relationships once the admitted addresses transact; a proof reveals only that a statement verified.'
+  values:
+  - { id: identity, label: The party''s name or identifier }
+  - { id: membership, label: That the address passed a check, and whose }
+  - { id: proof, label: Only that a proof verified }
+  - { id: nothing, label: Nothing; it stays off the ledger }
+- id: standard
+  group: standards
+  label: Standard
+  values:
+  - { id: w3c, label: W3C }
+  - { id: ietf, label: IETF or OpenID }
+  - { id: iso, label: ISO or an international standard }
+  - { id: erc_final, label: Ethereum standard (Final) }
+  - { id: erc_draft, label: Ethereum standard (Draft) }
+  - { id: national, label: National law or scheme }
+  - { id: proprietary, label: A vendor''s or protocol''s own design }
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.
-  text: It will be built in the open on GitHub like the others. Open an issue to suggest a standard, a source or a deployment to include.
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  text: Open an issue to suggest a mechanism, a correction or a jurisdiction the map should cover, or send a pull request; every placement on this page is a file anyone can edit.
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Facts checked 6 November 2026; vendor statements are marked as such. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+sections:
+- title: Bearer assets and permissioned tokens
+  text: 'The starting point is what a ledger can and cannot know. Everything on the map builds on one side of that line or the other.'
+  items:
+  - title: Native cryptocurrencies are permissionless bearer assets
+    text: 'ETH, BTC and the other native assets belong to whoever controls the key. The protocol cannot know who that is, has no issuer who could be asked, and treats every valid signature alike. That is not a gap to be fixed; it is what makes the asset a bearer instrument and the network open. Identity, where an institution needs it, is added by what runs on top.'
+  - title: Smart contracts can admit only certified parties
+    text: 'A token or an application is a contract, and a contract can check before it acts. ERC-3643 passes a transfer only if the receiver is registered in an identity registry with claims from issuers the token trusts; ERC-7943 gives any token standard the same questions (canSend, canReceive, canTransfer) with frozen balances and forced transfers for enforcement. On the same ledger as the bearer assets, an issuer can therefore run a token open only to verified people, entities and, through the mechanisms in the center of the map, agents.'
+    sources:
+    - { title: 'ERC-3643, T-REX Token for Regulated Exchanges (Final)', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-11-06' }
+    - { title: 'ERC-7943, uRWA Universal Real World Asset Interface (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7943', checked: '2026-11-06' }
+  - title: Most stablecoins are bearer assets with a blocklist
+    text: 'USDC and USDT move between any addresses, like the native assets, but their issuers keep a blocklist at the contract: Circle''s terms let it block addresses it associates with illegal activity and freeze on a legal order, and Tether reported more than USD 4.4 billion frozen in all by April 2026, in coordination with OFAC and law enforcement. Screening data from blockchain analytics providers (Chainalysis, whose attribution a USENIX Security 2025 study tested against seized services, and others) lets issuers, exchanges and applications refuse transfers that touch sanctioned or high-risk clusters, whoever holds the key. The result is an open asset with sanctions and financial-crime controls, without any holder being verified.'
+    sources:
+    - { title: 'Circle, USDC risk factors (blocked addresses, freezing, legal orders)', url: 'https://www.circle.com/legal/usdc-risk-factors', checked: '2026-11-06' }
+    - { title: 'The Block, Tether freezes 344 million USDT on Tron (23 April 2026; cumulative totals as stated by Tether)', url: 'https://www.theblock.co/post/398599/tether-freezes-344-million-in-usdt-on-tron-after-wallets-flagged-by-u-s-authorities', checked: '2026-11-06' }
+    - { title: 'Lubbertsen, van Eeten and van Wegberg, Ghost Clusters (USENIX Security 2025)', url: 'https://www.usenix.org/conference/usenixsecurity25/presentation/lubbertsen', checked: '2026-11-06' }
+  - title: Some regimes want every holder known
+    text: 'Hong Kong''s AML/CFT guideline for licensed stablecoin issuers, in force since 1 August 2025, sets the opposite default: unless a licensee shows the HKMA that its other risk-mitigating measures are effective, the identity of each individual holder should be verified, by the issuer, a supervised institution or a reliable third party, and the issuer may keep a list of wallet addresses that have passed its controls. The HKMA says it will keep reassessing the approach. A stablecoin built to that default is a permissioned token at the on-ramp, the off-ramp and every wallet in between, and sits in the same place on this map as a tokenized fund.'
+    sources:
+    - { title: 'HKMA, Consultation conclusions on AML/CFT requirements for regulated stablecoin activities, with the Guideline (July and August 2025; paragraphs 2.18, 4.39, 4.40, 5.11)', url: 'https://www.hkma.gov.hk/media/eng/doc/key-functions/ifc/stablecoin-issuers/Consultation_conclusions_aml_stablecoin.pdf', checked: '2026-11-06' }
+    - { title: 'Ledger Insights, Hong Kong rules require identity of every stablecoin holder (29 July 2025)', url: 'https://www.ledgerinsights.com/hong-kong-stablecoin-rules-require-holder-ids/', checked: '2026-11-06' }
+  - title: Permission changes what a token can do
+    text: 'A smart contract is itself an address. A lending pool, an exchange contract or an escrow cannot hold or receive a permissioned token unless that address is admitted, and an ERC-3643 transfer checks the receiver''s registration whether the receiver is a person or a contract. A token that insists on known holders is therefore less composable than a bearer asset: every application it should work with must be onboarded as a participant, and every application it has not been onboarded to is closed to it. That is a design choice with a cost, and comparisons of "programmable money" should say which side of the line each token sits on.'
+    sources:
+    - { title: 'ERC-3643, T-REX Token for Regulated Exchanges (isVerified checked on the receiver)', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-11-06' }
+- title: Three questions, three circles
+  text: 'The map separates questions that are often run together. Each mechanism answers one of them, or two, or in the center all three.'
+  items:
+  - title: Who (KYC, KYB, KYA)
+    text: 'Know your customer verifies a natural person; know your business verifies a legal entity and the people entitled to act for it; know your agent, the newest, verifies a software agent or device and the principal responsible for it. All three are run off the ledger, against documents, registries and the sovereign schemes on the left of the map, and all three produce a conclusion that then has to reach an address.'
+    sources:
+    - { title: 'Sumsub, From AI agents to Know Your Agent (28 January 2026; vendor)', url: 'https://sumsub.com/blog/know-your-agent/', checked: '2026-11-06' }
+  - title: Which key (proof of control)
+    text: 'A verified party and an address are joined by a signature: the party signs a message with the key, and the institution records that this address is theirs. Everything on the right of the map is about making that signature safe to rely on, for ordinary accounts, for smart accounts and for devices.'
+  - title: What (permission)
+    text: 'A contract or an issuer decides whether this address may hold or move this asset: a blocklist, an allowlist, or a check at transfer time against a credential or attestation. Permission can exist without identity (a blocklist) and identity without permission (a known customer who is not eligible), which is why the questions stay apart.'
+- title: Carrying a check onto the ledger
+  text: 'Identity is verified off the ledger. What differs between designs is how its result arrives, and what each way reveals.'
+  items:
+  - title: Blocklist, allowlist, attestation, proof
+    text: 'A blocklist names the excluded and admits everyone else; an allowlist names the admitted and excludes everyone else; an attestation is a signed statement about an address that any contract may read and gate on, with the attester as the thing to trust; a credential proof lets the holder show a contract that a trusted issuer vouches for them, without the contract holding any list. The first three are mapped from an institution''s records to addresses; the fourth is presented by the customer. Verifiable credentials are designed for the fourth path, and ERC-3643 and the attestation services combine the second and third.'
+    sources:
+    - { title: 'W3C, Verifiable Credentials Data Model v2.0 (Recommendation, 15 May 2025)', url: 'https://www.w3.org/TR/vc-data-model-2.0/', checked: '2026-11-06' }
+    - { title: 'Ethereum Attestation Service, eas-contracts', url: 'https://github.com/ethereum-attestation-service/eas-contracts', checked: '2026-11-06' }
+  - title: Allowlists reveal counterparties
+    text: 'The addresses on an allowlist are public, and so are the transfers among them. Anyone can read who an issuer''s investors transact with, when and how much, even though no name is on the ledger; a Privacy map design hides the amounts or the parties, but not membership of the list. Attestations reveal that an address passed a check and whose; a zero-knowledge proof reveals only that the check passed. Which of these is acceptable is a question for each institution''s privacy and conduct rules, and the Focus on sidebar lets a reader filter by it.'
+  - title: Custody does not hide you
+    text: 'Addresses behind an exchange or a custodian are attributed by the same heuristics that attribute everything else: inputs spent together belong to one party, change returns to the sender, services hand out one-time deposit addresses, and a cluster tied to an exchange resolves to a person by asking the exchange. The USENIX Security 2025 evaluation of the market leader found its attribution a reliable lower bound with under 0.5 percent false positives. An institution should assume that its own addresses, custodial or not, are known to counterparties and competitors who look.'
+    sources:
+    - { title: 'Lubbertsen, van Eeten and van Wegberg, Ghost Clusters: Evaluating Attribution of Illicit Services through Cryptocurrency Tracing (USENIX Security 2025)', url: 'https://www.usenix.org/conference/usenixsecurity25/presentation/lubbertsen', checked: '2026-11-06' }
+    - { title: 'Deuber et al., Argumentation Schemes for Blockchain Deanonymization (arXiv, 2023)', url: 'https://arxiv.org/pdf/2305.16883', checked: '2026-11-06' }
+    - { title: 'Kappos et al., How to Peel a Million (arXiv, 2022)', url: 'https://arxiv.org/pdf/2205.13882.pdf', checked: '2026-11-06' }
+- title: Sovereign identity schemes and how far they reach
+  text: 'National schemes are the strongest source of verified identity an institution can use. On this map they sit in the verified identity circle alone, because what they hand over stops at the relying party.'
+  items:
+  - title: What they give
+    text: 'Singpass (Myinfo) releases government-verified personal data to an approved business with the user''s consent and is used by Singapore''s banks for KYC; UAE PASS authenticates verified individuals and lets them sign, with an eSeal and a verification API for organizations; iAM Smart offers Hong Kong organizations authentication, legally effective digital signing and form filling from stored personal data. Each is an assertion to the relying party at the time of the transaction: an API response, a signature, a session that expires.'
+    sources:
+    - { title: 'GovTech Singapore, Myinfo: how it works', url: 'https://developer.tech.gov.sg/products/categories/digital-identity/myinfo/how-it-works', checked: '2026-11-06' }
+    - { title: 'UAE PASS developer FAQ', url: 'https://docs.uaepass.ae/faq', checked: '2026-11-06' }
+    - { title: 'Digital Policy Office, Hong Kong: iAM Smart for organisations', url: 'https://www.digitalpolicy.gov.hk/en/our_work/data_governance/common_data_platforms/iam_smart/organisations', checked: '2026-11-06' }
+  - title: Where they stop
+    text: 'None of them is anchored on a shared ledger: a contract cannot call Singpass, a token cannot check an iAM Smart signature, and a revocation in the scheme is invisible to anything on chain. The institution that used the scheme carries its own conclusion to the ledger and takes responsibility for it, and the scheme''s reach ends at its jurisdiction. The EU wallet changes the form, a credential the holder carries with selective disclosure, but not the boundary: the relying party verifies the presentation, and it is due in every member state by about 24 December 2026, with one national wallet in production in October 2026. Zero-knowledge passport proofs are the exception on the map: the state''s own signature on the chip is verified by a contract, with the limits that come with government PKI.'
+    sources:
+    - { title: 'Open ID Europe, EUDI Wallet rollout timeline (status October 2026)', url: 'https://www.openideurope.eu/digital-identity/eudi-wallet-timeline/', checked: '2026-11-06' }
+    - { title: 'Safe Research, ZK Passport: where are we now? (4 September 2025)', url: 'https://safefoundation.org/blog/safe-research-zk-passport-where-are-we-now', checked: '2026-11-06' }
+  - title: Organizations
+    text: 'For legal entities the equivalent anchor is the LEI, and the vLEI makes it a credential: Qualified vLEI Issuers under GLEIF''s framework issue credentials for an entity and for a person''s official role in it, each traceable to the entity''s record in the Global LEI Index, standardized in ISO 17442-3 (2024). It is a KYB credential with a regulated root of trust that is not itself an EVM mechanism, so a verifier or an attestation is still needed on the ledger side.'
+    sources:
+    - { title: 'GLEIF, The verifiable LEI (vLEI)', url: 'https://www.gleif.org/en/organizational-identity/lei-vlei/the-verifiable-lei-vlei', checked: '2026-11-06' }
+- title: Decentralized identity, self-sovereign identity, and the state
+  text: 'Two terms that are often read as a rejection of government identity. Neither is.'
+  items:
+  - title: What the words mean
+    text: 'A decentralized identifier (DID) is an identifier its controller can create and prove control of without asking a registry for permission; it resolves to a document of keys and endpoints, and it carries no identity of its own. Self-sovereign identity adds the holder''s control over credentials: the holder keeps them and decides what to present. Neither says anything about who may issue a credential. A European Commission discussion paper on eIDAS-supported SSI proposed exactly the opposite of bypassing the state: binding a DID to a qualified certificate, so that a government-recognized trust service becomes the anchor a verifier can check for itself.'
+    sources:
+    - { title: 'W3C, Decentralized Identifiers (DIDs) v1.0 (Recommendation, 19 July 2022)', url: 'https://www.w3.org/TR/did-1.0/', checked: '2026-11-06' }
+    - { title: 'European Commission (Futurium), eIDAS supported self-sovereign identity (discussion paper)', url: 'https://ec.europa.eu/futurium/en/system/files/ged/eidas_supported_ssi_may_2019_0.pdf', checked: '2026-11-06' }
+  - title: Trust anchors are a choice
+    text: 'A credential is as good as its issuer. The designs on this map anchor in a sovereign registry (passport proofs, the EU wallet), a licensed or qualified issuer (vLEI, a bank''s attestation), a company''s own check (Coinbase Verifications), a web domain (did:web) or nothing but the key (a bare DID, an ENS name). Self-sovereign designs with sovereign anchors are the ones institutions can use: the holder controls the presentation, the state or a licensed issuer stands behind the claim, and the ledger verifies the proof.'
+  - title: DNS is a weak anchor
+    text: 'Anchoring an identifier in a web domain borrows the domain''s reputation, and its specification says what that costs: resolution depends on DNS and a TLS certificate, DNS carries interception and spoofing risks, updates replace the document with no history unless the operator keeps one, no authorization for writing the document is defined, and a registrar or DNS provider can withdraw the identifier by taking the domain. A ledger registry keeps every issuance and revocation and cannot be withdrawn by a registrar; ENS shows the difference, with every record change a transaction, and can still import a DNS name through DNSSEC where the domain is the identity an institution wants to show.'
+    sources:
+    - { title: 'W3C CCG, did:web Method Specification (security and privacy considerations)', url: 'https://w3c-ccg.github.io/did-method-web/', checked: '2026-11-06' }
+    - { title: 'ENS documentation, the ENS protocol', url: 'https://docs.ens.domains/learn/protocol', checked: '2026-11-06' }
+- title: Signatures are part of identity
+  text: 'Every mechanism on the map ends in a signature. Getting the signed message right is where wallet verification most often goes wrong.'
+  items:
+  - title: Typed data and sign-in
+    text: 'EIP-712 lets a wallet show the user a structured message and binds the signature to a domain (name, version, chain id, verifying contract), so a signature for one application or chain is not accepted by another. It provides no replay protection of its own; that is left to the application. EIP-4361, Sign-In with Ethereum, is the sign-in message built on these rules: the requesting domain (which the wallet checks against the origin), the address, a chain id, a random nonce per session, an issued-at time and an optional expiry, with ERC-1271 for smart accounts.'
+    sources:
+    - { title: 'EIP-712, Typed structured data hashing and signing (Final)', url: 'https://eips.ethereum.org/EIPS/eip-712', checked: '2026-11-06' }
+    - { title: 'EIP-4361, Sign-In with Ethereum (Final)', url: 'https://eips.ethereum.org/EIPS/eip-4361', checked: '2026-11-06' }
+  - title: What a signed verification message should carry
+    text: 'Ethereum Institutional''s reading of the two standards, as a checklist for linking a wallet to a verified customer: a typed EIP-712 message rather than a raw hash, so the user sees what they sign; a nonce issued by the institution, used once and stored; an expiry measured in minutes; the chain id and, where a contract will check it, the verifying contract; a statement of purpose in the message itself, so a sign-in signature cannot be replayed as an approval; verification through ERC-1271 for smart accounts, repeated when the account''s signers change; and never a request to sign something the institution could reuse to move funds.'
+    sources:
+    - { title: 'EIP-712 (replay protection is left to the application)', url: 'https://eips.ethereum.org/EIPS/eip-712', checked: '2026-11-06' }
+    - { title: 'EIP-4361 (nonce, domain binding, expiration, ERC-1271)', url: 'https://eips.ethereum.org/EIPS/eip-4361', checked: '2026-11-06' }
+    - { title: 'ERC-1271, Standard Signature Validation Method for Contracts (Final)', url: 'https://eips.ethereum.org/EIPS/eip-1271', checked: '2026-11-06' }
+  - title: Smart accounts and devices
+    text: 'ERC-1271 and ERC-6492 let an account that is a contract decide what counts as its signature, including one that is not deployed yet; ERC-4337 and EIP-7702 make such accounts practical for any user. Passkeys (WebAuthn, a W3C Recommendation at Level 3 since August 2026) give people device-bound, origin-scoped keys that a smart account can accept. Proof of control becomes a policy the institution writes, which is the right place for custody rules; the cost is that a signature''s validity can change with the account''s state.'
+    sources:
+    - { title: 'ERC-6492, Signature Validation for Predeploy Contracts (Final)', url: 'https://eips.ethereum.org/EIPS/eip-6492', checked: '2026-11-06' }
+    - { title: 'ERC-4337, Account Abstraction Using Alt Mempool (Final)', url: 'https://eips.ethereum.org/EIPS/eip-4337', checked: '2026-11-06' }
+    - { title: 'EIP-7702, Set Code for EOAs (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7702', checked: '2026-11-06' }
+    - { title: 'W3C, Web Authentication Level 3 (Recommendation, 25 August 2026)', url: 'https://www.w3.org/TR/webauthn-3/', checked: '2026-11-06' }
+- title: Agents and devices
+  text: 'The newest party on the ledger is software acting for someone. The ledger treats its key like any other; the institution cannot.'
+  items:
+  - title: Know your agent
+    text: 'Two vendor framings from 2026 describe the same shape: an agent gets its own revocable, time-bound identity; it is linked to a person or organization verified through KYC or KYB; and a mandate (permitted actions, limits, expiry) is enforced on each request, with the principal re-authenticating for anything outside it. The agent is the third subject on this map, after persons and organizations, and the principal behind it is the one the institution actually knows.'
+    sources:
+    - { title: 'Sumsub, From AI agents to Know Your Agent (28 January 2026; vendor)', url: 'https://sumsub.com/blog/know-your-agent/', checked: '2026-11-06' }
+    - { title: 'Shufti, Know Your Agent press release (28 October 2026; vendor)', url: 'https://shuftipro.com/press-release/shufti-launches-know-your-agent-to-verify-ai-agents/', checked: '2026-11-06' }
+  - title: On the ledger
+    text: 'ERC-8004 gives an agent a persistent on-chain identity (an ERC-721 token pointing at a registration file), a reputation record and hooks for independent validation; its core registries went live on Ethereum mainnet on 29 January 2026 and the standard remains a Draft. It records the owner''s address, not who the owner is. An institutional design pairs it with a verified principal from the left of the map and a smart account whose validation rule is the mandate, so that identity, key and permission are checked together. The Scenarios map will carry the payment side (x402, ERC-8004, EIP-3009).'
+    sources:
+    - { title: 'ERC-8004, Trustless Agents (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-8004', checked: '2026-11-06' }
+    - { title: 'Forbes, ERC-8004 on mainnet (5 February 2026)', url: 'https://www.forbes.com/sites/digital-assets/2026/02/05/ai-agents-gain-trust-via-ethereum-erc-8004-on-mainnet/', checked: '2026-11-06' }
+- title: AML, financial crime and the travel rule
+  text: 'Identity on a ledger is shaped by rules written for institutions, not for contracts, and those rules are still moving. Regulatory treatment belongs to the Taxonomy''s lenses; this section names what bears on architecture.'
+  items:
+  - title: The travel rule
+    text: 'FATF Recommendation 16, revised in June 2025, requires a service provider sending a virtual asset transfer to collect originator and beneficiary information and pass it to the receiving provider, off the ledger, with a USD or EUR 1,000 baseline that many jurisdictions set to zero. IVMS 101 is the common data format. For a self-hosted wallet there is no counterparty provider, so several regimes ask the provider to verify that its customer controls the wallet, with a signed message or a micro-transaction. The identities exchanged here never touch the ledger, which is why the travel rule sits in the verified identity circle and the control proof outside it.'
+    sources:
+    - { title: '21 Analytics, What is the FATF Travel Rule (revised Recommendation 16, June 2025; thresholds; self-hosted wallets)', url: 'https://www.21analytics.co/what-is-the-fatf-travel-rule/', checked: '2026-11-06' }
+  - title: Rules that mandate an architecture
+    text: 'Some obligations decide the design before any technology choice. In the United States the GENIUS Act of July 2025 brings permitted payment stablecoin issuers within the Bank Secrecy Act, and the FinCEN and OFAC proposal of April 2026 would require a written AML program, suspicious activity reporting, a sanctions program able to block, freeze and reject transactions, and the technical capability to seize, freeze, burn or prevent transfers of the issuer''s stablecoin on a lawful order, where the stablecoin or wallet can be identified with reasonable particularity. An issuer that must be able to do that keeps a control at the contract, which is the blocklist on this map. Hong Kong''s default of a verified holder leads to the allowlist. Both are architectures a rule chose.'
+    sources:
+    - { title: 'WilmerHale, Treasury announces proposed rule to implement the GENIUS Act''s requirements to counter illicit finance (20 April 2026; comments due 9 June 2026)', url: 'https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance', checked: '2026-11-06' }
+    - { title: 'HKMA, Consultation conclusions on AML/CFT requirements for regulated stablecoin activities (July 2025)', url: 'https://www.hkma.gov.hk/media/eng/doc/key-functions/ifc/stablecoin-issuers/Consultation_conclusions_aml_stablecoin.pdf', checked: '2026-11-06' }
+  - title: An evolution, not a settled state
+    text: 'The FinCEN and OFAC rule was a proposal with comments due 9 June 2026; the HKMA says it will reassess its holder-verification default; the EU wallet''s first deadline falls in December 2026 with most states not yet in production; FATF''s revised travel rule has minimum data requirements that apply from 2030; ERC-8004 is a Draft. An institution building today should expect the mechanisms on this map to be asked to change, and prefer designs where the policy (who is admitted, what is revealed) can change without the token.'
+    sources:
+    - { title: 'WilmerHale, Treasury proposed rule under the GENIUS Act (20 April 2026)', url: 'https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance', checked: '2026-11-06' }
+    - { title: 'Open ID Europe, EUDI Wallet rollout timeline (status October 2026)', url: 'https://www.openideurope.eu/digital-identity/eudi-wallet-timeline/', checked: '2026-11-06' }
+    - { title: '21 Analytics, What is the FATF Travel Rule (minimum requirements from 2030)', url: 'https://www.21analytics.co/what-is-the-fatf-travel-rule/', checked: '2026-11-06' }
+- title: From cost center to revenue
+  wip: true
+  text: 'A proposal under discussion at Ethereum Institutional, not a finding: once a verified credential is held by its subject rather than filed by each verifier, the economics of verification can turn around.'
+  items:
+  - title: Reusable credentials the subject custodies
+    text: 'Today every institution pays to verify the same person or entity, and the result stays in its files. A credential the subject holds in their own wallet, issued once by a licensed verifier and presented many times with selective disclosure, moves the cost to the first issuance and lets the issuer charge the relying parties that benefit: a fee to certify the credential, or for add-on services bound to it. The mechanisms in the center of the map, a credential or attestation with a transfer-time check, are the ones that make this possible without a list.'
+  - title: A credit score as a credential
+    text: 'An individual or entity could hold a credential carrying a previously obtained soft-pull credit score and present it to a lender or counterparty at no cost to either. A firm that wants a current and deeper view could pay, in tokens, for a hard pull, delivered as an on-chain score linked to the off-chain reporting agency''s record, with the subject''s consent recorded by the same signature. The data stays with the agency; what moves on the ledger is the score, the consent and the payment, and the agency is paid per use instead of per integration. Credit-reporting and data-protection law in each jurisdiction decides what a hard pull requires and who may see it; the design has to be built around that.'
+  - title: Underwriting and mortgages
+    text: 'The same pattern extends to the documents an underwriter or a mortgage lender collects: proof of income, of ownership, of insurance, of identity, each a credential from the institution that already holds the record, presented together by the applicant and verifiable on chain. The acceleration comes from not re-collecting and re-checking what another regulated party has already verified, and the ledger''s part is the proof and the audit trail, not the data. Ethereum Institutional will develop this into a Scenario once the identity mechanisms above are settled.'
+- title: Choosing providers and standards
+  text: 'Ethereum Institutional does not recommend vendors. These are the kinds of provider an institution will meet, with examples, and the questions that separate them.'
+  items:
+  - title: Supplement, do not replace
+    text: 'Every provider on this map extends an institution''s existing KYC, KYB and screening to addresses and ledgers; none replaces the obligations or the records. The question to ask a credential or attestation provider is therefore not whether it will run the institution''s KYC, but how the institution''s conclusion reaches the ledger, what the public learns from it, how it is revoked, and what happens to it if the provider disappears.'
+  - title: Kinds of provider
+    text: 'Zero-knowledge credential stacks that verify on an EVM chain (Privado ID and Billions Network; the passport-proof projects ZKPassport, Rarimo and Self); attestation services and the institutions that attest on them (the Ethereum Attestation Service; Coinbase Verifications on Base); permissioned-token platforms with their own registries (ERC-3643 implementations; Securitize for BlackRock''s BUIDL); verification providers extending KYC and KYB to agents (Sumsub, Shufti); and blockchain analytics for screening (Chainalysis and others). Claims by any of them are vendor-stated on this page unless an independent source is cited.'
+    sources:
+    - { title: 'Safe Research, ZK Passport: where are we now? (4 September 2025)', url: 'https://safefoundation.org/blog/safe-research-zk-passport-where-are-we-now', checked: '2026-11-06' }
+    - { title: 'Coinbase Developer Platform, Verifications: attestations', url: 'https://docs.cdp.coinbase.com/verifications/introduction/attestations', checked: '2026-11-06' }
+    - { title: 'Eco, BUIDL deep dive (secondary source, 6 October 2026)', url: 'https://eco.com/support/en/articles/15254013-buidl-deep-dive-2026', checked: '2026-11-06' }
+  - title: Questions that separate them
+    text: 'Where is the trust anchor, and is it one a regulator in the institution''s jurisdiction recognizes? Can a contract verify the result itself, or does an operator write it? What does the public ledger show, and does an allowlist expose counterparties the institution must keep confidential? How is a verification revoked, and is the revocation auditable with history? Which standards does it implement (W3C credentials and DIDs, OpenID4VC and HAIP, ISO mdoc, EAS, ERC-3643, ERC-7943, EIP-712 and EIP-4361), so that the institution can change provider without changing the token? And what remains usable if the provider stops operating?'
+    sources:
+    - { title: 'OpenID Foundation, OpenID4VC High Assurance Interoperability Profile 1.0 (Final, 24 December 2025)', url: 'https://openid.net/specs/openid4vc-high-assurance-interoperability-profile-1_0-final.html', checked: '2026-11-06' }

@@ -266,6 +266,8 @@ function validate(page) {
     if (g && g.t !== 'rect' && g.rx) {
       const lh = (g.fs || 12) * 1.15, nLab = [].concat(c.label || []).length;
       const rows = [];
+      // the main label lines too (owner, 6 November 2026: labels kept touching the circles on every Venn map)
+      [].concat(c.label || []).forEach((t, i) => rows.push([t, g.ly + i * lh, g.fs || 12]));
       if (c.sub) rows.push([c.sub, g.suby || (g.ly + nLab * lh), 10]);
       if (c.sub2 && g.sy) rows.push([c.sub2, g.sy, 12]);
       if (c.sub3 && g.s3y) rows.push([c.sub3, g.s3y, 10]);
@@ -566,7 +568,7 @@ function render({ circles, layout, tokens, site, lenses, out }) {
     lenses, version, bridges: layout.bridges || {}, annotations: layout.annotations || [], canvas: layout.canvas,
     facets: site.facets ? { title: site.facets_title || 'Focus on', help: site.facets_help || '', groups: site.facet_groups || [], list: site.facets, presets: site.facet_presets || [],
       as_of: new Date(site.facts_as_of).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) } : null,
-    lens_groups: site.lens_groups || [], badge: site.badge || 'disc', pill_scale: site.pill_scale || 1,
+    lens_groups: site.lens_groups || [], badge: site.badge || 'disc', pill_scale: site.pill_scale || 1, facets_noun: site.facets_noun || 'design',
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
   };
   return fillCommon(read('src/template.html'), { site, out, data })

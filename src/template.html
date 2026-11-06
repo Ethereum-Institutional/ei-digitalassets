@@ -402,7 +402,7 @@
   // Badges never move. Under a lens listed in a token's `licensed_under`, the lens-only circle that lens shows
   // (e.g. Licensed or Recognized Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
   // Pills (DATA.badge==='pill') show the badge's name; ink = Ethereum ecosystem (`eth: true`), gray = other.
-  const PILL = DATA.badge==='pill', PK = DATA.pill_scale||1;
+  const PILL = DATA.badge==='pill', PK = DATA.pill_scale||1, NOUN = DATA.facets_noun||'design', NOUNS = NOUN+'s'; // `facets_noun` (site.yaml): what the sidebar calls a badge
   // ---------- facts (site.yaml `facets`, badges `facts`): a fact sheet in the panel and the "Focus on" sidebar ----------
   const FX = DATA.facets, pick = new Map(); // pick: facet id -> Set of chosen value ids
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
@@ -653,7 +653,7 @@
       fxSync();
       if(!pick.size) activeP=null;
       aside.querySelectorAll('button[data-preset]').forEach(b=>{ const on=!!activeP&&activeP.id===b.dataset.preset; b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
-      if(!pick.size){ fxn.textContent=`${total} designs`; activeLenses.length=0; applyLens(null,false); return; }
+      if(!pick.size){ fxn.textContent=`${total} ${NOUNS}`; activeLenses.length=0; applyLens(null,false); return; }
       const n=pick.size, nets={}; let intro, close=null;
       if(activeP){
         // a preset filters only by its must-haves (`require`, while still picked); every design that meets them stays
@@ -665,7 +665,7 @@
         close=Object.fromEntries([...DES.map(a=>[a.t,'Does not meet the must-haves']),...rs.map(r=>[r.a.t,`Meets ${r.y} of your ${n} choices${r.p?`, ${r.p} more partly`:''}`])]);
         fxn.textContent=full.length?`${full.length} of ${total} have all ${n}`:`No design has all ${n}; ${rs.length} ranked`;
         const mh=req.length?` that meet the must-haves (${req.map(f=>esc(FX.list.find(x=>x.id===f).label.toLowerCase())).join(', ')})`:'';
-        intro=`<b>${esc(P.label)}${samePicks(P)?'':', edited'}.</b> ${esc(P.text)} ${full.length?`${full.length} design${full.length>1?'s have':' has'} everything you picked.`:'No design has everything you picked.'} The ${rs.length} designs${mh}, ranked by the choices each meets (a partial counts half): ${listed(rs,n)}. Click one to see which choices it meets and misses.`;
+        intro=`<b>${esc(P.label)}${samePicks(P)?'':', edited'}.</b> ${esc(P.text)} ${full.length?`${full.length} ${NOUN}${full.length>1?'s have':' has'} everything you picked.`:`No ${NOUN} has everything you picked.`} The ${rs.length} designs${mh}, ranked by the choices each meets (a partial counts half): ${listed(rs,n)}. Click one to see which choices it meets and misses.`;
       } else {
         // your own picks: a design must hold every picked facet (a partial makes it dashed); a facet with nothing
         // picked never filters. If nothing holds them all, the closest designs are dashed and ranked in the panel.
@@ -673,8 +673,8 @@
           for(const f of pick.keys()){ const r=meets(a,f); if(r==='in') continue; if(r==='part'){ st='part'; continue; } st=null; break; }
           if(st) nets[a.t]=st; });
         const m=DES.filter(a=>nets[a.t]);
-        if(m.length){ fxn.textContent=`${m.length} of ${total} designs match`;
-          intro=`${m.length} of ${total} designs match: ${m.map(a=>a.name+(nets[a.t]==='part'?' (partly)':'')).join(', ')}. Click a design to read its facts.`; }
+        if(m.length){ fxn.textContent=`${m.length} of ${total} ${NOUNS} match`;
+          intro=`${m.length} of ${total} ${NOUNS} match: ${m.map(a=>a.name+(nets[a.t]==='part'?' (partly)':'')).join(', ')}. Click a ${NOUN} to read its facts.`; }
         else {
           const rs=ranked(DES), best=rs.length?rs[0].s:0, near=rs.filter(r=>r.s>0&&r.s>=best-2).slice(0,6);
           near.forEach(r=>nets[r.a.t]='part');

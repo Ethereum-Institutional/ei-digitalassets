@@ -1,0 +1,69 @@
+# Identity: circles (content)
+# Three circles for the three questions an institution answers before an asset moves on a shared ledger: Verified
+# identity (who: the person, organization or agent behind an address, the KYC, KYB and KYA question; left, read
+# first, heavier line), Proof of control (which key: that the address acting is controlled by that party) and
+# Permission (what: whether that party may hold or move this asset). A badge sits in the region matching what the
+# mechanism establishes. Positions and sizes live in layout.yaml.
+# Writing rules: US spelling; no em-dashes; quote YAML values that contain ": "; "Ethereum mainnet" for the chain.
+
+palette:
+  ledger:
+  - '#f8f6f2'
+  - '#cfc9bd'
+  who:
+  - '#d9e1f2'
+  - '#3a4a8f'
+  key:
+  - '#e9e3ee'
+  - '#65547a'
+  may:
+  - '#e2e8ea'
+  - '#4f6872'
+  schemes:
+  - '#efece6'
+  - '#9a948a'
+containers:
+- ledger
+children:
+  ledger:
+  - who
+  - key
+  - may
+inherit_status: {}
+circles:
+- id: ledger
+  label:
+  - Identity on a shared ledger
+  family: ledger
+  path: ''
+  desc: 'A shared ledger knows addresses, not people. An address is a public key, a contract or a name that resolves to one of those; nothing on the ledger says who stands behind it. Identity on a shared ledger is therefore a set of mechanisms that answer three questions before an asset moves: who this party is (verified identity), whether the key acting is really theirs (proof of control) and whether they may hold or move this asset (permission). Most mechanisms answer one question; a few, placed in the overlaps, answer two or all three. None of them replaces the checks an institution already runs; they carry the result of those checks to the ledger, where a contract can act on it.'
+- id: who
+  label:
+  - Verified
+  - identity
+  family: who
+  sub: 'who: KYC, KYB and KYA'
+  path: Identity on a shared ledger
+  desc: 'Verified identity ties an address to a legal person: a natural person (know your customer, KYC), a legal entity and the people entitled to act for it (know your business, KYB) or, newest, a software agent or device and the principal responsible for it (know your agent, KYA). The verification itself happens off the ledger, against documents, registries and the digital identity schemes drawn below the ledger box, and the question for a digital asset program is how its result reaches the ledger: as a listed address, as an attestation about the address, or as a credential the holder presents when needed. Verified identity alone does not prove that the key now acting belongs to the verified party, and it does not say what the party may do.'
+- id: key
+  label:
+  - Proof of
+  - control
+  family: key
+  sub: 'which key: signatures'
+  path: Identity on a shared ledger
+  desc: 'Proof of control shows that whoever is acting controls the private key, the smart account or the name behind an address. On an Ethereum chain that proof is a signature: over a transaction, over a typed message (EIP-712), over a sign-in request (EIP-4361) or, for a smart account, a check the account itself performs (ERC-1271). Signatures are part of identity because every other mechanism on this map ends in one: a credential is presented by signing, an allowlisted address acts by signing, an agent executes by signing. A signature proves control of a key, never who holds it, and a signed message proves nothing about a different chain, contract or purpose unless the message says so.'
+- id: may
+  label:
+  - Permission
+  family: may
+  sub: 'what: eligibility and screening'
+  path: Identity on a shared ledger
+  desc: 'Permission is the decision a contract or an issuer takes about an address: may it receive this token, send it, or interact at all. It is enforced in three ways: a blocklist that blocks named addresses and lets everyone else through; an allowlist that admits only addresses an operator has registered; or a check at transfer time against a credential, attestation or rule. Screening against sanctions lists and transaction analytics sits here as well, as a permission decision made from an address''s history rather than from its owner''s identity. Permission can be granted without any verified identity (a blocklist) and verified identity can exist without permission (a known customer who is not eligible for this asset), which is why the two are separate circles.'
+- id: schemes
+  label:
+  - Digital identity schemes
+  family: schemes
+  sub: 'government and sector credentials; not on a shared ledger'
+  path: Digital identity schemes
+  desc: 'National and sector digital identity schemes (Singpass, UAE PASS, iAM Smart, the EUDI Wallet, and many others) verify people and entities against a government registry and give a business an authenticated, consented record of who someone is. They are digital identity, not decentralized identity: each runs on its scheme operator''s own systems, none runs on an EVM chain or any shared ledger, and none can be read by a contract. They reach the ledger only through a mechanism in the circles above: an allowlist entry, an attestation about an address, or a credential proof such as a zero-knowledge passport proof. Ethereum Institutional draws them outside the ledger box for that reason (owner, 6 November 2026). Decentralized identity (DIDs, verifiable credentials, vLEI) stays inside the box: its credentials are designed to be presented to, and anchored or verified on, a shared ledger.'

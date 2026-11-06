@@ -1,0 +1,76 @@
+# Identity: layout (geometry only)
+# cx,cy,rx,ry = ellipse center and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# suby positions the small sub-label. Units are SVG user units on a 900×990 canvas (the Privacy map's width, taller by the
+# box under the ledger; pills at pill_scale 1.1 in site.yaml). The ledger box holds the three question circles; the
+# `schemes` box below it, outside the ledger, holds the government and sector digital identity schemes, which do not run on
+# a shared ledger (owner, 6 November 2026). Verified identity (left, heavier line `sw`) and Proof of control overlap
+# widely; Permission is smaller and below, so the center region (all three) sits where the three questions meet.
+# Keep every label and pill clear of the circle lines (at least 6 units; labels 30). The two big labels sit on two lines,
+# centered in each circle's own lune (the part the other circle does not cover), because a one-line label at this size
+# is wider than the lune; the build checks label lines against the border.
+
+canvas:
+  width: 900
+  height: 990
+circles:
+  ledger:
+    t: rect
+    x: 10
+    y: 10
+    w: 880
+    h: 820
+    r: 50
+    lx: 450
+    ly: 50
+    fs: 24
+    fw: 700
+  who:
+    cx: 330
+    cy: 390
+    rx: 250
+    ry: 250
+    lx: 217
+    ly: 300
+    fs: 24
+    fw: 700
+    suby: 352
+    sw: 3.5
+  key:
+    cx: 570
+    cy: 390
+    rx: 250
+    ry: 250
+    lx: 685
+    ly: 450
+    fs: 22
+    fw: 700
+    suby: 500
+  may:
+    cx: 450
+    cy: 610
+    rx: 200
+    ry: 200
+    lx: 450
+    ly: 658
+    fs: 22
+    fw: 700
+    suby: 678
+  schemes:
+    t: rect
+    x: 10
+    y: 850
+    w: 880
+    h: 125
+    r: 34
+    lx: 450
+    ly: 884
+    fs: 20
+    fw: 700
+    suby: 904
+annotations:
+- kind: connector         # the empty key-and-permission region, outside verified identity
+  path: M0 0
+  labels:
+  - { x: 556, y: 560, text: 'Control alone grants nothing:', anchor: middle, size: 11, color: '#4f6872' }
+  - { x: 556, y: 576, text: 'a permission follows the', anchor: middle, size: 11, color: '#4f6872' }
+  - { x: 556, y: 592, text: 'identity it was checked for', anchor: middle, size: 11, color: '#4f6872' }

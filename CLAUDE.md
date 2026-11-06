@@ -389,6 +389,35 @@ and decisions behind them.
 - Names: Bermuda Bay (not Bermuda); 0xbow Privacy Pools (not Privacy Pools alone); Merces (TACEO's, named in its
   description; the short label keeps the pill clear of the circle lines).
 
+## Identity map (`data/identity/`, draft)
+
+- The first draft (6 November 2026) was reviewed by the owner on the built page and went without a second-model check
+  (owner, 6 November 2026); a later check applies to material changes as `AGENTS.md` §2 says.
+- A Venn map (no `kind`) of the mechanisms that answer the three questions an institution settles before an asset moves
+  (owner's brief, 6 November 2026): **Verified identity** (who: KYC, KYB and KYA; left, heavier line), **Proof of
+  control** (which key: signatures, smart accounts, device keys) and **Permission** (what the address may do; smaller,
+  below). A mechanism is placed by the question it answers on its own; the overlaps hold the ones that answer two, and
+  the center the ones that answer all three. Ethereum blue marks a mechanism on an Ethereum chain or an Ethereum
+  standard; gray marks one that works off the ledger and feeds it. The sidebar calls a badge a mechanism
+  (`facets_noun` in `site.yaml`; the Privacy page keeps "design").
+- **Wording (owner, 6 November 2026): blocklist and allowlist.** Issuers' own words are "blacklist" in the contract
+  (Circle's blacklister role) and "block" or "freeze" in their terms on the stablecoin side, and "registry",
+  "authorized" or "permissioned" on the fund and deposit-token side (Securitize's DS Protocol, Franklin's BENJI holder
+  list, JPM Coin); nobody says "denylist". The map says blocklist and allowlist, and "blacklist" only when quoting a
+  contract. The blocklist badge is generic ("Issuer blocklist"); USDC and USDT are examples in its description, never
+  the badge's name.
+- **Digital identity is not decentralized identity (owner, 6 November 2026).** Government and sector schemes (Singpass,
+  UAE PASS, iAM Smart, the EUDI Wallet, and many others) run on their operators' own systems, not on an EVM chain or any
+  shared ledger, so they sit in their own box under the ledger box (`schemes`), and reach the ledger only through a
+  mechanism in the circles (allowlist, attestation, credential proof). Decentralized identity (DIDs, verifiable
+  credentials, vLEI) stays inside the ledger box.
+- **House positions, flagged as Ethereum Institutional's:** the three-question framing; the schemes box; DNS is a weak
+  trust anchor; the signed-message checklist; the revenue section is a proposal (`wip`).
+- **Vendors:** two or three examples of a kind or none (`AGENTS.md` §4); vendor claims are marked vendor-stated.
+- **Labels:** the two big labels run on two lines, centered in each circle's own lune, because a one-line label at this
+  size is wider than the lune; since 6 November 2026 the build checks every main label line against its circle's
+  border, on every Venn map, as it already did sub-labels.
+
 ## Architecture page (`data/architecture/`, in progress)
 
 - **A covered blueprint** (owner, 27 October 2026: the full blueprint, with every line, was overwhelming): one fixed

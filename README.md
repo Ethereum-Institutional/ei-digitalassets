@@ -20,7 +20,10 @@ and generated from plain-text data in this repository:
   where your digital asset team fits), in progress.
 - **Privacy**: a Venn map of what each privacy design hides from the public (who, how much, what, or only intent before the
   block), with 22 named designs and lenses for who can still see the data and what you have to trust, in progress.
-- **Identity**: a planned page, stubbed as "in progress".
+- **Identity**: a Venn map of the three questions an institution answers before an asset moves (who the party is,
+  whether the key is theirs, what it may do), with 27 mechanisms from sovereign eIDs and travel-rule messages to
+  signature standards, allowlists, credentials and attestations, a "Focus on" sidebar, and the narrative on bearer
+  assets, permissioned tokens, AML and the travel rule; a first draft, in progress.
 
 **View the live site: https://ethereum-institutional.github.io/ei-digitalassets/** 
 - [Web3](https://ethereum-institutional.github.io/ei-digitalassets/web3/)
@@ -47,7 +50,8 @@ validate your change, build the pages and attach a rendered preview to the pull 
 `README.md` with the editing guide for that map:
 [Web3](data/web3/README.md), [Digital Asset Taxonomy](data/taxonomy/README.md),
 [Digital Asset Networks](data/networks/README.md), [Adoption](data/adoption/README.md),
-[Scenarios](data/scenarios/README.md), [Architecture](data/architecture/README.md).
+[Scenarios](data/scenarios/README.md), [Architecture](data/architecture/README.md), [Privacy](data/privacy/README.md),
+[Identity](data/identity/README.md).
 
 **Page settings** live in each `site.yaml`: `lens_groups` (one dropdown per group), `badge` (`disc` for ticker
 chips, `pill` for named badges), `legend`, `panel_default` and the intro's `intro_more`. Navigation between pages is
