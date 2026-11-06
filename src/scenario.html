@@ -60,6 +60,36 @@ __STYLE__
   details.src summary::-webkit-details-marker{display:none}
   details.src summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg);transition:transform .15s}
   details.src[open] summary::before{transform:rotate(45deg)}
+  /* at a glance: one row of facts under the title (owner, 7 November 2026: the pages were busy) */
+  .ei-glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 20px;padding:12px 16px;margin:0;border:1px solid var(--rule);border-radius:14px;background:#fff}
+  .ei-glance div{min-width:0}
+  .ei-glance dt{font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
+  .ei-glance dd{margin:3px 0 0;font-size:13px;line-height:1.45;color:var(--ink)}
+  /* the steps as a numbered list beside the diagram; each opens to its text and standards and lights its row */
+  .ei-steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .ei-steps details{border:1px solid var(--rule);border-radius:12px;background:var(--card)}
+  .ei-steps details[open]{background:#fff;border-color:var(--ink)}
+  .ei-steps summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;line-height:1.3}
+  .ei-steps summary::-webkit-details-marker{display:none}
+  .ei-steps summary .n{width:22px;height:22px;border-radius:50%;background:var(--ink);color:#f8f6f2;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .ei-steps .atomic summary .n{background:#312e81}
+  .ei-steps summary .kind{margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:var(--card);color:var(--muted);white-space:nowrap}
+  .ei-steps .body{padding:0 14px 12px 46px}
+  .ei-steps .body p{margin:0;font-size:14px;line-height:1.55}
+  .ei-steps .body p.src{font-size:12px;color:var(--muted);margin-top:6px}
+  /* collapsible blocks: tokens, standards, the narrative sections and sources; only the argument opens by default */
+  details.ei-block{border:1px solid var(--rule);border-radius:16px;background:var(--card)}
+  details.ei-block>summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;flex-direction:column;gap:4px;position:relative}
+  details.ei-block>summary::-webkit-details-marker{display:none}
+  details.ei-block>summary b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em;padding-right:28px}
+  details.ei-block>summary span{font-size:14px;color:var(--muted);line-height:1.5;max-width:90ch}
+  details.ei-block>summary::after{content:'';position:absolute;right:22px;top:26px;width:9px;height:9px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg);transition:transform .15s}
+  details.ei-block[open]>summary::after{transform:rotate(-135deg);top:30px}
+  details.ei-block .ei-block-body{padding:0 20px 18px}
+  details.ei-block .ei-sections{grid-template-columns:1fr}
+  details.ei-block .ei-section{padding:0;border:none;background:transparent}
+  details.ei-block .ei-section h2{display:none}
+  details.ei-block .ei-section h3:first-of-type{margin-top:4px}
   .ei-panel .kind{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;border:1px solid var(--rule);background:var(--card);color:var(--muted);margin-left:8px;vertical-align:middle}
 </style>
 </head>
@@ -74,7 +104,7 @@ __STYLE__
     __INTRO_MORE__
     __TAGS__
   </div>
-  __LEAD__
+  __GLANCE__
   <div class="ei-h"><b>Who is involved</b></div>
   __ACTORS__
   <div class="ei-h"><b>How it works</b><span>__FLOW_HELP__</span></div>
@@ -83,9 +113,9 @@ __STYLE__
     <h2>__PANEL_TITLE__</h2>
     <p>__PANEL_TEXT__</p>
   </div>
-  <div class="ei-h"><b>Tokens from the taxonomy</b></div>
+  __STEPS__
+  __LEAD__
   __TOKENS__
-  <div class="ei-h"><b>EVM token standards to consider</b><span>__STANDARDS_HELP__</span></div>
   __STANDARDS__
   __SECTIONS__
   __CONTRIBUTE__
@@ -118,9 +148,13 @@ __STYLE__
   let pinned=null;
   const reset=()=>{ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; };
   const addPinBar=()=>{ panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the diagram or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>'); panel.querySelector('.unpin').addEventListener('click',e=>{ e.stopPropagation(); unpin(); }); };
-  const unpin=()=>{ if(!pinned) return; pinned.classList.remove('pinned'); pinned=null; reset(); };
+  const unpin=()=>{ if(!pinned) return; pinned.classList.remove('pinned'); pinned=null; reset(); document.querySelectorAll('.ei-steps details[open]').forEach(o=>{ o.open=false; }); };
   const show=s=>{ const k=KIND[s.kind]||KIND.offchain; panel.innerHTML=`<div class="path">Step ${s.n} of ${steps.length}</div><h2>${esc(s.title)}<span class="kind">${k.label}</span></h2><p>${s.text}</p>${(s.standards||[]).length?`<p class="src">Standards: ${s.standards.map(esc).join(', ')}</p>`:''}`; };
-  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel')) unpin(); });
+  const rows=[];
+  document.querySelectorAll('.ei-steps details').forEach(d=>{ d.addEventListener('toggle',()=>{ const s=steps[Number(d.dataset.step)-1], g=rows[Number(d.dataset.step)-1]; if(!s||!g) return;
+    if(d.open){ document.querySelectorAll('.ei-steps details[open]').forEach(o=>{ if(o!==d) o.open=false; }); if(pinned) pinned.classList.remove('pinned'); pinned=g; g.classList.add('pinned'); show(s); addPinBar(); }
+    else if(pinned===g){ unpin(); } }); });
+  document.addEventListener('click',e=>{ if(pinned && !e.target.closest('#ei-panel') && !e.target.closest('.ei-steps')) unpin(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
   steps.forEach((s,r)=>{ const y=TOP+r*ROW+ROW/2, k=KIND[s.kind]||KIND.offchain;
     const g=el('g',{class:'step',tabindex:0,'aria-label':`Step ${s.n}: ${s.title}`});
@@ -141,7 +175,7 @@ __STYLE__
       const maxc=Math.floor(Math.abs(xb-xa)/6.4), label=s.title.length>maxc?s.title.slice(0,maxc-1)+'…':s.title;
       g.appendChild(el('text',{x:(xa+xb)/2,y:y-6,'text-anchor':'middle','font-size':12,'font-weight':600,fill:INK},label));
     }
-    svg.appendChild(g);
+    svg.appendChild(g); rows[r]=g;
     g.addEventListener('mouseenter',()=>{ if(!pinned) show(s); }); g.addEventListener('mouseleave',()=>{ if(!pinned) reset(); }); g.addEventListener('focus',()=>{ if(!pinned) show(s); });
     const act=()=>{ if(pinned===g) unpin(); else { if(pinned) pinned.classList.remove('pinned'); pinned=g; g.classList.add('pinned'); show(s); addPinBar(); } };
     g.addEventListener('click',e=>{ e.stopPropagation(); act(); }); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });

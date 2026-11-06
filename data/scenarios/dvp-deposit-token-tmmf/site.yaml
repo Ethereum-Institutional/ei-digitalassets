@@ -7,7 +7,7 @@ eyebrow: Ethereum Institutional · Research · Scenarios
 heading:
   text: Delivery versus payment
   italic: versus
-intro: 'There are many kinds of delivery versus payment: any tokenized product (a bond, an equity, a fund, a commodity) settled against any tokenized payment (a deposit token, a stablecoin, central bank money). This page works through one example, a bank deposit token against a tokenized money market fund, because it is the common case: a payment token that carries little or no yield exchanged for an asset that does. The buyer pays, the seller delivers, and both legs settle in one transaction on the ledger: either the buyer receives the units and the seller receives the money, or nothing moves. No central securities depository, no payment system, no intraday credit and no reconciliation sit between the two legs, because both are records on the same ledger.'
+intro: 'Delivery versus payment is any tokenized asset settled against any tokenized payment. This page works through the common case, a bank deposit token against a tokenized money market fund: a payment token that carries little or no yield exchanged for an asset that does. Both legs settle in one transaction on the ledger, so the buyer receives the units and the seller the money, or nothing moves. No depository, payment system, intraday credit or reconciliation sits between the legs, because both are records on the same ledger.'
 svg_label: Swimlane diagram of delivery versus payment between a deposit token and a tokenized money market fund
 panel_default:
   title: How it works

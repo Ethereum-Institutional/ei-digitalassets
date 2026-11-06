@@ -533,6 +533,13 @@ and decisions behind them.
   Asset moves, Credit is extended), because position carries meaning and scenarios are never ranked or
   alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role.
   All ten scenarios are written (6 November 2026) and link out as ink pills; the index still supports planned tiles (grey, in-progress tag) for any future addition.
+  **Scenario page layout (owner, 7 November 2026: the pages were busy):** under the title, an at-a-glance strip the build
+  derives from the data (what moves, who is in it, the atomic transactions, the money, the asset, the latest checked
+  date); then the actors, the swimlane with its panel, and the steps as a numbered list, each opening to its text and
+  standards and lighting its row in the diagram; then every other part (Why a public shared ledger, Tokens, Standards,
+  Where it stands today, Variants, Open questions, Sources) as a collapsible block that starts closed, the argument too.
+  Intros run about 90 to 115 words: what the activity is, the one example the page works through, and the sentence on
+  what does not change. Money tokens for the strip are the circles in `MONEY_CIRCLES` in `scripts/build.mjs`.
   Each written scenario is a folder with `site.yaml` (`kind: scenario`) and `scenario.yaml`: `actors` (columns of the
   swimlane diagram; `kind: ledger | contract | observer` for non-institutions), `steps` (rows; `kind: offchain |
   onchain | atomic`, an atomic step names `lanes`), `tokens` (linked to taxonomy circle ids), `standards` (EIP id,

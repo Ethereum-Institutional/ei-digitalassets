@@ -519,20 +519,37 @@ const srcHtmlC = src => !(src || []).length ? '' : `<details class="src"><summar
 const moreHtml = m => m && m.url ? `<p class="more"><a href="${m.url}" target="_blank" rel="noopener">${esc(m.title || 'Read more')} →</a></p>` : '';
 const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
   + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + moreHtml(it.more) + srcHtmlC(it.sources)).join('') + '</div>').join('')}</div>` : '';
+// A scenario page: an at-a-glance strip, the actors, the swimlane with its panel, the steps as a numbered list, then
+// collapsible blocks (owner, 7 November 2026: the pages were busy); every block starts closed, the argument too.
+const MONEY_CIRCLES = new Set(['dt', 'td', 'sc', 'wcbdc', 'rcbdc', 'cbdc', 'fmi', 'lsc', 'nat', 'btc', 'eth']);
+const STEP_KIND = { offchain: 'off-ledger', onchain: 'on the ledger', atomic: 'one transaction' };
+const blockHtml = (title, help, inner, open) => `<details class="ei-block"${open ? ' open' : ''}><summary><b>${esc(title)}</b>${help ? `<span>${esc(help)}</span>` : ''}</summary><div class="ei-block-body">${inner}</div></details>`;
 function renderScenario({ site, sc, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const lead = (sc.sections || []).filter(x => x.lead), rest = (sc.sections || []).filter(x => !x.lead);
   const data = { actors: sc.actors, steps: sc.steps, kind: 'scenario', version,
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a step in the diagram to read what happens; click to pin it.' } };
   const tags = (sc.tags || []).length ? `<div class="ei-tags">${sc.tags.map(t => `<span class="${t.kind === 'move' ? 'm' : ''}">${esc(t.label)}</span>`).join('')}</div>` : '';
+  // at a glance: what moves, who is in it, the atomic transactions, the money and the asset, when it was checked
+  const moves = (sc.tags || []).filter(t => t.kind === 'move').map(t => t.label);
+  const who = sc.actors.filter(a => a.kind !== 'observer' && a.kind !== 'ledger').map(a => a.name);
+  const atomic = sc.steps.filter(s => s.kind === 'atomic').map(s => s.title);
+  const money = (sc.tokens || []).filter(t => MONEY_CIRCLES.has(t.circle)).map(t => t.name), asset = (sc.tokens || []).filter(t => t.circle && !MONEY_CIRCLES.has(t.circle)).map(t => t.name);
+  const dates = [...(sc.sources || []), ...(sc.tokens || []).flatMap(t => t.sources || [])].map(x => String(x.checked || '')).filter(Boolean).sort();
+  const checked = dates.length ? new Date(dates[dates.length - 1]).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : '';
+  const glanceRows = [['What moves', moves.join(', ')], ['Who is in it', who.join(', ')], [`In one transaction (${atomic.length})`, atomic.join('; ')], ['The money', money.join(', ')], ['The asset', asset.join(', ')], ['Checked', checked]].filter(r => r[1]);
+  const glance = `<dl class="ei-glance">${glanceRows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
   const actorsHtml = `<div class="ei-actors">${sc.actors.map(a => `<div class="ei-actor"><h3><i class="${esc(a.kind || 'institution')}"></i>${esc(a.name)}</h3><p>${esc(a.role)}</p></div>`).join('')}</div>`;
-  const tokensHtml = `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtmlC(t.sources)}</div>`).join('')}</div>`;
-  const stdHtml = `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`;
+  const stepsHtml = `<ol class="ei-steps">${sc.steps.map(s => `<li class="${esc(s.kind || 'offchain')}"><details data-step="${s.n}"><summary><span class="n">${s.n}</span>${esc(s.title)}<span class="kind">${STEP_KIND[s.kind] || STEP_KIND.offchain}</span></summary><div class="body"><p>${esc(s.text)}</p>${(s.standards || []).length ? `<p class="src">Standards: ${s.standards.map(esc).join(', ')}</p>` : ''}</div></details></li>`).join('')}</ol>`;
+  const tokensHtml = blockHtml('Tokens from the taxonomy', `${(sc.tokens || []).length} tokens, with live examples and sources.`, `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtmlC(t.sources)}</div>`).join('')}</div>`, false);
+  const stdHtml = blockHtml('EVM token standards to consider', sc.standards_help || '', `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`, false);
+  const sectionBlock = (sec, open) => blockHtml(sec.title, sec.text || `${(sec.items || []).length} items.`, sectionsHtmlC({ sections: [Object.assign({}, sec, { text: '' })] }), open);
+  const sourcesBlock = (sc.sources || []).length ? blockHtml('Sources', `${sc.sources.length} sources, each with the date checked.`, `<p class="src" style="font-size:12px;color:var(--muted)">${srcList(sc.sources)}</p>`, false) : '';
   return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
-    .replace('__ICON__', iconSvg(sc.icon, 'ei-icon hero')).replace('__TAGS__', tags).replace('__ACTORS__', actorsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml).replace('__STANDARDS_HELP__', esc(sc.standards_help || ''))
-    .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all.'))
-    .replace('__LEAD__', sectionsHtmlC({ sections: lead }))
-    .replace('__SECTIONS__', sectionsHtmlC({ sections: rest }) + ((sc.sources || []).length ? `<div class="ei-sections"><div class="ei-section"><h2>Sources</h2>${srcHtmlC(sc.sources)}</div></div>` : ''));
+    .replace('__ICON__', iconSvg(sc.icon, 'ei-icon hero')).replace('__TAGS__', tags).replace('__GLANCE__', glance).replace('__ACTORS__', actorsHtml).replace('__STEPS__', stepsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml)
+    .replace('__FLOW_HELP__', esc(sc.flow_help || 'Each column is an actor; each row is a step. Dashed arrows are off-ledger, solid arrows are on the ledger, and a band across several columns is one transaction that either completes in full or not at all. The numbered list below opens each step.'))
+    .replace('__LEAD__', lead.map(sec => sectionBlock(sec, false)).join(''))
+    .replace('__SECTIONS__', rest.map(sec => sectionBlock(sec, false)).join('') + sourcesBlock);
 }
 function renderStatic({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
