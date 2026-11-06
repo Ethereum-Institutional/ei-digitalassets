@@ -188,7 +188,7 @@ circles:
   - CBDC
   family: cbdc
   path: Tokenized Currencies › Central Bank
-  desc: 'Central Bank Digital Currency: a digital form of central bank money. Retail CBDC is for the public (e.g. e-CNY, the planned Digital Euro); wholesale CBDC is for interbank settlement (e.g. Project mBridge, Digital Dirham). CBDCs are placed here whatever ledger they run on, because the map groups money by who owes it: some retail designs, such as the planned digital euro, use a centralized platform rather than a distributed ledger (owner, 2 November 2026).'
+  desc: 'Central Bank Digital Currency: a digital form of central bank money. Retail CBDC is for the public (e.g. the planned Digital Euro, or e-CNY, whose balances in commercial bank wallets the PBoC has booked as bank deposits since 1 January 2026); wholesale CBDC is for interbank settlement (e.g. Project mBridge, Digital Dirham). CBDCs are placed here whatever ledger they run on, because the map groups money by who owes it: some retail designs, such as the planned digital euro, use a centralized platform rather than a distributed ledger (owner, 2 November 2026).'
   sources:
   - title: 'ECB, FAQs on the digital euro (updated 17 August 2026): Eurosystem aiming to be ready for a potential first issuance during 2029; a centralized settlement platform, not based on DLT'
     url: https://www.ecb.europa.eu/euro/digital_euro/faqs/html/ecb.faq_digital_euro.en.html
@@ -199,7 +199,7 @@ circles:
   - CBDC
   family: cbdc
   path: Central Bank › CBDC
-  desc: 'A CBDC for the general public (households and businesses), used for everyday payments (e.g. e-CNY, the planned Digital Euro, Digital Dirham retail). Usually issued with holding limits and run through intermediaries, and may be a different token from its wholesale counterpart. Distribution through an intermediary does not by itself change who owes the balance; where the intermediary books a balance as its own deposit liability, that balance is a bank deposit, not a CBDC.'
+  desc: 'A CBDC for the general public (households and businesses), used for everyday payments (e.g. the planned Digital Euro, Digital Dirham retail, and e-CNY, whose badge states how its bank-wallet balances are now booked). Usually issued with holding limits and run through intermediaries, and may be a different token from its wholesale counterpart. Distribution through an intermediary does not by itself change who owes the balance; where the intermediary books a balance as its own deposit liability, that balance is a bank deposit, not a CBDC.'
   sources:
   - title: 'BIS, Annual Economic Report 2021, chapter III (29 June 2021): a CBDC is a direct liability of the central bank; in hybrid and intermediated designs, payment service providers onboard users and process payments'
     url: https://www.bis.org/publ/arpdf/ar2021e3.htm

@@ -21,7 +21,9 @@ and decisions behind them.
   until you do.
 - Flow: a branch (in ei-platform, a worktree under `.worktrees/<topic>`), a pull request, CI (`maps.yml`), a merge to
   ei-platform `main`, then, when the owner asks to publish, `gh workflow run maps-mirror.yml --ref main`. The mirror's
-  own `build.yml` and `pages.yml` then build and publish the live site from the mirror's `main`.
+  own `build.yml` and `pages.yml` then build and publish the live site from the mirror's `main`. A pending-changes
+  batch and the glossary entries kept in step with it go without a second-model check: the owner reviews the built pages
+  and the sources (owner, 6 November 2026; batch 1 was checked in Perplexity, batch 2 and later are not).
 - Commands run from `maps/`: `cd maps && npm run build`, then `npm run check`.
 
 ## Status and versioning
@@ -145,8 +147,9 @@ and decisions behind them.
   Public), the latter holding three nested bands from Lewis-Pye and Roughgarden, "Permissionless Consensus" (arXiv 2304.14701): **fully
   permissionless** (center: the protocol knows nothing about who runs it; proof of work), **dynamically available**
   (known staked identifiers, some honest staker online; longest-chain PoS, Ethereum mainnet's fork choice),
-  **quasi-permissionless** (the model assumes every honest staker online; in practice a two-thirds quorum must keep
-  voting; BFT-style PoS and elected sets). Band labels on the map read "Quasi Permissionless / Dynamically Available / Fully Permissionless", the paper's own terms. The three
+  **quasi-permissionless** (the model assumes every honest staker online and the paper names no fraction; in practice
+  each protocol fixes the quorum of stake that must keep voting, more than two-thirds in classic BFT designs and 60% under
+  Solana's Alpenglow, so never write "two-thirds" as the band's rule (owner, 6 November 2026); BFT-style PoS and elected sets). Band labels on the map read "Quasi Permissionless / Dynamically Available / Fully Permissionless", the paper's own terms. The three
   challenges (unknown players, player inactivity, sybils) are explained in the Permissionless definition, never
   drawn as circles.
 - **House rule:** a network is permissioned whenever joining consensus requires review by existing participants.

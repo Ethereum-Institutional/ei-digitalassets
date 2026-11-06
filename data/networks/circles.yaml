@@ -164,9 +164,16 @@ circles:
   family: quasi
   lines:
   - known staked identifiers,
-  - two-thirds must stay online
+  - a set quorum must keep voting
   path: Digital Asset Networks › Public › Permissionless consensus
-  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. In practice that means a two-thirds quorum of stake must keep voting: validators can go offline only within the one-third fault budget, and once more than a third of the stake is silent the chain stops finalizing (Solana, for example, needed coordinated restarts after such halts under Tower BFT; since October 2026 its Alpenglow protocol tolerates 40% of stake offline, with 60% needed to finalize). This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
+  desc: 'The protocol knows a list of staked identifiers (public keys with stake locked on-chain) and, in the paper’s model, assumes every honest one is online. The paper’s definition sets no fraction; the one-third bound on Byzantine stake is the assumption behind its results. In practice each protocol fixes the share of stake that must keep voting for the chain to finalize: more than two-thirds in classic BFT designs, where validators can go offline only within the one-third fault budget (Solana needed coordinated restarts after such halts under Tower BFT), and 60% of stake over two rounds, or 80% in one, under Solana’s Alpenglow since October 2026, which tolerates 40% of stake offline. Below its quorum a chain stops finalizing. This is where BFT-style proof of stake sits (Algorand, Tendermint-style chains, Solana, Avalanche) and where elected or capped validator sets sit when anyone may stand without the incumbents’ approval (BNB Chain, TRON, Hyperliquid, Polygon PoS). It buys fast, accountable finality (a safety violation leaves signed evidence of who caused it) at the cost of stalling if too many validators go offline. Small elected sets are permissionless in form but concentrated in practice; each badge’s note says how concentrated.'
+  sources:
+  - title: 'Lewis-Pye and Roughgarden, Permissionless Consensus (arXiv 2304.14701): in the quasi-permissionless setting every identifier controlled by an honest player is assumed to be running the protocol; the less-than-one-third Byzantine stake bound is the assumption of its results, not part of the definition'
+    url: https://arxiv.org/abs/2304.14701
+    checked: '2026-11-06'
+  - title: 'SIMD-0326, Alpenglow: fast finalization on one round of votes from 80% of stake, two rounds from 60%; 40% crash failure resilience'
+    url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md
+    checked: '2026-11-06'
 - id: dyn
   label:
   - Dynamically
@@ -176,7 +183,7 @@ circles:
   - known staked identifiers,
   - any share may go offline
   path: Digital Asset Networks › Public › Permissionless consensus
-  desc: 'The protocol knows the list of staked identifiers but assumes only that some honest staker is online, so block production can continue as participation falls, as under a longest-chain rule. Cardano’s Ouroboros is the paper’s canonical example. Ethereum mainnet’s fork choice (LMD-GHOST) runs here: the chain can keep growing when most validators are offline, with empty slots for absent proposers, and the inactivity leak slowly removes the stake of those who are absent, while Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online. That pairing keeps Ethereum mainnet live like Bitcoin and final like a BFT chain.'
+  desc: 'The protocol knows the list of staked identifiers but assumes only that some honest staker is online, so block production can continue as participation falls, as under a longest-chain rule. Cardano’s Ouroboros is the paper’s canonical example. Ethereum mainnet’s fork choice (LMD-GHOST) runs here: the chain can keep growing when most validators are offline, with empty slots for absent proposers, and the inactivity leak slowly removes the stake of those who are absent, while Casper FFG adds quasi-permissionless finality when validators with at least two-thirds of staked ETH cast the required checkpoint votes. That pairing keeps Ethereum mainnet live like Bitcoin and final like a BFT chain.'
 - id: full
   label:
   - Fully
@@ -275,14 +282,14 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissionless consensus › Dynamically available
-  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so block production can continue as participation falls, with empty slots for absent proposers, and absent validators lose stake slowly through the inactivity leak, in proportion to what they would have earned. Casper FFG adds quasi-permissionless finality whenever two-thirds of the stake is online, and a validator that signs two conflicting messages (for example the same key run in two places) is slashed heavily and ejected, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
+  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so block production can continue as participation falls, with empty slots for absent proposers, and absent validators lose the rewards they would have earned as missed-attestation penalties; if Ethereum mainnet goes more than four epochs without finalizing, the inactivity leak also drains the stake of validators not voting until the rest can finalize again. Casper FFG adds quasi-permissionless finality when validators with at least two-thirds of staked ETH cast the required checkpoint votes. A validator that proposes two blocks for one slot, or casts a double or surround vote (for example the same key run in two places), is slashed: an isolated slashing burns a small amount at once (about 0.008 ETH of a 32 ETH validator) and forces the validator out, while a correlation penalty that scales with the total stake slashed makes a mass event severe, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
   sources:
-  - title: ethereum.org, Proof-of-stake (32 ETH deposit, slashing and ejection)
+  - title: ethereum.org, Proof-of-stake (32 ETH deposit, finality votes, slashing and ejection)
     url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/
-    checked: '2026-10-25'
-  - title: ethereum.org, Rewards and penalties (inactivity leak, slashing amounts)
+    checked: '2026-11-06'
+  - title: ethereum.org, Rewards and penalties (missed-attestation penalties, inactivity leak, slashing amounts)
     url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/
-    checked: '2026-10-25'
+    checked: '2026-11-06'
   - title: EIP-7251, increase the MAX_EFFECTIVE_BALANCE (32 ETH minimum, 2,048 ETH maximum)
     url: https://eips.ethereum.org/EIPS/eip-7251
     checked: '2026-10-25'
