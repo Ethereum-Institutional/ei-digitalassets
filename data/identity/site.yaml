@@ -21,7 +21,7 @@ panel_default:
   text: Hover over a circle or a mechanism to read what it establishes; click to pin it here with all its facts. Use Focus on to pick what matters to you.
 badge: pill
 pill_scale: 1.1
-facts_as_of: '2026-11-06'
+facts_as_of: '2026-11-07'
 legend:
 - kind: pill
   color: '#627eea'
@@ -39,7 +39,7 @@ facets_help: Pick what matters to you. Mechanisms that have all of it stay highl
 facet_presets:
 - id: issuer
   label: A regulated token issuer's needs
-  text: 'Verified people and entities, anchored in a sovereign or licensed source, checked by the token contract itself at transfer time, with revocation that can be audited, and nothing revealed to the public beyond the fact that a proof passed. Only the zero-knowledge credential designs give all of it today; allowlists and attestations come close but publish membership, which reveals counterparties.'
+  text: 'Verified people and entities, anchored in a sovereign or licensed source, checked by the token contract itself at transfer time, with revocation that can be audited, and nothing revealed to the public beyond the fact that a proof passed. Only the zero-knowledge credential designs give all of it today; allowlists and attestations come close but publish membership, which reveals counterparties. None of them is post-quantum today; the nearest is a contract account whose verifier can change.'
   require: [subject, checked]
   picks:
     subject: [person, org]
@@ -47,6 +47,7 @@ facet_presets:
     checked: [onchain]
     reveals: [proof]
     revocation: [history, list]
+    pq: [pq]
 facet_groups:
 - id: subject
   label: Who it identifies
@@ -54,6 +55,8 @@ facet_groups:
   label: Trust and revocation
 - id: ledger
   label: On the ledger
+- id: crypto
+  label: Keys and signatures
 - id: standards
   label: Standards
 facets:
@@ -102,6 +105,15 @@ facets:
   - { id: membership, label: That the address passed a check, and whose }
   - { id: proof, label: Only that a proof verified }
   - { id: nothing, label: Nothing; it stays off the ledger }
+- id: pq
+  group: crypto
+  label: Post-quantum
+  help: 'Whether the mechanism''s signatures or proofs would survive a cryptographically relevant quantum computer. No mechanism on this map states a post-quantum position today; the readings say where the classical link is, and which mechanisms can swap their verifier without a protocol change. The Quantum pages cover the timelines.'
+  values:
+  - { id: pq, label: 'Post-quantum or hash-based signatures' }
+  - { id: classical, label: 'Classical signatures or proofs today' }
+  - { id: state, label: 'A ledger record; exposed through the keys that write it' }
+  - { id: unstated, label: 'Not stated by the scheme or vendor' }
 - id: standard
   group: standards
   label: Standard
@@ -117,7 +129,7 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.
   text: Open an issue to suggest a mechanism, a correction or a jurisdiction the map should cover, or send a pull request; every placement on this page is a file anyone can edit.
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Facts checked 6 November 2026; vendor statements are marked as such. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Facts checked 7 November 2026; vendor statements are marked as such. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
 sections:
 - title: Bearer assets and permissioned tokens
   text: 'The starting point is what a ledger can and cannot know. Everything on the map builds on one side of that line or the other.'
@@ -225,6 +237,14 @@ sections:
     - { title: 'ERC-4337, Account Abstraction Using Alt Mempool (Final)', url: 'https://eips.ethereum.org/EIPS/eip-4337', checked: '2026-11-06' }
     - { title: 'EIP-7702, Set Code for EOAs (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7702', checked: '2026-11-06' }
     - { title: 'W3C, Web Authentication Level 3 (Recommendation, 25 August 2026)', url: 'https://www.w3.org/TR/webauthn-3/', checked: '2026-11-06' }
+  - title: What a quantum computer breaks here
+    text: 'Every mechanism on this map ends in a classical signature or proof: the chip signature in a passport, a passkey, an issuer''s claim, the key behind an address. A cryptographically relevant quantum computer derives the private key from the public one, and a public ledger publishes the public key of every address that has ever signed. For identity that means three exposures: a forged proof of control that links a customer to an address they never held; a forged issuer or document signature that admits a party no credential covered; and the administrator keys behind allowlists, blocklists and registries. No mechanism here states a post-quantum position today (the Post-quantum facet under Focus on reads each one). The structural hedge is a contract account: under ERC-1271 the account decides what counts as its signature, so it can adopt a post-quantum verifier once Ethereum mainnet makes one affordable, which is where the roadmap on the Quantum pages is heading. Ethereum Institutional''s reading: put identity keys and issuer signing keys on the same inventory as custody keys, and prefer mechanisms whose verification rule a contract can replace over ones fixed in a protocol or a national scheme.'
+    more: { title: 'Quantum, what an institution does now', url: '../quantum/institution/' }
+    sources:
+    - { title: 'ethereum.org, Quantum resistance (SNARKs, KZG and STARKs)', url: 'https://ethereum.org/en/roadmap/future-proofing/quantum-resistance/', checked: '2026-10-26' }
+    - { title: 'Ethereum Foundation, Post-Quantum Ethereum portal (updated 27 June 2026): not imminent, most roadmaps early to mid 2030s; Execution, Consensus and Data layers; leanXMSS, leanSig, leanVM, leanSpec; SPHINCS+ a candidate for the execution layer; cryptographic agility; L1 upgrades by 2029; a USD 20 million formal verification project', url: 'https://pq.ethereum.org/', checked: '2026-11-06' }
+    - { title: 'Cointelegraph, Ethereum can quantum-proof accounts for 7 cents (14 June 2026; secondary): SPHINCS-, an EVM-optimized family derived from SPHINCS+, from the Ethereum Foundation Kohaku lead, without a hard fork; a bridge to leanSPHINCS with aggregation', url: 'https://cointelegraph.com/news/ethereum-quantum-proof-accounts-7-cents-researcher', checked: '2026-11-06' }
+    - { title: 'ERC-1271, Standard Signature Validation Method for Contracts (Final)', url: 'https://eips.ethereum.org/EIPS/eip-1271', checked: '2026-11-06' }
 - title: Agents and devices
   text: 'The newest party on the ledger is software acting for someone. The ledger treats its key like any other; the institution cannot.'
   items:

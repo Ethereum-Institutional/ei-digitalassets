@@ -22,6 +22,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: ['na'], note: 'The data is fetched live; there is no issued credential to revoke.' }
     standard: { in: [national] }
+    pq: { in: [unstated], note: 'The scheme''s public developer pages the map cites do not state the signature algorithms it relies on or a post-quantum plan.' }
   desc: 'Singapore''s national digital identity. Myinfo lets an approved business pull government-verified personal data about a Singpass user, with the user''s consent, to open an account or complete a check; the page cites DBS, OCBC and UOB among financial institutions using it for KYC since the private-sector release in 2017, and over 1,000 integrated digital services. What the business receives is an API response at the moment of the transaction, not a credential the user carries or a record a contract could verify: to reach a ledger, the institution records its own conclusion (an allowlist entry or an attestation) and takes responsibility for it.'
   sources:
   - { title: 'GovTech Singapore, Myinfo: how it works (Singpass API, KYC use by banks, 1,000 services)', url: 'https://developer.tech.gov.sg/products/categories/digital-identity/myinfo/how-it-works', checked: '2026-11-06' }
@@ -38,6 +39,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: ['na'], note: 'Assertions are per session; no portable credential is issued to a ledger.' }
     standard: { in: [national] }
+    pq: { in: [unstated], note: 'The scheme''s public developer pages the map cites do not state the signature algorithms it relies on or a post-quantum plan.' }
   desc: 'The United Arab Emirates'' national digital identity. It gives service providers (government entities under a memorandum of understanding, private organizations under a service provider agreement) mobile-based authentication of verified individuals, digital signing by the user, an eSeal for the organization and a signature verification API. Authorization of a person to act for an organization is left to the service provider. As with Singpass, the result is an assertion to the relying party, not a credential a contract can check, so an institution carries its own conclusion onto the ledger.'
   sources:
   - { title: 'UAE PASS developer FAQ (authentication, signing, eSeal, verification API, onboarding, token lifetime)', url: 'https://docs.uaepass.ae/faq', checked: '2026-11-06' }
@@ -54,6 +56,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: ['na'] }
     standard: { in: [national] }
+    pq: { in: [unstated], note: 'The scheme''s public pages the map cites do not state the signature algorithms it relies on or a post-quantum plan.' }
   desc: 'Hong Kong''s government digital identity. Public and private organizations can integrate three API sets: authentication (one login for government and commercial services), digital signing with legal effect under the Electronic Transactions Ordinance (Cap. 553), and e-ME form filling from the user''s stored personal data. A sandbox run by the Digital Policy Office with Cyberport is open to all business sectors. Like the other sovereign schemes here it authenticates a person to a relying party; it issues nothing that a ledger contract could verify.'
   sources:
   - { title: 'Digital Policy Office, Hong Kong: iAM Smart for public and private organisations (APIs, sandbox)', url: 'https://www.digitalpolicy.gov.hk/en/our_work/data_governance/common_data_platforms/iam_smart/organisations', checked: '2026-11-06' }
@@ -70,6 +73,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [list], note: 'Issuer-managed status, checked by the relying party at presentation.' }
     standard: { in: [national, ietf, iso], note: 'eIDAS 2.0; HAIP profiles OpenID4VCI, OpenID4VP, SD-JWT VC and ISO mdoc.' }
+    pq: { in: [classical], note: 'HAIP 1.0, the profile the wallet ecosystem builds on, requires every issuer, verifier and wallet to support ECDSA with P-256 and SHA-256 at a minimum and says nothing about post-quantum algorithms; ecosystem profiles may add suites.' }
   desc: 'The European Digital Identity Wallet under eIDAS 2.0 (Regulation (EU) 2024/1183, in force 20 May 2024). Every member state must make at least one wallet available by about 24 December 2026, and regulated private services, banks among them, must accept it for identification by about 24 December 2027; as of October 2026 one national wallet, Denmark''s, was in production and the Commission had voiced doubt that all 27 states would meet the first date. It is the first sovereign scheme on this map built as a holder-carried credential: the wallet presents person identification data and attestations to a relying party with selective disclosure, over the OpenID4VC protocols profiled by HAIP. The relying party, not the ledger, verifies the presentation; carrying the result on chain is still the institution''s own step.'
   sources:
   - { title: 'Open ID Europe, EUDI Wallet rollout timeline 2024–2027 (status October 2026)', url: 'https://www.openideurope.eu/digital-identity/eudi-wallet-timeline/', checked: '2026-11-06' }
@@ -87,6 +91,7 @@ badges:
     reveals: { in: [nothing], note: 'Reading a passport puts nothing on a ledger; a ZK passport proof reveals only the statement proved.' }
     revocation: { in: [list], note: 'Certificate revocation lists through the Public Key Directory; a lost or stolen document is revoked by its issuing State.' }
     standard: { in: [iso], note: 'ICAO Doc 9303, endorsed by ISO as ISO/IEC 7501.' }
+    pq: { in: [classical], note: 'The chip carries a conventional public-key signature by the issuing state''s Document Signer under ICAO''s PKI; a signature forged after a quantum break passes every verifier, including the zero-knowledge proofs built over it.' }
   desc: 'The passport chip standard. ICAO Doc 9303 (Eighth Edition, 2021; endorsed by the International Organization for Standardization as ISO/IEC 7501) specifies the electronic machine readable travel document, a passport, visa or card with a contactless integrated circuit holding the holder''s data and a facial image in a standard logical data structure (Part 10), the security mechanisms for reading it (Part 11), and the public key infrastructure in which the issuing State''s Document Signer certifies the chip data under its Country Signing Certification Authority, with certificates and revocation lists exchanged through the ICAO Public Key Directory. It is the sovereign credential most people already carry, and it is read, not issued, by the private sector: a reader verifies the State''s signature off the ledger. It reaches the ledger only through the ZK passport proofs in the circles above, which prove a statement about the signed chip data to a verifier contract without the document leaving the device.'
   sources:
   - { title: 'ICAO, Doc 9303 Machine Readable Travel Documents, Part 1 Introduction (Eighth Edition, 2021): the eMRTD, the parts, the Document Signer and CSCA, the Public Key Directory, ISO/IEC 7501', url: 'https://www.icao.int/sites/default/files/publications/DocSeries/9303_p1_cons_en.pdf', checked: '2026-11-06' }
@@ -103,6 +108,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [list], note: 'Periodic review and offboarding in the institution''s own systems.' }
     standard: { in: [national], note: 'National AML and customer due diligence law; no single technical standard.' }
+    pq: { in: ['na'], note: 'An off-ledger check; its result reaches the ledger through an operator''s write (see allowlists and attestations).' }
   desc: 'The checks every regulated institution already runs: who a customer is (KYC), which legal entity it is and who may act for it (KYB), what the source of funds is, and whether any party is sanctioned or exposed. They are the input to everything else on this map, not something a ledger replaces. The design question for a digital asset program is only how their outcome reaches an address: a listed address, an attestation about it, or a credential the customer presents, each with its own privacy and liability profile. The sovereign schemes above are data sources for these checks, not substitutes for them.'
   sources:
   - { title: 'GovTech Singapore, Myinfo: how it works (KYC use by financial institutions)', url: 'https://developer.tech.gov.sg/products/categories/digital-identity/myinfo/how-it-works', checked: '2026-11-06' }
@@ -120,6 +126,7 @@ badges:
     reveals: { in: [nothing], note: 'The public ledger sees the transfer; the names travel in the message.' }
     revocation: { in: ['na'] }
     standard: { in: [national, iso], note: 'FATF Recommendation 16 (revised June 2025), implemented in national law; IVMS 101 as the common data format.' }
+    pq: { in: ['na'], note: 'Messaging between providers, off the ledger; the transfer it accompanies is what the ledger keys sign.' }
   desc: 'FATF Recommendation 16 applied to virtual assets: a service provider sending a transfer must collect originator and beneficiary information (at minimum names, account identifiers and addresses) and send it to the receiving provider, so both sides and the authorities can see who is behind a transfer. The FATF baseline is USD or EUR 1,000; several jurisdictions, including the EU, UK, Switzerland and UAE, apply it from the first unit. For a self-hosted wallet there is no counterparty provider to message, so providers verify that their own customer controls the wallet, typically with a signed message. The data standard most protocols use is IVMS 101. The identity exchanged here is off the ledger, between institutions.'
   sources:
   - { title: '21 Analytics, What is the FATF Travel Rule (requirements, thresholds, self-hosted wallets, IVMS 101; FATF revision of June 2025)', url: 'https://www.21analytics.co/what-is-the-fatf-travel-rule/', checked: '2026-11-06' }
@@ -137,6 +144,7 @@ badges:
     reveals: { in: [nothing], part: [proof], note: 'Selective and unlinkable disclosure are defined in the data model.' }
     revocation: { in: [list], note: 'Status lists kept by the issuer or a verifiable data registry.' }
     standard: { in: [w3c], note: 'Verifiable Credentials Data Model 2.0, W3C Recommendation, 15 May 2025.' }
+    pq: { in: [classical], note: 'The data model leaves the proof to a securing mechanism (Data Integrity suites, JOSE or COSE); the suites in common use sign with elliptic-curve keys, and a post-quantum suite would be a new suite, not a change to the model.' }
   desc: 'The W3C data model for credentials that a holder carries and presents: an issuer makes signed claims about a subject, the holder keeps them and builds presentations, and a verifier checks the signatures and status. A verifiable data registry (a ledger, a database, a file system) holds the identifiers, keys and revocation data the verifier needs. Selective disclosure, and unlinkable disclosure across verifiers, are part of the model, which is what lets a credential prove an attribute without handing over the document. The model says nothing about who may issue; that comes from a trust framework such as eIDAS or GLEIF''s. The holder proves the credential is theirs by signing with the key it is bound to, which is why it sits across verified identity and proof of control.'
   sources:
   - { title: 'W3C, Verifiable Credentials Data Model v2.0 (Recommendation, 15 May 2025)', url: 'https://www.w3.org/TR/vc-data-model-2.0/', checked: '2026-11-06' }
@@ -153,6 +161,7 @@ badges:
     reveals: { in: [nothing], part: [identity], note: 'A DID document lists public keys and service endpoints; a public method publishes them.' }
     revocation: { in: [list, replace], note: 'Key rotation and deactivation follow the method; some keep history, some replace the document.' }
     standard: { in: [w3c], note: 'DID Core 1.0, W3C Recommendation, 19 July 2022.' }
+    pq: { in: [classical], note: 'A DID document lists verification methods by type; the types in use are elliptic-curve keys, and a post-quantum key would be a new type that resolver and verifier must both understand.' }
   desc: 'Decentralized identifiers: a URI that resolves to a DID document holding the subject''s public keys and endpoints, which the controller can prove control of without asking any registry for permission. That is the whole of what "decentralized" means here: no central registration authority is needed to create one. A DID carries no identity of its own; it is an anchor for keys, to which credentials from sovereign, licensed or commercial issuers attach. Each DID method defines where the document lives (a ledger, a web server, a database) and so whether a contract can read it and whether updates leave a history.'
   sources:
   - { title: 'W3C, Decentralized Identifiers (DIDs) v1.0 (Recommendation, 19 July 2022)', url: 'https://www.w3.org/TR/did-1.0/', checked: '2026-11-06' }
@@ -170,6 +179,7 @@ badges:
     reveals: { in: [identity], note: 'The registration file, the owner address and public feedback are on chain or linked from it.' }
     revocation: { in: [history], note: 'Ownership transfers and metadata changes are ledger transactions.' }
     standard: { in: [erc_draft], note: 'ERC-8004 is a Draft.' }
+    pq: { in: [classical], note: 'An Ethereum account owns the agent''s record, so it signs as every account does today and moves with Ethereum mainnet''s post-quantum roadmap (the Quantum pages).' }
   desc: 'Trustless Agents, the Ethereum standard for discovering and trusting AI agents across organizations: an Identity Registry built on ERC-721, where each agent is a token whose URI resolves to a registration file (purpose, capabilities, endpoints, an A2A agent card); a Reputation Registry of feedback; and a Validation Registry for independent checks such as re-execution, zkML proofs or TEE attestations. The core registries went live on Ethereum mainnet on 29 January 2026 after more than 10,000 agents registered on testnet. It gives an agent a persistent handle and a track record, and a key its owner controls. It does not say who the owner is: the standard mentions neither KYC nor the operator''s legal identity, so know-your-agent needs a verified principal from the left circle on top of it.'
   sources:
   - { title: 'ERC-8004, Trustless Agents (Draft; registries, registration file, trust models)', url: 'https://eips.ethereum.org/EIPS/eip-8004', checked: '2026-11-06' }
@@ -187,6 +197,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [list], note: 'Issuer-managed, under the governance framework.' }
     standard: { in: [iso], note: 'ISO 17442-3 (2024) standardizes vLEIs as digital credentials.' }
+    pq: { in: [unstated], note: 'GLEIF''s governance framework pages do not state a post-quantum position; the KERI technical requirements the credentials rest on are published separately.' }
   desc: 'The verifiable LEI: a credential form of the Legal Entity Identifier that lets a counterparty check an organization''s identity and the role and authority of the person acting for it, traced through a cryptographically protected chain back to the entity''s record in the Global LEI Index, with GLEIF as the root of trust and Qualified vLEI Issuers doing the issuing. It is the clearest example on this map of a credential whose trust anchor is an existing, regulated registry: self-managed by the holder, yet answering to a sovereign-recognized source. It is the natural KYB credential for institutions; bringing it to an Ethereum chain still needs a verifier or an attestation on the other side.'
   sources:
   - { title: 'GLEIF, The verifiable LEI (vLEI): Qualified vLEI Issuers, root of trust, ISO 17442-3', url: 'https://www.gleif.org/en/organizational-identity/lei-vlei/the-verifiable-lei-vlei', checked: '2026-11-06' }
@@ -203,6 +214,7 @@ badges:
     reveals: { in: [identity], note: 'The DID document is a public file on the domain.' }
     revocation: { in: [replace], note: 'Updates replace did.json with no record of earlier versions unless the operator adds one; removing the file deactivates the DID.' }
     standard: { in: [w3c], note: 'A W3C Credentials Community Group method specification, not a Recommendation.' }
+    pq: { in: [classical], note: 'Rests on DNS and a TLS certificate, both classical today; the keys in the DID document are whatever the controller lists.' }
   desc: 'A DID method that puts the DID document at a well-known path on a web domain, so a domain''s existing reputation stands in for a ledger. Its own specification states the limits: resolution depends on DNS and a TLS certificate, DNS carries the usual interception and spoofing risks (DNSSEC and DNS over HTTPS are recommended, not required), updates simply replace the document with no history unless the operator keeps one, the method defines no authorization for writing the document, and a registrar or DNS provider can take the identifier down by removing the domain. A ledger-registered identifier keeps every change and cannot be withdrawn by a registrar; that is the trade a DNS anchor makes for convenience.'
   sources:
   - { title: 'W3C CCG, did:web Method Specification (security and privacy considerations)', url: 'https://w3c-ccg.github.io/did-method-web/', checked: '2026-11-06' }
@@ -220,6 +232,7 @@ badges:
     reveals: { in: [identity], note: 'The name and its records are public.' }
     revocation: { in: [history], note: 'Ownership and record changes are ledger transactions with full history.' }
     standard: { in: [erc_final], note: 'EIP-137 (ENS) and EIP-181 (reverse resolution).' }
+    pq: { in: [classical], note: 'A name is owned by an Ethereum account, which signs as every account does today and moves with Ethereum mainnet''s roadmap.' }
   desc: 'The Ethereum Name Service: names such as alice.eth that resolve to Ethereum addresses, other addresses, content hashes and metadata, with reverse resolution. .eth names are issued as tokens by smart contracts, so ownership, transfers and every record change are on the ledger with history, which is the opposite of did:web. ENS can also import DNS names through DNSSEC, so an institution can let its existing domain resolve to its addresses. A name is a label a key controls: it makes an address recognizable and signable, but it verifies nothing about who registered it unless a credential or attestation says so.'
   sources:
   - { title: 'ENS documentation, the ENS protocol (names, records, DNSSEC import)', url: 'https://docs.ens.domains/learn/protocol', checked: '2026-11-06' }
@@ -238,6 +251,7 @@ badges:
     reveals: { in: [nothing], note: 'Only what the message and the contract publish.' }
     revocation: { in: ['na'], note: 'The standard has no replay protection; the application rejects repeats or makes the action idempotent.' }
     standard: { in: [erc_final], note: 'EIP-712, Final.' }
+    pq: { in: [classical], note: 'A format for what is signed, not a signature scheme: on Ethereum mainnet today the signature is ECDSA over secp256k1, recovered with ecrecover; a post-quantum signature needs a different verifier, which is what ERC-1271 allows.' }
   desc: 'The standard for hashing and signing typed structured data instead of opaque bytes, so a wallet can show the user what they are signing. Its domain separator (name, version, chain id, verifying contract, an optional salt) keeps a signature for one application, contract or chain from being accepted by another that defines the same structure; wallets should refuse to sign for a chain id other than the active one. The standard itself provides no replay protection: it leaves repeated signed messages to the application, which must reject them (a nonce, an expiry) or make the action idempotent. That is why wallet verification and permit-style approvals built on it carry a nonce and a deadline inside the signed message.'
   sources:
   - { title: 'EIP-712, Typed structured data hashing and signing (Final; domain separator, replay protection left to the application)', url: 'https://eips.ethereum.org/EIPS/eip-712', checked: '2026-11-06' }
@@ -255,6 +269,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [expiry], note: 'expiration-time and not-before fields; a nonce per session.' }
     standard: { in: [erc_final], note: 'EIP-4361, Final.' }
+    pq: { in: [classical], note: 'Verified with ecrecover for an externally owned account, or through ERC-1271 for a contract account; classical today, with the contract route as the migration path.' }
   desc: 'A signed, human-readable message that proves an address''s controller is present: it binds the domain making the request (which the wallet must check against the origin, to stop phishing), the address, a URI, the chain id, a random nonce of at least eight characters chosen per session, an issued-at time and optional expiration, not-before, request-id and resources. The nonce and expiry are what stop a captured message being replayed; the domain and chain id stop it being presented elsewhere. For a smart account the relying party verifies through ERC-1271 on the named chain and should end sessions when that account''s state changes. It is the sign-in half of wallet verification; what the address may do is still a separate decision.'
   sources:
   - { title: 'EIP-4361, Sign-In with Ethereum (Final; message fields, nonce, domain binding, ERC-1271)', url: 'https://eips.ethereum.org/EIPS/eip-4361', checked: '2026-11-06' }
@@ -272,12 +287,14 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [history], note: 'Changing the account''s signers is a ledger transaction; verifiers must re-check after state changes.' }
     standard: { in: [erc_final], note: 'ERC-1271 and ERC-6492, both Final.' }
+    pq: { in: [classical], part: [pq], note: 'The contract decides what counts as its signature, so an account can adopt a post-quantum verifier without a protocol change. Deployed accounts verify ECDSA or passkey signatures today; research puts an EVM-optimized hash-based signature within reach of ordinary gas costs (SPHINCS-, June 2026).' }
   desc: 'Signature checking for accounts that are contracts. A contract has no private key, so ERC-1271 lets it expose isValidSignature and decide for itself what counts as its signature: one key, a threshold of keys, a passkey, a policy. ERC-6492 extends this to accounts that are not deployed yet, by wrapping the signature with the deployment call. Together with account abstraction (ERC-4337) and EIP-7702, which lets an ordinary account take on contract code through a signed delegation, they make proof of control a programmable question: the institution''s custody policy becomes the account''s validation rule. The price is that a signature''s validity can change with the account''s state, so a verifier cannot cache the answer.'
   sources:
   - { title: 'ERC-1271, Standard Signature Validation Method for Contracts (Final)', url: 'https://eips.ethereum.org/EIPS/eip-1271', checked: '2026-11-06' }
   - { title: 'ERC-6492, Signature Validation for Predeploy Contracts (Final)', url: 'https://eips.ethereum.org/EIPS/eip-6492', checked: '2026-11-06' }
   - { title: 'ERC-4337, Account Abstraction Using Alt Mempool (Final)', url: 'https://eips.ethereum.org/EIPS/eip-4337', checked: '2026-11-06' }
   - { title: 'EIP-7702, Set Code for EOAs (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7702', checked: '2026-11-06' }
+  - { title: 'Cointelegraph, Ethereum can quantum-proof accounts for 7 cents (14 June 2026; secondary): SPHINCS-, an EVM-optimized family derived from SPHINCS+, from the Ethereum Foundation Kohaku lead, without a hard fork; a bridge to leanSPHINCS with aggregation', url: 'https://cointelegraph.com/news/ethereum-quantum-proof-accounts-7-cents-researcher', checked: '2026-11-06' }
 - id: passkeys
   name: Passkeys (WebAuthn)
   circle: key
@@ -291,6 +308,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [list], note: 'The relying party or the smart account removes the credential.' }
     standard: { in: [w3c], note: 'Web Authentication Level 3, W3C Recommendation, 25 August 2026.' }
+    pq: { in: [classical], note: 'A passkey signs with an algorithm the authenticator and the relying party both support, elliptic-curve or RSA in deployed authenticators; a post-quantum algorithm needs both sides to add it.' }
   desc: 'The web standard for public-key credentials created and held by an authenticator (a phone, a security key, a laptop''s secure element), scoped to one relying party and used only with the user''s consent, which is what makes them resistant to phishing. They answer proof of control for people without seed phrases: a smart account can accept a passkey signature as its own through ERC-1271, and a relying party can use one for sign-in beside or instead of a wallet signature. They say nothing about who the person is; a passkey is a key, bound to a device and an origin, and identity still comes from the left circle.'
   sources:
   - { title: 'W3C, Web Authentication: An API for accessing Public Key Credentials, Level 3 (Recommendation, 25 August 2026)', url: 'https://www.w3.org/TR/webauthn-3/', checked: '2026-11-06' }
@@ -309,6 +327,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: ['na'] }
     standard: { in: [national], note: 'Required by travel-rule rules in Switzerland, the EU, Liechtenstein, Singapore and Hong Kong among others.' }
+    pq: { in: [classical], note: 'Whatever the account signs with: ECDSA for an externally owned account, the contract''s own rule under ERC-1271. The link an institution records between a customer and an address is only as strong as that key.' }
   desc: 'Where a transfer goes to or comes from a self-hosted wallet, travel-rule regimes in several jurisdictions ask the service provider to verify that its own customer controls that wallet before allowing the transfer: a signed message from the wallet, a micro-transaction, or another proof-of-control step. It is a permission decision (may this transfer proceed) resting on proof of control, for a customer the provider has already identified elsewhere: the identity lives in the provider''s records, which is why the pill sits outside the verified identity circle. The same signed-message pattern, with a nonce and an expiry, is the usual way an institution links a customer''s own wallet to their account.'
   sources:
   - { title: '21 Analytics, What is the FATF Travel Rule (self-hosted wallets, proof-of-control methods, jurisdictions)', url: 'https://www.21analytics.co/what-is-the-fatf-travel-rule/', checked: '2026-11-06' }
@@ -327,6 +346,7 @@ badges:
     reveals: { in: [membership], note: 'Every admitted address is readable, and so is every transfer between them.' }
     revocation: { in: [history], note: 'Removing an address is a ledger transaction; the address can no longer send or receive.' }
     standard: { in: [erc_final], part: [proprietary], note: 'ERC-3643 and ERC-7943 standardize the checks; many issuers run their own registry contract.' }
+    pq: { in: [state], note: 'The list is contract state. The exposure is the administrator key that edits it, and the holders'' keys, as for any ledger record.' }
   desc: 'The simplest way to carry an off-ledger check onto the ledger: the operator registers each address it has verified, and the token contract lets only registered addresses hold or receive. BlackRock''s BUIDL fund works this way: Securitize checks each investor''s KYC, AML and eligibility, adds the wallet to an allow-list that every transfer checks, and transfers to unlisted addresses revert (a secondary account of the fund, October 2026). The trade is privacy: the list of admitted addresses and the transfers among them are public, so anyone can read who the issuer''s investors transact with. Membership reveals a counterparty relationship even when names are not on chain; an attestation or a credential proof can admit an address without publishing a list.'
   sources:
   - { title: 'ERC-3643, T-REX Token for Regulated Exchanges (Final; Identity Registry checked on transfer)', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-11-06' }
@@ -345,6 +365,7 @@ badges:
     reveals: { in: [membership], note: 'A yes/no verified-account flag, a country and a Coinbase One flag, per address; the attestation data is public.' }
     revocation: { in: [history], note: 'EAS attestations carry expiration and revocation times.' }
     standard: { in: [proprietary], part: [erc_final], note: 'Coinbase schemas on EAS.' }
+    pq: { in: [classical], note: 'Attestations are written by Coinbase''s attester account under EAS; classical today, moving with the chain they are on.' }
   desc: 'Coinbase Verifications: Coinbase writes an attestation on Base, through the Ethereum Attestation Service, that a wallet belongs to a verified Coinbase account, with a country and a Coinbase One flag as separate schemas. A contract or an application looks the wallet up through Coinbase''s indexer contract on Base mainnet (a read-only call) and reads the attestation from EAS. It is an attestation rather than a list: Coinbase vouches, and any application may gate on it, without the application holding a list of its own. What is public is that the address passed Coinbase''s check and its country, not the person''s name; what the relying application gets is Coinbase''s word, so its own obligations do not transfer.'
   sources:
   - { title: 'Coinbase Developer Platform, Verifications: attestations (schemas, EAS on Base)', url: 'https://docs.cdp.coinbase.com/verifications/introduction/attestations', checked: '2026-11-06' }
@@ -363,9 +384,12 @@ badges:
     reveals: { in: [proof], note: 'Only the statement proved (over 18, a given nationality, a scoped personhood identifier), never the document.' }
     revocation: { in: ['na'], part: [list], note: 'A renewed document changes identifiers; no central revocation of a proof.' }
     standard: { in: [proprietary], part: [iso], note: 'Each project''s own circuits over the ICAO 9303 document signature.' }
+    pq: { in: [classical], note: 'Two classical links: the passport chip''s signature, and the proof system (circuits in Circom or Noir in the projects'' current stacks); none of the three projects states a post-quantum position. A hash-based proof system would change the second link, not the first.' }
   desc: 'Zero-knowledge proofs over a passport''s chip: the holder proves on their phone that a government-signed document says something (older than 18, a citizen of a given country, one person per scope) and a verifier contract on an EVM network checks the proof, without the document or the name ever leaving the device. Safe Research compared ZKPassport, Rarimo, Self Protocol and Privado ID in September 2025: proofs made on the device and verified on chain, with the trust anchored in the state''s own signature on the chip (the ePassport standard, ICAO 9303, drawn in the schemes box below). It is the strongest example of a sovereign source anchored to the ledger without a middleman, and the limits are stated in the same review: dependence on government PKI, limited document coverage for some flows, no liveness check, and a renewed passport changes the identifier.'
   sources:
   - { title: 'Safe Research, ZK Passport: where are we now? (4 September 2025)', url: 'https://safefoundation.org/blog/safe-research-zk-passport-where-are-we-now', checked: '2026-11-06' }
+  - { title: 'ZKPassport, how it works (on-chain verifiers for Ethereum, Base, Aztec and other EVM chains; ICAO 9303 documents; vendor)', url: 'https://zkpassport.id/', checked: '2026-11-07' }
+  - { title: 'Rarimo documentation, ZK Passport (circuits built with Circom, transitioning to Noir; the on-chain Merkle registry; vendor)', url: 'https://docs.rarimo.com/zk-passport/', checked: '2026-11-07' }
 # ---- All three: identity, key and permission in one mechanism ----
 - id: kya
   name: Know Your Agent
@@ -380,6 +404,7 @@ badges:
     reveals: { in: [nothing] }
     revocation: { in: [list], part: [expiry], note: 'Time-bound, revocable agent credentials; mandates with expiry.' }
     standard: { in: [proprietary], note: 'No standard yet; two vendor framings from 2026 are cited.' }
+    pq: { in: [unstated], note: 'The vendor framings the map cites do not state the signature schemes an agent identity uses.' }
   desc: 'Know your agent: the emerging practice of treating a software agent as a party that needs an identity, a verified principal and a scope. Two vendor framings from 2026 (vendor-stated): Sumsub describes KYA as establishing an agent''s machine identity, linking it to a verified person or organization and enforcing policy, oversight and auditability over its actions (January 2026); Shufti''s product issues each agent a time-bound, revocable credential, requires it to be linked to a person or business verified through KYC or KYB, and enforces a mandate (permitted actions, limits, expiry, revocation) on every request, with a liveness check by the principal for out-of-mandate requests (October 2026). On an Ethereum chain the same shape is an ERC-8004 agent whose owner is a verified principal, acting from a smart account whose validation rule is the mandate: identity, key and permission in one design, which is why it sits in the center.'
   sources:
   - { title: 'Sumsub, From AI agents to Know Your Agent (28 January 2026; vendor)', url: 'https://sumsub.com/blog/know-your-agent/', checked: '2026-11-06' }
@@ -399,6 +424,7 @@ badges:
     reveals: { in: [membership], note: 'Registered wallets, their on-chain identity contracts and claim topics are readable; claim data itself may be a hash.' }
     revocation: { in: [history], note: 'Claims and registrations change by transaction; recoveries are kept on chain.' }
     standard: { in: [erc_final], note: 'ERC-3643, Final.' }
+    pq: { in: [classical], note: 'Claims are signed by claim issuers and checked by the identity registry; the ONCHAINID contract holds rotatable keys, which eases a scheme change, but the signatures are classical today and move with Ethereum mainnet''s roadmap.' }
   desc: 'The permissioned token standard (T-REX): an ERC-20 whose transfers pass only if the receiver''s wallet is registered in an Identity Registry, its on-chain identity contract holds the claims the token requires (ONCHAINID, the identity contract in the standard''s reference assets: an ERC-734 key holder and ERC-735 claim holder), those claims are signed by an issuer in the Trusted Issuers Registry, and a Compliance contract agrees. Agents appointed by the owner can force transfers and recover tokens to a new wallet, with the history kept on chain. It answers all three questions in one structure: who (claims from trusted issuers), which key (the wallet bound to the identity contract) and what (the compliance rules), which is why it sits in the center. The issuer still runs the KYC; the standard carries the result and enforces it.'
   sources:
   - { title: 'ERC-3643, T-REX Token for Regulated Exchanges (Final; identity registry, claim issuers, compliance, recovery)', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-11-06' }
@@ -418,11 +444,14 @@ badges:
     reveals: { in: [proof], note: 'Only that a proof over an accepted credential verified; a nullifier can prevent reuse.' }
     revocation: { in: [list], note: 'Revocation trees published with the issuer state.' }
     standard: { in: [w3c], part: [proprietary], note: 'W3C credentials with the iden3 proof system.' }
+    pq: { in: [classical], note: 'The iden3 proof system (snarkjs circuits with on-chain verifiers) and the issuer''s keys are classical; the documentation states no post-quantum position.' }
   desc: 'A zero-knowledge credential stack from the iden3 protocol: Polygon ID, spun out of Polygon Labs as Privado ID in June 2024, with Billions Network as the consumer-facing network launched in February 2025 (vendor-stated: trials with named banks, work with Verax on Linea, DigiShares for investor onboarding). An issuer signs W3C-style credentials; the holder proves statements about them in zero knowledge; a verifier contract on any EVM chain, or a server, checks the proof against the issuer''s published state and revocation tree. It admits an address without listing it and without revealing the credential, so a token contract can gate on "this wallet holds a credential from an issuer I trust" and the public sees only that a proof passed. Identity, key and permission meet in one design, which is why it sits in the center.'
   sources:
   - { title: 'Billions Network, Introducing Privado ID (spin-out from Polygon Labs, 13 June 2024; vendor)', url: 'https://billions.network/blog/introducing-privado-id-moving-beyond-polygon-to-deliver-independent-privacy-preserving-identity-solutions', checked: '2026-11-06' }
   - { title: 'VentureBeat, Billions.Network launches verification platform for humans and AI (28 February 2025)', url: 'https://venturebeat.com/business/billions-network-launches-universally-accessible-verification-platform-for-humans-and-ai', checked: '2026-11-06' }
   - { title: 'Safe Research, ZK Passport: where are we now? (Privado ID: state publication, revocation trees, nullifiers)', url: 'https://safefoundation.org/blog/safe-research-zk-passport-where-are-we-now', checked: '2026-11-06' }
+  - { title: 'Privado ID documentation, Introduction (the iden3 protocol; verification off-chain or on-chain via smart contracts; vendor)', url: 'https://docs.privado.id/docs/introduction/', checked: '2026-11-07' }
+  - { title: 'iden3 documentation (Poseidon, Baby JubJub, snarkjs proof generation; vendor)', url: 'https://docs.iden3.io/', checked: '2026-11-07' }
 - id: eas
   name: EAS attestations
   circle: who
@@ -437,6 +466,7 @@ badges:
     reveals: { in: [membership], part: [identity], note: 'What the schema holds is public when attested on chain.' }
     revocation: { in: [history], note: 'Expiration and revocation resolvers; revocation is a transaction.' }
     standard: { in: [proprietary], note: 'An open protocol, not an ERC; deployed on Ethereum mainnet, Base, Optimism, Arbitrum, Polygon, Linea and others.' }
+    pq: { in: [classical], note: 'An on-chain attestation is a transaction by the attester''s account; an off-chain one is an EIP-712 signature. Both classical today, moving with the chain.' }
   desc: 'The Ethereum Attestation Service: an open protocol for attestations on EVM chains, where anyone registers a schema and any address makes attestations against it about a recipient, with resolver contracts for on-chain verification, expiration and revocation. It is deployed on Ethereum mainnet, Base, Optimism, Arbitrum, Polygon, Linea and other chains. It is the general form of Coinbase Verifications: an institution can attest to its own conclusion about an address (verified, eligible, a role) and a contract can gate on it, with the attester''s address, not a list, as the thing to trust. Identity, key and permission meet because the attestation names the subject, is signed by the attester and is what the gate reads.'
   sources:
   - { title: 'Ethereum Attestation Service, eas-contracts (schemas, attestations, resolvers, deployments)', url: 'https://github.com/ethereum-attestation-service/eas-contracts', checked: '2026-11-06' }
@@ -456,6 +486,7 @@ badges:
     reveals: { in: [membership], note: 'The blocked addresses are public.' }
     revocation: { in: [history], note: 'Blocking and unblocking are ledger transactions.' }
     standard: { in: [proprietary] }
+    pq: { in: [state], note: 'The list is contract state. The exposure is the issuer''s administrator key (the blacklister role, in Circle''s contract), as for any admin key.' }
   desc: 'The permission mechanism most tokens already carry: the issuer may block an address at the contract, after which it can neither send nor receive. Issuers'' own words are blacklist in the contract (Circle''s USDC contract has a blacklister role with blacklist and unblacklist functions) and block or freeze in their terms; Ethereum Institutional says blocklist. USDC and USDT are the examples: Circle''s USDC terms let it block addresses it determines, in its discretion, to be associated with illegal activity or a breach of its terms, freeze USDC that touches a blocked address, and freeze or surrender funds on a legal order from a government authority. Tether said in April 2026 that it had frozen more than USD 4.4 billion in all, more than USD 2.1 billion tied to US authorities, after freezing USD 344 million on Tron in coordination with OFAC and US law enforcement. A blocklist needs no identity: everyone is permitted until named. That is its strength for open assets and its limit for regulated ones.'
   sources:
   - { title: 'Circle, USDC risk factors (blocked addresses, freezing, legal orders)', url: 'https://www.circle.com/legal/usdc-risk-factors', checked: '2026-11-06' }
@@ -474,6 +505,7 @@ badges:
     reveals: { in: [nothing], part: [identity], note: 'The ledger shows nothing new; the analysis reveals what the ledger already implied.' }
     revocation: { in: ['na'] }
     standard: { in: [proprietary], note: 'Each provider''s own heuristics and labels.' }
+    pq: { in: ['na'], note: 'Analytics over the ledger''s public record, off the ledger; no signature of its own.' }
   desc: 'Permission decided from an address''s history rather than its owner''s identity: a transfer is allowed, held or refused on a risk score from blockchain analytics, which clusters addresses into entities and labels the clusters. The heuristics are public knowledge: inputs spent together belong to one party, change returns to the sender, exchanges hand out one-time deposit addresses, and a cluster tied to an exchange can be resolved to a person by asking the exchange, which holds the customer''s identity. Academic tests of the market leader found attribution reliable as a lower bound, 25 to 95 percent coverage with under 0.5 percent false positives (USENIX Security 2025). The consequence for institutions: custody does not hide you. An address behind a custodian is attributable to the custodian, and often to the account, by the same methods.'
   sources:
   - { title: 'Lubbertsen, van Eeten and van Wegberg, Ghost Clusters: Evaluating Attribution of Illicit Services through Cryptocurrency Tracing (USENIX Security 2025)', url: 'https://www.usenix.org/conference/usenixsecurity25/presentation/lubbertsen', checked: '2026-11-06' }
@@ -493,6 +525,7 @@ badges:
     reveals: { in: [membership], part: [nothing], note: 'The answer to canSend and canReceive is public; the reason need not be.' }
     revocation: { in: [history], note: 'Frozen balances and eligibility changes are transactions.' }
     standard: { in: [erc_final], note: 'ERC-7943, Final.' }
+    pq: { in: [state], note: 'Enforcement functions on the token contract, called by an authorized operator; the record is contract state and the exposure is the operator key.' }
   desc: 'The universal real-world asset interface: a minimal set of compliance functions added to ERC-20, ERC-721, ERC-1155 or ERC-6909 tokens, with eligibility checks per account (canSend, canReceive), a transfer-level check (canTransfer), frozen-balance management and an enforcement transfer (forcedTransfer). It standardizes the permission question without prescribing the answer: the token asks, and the implementation decides from an allowlist, an attestation, a credential proof or a blocklist. For an institution it means one interface to integrate against, whichever identity mechanism on this map sits behind it.'
   sources:
   - { title: 'ERC-7943, uRWA Universal Real World Asset Interface (Final; canSend, canReceive, canTransfer, frozen tokens, forcedTransfer)', url: 'https://eips.ethereum.org/EIPS/eip-7943', checked: '2026-11-06' }

@@ -417,6 +417,11 @@ and decisions behind them.
 - **House positions, flagged as Ethereum Institutional's:** the three-question framing; the schemes box; DNS is a weak
   trust anchor; the signed-message checklist. The revenue proposal (reusable credentials, a credit score as a credential,
   underwriting) is held in `data/identity/held.yaml`, off the public page, for a scenario or a brief (owner, 6 November 2026).
+- **Post-quantum is a facet of identity (owner, 7 November 2026):** `pq` in Focus on, group Keys and signatures, read
+  for every mechanism. Nothing on the map is post-quantum today, so the values say where the classical link is
+  (`classical`), that the mechanism is a ledger record exposed through its admin keys (`state`) or that the scheme does
+  not say (`unstated`); `part: [pq]` is for a verifier a contract can replace (ERC-1271). The issuer preset picks it as
+  a choice, never a `require`; the Quantum pages carry the timelines and the Identity page only says what breaks.
 - **Identity is a live map** since 6 November 2026: no `wip` tag in `data/nav.yaml`; the site-wide v0.x notice still applies.
 - **Vendors:** two or three examples of a kind or none (`AGENTS.md` §4); vendor claims are marked vendor-stated.
 - **Labels:** the two big labels run on two lines, centered in each circle's own lune, because a one-line label at this

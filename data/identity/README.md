@@ -29,7 +29,10 @@ gray marks one that works off the ledger and feeds it. There are no testnet pill
 `mainnet` on the blue ones only to keep the fact sheet consistent.
 
 **Give it facts** for every facet in `site.yaml`: `{ in: [values], part: [values], note: '...' }`. `in` means it
-has this; `part` partly; `na` does not apply; `unknown` only after a real search. The `reveals` facet is neutral
+has this; `part` partly; `na` does not apply; `unknown` only after a real search. The `pq` facet (Post-quantum, 7 November
+2026) reads every mechanism: nothing on the map is post-quantum today, so the reading says where the classical link is
+(`classical`), that the mechanism is a ledger record exposed through its admin keys (`state`), or that the scheme does not
+say (`unstated`); `part: [pq]` marks a verifier a contract can replace. The `reveals` facet is neutral
 (a privacy cost to one reader, an audit trail to another), so its marks are plain boxes.
 
 **Regulatory statements** on this page name the question and the primary text; the regulatory treatment of each
