@@ -14,7 +14,7 @@ panel_default:
   text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and the band across the columns is the one transaction in which both legs settle.
 notice:
   title: Under development.
-  text: This scenario is a v0.x draft and has not yet been reviewed by legal counsel. Steps and standards may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Running this scenario?

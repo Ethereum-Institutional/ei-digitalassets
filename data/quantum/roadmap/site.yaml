@@ -1,40 +1,67 @@
-# Quantum sub-page (static, work in progress). Short text with links to the primary material; sources collapsed.
+# Quantum sub-page (static). Short text with links to the primary material; sources collapsed.
 
 kind: static
 eyebrow: Ethereum Institutional · Research · Quantum
 notice:
-  title: Work in progress.
-  text: This page is being drafted. It links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+  title: Under development.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.
   text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
-footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
-title: "Quantum: the Ethereum roadmap"
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 6 November 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+title: 'Quantum: the Ethereum roadmap'
 slug: quantum-roadmap
 heading:
   text: The Ethereum roadmap
   italic: roadmap
-intro: "The plan rebuilds every cryptographic primitive on hashes, in four areas: consensus signatures, data availability, account signatures and application proofs. What you can use now, and what is coming, with dates."
+intro: 'The plan rebuilds every cryptographic primitive on hashes, in four areas: consensus signatures, data availability, account signatures and application proofs. What you can use now, what is coming, and the community’s own estimate of the threat beside its target dates.'
 sections:
-  - title: The Ethereum roadmap
-    items:
-      - title: Available now
-        text: Hashes are safe, STARK rollups are safe, and account abstraction (ERC-4337, EIP-7702) lets an institution run a post-quantum signature scheme on its own accounts today without waiting for the protocol. Few systems of comparable scale, on or off the internet, offer their users that option yet.
-        more:
-          title: EIP-7702, live since May 2025
-          url: https://eips.ethereum.org/EIPS/eip-7702
-      - title: Coming next
-        text: "Signature agility by protocol rule (EIP-8141, EIP-7932), a hash-based state tree (EIP-7864), and Lean Ethereum: hash-based validator signatures aggregated with SNARK proofs, with core infrastructure targeted for about 2029."
-        more:
-          title: The Lean Ethereum roadmap
-          url: https://ethereum.org/en/roadmap/security/quantum-resistance/
-        sources:
-          - title: EIP-7932, Secondary signature algorithms (Draft)
-            url: https://eips.ethereum.org/EIPS/eip-7932
-            checked: 2026-10-25
-          - title: EIP-7864, Ethereum state using a unified binary tree (Draft)
-            url: https://eips.ethereum.org/EIPS/eip-7864
-            checked: 2026-10-25
-      - title: What to do now
-        text: Keep long-lived holdings on addresses that have never spent, prefer smart accounts whose signature scheme can be rotated, and ask every proof system and bridge you rely on whether it rests on pairings or on hashes.
+- title: The Ethereum roadmap
+  items:
+  - title: Available now
+    text: Hashes are safe, STARK rollups are safe, and account abstraction (ERC-4337, EIP-7702) lets an institution run a post-quantum signature scheme on its own accounts today without waiting for the protocol. Few systems of comparable scale, on or off the internet, offer their users that option yet.
+    more:
+      title: EIP-7702, live since May 2025
+      url: https://eips.ethereum.org/EIPS/eip-7702
+  - title: Coming next
+    text: 'Signature agility by protocol rule (EIP-8141, which ethereum.org says is being considered for the Hegotá upgrade, and EIP-7932), a hash-based state tree (EIP-7864), and Lean Ethereum: leanXMSS, a hash-based signature scheme for validators in place of BLS, aggregated with SNARK proofs in a minimal zero-knowledge virtual machine (leanVM), with core infrastructure targeted for about 2029. For accounts, a lean adaptation of the NIST hash-based standard SPHINCS+ (SLH-DSA) is being finalized, built for hardware wallets, multi-party signing and aggregation; an EVM-optimized variant that needs no protocol change was proposed in June 2026. The L1 is choosing hash-based schemes over the lattice-based NIST standards (ML-DSA) because a scheme meant to last decades should rest on the fewest assumptions, and researchers put a significant chance on lattices being attacked in the coming years; the lattice standards remain an option for faster movers.'
+    more:
+      title: The Lean Ethereum roadmap
+      url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+    sources:
+    - &id001
+      title: 'ethereum.org, Quantum resistance (page updated 23 October 2026): about 1,200 logical qubits to break 256-bit elliptic-curve keys per March 2026 research; hardware around the end of the decade at the earliest; leanXMSS and leanVM; EIP-8141 considered for Hegotá; core infrastructure about 2029; dormant wallets an open governance topic'
+      url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+      checked: '2026-11-06'
+    - &id002
+      title: 'Ethereum Foundation, Post-Quantum Ethereum portal (updated 27 June 2026): not imminent, most roadmaps early to mid 2030s; Execution, Consensus and Data layers; leanXMSS, leanSig, leanVM, leanSpec; SPHINCS+ a candidate for the execution layer; cryptographic agility; L1 upgrades by 2029; a USD 20 million formal verification project'
+      url: https://pq.ethereum.org/
+      checked: '2026-11-06'
+    - title: 'Drake, Khovratovich, Kudinov and Wagner, Technical Note: LeanSig for Post-Quantum Ethereum (IACR ePrint 2025/1332, revised 12 September 2025): a hash-based multi-signature instantiation for the consensus layer'
+      url: https://eprint.iacr.org/2025/1332
+      checked: '2026-11-06'
+    - title: 'Cointelegraph, Ethereum can quantum-proof accounts for 7 cents (14 June 2026; secondary): SPHINCS-, an EVM-optimized family derived from SPHINCS+, from the Ethereum Foundation Kohaku lead, without a hard fork; a bridge to leanSPHINCS with aggregation'
+      url: https://cointelegraph.com/news/ethereum-quantum-proof-accounts-7-cents-researcher
+      checked: '2026-11-06'
+    - &id003
+      title: 'Devcon India, post-quantum Q&A with Ethereum Foundation researcher Justin Drake (November 2026; video, transcript read 6 November 2026): earliest 2029 and expected 2032, three years earlier than two years before; coordination the bottleneck, one upgrade about every ten months, 2028 at the earliest on the current cadence; a lean adaptation of SPHINCS+ for accounts, hash-based over lattices for the L1; proof of seed; custodians in bunker mode; the post-AI threat'
+      url: https://www.youtube.com/watch?v=L_Qon4NykLw
+      checked: '2026-11-06'
+    - title: EIP-7932, Secondary signature algorithms (Draft)
+      url: https://eips.ethereum.org/EIPS/eip-7932
+      checked: 2026-10-25
+    - title: EIP-7864, Ethereum state using a unified binary tree (Draft)
+      url: https://eips.ethereum.org/EIPS/eip-7864
+      checked: 2026-10-25
+  - title: The threat estimate, and the cadence
+    text: 'The community’s own estimate of the threat moved forward in 2026. ethereum.org puts a capable machine around the end of the decade at the earliest, citing research that about 1,200 logical qubits would break a 256-bit elliptic-curve key, and notes that NIST expects to deprecate ECDSA by 2030 and disallow it by 2035; the Ethereum Foundation’s post-quantum team wrote in mid 2026 that most roadmaps place it in the early to mid 2030s and that it is not imminent; and at Devcon in November 2026 its researchers gave 2029 as the earliest and 2032 as the expected date, three years earlier than their estimate of two years before. On the protocol side the bottleneck is now coordination rather than technology: upgrades ship about every ten months and the next two are scoped for other work, so the earliest protocol-level migration on the current cadence is 2028, sooner if client teams make it the priority. Every date here is a target or an estimate, not a commitment.'
+    more:
+      title: The Ethereum Foundation’s post-quantum portal
+      url: https://pq.ethereum.org/
+    sources:
+    - *id001
+    - *id002
+    - *id003
+  - title: What to do now
+    text: Keep long-lived holdings on addresses that have never spent, move funds to a fresh address after every spend where keys are already exposed, prefer smart accounts whose signature scheme can be rotated, and ask every proof system and bridge you rely on whether it rests on pairings or on hashes.

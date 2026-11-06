@@ -12,7 +12,7 @@ badges:
 - id: singpass
   name: Singpass
   circle: schemes
-  x: 160
+  x: 110
   y: 945
   eth: false
   facts:
@@ -28,7 +28,7 @@ badges:
 - id: uaepass
   name: UAE PASS
   circle: schemes
-  x: 330
+  x: 280
   y: 945
   eth: false
   facts:
@@ -44,7 +44,7 @@ badges:
 - id: iamsmart
   name: iAM Smart
   circle: schemes
-  x: 500
+  x: 450
   y: 945
   eth: false
   facts:
@@ -60,7 +60,7 @@ badges:
 - id: eudi
   name: EUDI Wallet
   circle: schemes
-  x: 690
+  x: 620
   y: 945
   eth: false
   facts:
@@ -74,6 +74,22 @@ badges:
   sources:
   - { title: 'Open ID Europe, EUDI Wallet rollout timeline 2024–2027 (status October 2026)', url: 'https://www.openideurope.eu/digital-identity/eudi-wallet-timeline/', checked: '2026-11-06' }
   - { title: 'OpenID Foundation, OpenID4VC High Assurance Interoperability Profile 1.0 (Final, 24 December 2025)', url: 'https://openid.net/specs/openid4vc-high-assurance-interoperability-profile-1_0-final.html', checked: '2026-11-06' }
+- id: epassport
+  name: ePassport (ICAO 9303)
+  circle: schemes
+  x: 790
+  y: 945
+  eth: false
+  facts:
+    subject: { in: [person] }
+    anchor: { in: [sovereign], note: 'The issuing State: its Document Signer certifies the chip data under its Country Signing Certification Authority; certificates and revocation lists are exchanged through the ICAO Public Key Directory.' }
+    checked: { in: [offchain], note: 'A reader verifies the State''s signature on the chip; the ledger is not a party. On the ledger only through ZK passport proofs.' }
+    reveals: { in: [nothing], note: 'Reading a passport puts nothing on a ledger; a ZK passport proof reveals only the statement proved.' }
+    revocation: { in: [list], note: 'Certificate revocation lists through the Public Key Directory; a lost or stolen document is revoked by its issuing State.' }
+    standard: { in: [iso], note: 'ICAO Doc 9303, endorsed by ISO as ISO/IEC 7501.' }
+  desc: 'The passport chip standard. ICAO Doc 9303 (Eighth Edition, 2021; endorsed by the International Organization for Standardization as ISO/IEC 7501) specifies the electronic machine readable travel document, a passport, visa or card with a contactless integrated circuit holding the holder''s data and a facial image in a standard logical data structure (Part 10), the security mechanisms for reading it (Part 11), and the public key infrastructure in which the issuing State''s Document Signer certifies the chip data under its Country Signing Certification Authority, with certificates and revocation lists exchanged through the ICAO Public Key Directory. It is the sovereign credential most people already carry, and it is read, not issued, by the private sector: a reader verifies the State''s signature off the ledger. It reaches the ledger only through the ZK passport proofs in the circles above, which prove a statement about the signed chip data to a verifier contract without the document leaving the device.'
+  sources:
+  - { title: 'ICAO, Doc 9303 Machine Readable Travel Documents, Part 1 Introduction (Eighth Edition, 2021): the eMRTD, the parts, the Document Signer and CSCA, the Public Key Directory, ISO/IEC 7501', url: 'https://www.icao.int/sites/default/files/publications/DocSeries/9303_p1_cons_en.pdf', checked: '2026-11-06' }
 - id: kyx
   name: KYC and KYB checks
   circle: who
@@ -347,7 +363,7 @@ badges:
     reveals: { in: [proof], note: 'Only the statement proved (over 18, a given nationality, a scoped personhood identifier), never the document.' }
     revocation: { in: ['na'], part: [list], note: 'A renewed document changes identifiers; no central revocation of a proof.' }
     standard: { in: [proprietary], part: [iso], note: 'Each project''s own circuits over the ICAO 9303 document signature.' }
-  desc: 'Zero-knowledge proofs over a passport''s chip: the holder proves on their phone that a government-signed document says something (older than 18, a citizen of a given country, one person per scope) and a verifier contract on an EVM network checks the proof, without the document or the name ever leaving the device. Safe Research compared ZKPassport, Rarimo, Self Protocol and Privado ID in September 2025: proofs made on the device and verified on chain, with the trust anchored in the state''s own signature. It is the strongest example of a sovereign source anchored to the ledger without a middleman, and the limits are stated in the same review: dependence on government PKI, limited document coverage for some flows, no liveness check, and a renewed passport changes the identifier.'
+  desc: 'Zero-knowledge proofs over a passport''s chip: the holder proves on their phone that a government-signed document says something (older than 18, a citizen of a given country, one person per scope) and a verifier contract on an EVM network checks the proof, without the document or the name ever leaving the device. Safe Research compared ZKPassport, Rarimo, Self Protocol and Privado ID in September 2025: proofs made on the device and verified on chain, with the trust anchored in the state''s own signature on the chip (the ePassport standard, ICAO 9303, drawn in the schemes box below). It is the strongest example of a sovereign source anchored to the ledger without a middleman, and the limits are stated in the same review: dependence on government PKI, limited document coverage for some flows, no liveness check, and a renewed passport changes the identifier.'
   sources:
   - { title: 'Safe Research, ZK Passport: where are we now? (4 September 2025)', url: 'https://safefoundation.org/blog/safe-research-zk-passport-where-are-we-now', checked: '2026-11-06' }
 # ---- All three: identity, key and permission in one mechanism ----
@@ -383,9 +399,11 @@ badges:
     reveals: { in: [membership], note: 'Registered wallets, their on-chain identity contracts and claim topics are readable; claim data itself may be a hash.' }
     revocation: { in: [history], note: 'Claims and registrations change by transaction; recoveries are kept on chain.' }
     standard: { in: [erc_final], note: 'ERC-3643, Final.' }
-  desc: 'The permissioned token standard (T-REX): an ERC-20 whose transfers pass only if the receiver''s wallet is registered in an Identity Registry, its on-chain identity contract (ONCHAINID) holds the claims the token requires, those claims are signed by an issuer in the Trusted Issuers Registry, and a Compliance contract agrees. Agents appointed by the owner can force transfers and recover tokens to a new wallet, with the history kept on chain. It answers all three questions in one structure: who (claims from trusted issuers), which key (the wallet bound to the identity contract) and what (the compliance rules), which is why it sits in the center. The issuer still runs the KYC; the standard carries the result and enforces it.'
+  desc: 'The permissioned token standard (T-REX): an ERC-20 whose transfers pass only if the receiver''s wallet is registered in an Identity Registry, its on-chain identity contract holds the claims the token requires (ONCHAINID, the identity contract in the standard''s reference assets: an ERC-734 key holder and ERC-735 claim holder), those claims are signed by an issuer in the Trusted Issuers Registry, and a Compliance contract agrees. Agents appointed by the owner can force transfers and recover tokens to a new wallet, with the history kept on chain. It answers all three questions in one structure: who (claims from trusted issuers), which key (the wallet bound to the identity contract) and what (the compliance rules), which is why it sits in the center. The issuer still runs the KYC; the standard carries the result and enforces it.'
   sources:
   - { title: 'ERC-3643, T-REX Token for Regulated Exchanges (Final; identity registry, claim issuers, compliance, recovery)', url: 'https://eips.ethereum.org/EIPS/eip-3643', checked: '2026-11-06' }
+  - { title: 'ERC-3643 reference assets, ONCHAINID/IIdentity.sol (IIdentity is IERC734, IERC735; CC0-1.0)', url: 'https://eips.ethereum.org/assets/eip-3643/ONCHAINID/IIdentity.sol', checked: '2026-11-06' }
+  - { title: 'ONCHAINID documentation (the onchain identity standard: contracts, SDK, claim issuers)', url: 'https://docs.onchainid.com/', checked: '2026-11-06' }
 - id: privado
   name: Privado ID
   circle: who

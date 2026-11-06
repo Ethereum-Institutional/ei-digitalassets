@@ -42,6 +42,7 @@ scenarios:
 - title: Payments with tokenized currency
   icon: pay
   short: Payments
+  path: scenarios/payments-tokenized-currency
   map: { x: 200, y: 170 }
   text: Domestic and cross-border payments in deposit tokens and stablecoins, settled on the ledger around the clock.
   moves: [cash]
@@ -49,6 +50,7 @@ scenarios:
 - title: Treasury management with tokenized money market funds
   icon: treasury
   short: Treasury
+  path: scenarios/treasury-tmmf-sweep
   map: { x: 230, y: 120 }
   text: Cash sweeps into tokenized money market funds and back, on each fund’s dealing and liquidity terms; eligible holders may transfer units outside dealing hours.
   moves: [cash]
@@ -56,6 +58,7 @@ scenarios:
 - title: Foreign exchange, payment versus payment
   icon: pvp
   short: FX PvP
+  path: scenarios/fx-pvp-tokenized-currencies
   map: { x: 195, y: 235 }
   text: Two tokenized currencies exchanged atomically, with no settlement risk between the legs.
   moves: [cash]
@@ -63,6 +66,7 @@ scenarios:
 - title: Repo and reverse repo
   icon: repo
   short: Repo
+  path: scenarios/repo-deposit-token-bond
   map: { x: 400, y: 240 }
   text: Cash against tokenized securities with an agreed return leg, both legs on the ledger.
   moves: [cash, asset, credit]
@@ -70,6 +74,7 @@ scenarios:
 - title: Collateral mobility and margin
   icon: collateral
   short: Collateral
+  path: scenarios/collateral-mobility-margin
   map: { x: 500, y: 330 }
   text: Tokenized fund units and securities posted as initial and variation margin, bilaterally, at venues and at clearing houses.
   moves: [asset, credit]
@@ -77,6 +82,7 @@ scenarios:
 - title: Securities lending
   icon: lending
   short: Securities lending
+  path: scenarios/securities-lending-tokenized
   map: { x: 474, y: 356 }
   text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
   moves: [asset, credit]
@@ -84,6 +90,7 @@ scenarios:
 - title: Fund subscription and redemption
   icon: subscribe
   short: Fund dealing
+  path: scenarios/fund-dealing-tokenized
   map: { x: 400, y: 104 }
   text: Primary-market dealing in tokenized funds against a cash leg, at the struck price or continuously.
   moves: [cash, asset]
@@ -91,6 +98,7 @@ scenarios:
 - title: Corporate actions and distributions
   icon: corporate
   short: Corporate actions
+  path: scenarios/corporate-actions-tokenized
   map: { x: 400, y: 160 }
   text: Dividends, coupons and reinvestments paid in units or in tokenized currency, on the same ledger as the asset.
   moves: [cash, asset]
@@ -98,13 +106,14 @@ scenarios:
 - title: AI agent payments
   icon: agent
   short: AI payments
+  path: scenarios/agent-payments-x402
   map: { x: 209, y: 280 }
   text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
   moves: [cash]
   roles: [payments, corporate, bank]
 notice:
   title: Under development.
-  text: One scenario is written; the others are planned. Steps and standards may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Missing a scenario?

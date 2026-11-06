@@ -34,14 +34,14 @@ ddq:
     ledger: Ledger, data and trading
     security: Security, resilience and people
   notice:
-    title: Work in progress.
-    text: These questions are a v0.x draft for discussion. Vendor names are examples for orientation, not endorsements or assessments. Not legal advice.
+    title: Under development.
+    text: For discussion only; not legal advice. Vendor names are examples, not endorsements.
   contribute:
     title: Suggest a question.
     text: Each page is built from one YAML file. Edit it on GitHub to add or sharpen a question, or open an issue to propose one.
 notice:
-  title: Work in progress.
-  text: This architecture map is a v0.x draft for discussion. Components, connections and flows may change; nothing here is a recommendation for a specific institution.
+  title: Under development.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.

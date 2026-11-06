@@ -24,7 +24,7 @@ lens_help: Pick one lens from either list. Its perimeter is drawn as a dotted li
 # Optional banner shown above the heading. Remove `notice` to hide it.
 notice:
   title: Under development.
-  text: This taxonomy is a v0.x draft and has not yet been reviewed by legal counsel. Placements, definitions and regulatory lenses may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 # Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets

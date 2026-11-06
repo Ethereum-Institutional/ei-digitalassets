@@ -15,11 +15,20 @@ const PAGES = [
   { dir: 'data/networks', out: 'networks' },                 // Digital Asset Networks
   { dir: 'data/scenarios', out: 'scenarios' },               // scenario index (filterable list)
   { dir: 'data/scenarios/dvp-deposit-token-tmmf', out: 'scenarios/dvp-deposit-token-tmmf' }, // first scenario
+  { dir: 'data/scenarios/repo-deposit-token-bond', out: 'scenarios/repo-deposit-token-bond' },
+  { dir: 'data/scenarios/agent-payments-x402', out: 'scenarios/agent-payments-x402' },
+  { dir: 'data/scenarios/treasury-tmmf-sweep', out: 'scenarios/treasury-tmmf-sweep' },
+  { dir: 'data/scenarios/payments-tokenized-currency', out: 'scenarios/payments-tokenized-currency' },
+  { dir: 'data/scenarios/fx-pvp-tokenized-currencies', out: 'scenarios/fx-pvp-tokenized-currencies' },
+  { dir: 'data/scenarios/securities-lending-tokenized', out: 'scenarios/securities-lending-tokenized' },
+  { dir: 'data/scenarios/collateral-mobility-margin', out: 'scenarios/collateral-mobility-margin' },
+  { dir: 'data/scenarios/fund-dealing-tokenized', out: 'scenarios/fund-dealing-tokenized' },
+  { dir: 'data/scenarios/corporate-actions-tokenized', out: 'scenarios/corporate-actions-tokenized' },
   { dir: 'data/architecture', out: 'architecture' },         // Architecture: components of a digital asset team
   { dir: 'data/adoption', out: 'adoption' },                 // Adoption: eleven decentralization dials (was /decentralization/)
-  { dir: 'data/privacy', out: 'privacy' },                   // work in progress (static stub)
-  { dir: 'data/identity', out: 'identity' },                 // work in progress (static stub)
-  { dir: 'data/quantum', out: 'quantum' },                   // work in progress (static stub with planned sections)
+  { dir: 'data/privacy', out: 'privacy' },
+  { dir: 'data/identity', out: 'identity' },
+  { dir: 'data/quantum', out: 'quantum' },
   { dir: 'data/quantum/algorithms', out: 'quantum/algorithms' },
   { dir: 'data/quantum/ledger', out: 'quantum/ledger' },
   { dir: 'data/quantum/roadmap', out: 'quantum/roadmap' },

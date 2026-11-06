@@ -1,0 +1,217 @@
+# Scenario: foreign exchange, payment versus payment (PvP) between a euro tokenized currency and a dollar tokenized currency.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: pvp
+tags:
+- { kind: move, label: Cash moves }
+- { label: Bank }
+- { label: Payment firm }
+- { label: Central bank }
+
+actors:
+- id: buyer
+  name: Dollar buyer (sells euros)
+  role: A bank, a payment firm or a corporate treasury that needs dollars and holds euro tokens. Holds both currencies’ tokens in one institutional wallet with its own policy controls.
+- id: eurissuer
+  name: Euro token issuer
+  role: The issuer of the euro token (a bank issuing a deposit token, or a regulated stablecoin issuer). Onboards holders and enforces its rules on every transfer; remains the obligor on the euro leg.
+- id: ledger
+  name: Ledger and PvP contract
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running both currency contracts and a PvP contract that moves the two legs in one transaction, or neither.
+- id: usdissuer
+  name: Dollar token issuer
+  role: The issuer of the dollar token (a bank or a stablecoin issuer), with its own allowlist or blocklist and its own redemption terms; the obligor on the dollar leg.
+- id: seller
+  name: Dollar seller (buys euros)
+  role: 'The counterparty: a bank or a market maker quoting the rate, or another treasury with the opposite need. Holds dollar tokens and receives euro tokens.'
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the two transfer events in one transaction are the record of the trade’s settlement, with no settlement-system report to request.'
+
+steps:
+- title: Onboarding on both currencies
+  from: eurissuer
+  to: ledger
+  kind: onchain
+  text: 'Both parties must be able to hold both tokens: each issuer runs its client or holder checks and, for a deposit token, adds both wallets to its allowlist; a stablecoin needs no listing and applies its blocklist instead. Each party’s wallet is a smart account with its policy (signers, limits, allowed counterparties). Nothing else is needed before trading: no nostro account in the other currency, no settlement-member status.'
+  standards: [deposit-token allowlist, ERC-4337]
+- title: Trade agreed
+  from: buyer
+  to: seller
+  kind: offchain
+  text: 'The parties agree the amounts and the rate, bilaterally, through a request for quote or on a venue, and the settlement time: at once, or at a value time they choose. The agreed terms are written into an instance of the PvP contract, which will settle only those two amounts between those two wallets within that window.'
+- title: Liquidity confirmed, no credit needed
+  from: ledger
+  to: buyer
+  kind: offchain
+  text: 'Each party checks that its wallet holds the tokens it will deliver; the PvP contract will not settle otherwise. There is no settlement limit to extend to the counterparty and no intraday credit line to draw, because neither party delivers before it receives. What a bank funded in a nostro account abroad it now holds as tokens in its own wallet.'
+  standards: [balances]
+- title: Euro leg authorized
+  from: buyer
+  to: ledger
+  kind: onchain
+  text: 'The buyer authorizes the PvP contract to move the euro amount: an ERC-20 approval, an ERC-2612 permit signed off-line, or an EIP-3009 authorization signed with EIP-712 that names the contract and the window. The euro issuer’s rules will run again at settlement.'
+  standards: [ERC-20 approve, ERC-2612 permit, EIP-3009, EIP-712]
+- title: Dollar leg authorized
+  from: seller
+  to: ledger
+  kind: onchain
+  text: 'The seller authorizes the PvP contract to move the dollar amount the same way. Either party may withdraw its authorization until the contract settles; a trade one side never authorizes simply expires at the end of the window, with nothing delivered by the other.'
+  standards: [ERC-20 approve, ERC-2612 permit, EIP-3009, EIP-712]
+- title: Payment versus payment, both legs in one transaction
+  kind: atomic
+  lanes: [eurissuer, ledger, usdissuer]
+  text: 'One transaction calls the PvP contract, which moves the euro tokens from buyer to seller and the dollar tokens from seller to buyer. Each token’s own rules run inside it: the deposit token checks its allowlist, the stablecoin its blocklist. If either transfer fails, the whole transaction reverts and nothing moves; neither party is ever exposed to the other for any length of time. The transaction is included within seconds, at any hour, on the day the parties chose.'
+  standards: [ERC-20 transferFrom, PvP contract]
+- title: Finality and the record
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet the transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The two transfer events in one transaction are the settlement record for both parties, both issuers and the auditor; there is no settlement-system statement, no confirmation to match and no fail to chase.'
+  standards: [Transfer events]
+- title: Books, positions and the off-ramp
+  from: ledger
+  to: seller
+  kind: onchain
+  text: 'Each party books the trade from the events; its position in each currency is its wallet balance. The dollars bought pay the invoice the payments scenario describes, sweep into a tokenized fund, or are redeemed with the dollar issuer for a bank balance, which is where the issuer’s redemption terms and hours apply. A bank that made markets through a nostro now manages token liquidity in each currency instead.'
+  standards: [Transfer events]
+
+tokens:
+- name: Deposit Token
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: Bank money on either leg. A tokenized claim on a deposit at the issuing bank, held by its clients; the bank remains the obligor and its allowlist decides who may receive the leg. Two banks’ tokens on one ledger settle against each other through the PvP contract.
+  example: Live example, JPMD (JPM Coin), the Kinexys USD deposit token, on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- name: Tokenized deposits on a multi-bank network
+  circle: td
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits
+  role: 'Where the parties are banks settling for themselves and their clients, tokenized deposits on a shared multi-bank network settle the two legs between the banks’ own balances at the network’s settlement banks, around the clock.'
+  example: Live example, Partior, a production multi-bank settlement network; Emirates NBD live for 24/7 USD settlement in July 2026 (secondary source).
+  sources:
+  - { title: 'Partior (production-live, multi-bank settlement network; institutions and investors)', url: https://www.partior.com/, checked: '2026-10-25' }
+  - { title: 'The Asian Banker, Emirates NBD goes live on Partior (July 2026; secondary source)', url: https://www.theasianbanker.com/updates-and-articles/emirates-nbd-goes-live-on-partior-for-24-7-usd-settlement-deutsche-bank-expands-apac-escrow, checked: '2026-10-25' }
+- name: Stablecoin
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Non-bank money on either leg. A euro and a dollar stablecoin from regulated issuers settle against each other on a public ledger between any two eligible wallets, with no shared bank; the issuers are the obligors.
+  example: Live examples, USDC and EURC on Ethereum mainnet and other networks.
+  sources:
+  - { title: 'Circle, EURC supported networks', url: https://www.circle.com/eurc, checked: '2026-10-25' }
+- name: FMI token
+  circle: fmi
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › FMI Tokens
+  role: 'A payment-system token backed one for one by central bank reserves, so a leg settles in a claim as good as central bank money without being issued by the central bank; sterling is the currency live today.'
+  example: Live example, Fnality’s sterling payment system, regulated by the Bank of England, in operation since December 2023.
+  sources:
+  - { title: 'Fnality, initial phase of sterling payment operations (14 December 2023)', url: https://fnality.com/news/fnality-commences-initial-phase-of-sterling-payment-operations-in-a-world-first, checked: '2026-10-25' }
+  - { title: 'Fnality, British sterling payment system (regulated by the Bank of England)', url: https://fnality.com/payment-systems/british-sterling-payment-system, checked: '2026-10-25' }
+- name: Wholesale central bank money
+  circle: wcbdc
+  place: Digital Money › Tokenized Currencies › Central Bank › Wholesale CBDC
+  role: 'Central bank money on both legs is what the multi-central-bank platforms test: FX payment versus payment between wholesale CBDCs on one platform, with each central bank the exclusive issuer and redeemer of its currency. Not live on a public ledger.'
+  example: Project mBridge settled FX payment-versus-payment transactions between four wholesale CBDCs in its 2022 pilot and reached its minimum viable product in mid-2024; Project Agorá tests tokenized deposits against tokenized central bank money across eight central banks, with real-value testing in July 2026.
+  sources:
+  - { title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022): 164 payment and FX PvP transactions in four wholesale CBDCs; central banks the exclusive issuers and redeemers', url: https://www.bis.org/publ/othp59.pdf, checked: '2026-11-05' }
+  - { title: 'BIS Innovation Hub, Project mBridge: MVP stage in mid-2024; handed over to the partners in October 2024', url: https://www.bis.org/about/bisih/topics/cbdc/mcbdc_bridge.htm, checked: '2026-11-05' }
+  - { title: 'BIS Innovation Hub, Project Agorá (eight central banks; real-value testing July 2026)', url: https://www.bis.org/about/bisih/topics/fmis/agora.htm, checked: '2026-10-25' }
+  - { title: 'BIS, Project Agorá report (27 May 2026; Paladin Noto and Pente)', url: https://www.bis.org/publications/project-agora-shared-programmable-platform-wholesale-cross-border-payments.pdf, checked: '2026-10-26' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the money on each leg, whether both legs sit on one ledger, and the systems that must read the tokens.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of both currency tokens (balances, transfer, approve); every wallet, custodian and the PvP contract speak it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets either party authorize its leg with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so the venue or the counterparty can submit the settlement and pay its fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; a bank’s signing policy can read exactly which amount, counterparty and window it is approving.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Institutional wallets as smart accounts with policy controls (approvals, limits, allowed counterparties, multiple signers) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: ERC-7573
+  title: Conditional-upon-Transfer-Decryption for DvP
+  status: Draft
+  role: For the cross-ledger variant, where the two currencies sit on different ledgers, a mechanism that releases one leg only when the other has succeeded, without an intermediary; the same device for payment versus payment as for delivery versus payment.
+  url: https://eips.ethereum.org/EIPS/eip-7573
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: Both legs or neither
+    text: 'Settlement risk in foreign exchange is the gap between paying one currency and receiving the other. On a shared ledger the two legs are one transaction, so the gap is zero by construction, for every pair the ledger carries and for every size of trade, without a multilateral settlement system in between.'
+  - title: No nostro, no prefunding abroad
+    text: 'A party holds the tokens of both currencies in its own wallet on one ledger, so it needs no correspondent account in the other currency and no balance parked there overnight; liquidity sits where the party is, and moves only when a trade settles.'
+  - title: Settle when you choose
+    text: 'There is no settlement cycle and no cut-off: a trade settles at once, at any hour, or at the value time the parties pick. Intraday, overnight and weekend trades settle the same way.'
+  - title: The most currencies and counterparties in one place
+    text: 'A public ledger is open to every regulated issuer and every eligible holder at once, so it is where the most tokenized currencies and the most counterparties can meet; a deposit token, a stablecoin and, in time, central bank money settle against each other through the same contract.'
+  - title: Open ledger, permissioned money
+    text: 'Openness is a property of the ledger, not of the money. Each token stays its issuer’s liability with the issuer’s rules enforced inside every transfer, including the two the PvP contract makes.'
+  - title: Reconciled every block
+    text: 'Both parties, both issuers and the auditor read the same two transfer events in the same transaction, so there is no confirmation to match and no fail to investigate; the ledger reconciles itself with every block it produces.'
+- title: Where it stands today
+  items:
+  - title: Bank money on shared networks
+    text: 'Tokenized deposits settle between banks on production multi-bank networks around the clock, with 24/7 dollar settlement reported live at a Gulf bank in July 2026 (secondary source); a bank deposit token has been live on Ethereum mainnet since 19 October 2026 for the issuing bank’s clients; a sterling payment-system token backed by central bank reserves has operated since December 2023.'
+  - title: Central bank money on shared platforms
+    text: 'Project mBridge settled payment and FX payment-versus-payment transactions between four wholesale CBDCs in a 2022 pilot and reached its minimum viable product in mid-2024, with the central banks the exclusive issuers and redeemers; Project Agorá, with eight central banks, tests tokenized deposits against tokenized central bank money on one platform, with real-value testing in July 2026. Neither is a public ledger.'
+  - title: Stablecoins on public ledgers
+    text: 'A euro and a dollar stablecoin from one regulated issuer family are live on Ethereum mainnet and other networks, which makes stablecoin-to-stablecoin payment versus payment possible today between any two eligible wallets, with the issuers as the obligors on each leg.'
+- title: Variants
+  items:
+  - title: Stablecoin against stablecoin
+    text: Both legs are regulated stablecoins on a public ledger, so the parties need no common bank and no network membership; the issuers’ redemption terms set what each token is worth off the ledger.
+  - title: Central bank money on both legs
+    text: Both legs are wholesale central bank money on a platform the central banks run, so each leg is risk-free money; the platform’s admission and hours replace the public ledger’s openness.
+  - title: Two ledgers
+    text: 'The euro token sits on one ledger and the dollar token on another: atomicity needs a cross-ledger mechanism (ERC-7573, or a hashed time-lock), settlement is no longer one transaction, and a failure mode returns, which is the problem the single-platform designs set out to avoid.'
+  - title: Netted settlement
+    text: Many trades between many parties are netted by a contract and settled as one set of transfers at a chosen time, as a multilateral settlement system does, with the ledger as the settlement agent and no exposure between the netting and the settlement.
+  - title: A payment that needs a conversion
+    text: The buyer needs dollars only to pay a dollar invoice; this scenario settles the conversion and the payments scenario delivers the dollars to the supplier, both on the same ledger and, with the right contract, in one transaction.
+- title: Open questions for your deployment
+  items:
+  - title: Which money on each leg
+    text: A deposit token, a stablecoin, a payment-system token and central bank money carry different obligors, different holders and different hours of redemption; the leg is only as good as the token’s issuer and terms, and a counterparty must be able to hold what you deliver.
+  - title: Liquidity management without a nostro
+    text: The nostro balance becomes token inventory in each currency in your own wallet; who funds it, how it is replenished and what it earns while it waits are treasury questions the ledger does not answer.
+  - title: Price and execution
+    text: The rate is agreed off the ledger, bilaterally, by request for quote or on a venue under a rulebook; the contract settles what was agreed and takes no view on price. For a regulated institution the venue question is often decisive.
+  - title: Legal finality of each leg
+    text: On-chain finality is economic; the legal finality of each transfer depends on the token’s terms and governing law, and on what the issuer’s register is in law. Resolve this for both tokens before the first trade.
+  - title: Visibility of trades
+    text: On a public ledger the amounts, the counterparties and the timing of trades are visible to anyone who can map a wallet to a name. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.
+
+sources:
+- { title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022)', url: https://www.bis.org/publ/othp59.pdf, checked: '2026-11-05' }
+- { title: 'BIS Innovation Hub, Project mBridge (MVP mid-2024; handed over October 2024)', url: https://www.bis.org/about/bisih/topics/cbdc/mcbdc_bridge.htm, checked: '2026-11-05' }
+- { title: 'BIS Innovation Hub, Project Agorá (eight central banks; real-value testing July 2026)', url: https://www.bis.org/about/bisih/topics/fmis/agora.htm, checked: '2026-10-25' }
+- { title: 'BIS, Project Agorá report (27 May 2026; Paladin Noto and Pente)', url: https://www.bis.org/publications/project-agora-shared-programmable-platform-wholesale-cross-border-payments.pdf, checked: '2026-10-26' }
+- { title: 'Partior (production-live, multi-bank settlement network; institutions and investors)', url: https://www.partior.com/, checked: '2026-10-25' }
+- { title: 'The Asian Banker, Emirates NBD goes live on Partior (July 2026; secondary source)', url: https://www.theasianbanker.com/updates-and-articles/emirates-nbd-goes-live-on-partior-for-24-7-usd-settlement-deutsche-bank-expands-apac-escrow, checked: '2026-10-25' }
+- { title: 'Fnality, initial phase of sterling payment operations (14 December 2023)', url: https://fnality.com/news/fnality-commences-initial-phase-of-sterling-payment-operations-in-a-world-first, checked: '2026-10-25' }
+- { title: 'Fnality, British sterling payment system (regulated by the Bank of England)', url: https://fnality.com/payment-systems/british-sterling-payment-system, checked: '2026-10-25' }
+- { title: 'Circle, EURC supported networks', url: https://www.circle.com/eurc, checked: '2026-10-25' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

@@ -1,0 +1,229 @@
+# Scenario: repo and reverse repo, a tokenized bond against a bank deposit token, intraday or overnight.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: repo
+tags:
+- { kind: move, label: Cash moves }
+- { kind: move, label: Asset moves }
+- { kind: move, label: Credit is extended }
+- { label: Bank }
+- { label: Asset manager }
+- { label: Market infrastructure }
+
+actors:
+- id: borrower
+  name: Cash borrower (seller)
+  role: A bank treasury or broker-dealer that holds tokenized bonds and needs cash for hours or days. It sells the bonds and commits to repurchase them. Holds bond tokens and deposit tokens in an institutional wallet with its own policy controls.
+- id: bank
+  name: Deposit token issuer
+  role: The commercial bank whose deposit token is the cash leg (a tokenized claim on a deposit at that bank). Onboards both parties and keeps the token’s allowlist; only its clients may hold the token.
+- id: ledger
+  name: Ledger and repo contract
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running the deposit-token contract, the bond-token contract and a repo contract that records the terms (purchase price, repurchase price, haircut, margin thresholds) and moves both legs in one transaction at the opening and at the closing.
+- id: lender
+  name: Cash lender (buyer)
+  role: An asset manager, a money market fund, a corporate treasurer or another bank placing cash against collateral for the term; the reverse repo side. Receives the bonds at the opening and the repurchase price, cash plus repo interest, at the closing.
+- id: registrar
+  name: Bond registrar or tokenization agent
+  role: Keeps the bond’s register and the identity registry its token checks on every transfer, and passes coupons to the holder of record. Acts for the issuer. Where a tri-party agent is used it values the collateral and runs margin (see the variants).
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the transfer events of the opening leg, each margin movement and the closing leg are the audit trail, with no statement to request.'
+
+steps:
+- title: Master agreement, onboarding and eligibility
+  from: registrar
+  to: ledger
+  kind: onchain
+  text: 'Before the first trade both wallets are eligible on both tokens: the bank runs its client checks and adds them to the deposit token’s allowlist; the registrar runs holder checks and registers them in the bond token’s identity registry. Off the ledger the parties have signed a master agreement, in most markets the GMRA (2011) with ICMA’s Digital Assets Annex and Digital Bonds Annex for tokenized collateral, which sets the title transfer, the margin maintenance, the events of default and the close-out netting that the contract on the ledger executes. The ledger does not replace the agreement; it performs it.'
+  standards: [ERC-3643 identity registry, deposit-token allowlist, GMRA 2011 and annexes]
+- title: Trade agreed
+  from: borrower
+  to: lender
+  kind: offchain
+  text: 'Borrower and lender agree the cash amount, the repo rate, the term (intraday, overnight or a fixed term), the haircut and the eligible collateral, bilaterally, on a venue or through a platform that matches and confirms. The repurchase price is the purchase price plus interest at the repo rate for the term. The confirmed terms are written into an instance of the repo contract on the ledger, which will hold them for the life of the trade.'
+- title: Borrower authorizes the collateral leg
+  from: borrower
+  to: ledger
+  kind: onchain
+  text: 'The borrower authorizes the repo contract to move bond tokens whose market value, less the haircut, covers the cash: an ERC-20 approval or a signed permit. The bond token’s compliance module will re-check at settlement that the lender is a registered holder and that any holding limits are met, so the borrower cannot deliver to an ineligible wallet and the contract cannot be used to move the bond to one.'
+  standards: [ERC-20 approve, ERC-2612 permit, ERC-3643 compliance]
+- title: Lender authorizes the cash leg
+  from: lender
+  to: ledger
+  kind: onchain
+  text: 'The lender authorizes the repo contract to move the purchase price in deposit tokens: an ERC-20 approval, an ERC-2612 permit signed off-line, or an EIP-3009 transfer-with-authorization signed with EIP-712, which lets the venue or the counterparty submit the transaction and pay its fee. An institutional wallet built as a smart account signs within its own policy: limits, approvers, time windows.'
+  standards: [ERC-20 approve, ERC-2612 permit, EIP-3009, EIP-712, ERC-4337]
+- title: Opening leg, both legs in one transaction
+  kind: atomic
+  lanes: [bank, ledger, lender]
+  text: 'One transaction calls the repo contract, which moves the bond tokens from the borrower to the lender (a transfer of title, as the master agreement provides; a variant locks them in the contract under the lender’s control instead) and the deposit tokens from the lender to the borrower. Each token’s own rules run inside it: the deposit token checks its allowlist, the bond token checks its identity registry and compliance rules. If either check fails the whole transaction reverts and nothing moves. No securities depository, no payment system and no intraday credit sit between the legs, because both are records on the same ledger.'
+  standards: [ERC-20 transferFrom, ERC-3643, repo contract]
+- title: 'Life of the trade: valuation, margin, substitution'
+  from: ledger
+  to: borrower
+  kind: onchain
+  text: 'For an overnight or term repo the contract, or a tri-party agent acting through it, revalues the collateral against a published price and calls margin when the exposure crosses the threshold: the borrower posts more bond tokens or deposit tokens, or the lender returns the excess, each a transfer settled on the ledger within minutes rather than at the next settlement cycle. The borrower may substitute eligible collateral by an atomic swap of one bond token for another. A coupon paid during the term reaches the holder of record on the ledger and is passed back under the agreement. For an intraday repo there is usually nothing to do between the legs.'
+  standards: [ERC-20 transfer, repo contract, price feed]
+- title: Closing leg, repurchase in one transaction
+  kind: atomic
+  lanes: [bank, ledger, lender]
+  text: 'At maturity, or for an intraday repo before the hours of its cash leg end, one transaction moves the repurchase price in deposit tokens from the borrower to the lender and the bond tokens from the lender back to the borrower; both legs settle or neither does. If the borrower cannot pay, the closing does not happen: the lender keeps the collateral it already holds, and the master agreement’s event of default and close-out netting govern what follows, including a sale of the collateral or, where the bond token supports it, an enforced transfer under role controls.'
+  standards: [ERC-20 transferFrom, ERC-3643, ERC-7943 forcedTransfer, repo contract]
+- title: Finality, register and record
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet each transaction is included within seconds and finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The transfer events of the opening leg, each margin movement and the closing leg are the record for both parties, their custodians, the bank and the registrar, with no end-of-day statement to reconcile; the bond register shows the lender as holder during the term where the ledger is the register, or the registrar updates its books from the same events. The auditor and the regulator read what the parties read, and the repo contract can emit each trade and its collateral in the form a transaction-reporting regime asks for.'
+  standards: [Transfer events]
+
+tokens:
+- name: Deposit Token
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: The cash leg, at the opening and at the closing. A tokenized claim on a deposit at the issuing bank, held in a wallet and transferable between the bank’s clients on the ledger; the bank remains the obligor. It settles at any hour, so an intraday repo is bounded by the bank’s own rules for its token, not by a payment system’s opening hours.
+  example: Live example, JPMD (JPM Coin), the Kinexys deposit token, on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+  - { title: 'J.P. Morgan, Kinexys USD deposit tokens on Base', url: https://www.jpmorgan.com/payments/newsroom/kinexys-usd-digital-deposit-tokens, checked: '2026-10-25' }
+- name: Fixed Income (tokenized bond)
+  circle: fi
+  place: Tokenized Real-World Assets › Financial Instruments › Fixed Income
+  role: The collateral. A bond whose register the registrar keeps, represented as a permissioned token; its market value less the haircut covers the cash. Government and supranational bonds are the usual repo collateral because they are liquid and finely priced; the token carries the issuer’s eligibility rules on every transfer.
+  example: Live example, the European Investment Bank’s first digital bond on a public blockchain, issued on Ethereum mainnet in April 2021; most tokenized government debt on Ethereum mainnet today is held through fund units (below).
+  sources:
+  - { title: 'EIB, first digital bond on a public blockchain (April 2021)', url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain, checked: '2026-10-25' }
+- name: Funds (tokenized money market fund, as collateral)
+  circle: fund
+  place: Tokenized Real-World Assets › Financial Instruments › Funds
+  role: Alternative collateral. Units of a tokenized money market fund stand in for the bond where the parties accept them; the same units are what the DvP scenario buys and sells. They are the collateral most often named in live tokenized-collateral programs.
+  example: Live examples, tokenized money market fund shares moved as collateral on J.P. Morgan’s Tokenized Collateral Network (2022); DTCC’s platform for tokenized real-time collateral management (announced 2 April 2025); Circle USYC and BlackRock BUIDL accepted as collateral by an exchange (2025).
+  sources:
+  - { title: 'J.P. Morgan, Blockchain brings collateral mobility to traditional assets (15 July 2022): intraday repo on Kinexys Digital Assets since 2020, more than USD 300 billion processed; the Tokenized Collateral Network moves tokenized money market fund shares; an institutional-scale EVM-based chain', url: https://www.jpmorgan.com/insights/payments/wallets/blockchain-kinexys-asset-tokenization, checked: '2026-11-06' }
+  - { title: 'DTCC, platform for tokenized real-time collateral management (2 April 2025)', url: https://www.dtcc.com/news/2025/april/02/dtcc-announces-new-platform-for-tokenized-real-time-collateral-management, checked: '2026-10-25' }
+  - { title: 'Circle, USYC supported as yield-bearing off-exchange collateral for Binance institutional clients', url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients, checked: '2026-10-25' }
+  - { title: 'BNB Chain, BUIDL launches on BNB Chain and is accepted as collateral on Binance (14 November 2025)', url: https://www.bnbchain.org/en/blog/blackrocks-buidl-fund-launches-bnb-chain-tokenized-by-securitize-and-accepted-as-collateral-on-binance, checked: '2026-10-25' }
+- name: Stablecoin (alternative cash leg)
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Where borrower and lender do not share a bank, a regulated stablecoin is the cash leg every eligible wallet can hold; the obligor on the cash leg changes from a bank to the stablecoin issuer, and the steps do not.
+- name: Wholesale central bank money (cash leg)
+  circle: wcbdc
+  place: Digital Money › Tokenized Currencies › Central Bank › Wholesale CBDC
+  role: Central bank money on the same ledger would make the cash leg risk-free and bank-neutral, which is what repo markets settle in today. Not live on a public ledger. The Eurosystem has settled tokenized assets in central bank money through Pontes since 21 September 2026, with cash tokens on its own DLT platform or settlement in T2.
+  sources:
+  - { title: 'ECB, Pontes (initial launch 21 September 2026): links market DLT platforms and TARGET Services; cash tokens on the Eurosystem DLT platform or settlement in T2', url: https://www.ecb.europa.eu/paym/target/pontes/html/index.en.html, checked: '2026-11-02' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by its collateral token, its cash leg, its legal form (title transfer or pledge) and the systems that must read the tokens, and several (CMTAT, ERC-1400) are alternatives to those listed.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of both tokens (balances, transfer, approve); every wallet, custodian and the repo contract speak it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-3643
+  title: T-REX, Token for Regulated Exchanges
+  status: Final
+  role: The permissioned security-token standard for the bond; an identity registry and a compliance contract decide, on every transfer, whether the receiving wallet is an eligible holder. Alternatives in production are CMTAT and ERC-1400.
+  url: https://eips.ethereum.org/EIPS/eip-3643
+- id: ERC-7943
+  title: uRWA, Universal Real World Asset Interface
+  status: Final
+  role: The minimal compliance interface a bond token can expose (canSend, canReceive, canTransfer, frozen balances, forcedTransfer); the enforced transfer is the default path of the closing leg where the agreement and the token’s rules allow it.
+  url: https://eips.ethereum.org/EIPS/eip-7943
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets either party authorize its leg with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so the venue or the counterparty can pay the fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; an institution’s signing policy can read exactly what is being approved, including the repurchase price and the term.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Institutional wallets as smart accounts with policy controls (approvals, limits, multiple signers) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: ERC-7573
+  title: Conditional-upon-Transfer-Decryption for DvP
+  status: Draft
+  role: For the cross-ledger variant, where the cash and the collateral sit on different chains, a mechanism that releases one leg only when the other has succeeded, without an intermediary.
+  url: https://eips.ethereum.org/EIPS/eip-7573
+- id: GMRA 2011
+  title: Global Master Repurchase Agreement, a legal text, not an ERC
+  status: In force
+  role: The master agreement most repo markets use, published by ICMA with SIFMA; its Digital Assets Annex and Digital Bonds Annex document repos collateralized by tokenized assets and natively digital bonds. The contract on the ledger performs its terms; it does not replace them.
+  url: https://www.icmagroup.org/market-practice-and-regulatory-policy/repo-and-collateral-markets/legal-documentation/global-master-repurchase-agreement-gmra/
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: Atomic by construction, twice
+    text: 'A repo settles twice, and each settlement is a delivery versus payment. On a shared ledger the opening and the closing are each one transaction that moves both legs or neither, so neither party is ever unsecured between a delivery and a payment, and no depository, payment system or intraday credit line bridges the gap.'
+  - title: Intraday repo that fits inside the day
+    text: 'Cash borrowed for hours is only useful if the legs settle in minutes. A deposit token settles at any hour of the ledger’s, so an intraday repo opens, runs and closes within whatever window the bank sets for its token, instead of within the opening hours of a payment system and a settlement system that must both be reached before the close.'
+  - title: Margin in minutes, not at the cut-off
+    text: 'A margin call is a transfer on the same ledger as the trade, so it settles when it is made; collateral substitution is an atomic swap. The exposure between a price move and the margin that covers it shrinks from a settlement cycle to a block.'
+  - title: The most collateral and the most cash in one place
+    text: 'The bond tokens that settle here are the same tokens the DvP scenario buys and sells and the collateral scenario pledges; the deposit token is the same cash leg that pays an invoice. A bond or a fund unit on a public ledger is usable collateral for every eligible counterparty on that ledger, not only for the members of one platform. On Ethereum mainnet the pieces are live: a bank deposit token since October 2026, tokenized bonds and fund units, and central bank money reaching tokenized assets through the Eurosystem’s Pontes since September 2026.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the asset. The bond token stays bound to its issuer’s rules, enforced in the token contract on every transfer, including the transfers the repo contract makes: KYC and KYB of every holder, holding limits, and the issuer’s freeze and enforcement powers where its rules provide them.'
+  - title: Reconciled every block
+    text: 'Both parties, their custodians, the bank, the registrar and the auditor read the same transfer events, so nobody exchanges statements to agree what collateral is where. The collateral register, the position that repo markets reconcile every day, is the ledger itself.'
+  - title: Rules travel with the token
+    text: 'Eligibility, limits and freezes are enforced by the token contracts on every transfer, wherever the token goes, so a venue, a tri-party agent or a counterparty’s contract does not implement them again.'
+- title: Where it stands today
+  items:
+  - title: Live on bank-run and vendor-run ledgers
+    text: 'Intraday repo against tokenized collateral has run on J.P. Morgan’s Kinexys Digital Assets, an institutional-scale EVM-based chain, since 2020, with more than USD 300 billion processed by July 2022 (vendor-stated). Broadridge’s Distributed Ledger Repo platform, which settles repo on distributed ledger technology by moving tokenized collateral between counterparties, reported USD 8.0 trillion of repo transactions in July 2026, an average of USD 365 billion a day (vendor-stated).'
+  - title: The pieces exist on public ledgers
+    text: 'On Ethereum mainnet the cash leg (a bank deposit token since 19 October 2026), the collateral (a supranational bond since 2021; tokenized money market fund units in production) and central bank money reaching tokenized assets (Pontes, since September 2026) each exist. Ethereum Institutional names no live repo program on a public ledger here; the scenario is written so that one can be read against it.'
+- title: Variants
+  items:
+  - title: Intraday repo
+    text: 'The opening and the closing fall within one day, with nothing to do between them; the contract can unwind the trade itself before the cash leg’s window closes if the borrower has not repurchased, returning the collateral against the repurchase price or, failing that, leaving the lender with the collateral under the agreement.'
+  - title: Tri-party
+    text: 'A tri-party agent selects, values and substitutes the collateral and calls margin, acting on the repo contract with its own keys; the parties face each other on the cash, the agent runs the collateral. The agent’s role keys and service levels become part of the deployment.'
+  - title: Pledge instead of title transfer
+    text: 'Where the parties document a pledge rather than a sale and repurchase, the collateral is locked in the repo contract under the lender’s control for the term instead of transferred to its wallet; the legal form and its enforceability differ by jurisdiction, and the GMRA is a title-transfer agreement.'
+  - title: Collateral swap
+    text: 'Two collateral tokens exchanged atomically against a fee, with no cash leg: a collateral upgrade or downgrade settled by the same contract, with the haircut difference met by a top-up.'
+  - title: Stablecoin or central bank money as the cash leg
+    text: 'Replace the deposit token with a regulated stablecoin, or with wholesale central bank money where a central bank offers it for tokenized assets, as the Eurosystem does through Pontes. The steps are the same; who the obligor on the cash leg is changes.'
+  - title: Cash and collateral on different ledgers
+    text: 'Where the bond token lives on one chain and the cash on another, each leg needs a cross-ledger mechanism (ERC-7573, or a hashed time-lock); settlement is no longer one transaction, and a failure mode returns at the opening and at the closing.'
+- title: Open questions for your deployment
+  items:
+  - title: Title transfer or pledge
+    text: The master agreement and the law of the collateral decide whether the lender owns the bond during the term or holds a security interest in it; the contract on the ledger must match the form, and the opinions on enforceability and close-out netting must cover tokenized collateral. Resolve this before the technology.
+  - title: Hours of the cash leg
+    text: A deposit token settles when the ledger does; a repo whose cash leg must reach a payment system still closes within that system’s hours. An intraday repo that closes after the system’s close is a bank’s own money until the next opening.
+  - title: Who values the collateral
+    text: The price the contract uses for margin comes from a feed the parties agree, and who may call margin, and when, is written into the contract; a stale or disputed price is an operational failure mode to test.
+  - title: Visibility of positions
+    text: On a public ledger balances and transfers are visible to anyone who can map a wallet to a name; repo rates, haircuts and positions are sensitive. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.
+  - title: Who runs the repo contract
+    text: Neutral open code anyone may call, a venue’s contract under a rulebook, or a tri-party agent’s. For a regulated institution the second or the third is often decisive, and it is not a question of technology.
+  - title: Transaction reporting
+    text: Repo reporting regimes ask for each transaction and its collateral; the contract’s events carry that data, and which regime applies is a question for your jurisdiction and the Regulatory layer.
+
+sources:
+- { title: 'ICMA, Global Master Repurchase Agreement (GMRA): versions 1992, 1995, 2000 and 2011; Digital Assets Annex; Digital Bonds Annex; legal opinions', url: https://www.icmagroup.org/market-practice-and-regulatory-policy/repo-and-collateral-markets/legal-documentation/global-master-repurchase-agreement-gmra/, checked: '2026-11-06' }
+- { title: 'J.P. Morgan, Blockchain brings collateral mobility to traditional assets (15 July 2022): intraday repo on Kinexys Digital Assets since 2020, more than USD 300 billion; Tokenized Collateral Network; an institutional-scale EVM-based chain', url: https://www.jpmorgan.com/insights/payments/wallets/blockchain-kinexys-asset-tokenization, checked: '2026-11-06' }
+- { title: 'Broadridge, Distributed Ledger Repo processes USD 8.0 trillion in July (10 August 2026): USD 365 billion a day; tokenized collateral moved between counterparties; intraday repo activity', url: https://www.broadridge.com/press-release/2026/broadridges-distributed-ledger-repo-processes-8-trillion-in-july, checked: '2026-11-06' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'EIB, first digital bond on a public blockchain (April 2021)', url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain, checked: '2026-10-25' }
+- { title: 'ECB, Pontes (initial launch 21 September 2026)', url: https://www.ecb.europa.eu/paym/target/pontes/html/index.en.html, checked: '2026-11-02' }
+- { title: 'DTCC, platform for tokenized real-time collateral management (2 April 2025)', url: https://www.dtcc.com/news/2025/april/02/dtcc-announces-new-platform-for-tokenized-real-time-collateral-management, checked: '2026-10-25' }

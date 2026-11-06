@@ -1,0 +1,208 @@
+# Scenario: fund subscription and redemption, primary-market dealing in a tokenized fund against a cash leg, at the struck price or continuously.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: subscribe
+tags:
+- { kind: move, label: Cash moves }
+- { kind: move, label: Asset moves }
+- { label: Asset manager }
+- { label: Bank }
+- { label: Market infrastructure }
+
+actors:
+- id: investor
+  name: Investor
+  role: An institution, a treasury or a distributor’s nominee buying and selling units of the fund in the primary market. Holds the cash token and the units in an institutional wallet with its own policy controls.
+- id: bank
+  name: Cash token issuer
+  role: The issuer of the cash the fund deals in, a bank issuing a deposit token or a regulated stablecoin issuer; the obligor on the cash leg, with its own rules on who may hold it.
+- id: ledger
+  name: Ledger, fund-share and dealing contracts
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running the cash token, the fund-share contract and its dealing contract, a request-and-claim vault for a fund priced at a cut-off or a teller for a constant-price fund, which issues and cancels units against cash in one transaction.
+- id: ta
+  name: Transfer agent and administrator
+  role: Runs investor onboarding and keeps the register; controls the identity registry the fund-share token checks on every transfer; strikes the net asset value at the cut-off; issues and cancels units through the dealing contract; pays income. Acts for the fund manager.
+- id: fund
+  name: Fund (the issuer)
+  role: The fund itself, through its manager and depositary; receives subscription cash into its portfolio account and pays redemptions from it; its documents set the dealing terms the contract performs.
+- id: observer
+  name: Auditor or depositary
+  kind: observer
+  role: 'Reads the same ledger as everyone else: every issue, cancellation and transfer of units is an event, so the register, the units in issue and the cash movements are verifiable without a reconciliation between the agent and the depositary.'
+
+steps:
+- title: Onboarding and eligibility
+  from: ta
+  to: ledger
+  kind: onchain
+  text: 'The transfer agent runs the investor checks the fund’s offering requires and registers the investor’s wallet in the fund-share token’s identity registry, with any limits the offering sets (investor type, jurisdiction, holding caps); the cash issuer onboards the investor on its token. From here on, eligibility is enforced by the token on every issue, transfer and cancellation, not by each counterparty checking a list.'
+  standards: [ERC-3643 identity registry, deposit-token allowlist, ERC-4337]
+- title: Subscription order, with the cash
+  from: investor
+  to: ledger
+  kind: onchain
+  text: 'The investor places a subscription by sending the cash to the dealing contract. For a fund priced at a cut-off the contract records a request and holds the cash in escrow until the price is struck; for a constant-price fund with a teller the order is filled at par at once (the next band). There is no subscription form in a separate channel and no wire to a collection account: the order and the money are one message to one contract.'
+  standards: [ERC-7540 requestDeposit, ERC-20, EIP-3009]
+- title: Cut-off and the net asset value
+  from: ta
+  to: fund
+  kind: offchain
+  text: 'At the cut-off the administrator values the portfolio and strikes the net asset value, as it does today, off the ledger. The struck price is written to the dealing contract. A constant-price fund seeks a stable price without guaranteeing it, and the price it strikes still governs what the units are worth; a variable-price fund’s units are issued at the price struck after the order.'
+  standards: [price publication]
+- title: Issue, units against cash in one transaction
+  kind: atomic
+  lanes: [bank, ledger, ta]
+  text: 'The investor claims, or the agent settles, the subscription: one transaction mints the units to the investor at the struck price and releases the cash to the fund’s account, with the fund-share token checking the identity registry and the limits inside it. Units in issue and cash received move together; there is no settlement lag between the subscription and the issue, and no units issued before the cash is in. For a constant-price fund the same band is the teller filling the order at par at the moment it is placed.'
+  standards: [ERC-7540 deposit and mint, ERC-3643 compliance, ERC-20, teller contract]
+- title: Holding, income and secondary transfers
+  from: ta
+  to: ledger
+  kind: onchain
+  text: 'Income is paid as more units at a constant price or as a rising struck price, by the fund’s design, with the transfer agent’s issue of income units an event on the ledger. Between dealings an eligible holder may transfer units to another eligible holder at any hour, outside dealing hours, which the DvP scenario works through; the register follows every such transfer without a re-registration request.'
+  standards: [ERC-3643, ERC-20 transfer]
+- title: Redemption order, with the units
+  from: investor
+  to: ledger
+  kind: onchain
+  text: 'The investor places a redemption by sending units to the dealing contract: a request held until the next strike for a fund priced at a cut-off, or an instant redemption at par against the teller for a constant-price fund. The fund’s gates, fees and suspension rights apply as its documents provide; the contract performs them.'
+  standards: [ERC-7540 requestRedeem, ERC-20]
+- title: Cancel, cash against units in one transaction
+  kind: atomic
+  lanes: [bank, ledger, ta]
+  text: 'At the strike, or at once at par, one transaction cancels the units and pays the cash from the fund’s account to the investor in the token the fund deals in, with the cash issuer’s rules run inside it. Units out of issue and cash paid move together, and the investor has the cash in the same account it pays from.'
+  standards: [ERC-7540 redeem and withdraw, ERC-20, teller contract]
+- title: Register, finality and audit
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet each transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. Where the ledger is the fund’s statutory register the on-chain balance is the holding; where it is part of the official record or a secondary record the agent’s books are updated from the same events. The depositary and the auditor verify units in issue, holders and cash movements from the ledger, with no reconciliation between the agent’s register and anyone else’s.'
+  standards: [Transfer events]
+
+tokens:
+- name: Funds (tokenized fund units)
+  circle: fund
+  place: Tokenized Real-World Assets › Financial Instruments › Funds
+  role: 'The units dealt. A share in the fund, represented as a permissioned token, issued and cancelled by the dealing contract on the fund’s terms: request and claim at the struck price, or continuous dealing at par for a constant-price fund. The register model (ledger as register, part of the official record, or a secondary record) decides what the on-chain balance is in law; income is paid as more units or a rising price.'
+  example: Live examples on Ethereum mainnet, BlackRock BUIDL (Securitize), Circle USYC, Franklin Templeton BENJI, UBS uMINT and Spiko, whose prospectus makes the ledger the shareholder register; WisdomTree WTGXX dealt 24/7 against USDC since February 2026; Franklin’s fund seeks a stable USD 1.00 share price and says it cannot guarantee it.
+  sources:
+  - { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+  - { title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)', url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf, checked: '2026-11-01' }
+  - { title: 'Franklin OnChain U.S. Government Money Fund, prospectus, 1 August 2026 (seeks a stable USD 1.00 share price, cannot guarantee it)', url: https://www.sec.gov/Archives/edgar/data/1786958/000165558926000970/c485bpos.htm, checked: '2026-11-01' }
+  - { title: 'Franklin Templeton, Benji platform and supported networks', url: https://digitalassets.franklintempleton.com/benji/, checked: '2026-10-25' }
+  - { title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+- name: Stablecoin (the cash the fund deals in)
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: The cash leg most tokenized funds deal in today, because any eligible wallet can hold it; the issuer is the obligor, and the fund’s account receives and pays it.
+  example: Live examples, BUIDL exchangeable for USDC through a Circle smart contract (April 2024); WTGXX dealt 24/7 against USDC.
+  sources:
+  - { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+  - { title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+- name: Deposit Token (alternative cash)
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: Bank money as the cash leg where the fund and its investors bank with the issuer; the bank remains the obligor and its allowlist decides who may hold it.
+  example: Live example, JPMD (JPM Coin), on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the fund’s pricing and dealing model, its register model and the cash it deals in, and several (CMTAT, ERC-1400) are alternatives to those listed.'
+standards:
+- id: ERC-7540
+  title: Asynchronous ERC-4626 Tokenized Vaults
+  status: Final
+  role: Request-and-claim dealing for a fund priced at a cut-off, with the cash escrowed until the price is struck and the units claimed at it; the fund’s own dealing process on the ledger, for a primary-market subscription or a treasury sweep.
+  url: https://eips.ethereum.org/EIPS/eip-7540
+- id: ERC-3643
+  title: T-REX, Token for Regulated Exchanges
+  status: Final
+  role: The permissioned security-token standard for the units; an identity registry and a compliance contract decide, on every issue, transfer and cancellation, whether the wallet is an eligible investor within the offering’s limits. Alternatives in production are CMTAT (UBS uMINT) and ERC-1400.
+  url: https://eips.ethereum.org/EIPS/eip-3643
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of the units and the cash token (balances, transfer, approve); every wallet, custodian and the dealing contract speak it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets the investor authorize the cash for a subscription, or the units for a redemption, with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so the transfer agent or a distributor can submit the subscription cash and pay the fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; an investor’s signing policy can read exactly which fund, amount and price it is approving.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Institutional wallets as smart accounts with policy controls (approvals, limits, multiple signers) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: The register can be the ledger
+    text: 'Where the fund’s documents make the ledger its register, the balance in the investor’s wallet is the holding in law, every issue, transfer and cancellation is a register entry the moment it is included, and the transfer agent keeps no separate book to reconcile. Where the register stays with the agent, it is updated from events everyone can read.'
+  - title: Units and cash move together
+    text: 'A subscription issues the units in the transaction that takes the cash and a redemption pays the cash in the transaction that cancels the units, so the fund is never short of cash for units it has issued and the investor never waits for units it has paid for; the settlement lag between dealing and issue disappears.'
+  - title: Dealing at any hour, on the fund’s terms
+    text: 'A constant-price fund with a teller deals at par whenever an order arrives; a fund priced at a cut-off takes orders and cash at any hour and settles them at the strike. The ledger does not change when the price is struck or what the fund promises; it changes when an order can be placed and how fast it settles once priced.'
+  - title: Secondary transfers between eligible holders
+    text: 'Between dealings, units move from one eligible holder to another at any hour, with the register following, which gives a fund’s investors a market the fund did not have to build and the fund a smaller redemption queue; the DvP scenario works through such a trade.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the fund. The units stay bound to the offering’s eligibility and limits, enforced in the token contract on every issue, transfer and cancellation, so a public ledger does not widen who may invest.'
+  - title: Reconciled every block
+    text: 'The transfer agent, the depositary, the auditor, the cash issuer and every investor read the same events, so units in issue, holders and cash movements agree by construction, and the daily reconciliation between the agent’s register and the depositary’s records has nothing left to reconcile.'
+  - title: Rules travel with the token
+    text: 'Eligibility, limits and freezes are enforced by the token wherever the units go, so a distributor, a custodian or a venue does not implement the fund’s rules again.'
+- title: Where it stands today
+  items:
+  - title: Tokenized funds in production
+    text: 'Tokenized money market funds from several managers are live on Ethereum mainnet, with dealing from request-and-claim at a cut-off to continuous dealing at par and income as more units or a rising price; Spiko’s prospectus makes the ledger the shareholder register, Franklin’s prospectus describes a fund that seeks a stable USD 1.00 share price and cannot guarantee it, and WisdomTree has dealt WTGXX 24/7 against USDC since February 2026. An industry paper of September 2026 sets out the contract families, dealing models and register models between them.'
+  - title: The cash leg
+    text: 'Most tokenized fund dealing settles against a regulated stablecoin, which any eligible wallet can hold; a bank deposit token has been live on Ethereum mainnet since 19 October 2026 for the issuing bank’s clients, which makes bank money as the dealing currency possible for a fund whose investors bank there.'
+- title: Variants
+  items:
+  - title: Constant-price fund, continuous dealing
+    text: The teller fills subscriptions and redemptions at par whenever they arrive, within the fund’s liquidity, so there is no request and no strike to wait for; the price the fund strikes still governs what the units are worth, and the fund’s right to suspend still applies.
+  - title: Fund priced at a cut-off, request and claim
+    text: Orders and cash, or units, are held in the dealing contract until the administrator strikes the price, then settled at it in one transaction per order; the fund’s dealing calendar and cut-offs are unchanged.
+  - title: Distributor or nominee
+    text: A distributor holds units for its own clients as the registered holder, with its clients’ identities in its own files; the fund sees one eligible holder, the distributor runs its own register, and the transparency of the ledger stops at the nominee.
+  - title: Drawdown fund
+    text: A private fund that takes commitments and calls capital in tranches issues units, or records paid-in capital, at each call; the subscription band repeats per call and the redemption band is replaced by distributions as the fund realizes investments.
+  - title: A treasury sweeping cash
+    text: The investor is a treasury moving operating cash into the fund and back by rule; the treasury scenario works through that cycle from the investor’s side.
+- title: Open questions for your deployment
+  items:
+  - title: The register model
+    text: Whether the ledger is the register, part of the official record or a secondary record is set by the fund’s documents and governing law, and decides what an investor’s balance is and who can correct it; the dealing contract must match the model.
+  - title: Dealing terms on the ledger
+    text: Cut-offs, gates, fees, in-kind rights and suspensions in the fund’s documents must be performed by the dealing contract, including the fund’s right not to deal; test the suspension before the launch.
+  - title: Who the fund sees
+    text: A nominee or distributor between the fund and the investor keeps the investor’s identity off the ledger and in its files; decide who the fund must know, and what the ledger should show, before the identity registry is designed.
+  - title: The cash the fund deals in
+    text: A stablecoin reaches any eligible investor and carries its issuer’s credit; a deposit token reaches the bank’s clients and carries bank money; the fund’s account, its depositary and its liquidity management must hold and value whichever it is.
+  - title: Income, tax and reporting
+    text: Income as more units or a rising price, and the investor’s tax and the fund’s reporting on it, are questions for the fund’s documents, the Regulatory layer and your advisers, which the ledger does not change.
+  - title: Visibility of holdings
+    text: On a public ledger holdings, subscriptions and redemptions are visible to anyone who can map a wallet to a name. Permissioned tokens, nominees, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.
+
+sources:
+- { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- { title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)', url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf, checked: '2026-11-01' }
+- { title: 'Franklin OnChain U.S. Government Money Fund, prospectus, 1 August 2026 (seeks a stable USD 1.00 share price, cannot guarantee it)', url: https://www.sec.gov/Archives/edgar/data/1786958/000165558926000970/c485bpos.htm, checked: '2026-11-01' }
+- { title: 'Franklin Templeton, Benji platform and supported networks', url: https://digitalassets.franklintempleton.com/benji/, checked: '2026-10-25' }
+- { title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+- { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

@@ -1,6 +1,6 @@
 # Editing the Identity map
 
-Live page: https://ethereum-institutional.github.io/ei-digitalassets/identity/ (draft, in progress)
+Live page: https://ethereum-institutional.github.io/ei-digitalassets/identity/ (draft)
 
 ```
 circles.yaml   the three circles (Verified identity, Proof of control, Permission) and the outer frame, with definitions
@@ -8,6 +8,7 @@ layout.yaml    geometry only (canvas, circles, the note in the empty control-and
 badges.yaml    one badge per mechanism: the circle it sits in, x and y inside the right overlap, whether it lives on an
                Ethereum chain (`eth`), desc, sources, and facts (one entry per facet)
 site.yaml      intro, legend, the facets (filters) and the issuer preset for the "Focus on" sidebar, and the sections
+held.yaml      sections held off the public page (the revenue proposal); not read by the build
                under the map
 ```
 

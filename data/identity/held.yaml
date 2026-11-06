@@ -1,0 +1,16 @@
+# Identity: sections held off the public page (not read by the build)
+# The revenue proposal below (reusable credentials the subject custodies, a credit score as a credential, underwriting
+# and mortgages) was written for the first draft as an Ethereum Institutional proposal, marked in progress, and moved
+# off the public page on the owner's review (owner, 6 November 2026): it belongs in a scenario or a brief, not on the
+# map. To restore it, move the section back into `sections:` in site.yaml before "Choosing providers and standards".
+sections:
+- title: From cost center to revenue
+  wip: true
+  text: 'A proposal under discussion at Ethereum Institutional, not a finding: once a verified credential is held by its subject rather than filed by each verifier, the economics of verification can turn around.'
+  items:
+  - title: Reusable credentials the subject custodies
+    text: 'Today every institution pays to verify the same person or entity, and the result stays in its files. A credential the subject holds in their own wallet, issued once by a licensed verifier and presented many times with selective disclosure, moves the cost to the first issuance and lets the issuer charge the relying parties that benefit: a fee to certify the credential, or for add-on services bound to it. The mechanisms in the center of the map, a credential or attestation with a transfer-time check, are the ones that make this possible without a list.'
+  - title: A credit score as a credential
+    text: 'An individual or entity could hold a credential carrying a previously obtained soft-pull credit score and present it to a lender or counterparty at no cost to either. A firm that wants a current and deeper view could pay, in tokens, for a hard pull, delivered as an on-chain score linked to the off-chain reporting agency''s record, with the subject''s consent recorded by the same signature. The data stays with the agency; what moves on the ledger is the score, the consent and the payment, and the agency is paid per use instead of per integration. Credit-reporting and data-protection law in each jurisdiction decides what a hard pull requires and who may see it; the design has to be built around that.'
+  - title: Underwriting and mortgages
+    text: 'The same pattern extends to the documents an underwriter or a mortgage lender collects: proof of income, of ownership, of insurance, of identity, each a credential from the institution that already holds the record, presented together by the applicant and verifiable on chain. The acceleration comes from not re-collecting and re-checking what another regulated party has already verified, and the ledger''s part is the proof and the audit trail, not the data. Ethereum Institutional will develop this into a Scenario once the identity mechanisms above are settled.'

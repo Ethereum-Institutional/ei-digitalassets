@@ -1,0 +1,22 @@
+# Scenario page: collateral mobility and margin, tokenized fund units posted as margin and released, substituted or enforced on the ledger. Content in scenario.yaml.
+
+kind: scenario
+title: 'Collateral mobility and margin: tokenized fund units posted as margin'
+slug: collateral-mobility-margin
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: Collateral mobility
+  italic: mobility
+intro: 'Every derivative, loan and cleared trade an institution holds is backed by collateral it must post, value, top up, substitute and get back, and the work is in the moving: collateral sits at custodians, is pledged through agents, settles on the next cycle and is reconciled against the counterparty’s records. This page works through one margin call, tokenized money market fund units posted as margin to a counterparty, because it shows what a shared ledger changes. The units are locked for the taker in one transaction the moment the call is agreed, at any hour; the giver keeps the income on them while they are posted; a substitution is one atomic swap; and at the end they are released, or taken on a default, in one transaction. The exposure the margin covers, the haircuts, the eligibility schedule and the legal form of the collateral arrangement, a pledge or a transfer of title under the parties’ agreement, are what they were; the ledger changes how collateral moves and where it can be seen, not what it secures.'
+svg_label: Swimlane diagram of tokenized fund units posted as margin, locked for the taker, substituted and released on the ledger
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which collateral is locked or released.
+notice:
+  title: Under development.
+  text: For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Running this scenario?
+  text: Open an issue with what differs in your deployment (the collateral, pledge or title transfer, bilateral, tri-party or cleared) and we will add the variant.
+footnote: 'Standards and examples were checked on 6 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

@@ -22,7 +22,7 @@ legend:
   text: 'Rings: each generation keeps the previous one’s capability and adds one (Read; Write; Own)'
 notice:
   title: Under development.
-  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help improve this map.

@@ -48,7 +48,7 @@ cards:
   text: 'Who is behind an address: the three questions (who, which key, what it may do) and the mechanisms that carry your checks onto the ledger.'
 notice:
   title: Under development.
-  text: These maps are v0.x drafts and have not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help improve these maps.

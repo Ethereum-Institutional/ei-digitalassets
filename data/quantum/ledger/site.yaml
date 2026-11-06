@@ -1,33 +1,60 @@
-# Quantum sub-page (static, work in progress). Short text with links to the primary material; sources collapsed.
+# Quantum sub-page (static). Short text with links to the primary material; sources collapsed.
 
 kind: static
 eyebrow: Ethereum Institutional · Research · Quantum
 notice:
-  title: Work in progress.
-  text: This page is being drafted. It links to the primary material; roadmap dates are the protocol community’s targets, not commitments.
+  title: Under development.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.
   text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
-footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 25 October 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
-title: "Quantum: where it bites a ledger"
+footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 6 November 2026. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).
+title: 'Quantum: where it bites a ledger'
 slug: quantum-ledger
 heading:
   text: Where it bites a ledger
   italic: ledger
-intro: Four places, in the order a risk committee would rank them, plus what is not at risk on a public ledger and what is at risk everywhere else.
+intro: Four places, in the order a risk committee would rank them, the emergency plan and what it does not cover, what a ledger does about coins nobody can move, and what is not at risk on a public ledger but is at risk everywhere else.
 sections:
-  - title: Where it bites a ledger
-    items:
-      - title: Your keys
-        text: An address is a hash, so an account that has only received funds exposes nothing. The first transaction it sends reveals the public key; from then on the key is exposed. Reused addresses, hot wallets and multisig signers are the exposed set.
-        more:
-          title: How a quantum emergency fork would save most funds (Vitalik Buterin, 2024)
-          url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
-      - title: Validators, data and proofs
-        text: Validator signatures (BLS), blob commitments (KZG) and pairing-based rollup proofs share the same exposure and are the protocol’s job to replace. STARK-based rollups are already safe.
-        more:
-          title: The four areas Ethereum must upgrade
-          url: https://ethereum.org/en/roadmap/security/quantum-resistance/
-      - title: What is not at risk, and what is at risk everywhere else
-        text: "A public ledger keeps no secrets, so there is nothing to harvest now and decrypt later; the risk is forgery of authorization, not disclosure. Off the ledger it is the reverse: encrypted traffic, records and backups can be captured today and read later, which is why banking, healthcare, government and telecoms face the same deadline with less visibility of where their cryptography sits."
+- title: Where it bites a ledger
+  items:
+  - title: Your keys
+    text: 'An address is a hash, so an account that has only received funds exposes nothing. The first transaction it sends reveals the public key; from then on the key is exposed. Reused addresses, hot wallets and multisig signers are the exposed set. The practice Ethereum Foundation researchers recommend now, for a custodian or a treasury with keys already exposed, is a calm migration into what they call bunker mode: move funds to fresh addresses whose public keys stay hidden behind the hash, and after every spend move the remainder to a fresh address again. It needs no new cryptography and no new wallet, and there is no emergency; take the time to do it in an orderly way.'
+    more:
+      title: How a quantum emergency fork would save most funds (Vitalik Buterin, 2024)
+      url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
+    sources:
+    - title: 'Decrypt, Ethereum researcher says AI may break encryption before quantum does (7 October 2026; secondary): the worst case in months not years; bunker mode; curves vulnerable, hashes preferred; no attack demonstrated'
+      url: https://decrypt.co/380363/ethereum-researcher-ai-break-encryption-before-quantum
+      checked: '2026-11-06'
+    - &id001
+      title: 'Devcon India, post-quantum Q&A with Ethereum Foundation researcher Justin Drake (November 2026; video, transcript read 6 November 2026): earliest 2029 and expected 2032, three years earlier than two years before; coordination the bottleneck, one upgrade about every ten months, 2028 at the earliest on the current cadence; a lean adaptation of SPHINCS+ for accounts, hash-based over lattices for the L1; proof of seed; custodians in bunker mode; the post-AI threat'
+      url: https://www.youtube.com/watch?v=L_Qon4NykLw
+      checked: '2026-11-06'
+  - title: Seed phrases survive; wallets and addresses change
+    text: 'A seed phrase produces keys by hashing, so the seed itself is not exposed by anything a quantum computer can do; the same seed can derive post-quantum addresses once wallets support them, and the migration is a new address from an old seed, not a new secret. That is also the basis of the emergency plan: if a capable machine arrived before the migration, a hard fork could freeze elliptic-curve signatures and let holders move funds by proving, in zero knowledge, that they know the seed their address was derived from. It covers most accounts and not all: custody built on multi-party computation has no seed phrase, so a custodian needs signature agility of its own before the emergency, and the exposure practice above in the meantime.'
+    more:
+      title: How a quantum emergency fork would save most funds (ethresear.ch, 2024)
+      url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
+    sources:
+    - title: How to hard-fork to save most users’ funds in a quantum emergency (ethresear.ch, 9 March 2024)
+      url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
+      checked: '2026-10-26'
+    - *id001
+    - &id002
+      title: 'ethereum.org, Quantum resistance (page updated 23 October 2026): about 1,200 logical qubits to break 256-bit elliptic-curve keys per March 2026 research; hardware around the end of the decade at the earliest; leanXMSS and leanVM; EIP-8141 considered for Hegotá; core infrastructure about 2029; dormant wallets an open governance topic'
+      url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+      checked: '2026-11-06'
+  - title: Validators, data and proofs
+    text: Validator signatures (BLS), blob commitments (KZG) and pairing-based rollup proofs share the same exposure and are the protocol’s job to replace. STARK-based rollups are already safe.
+    more:
+      title: The four areas Ethereum must upgrade
+      url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+  - title: What is not at risk, and what is at risk everywhere else
+    text: 'A public ledger keeps no secrets, so there is nothing to harvest now and decrypt later; the risk is forgery of authorization, not disclosure. Off the ledger it is the reverse: encrypted traffic, records and backups can be captured today and read later, which is why banking, healthcare, government and telecoms face the same deadline with less visibility of where their cryptography sits.'
+  - title: Coins nobody can move
+    text: 'Some exposed coins will never be moved by their owners, because the keys are lost. A ledger then chooses between leaving them to whoever builds the machine, which turns lost coins into a bounty for breaking the cryptography, and freezing them by a rule change. ethereum.org lists dormant wallets as an open governance topic with no community consensus yet; Ethereum Foundation researchers expect the exposed and lost share on Ethereum mainnet to be small enough to leave alone, and note that a ledger with a large lost share faces the harder choice. Ethereum Institutional records the question rather than an answer: the decision belongs to each ledger’s governance, and the Adoption page’s property-rights dial discloses every past intervention.'
+    sources:
+    - *id002
+    - *id001

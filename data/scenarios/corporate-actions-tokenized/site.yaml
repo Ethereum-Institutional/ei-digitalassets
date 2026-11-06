@@ -1,0 +1,22 @@
+# Scenario page: corporate actions and distributions on tokenized securities, a coupon or dividend paid and a redemption at maturity, on the same ledger as the asset. Content in scenario.yaml.
+
+kind: scenario
+title: 'Corporate actions: distributions, elections and redemptions on tokenized securities'
+slug: corporate-actions-tokenized
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: Corporate actions
+  italic: actions
+intro: 'A corporate action is what an issuer does to all its holders at once: pay a coupon or a dividend, offer a choice, redeem a bond, split a share, hold a vote. The work today is in finding the holders and paying them through a chain of intermediaries, each with its own record and its own cut-off, and in reconciling what each of them thinks the entitlement was. This page works through one distribution and one redemption on a tokenized security, because on a shared ledger the record date is a block, the holders are the ledger, and the payment reaches every holder in one transaction in the same tokenized currency that the asset trades against. What does not change is the event itself: the issuer still decides it, its documents still govern it, the tax on it is still the holder’s and the issuer’s, and a nominee between the issuer and an investor still passes it on.'
+svg_label: Swimlane diagram of a distribution and a redemption on a tokenized security, from the announcement to the record
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which every holder is paid, or the security is cancelled against cash.
+notice:
+  title: Under development.
+  text: For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Running this scenario?
+  text: Open an issue with what differs in your deployment (the security, the event, the cash, a nominee or custodian in the chain) and we will add the variant.
+footnote: 'Standards and examples were checked on 6 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

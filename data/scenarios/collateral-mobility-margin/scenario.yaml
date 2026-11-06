@@ -1,0 +1,219 @@
+# Scenario: collateral mobility and margin, tokenized fund units posted as margin, substituted, released or enforced on the ledger.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: collateral
+tags:
+- { kind: move, label: Asset moves }
+- { kind: move, label: Credit is extended }
+- { label: Bank }
+- { label: Asset manager }
+- { label: Market infrastructure }
+
+actors:
+- id: giver
+  name: Collateral giver
+  role: A bank, an asset manager or a corporate with an obligation to margin, holding tokenized fund units, bonds and cash tokens in one institutional wallet. Chooses what to post from what it holds.
+- id: agent
+  name: Collateral or tri-party agent
+  role: Where used, values the collateral against the schedule, selects and substitutes it, and calls and returns margin, acting on the collateral contract with its own keys. The parties may act for themselves instead.
+- id: ledger
+  name: Ledger and collateral contract
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running the collateral tokens and a collateral contract that locks posted tokens for the taker, records the schedule and the haircuts, and releases, substitutes or enforces in one transaction.
+- id: taker
+  name: Collateral taker
+  role: 'The counterparty whose exposure the margin covers: a derivatives dealer, a lender, a venue, or a clearing house’s margin account. Controls the locked collateral for the life of the exposure and may take it on a default.'
+- id: ta
+  name: Transfer agent of the collateral token
+  role: Keeps the fund’s register and the identity registry the units check on every transfer, and pays income to the holder of record, which under a pledge stays the giver. Acts for the fund manager; for a bond the registrar plays the same part.
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the same ledger as everyone else: what is posted, to whom, against what, and every substitution and release, are transfer and lock events, with no statement to request.'
+
+steps:
+- title: Agreement, eligibility and the collateral schedule
+  from: ta
+  to: ledger
+  kind: onchain
+  text: 'Both parties are eligible holders of each collateral token (the transfer agent registers both wallets; a deposit token’s issuer allowlists them). Off the ledger they have signed the collateral agreement that goes with their exposure, which sets the form (a pledge, or a transfer of title), the eligible collateral, the haircuts, the thresholds, the timing of calls and the events of default. The schedule is written into the collateral contract, which will accept only eligible tokens at their haircuts.'
+  standards: [ERC-3643 identity registry, deposit-token allowlist, collateral agreement]
+- title: Exposure and margin call
+  from: taker
+  to: giver
+  kind: offchain
+  text: 'The taker values the exposure, applies the threshold and calls margin: initial margin at the start of a trade, variation margin as the exposure moves. The call names the amount; the agreement names what may satisfy it. On a shared ledger the call can be made and met at any hour, including when the exposure moves over a weekend.'
+- title: Collateral selected
+  from: giver
+  to: agent
+  kind: offchain
+  text: 'The giver, or its agent, chooses from its holdings the eligible tokens that cover the call at their haircuts, preferring what earns and what it will not need: fund units that keep paying income while posted, a bond it holds for the long term, or cash tokens where the schedule prefers them. The same units may be the treasury scenario’s sweep balance; nothing moves to a collateral account first.'
+- title: Posting, locked for the taker in one transaction
+  kind: atomic
+  lanes: [giver, ledger, taker]
+  text: 'One transaction locks the selected units in the collateral contract under the taker’s control (the pledge form: the giver stays the holder of record and keeps the income), or transfers them to the taker (the title-transfer form). The token’s own rules run inside it: the fund units check their identity registry and limits. If any check fails nothing moves. The taker’s exposure is covered the moment the transaction is included.'
+  standards: [ERC-7943 frozen balances, ERC-20 transferFrom, ERC-3643, collateral contract]
+- title: 'While posted: valuation, income, substitution, re-use'
+  from: ledger
+  to: agent
+  kind: onchain
+  text: 'The contract, or the agent through it, revalues the posted tokens against published prices and the schedule every block, and calls more or returns excess as the exposure and the prices move. Income on fund units reaches the giver as holder of record under a pledge, or is passed back under a title transfer. The giver substitutes eligible collateral by an atomic swap, one transaction that locks the new tokens and releases the old. Where the agreement allows re-use, the taker may post title-transferred collateral onward; locked collateral under a pledge cannot be re-used, which is the point of the form.'
+  standards: [ERC-20 transfer, collateral contract, price feed]
+- title: Variation margin and return of excess
+  from: giver
+  to: ledger
+  kind: onchain
+  text: 'A top-up is a further lock or transfer; a return of excess is a release; each is a transaction settled in minutes rather than on the next settlement cycle, with the running balance of posted collateral readable by both parties and the agent at any time.'
+  standards: [ERC-20 transfer, ERC-7943, collateral contract]
+- title: Release, or enforcement on default, in one transaction
+  kind: atomic
+  lanes: [giver, ledger, taker]
+  text: 'When the exposure ends, one transaction unlocks the units for the giver, or returns equivalent tokens under a title transfer, against the taker’s confirmation. On a default, the agreement’s remedies run on the ledger: the taker takes the locked collateral, or has it transferred under role controls where the token supports an enforced transfer, with the evidence the agreement requires. Either way the collateral never left the ledger, so there is no custodian to instruct and no settlement to wait for.'
+  standards: [ERC-7943 forcedTransfer, ERC-20 transferFrom, collateral contract]
+- title: Finality, record and reporting
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet each transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. What is posted, to whom, against which exposure, and every substitution and release are events both parties, the agent, the custodians and the auditor read; the collateral register that institutions reconcile with their agents and counterparties every day is the ledger itself, and the contract can emit the positions in the form a reporting regime asks for.'
+  standards: [Transfer events]
+
+tokens:
+- name: Funds (tokenized money market fund units, posted as margin)
+  circle: fund
+  place: Tokenized Real-World Assets › Financial Instruments › Funds
+  role: The collateral in this example. Units of a tokenized money market fund posted at a haircut; under a pledge they keep earning for the giver while locked, which is why they are the collateral most often named in live tokenized-collateral programs. The fund’s register model decides what the locked balance is in law.
+  example: Live examples, tokenized money market fund shares moved as collateral on J.P. Morgan’s Tokenized Collateral Network (2022); DTCC’s platform for tokenized real-time collateral management (announced 2 April 2025); Circle USYC and BlackRock BUIDL accepted as off-exchange collateral by an exchange (2025).
+  sources:
+  - { title: 'J.P. Morgan, Blockchain brings collateral mobility to traditional assets (15 July 2022): intraday repo on Kinexys Digital Assets since 2020, more than USD 300 billion processed; the Tokenized Collateral Network moves tokenized money market fund shares; an institutional-scale EVM-based chain', url: https://www.jpmorgan.com/insights/payments/wallets/blockchain-kinexys-asset-tokenization, checked: '2026-11-06' }
+  - { title: 'DTCC, platform for tokenized real-time collateral management (2 April 2025)', url: https://www.dtcc.com/news/2025/april/02/dtcc-announces-new-platform-for-tokenized-real-time-collateral-management, checked: '2026-10-25' }
+  - { title: 'Circle, USYC supported as off-exchange collateral for Binance institutional clients and to be issued natively on BNB Chain (24 July 2025)', url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients, checked: '2026-10-25' }
+  - { title: 'BNB Chain, BUIDL launches on BNB Chain (14 November 2025)', url: https://www.bnbchain.org/en/blog/blackrocks-buidl-fund-launches-bnb-chain-tokenized-by-securitize-and-accepted-as-collateral-on-binance, checked: '2026-10-25' }
+  - { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- name: Fixed Income (tokenized bond, as collateral)
+  circle: fi
+  place: Tokenized Real-World Assets › Financial Instruments › Fixed Income
+  role: Government and supranational bonds are the usual collateral for margin and financing; a tokenized bond is posted through the same steps at its haircut, with its coupons reaching the holder of record.
+  example: Live example, the European Investment Bank’s first digital bond on a public blockchain, issued on Ethereum mainnet in April 2021.
+  sources:
+  - { title: 'EIB, first digital bond on a public blockchain (April 2021)', url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain, checked: '2026-10-25' }
+- name: Deposit Token (cash margin)
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: Cash variation margin as bank money, posted by transfer or lock like any other token; the bank remains the obligor and its allowlist decides who may hold it.
+  example: Live example, JPMD (JPM Coin), on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- name: Stablecoin (cash margin)
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Cash margin any eligible wallet can hold where the parties do not share a bank; the obligor is the issuer, and the steps do not change.
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the collateral token, the legal form (pledge or title transfer), whether an agent or a clearing house sits between the parties, and the systems that must read the tokens, and several (CMTAT, ERC-1400) are alternatives to those listed. The collateral agreement is a legal text the contract performs, not a standard it implements.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of every collateral token (balances, transfer, approve); every wallet, custodian and the collateral contract speak it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-7943
+  title: uRWA, Universal Real World Asset Interface
+  status: Final
+  role: The minimal compliance interface a token can expose, with frozen balances and an enforced transfer (forcedTransfer); a frozen balance is the lock a pledge needs, and the enforced transfer is the default path where the agreement and the token’s rules allow it.
+  url: https://eips.ethereum.org/EIPS/eip-7943
+- id: ERC-3643
+  title: T-REX, Token for Regulated Exchanges
+  status: Final
+  role: The permissioned security-token standard for fund units and bonds; an identity registry and a compliance contract decide, on every transfer and lock, whether the receiving wallet or the taker is eligible. Alternatives in production are CMTAT and ERC-1400.
+  url: https://eips.ethereum.org/EIPS/eip-3643
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets the giver authorize a posting with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so the agent or the taker can submit a cash-margin transfer and pay its fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; a giver’s signing policy can read exactly which tokens it is locking, for whom and against what.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Institutional wallets as smart accounts with policy controls (approvals, limits, multiple signers) and fee sponsorship, and the agent’s role keys on the giver’s account; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: ERC-3156
+  title: Flash Loans
+  status: Final
+  role: For the refinancing variant, a loan that must be repaid with its fee before the transaction ends or the whole transaction reverts, so collateral can be substituted or refinanced without bridging liquidity; a lender contract, a borrower callback, no credit risk.
+  url: https://eips.ethereum.org/EIPS/eip-3156
+- id: ERC-7573
+  title: Conditional-upon-Transfer-Decryption for DvP
+  status: Draft
+  role: For the cross-ledger variant, where the collateral and the exposure, or two collateral tokens, sit on different chains, a mechanism that releases one leg only when the other has succeeded.
+  url: https://eips.ethereum.org/EIPS/eip-7573
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: Collateral moves in minutes, at any hour
+    text: 'A margin call is met by one transaction that locks or transfers the collateral the moment it is agreed, on a Sunday as on a Tuesday, so the exposure between a price move and the collateral that covers it shrinks from a settlement cycle to a block; the weekend gap that margin models allow for closes.'
+  - title: Posted, not moved
+    text: 'Under a pledge the collateral is locked for the taker where it sits: the giver stays the holder of record and keeps the income, the taker has control, and nothing travels to a collateral account or a custodian’s pledge ledger. Mobility without movement is what a frozen balance on a shared ledger gives.'
+  - title: One pool for every obligation
+    text: 'The fund units posted here are the same tokens the treasury scenario sweeps into, the DvP scenario trades and the repo scenario finances; a single holding serves every counterparty on the ledger without being re-registered at each custodian or agent. The question “where is my collateral” has one answer, readable by anyone entitled.'
+  - title: Substitution as one transaction
+    text: 'Replacing posted collateral is an atomic swap that locks the new and releases the old, so the taker is never under-collateralized and the giver never double-posts; a flash loan can bridge a refinancing inside the same transaction.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the asset. The fund units and bonds stay bound to their issuers’ eligibility rules on every transfer and lock, so a taker must be an eligible holder, and the collateral keeps its rules wherever it is posted.'
+  - title: Reconciled every block
+    text: 'Giver, taker, agent, custodians and the auditor read the same lock and transfer events, so the daily reconciliation of collateral positions between institutions and their agents disappears; the ledger is the collateral register.'
+- title: Where it stands today
+  items:
+  - title: Tokenized fund units as collateral
+    text: 'Tokenized money market fund shares have moved as collateral on a bank-run tokenized collateral network since 2022 (vendor-stated), a market infrastructure announced a platform for tokenized real-time collateral management in April 2025, and an exchange accepts tokenized fund units as off-exchange collateral for institutional clients since 2025. Each is a collateral-mobility program on its own ledger or platform; a bank deposit token for cash margin has been live on Ethereum mainnet since 19 October 2026.'
+  - title: The clearing house step
+    text: 'Posting tokenized collateral as initial margin at a clearing house follows the same steps with the clearing house’s margin account as the taker and its rulebook as the schedule; Ethereum Institutional names no clearing house accepting tokenized collateral on a public ledger here.'
+- title: Variants
+  items:
+  - title: Title transfer instead of pledge
+    text: The collateral is transferred to the taker rather than locked for it, as cash variation margin usually is; the taker may re-use it where the agreement allows, income is passed back, and the giver’s claim on a default is a claim, not a lock.
+  - title: Cash variation margin
+    text: Variation margin in a deposit token or a stablecoin is a transfer, with no lock; the running balance is the posted amount, and the return of excess is a transfer back.
+  - title: Tri-party
+    text: An agent selects, values, substitutes and allocates collateral across many exposures from the giver’s pool, acting on the contract with its own keys; the parties face each other on the exposure, the agent runs the collateral.
+  - title: Collateral swap or upgrade
+    text: Two collateral tokens exchanged atomically against a fee, with no exposure between them; a lower-quality asset financed into a higher-quality one for a period, settled by the same contract.
+  - title: Refinancing with a flash loan
+    text: 'Collateral locked for one taker is moved to another, or an exposure is refinanced, inside one transaction: a flash loan supplies the bridging amount, the old lock is released, the new one made and the loan repaid with its fee before the block closes, or everything reverts. No bridging liquidity is held and no counterparty is exposed; the variant exists only on a ledger with atomic transactions.'
+  - title: Collateral and exposure on different ledgers
+    text: Where the exposure is booked on one ledger and the collateral sits on another, the lock and the release need a cross-ledger mechanism (ERC-7573, or a hashed time-lock), and a failure mode returns.
+- title: Open questions for your deployment
+  items:
+  - title: What a lock is in law
+    text: A balance frozen for the taker in a contract is control in fact; whether it is a perfected pledge, and what the taker holds on a default, depends on the token’s terms, the register model and the governing law. Resolve this before the collateral agreement names tokens as eligible.
+  - title: Eligibility, haircuts and concentration
+    text: Which tokens the schedule accepts, at what haircuts and limits, and whose price feed values them, are the parties’ decisions, enforced by the contract once made; a stale or disputed price is an operational failure mode to test.
+  - title: Re-use
+    text: Title-transferred collateral may be re-used where the agreement allows and a locked pledge may not; the choice decides the chain of claims on a default and the visibility of where collateral has gone.
+  - title: Who may enforce, on what evidence
+    text: An enforced transfer under role controls needs a holder of the role, a trigger and an audit trail the giver can contest; who holds the key and what counts as an event of default on the ledger must be settled in advance.
+  - title: Visibility of collateral
+    text: On a public ledger what is posted, to whom and how much is visible to anyone who can map a wallet to a name, which reveals exposures. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.
+
+sources:
+- { title: 'J.P. Morgan, Blockchain brings collateral mobility to traditional assets (15 July 2022): intraday repo on Kinexys Digital Assets since 2020, more than USD 300 billion processed; the Tokenized Collateral Network moves tokenized money market fund shares; an institutional-scale EVM-based chain', url: https://www.jpmorgan.com/insights/payments/wallets/blockchain-kinexys-asset-tokenization, checked: '2026-11-06' }
+- { title: 'DTCC, platform for tokenized real-time collateral management (2 April 2025)', url: https://www.dtcc.com/news/2025/april/02/dtcc-announces-new-platform-for-tokenized-real-time-collateral-management, checked: '2026-10-25' }
+- { title: 'Circle, USYC supported as off-exchange collateral for Binance institutional clients and to be issued natively on BNB Chain (24 July 2025)', url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients, checked: '2026-10-25' }
+- { title: 'BNB Chain, BUIDL launches on BNB Chain (14 November 2025)', url: https://www.bnbchain.org/en/blog/blackrocks-buidl-fund-launches-bnb-chain-tokenized-by-securitize-and-accepted-as-collateral-on-binance, checked: '2026-10-25' }
+- { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- { title: 'EIB, first digital bond on a public blockchain (April 2021)', url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain, checked: '2026-10-25' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'ERC-7943, uRWA Universal Real World Asset Interface (Final; frozen balances, forcedTransfer)', url: https://eips.ethereum.org/EIPS/eip-7943, checked: '2026-11-06' }
+- { title: 'ERC-3156, Flash Loans (Final; the loan plus fee repaid within the transaction or it reverts)', url: https://eips.ethereum.org/EIPS/eip-3156, checked: '2026-11-06' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

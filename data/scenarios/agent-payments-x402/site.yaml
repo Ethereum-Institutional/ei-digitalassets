@@ -1,0 +1,22 @@
+# Scenario page: AI agent payments, an agent paying for a service in a stablecoin within a mandate its principal controls. Content in scenario.yaml.
+
+kind: scenario
+title: 'AI agent payments: an agent pays for a service within its mandate'
+slug: agent-payments-x402
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: AI agent payments
+  italic: agent
+intro: 'A software agent that works for an institution will need to pay: for data, for compute, for another agent’s service, many times a day and for small amounts. This page works through one payment, an agent calling a paid API and settling the charge in a stablecoin inside a single HTTP round trip, because it shows what a shared ledger adds. The agent never holds the institution’s money: it holds a permission on an account the institution controls, with a spending limit, an allowed set of payees and an expiry that the account enforces on every payment, whatever the agent was told or persuaded to do. The payee needs no account with the institution and no card network, only an address; the payment is a signed authorization that a facilitator settles on the ledger; and the agent carries an identity and a track record that other services can read before they serve it. A prompt is not a control; a limit the ledger enforces is.'
+svg_label: Swimlane diagram of an AI agent paying for a service in a stablecoin, from the mandate to the audit record
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and the band across the columns is the one transaction in which the payment settles.
+notice:
+  title: Under development.
+  text: For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Running this scenario?
+  text: Open an issue with what differs in your deployment (the money, the account and permission model, the facilitator, the payee) and we will add the variant.
+footnote: 'Standards and examples were checked on 6 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

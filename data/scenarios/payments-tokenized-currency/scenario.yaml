@@ -1,0 +1,199 @@
+# Scenario: payments with tokenized currency, a cross-border supplier payment in a bank deposit token or a regulated stablecoin.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: pay
+tags:
+- { kind: move, label: Cash moves }
+- { label: Bank }
+- { label: Payment firm }
+- { label: Corporate treasurer }
+
+actors:
+- id: payer
+  name: Payer
+  role: A company paying a supplier abroad. Holds deposit tokens or a stablecoin in an institutional wallet with its own policy controls, and carries the invoice reference into the payment.
+- id: payerfirm
+  name: Payer’s bank or payment firm
+  role: 'The firm that serves the payer: the bank that issues the deposit token, or the payment firm or exchange through which the payer holds and funds a stablecoin. It identifies its customer, screens the payee’s address and sends the originator information the travel rule requires.'
+- id: ledger
+  name: Ledger and token contracts
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running the deposit-token or stablecoin contract and each party’s smart account; the transfer is one transaction on it.
+- id: payeefirm
+  name: Payee’s bank or payment firm
+  role: 'The firm that serves the payee: it identifies its customer, receives the beneficiary information, and converts the token to local currency on request (the off-ramp) or holds it for the payee.'
+- id: payee
+  name: Payee
+  role: The supplier. Receives the money at its address, reconciles it against the invoice from the transaction, and keeps it as a working balance, sweeps it or converts it.
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the transfer event is the record of the payment; the customer and counterparty information sits with the two firms, off the ledger.'
+
+steps:
+- title: Onboarding on both sides
+  from: payerfirm
+  to: ledger
+  kind: onchain
+  text: 'Each firm identifies its customer and, for a deposit token, adds the customer’s wallet to the token’s allowlist; for a stablecoin the wallet needs no listing, and the issuer’s blocklist applies instead. Each party’s wallet is a smart account with its policy (signers, limits, allowed payees). The two firms are the parties that will exchange customer information for each payment, off the ledger.'
+  standards: [deposit-token allowlist, ERC-4337]
+- title: Invoice and instruction
+  from: payee
+  to: payer
+  kind: offchain
+  text: 'The supplier’s invoice names the amount, the currency and the address to pay, with a structured reference the payer will carry into the transaction. If the invoice currency is not the token’s, a foreign-exchange leg comes first (the payment-versus-payment scenario); this page assumes the token is the invoice currency.'
+- title: Funding
+  from: payer
+  to: payerfirm
+  kind: offchain
+  text: 'The payer already holds the deposit token as its operating cash, or buys stablecoin from its firm against its bank balance (the on-ramp, off the ledger) in the amount of the invoice. Either way the payer’s wallet now holds the money to send.'
+- title: Screening and the travel rule
+  from: payerfirm
+  to: payeefirm
+  kind: offchain
+  text: 'The payer’s firm screens the payee’s address against sanctions lists and blockchain analytics, and sends the originator and beneficiary information for the payment to the payee’s firm, off the ledger, as the travel rule requires of virtual asset service providers for transfers above the threshold a jurisdiction sets; a common data format carries it. Where the payee holds its own wallet with no firm behind it, the payer’s firm verifies that its customer’s counterparty controls the address instead. A payment that fails screening is not signed.'
+  standards: [travel rule messaging, sanctions screening]
+- title: The payment, one transaction
+  kind: atomic
+  lanes: [payerfirm, ledger, payeefirm]
+  text: 'The payer transfers the tokens to the payee’s address, or signs an authorization that its firm submits and pays the fee for, with the invoice reference in the transaction data. The token’s own rules run inside the transaction: a deposit token checks that both addresses are on its allowlist, a stablecoin checks its blocklist. The transaction is included within seconds at any hour, including weekends, and either the money moves or nothing does. For a deposit token the payee must bank with the issuer, or the token is redeemed and reissued by the payee’s bank through a shared network.'
+  standards: [ERC-20 transfer, EIP-3009, ERC-2612, EIP-712]
+- title: Confirmation and reconciliation
+  from: ledger
+  to: payee
+  kind: onchain
+  text: 'The payee’s systems see the transfer event with the reference and match it to the invoice automatically; there is no advice to wait for and no call to ask whether the money has arrived, because the payer, both firms and the payee read the same event in the same block.'
+  standards: [Transfer events]
+- title: Hold, sweep or off-ramp
+  from: payeefirm
+  to: payee
+  kind: offchain
+  text: 'The payee keeps the tokens as a working balance, sweeps them into a tokenized money market fund (the treasury scenario), pays its own suppliers with them, or asks its firm to convert them to local currency in its bank account (the off-ramp, off the ledger), which is where local payment rails and their hours return.'
+- title: Finality and the record
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet the transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH; there is no chargeback, and a refund is a new payment. The transfer event is the audit trail for everyone; the travel-rule record and the customer files stay with the two firms, off the ledger, where the regulator asks for them.'
+  standards: [Transfer events]
+
+tokens:
+- name: Deposit Token
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: Bank money as the payment. A tokenized claim on a deposit at the issuing bank, transferable between the bank’s clients on the ledger at any hour; the bank remains the obligor and its allowlist decides who may hold it. Reaching a payee at another bank needs redemption and reissue or a shared deposit-token network.
+  example: Live example, JPMD (JPM Coin), on Base since November 2025 and on Ethereum mainnet since 19 October 2026. On bank and consortium ledgers, HSBC and Standard Chartered executed the first live tokenized deposit transaction on Swift’s ledger.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+  - { title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)', url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain, checked: '2026-10-25' }
+- name: Stablecoin
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Non-bank money as the payment. A regulated stablecoin any eligible wallet can hold, so payer and payee need no common bank; the issuer is the obligor, redeems at par to its customers and keeps a blocklist it applies in its discretion or on a legal order. Most cross-border payments in tokenized currency settle this way today.
+  example: Live examples, USDC; Visa settling with issuers and acquirers in four stablecoins across four blockchains (July 2025) and in the United States (December 2025); Stripe’s stablecoin payment acceptance.
+  sources:
+  - { title: 'Visa, settlement expands to four stablecoins and four blockchains (31 July 2025)', url: https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21581.html, checked: '2026-10-25' }
+  - { title: 'Visa, US stablecoin settlement (16 December 2025)', url: https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21951.html, checked: '2026-10-25' }
+  - { title: 'Stripe docs, stablecoin payments', url: https://docs.stripe.com/crypto/stablecoins, checked: '2026-10-25' }
+  - { title: 'Circle, USDC risk factors (blocked addresses, freezing, legal orders)', url: https://www.circle.com/legal/usdc-risk-factors, checked: '2026-11-06' }
+- name: Wholesale central bank money (interbank leg)
+  circle: wcbdc
+  place: Digital Money › Tokenized Currencies › Central Bank › Wholesale CBDC
+  role: 'Where the two firms are banks in different currencies, the interbank leg behind the customer payment is what central banks are testing on shared platforms: tokenized deposits settled in tokenized central bank money across borders. Not live on a public ledger.'
+  example: Project Agorá (the BIS Innovation Hub with a group of central banks and commercial banks; report of 27 May 2026; the Bank of Canada joined in May 2026).
+  sources:
+  - { title: 'BIS, Project Agorá report (27 May 2026; Paladin Noto and Pente)', url: https://www.bis.org/publications/project-agora-shared-programmable-platform-wholesale-cross-border-payments.pdf, checked: '2026-10-26' }
+  - { title: 'Bank of Canada joins Project Agorá (27 May 2026)', url: https://www.bankofcanada.ca/2026/05/bank-canada-joins-bis-project-agora-test-improvements-wholesale-cross-border-payments/, checked: '2026-10-25' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the money it uses, the firms on each side and the systems that must read the ledger.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of the deposit token and the stablecoin (balances, transfer, approve); every wallet, custodian and payment system speaks it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed payment that anyone may submit, so the payer’s firm or a payment service can submit the transfer and pay the fee while the payer keeps control of amount and payee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets the payer authorize a payment service with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; the payer’s signing policy can read exactly what is being paid, to whom, with which reference.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: The payer’s and payee’s wallets as smart accounts with policy controls (approvals, limits, allowed payees, multiple signers) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: Travel rule
+  title: FATF Recommendation 16 for virtual asset transfers, a rule, not an ERC
+  status: In force by jurisdiction
+  role: The duty of the firm sending a transfer to collect originator and beneficiary information and pass it to the receiving firm, off the ledger, above a threshold each jurisdiction sets; revised in June 2025. How each jurisdiction applies it is the Regulatory layer’s question.
+  url: https://www.21analytics.co/what-is-the-fatf-travel-rule/
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: Any hour, any border, one transaction
+    text: 'The payment is one transaction that settles in seconds whenever it is sent, with no correspondent bank, no cut-off and no settlement window. A payment on a Saturday night across three time zones settles on Saturday night.'
+  - title: The payee needs an address, not a correspondent
+    text: 'An open ledger means the payee needs no relationship with the payer’s bank: an address the money may be sent to is enough. For a stablecoin that is any eligible wallet; for a deposit token it is any client of the issuing bank, with redemption and reissue beyond.'
+  - title: Reconciled by the transaction itself
+    text: 'The invoice reference travels in the transaction, and payer, payee and both firms read the same event in the same block, so the payment reconciles itself on arrival; nobody sends an advice or asks where the money is.'
+  - title: Open ledger, permissioned money
+    text: 'Openness is a property of the ledger, not of the money. The deposit token stays a claim on one bank held by its clients, the stablecoin keeps its issuer’s blocklist, and both enforce their rules inside every transfer, wherever the money goes.'
+  - title: Money that composes
+    text: 'The tokens that pay the invoice are the same tokens the treasury scenario sweeps into a fund, the DvP scenario pays for an asset with and the agent scenario pays a service with. Receiving a payment and using it are the same balance on the same ledger.'
+  - title: Finality you can price
+    text: 'On Ethereum mainnet finality is a measured cost to reverse, not a chargeback window or a correspondent’s discretion; a payment that is final is final for everyone, and a mistake is corrected by a new payment, not a reversal.'
+- title: Where it stands today
+  items:
+  - title: Stablecoins in card and payment networks
+    text: 'Visa has settled with issuers and acquirers in stablecoins since its 2023 pilots, expanding to four stablecoins across four blockchains in July 2025 and to US settlement in December 2025; payment firms accept stablecoin payments for merchants. These are the rails on this page in production, with the firm on each side doing the on-ramp, the off-ramp and the screening.'
+  - title: Bank money on public and private ledgers
+    text: 'A bank deposit token has been live on Ethereum mainnet since 19 October 2026 for the issuing bank’s clients. On bank and consortium ledgers, tokenized deposits have moved between banks on Swift’s ledger. The interbank leg in central bank money across borders is in test on Project Agorá, a BIS Innovation Hub project with a group of central banks and commercial banks.'
+- title: Variants
+  items:
+  - title: Same bank, same token
+    text: Payer and payee are clients of the issuing bank; the payment is a transfer of the deposit token between two of its clients, with no second firm and no redemption, and the bank’s own customer records on both sides.
+  - title: Cross-currency
+    text: The invoice is in another currency; a foreign-exchange leg, payment versus payment between two tokenized currencies, comes first, and the supplier payment follows in the invoice currency.
+  - title: Bulk and payroll
+    text: Many payments in one transaction through a contract that pays a list of addresses, each with its reference, so a payroll or a supplier run settles at once and reconciles line by line from the events.
+  - title: Agent-initiated
+    text: The payment is made by a software agent within a mandate its principal controls (the AI agent payments scenario); the steps here are the same, with the agent’s permission in place of a person’s signature.
+- title: Open questions for your deployment
+  items:
+  - title: Which money
+    text: A deposit token reaches the issuing bank’s clients and carries bank money; a stablecoin reaches any eligible wallet and carries the issuer’s credit. Which payees you must reach, and whose obligation you are willing to hold, decides the token before the technology.
+  - title: The travel rule and self-hosted wallets
+    text: Both firms must exchange customer information for each payment above the threshold their jurisdictions set, and a payee with no firm behind it needs a control check instead; which rules apply, and at what threshold, is a question for your jurisdictions and the Regulatory layer.
+  - title: Allowlist or blocklist
+    text: A deposit token admits only listed holders; a stablecoin admits everyone not blocked. The first bounds who can ever receive your payment; the second bounds who can be stopped. Each fits a different payee population.
+  - title: No chargebacks
+    text: A final payment cannot be reversed by a network or a bank; errors and disputes are settled by new payments and by the firms’ own processes. Build the controls before the transfer, not after.
+  - title: The off-ramp
+    text: Converting the token to local currency is a bank’s or a payment firm’s service, with its own hours, fees and limits; a payee that cannot hold the token is paid only as fast as its off-ramp.
+  - title: Visibility
+    text: On a public ledger payments, payees and amounts are visible to anyone who can map an address to a name. Permissioned tokens, rotating accounts and confidential-transfer designs (see the Privacy page) are the answers in use.
+
+sources:
+- { title: 'Visa, settlement expands to four stablecoins and four blockchains (31 July 2025)', url: https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21581.html, checked: '2026-10-25' }
+- { title: 'Visa, US stablecoin settlement (16 December 2025)', url: https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21951.html, checked: '2026-10-25' }
+- { title: 'Stripe docs, stablecoin payments', url: https://docs.stripe.com/crypto/stablecoins, checked: '2026-10-25' }
+- { title: 'Circle, USDC risk factors (blocked addresses, freezing, legal orders)', url: https://www.circle.com/legal/usdc-risk-factors, checked: '2026-11-06' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)', url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain, checked: '2026-10-25' }
+- { title: 'BIS, Project Agorá report (27 May 2026; Paladin Noto and Pente)', url: https://www.bis.org/publications/project-agora-shared-programmable-platform-wholesale-cross-border-payments.pdf, checked: '2026-10-26' }
+- { title: 'Bank of Canada joins Project Agorá (27 May 2026)', url: https://www.bankofcanada.ca/2026/05/bank-canada-joins-bis-project-agora-test-improvements-wholesale-cross-border-payments/, checked: '2026-10-25' }
+- { title: '21 Analytics, What is the FATF Travel Rule (customer and counterparty identification duties of VASPs)', url: https://www.21analytics.co/what-is-the-fatf-travel-rule/, checked: '2026-11-06' }
+- { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021)', url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Guidance-rba-virtual-assets-2021.html, checked: '2026-10-27' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

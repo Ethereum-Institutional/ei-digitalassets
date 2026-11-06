@@ -22,7 +22,7 @@ lens_title: Compare a design
 lens_help: Each lens sets every dial. Ethereum mainnet first, then four public ledgers in alphabetical order, each read on the date in its notes; the consortium and private designs are generic architectures, not products.
 notice:
   title: Under development.
-  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Readings are dated and sourced in each cell; levels and definitions may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Disagree with a metric?

@@ -42,7 +42,7 @@ lens_help: Pick a layer to see which networks it describes. Highlighted badges a
 # Optional banner shown above the heading. Remove `notice` to hide it.
 notice:
   title: Under development.
-  text: This map is a v0.x draft and has not yet been reviewed by legal counsel. Placements and definitions may change. For discussion only; not legal advice.
+  text: For discussion only; not legal advice.
 # Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets

@@ -30,6 +30,9 @@ and decisions behind them.
 
 - The taxonomy is a **v0.x draft that has not been reviewed by legal counsel**. Keep the amber
   "Under development" banner (`notice:` in `data/taxonomy/site.yaml`) until counsel review is complete; 1.0.0 follows that review.
+  Since 7 November 2026 every page's banner is the same two lines, "Under development. For discussion only; not legal
+  advice." (owner: simplified), and no page carries the "in progress" tag (`wip` in `data/nav.yaml`): the newer pages
+  (Scenarios, Architecture, Privacy, Identity, Quantum) are written, still in flux.
 - SemVer as described in `CHANGELOG.md`. Record every change under `## [Unreleased]`, and add a dated entry to the
   ei-platform root `CHANGELOG.md`.
 - No release is published for now (v0.1.0 and its tag were deleted and the mirror's history squashed, 27 October
@@ -300,7 +303,7 @@ and decisions behind them.
   it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",
   "your risk committee"), not about "an institution".
 
-## Privacy page (`data/privacy/`, in progress)
+## Privacy page (`data/privacy/`)
 
 - A Venn map (no `kind`) of what each design hides **from the public** by default, with **confidential tokens at
   the center** (owner, 26 October 2026: the conversation institutions and individuals are having, with differing
@@ -389,7 +392,7 @@ and decisions behind them.
 - Names: Bermuda Bay (not Bermuda); 0xbow Privacy Pools (not Privacy Pools alone); Merces (TACEO's, named in its
   description; the short label keeps the pill clear of the circle lines).
 
-## Identity map (`data/identity/`, draft)
+## Identity map (`data/identity/`)
 
 - The first draft (6 November 2026) was reviewed by the owner on the built page and went without a second-model check
   (owner, 6 November 2026); a later check applies to material changes as `AGENTS.md` §2 says.
@@ -412,13 +415,15 @@ and decisions behind them.
   mechanism in the circles (allowlist, attestation, credential proof). Decentralized identity (DIDs, verifiable
   credentials, vLEI) stays inside the ledger box.
 - **House positions, flagged as Ethereum Institutional's:** the three-question framing; the schemes box; DNS is a weak
-  trust anchor; the signed-message checklist; the revenue section is a proposal (`wip`).
+  trust anchor; the signed-message checklist. The revenue proposal (reusable credentials, a credit score as a credential,
+  underwriting) is held in `data/identity/held.yaml`, off the public page, for a scenario or a brief (owner, 6 November 2026).
+- **Identity is a live map** since 6 November 2026: no `wip` tag in `data/nav.yaml`; the site-wide v0.x notice still applies.
 - **Vendors:** two or three examples of a kind or none (`AGENTS.md` §4); vendor claims are marked vendor-stated.
 - **Labels:** the two big labels run on two lines, centered in each circle's own lune, because a one-line label at this
   size is wider than the lune; since 6 November 2026 the build checks every main label line against its circle's
   border, on every Venn map, as it already did sub-labels.
 
-## Architecture page (`data/architecture/`, in progress)
+## Architecture page (`data/architecture/`)
 
 - **A covered blueprint** (owner, 27 October 2026: the full blueprint, with every line, was overwhelming): one fixed
   blueprint (`kind: architecture`, `src/architecture.html`) in the left 70% of the page, a sticky panel in the right
@@ -465,8 +470,18 @@ and decisions behind them.
 - Quote flow-list items that contain a comma (`['Hyperledger Paladin (Noto, Zeto and Pente)']`); unquoted, YAML splits
   them into two items.
 
-## Quantum page (`data/quantum/`, stub with drafted sections)
+## Quantum page (`data/quantum/`)
 
+- **November 2026 update (owner, 6 November 2026), from a Devcon India Q&A with Ethereum Foundation researchers:** the
+  community's own threat estimate (2029 earliest, 2032 expected; ethereum.org says the end of the decade at the earliest)
+  sits beside the regulators' deadlines; the protocol bottleneck is coordination, with 2028 the earliest on the current
+  cadence; the account scheme is a lean adaptation of SPHINCS+ and the L1 prefers hashes over lattices; seed phrases
+  survive the migration and the emergency plan (proof of seed) does not cover MPC custody, which needs agility and
+  bunker mode now; coins nobody can move are recorded as an open question, no figures; and the AI cryptanalysis warning
+  is on the algorithms page as a research view, hedged, not a forecast. Out of scope by the owner's decision: Layer 2
+  migration (the pages focus on Ethereum mainnet) and the Beam chain history, proving costs and the wood-and-steel
+  analogy. Named researchers appear only in source titles; the Devcon video is cited with the date its transcript was
+  read. Competitors' exposed holdings and lost-coin shares named in the talk are not repeated.
 - An overview (`site.yaml`, short intro and four cards) with four static sub-pages under `data/quantum/<topic>/`
   (`algorithms`, `ledger`, `roadmap`, `institution`; nested `out` paths, the nav highlights the parent). Keep every
   sub-page to a few short paragraphs that link out (`more`) rather than explain in full. Their `sections:` hold: the two algorithms (Shor breaks elliptic-curve signatures and
@@ -517,13 +532,32 @@ and decisions behind them.
   yielding asset, a loop with a padlock one atomic transaction) and a `map` position on a small Venn (Cash moves,
   Asset moves, Credit is extended), because position carries meaning and scenarios are never ranked or
   alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role.
-  Written scenarios are ink pills and link out; planned ones are grey with the in-progress tag.
+  All ten scenarios are written (6 November 2026) and link out as ink pills; the index still supports planned tiles (grey, in-progress tag) for any future addition.
   Each written scenario is a folder with `site.yaml` (`kind: scenario`) and `scenario.yaml`: `actors` (columns of the
   swimlane diagram; `kind: ledger | contract | observer` for non-institutions), `steps` (rows; `kind: offchain |
   onchain | atomic`, an atomic step names `lanes`), `tokens` (linked to taxonomy circle ids), `standards` (EIP id,
   status, role, URL), `sections` (why a shared ledger, variants, open questions) and `sources`. Written so far: DvP,
-  deposit token against a tokenized money market fund (with a permissioned-pool variant on Uniswap v4 hooks; the
+  deposit token against a tokenized money market fund; repo, a tokenized bond against a deposit token (6 November 2026:
+  actors, eight steps with two atomic bands, GMRA 2011 and its annexes as a legal text beside the ERCs, a Where it
+  stands today section with vendor-stated volumes, no live public-ledger repo named); AI agent payments, an agent paying
+  for a service in a stablecoin within its mandate (6 November 2026: x402 over HTTP with EIP-3009 authorizations and a
+  facilitator, the principal's smart account enforcing the allowance, ERC-8004 for the agent's identity and record; the
+  mandate and policy engine are the institution's, and know-your-agent practice is vendor-stated); treasury management
+  with tokenized money market funds (6 November 2026: a group's entities on a deposit token, sweeps into fund units and
+  back as atomic bands on the fund's own dealing terms, payments out, the position read from the ledger); payments with tokenized currency (6 November 2026: a cross-border
+  supplier payment in a deposit token or a stablecoin, the travel rule exchanged between the two firms off the ledger,
+  the transfer as the atomic band, the off-ramp as a firm's service; card-network stablecoin settlement and Agorá as
+  where it stands); FX payment versus payment between tokenized currencies (6 November 2026: a euro token against a
+  dollar token through a PvP contract, no nostro and no settlement gap; deposit tokens, multi-bank networks, stablecoins,
+  an FMI token and wholesale CBDC as the legs; mBridge and Agorá as where central bank money stands); securities
+  lending (6 November 2026: a tokenized bond lent against tokenized collateral, the opening and the return as atomic
+  bands, margin, manufactured payments and recall between them; the master agreement named generically, since ISLA's
+  site could not be fetched; no live tokenized securities lending program named; a flash loan noted as a neighbor); collateral mobility and
+  margin (6 November 2026: fund units locked for the taker as a pledge or transferred by title, posting and release as
+  atomic bands, substitution as one transaction, a flash-loan refinancing variant on ERC-3156, no clearing house named); fund dealing (6 November 2026: a
+  subscription and a redemption from the investor's and the transfer agent's side, issue and cancel as atomic bands
+  against the cash, the register model and the fund's own dealing terms kept first); corporate actions (6 November 2026: the record
+  date as a block, a distribution to every holder and a redemption as atomic bands, elections as signatures, nominees
+  and securities on loan; income as units or price for funds; no live tokenized-equity program named) (with a permissioned-pool variant on Uniswap v4 hooks; the
   EI reference build is mentioned, never a URL for it: readers are told to contact Ethereum Institutional for the
-  quickstart). Planned: payments, treasury management, FX PvP, repo,
-  collateral and margin, securities lending, fund dealing, corporate actions, AI agent payments (x402, ERC-8004,
-  EIP-3009). The Taurus TMMF paper's Section 7.4 is source material for the collateral scenarios.
+  quickstart). All ten scenarios on the index are written (6 November 2026). The Taurus TMMF paper's Section 7.4 is source material for the collateral scenarios.

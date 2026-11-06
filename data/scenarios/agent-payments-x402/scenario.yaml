@@ -1,0 +1,207 @@
+# Scenario: AI agent payments, an agent paying for a service in a stablecoin within a mandate its principal controls.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: agent
+tags:
+- { kind: move, label: Cash moves }
+- { label: Payment firm }
+- { label: Corporate treasurer }
+- { label: Bank }
+
+actors:
+- id: principal
+  name: Principal
+  role: 'The institution the agent works for: a corporate treasury, a bank team, an asset manager. It owns the account the agent pays from, writes the agent’s mandate (what it may buy, from whom, how much, until when), funds the account and approves anything outside the mandate.'
+- id: agent
+  name: AI agent
+  role: 'Software acting for the principal. It holds no money and no unlimited key: it holds a permission on the principal’s account, scoped by the mandate, and a registered identity under a key the principal controls. It signs payment authorizations within that permission.'
+- id: ledger
+  name: Ledger and the agent’s account
+  kind: ledger
+  role: Ethereum mainnet or a Layer 2 running the stablecoin contract, the principal’s smart account with its policy module (allowance per period, allowed payees, expiry) and the ERC-8004 registries in which the agent is identified and rated.
+- id: provider
+  name: Service provider (payee)
+  role: A paid API, a data or compute service, or another agent. It answers an unpaid request with HTTP 402 and its payment requirements, and serves the request once the payment is settled. It needs an address, not an account with the principal.
+- id: facilitator
+  name: Facilitator
+  role: The party that verifies the agent’s signed authorization and submits it to the ledger, paying the transaction fee. The provider itself, or a third-party service; it can neither change the amount nor the destination, because both are inside the signature.
+- id: observer
+  name: Auditor or compliance
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the transfer events, the agent’s registry record and the permission’s remaining allowance are the audit trail, linked off the ledger to the policy decision that allowed each payment.'
+
+steps:
+- title: Mandate, account and identity
+  from: principal
+  to: ledger
+  kind: onchain
+  text: 'The principal designates a smart account (an ERC-4337 account, or an ordinary account upgraded under EIP-7702), funds it with stablecoin, and grants the agent a scoped permission: an allowance per period, the payees or categories it may pay, an expiry, all revocable at any time (ERC-7715 requests the permission from the wallet; a delegation framework or the account’s own policy module enforces it on every transaction). It registers the agent in the ERC-8004 Identity Registry: a token whose registration file names the agent’s purpose, services and endpoints and whether it supports x402, under a key the principal holds. Linking the agent to a verified principal, the practice vendors call know your agent, is done here and is vendor-stated practice, not yet a standard.'
+  standards: [ERC-4337, EIP-7702, ERC-7715, ERC-8004 identity registry]
+- title: Request and 402
+  from: agent
+  to: provider
+  kind: offchain
+  text: 'The agent calls the service over HTTP. Without a payment attached, the server answers 402 Payment Required with its payment requirements: the scheme (exact, a fixed amount), the network, the asset, the amount, the payee address and the time window. Nothing has moved; the agent now knows what the request costs.'
+  standards: [x402]
+- title: The mandate is checked before anything is signed
+  from: agent
+  to: principal
+  kind: offchain
+  text: 'The principal’s policy engine checks the agent, who it represents and its mandate against the proposed payment: the amount against the allowance, the payee against the allowed set, the purpose against the task. An out-of-mandate request is blocked or routed to a person, and declining to pay must count as a valid outcome. The decision and the policy version are recorded so they can be linked to the transaction later. The on-ledger permission will enforce the same limits again at settlement; this check is where the institution’s judgment lives.'
+  standards: [policy engine, mandate]
+- title: Agent signs the authorization
+  from: agent
+  to: provider
+  kind: offchain
+  text: 'The agent signs an EIP-3009 transfer-with-authorization (from the account, to the payee, the value, a validity window, a one-time nonce) with EIP-712, so the signature says exactly what will move and to whom, and retries the request with the payload in the payment header. For a smart account the signature redeems the agent’s delegated permission, and the account’s policy module will refuse anything outside it. The agent pays no transaction fee and holds no token.'
+  standards: [EIP-3009, EIP-712, ERC-7715]
+- title: Verify and settle, one transaction
+  kind: atomic
+  lanes: [ledger, provider, facilitator]
+  text: 'The provider passes the payload to the facilitator, which verifies it (the signature recovers to the account, the balance covers the amount, the amount and window match the requirements, the token and network match) and submits one transaction calling the stablecoin’s transferWithAuthorization. The stablecoin moves from the principal’s account to the payee; the token’s own rules run inside the transaction, including the issuer’s blocklist; the account’s permission is checked and its allowance reduced. The facilitator pays the fee and cannot alter the payment. If any check fails the transaction reverts and nothing moves.'
+  standards: [EIP-3009 transferWithAuthorization, ERC-20, x402 facilitator]
+- title: Service delivered
+  from: provider
+  to: agent
+  kind: offchain
+  text: 'The server returns the resource with a payment-response header carrying the settlement record (the transaction hash). From the agent’s side a paid request is one HTTP round trip with a payment inside it, repeated as often as the task needs, each time inside the mandate.'
+  standards: [x402]
+- title: Reputation and the agent’s record
+  from: provider
+  to: ledger
+  kind: onchain
+  text: 'The provider, or a client of the agent, posts feedback to the ERC-8004 Reputation Registry, optionally with proof of payment, and a validator can record an independent check in the Validation Registry. The agent’s handle accumulates a track record that other services and agents read before they serve it or pay it, across organizations, with no directory to join.'
+  standards: [ERC-8004 reputation and validation registries]
+- title: Finality, limits and the audit record
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet the transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH; on a Layer 2 it is final when the rollup’s state is settled there. The transfer event, the agent’s registry entry and the remaining allowance are the audit trail the auditor reads; the policy decision is linked to the transaction off the ledger. If the agent is compromised or misbehaves, the loss is bounded by the allowance and the principal revokes the permission in one transaction.'
+  standards: [Transfer events, ERC-7715 revoke]
+
+tokens:
+- name: Stablecoin
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: The money. A stablecoin that implements EIP-3009 is what the x402 exact scheme settles natively, because the payment is a signed authorization anyone may submit; other ERC-20 tokens settle through a one-time approval to a permit contract. The issuer’s own rules, including its blocklist, run on every transfer.
+  example: Live example, USDC, which implements EIP-3009 and is the token the x402 reference implementation settles; x402 supports EVM-compatible chains, Solana and others, and the Solana Foundation said in April 2026 that Solana carried nearly 65 percent of x402 transaction volume that year (vendor-stated).
+  sources:
+  - { title: 'x402 repository, exact scheme on EVM (EIP-3009 transferWithAuthorization; the facilitator pays gas and cannot modify amount or destination; Permit2 and ERC-7710 fallbacks)', url: https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_evm.md, checked: '2026-11-06' }
+  - { title: 'Linux Foundation, launching the x402 Foundation with the contribution of the x402 protocol from Coinbase (2 April 2026): initially developed by Coinbase, Cloudflare and Stripe; 22 companies supporting; Solana nearly 65 percent of volume', url: https://www.linuxfoundation.org/press/linux-foundation-is-launching-the-x402-foundation-and-welcoming-the-contribution-of-the-x402-protocol, checked: '2026-11-06' }
+- name: Deposit Token (alternative money)
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: Where the principal is a bank’s client, a deposit token can be the money, with the bank as obligor and its allowlist deciding which payees may receive it; the token must support a signed authorization (EIP-3009 or a permit) for the facilitator flow to work, and the payee must be a client of the bank or the token must be redeemed and reissued.
+  example: Live example, JPMD (JPM Coin), on Base since November 2025 and on Ethereum mainnet since 19 October 2026; whether it exposes a signed-authorization interface is not stated in the releases.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the money it uses, the account and permission model the principal runs, and who facilitates settlement.'
+standards:
+- id: x402
+  title: An open payments standard over HTTP, not an ERC
+  status: Live
+  role: The 402 Payment Required flow (payment requirements, a signed payment payload, a facilitator’s verify and settle, a payment-response header). Created by Coinbase with Cloudflare and Stripe and contributed to the Linux Foundation’s x402 Foundation on 2 April 2026, with payment firms, cloud providers and card networks among the supporters.
+  url: https://www.x402.org/
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: The signed authorization the agent produces and the facilitator submits; implemented by USDC. It fixes the payee, the amount, the window and a nonce inside the signature, so the submitter can neither alter nor replay it.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind the authorization; the principal’s signing policy and its auditors can read exactly what the agent approved.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of the stablecoin and the deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: The principal’s account as a smart account with policy controls (allowances, allowed payees, multiple signers, expiry) and fee sponsorship; the place a limit is enforced that no prompt can override.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: EIP-7702
+  title: Set code for EOAs
+  status: Final
+  role: Lets an ordinary account take on smart-account code, so an existing treasury account can carry the same policy module without moving funds.
+  url: https://eips.ethereum.org/EIPS/eip-7702
+- id: ERC-7715
+  title: Request Permissions from Wallets
+  status: Draft
+  role: The wallet method by which an application or agent asks the principal’s wallet for a scoped execution permission (an allowance, an expiry, a session account), granted, listed and revoked by the principal; it builds on ERC-4337 and the ERC-7710 delegation framework.
+  url: https://eips.ethereum.org/EIPS/eip-7715
+- id: ERC-8004
+  title: Trustless Agents
+  status: Draft
+  role: The agent’s identity (an ERC-721 token whose URI resolves to a registration file naming its services, endpoints and x402 support), its reputation (signed feedback, optionally with proof of payment) and independent validation, in three registries live on Ethereum mainnet since January 2026. Payments are outside the standard by design.
+  url: https://eips.ethereum.org/EIPS/eip-8004
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: A payment inside the request
+    text: 'The payment is a signature in a header and one transaction on the ledger, so a paid API call is one HTTP round trip that settles in seconds, for any amount, at any hour. There is no card, no invoice, no account to open with each provider and no monthly settlement; the agent can pay a thousand providers it has never dealt with.'
+  - title: Limits the agent cannot talk its way past
+    text: 'The allowance, the allowed payees and the expiry live in the account on the ledger and are enforced on every transaction, so they hold whatever the agent was instructed, tricked or compromised into attempting. A prompt expresses intent; the account enforces authority. The loss from a bad agent is bounded by its allowance, and revocation is one transaction.'
+  - title: Any payee with an address
+    text: 'An open ledger means the payee needs no relationship with the principal’s bank or card acquirer: an address and a 402 response are enough to be paid, which is what makes a market of services for agents possible at all.'
+  - title: One identity for the agent, readable by everyone
+    text: 'ERC-8004 gives an agent a handle, a registration file and a track record on a ledger any counterparty can read, across organizations, with no directory to join. A service can decide whether to serve or pay an agent on its record, and the record is where it cannot be edited by the agent.'
+  - title: Open ledger, permissioned money
+    text: 'The stablecoin keeps its issuer’s rules on every transfer, its blocklist included, and a deposit token keeps its bank’s allowlist. The agent’s freedom to pay anyone is bounded by the money’s own rules as well as by its mandate.'
+  - title: Reconciled every block
+    text: 'The principal, the provider, the facilitator and the auditor read the same transfer events, and the agent’s spending against its allowance is a balance anyone entitled can read; there is no statement to reconcile and no dispute about what was paid when.'
+- title: Where it stands today
+  items:
+  - title: x402 under the Linux Foundation
+    text: 'x402 was created by Coinbase and initially developed with Cloudflare and Stripe; Coinbase contributed it to the Linux Foundation, which launched the x402 Foundation on 2 April 2026 with 22 companies expressing support, among them Amazon Web Services, American Express, Circle, Google, Mastercard, Microsoft, Shopify, Stripe and Visa. The standard aims at all networks and forms of value; the reference implementation settles stablecoins on EVM chains and Solana.'
+  - title: Agent identity on Ethereum mainnet
+    text: 'The ERC-8004 core registries went live on Ethereum mainnet on 29 January 2026, after more than 10,000 agents registered on testnet. The standard says who the agent is on the ledger and how it is rated; it says nothing about who its principal is, which is where know-your-agent practice, vendor-stated so far, and the institution’s own mandate come in.'
+  - title: The controls are the open work
+    text: 'Banks’ own analysis of recent agent incidents concludes that a prompt is not a control, that a mandate must say what means are permitted and when to stop, and that an independent policy engine and an execution service must enforce the decision before cash moves, with an audit record the agents cannot alter. The account and permission standards above are how that is done on a ledger; the policy engine and the mandate are the institution’s.'
+- title: Variants
+  items:
+  - title: Agent pays agent
+    text: The provider is itself a registered agent with a wallet, selling a service to another agent; both carry ERC-8004 identities, the payer rates the payee and the payee the payer, and the payment is the same signed authorization. Agent-to-agent protocols carry the messages; the ledger carries the money and the trust.
+  - title: Deposit token as the money
+    text: For a bank’s clients the money is a deposit token, with the bank’s allowlist deciding which payees may receive it and the bank as obligor; the token needs a signed-authorization or permit interface for the facilitator flow, and payees outside the bank need redemption and reissue.
+  - title: A permission that renews
+    text: A standing allowance per day or per task, granted once and renewed by the account’s policy module, so the agent pays many small amounts without a signature from a person each time; the expiry and the revocation stay with the principal.
+  - title: A person in the loop
+    text: Out-of-mandate requests, or any request above a threshold, are held for a person to approve through the same policy engine; the agent waits or completes the task without the purchase.
+  - title: Other networks and fiat
+    text: The standard is network-agnostic and aims at fiat as well; on another ledger the same flow applies with that ledger’s finality and that money’s rules, and a fiat leg would need a facilitator that settles off the ledger.
+- title: Open questions for your deployment
+  items:
+  - title: Whose money, whose liability
+    text: The agent is not a legal person; the account, the mandate and every payment are the principal’s. Decide who may grant a permission, who may widen it, and how the mandate is reviewed, before the first agent is funded.
+  - title: What the mandate says
+    text: A mandate needs the permitted means, the counterparties, the limits and when to stop; a task that cannot be completed within it ends with the money unspent and a question to a person, which must count as success.
+  - title: Who the agent is, and who it is for
+    text: ERC-8004 identifies the agent, not its principal. Whether a payee or a regulator needs to know the principal, and how that is attested without exposing it, is the know-your-agent question; see the Identity map.
+  - title: Keys and revocation
+    text: The agent’s signing key is a session key or a delegated permission, never the account’s owner key; decide where it is held, how it rotates and who can revoke it, and test the revocation.
+  - title: The facilitator
+    text: A third-party facilitator sees every payment the agent makes and can delay or refuse to submit one, though it cannot change it; the provider can facilitate for itself, and the principal can choose. Its availability is part of the agent’s availability.
+  - title: Visibility
+    text: On a public ledger the agent’s payments, payees and spending pattern are visible to anyone who can map its account to the principal; permissioned tokens, rotating accounts and confidential-transfer designs (see the Privacy page) are the answers in use.
+
+sources:
+- { title: 'x402.org (last updated 27 October 2026): an open, neutral standard for internet-native payments over HTTP 402; stablecoins the primary use case; EVM chains, Solana and more', url: https://www.x402.org/, checked: '2026-11-06' }
+- { title: 'coinbase/x402 README: the 402 flow, the payment-required, payment-signature and payment-response headers, the facilitator’s verify and settle endpoints, the exact scheme', url: https://github.com/coinbase/x402, checked: '2026-11-06' }
+- { title: 'x402 repository, exact scheme on EVM: EIP-3009 transferWithAuthorization signed with EIP-712; the facilitator pays gas and cannot modify amount or destination; Permit2 and ERC-7710 fallbacks', url: https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_evm.md, checked: '2026-11-06' }
+- { title: 'Linux Foundation, launching the x402 Foundation (2 April 2026)', url: https://www.linuxfoundation.org/press/linux-foundation-is-launching-the-x402-foundation-and-welcoming-the-contribution-of-the-x402-protocol, checked: '2026-11-06' }
+- { title: 'ERC-8004, Trustless Agents (Draft; identity, reputation and validation registries; payments orthogonal; x402Support and proofOfPayment fields)', url: https://eips.ethereum.org/EIPS/eip-8004, checked: '2026-11-06' }
+- { title: 'Forbes, AI agents gain trust via Ethereum: ERC-8004 on mainnet (5 February 2026; secondary)', url: https://www.forbes.com/sites/digital-assets/2026/02/05/ai-agents-gain-trust-via-ethereum-erc-8004-on-mainnet/, checked: '2026-11-06' }
+- { title: 'ERC-7715, Request Permissions from Wallets (Draft; scoped execution permissions with expiry, built on ERC-4337 and ERC-7710)', url: https://eips.ethereum.org/EIPS/eip-7715, checked: '2026-11-06' }
+- { title: 'EIP-3009, Transfer With Authorization', url: https://eips.ethereum.org/EIPS/eip-3009, checked: '2026-10-25' }
+- { title: 'EIP-7702, Set Code for EOAs (Final)', url: https://eips.ethereum.org/EIPS/eip-7702, checked: '2026-11-06' }
+- { title: 'J.P. Morgan Payments, A prompt is not a control: what recent industry incidents tell us about agentic controls (29 September 2026)', url: https://www.jpmorgan.com/payments/newsroom/ai-agent-controls-payments, checked: '2026-11-06' }
+- { title: 'Sumsub, From AI agents to Know Your Agent (28 January 2026; vendor)', url: https://sumsub.com/blog/know-your-agent/, checked: '2026-11-06' }
+- { title: 'Shufti, Know Your Agent press release (28 October 2026; vendor)', url: https://shuftipro.com/press-release/shufti-launches-know-your-agent-to-verify-ai-agents/, checked: '2026-11-06' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

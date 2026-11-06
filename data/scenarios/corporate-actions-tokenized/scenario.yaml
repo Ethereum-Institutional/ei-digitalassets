@@ -1,0 +1,215 @@
+# Scenario: corporate actions and distributions on tokenized securities, a coupon or dividend paid in tokenized currency or in units, and a redemption at maturity.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: corporate
+tags:
+- { kind: move, label: Cash moves }
+- { kind: move, label: Asset moves }
+- { label: Market infrastructure }
+- { label: Asset manager }
+- { label: Bank }
+
+actors:
+- id: issuer
+  name: Issuer
+  role: The company, the fund or the borrower whose security is tokenized. Decides and announces the event, funds the payment, and sets the terms of any election; its documents govern what each holder is entitled to.
+- id: registrar
+  name: Registrar or paying agent
+  role: Keeps the security’s register and the identity registry its token checks on every transfer; fixes the entitlement at the record block, runs the distribution contract, and reports. Acts for the issuer; for a fund, the transfer agent and administrator play this part.
+- id: ledger
+  name: Ledger and distribution contract
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running the security token, the cash token and a distribution contract that reads the holders at the record block and pays or issues to all of them in one transaction, or cancels the security against cash at a redemption.
+- id: holder
+  name: Holder
+  role: An institution holding the security in its own wallet, or a custodian or nominee holding for its clients. Receives the distribution to the address that holds the security, makes any election, and passes entitlements on where it holds for others.
+- id: bank
+  name: Cash token issuer
+  role: The issuer of the tokenized currency the event is paid in, a bank issuing a deposit token or a regulated stablecoin issuer; the obligor on the cash, with its own rules on who may hold it.
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the record block, the entitlements and every payment are events, so the distribution reconciles itself and the tax and regulatory reports draw on the same data.'
+
+steps:
+- title: Announcement and record block
+  from: issuer
+  to: registrar
+  kind: offchain
+  text: 'The issuer announces the event, its amount or terms, and the record date, as its documents require. On the ledger the record date is a block: the registrar names the block at which holdings count, and publishes the announcement to the token’s holders. There is no separate record-date process at each intermediary, because there is one register.'
+- title: Entitlement fixed at the record block
+  from: registrar
+  to: ledger
+  kind: onchain
+  text: 'At the record block the distribution contract reads every holder’s balance from the security token and fixes the entitlements pro rata. Holdings in the dealing contract, a collateral lock or a lending contract count for whoever the contract attributes them to, which the design decides in advance. Nothing is reconciled across custodians: the entitlement list is the ledger at one block, readable by the issuer, every holder and the auditor.'
+  standards: [ERC-20 balances, ERC-3643 identity registry, distribution contract]
+- title: Election, where the event offers one
+  from: holder
+  to: ledger
+  kind: onchain
+  text: 'For an elective event (cash or units, tender or hold, a vote), the holder signs its election and submits it to the distribution contract before the deadline the issuer set; a nominee submits for its clients. The election is a signed message the issuer’s signing policy can read, and the deadline is a block.'
+  standards: [EIP-712, ERC-4337]
+- title: Funding
+  from: issuer
+  to: bank
+  kind: offchain
+  text: 'The issuer funds the paying agent’s wallet with the tokenized currency the event is paid in, from its own balance of the deposit token or the stablecoin, or by buying it from the cash issuer against a bank balance. For an event paid in units, no cash moves: the registrar will issue them.'
+- title: Distribution to every holder in one transaction
+  kind: atomic
+  lanes: [registrar, ledger, holder]
+  text: 'One transaction pays every entitled holder from the paying agent’s wallet, or issues the entitled units to each, in proportion to the entitlement fixed at the record block. The security token’s rules and the cash token’s rules run inside it: a holder that could not receive the cash token (not on the issuer’s allowlist, or blocked) is handled by the design, held for it or paid another way. Every holder is paid in the same block, from the issuer to the holder, with no intermediary in between unless the holder is itself a nominee.'
+  standards: [ERC-20 transfer, EIP-3009, ERC-3643 compliance, distribution contract]
+- title: Pass-through by nominees, and on securities on loan
+  from: holder
+  to: ledger
+  kind: onchain
+  text: 'A custodian or nominee that holds for clients allocates what it received to them, on its own books or by onward transfers on the ledger; a borrower holding securities on loan at the record block passes the payment to the lender as a manufactured payment under their agreement (the securities lending scenario). The ledger shows who held at the record block; the agreements say who is entitled.'
+  standards: [ERC-20 transfer]
+- title: Redemption at maturity, cancel against cash in one transaction
+  kind: atomic
+  lanes: [registrar, ledger, holder]
+  text: 'When a bond matures or a tender completes, one transaction cancels the security tokens of every holder, or of the holders who elected, and pays the principal or the offer price in the tokenized currency; the cash and the cancellation move together, so no holder is left with cancelled tokens and no cash, and no issuer with cash paid against tokens still outstanding.'
+  standards: [ERC-20 transferFrom, ERC-3643, distribution contract]
+- title: Record, tax and reporting
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'On Ethereum mainnet each transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The record block, the entitlements, each payment and each cancellation are events the issuer, the registrar, every holder and the auditor read; the register follows without a re-registration; and the registrar’s tax and regulatory reporting draws on the same events, with the holder’s own tax position unchanged by the ledger.'
+  standards: [Transfer events]
+
+tokens:
+- name: Fixed Income (tokenized bond)
+  circle: fi
+  place: Tokenized Real-World Assets › Financial Instruments › Fixed Income
+  role: The security in the redemption example. A bond whose register the registrar keeps, represented as a permissioned token; coupons are distributions in tokenized currency, and maturity is a cancellation against the principal.
+  example: Live example, the European Investment Bank’s first digital bond on a public blockchain, issued on Ethereum mainnet in April 2021.
+  sources:
+  - { title: 'EIB, first digital bond on a public blockchain (April 2021)', url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain, checked: '2026-10-25' }
+- name: Funds (tokenized fund units)
+  circle: fund
+  place: Tokenized Real-World Assets › Financial Instruments › Funds
+  role: 'The security in the distribution example, where income is the corporate action: paid as more units at a constant price, by the registrar issuing them to every holder at the record block, or as a rising struck price with no distribution at all; the fund’s design decides which.'
+  example: Live examples on Ethereum mainnet, BlackRock BUIDL (Securitize) and Franklin Templeton BENJI paying income as units, Spiko and UBS uMINT as a rising price; Franklin’s prospectus describes a fund that seeks a stable USD 1.00 share price and cannot guarantee it.
+  sources:
+  - { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+  - { title: 'Franklin Templeton, Benji platform and supported networks', url: https://digitalassets.franklintempleton.com/benji/, checked: '2026-10-25' }
+  - { title: 'Franklin OnChain U.S. Government Money Fund, prospectus, 1 August 2026 (seeks a stable USD 1.00 share price, cannot guarantee it)', url: https://www.sec.gov/Archives/edgar/data/1786958/000165558926000970/c485bpos.htm, checked: '2026-11-01' }
+  - { title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)', url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf, checked: '2026-11-01' }
+- name: Equities (dividends, splits and votes)
+  circle: eq
+  place: Tokenized Real-World Assets › Financial Instruments › Equities
+  role: 'Shares carry the richest set of corporate actions: dividends in cash or in shares, splits and consolidations, rights, tenders and votes. A tokenized share works through the same steps with its own eligibility rules; Ethereum Institutional names no live tokenized-equity corporate action program here.'
+- name: Deposit Token (the cash paid)
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: Bank money as the distribution or the redemption proceeds, paid to holders that are clients of the issuing bank; the bank remains the obligor and its allowlist decides who may receive it.
+  example: Live example, JPMD (JPM Coin), on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- name: Stablecoin (the cash paid)
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Non-bank money as the distribution or the proceeds, which any eligible holder can receive without a common bank; the issuer is the obligor. This is how most tokenized fund income and redemptions are paid in cash today.
+  example: Live example, BUIDL exchangeable for USDC through a Circle smart contract (April 2024).
+  sources:
+  - { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the security token, the event, the cash it is paid in and the chain of nominees between the issuer and the investor, and several (CMTAT, ERC-1400) are alternatives to those listed.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of the security and the cash token (balances, transfer, approve); the balances at the record block are the entitlement list, and every payment is a transfer.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-3643
+  title: T-REX, Token for Regulated Exchanges
+  status: Final
+  role: The permissioned security-token standard; its identity registry is the register the distribution reads, and its compliance contract decides whether a wallet may receive units issued as income or the cash of a redemption. Alternatives in production are CMTAT and ERC-1400.
+  url: https://eips.ethereum.org/EIPS/eip-3643
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format for elections and votes; a holder’s signing policy can read exactly which event and which choice it is approving, and the registrar can verify who signed.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so the paying agent or a service can submit the issuer’s funding or the distribution and pay the fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets a holder authorize the cancellation of its tokens in a tender or a redemption with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Institutional wallets as smart accounts with policy controls (approvals, limits, multiple signers) and fee sponsorship, so a nominee can elect and allocate for many clients under its own policy; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+- id: ERC-7573
+  title: Conditional-upon-Transfer-Decryption for DvP
+  status: Draft
+  role: For the cross-ledger variant, where the security sits on one chain and the cash on another, a mechanism that releases the cash only when the cancellation has succeeded, without an intermediary.
+  url: https://eips.ethereum.org/EIPS/eip-7573
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: The record date is a block
+    text: 'Entitlement is the ledger at one block, the same for the issuer, every holder, every custodian and the auditor, so there is no record-date process at each intermediary and nothing to reconcile between them; a dispute about who held what on the record date has one answer anyone can read.'
+  - title: Paid to every holder in one transaction
+    text: 'The issuer pays its holders directly, all of them in the same block, in the tokenized currency the asset trades against; the chain of paying agents, depositories and custodians that a distribution passes through today collapses to the issuer, its agent and the holder, with a nominee only where an investor chose one.'
+  - title: Elections as signatures
+    text: 'A choice, a tender or a vote is a signed message against a deadline that is a block, submitted by the holder or its nominee and verified by the registrar from the same register the entitlement came from; no proxy forms, no cut-offs that differ by intermediary.'
+  - title: The cash and the asset on one ledger
+    text: 'A redemption or a tender cancels the security in the transaction that pays for it, so neither side is exposed between the cancellation and the cash; the proceeds land in the account the holder pays from, sweeps from and posts collateral from, which the other scenarios work through.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the asset. The security stays bound to its issuer’s eligibility rules, including on units issued as income, and the cash keeps its issuer’s rules on who may receive it, enforced inside every payment.'
+  - title: Reconciled every block
+    text: 'The issuer, the registrar, every holder and the auditor read the same events for the record block, each payment and each cancellation, so the reconciliation of entitlements and payments that follows every corporate action today has nothing left to reconcile.'
+- title: Where it stands today
+  items:
+  - title: Income on tokenized funds
+    text: 'Tokenized money market funds on Ethereum mainnet pay income as more units issued to every holder, or as a rising struck price with no distribution, by the fund’s design; the register models behind them (ledger as register, part of the official record, or a secondary record) are set out in an industry paper of September 2026, and one fund’s prospectus makes the ledger its shareholder register. Cash distributions and redemptions on these funds are paid in a regulated stablecoin.'
+  - title: Bonds and shares
+    text: 'A supranational bond has been issued on Ethereum mainnet since 2021, so coupons and a redemption on a tokenized bond follow the steps on this page where the issuer runs them on the ledger; a bank deposit token for the cash has been live on Ethereum mainnet since 19 October 2026. Ethereum Institutional names no live tokenized-equity corporate action program here.'
+- title: Variants
+  items:
+  - title: Income as units or as price
+    text: A constant-price fund issues income units to every holder at the record block, which is a distribution; a fund with a rising price makes no distribution at all, and the event is the strike. Both are the fund’s design, not the ledger’s.
+  - title: Dividend reinvestment
+    text: A holder elects to take the distribution in new securities rather than cash; the registrar issues them in the same transaction that pays the others in cash, at the price the issuer set for the election.
+  - title: Split, consolidation and rights
+    text: 'A split or consolidation rescales every balance at the record block, by the registrar issuing or cancelling tokens pro rata, or by a new token issued against the old; a rights issue is an election to subscribe, settled as the fund-dealing scenario settles a subscription.'
+  - title: Tender and exchange offer
+    text: Holders who elect deliver their tokens against the offer price or the new security in one transaction per holder, or one for all, at the close; the DvP scenario is the settlement, the election is this page.
+  - title: Votes
+    text: 'A vote is an election with no payment: entitlement at the record block, a signed ballot before the deadline, a tally the registrar verifies from the register; a holder whose securities are on loan or locked as collateral at the record block has no vote unless it recalls them, which the lending and collateral scenarios cover.'
+  - title: Cash on another ledger
+    text: Where the security sits on one chain and the cash on another, a redemption needs a cross-ledger mechanism (ERC-7573, or a hashed time-lock), and a failure mode returns.
+- title: Open questions for your deployment
+  items:
+  - title: Who holds at the record block
+    text: Tokens sitting in a dealing contract, a collateral lock or a lending contract are held by the contract; who the entitlement belongs to must be attributed in advance, in the contract and in the agreement, or the distribution pays the wrong party.
+  - title: Record date in law
+    text: The issuer’s documents and governing law set a record date, often a calendar date in a jurisdiction; mapping it to a block, and handling holders in other time zones, is a documentation question to settle before the first event.
+  - title: Withholding and tax reporting
+    text: A distribution paid on a ledger carries the same withholding and reporting duties as one paid through a paying agent, for the issuer, the registrar and each holder; who withholds, on what basis, and what the ledger must record, are questions for the Regulatory layer and your advisers.
+  - title: Nominees and pass-through
+    text: A custodian or nominee that holds for clients receives the whole entitlement and allocates it off the ledger or by onward transfer; decide what the issuer must know about the underlying investors and what the ledger should show.
+  - title: Holders who cannot receive
+    text: A holder not on the cash token’s allowlist, or a blocked address, cannot be paid in that token; the design needs a fallback (holding the entitlement, paying another way) and a record of it.
+  - title: Visibility
+    text: On a public ledger the entitlement list and every payment are visible to anyone who can map a wallet to a name, which reveals positions. Permissioned tokens, nominees, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.
+
+sources:
+- { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- { title: 'Spiko SICAV prospectus (1 September 2026 edition): the DLT used for the shareholder register are Ethereum, Polygon PoS, Arbitrum One, Starknet, Base, Etherlink, Stellar and Solana. The address is mutable and has served earlier editions (4 May 2026, seven ledgers)', url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf, checked: '2026-11-01' }
+- { title: 'Franklin OnChain U.S. Government Money Fund, prospectus, 1 August 2026 (seeks a stable USD 1.00 share price, cannot guarantee it)', url: https://www.sec.gov/Archives/edgar/data/1786958/000165558926000970/c485bpos.htm, checked: '2026-11-01' }
+- { title: 'Franklin Templeton, Benji platform and supported networks', url: https://digitalassets.franklintempleton.com/benji/, checked: '2026-10-25' }
+- { title: 'EIB, first digital bond on a public blockchain (April 2021)', url: https://www.eib.org/en/press/all/2021-141-european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain, checked: '2026-10-25' }
+- { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

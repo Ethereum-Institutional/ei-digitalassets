@@ -14,8 +14,8 @@ heading:
 intro: 'A shared ledger knows keys, not people. Native cryptocurrencies are bearer assets for that reason, and the same ledger lets smart contracts build tokens and applications that admit only verified people, entities and agents. The map shows the mechanisms that carry an institution''s existing checks onto the ledger, by the question each one answers: who this party is, whether the key acting is theirs, and what it may do.'
 intro_more: 'Every mechanism here supplements the know-your-customer, know-your-business and screening processes an institution already runs; none replaces them. What changes with a ledger is where the result of those processes lives and who can act on it: a list the issuer keeps, an attestation anyone can read, or a credential the customer presents and proves without revealing. The choice decides what the public can infer, how a permission is revoked, and whether a smart contract, which is itself only an address, can take part at all. This is a draft for review: placements and facts are Ethereum Institutional''s reading as of 6 November 2026 and will change.'
 notice:
-  title: Work in progress.
-  text: This map is being drafted. Placements, facts and the framing are a first reading for review, checked 6 November 2026; nothing on this page is final, and none of it is legal advice.
+  title: Under development.
+  text: For discussion only; not legal advice.
 panel_default:
   title: Identity on a shared ledger
   text: Hover over a circle or a mechanism to read what it establishes; click to pin it here with all its facts. Use Focus on to pick what matters to you.
@@ -256,16 +256,6 @@ sections:
     - { title: 'WilmerHale, Treasury proposed rule under the GENIUS Act (20 April 2026)', url: 'https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance', checked: '2026-11-06' }
     - { title: 'Open ID Europe, EUDI Wallet rollout timeline (status October 2026)', url: 'https://www.openideurope.eu/digital-identity/eudi-wallet-timeline/', checked: '2026-11-06' }
     - { title: '21 Analytics, What is the FATF Travel Rule (minimum requirements from 2030)', url: 'https://www.21analytics.co/what-is-the-fatf-travel-rule/', checked: '2026-11-06' }
-- title: From cost center to revenue
-  wip: true
-  text: 'A proposal under discussion at Ethereum Institutional, not a finding: once a verified credential is held by its subject rather than filed by each verifier, the economics of verification can turn around.'
-  items:
-  - title: Reusable credentials the subject custodies
-    text: 'Today every institution pays to verify the same person or entity, and the result stays in its files. A credential the subject holds in their own wallet, issued once by a licensed verifier and presented many times with selective disclosure, moves the cost to the first issuance and lets the issuer charge the relying parties that benefit: a fee to certify the credential, or for add-on services bound to it. The mechanisms in the center of the map, a credential or attestation with a transfer-time check, are the ones that make this possible without a list.'
-  - title: A credit score as a credential
-    text: 'An individual or entity could hold a credential carrying a previously obtained soft-pull credit score and present it to a lender or counterparty at no cost to either. A firm that wants a current and deeper view could pay, in tokens, for a hard pull, delivered as an on-chain score linked to the off-chain reporting agency''s record, with the subject''s consent recorded by the same signature. The data stays with the agency; what moves on the ledger is the score, the consent and the payment, and the agency is paid per use instead of per integration. Credit-reporting and data-protection law in each jurisdiction decides what a hard pull requires and who may see it; the design has to be built around that.'
-  - title: Underwriting and mortgages
-    text: 'The same pattern extends to the documents an underwriter or a mortgage lender collects: proof of income, of ownership, of insurance, of identity, each a credential from the institution that already holds the record, presented together by the applicant and verifiable on chain. The acceleration comes from not re-collecting and re-checking what another regulated party has already verified, and the ledger''s part is the proof and the audit trail, not the data. Ethereum Institutional will develop this into a Scenario once the identity mechanisms above are settled.'
 - title: Choosing providers and standards
   text: 'Ethereum Institutional does not recommend vendors. These are the kinds of provider an institution will meet, with examples, and the questions that separate them.'
   items:

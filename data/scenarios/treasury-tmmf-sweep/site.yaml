@@ -1,0 +1,22 @@
+# Scenario page: treasury management, cash sweeps between a deposit token and tokenized money market fund units. Content in scenario.yaml.
+
+kind: scenario
+title: 'Treasury management with tokenized money market funds'
+slug: treasury-tmmf-sweep
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: Treasury management
+  italic: Treasury
+intro: 'A corporate or institutional treasury holds operating cash where it can pay from and invests what it does not need today, usually in a money market fund, and moves between the two every day across entities, currencies and time zones. This page works through that cycle on a shared ledger: the group’s entities hold a bank deposit token, excess cash is swept into units of a tokenized money market fund and back on each fund’s dealing and liquidity terms, and payments go out from the same account, at any hour. What changes is not the instruments but the plumbing between them: every balance is readable every block, a sweep is one transaction rather than a wire and a subscription form, a constant-price fund can be dealt at par on a Sunday, and an eligible holder can move units to another eligible holder outside dealing hours. What does not change is the fund’s own terms: the net asset value is struck when the fund strikes it, liquidity is what the fund offers, and a fund that can suspend redemptions still can.'
+svg_label: Swimlane diagram of a treasury sweeping cash between a deposit token and tokenized money market fund units, and paying out
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which cash and units change hands.
+notice:
+  title: Under development.
+  text: For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Running this scenario?
+  text: Open an issue with what differs in your deployment (the money, the fund’s dealing model, the entities and currencies, the treasury system) and we will add the variant.
+footnote: 'Standards and examples were checked on 6 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'

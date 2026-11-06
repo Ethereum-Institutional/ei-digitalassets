@@ -1,0 +1,204 @@
+# Scenario: treasury management, cash sweeps between a bank deposit token and tokenized money market fund units, and payments out.
+# Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
+# Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
+
+icon: treasury
+tags:
+- { kind: move, label: Cash moves }
+- { label: Corporate treasurer }
+- { label: Asset manager }
+- { label: Bank }
+
+actors:
+- id: treasurer
+  name: Group treasurer
+  role: The group’s central treasury. Sets the cash policy (operating balances per entity, the sweep threshold, the eligible funds), holds the group account and approves what the policy does not cover.
+- id: subsidiary
+  name: Operating subsidiary
+  role: 'An operating entity of the group, often in another country: it collects and pays in its own name, holds deposit tokens in its own account under the group’s policy, and concentrates excess cash to the group.'
+- id: bank
+  name: Deposit token issuer
+  role: The commercial bank whose deposit token is the group’s operating cash (a tokenized claim on a deposit at that bank). Onboards each entity and keeps the token’s allowlist; only its clients may hold the token.
+- id: ledger
+  name: Ledger, cash and fund contracts
+  kind: ledger
+  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running the deposit-token contract, the fund-share contract with its dealing contract (a teller for a constant-price fund, a request-and-claim vault for a fund priced at a cut-off) and each entity’s smart account with the group’s policy.
+- id: ta
+  name: Fund transfer agent and administrator
+  role: Keeps the fund’s register and runs investor onboarding; controls the identity registry the fund-share token checks on every transfer; strikes the net asset value and pays income. Acts for the fund manager.
+- id: observer
+  name: Auditor
+  kind: observer
+  role: 'Reads the same ledger as everyone else: the balances and transfer events of every entity are the cash position and the audit trail, with no bank or fund statement to request.'
+
+steps:
+- title: Accounts, eligibility and policy
+  from: ta
+  to: ledger
+  kind: onchain
+  text: 'Each entity’s wallet is a smart account carrying the group’s policy (signers, limits, allowed counterparties, the sweep rule). The bank runs its client checks and adds each entity to the deposit token’s allowlist; the transfer agent runs investor checks and registers each entity in the fund’s identity registry. The treasury system is pointed at the ledger. From here on, eligibility is enforced by the tokens themselves on every transfer.'
+  standards: [ERC-4337, ERC-3643 identity registry, deposit-token allowlist]
+- title: 'The cash position, every block'
+  from: ledger
+  to: treasurer
+  kind: offchain
+  text: 'The treasury system reads every entity’s deposit-token and fund-unit balances from the ledger at any hour, in every currency the group holds there, with the fund’s latest struck price. There is no statement to wait for and no intraday position to estimate: the position is the ledger, and the sweep decision is made on it.'
+  standards: [Transfer events, balances]
+- title: Intra-group concentration
+  from: subsidiary
+  to: ledger
+  kind: onchain
+  text: 'The subsidiary moves its excess deposit tokens to the group account in one transfer, at any hour, including across borders where both entities bank with the issuer: the money stays a claim on the same bank, so no correspondent is involved. The bank’s allowlist and the entity’s policy are checked on the transfer. Where entities bank at different institutions, the cash leg needs a shared deposit-token network, a stablecoin or central bank money (see the open questions).'
+  standards: [ERC-20 transfer, deposit-token allowlist, EIP-712]
+- title: Sweep into the fund, cash for units in one transaction
+  kind: atomic
+  lanes: [bank, ledger, ta]
+  text: 'For a constant-price fund with a teller contract, the group account exchanges deposit tokens (or a stablecoin) for units at par in one transaction, at any hour. For a fund priced at a cut-off, the subscription is a request placed with the cash escrowed in the dealing contract; the administrator strikes the net asset value at the cut-off and the units are claimed at that price, so the exchange is atomic at the claim. Either way the fund-share contract checks the identity registry and the fund’s limits inside the transaction, and the units land in the group account.'
+  standards: [ERC-7540, ERC-20, ERC-3643 compliance, teller contract]
+- title: Holding, income and use
+  from: ta
+  to: ledger
+  kind: onchain
+  text: 'Income arrives as more units at a constant price or as a rising struck price, by the fund’s design; the ledger balance and the struck price mark the position. While held, the units are a token the group can transfer to another eligible holder outside dealing hours, or pledge as collateral (see the collateral scenario), without redeeming. The fund’s own terms still govern: a constant-price fund seeks a stable price without guaranteeing it, and a fund that may suspend or gate redemptions still may.'
+  standards: [ERC-3643, ERC-20 transfer]
+- title: Redemption back to cash, units for cash in one transaction
+  kind: atomic
+  lanes: [bank, ledger, ta]
+  text: 'When the policy calls cash back, the group account redeems: at par against the teller for a constant-price fund, in one transaction at any hour; or by a redemption request for a fund priced at a cut-off, with the cash released when the units are claimed at the struck price. The cash arrives as deposit tokens (or the stablecoin the fund deals in) in the same account that pays.'
+  standards: [ERC-7540, ERC-20, teller contract]
+- title: Payment out
+  from: treasurer
+  to: ledger
+  kind: onchain
+  text: 'The group pays a supplier, a payroll provider or another entity by transferring deposit tokens to its wallet, if it is a client of the bank, or a stablecoin to any eligible wallet; a signed authorization lets the payee or a service submit the transfer and pay its fee. No cut-off, no batch, and for same-bank transfers no correspondent chain; the policy on the account limits what a signer may send.'
+  standards: [ERC-20, EIP-3009, ERC-4337]
+- title: Books, finality and audit
+  from: ledger
+  to: observer
+  kind: onchain
+  text: 'The treasury and accounting systems book every movement from the transfer events; on Ethereum mainnet each transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The auditor reads the same balances and events as the treasurer, the bank and the transfer agent, for every entity, with no confirmations to collect; in a jurisdiction where the ledger is the fund’s statutory register the on-chain balance is the holding, and in a hybrid or secondary-record model the agent’s books are updated from the same events.'
+  standards: [Transfer events]
+
+tokens:
+- name: Deposit Token
+  circle: dt
+  place: Digital Money › Tokenized Currencies › Commercial Bank › Tokenized Deposits › Deposit Token
+  role: The operating cash. A tokenized claim on a deposit at the issuing bank, held in each entity’s wallet and transferable between the bank’s clients on the ledger at any hour; the bank remains the obligor. The sweep exchanges it for fund units and the redemption returns it.
+  example: Live example, JPMD (JPM Coin), the Kinexys deposit token, on Base since November 2025 and on Ethereum mainnet since 19 October 2026.
+  sources:
+  - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- name: Funds (tokenized money market fund)
+  circle: fund
+  place: Tokenized Real-World Assets › Financial Instruments › Funds
+  role: 'The investment. A share in a money market fund, represented as a permissioned token, dealt on the fund’s terms: a constant-price fund can be subscribed and redeemed continuously at par against a teller contract, a fund priced at a cut-off deals by request and claim at the struck price. Income is paid as more units or as a rising price. The register model (ledger as register, part of the official record, or a secondary record) is the fund’s choice and decides what the on-chain balance is in law.'
+  example: Live examples on Ethereum mainnet, BlackRock BUIDL (Securitize), Circle USYC, Franklin Templeton BENJI, UBS uMINT and Spiko; WisdomTree WTGXX dealt 24/7 against USDC since February 2026.
+  sources:
+  - { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; contract families, continuous dealing, register models)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+  - { title: 'WisdomTree, 24/7 trading and instant settlement for tokenized money market fund shares (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+  - { title: 'Spiko, prospectus (1 September 2026 edition; the ledger as the shareholder register)', url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf, checked: '2026-11-01' }
+  - { title: 'Franklin Templeton, Benji (BENJI, the Franklin OnChain U.S. Government Money Fund)', url: https://digitalassets.franklintempleton.com/benji/, checked: '2026-10-25' }
+- name: Stablecoin (alternative cash)
+  circle: sc
+  place: Digital Money › Tokenized Currencies › Regulated Non-Bank › Stablecoins
+  role: Where the group’s entities do not share a bank, or the fund deals in a stablecoin, a regulated stablecoin is the cash every eligible wallet can hold; the obligor changes from a bank to the issuer and the steps do not. This is how most tokenized fund dealing settles today.
+  example: Live examples, BUIDL exchangeable for USDC through a Circle smart contract (April 2024); USYC subscribed and redeemed against USDC; WTGXX traded 24/7 against USDC.
+  sources:
+  - { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+  - { title: 'Circle, USYC supported as yield-bearing off-exchange collateral for Binance institutional clients', url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients, checked: '2026-10-25' }
+
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the fund’s dealing model, its register model, the money it deals in and the treasury system that must read the ledger, and several (CMTAT, ERC-1400) are alternatives to those listed.'
+standards:
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: The base interface of the deposit token and the fund share (balances, transfer, approve); every wallet, custodian and dealing contract speaks it.
+  url: https://eips.ethereum.org/EIPS/eip-20
+- id: ERC-3643
+  title: T-REX, Token for Regulated Exchanges
+  status: Final
+  role: The permissioned security-token standard for the fund share; an identity registry and a compliance contract decide, on every transfer, whether the receiving wallet is an eligible investor, including on a sweep and on a transfer outside dealing hours. Alternatives in production are CMTAT (UBS uMINT) and ERC-1400.
+  url: https://eips.ethereum.org/EIPS/eip-3643
+- id: ERC-7540
+  title: Asynchronous ERC-4626 Tokenized Vaults
+  status: Final
+  role: Request-and-claim dealing for a fund priced at a cut-off, with the cash escrowed until the price is struck and the units claimed at it; the fund’s own dealing process on the ledger.
+  url: https://eips.ethereum.org/EIPS/eip-7540
+- id: ERC-2612
+  title: Permit, signed approvals
+  status: Final
+  role: Lets an entity authorize a sweep or a payment with an off-line signature instead of a separate on-chain approval transaction.
+  url: https://eips.ethereum.org/EIPS/eip-2612
+- id: EIP-3009
+  title: Transfer With Authorization
+  status: Draft
+  role: A signed authorization that anyone may submit, so a payee or a treasury service can pay the fee; implemented by USDC and usable by a deposit token.
+  url: https://eips.ethereum.org/EIPS/eip-3009
+- id: EIP-712
+  title: Typed structured data hashing and signing
+  status: Final
+  role: The signature format behind permits and authorizations; the group’s signing policy can read exactly what is being approved, for which entity.
+  url: https://eips.ethereum.org/EIPS/eip-712
+- id: ERC-4337
+  title: Account abstraction via entry point
+  status: Final
+  role: Each entity’s wallet as a smart account with the group’s policy (signers, limits, allowed counterparties, a sweep rule) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
+  url: https://eips.ethereum.org/EIPS/eip-4337
+
+sections:
+- title: Why a public shared ledger
+  lead: true
+  items:
+  - title: The position is the ledger
+    text: 'Every entity’s cash and fund balances are on one ledger the treasury system reads every block, in every currency held there, so the group’s position is known at any hour without statements, cut-offs or intraday estimates, and the sweep decision is made on what is true now.'
+  - title: No idle balance over the weekend
+    text: 'A constant-price fund with a teller contract is dealt at par at any hour, so cash that arrives on a Friday evening earns from Friday evening; a fund priced at a cut-off still strikes when it strikes, but the request is placed and the cash escrowed the moment the position is known.'
+  - title: The money and the fund on one ledger
+    text: 'The sweep and the redemption are each one transaction in which cash and units change hands, with the fund’s eligibility and limits checked inside it, so there is no wire to a subscription account, no application form and no settlement gap. The units are the same token the DvP scenario trades and the collateral scenario pledges; nothing is re-issued or re-onboarded to use them.'
+  - title: One account that pays and invests
+    text: 'The account that holds the units is the account that pays suppliers, so there is no transfer between a custody account and a payment account; the payment is a transfer with the group’s policy on it, submitted by whoever pays the fee.'
+  - title: Open ledger, permissioned asset
+    text: 'Openness is a property of the ledger, not of the asset. The deposit token stays a claim on one bank held only by its clients; the fund share stays bound to its register and its investor eligibility, enforced in the token contract on every transfer, including the ones a sweep makes.'
+  - title: Reconciled every block
+    text: 'The treasurer, each subsidiary, the bank, the transfer agent and the auditor read the same transfer events, so nobody exchanges confirmations or statements to agree the position; the ledger reconciles itself with every block it produces.'
+  - title: Rules travel with the token
+    text: 'Eligibility, limits and freezes are enforced by the token contracts wherever the units go, so compliance does not depend on each treasury system, custodian or venue implementing it again.'
+- title: Where it stands today
+  items:
+  - title: Tokenized money market funds in production
+    text: 'Tokenized money market funds are live on Ethereum mainnet from several managers, with income delivered as more units or a rising price and dealing from request-and-claim at a cut-off to continuous dealing at par; WisdomTree has dealt WTGXX 24/7 against USDC since February 2026, and Spiko’s prospectus makes the ledger the shareholder register. Design choices between them are set out in a September 2026 industry paper, which also notes that a constant-price fund seeks, without guaranteeing, a stable price.'
+  - title: The cash leg
+    text: 'Most tokenized fund dealing settles against a regulated stablecoin today. A bank deposit token has been live on Ethereum mainnet since 19 October 2026, which makes the deposit-token cash leg on this page possible for that bank’s clients; a group banking with several institutions still needs a shared deposit-token network, a stablecoin or central bank money to move cash between them.'
+- title: Variants
+  items:
+  - title: Sweep by rule
+    text: The group’s policy module sweeps any balance above the operating threshold into the fund and redeems below it, each a transaction the account submits on its own within the limits the treasurer set; a person approves only what falls outside the rule.
+  - title: Stablecoin as the cash
+    text: 'Replace the deposit token with a regulated stablecoin: the entities need no shared bank, the fund deals against it directly, and the obligor on the cash is the issuer. The steps are the same.'
+  - title: Several currencies
+    text: An entity holds a euro and a dollar fund on the same ledger and sweeps each currency into its own fund; a foreign-exchange leg between them is the payment-versus-payment scenario, not this one.
+  - title: Units as collateral instead of cash
+    text: Rather than redeem, the group pledges units for intraday or term financing (the repo and collateral scenarios), keeping the income; the units never leave the ledger.
+- title: Open questions for your deployment
+  items:
+  - title: The fund’s dealing and liquidity terms
+    text: Continuous dealing at par is the fund’s design, not the ledger’s guarantee; the net asset value is struck when the fund strikes it, and gates, fees and suspensions in the fund’s documents apply on the ledger as off it. Read the dealing terms before the sweep rule is written.
+  - title: Which bank’s money
+    text: A deposit token is one bank’s liability held by its clients; a group with several banks and payees outside them needs a shared deposit-token network, a stablecoin or central bank money for the legs that leave the bank.
+  - title: What the balance is in law and in the books
+    text: Whether the on-chain unit balance is the holding, part of the official record or a secondary record depends on the fund’s register model and governing law; how the units and the deposit token are classified in the accounts is a question for the accounting policy and the Regulatory layer, not the ledger.
+  - title: Policy and keys across entities
+    text: Each entity signs under the group’s policy, so who may sign what, where keys are held, how they rotate and who can revoke them is decided once and enforced on every account; test the revocation.
+  - title: Visibility of group cash
+    text: On a public ledger the group’s balances and flows are visible to anyone who can map its accounts to its name. Permissioned tokens, pseudonymous accounts and confidential-transfer designs (see the Privacy page) are the answers in use.
+  - title: Tax and reporting across borders
+    text: Income and cross-border movements between entities carry the tax and reporting treatment of the entities and the fund, which the ledger does not change; the Regulatory layer and your advisers, not this page.
+
+sources:
+- { title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; contract families, continuous dealing, register models; a stable-value fund seeks, without guaranteeing, a constant price)', url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf, checked: '2026-10-25' }
+- { title: 'WisdomTree, 24/7 trading and instant settlement (24 February 2026)', url: https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement, checked: '2026-10-25' }
+- { title: 'Spiko, prospectus (1 September 2026 edition)', url: https://cdn.spiko.finance/legal_docs/EN/Prospectus_Spiko_SICAV_EN.pdf, checked: '2026-11-01' }
+- { title: 'Franklin Templeton, Benji', url: https://digitalassets.franklintempleton.com/benji/, checked: '2026-10-25' }
+- { title: 'Circle, USDC smart contract for transfers by BUIDL investors (11 April 2024)', url: https://www.businesswire.com/news/home/20240411966052/en/Circle-Announces-USDC-Smart-Contract-for-Transfers-by-BlackRock%E2%80%99s-BUIDL-Fund-Investors, checked: '2026-10-25' }
+- { title: 'Circle, USYC as off-exchange collateral', url: https://www.circle.com/pressroom/circles-usyc-now-supported-as-yield-bearing-off-exchange-collateral-for-binances-institutional-clients, checked: '2026-10-25' }
+- { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
+- { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

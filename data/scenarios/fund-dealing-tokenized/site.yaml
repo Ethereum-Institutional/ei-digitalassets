@@ -1,0 +1,22 @@
+# Scenario page: fund subscription and redemption, primary-market dealing in a tokenized fund against a cash leg. Content in scenario.yaml.
+
+kind: scenario
+title: 'Fund dealing: subscription and redemption in a tokenized fund'
+slug: fund-dealing-tokenized
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: Fund dealing
+  italic: dealing
+intro: 'Dealing is the fund’s own market: an investor subscribes and the fund issues units against cash, an investor redeems and the fund cancels units and pays cash, at a price the fund strikes or, for a constant-price fund, at par on demand. This page works through one subscription and one redemption in a tokenized fund, from the investor’s side and the transfer agent’s, because it is where tokenization changes the fund’s own plumbing rather than the market around it: the order and the cash arrive together, the units are issued in the same transaction that takes the cash, the register is the ledger or is updated from it, and between dealings an eligible holder can transfer units to another eligible holder at any hour. What does not change is the fund: its net asset value is struck when the fund strikes it, its dealing calendar, gates and suspensions are what its documents say, and who may invest is what its offering allows.'
+svg_label: Swimlane diagram of a subscription and a redemption in a tokenized fund, from onboarding to the register
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which units and cash change hands.
+notice:
+  title: Under development.
+  text: For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Running this scenario?
+  text: Open an issue with what differs in your deployment (the fund’s pricing and dealing model, its register model, the cash leg, a distributor or nominee) and we will add the variant.
+footnote: 'Standards and examples were checked on 6 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
