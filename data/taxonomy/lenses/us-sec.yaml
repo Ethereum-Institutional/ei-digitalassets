@@ -12,7 +12,7 @@ menu: 'US · United States (SEC): securities'
 name: US SEC “security”
 short: US SEC
 color: '#3b5b7a'
-intro: 'The Securities and Exchange Commission (SEC) regulates securities under the Securities Act of 1933 and the Securities Exchange Act of 1934; a token that is not a listed instrument such as a share or a bond is a security only if it is sold as an investment contract under the Supreme Court’s Howey test (an investment of money in a common enterprise with a reasonable expectation of profits from the essential managerial efforts of others). After staff statements in 2025 under Chairman Atkins’ Project Crypto, the Commission itself issued an interpretation on 17 March 2026, joined by the CFTC, that sorts crypto assets into digital commodities, digital collectibles, digital tools, stablecoins and digital securities: the first three are not securities in themselves, stablecoins depend on their design, and a security stays a security whether it is recorded on chain or off. On 17 September 2026 its “Innovation Exemption” let tokenized NMS stock trade in permissioned automated market maker pools on public, permissionless ledgers until 17 September 2031. Staff statements are not rules and have no legal force, and the March 2026 interpretation supersedes them; the statutory definition can change only by law, and the CLARITY Act, which would draw the line in statute, failed a Senate procedural vote in September 2026 (press report).'
+intro: 'The Securities and Exchange Commission (SEC) regulates securities under the Securities Act of 1933 and the Securities Exchange Act of 1934; a token that is not a listed instrument such as a share or a bond is a security only if it is sold as an investment contract under the Supreme Court’s Howey test (an investment of money in a common enterprise with a reasonable expectation of profits from the essential managerial efforts of others). After staff statements in 2025 under Chairman Atkins’ Project Crypto, the Commission itself issued an interpretation on 17 March 2026, joined by the CFTC, that sorts crypto assets into digital commodities, digital collectibles, digital tools, stablecoins and digital securities: the first three are not securities in themselves, stablecoins depend on their design, and a security stays a security whether it is recorded on chain or off. On 17 September 2026 its “Innovation Exemption” let tokenized NMS stock trade in permissioned automated market maker pools on public, permissionless ledgers until 17 September 2031. Staff statements are not rules and have no legal force, and the March 2026 interpretation supersedes them; the statutory definition can change only by law, and the CLARITY Act, which would draw the line in statute, stalled in the Senate on 15 September 2026, when cloture on the motion to proceed failed 49 to 50 and a motion to reconsider was entered.'
 status:
   btc: out
   eth: out
@@ -121,7 +121,10 @@ sources:
 - title: Cornell LII, Marine Bank v. Weaver, 455 U.S. 551 (8 March 1982)
   url: https://www.law.cornell.edu/supremecourt/text/455/551
   checked: '2026-10-29'
-- title: The Defiant, Senate blocks CLARITY Act 49-50 (press report, September 2026; date not confirmed from Senate records)
-  url: https://thedefiant.io/news/regulation/senate-blocks-clarity-act-49-50-with-no-democratic-votes-to-proceed
-  checked: '2026-10-29'
-last_reviewed: '2026-10-29'
+- title: 'Congressional Record, Daily Digest for 15 September 2026 (Senate): cloture on the motion to proceed to H.R. 3633 rejected, 49 yeas to 50 nays (Vote No. EX. 234); a motion to reconsider entered'
+  url: https://www.govinfo.gov/content/pkg/CREC-2026-09-15/html/CREC-2026-09-15-pt1-PgD893.htm
+  checked: '2026-11-09'
+- title: 'Congressional Record, 15 September 2026, pages S4704-06: roll call vote No. 234 on H.R. 3633'
+  url: https://www.govinfo.gov/content/pkg/CREC-2026-09-15/html/CREC-2026-09-15-pt1-PgS4704-4.htm
+  checked: '2026-11-09'
+last_reviewed: '2026-11-09'

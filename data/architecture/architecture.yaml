@@ -929,7 +929,7 @@ domains:
         status: evaluate
         notes: Slashing risk, reward accounting, client entitlement
         sources:
-          - { title: 'SEC Division of Corporation Finance, Statement on Certain Protocol Staking Activities (29 May 2025)', url: 'https://www.sec.gov/newsroom/speeches-statements/statement-certain-protocol-staking-activities-052925', checked: '2026-10-27' }
+          - { title: 'SEC and CFTC, Release No. 33-11412, Application of the Federal Securities Laws to Certain Types of Crypto Assets and Certain Transactions Involving Crypto Assets (17 March 2026; effective 23 March 2026; 91 FR 13714)', url: 'https://www.sec.gov/files/rules/interp/2026/33-11412.pdf', checked: '2026-10-29' }
           - { title: 'ethereum.org, Proof-of-stake rewards and penalties (developer documentation)', url: 'https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/', checked: '2026-10-27' }
       - id: D12.3
         name: Token issuance lifecycle

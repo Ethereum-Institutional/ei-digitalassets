@@ -12,4 +12,4 @@
 - [ ] `npm run build` passes locally (or I'm relying on the CI check)
 - [ ] I updated `last_reviewed` in any lens file I changed
 - [ ] This is a factual/regulatory change **or** I've flagged it as a change to an EI house view
-- [ ] I agree that Ethereum Institutional may use, modify and relicense this contribution (see `LICENSE`)
+- [ ] I license this contribution under CC BY-SA 4.0, and Ethereum Institutional may also publish it on its own platform (see `LICENSE`)

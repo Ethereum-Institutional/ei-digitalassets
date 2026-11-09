@@ -618,6 +618,9 @@
     clr.hidden=!L; applyLens(L, !!L);
   };
   sels.forEach(sel=>sel.addEventListener('change',()=>{ if(FX&&pick.size){ pick.clear(); fxSync(); } setLens(sel.value); }));
+  // deep link: /taxonomy/#lens=<id> opens the page with that lens applied (review and sharing)
+  const fromHash=()=>{ const h=decodeURIComponent(location.hash.replace(/^#lens=/,'')); if(h&&LBYID[h]) setLens(h); };
+  window.addEventListener('hashchange',fromHash); fromHash();
   if(!DATA.lens_groups.length) bar.style.display='none'; // a page may have only the sidebar
 
   // "Focus on": picks combine across facets (all must hold) and within one facet (any value matches).

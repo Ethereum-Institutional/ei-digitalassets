@@ -17,6 +17,7 @@ filters:
   - { id: payments, label: Payment firm }
   - { id: corporate, label: Corporate treasurer }
   - { id: central_bank, label: Central bank }
+  - { id: custodian, label: 'Custodian or staking provider' }
 map:
   width: 700
   height: 520
@@ -38,7 +39,7 @@ scenarios:
   path: scenarios/dvp-deposit-token-tmmf
   text: A buyer pays with a bank deposit token and receives fund units in one transaction; either both legs settle or neither does.
   moves: [cash, asset]
-  roles: [bank, asset_manager, fmi, corporate]
+  roles: [bank, asset_manager, fmi, corporate, custodian]
 - title: Payments with tokenized currency
   icon: pay
   short: Payments
@@ -70,7 +71,7 @@ scenarios:
   map: { x: 400, y: 240 }
   text: Cash against tokenized securities with an agreed return leg, both legs on the ledger.
   moves: [cash, asset, credit]
-  roles: [bank, asset_manager, fmi]
+  roles: [bank, asset_manager, fmi, custodian]
 - title: Collateral mobility and margin
   icon: collateral
   short: Collateral
@@ -78,7 +79,7 @@ scenarios:
   map: { x: 500, y: 330 }
   text: Tokenized fund units and securities posted as initial and variation margin, bilaterally, at venues and at clearing houses.
   moves: [asset, credit]
-  roles: [bank, asset_manager, fmi]
+  roles: [bank, asset_manager, fmi, custodian]
 - title: Securities lending
   icon: lending
   short: Securities lending
@@ -86,7 +87,7 @@ scenarios:
   map: { x: 474, y: 356 }
   text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
   moves: [asset, credit]
-  roles: [asset_manager, bank, fmi]
+  roles: [asset_manager, bank, fmi, custodian]
 - title: Fund subscription and redemption
   icon: subscribe
   short: Fund dealing
@@ -94,7 +95,7 @@ scenarios:
   map: { x: 400, y: 104 }
   text: Primary-market dealing in tokenized funds against a cash leg, at the struck price or continuously.
   moves: [cash, asset]
-  roles: [asset_manager, bank, fmi]
+  roles: [asset_manager, bank, fmi, custodian]
 - title: Corporate actions and distributions
   icon: corporate
   short: Corporate actions
@@ -102,7 +103,15 @@ scenarios:
   map: { x: 400, y: 160 }
   text: Dividends, coupons and reinvestments paid in units or in tokenized currency, on the same ledger as the asset.
   moves: [cash, asset]
-  roles: [fmi, asset_manager, bank]
+  roles: [fmi, asset_manager, bank, custodian]
+- title: Stake ETH
+  icon: stake
+  short: Staking
+  path: scenarios/stake-eth
+  map: { x: 600, y: 150 }
+  text: 'ETH locked to a validator that secures Ethereum mainnet and earns the protocol''s rewards: solo, through an operator, custodial, or as a liquid staking token.'
+  moves: [asset]
+  roles: [asset_manager, bank, corporate, custodian]
 - title: AI agent payments
   icon: agent
   short: AI payments
@@ -117,5 +126,5 @@ notice:
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Missing a scenario?
-  text: Open an issue with the scenario you are investigating and we will write it up, or send a pull request.
-footnote: 'Scenarios are Ethereum Institutional house views for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  text: 'Open an issue with the scenario you are investigating and we will write it up; the maps are edited in Ethereum Institutional''s platform repository and mirrored here.'
+footnote: 'Scenarios are Ethereum Institutional house views for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'

@@ -1,0 +1,97 @@
+# Lens: Australia, AUSTRAC “virtual asset”
+# status: in | part | out per circle id. Here “in” means a virtual asset under section 5B of the Anti-Money Laundering
+#   and Counter-Terrorism Financing Act 2006 (as inserted by the 2024 amendment, in force 31 March 2026), “part” depends
+#   on the token's function or rights, “out” means the Act excludes it. Readings beyond the Act's text are marked as
+#   Ethereum Institutional's (owner-approved house views, 9 November 2026).
+
+id: au-austrac
+group: jurisdiction
+menu: 'AU · Australia (AUSTRAC): “virtual asset”'
+name: Australia, AUSTRAC “virtual asset”
+short: AU AUSTRAC
+color: '#a21caf'
+intro: 'Australia''s anti-money-laundering regulator asks a different question from ASIC: whether a token is a virtual asset under section 5B of the AML/CTF Act, as amended in 2024 with effect from 31 March 2026. A virtual asset is a digital representation of value that functions as a medium of exchange, a store of economic value, a unit of account or an investment, is not issued by or under the authority of a government body, and can be transferred, stored or traded electronically; a token that lets its holder vote on the governance of such arrangements is expressly included. Money, value used only inside an electronic game, loyalty or reward points, and similar things not meant to be convertible are excluded. The designated services are exchanging virtual assets for money or for other virtual assets, safekeeping, services in connection with an offer or sale, and transfers of value that involve a virtual asset, which carry the travel rule. Securities and derivatives keep their Corporations Act meaning inside the AML/CTF Act, so a tokenised security is regulated as a security first, and AUSTRAC reads a simple digital record of owning shares as outside the definition. AUSTRAC''s own examples: bitcoin, ether, USDC, USDT, DAI and AUDD, governance tokens, and NFTs that represent a weight of gold; money on deposit and a CBDC are money, not virtual assets. Exchange between virtual assets and money has been regulated since 2018; the other new services carry full obligations from 1 July 2026, and reporting of transfers involving unverified self-hosted wallets starts on 31 March 2029.'
+status:
+  btc: in
+  eth: in
+  natoth: in
+  sc: in
+  unreg: in
+  alg: in
+  syn: in
+  td: out
+  dt: out
+  cbdc: out
+  rcbdc: out
+  wcbdc: out
+  fmi: part
+  eq: part
+  fund: part
+  fi: part
+  dv: part
+  trk: part
+  sn: part
+  re: part
+  pm: in
+  ocom: part
+  coll: part
+  ip: part
+  pc: part
+  gov: in
+  util: part
+  comm: in
+  art: part
+  game: out
+  loy: part
+  lst: in
+notes:
+  btc: 'A digital representation of value that functions as a medium of exchange and a store of value, is not issued under a government''s authority and is transferred electronically (s 5B(1)); AUSTRAC names bitcoin as an example.'
+  eth: 'A virtual asset on the same three limbs of s 5B(1); AUSTRAC names ether as an example.'
+  natoth: 'Virtual assets under s 5B(1); AUSTRAC''s examples are "cryptocurrency generally", bitcoin, ether and Monero.'
+  sc: 'A stablecoin is a medium of exchange and a store of value issued by a private party, so a virtual asset (s 5B(1)); AUSTRAC names USDC, USDT, DAI and AUDD. Exchanging it for money or for another virtual asset is a designated service (table items 50A and 50B).'
+  unreg: 'A virtual asset under s 5B(1) whoever issues it; the AML/CTF perimeter does not depend on a licence.'
+  alg: 'Ethereum Institutional''s reading: a virtual asset under s 5B(1), as a store of value or medium of exchange, whatever stabilises it.'
+  syn: 'Ethereum Institutional''s reading: a virtual asset under s 5B(1), as a store of value and an investment.'
+  td: 'Money is not a virtual asset (s 5B(4)(a)), and AUSTRAC reads money as including money held in an account or on deposit; a tokenised deposit is that deposit recorded on a ledger, regulated under the Act''s banking items instead.'
+  dt: 'As for tokenized deposits: money on deposit is money, not a virtual asset (s 5B(4)(a); AUSTRAC guidance).'
+  cbdc: 'Issued by or under the authority of a government body, so not a virtual asset (s 5B(1)(b)); AUSTRAC says a central bank digital currency is money for the purposes of the Act.'
+  rcbdc: 'Not a virtual asset: issued under a government''s authority (s 5B(1)(b)).'
+  wcbdc: 'Not a virtual asset: issued under a government''s authority (s 5B(1)(b)).'
+  fmi: 'Ethereum Institutional''s reading: depends on the claim. A token that is a claim on money held at a central bank may be money (excluded) or a privately issued medium of exchange (included); the Act does not address it.'
+  eq: 'Depends. Securities keep their Corporations Act meaning inside the AML/CTF Act (s 7A), with their own designated services, and AUSTRAC reads a simple digital record of owning shares as outside the definition, because it is the underlying asset that is traded; a token that is itself traded as an investment may meet s 5B(1)(a)(iv).'
+  fund: 'Depends, as for equities: an interest in a scheme is a security first (s 7A); a token over it that trades may also meet s 5B(1).'
+  fi: 'Depends: a bond is a security first (s 7A); a government bond is issued under a government''s authority and so outside s 5B(1)(b).'
+  dv: 'Depends: a derivative keeps its Corporations Act meaning (s 7A(3)) and has its own designated services.'
+  trk: 'Depends, as for derivatives.'
+  sn: 'Depends, as for fixed income and derivatives.'
+  re: 'Ethereum Institutional''s reading: a token that is itself traded as a store of value or investment meets s 5B(1); a mere record of title that is not transferred as value does not.'
+  pm: 'A virtual asset: AUSTRAC''s own example is a non-fungible token that represents value denominated by weight in gold (s 5B(1)).'
+  ocom: 'Ethereum Institutional''s reading: as for precious metals where the token is itself traded as value; a mere record of title is not.'
+  coll: 'Depends: a purely collectible token similar to an in-game item, not meant to be convertible, is excluded (s 5B(4)(d)); one traded as a store of value is a virtual asset.'
+  ip: 'Ethereum Institutional''s reading: a token that carries income and trades as an investment meets s 5B(1)(a)(iv).'
+  pc: 'Ethereum Institutional''s reading: a traded loan token is an investment under s 5B(1)(a)(iv); a securitised note is a security first (s 7A).'
+  gov: 'Expressly a virtual asset: a digital representation of value that lets a person vote on the management, administration or governance of arrangements connected with a digital representation of value (s 5B(2)); AUSTRAC''s example is the governance token of a decentralised autonomous organisation.'
+  util: 'Depends on function: a token used as a medium of exchange or store of value meets s 5B(1); a pure access right similar to a loyalty point, not meant to be convertible, is excluded (s 5B(4)(d)).'
+  comm: 'A virtual asset: traded as a store of value and medium of exchange, within AUSTRAC''s "cryptocurrency generally" (s 5B(1)).'
+  art: 'Depends: an NFT that is a store of value or investment meets s 5B(1); AUSTRAC lists purely collectible NFTs and social media avatars among the exclusions (s 5B(4)(d)).'
+  game: 'A digital representation of value used exclusively within an electronic game is not a virtual asset (s 5B(4)(b)); AUSTRAC''s example is in-game currency.'
+  loy: 'Customer loyalty or reward points are excluded (s 5B(4)(c); AUSTRAC names airline and retail points); a ticket or membership is excluded only if similar and not intended by the issuer to be convertible into another digital representation of value or money (s 5B(4)(d)).'
+  lst: 'Ethereum Institutional''s reading: a liquid staking or wrapped token is a store of value and an investment transferred electronically (s 5B(1)).'
+  id: 'Not addressed in the Act''s text.'
+sources:
+- title: 'AUSTRAC, Virtual asset designated services (last updated 16 October 2026): the s 5B definition with examples (bitcoin, ether, USDC, USDT, DAI, AUDD, governance tokens, gold-weight NFTs), the exclusions (money including money on deposit and CBDC, in-game value, loyalty points, purely collectible NFTs, a simple digital record of owning shares), items 46A, 50A, 50B, 50C, 29 to 30'
+  url: https://www.austrac.gov.au/new-austrac/designated-services-newly-regulated-entities/virtual-asset-designated-services
+  checked: '2026-11-09'
+- title: 'AUSTRAC, AML/CTF transitional rules 2026 (last updated 2 April 2026): obligations for new virtual asset services deferred to 1 July 2026 (not item 50A); reporting of transfers involving unverified self-hosted wallets from 31 March 2029'
+  url: https://www.austrac.gov.au/about-us/legislation/updates-legislation/amlctf-transitional-rules-2026
+  checked: '2026-11-09'
+- title: 'AUSTRAC, Additional travel rule obligations when transferring virtual assets (last updated 23 October 2026): s 46A policies, s 66A duties of ordering and beneficiary institutions, Rules s 8-8 exemption for self-hosted wallets'
+  url: https://www.austrac.gov.au/industry-and-business/obligations-and-guidance/additional-guidance/travel-rule/additional-travel-rule-obligations-when-transferring-virtual-assets
+  checked: '2026-11-09'
+- title: 'Anti-Money Laundering and Counter-Terrorism Financing Amendment Act 2024 (No. 110, 2024): Schedule 6 inserts s 5B (meaning of virtual asset) and designated services items 46A, 50A, 50B and 50C, and s 7A (securities and derivatives); Schedule 8 (transfers of value); both commence 31 March 2026 (s 2)'
+  url: https://www.legislation.gov.au/C2024A00110/asmade
+  checked: '2026-11-09'
+- title: 'Anti-Money Laundering and Counter-Terrorism Financing Act 2006 (Federal Register of Legislation, current compilation): Part 1, s 5B and s 6 designated services'
+  url: https://www.legislation.gov.au/C2006A00169/latest/text
+  checked: '2026-11-09'
+last_reviewed: '2026-11-09'

@@ -143,6 +143,11 @@ standards:
   status: Final
   role: Each entity’s wallet as a smart account with the group’s policy (signers, limits, allowed counterparties, a sweep rule) and fee sponsorship; EIP-7702 brings the same to ordinary accounts.
   url: https://eips.ethereum.org/EIPS/eip-4337
+- id: ERC-7943
+  title: uRWA, Universal Real World Asset Interface
+  status: Final
+  role: 'Written for real-world assets, its functions are the controls the cash leg needs too: frozen balances, an enforced transfer on a lawful order, and canSend and canReceive eligibility checks, as a minimal interface a deposit token or a regulated stablecoin can expose instead of a bespoke one.'
+  url: https://eips.ethereum.org/EIPS/eip-7943
 
 sections:
 - title: Why a public shared ledger

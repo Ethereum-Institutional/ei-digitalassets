@@ -136,7 +136,12 @@ standards:
   title: FATF Recommendation 16 for virtual asset transfers, a rule, not an ERC
   status: In force by jurisdiction
   role: The duty of the firm sending a transfer to collect originator and beneficiary information and pass it to the receiving firm, off the ledger, above a threshold each jurisdiction sets; revised in June 2025. How each jurisdiction applies it is the Regulatory layer’s question.
-  url: https://www.21analytics.co/what-is-the-fatf-travel-rule/
+  url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/update-Recommendation-16-payment-transparency-june-2025.html
+- id: ERC-7943
+  title: uRWA, Universal Real World Asset Interface
+  status: Final
+  role: 'Written for real-world assets, its functions are the controls the cash leg needs too: frozen balances, an enforced transfer on a lawful order, and canSend and canReceive eligibility checks, as a minimal interface a deposit token or a regulated stablecoin can expose instead of a bespoke one.'
+  url: https://eips.ethereum.org/EIPS/eip-7943
 
 sections:
 - title: Why a public shared ledger
@@ -194,6 +199,6 @@ sources:
 - { title: 'HSBC and Standard Chartered execute first live tokenised deposit transaction on Swift’s ledger (20 August 2026)', url: https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain, checked: '2026-10-25' }
 - { title: 'BIS, Project Agorá report (27 May 2026; Paladin Noto and Pente)', url: https://www.bis.org/publications/project-agora-shared-programmable-platform-wholesale-cross-border-payments.pdf, checked: '2026-10-26' }
 - { title: 'Bank of Canada joins Project Agorá (27 May 2026)', url: https://www.bankofcanada.ca/2026/05/bank-canada-joins-bis-project-agora-test-improvements-wholesale-cross-border-payments/, checked: '2026-10-25' }
-- { title: '21 Analytics, What is the FATF Travel Rule (customer and counterparty identification duties of VASPs)', url: https://www.21analytics.co/what-is-the-fatf-travel-rule/, checked: '2026-11-06' }
+- { title: 'FATF, Revised Recommendation 16 on payment transparency (June 2025), applied to virtual asset transfers through Recommendation 15', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/update-Recommendation-16-payment-transparency-june-2025.html', checked: '2026-10-27' }
 - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers (October 2021)', url: https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Guidance-rba-virtual-assets-2021.html, checked: '2026-10-27' }
 - { title: 'ethereum.org, Proof-of-stake (finality and the cost of reverting a finalized block)', url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/, checked: '2026-11-06' }

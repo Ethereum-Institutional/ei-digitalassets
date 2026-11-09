@@ -8,7 +8,7 @@ tagline: 'RPC, archive and validator operations, in-house or third party'
 order: 5
 summary: 'The infrastructure that reads from and writes to the ledger: RPC nodes that broadcast your transactions, archive nodes that hold full history, and validators that propose and attest blocks. Each can run in-house or through a third party, and for validators the operator can be custodial or non-custodial.'
 components: [D7.2, D7.3, D7.7, D7.8, D7.1, D12.2]
-last_reviewed: 2026-10-27
+last_reviewed: 2026-11-09
 
 models:
 - name: In-house
@@ -32,6 +32,11 @@ sections:
   - q: 'Who generates the validator keys, where are signing keys held (remote signer, HSM), and can we hold them ourselves?'
   - q: 'Are withdrawal credentials set to an address we control, and can you show it on chain for every validator?'
     must: true
+  - q: 'Can the withdrawal address trigger an exit or a partial withdrawal itself, without your keys, and have you tested it?'
+    why: 'Since the Pectra upgrade the holder of the withdrawal credentials can request an exit or a partial withdrawal through a system contract (EIP-7002), so the stake is recoverable even if the operator disappears or withholds its signing keys; an untested path is not a control.'
+    must: true
+  - q: 'Do you support compounding (0x02) validators and consolidation, and who decides when our validators are consolidated?'
+    why: 'EIP-7251 lets a validator hold up to 2,048 ETH, compound rewards and absorb other validators without exiting; it changes key counts, reporting and the size of any one slashing event, so the choice should be ours.'
   - q: 'How do you maintain the slashing protection database, and what is the procedure when validators are moved between machines or operators?'
     why: Running the same key in two places is the most common cause of slashing.
     must: true
@@ -50,6 +55,9 @@ sections:
   - q: 'Have any validators you operate been slashed, and what happened?'
   - q: 'What do you compensate for slashing and downtime, up to what limit, and is that insured?'
   - q: 'What is your policy on block building and MEV (relays used, rewards shared), and can we set it per validator?'
+  - q: 'Which address is the fee recipient on our validators, and can you prove it on chain or through a transparent split contract?'
+    why: 'Execution-layer rewards (priority fees and MEV payments) go to the fee recipient the operator sets when it proposes a block, not to the withdrawal address; the consensus rewards go to the withdrawal address. If the fee recipient is the operator''s own address, part of the yield never reaches you.'
+    must: true
 
 - title: RPC and archive data
   questions:
@@ -83,3 +91,12 @@ sources:
 - title: 'ethereum.org, Proposer-builder separation (block building and MEV)'
   url: https://ethereum.org/roadmap/pbs/
   checked: '2026-10-27'
+- title: 'Ethereum consensus specifications, Bellatrix honest validator guide: the proposer supplies suggested_fee_recipient for the execution payload'
+  url: https://raw.githubusercontent.com/ethereum/consensus-specs/master/specs/bellatrix/validator.md
+  checked: '2026-11-09'
+- title: 'EIP-7002, Execution Layer Triggerable Withdrawals (Final): exits and partial withdrawals requested by the withdrawal credentials through a system contract'
+  url: https://eips.ethereum.org/EIPS/eip-7002
+  checked: '2026-11-09'
+- title: 'EIP-7251, Increase the MAX_EFFECTIVE_BALANCE (Final): 2,048 ETH maximum, 0x02 compounding credentials, consolidation'
+  url: https://eips.ethereum.org/EIPS/eip-7251
+  checked: '2026-11-09'

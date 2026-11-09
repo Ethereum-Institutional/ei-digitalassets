@@ -1,0 +1,204 @@
+# Scenario: staking ETH. Actors are columns in the diagram; steps are rows (kind: offchain | onchain). Tokens link to
+# the taxonomy; standards link to eips.ethereum.org or ethereum.org. Writing rules: US spelling; no em-dashes.
+# High-level by design (owner, 9 November 2026): the operator questions live on the Architecture map's node and
+# validator page, and the regulatory lenses carry the classification by jurisdiction; this page names no
+# jurisdiction (owner, 9 November 2026: no jurisdiction-specific content on a scenario page) and routes to them.
+
+icon: stake
+tags:
+- { kind: move, label: Asset moves }
+- { label: Asset manager }
+- { label: Bank }
+- { label: Corporate treasurer }
+- { label: Custodian or staking provider }
+
+actors:
+- id: owner
+  name: Asset owner
+  role: The institution that holds ETH and decides how it is staked. Controls the withdrawal address in every model but the custodial one, and so the principal and the consensus rewards.
+- id: custodian
+  name: Custodian or staking provider
+  role: Holds the ETH before and after staking and, in the custodial model, the validator keys too. In the non-custodial model it is only the contracting party for the operator; in the liquid model it is the protocol.
+- id: operator
+  name: Node operator
+  role: Runs the execution and consensus clients and the validator signing keys, attests and proposes blocks, keeps the slashing protection database. The institution itself when staking solo.
+- id: ledger
+  name: Ethereum mainnet
+  kind: ledger
+  role: The deposit contract on the execution layer, the validator set and rewards on the consensus layer, and since Pectra the system contracts through which the withdrawal address can trigger exits, withdrawals and consolidations.
+- id: observer
+  name: Auditor or regulator
+  kind: observer
+  role: 'Reads the validator''s balance, rewards and penalties from the public ledger: the same record the institution reports from.'
+
+steps:
+- title: Choose the model and who holds which key
+  from: owner
+  to: custodian
+  kind: offchain
+  text: 'Solo: the institution generates the validator signing keys and the withdrawal credentials itself and runs the node. Non-custodial operator: an operator runs the node and holds the signing keys, but the withdrawal credentials point to an address the institution controls. Custodial: the custodian holds both. Liquid: ETH goes to a pool and the institution holds a token instead of a validator. The choice sets everything that follows, including the regulatory reading.'
+- title: Keys, credentials and the fee recipient
+  from: custodian
+  to: operator
+  kind: offchain
+  text: 'Validator signing keys are generated and kept in a remote signer or HSM with a slashing protection database, apart from custody keys. The withdrawal credentials are set to the institution''s address (0x01, or 0x02 for a compounding validator) and recorded. The fee recipient, the execution-layer address that receives priority fees and MEV payments on each block the validator proposes, is set to the institution''s address or a transparent split contract, and proven.'
+  standards: [EIP-3076, Withdrawal credentials]
+- title: Deposit
+  from: owner
+  to: ledger
+  kind: onchain
+  text: 'The institution sends 32 ETH per validator, with the deposit data (public key, withdrawal credentials, signature), to the deposit contract on the execution layer. The consensus layer picks the deposit up and the validator joins the activation queue. A compounding validator can hold up to 2,048 ETH in one validator, so fewer keys secure the same stake.'
+  standards: [Deposit contract, EIP-7251]
+- title: Duties, and two streams of reward
+  from: operator
+  to: ledger
+  kind: onchain
+  text: 'The validator attests every epoch and proposes blocks when selected. Consensus-layer rewards accrue to the validator''s balance. Execution-layer rewards (priority fees and MEV payments) are paid to the fee recipient the proposer named when it built the block, not to the validator balance: in a delegated model, part of the reward never reaches the institution if the operator names its own address.'
+  standards: [Consensus specs, suggested_fee_recipient]
+- title: Rewards reach the withdrawal address
+  from: ledger
+  to: owner
+  kind: onchain
+  text: 'For a 0x01 validator the protocol sweeps the balance above 32 ETH to the withdrawal address automatically, in turn; for a 0x02 validator rewards compound in the balance up to 2,048 ETH, and the withdrawal address can request a partial withdrawal. Two validators under the same owner can be consolidated into one without exiting.'
+  standards: [Withdrawals, EIP-7251, EIP-7002]
+- title: Penalties and slashing
+  from: ledger
+  to: operator
+  kind: onchain
+  text: 'Being offline costs a small penalty each epoch; signing two conflicting messages is slashed: part of the stake is burned and the validator is forced out. The protocol charges the validator balance; who bears it is the operator contract (the Architecture map''s node and validator questions ask what is compensated and whether it is insured).'
+  standards: [EIP-3076, Rewards and penalties]
+- title: Exit, from the withdrawal address
+  from: owner
+  to: ledger
+  kind: onchain
+  text: 'Since Pectra the holder of the withdrawal credentials can trigger a full exit or a partial withdrawal itself, through a system contract and for a small fee, without the operator''s signing keys. The validator passes through the exit queue and the principal is swept to the withdrawal address. An institution should have tested this path before it needs it.'
+  standards: [EIP-7002]
+- title: Reporting and classification
+  from: custodian
+  to: observer
+  kind: offchain
+  text: 'Rewards, penalties and balances per validator, read from the ledger, feed accounting and tax; the fee recipient''s receipts are a second ledger to reconcile. The regulatory reading depends on the model and the jurisdiction; the Taxonomy''s lenses carry each regime''s reading, and this page does not repeat them.'
+
+tokens:
+- name: ETH
+  circle: eth
+  place: Digital Money › Native Cryptocurrencies › Ethereum
+  role: The asset staked and the asset the rewards are paid in. The deposit is in ETH on the execution layer; the validator balance and the consensus rewards are ETH on the consensus layer; execution rewards arrive as ETH at the fee recipient.
+  example: Solo staking needs 32 ETH per validator; a compounding validator holds up to 2,048 ETH; pooled staking takes any amount.
+  sources:
+  - { title: 'ethereum.org, Staking (the four options, 32 ETH, rewards, penalties, exits since Pectra)', url: 'https://ethereum.org/staking/', checked: '2026-11-09' }
+  - { title: 'EIP-7251, Increase the MAX_EFFECTIVE_BALANCE (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7251', checked: '2026-11-09' }
+- name: Staking & Wrapped (liquid staking token)
+  circle: lst
+  place: Other Crypto-Assets › Staking & Wrapped
+  role: 'In the liquid model the institution holds a token that represents a share of a pooled stake, transferable on the ledger while the underlying validators stay bonded; the pool''s node operators run the validators and the token''s rules decide how rewards show (a rebasing balance, or a rising exchange rate) and how it is redeemed.'
+  example: Live examples, Lido stETH (a rebasing ERC-20 whose balance updates daily, redeemed for ETH through a request-and-claim queue) and Frax frxETH with sfrxETH (a token pegged to ETH, and the version that accrues the staking yield).
+  sources:
+  - { title: 'Lido, token integration guide (stETH, wstETH, the withdrawal queue)', url: 'https://docs.lido.fi/guides/lido-tokens-integration-guide/', checked: '2026-11-09' }
+  - { title: 'Frax, Frax Ether overview (frxETH, sfrxETH)', url: 'https://docs.frax.finance/frax-ether/overview', checked: '2026-11-09' }
+
+standards_help: 'Standards and protocol mechanisms the steps rely on, not a prescription. The validator-side ones are protocol rules on Ethereum mainnet since the Pectra upgrade; the token-side ones apply only to the liquid model.'
+standards:
+- id: Deposit contract
+  title: The staking deposit contract, a protocol contract, not an ERC
+  status: Live
+  role: Where the 32 ETH and the deposit data go; the consensus layer reads its events to activate the validator. The address is published by ethereum.org, which warns that sending ETH to it directly fails.
+  url: https://ethereum.org/staking/deposit-contract/
+- id: Withdrawal credentials
+  title: 0x01 and 0x02 withdrawal credentials
+  status: Live
+  role: The execution address that receives swept rewards and the exited principal; 0x02 marks a compounding validator. Set at deposit, and the one thing an institution must control in every model but the custodial one.
+  url: https://ethereum.org/staking/withdrawals/
+- id: EIP-7002
+  title: Execution Layer Triggerable Withdrawals
+  status: Final
+  role: 'Lets the withdrawal address trigger a full exit or a partial withdrawal through a system contract, for a fee, without the validator''s signing keys; the control that makes delegated staking recoverable.'
+  url: https://eips.ethereum.org/EIPS/eip-7002
+- id: EIP-7251
+  title: Increase the MAX_EFFECTIVE_BALANCE
+  status: Final
+  role: Validators of up to 2,048 ETH, compounding (0x02) credentials, in-protocol consolidation and execution-layer partial withdrawals; fewer keys and fewer validators for the same stake.
+  url: https://eips.ethereum.org/EIPS/eip-7251
+- id: EIP-3076
+  title: Slashing Protection Interchange Format
+  status: Final
+  role: The database a validator keeps so it never signs twice, and the format for moving it between machines or operators; the most common cause of slashing is running one key in two places.
+  url: https://eips.ethereum.org/EIPS/eip-3076
+- id: Consensus specs
+  title: Honest validator guide (Bellatrix), a protocol specification, not an ERC
+  status: Live
+  role: 'Where the fee recipient is set: the proposer supplies suggested_fee_recipient when it prepares the execution payload, so execution rewards go wherever the operator points them.'
+  url: https://raw.githubusercontent.com/ethereum/consensus-specs/master/specs/bellatrix/validator.md
+- id: Distributed validator technology
+  title: Distributed validators, a protocol-adjacent technique, not an ERC
+  status: Live
+  role: Splits one validator key across several machines or operators so no single one can sign alone; an option for the non-custodial and custodial models.
+  url: https://ethereum.org/staking/dvt/
+- id: ERC-20
+  title: Token Standard
+  status: Final
+  role: 'The interface of every liquid staking token; whether the balance rebases or the exchange rate moves is the token''s own design on top of it.'
+  url: https://eips.ethereum.org/EIPS/eip-20
+
+sections:
+- title: Why stake on the public ledger
+  lead: true
+  items:
+  - title: Rewards come from the protocol
+    text: 'A solo validator receives the full protocol reward with no counterparty; the other models subtract an operator fee or a pool''s share and add a counterparty. There is no issuer to default and no agreement to negotiate: the rules that pay the validator are the same rules every other validator runs under.'
+  - title: The owner can always leave
+    text: 'Since Pectra the withdrawal address, not the signing key, controls the exit. An institution that delegates to an operator can recover its stake if the operator disappears, is compelled, or simply stops answering, and should test that it can.'
+  - title: The record is the ledger
+    text: 'Balance, rewards, penalties and slashing are public per validator. The auditor reads what the institution reads; there is no operator statement to reconcile against, except the fee recipient''s receipts.'
+  - title: Fewer keys for the same stake
+    text: 'A compounding validator holds up to 2,048 ETH and consolidation merges validators without exiting, so an institutional stake no longer means hundreds of keys and hundreds of statements.'
+- title: Where it stands today
+  items:
+  - title: Four models in use
+    text: 'ethereum.org describes solo home staking (32 ETH, the full reward, the operational burden), staking as a service (32 ETH, an operator runs the node for a fee, trust in the operator), pooled and liquid staking (any amount, a token represents the stake, not native to the protocol) and centralized exchanges (any amount, the exchange holds the ETH, the highest trust assumption).'
+    sources:
+    - { title: 'ethereum.org, Staking', url: 'https://ethereum.org/staking/', checked: '2026-11-09' }
+  - title: Since Pectra
+    text: 'Exits and partial withdrawals can be triggered from the withdrawal address (EIP-7002); a validator can hold up to 2,048 ETH and compound (EIP-7251). Both change what an institution should ask an operator: the Architecture map''s node and validator page has the questions, including the fee recipient, exits and consolidation.'
+    sources:
+    - { title: 'EIP-7002, Execution Layer Triggerable Withdrawals (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7002', checked: '2026-11-09' }
+    - { title: 'EIP-7251, Increase the MAX_EFFECTIVE_BALANCE (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7251', checked: '2026-11-09' }
+- title: How a regime reads the four models
+  items:
+  - title: The model decides the question
+    text: 'Regimes that have addressed staking tend to separate what the protocol does (validating and its rewards) from what an intermediary adds (pooling, custody of the keys, a transferable token, guaranteed or smoothed returns). The further a model moves from solo staking toward a custodian or a liquid token, the more it looks like a product the intermediary issues, and the more a regime has to say about it. Each regime''s reading, and the date it applies from, is on the Taxonomy''s regulatory lenses; this page keeps to the mechanics.'
+- title: Variants
+  items:
+  - title: Solo
+    text: 'The institution runs the clients and holds every key. Full reward, no counterparty, and an operations team that is on call for upgrades, hard forks and client bugs; client diversity becomes its own problem.'
+  - title: Non-custodial operator
+    text: 'The operator runs the node and holds the signing keys; the withdrawal credentials and, if negotiated, the fee recipient are the institution''s. The operator can cost penalties and slashing, never the principal; the contract says what it compensates.'
+  - title: Custodial
+    text: 'A custodian holds the ETH, the keys and the credentials and stakes on the institution''s behalf. Simplest operationally, and the model in which the institution holds no key of its own: what it has is a claim on the custodian, which is what each jurisdiction''s reading turns on.'
+  - title: Liquid staking token
+    text: 'ETH goes to a pool and the institution holds a token it can transfer or post as collateral while the validators stay bonded; redemption follows the pool''s queue. The token is an Other Crypto-Asset in the Taxonomy read differently by regime on its lenses.'
+  - title: Distributed validators
+    text: 'One validator key split across several operators or machines, so no single one can sign alone or be the single point of failure; combinable with the operator and custodial models.'
+- title: Open questions for your deployment
+  items:
+  - title: Who names the fee recipient
+    text: 'Execution rewards go wherever the block proposer points them. Settle in the contract that it is the institution''s address or a transparent split, and prove it on chain.'
+  - title: Have you exited a validator
+    text: 'The withdrawal address can trigger an exit since Pectra. Until an institution has done it once, on its own keys, the recovery path is a claim, not a control.'
+  - title: Compounding or not
+    text: 'A 0x02 validator holds more per key and changes the size of any slashing event and the shape of the reporting; decide who may consolidate the institution''s validators.'
+  - title: 'Which regime''s reading'
+    text: 'The same model can read differently from one jurisdiction to the next, and within one jurisdiction before and after a reform takes effect. Route the question to the Taxonomy''s lenses and to counsel.'
+
+sources:
+- { title: 'ethereum.org, Staking', url: 'https://ethereum.org/staking/', checked: '2026-11-09' }
+- { title: 'ethereum.org, Staking deposit contract address', url: 'https://ethereum.org/staking/deposit-contract/', checked: '2026-11-09' }
+- { title: 'ethereum.org, Staking withdrawals (withdrawal credentials)', url: 'https://ethereum.org/staking/withdrawals/', checked: '2026-10-27' }
+- { title: 'ethereum.org, Proof-of-stake rewards and penalties', url: 'https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/', checked: '2026-10-27' }
+- { title: 'ethereum.org, Distributed validator technology', url: 'https://ethereum.org/staking/dvt/', checked: '2026-10-27' }
+- { title: 'Ethereum consensus specifications, Bellatrix honest validator guide (suggested_fee_recipient)', url: 'https://raw.githubusercontent.com/ethereum/consensus-specs/master/specs/bellatrix/validator.md', checked: '2026-11-09' }
+- { title: 'EIP-7002, Execution Layer Triggerable Withdrawals (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7002', checked: '2026-11-09' }
+- { title: 'EIP-7251, Increase the MAX_EFFECTIVE_BALANCE (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7251', checked: '2026-11-09' }
+- { title: 'EIP-3076, Slashing Protection Interchange Format', url: 'https://eips.ethereum.org/EIPS/eip-3076', checked: '2026-10-27' }
+- { title: 'Lido, token integration guide', url: 'https://docs.lido.fi/guides/lido-tokens-integration-guide/', checked: '2026-11-09' }
+- { title: 'Frax, Frax Ether overview', url: 'https://docs.frax.finance/frax-ether/overview', checked: '2026-11-09' }

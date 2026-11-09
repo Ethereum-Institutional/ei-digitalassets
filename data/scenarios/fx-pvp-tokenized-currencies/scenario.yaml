@@ -153,6 +153,11 @@ standards:
   status: Draft
   role: For the cross-ledger variant, where the two currencies sit on different ledgers, a mechanism that releases one leg only when the other has succeeded, without an intermediary; the same device for payment versus payment as for delivery versus payment.
   url: https://eips.ethereum.org/EIPS/eip-7573
+- id: ERC-7943
+  title: uRWA, Universal Real World Asset Interface
+  status: Final
+  role: 'Written for real-world assets, its functions are the controls the cash leg needs too: frozen balances, an enforced transfer on a lawful order, and canSend and canReceive eligibility checks, as a minimal interface a deposit token or a regulated stablecoin can expose instead of a bespoke one.'
+  url: https://eips.ethereum.org/EIPS/eip-7943
 
 sections:
 - title: Why a public shared ledger

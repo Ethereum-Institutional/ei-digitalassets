@@ -398,8 +398,8 @@ notice:
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.
-  text: Open an issue to suggest a design, a correction or a deployment we have missed, or send a pull request; every placement on this page is a file anyone can edit.
-footnote: 'Placements were checked on 26 October 2026 and drift as designs ship. Regulatory history is given as dates and holdings only. This page is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-NC-ND 4.0 (non-commercial use only; no derivatives without consent).'
+  text: 'Open an issue to suggest a design, a correction or a deployment the map has missed. The maps are edited in Ethereum Institutional''s platform repository and mirrored here, so an issue reaches the editors faster than a pull request against the mirror.'
+footnote: 'Placements were checked on 26 October 2026 and drift as designs ship. Regulatory history is given as dates and holdings only. This page is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
 sections:
 - title: What institutions are asking for
   text: 'Confidential tokens are what institutions want from privacy, with requirements that differ from an individual’s. No design meets them all yet: pick the institutional wish list in Focus on to see which come closest.'
@@ -484,14 +484,16 @@ sections:
     text: 'The FATF’s updated guidance of 28 October 2021 says virtual asset service providers must be able to manage the risks of anonymity-enhancing technologies, including mixers and privacy wallets, or should not engage with them. The EU anti-money-laundering regulation bars anonymous accounts and accounts allowing anonymity-enhancing coins from 10 July 2027.'
     sources:
     - { title: 'FATF, Updated Guidance for a Risk-Based Approach to Virtual Assets and VASPs (28 October 2021), paragraph 174', url: 'https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Updated-guidance-va-vasp.html', checked: '2026-10-26' }
-    - { title: 'Regulation (EU) 2024/1624, Article 79 (to verify against the Official Journal)', url: 'https://eur-lex.europa.eu/eli/reg/2024/1624/oj/eng', checked: '2026-10-26' }
+    - { title: 'Regulation (EU) 2024/1624 of 31 May 2024 (OJ L, 2024/1624, 19.6.2024), Article 79(1): no anonymous crypto-asset accounts or accounts allowing anonymisation, including through anonymity-enhancing coins; Article 90: applies from 10 July 2027', url: 'http://publications.europa.eu/resource/celex/32024R1624', checked: '2026-11-09' }
   - title: United States
-    text: 'OFAC designated Tornado Cash on 8 August 2022. On 26 November 2024 the Fifth Circuit held that its immutable smart contracts are not property under IEEPA, and Treasury removed the designation on 21 March 2025. Treasury’s March 2026 report to Congress under the GENIUS Act says lawful users may use mixers for financial privacy on public blockchains.'
+    text: 'OFAC designated Tornado Cash on 8 August 2022. On 26 November 2024 the Fifth Circuit held that its immutable smart contracts are not property under IEEPA, and Treasury removed the designation on 21 March 2025. Treasury’s March 2026 report to Congress under the GENIUS Act says lawful users may use mixers for financial privacy on public blockchains. The criminal case is separate: in United States v. Storm (S.D.N.Y.) a jury convicted a Tornado Cash co-founder on 6 August 2025 of conspiracy to operate an unlicensed money transmitting business and did not reach a verdict on the money laundering and sanctions conspiracy counts; a retrial on those counts is set for 26 April 2027, with a motion for acquittal pending.'
     sources:
     - { title: 'US Treasury, Tornado Cash designation (8 August 2022)', url: 'https://home.treasury.gov/news/press-releases/jy0916', checked: '2026-10-26' }
     - { title: 'Fifth Circuit, Van Loon v. Department of the Treasury, No. 23-50669 (26 November 2024)', url: 'https://www.ca5.uscourts.gov/opinions/pub/23/23-50669-CV0.pdf', checked: '2026-10-26' }
     - { title: 'US Treasury, Tornado Cash delisting (21 March 2025)', url: 'https://home.treasury.gov/news/press-releases/sb0057', checked: '2026-10-26' }
     - { title: 'US Treasury, GENIUS Act report to Congress on innovative methods (March 2026)', url: 'https://home.treasury.gov/system/files/246/GENIUS-Act-Illicit-Finance-Innovation-Congressional-Report-March-2026.pdf', checked: '2026-10-26' }
+    - { title: 'US Attorney''s Office for the Southern District of New York, press release of 6 August 2025 (republished by IRS Criminal Investigation): Tornado Cash co-founder convicted of conspiracy to operate an unlicensed money transmitting business', url: 'https://www.irs.gov/node/150161', checked: '2026-11-09' }
+    - { title: 'Decrypt, Tornado Cash retrial moved to 26 April 2027 (26 August 2026; secondary): the deadlocked money laundering and sanctions conspiracy counts; motion for acquittal pending', url: 'https://decrypt.co/376577/roman-storms-tornado-cash-retrial-pushed-to-april-2027', checked: '2026-11-09' }
   - title: Central banks and supervisors
     text: 'The BIS Project Agorá prototype (report of 27 May 2026) used Hyperledger Paladin for token-level and workflow-level privacy. The HKMA’s e-HKD pilot tested Zeto and Anonymous Zether on public chains (October 2025). The FCA and the Bank of England wrote in May 2026 that “technological advances mean that public chains can now also maintain privacy standards”.'
     sources:

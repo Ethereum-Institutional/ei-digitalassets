@@ -156,6 +156,11 @@ standards:
   status: Draft
   role: For the cross-ledger variant, where the collateral and the exposure, or two collateral tokens, sit on different chains, a mechanism that releases one leg only when the other has succeeded.
   url: https://eips.ethereum.org/EIPS/eip-7573
+- id: ERC-8320
+  title: Regulated Asset Claim
+  status: Draft
+  role: A registry of signed, versioned claims about the asset (identity, valuation, terms, compliance, backing, event, risk), each proposed, validated and activated by different parties, that a contract or an investor reads before acting; complementary to ERC-7943 and ERC-3643, which say how the asset may move. Created July 2026, from the authors of ERC-7943.
+  url: https://eips.ethereum.org/EIPS/eip-8320
 
 sections:
 - title: Why a public shared ledger

@@ -38,7 +38,10 @@ and decisions behind them.
 - No release is published for now (v0.1.0 and its tag were deleted and the mirror's history squashed, 27 October
   2026). A release is a tag `vX.Y.Z` pushed to the mirror after a mirror run; the mirror's `release.yml` builds the
   versioned HTML, attaches it, and marks `v0.x` releases as pre-releases with a warning at the top of the notes.
-- License: CC BY-NC-ND 4.0, © Ethereum Institutional (see `LICENSE`). Do not change it without explicit instruction.
+- License: CC BY-SA 4.0 for the content and MIT for the code (`LICENSE`, `LICENSE-CODE`; owner, 9 November 2026: share-alike lets
+  institutions adapt the maps privately and friendly projects republish them, while anyone who distributes an adapted
+  version must share it back under the same terms; until then CC BY-NC-ND 4.0, which barred the commercial reuse the
+  Architecture page invites). Do not change it without explicit instruction.
 
 ## How the build works
 
@@ -110,6 +113,11 @@ and decisions behind them.
   on, so a badge left of it (HSBC RedCoin, HKMA) does not drag it over unlicensed badges. HSBC RedCoin (RCHKD) is a
   bank-issued stablecoin on HSBC's own DLT network, placed in Commercial Bank ∩ Stablecoins, and drawn only under the
   HKMA lens (`only_under` in `tokens.yaml`: a badge relevant to one regime stays off the general map).
+- **Vertical layout, deferred (owner, 9 November 2026):** the map is to be re-laid as a column in `layout.yaml` only,
+  read top to bottom as Digital Money (Tokenized Currencies first, Native Cryptocurrencies below), Tokenized Real-World
+  Assets (Financial Instruments, then Commodities, then the rest) and Other Crypto-Assets, with the 720px minimum width
+  dropped so it fits a phone; badges, annotations, the Swiss corridor and every lens perimeter move with it. Held until
+  the November 2026 maps are published; the order is worth keeping for any horizontal rendering too.
 - **Text clears the border:** the build rejects a subtitle or sub-line wider than its circle at that height (a width
   estimate of 0.52 of the font size per character, 4 units in), so shorten it or split it over `lines2`.
 - RWA: Commodities, Credit & Trade Finance (private credit, loans, receivables; renamed 29 October 2026 so "credit"
@@ -222,6 +230,13 @@ and decisions behind them.
   ERC-721), and identity moved from one provider's directory (LDAP) to federated providers to self-custodied keys.
 
 ## Adoption page (`data/adoption/`; was Decentralization)
+
+- **Cause and effect on one page (owner, 9 November 2026, on external feedback that the title confused):** the name stays
+  Adoption. The intro states the house thesis in third person: institutions adopt the ledgers that decentralization made
+  trustworthy, whether or not they value decentralization itself, so the dials measure the cause; each scored lens ends
+  its intro with an "Adoption today" sentence carrying a dated, sourced adoption fact (the Networks map's named
+  deployments and market values; DefiLlama's stablecoin supply, marked as the provider's figure). Generic lenses
+  (consortium, single operator) carry none. A per-lens evidence strip waits for the Concord rendering (D57).
 
 - **Renamed Adoption** (owner, 29 October 2026; URL `/adoption/`, the old `/decentralization/` redirects): adoption
   follows decentralization, so the page leads with that claim and measures the decentralization behind it on the same
@@ -422,6 +437,10 @@ and decisions behind them.
   (`classical`), that the mechanism is a ledger record exposed through its admin keys (`state`) or that the scheme does
   not say (`unstated`); `part: [pq]` is for a verifier a contract can replace (ERC-1271). The issuer preset picks it as
   a choice, never a `require`; the Quantum pages carry the timelines and the Identity page only says what breaks.
+- **Agent mandates (owner, 9 November 2026):** no separate ERC-8226 badge; Know Your Agent is the one badge, and names
+  ERC-8226 (Draft) as one standard to consider for the mandate layer, with the facets reading it as "partly". ERC-8320 (Draft) is named in the
+  narrative as an attestation registry for assets, not a badge (the map is about parties). ERC-7943, written for
+  real-world assets, is listed on the cash-leg scenarios as an option for a deposit token or a regulated stablecoin.
 - **Identity is a live map** since 6 November 2026: no `wip` tag in `data/nav.yaml`; the site-wide v0.x notice still applies.
 - **Vendors:** two or three examples of a kind or none (`AGENTS.md` §4); vendor claims are marked vendor-stated.
 - **Labels:** the two big labels run on two lines, centered in each circle's own lune, because a one-line label at this

@@ -139,6 +139,11 @@ standards:
   status: Draft
   role: The agent’s identity (an ERC-721 token whose URI resolves to a registration file naming its services, endpoints and x402 support), its reputation (signed feedback, optionally with proof of payment) and independent validation, in three registries live on Ethereum mainnet since January 2026. Payments are outside the standard by design.
   url: https://eips.ethereum.org/EIPS/eip-8004
+- id: ERC-8226
+  title: Regulated Agent Mandate
+  status: Draft
+  role: 'The mandate layer between the principal and the agent: a principal cleared by a compliance provider grants the agent a scoped, time-bounded and financially capped mandate per asset, and the token (or an executor, or an EIP-7702 account) checks it at execution, beside the token’s own eligibility rule and the agent’s ERC-8004 entry. Created April 2026, from the authors of ERC-7943.'
+  url: https://eips.ethereum.org/EIPS/eip-8226
 
 sections:
 - title: Why a public shared ledger

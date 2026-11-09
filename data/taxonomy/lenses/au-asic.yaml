@@ -1,0 +1,108 @@
+# Lens: Australia, ASIC “financial product”
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). notes: the sentence shown under a circle's definition when this
+#   lens is active. Please add sources (URL + date) for every regulatory claim you change.
+# Here “in” means a financial product under Chapter 7 of the Corporations Act 2001 (ASIC's perimeter), “part” depends
+#   on the rights attached, “out” means ASIC's guidance or the Act says it is unlikely to be, or is not, a financial
+#   product. Where INFO 225 gives no example, a note says so and the reading is marked as Ethereum Institutional's
+#   (owner-approved house views, 9 November 2026). The Corporations Amendment (Digital Assets Framework) Act 2026
+#   commences on 8 April 2027; readings that change on that date say so.
+
+id: au-asic
+group: jurisdiction
+menu: 'AU · Australia (ASIC): “financial product”'
+name: Australia, ASIC “financial product”
+short: AU ASIC
+color: '#155e75'
+intro: 'Australia tests what a token does, not what it is called. ASIC asks whether a digital asset is a financial product under Chapter 7 of the Corporations Act 2001: a facility for making a financial investment, managing financial risk or making non-cash payments, or one of the listed products (a security, an interest in a managed investment scheme, a derivative, a deposit-taking facility of a bank). Its Information Sheet 225, updated in October 2025, works through 18 examples and warns that overseas categories such as security, utility and exchange tokens "do not necessarily translate" to Australia, where the definition is often broader. The High Court confirmed the breadth on 17 June 2026: a fixed-yield "earn" product funded in dollars was both a financial investment facility and a derivative. From 8 April 2027 the Digital Assets Framework Act makes digital asset platforms and tokenised custody platforms financial products, so their operators need an Australian financial services licence (applications by 7 October 2027), and it excludes public digital token infrastructure, consensus rewards, custodial staking offered through a licensed platform and the redemption right of qualifying wrapped tokens. Still open: payment stablecoin issuers are to move into a payments licensing regime, regulations on digital assets related to public infrastructure are anticipated, and ASIC''s guidance on these points is out for consultation until 27 November 2026.'
+status:
+  btc: out
+  eth: out
+  natoth: out
+  sc: in
+  unreg: in
+  alg: part
+  syn: in
+  td: in
+  dt: in
+  fmi: part
+  eq: in
+  fund: in
+  fi: in
+  dv: in
+  trk: in
+  sn: in
+  re: in
+  pm: part
+  ocom: part
+  coll: part
+  ip: part
+  pc: part
+  gov: part
+  util: part
+  comm: out
+  art: out
+  game: out
+  loy: out
+  lst: part
+notes:
+  btc: 'Unlikely to be a facility for making a financial investment, a non-cash payment facility or any other financial product (INFO 225, Example 5): no issuer sought funds against a promise of returns. From 8 April 2027 the network itself is public digital token infrastructure and validating it is not a financial service.'
+  eth: 'Ethereum Institutional''s reading: INFO 225 has no ether example, but its reasoning for bitcoin (no issuer, no promise of returns) and for basic proof-of-stake (Example 3: rewards are paid for validation work) applies. From 8 April 2027 public digital token infrastructure and the rights arising from consensus activities are excluded from financial products, and ASIC says regulations on related digital assets are anticipated.'
+  natoth: 'Ethereum Institutional''s reading, as for Ethereum: by the reasoning of Examples 3 and 5, and from 8 April 2027 the exclusions for public digital token infrastructure and consensus rewards. A chain whose issuer sold tokens to fund it is different: the presale in Example 11 is likely a managed investment scheme.'
+  sc: 'A non-interest-bearing stablecoin redeemable at par on demand is likely a non-cash payment facility (INFO 225, Example 18), so its issuer needs a licence. Distributors have ASIC relief: for named stablecoins until 1 June 2028 (Instrument 2025/631) and for eligible stablecoins and wrapped tokens of licensed issuers until 1 January 2029 (Instrument 2025/867). Treasury''s payments licensing proposal of October 2025 would move stablecoin issuers into a stored-value tier.'
+  unreg: 'The test is the token''s function, not whether any regime licenses the issuer: a stablecoin used for payments and redeemable at par is likely a non-cash payment facility (Example 18) whoever issues it.'
+  alg: 'Depends on the rights attached (INFO 225, Part A): a design with no redemption right and no promise of returns may fall outside, one whose holders share in pooled assets may be a managed investment scheme.'
+  syn: 'A yield-bearing token whose funds are pooled into assets that generate the return is likely an interest in a managed investment scheme (INFO 225, Example 6); the High Court held on 17 June 2026 (ASIC v Web3 Ventures Pty Ltd [2026] HCA 21) that a fixed-yield earn product, funded in dollars and converted into cryptocurrency by the issuer, was a financial investment facility and a derivative.'
+  td: 'A deposit-taking facility made available by an authorised deposit-taking institution in the course of its banking business is a financial product (Corporations Act s 764A(1)(i)); a tokenised deposit is that facility in another form.'
+  dt: 'As for tokenized deposits: the bank''s deposit-taking facility is a financial product (s 764A(1)(i)), whatever ledger records it.'
+  fmi: 'Ethereum Institutional''s reading: not addressed in INFO 225; a wholesale settlement token for licensed participants would be tested on the same functions (non-cash payment facility or deposit), and the answer depends on the issuer and the claim.'
+  eq: 'A security is a financial product (s 764A(1)(a)) whatever the format; INFO 225 applies the same test to tokens that carry shares or options.'
+  fund: 'An interest in a managed investment scheme is a financial product (s 764A(1)(b) and (ba)); INFO 225''s examples find a scheme wherever contributions are pooled to produce a return (Examples 6, 7, 9, 11).'
+  fi: 'A tokenised bond that promises to repay principal with interest is likely a debenture and so a security (INFO 225, Example 14).'
+  dv: 'A derivative is a financial product (s 764A(1)(c)); a contract to speculate on a digital asset''s price is likely a derivative (Example 15), and so is a wrapped token (Example 16).'
+  trk: 'Ethereum Institutional''s reading: a tracker or warrant on a digital asset is a derivative by the reasoning of Examples 15 and 16.'
+  sn: 'Ethereum Institutional''s reading: a structured note is a debenture or a derivative on the same reasoning as Examples 14 to 16.'
+  re: 'Tokens over a building bought with pooled funds to generate growth are likely interests in a managed investment scheme (INFO 225, Example 9).'
+  pm: 'Depends on the structure (INFO 225, Example 7): a token over pooled gold is likely a managed investment scheme; a token over specific, separately held bullion under bailment is unlikely to be. From 8 April 2027 the second is a tokenised custody platform, itself a financial product whose operator needs a licence.'
+  ocom: 'Ethereum Institutional''s reading, by Example 7: pooled exposure is likely a managed investment scheme; a token redeemable for a specific, separately held asset is not, and from 8 April 2027 is a tokenised custody platform.'
+  coll: 'Ethereum Institutional''s reading: a membership or collectible token with no financial return is unlikely to be a financial product (Examples 8 and 13); fractional ownership of a pooled collection is likely a managed investment scheme (Example 9 reasoning).'
+  ip: 'Ethereum Institutional''s reading: a token carrying a share of pooled royalty income is likely a managed investment scheme (Example 6 reasoning); not addressed by name in INFO 225.'
+  pc: 'Ethereum Institutional''s reading: a token carrying an enforceable right to be repaid money lent, with interest, is likely a debenture (Example 14); pooled loan exposure is likely a managed investment scheme. Not addressed by name in INFO 225.'
+  gov: 'Depends on the rights: an exchange token whose buyers funded the platform for a return is likely a financial investment facility (Example 1) and a presale is likely a managed investment scheme (Example 11); a pure voting right over a protocol is not addressed.'
+  util: 'Depends: a pre-paid services token redeemable for a fixed amount of service is unlikely to be a financial product (Example 10); a token sold to fund an enterprise with an expected return is likely one (Example 1).'
+  comm: 'A meme coin carrying no rights, with proceeds used in no enterprise, is unlikely to be a security or any other financial product (INFO 225, Example 12).'
+  art: 'Unlikely, on ASIC''s reasoning for gaming NFTs (Example 2) and membership NFTs (Example 8): contributions are not used to generate returns for holders.'
+  game: 'Gaming NFTs are unlikely to be a facility for making a financial investment (INFO 225, Example 2).'
+  loy: 'A membership NFT (Example 8) and a tokenised ticket (Example 13) are unlikely to be financial products: admission or access only, no linked return.'
+  lst: 'Depends. Managed staking that adds pooling, no minimum, instant withdrawal or other benefits is likely a financial investment facility and potentially a managed investment scheme (INFO 225, Example 4); a wrapped token is likely a derivative (Example 16). From 8 April 2027 a qualifying wrapped token is judged without its redemption right (s 765E), and custodial staking is excluded only when offered through a licensed platform (s 765A(1)(pa)); ASIC''s guidance on both is in consultation.'
+  cbdc: 'Not addressed in INFO 225.'
+  id: 'Not addressed in INFO 225.'
+sources:
+- title: 'ASIC, Information Sheet 225, Digital assets: financial products and services (updated October 2025; minor edits April 2026): the financial product tests, "do not necessarily translate", Examples 1 to 18'
+  url: https://www.asic.gov.au/regulatory-resources/digital-transformation/digital-assets-financial-products-and-services
+  checked: '2026-11-09'
+- title: 'Corporations Act 2001 (Compilation No. 149, 19 September 2026), Chapter 7: ss 763A to 763D (the general definition), 764A (specific inclusions, including (i) a deposit-taking facility of an ADI), 765A (exclusions)'
+  url: https://www.legislation.gov.au/C2004A00818/latest/downloads
+  checked: '2026-11-09'
+- title: 'Corporations Amendment (Digital Assets Framework) Act 2026 (No. 38, 2026; commences 8 April 2027): ss 761GB to 761GE, 764A(1)(la) and (lb), 765A(1)(pa), (pb), (xa) and (xb), 765E, 766A(3)(b), 9E, and paragraphs (me) and (mf) of the managed investment scheme definition'
+  url: https://www.legislation.gov.au/C2026A00038/asmade
+  checked: '2026-11-09'
+- title: 'ASIC, Consultation Paper 392, Digital asset law reform implementation (15 October 2026; comments to 27 November 2026): timeline (instruments and guidance March 2027, commencement 8 April 2027, applications by 7 October 2027), proposal E1 and Table 9 on public digital token infrastructure, wrapped tokens and custodial staking, anticipated regulations'
+  url: https://download.asic.gov.au/media/0pqj5lgc/cp392-published-15-october-2026.pdf
+  checked: '2026-11-09'
+- title: 'ASIC Corporations (Stablecoin Distribution Exemption) Instrument 2025/631 (repealed at the start of 1 June 2028)'
+  url: https://download.asic.gov.au/media/u4wn4daa/asic-corporations-stablecoin-distribution-exemption-instrument-2025-631.pdf
+  checked: '2026-11-09'
+- title: 'ASIC Corporations (Stablecoin and Wrapped Token Relief) Instrument 2025/867 (made 8 December 2025; repealed at the start of 1 January 2029)'
+  url: https://www.legislation.gov.au/F2025L01512/asmade
+  checked: '2026-11-09'
+- title: 'High Court of Australia, Australian Securities and Investments Commission v Web3 Ventures Pty Ltd [2026] HCA 21 (17 June 2026): appeal allowed; catchwords on whether a fixed-return product converted into cryptocurrency is a facility for making a financial investment and a derivative'
+  url: 'https://www.hcourt.gov.au/sites/default/files/eresources/2026-06-17/HCA/Australian%20Securities%20and%20Investments%20Commission%20v%20Web3%20Ventures%20Pty%20Ltd%20%28S136-2025%29%20%5B2026%5D%20HCA%2021.docx'
+  checked: '2026-11-09'
+- title: 'ASIC, media release 26-124MR, ASIC successful in High Court Block Earner appeal (17 June 2026; ASIC v Web3 Ventures Pty Ltd): a fixed-yield earn product was a financial investment facility and a derivative'
+  url: https://www.asic.gov.au/about-asic/news-centre/find-a-media-release/2026-releases/26-124mr-asic-successful-in-high-court-block-earner-appeal
+  checked: '2026-11-09'
+- title: 'Treasury, media release, New legislation to modernise the regulation of payment service providers (9 October 2025): stored-value facilities including stablecoin issuers'
+  url: https://ministers.treasury.gov.au/ministers/daniel-mulino-2025/media-releases/new-legislation-modernise-regulation-payment-service
+  checked: '2026-11-09'
+last_reviewed: '2026-11-09'

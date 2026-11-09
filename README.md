@@ -75,11 +75,13 @@ The `.fragment.html` variants are the same pages without the document skeleton, 
 
 ## License
 
-© 2026 Ethereum Institutional. Published under
-[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) (see [`LICENSE`](LICENSE)): you may view and
-share it unchanged, with attribution, for non-commercial purposes. Commercial use and adapted versions require
-Ethereum Institutional's prior written consent. This makes the repository source-available rather than open
-source in the OSI sense.
+© 2026 Ethereum Institutional. The content is published under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (see [`LICENSE`](LICENSE)): copy, share and adapt
+it for any purpose, including commercially, with credit to Ethereum Institutional, a link to the license and a note
+of what you changed, and release any adapted version you distribute under the same license. Using or adapting the
+material inside your own organization needs no publication. The build scripts and templates are software under
+the MIT License (`LICENSE-CODE`). The names "Ethereum Institutional" and "EI" and the logos are not licensed. Until
+9 November 2026 the repository was published under CC BY-NC-ND 4.0.
 
-By contributing (a pull request, issue or suggested edit) you grant Ethereum Institutional a perpetual,
-irrevocable, royalty-free license to use, modify and relicense your contribution; see `LICENSE`.
+By contributing (a pull request, issue or suggested edit) you license your contribution under the same CC BY-SA 4.0
+terms, and Ethereum Institutional may also publish it on its own platform under its own terms; see `LICENSE`.

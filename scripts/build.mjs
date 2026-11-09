@@ -24,6 +24,7 @@ const PAGES = [
   { dir: 'data/scenarios/collateral-mobility-margin', out: 'scenarios/collateral-mobility-margin' },
   { dir: 'data/scenarios/fund-dealing-tokenized', out: 'scenarios/fund-dealing-tokenized' },
   { dir: 'data/scenarios/corporate-actions-tokenized', out: 'scenarios/corporate-actions-tokenized' },
+  { dir: 'data/scenarios/stake-eth', out: 'scenarios/stake-eth' },
   { dir: 'data/architecture', out: 'architecture' },         // Architecture: components of a digital asset team
   { dir: 'data/adoption', out: 'adoption' },                 // Adoption: eleven decentralization dials (was /decentralization/)
   { dir: 'data/privacy', out: 'privacy' },
@@ -220,6 +221,7 @@ const GLYPHS = {
   key: () => `<circle cx="30" cy="28" r="12" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="30" cy="28" r="4" fill="#14130f"/><path d="M42 28H84M72 28V38M80 28V36" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   milestones: () => `<path d="M12 28H78" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><circle cx="26" cy="28" r="6" fill="#14130f"/><circle cx="48" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="68" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-dasharray="3 2"/>`,
   architecture: () => `<rect x="10" y="8" width="56" height="10" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="10" y="23" width="56" height="10" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="10" y="38" width="56" height="10" rx="3" fill="#14130f"/><rect x="72" y="8" width="14" height="40" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-dasharray="4 3"/>`,
+  stake: () => `<rect x="30" y="36" width="36" height="10" rx="3" fill="#14130f"/><rect x="30" y="23" width="36" height="10" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="30" y="10" width="36" height="10" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>` + PART.lock(78, 29),
   agent: () => `<rect x="10" y="14" width="26" height="24" rx="5" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="19" cy="25" r="2.5" fill="#14130f"/><circle cx="27" cy="25" r="2.5" fill="#14130f"/><path d="M23 14V8" stroke="#14130f" stroke-width="2"/>` + PART.arrow(40, 28, 58, 28) + PART.disc(74, 28, 13),
 };
 const iconSvg = (id, cls) => GLYPHS[id] ? `<svg class="${cls || 'ei-icon'}" viewBox="0 0 96 56" aria-hidden="true">${ICON_DEFS}${GLYPHS[id]()}</svg>` : '';

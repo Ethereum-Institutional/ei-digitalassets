@@ -1,0 +1,22 @@
+# Scenario page: staking ETH, from a solo validator to a liquid staking token. Content in scenario.yaml.
+
+kind: scenario
+title: 'Stake ETH: solo, through an operator, custodial or liquid'
+slug: stake-eth
+eyebrow: Ethereum Institutional · Research · Scenarios
+heading:
+  text: Stake ETH
+  italic: Stake
+intro: 'Staking is what an institution does with ETH it intends to hold: it locks the asset to a validator that secures Ethereum mainnet and earns the protocol''s rewards for doing so. Four models carry the same eight steps with different hands on the keys: a validator the institution runs itself, an operator that runs it against a withdrawal address the institution controls, a custodian that holds both the keys and the stake, or a liquid staking token that represents a share of a pooled stake. This page shows the steps and what each model leaves with whom; how a regime classifies each model is a question for the Taxonomy''s lenses.'
+svg_label: Swimlane diagram of staking ETH from the deposit to the exit, across the asset owner, the custodian or staking provider, the node operator, Ethereum mainnet and the auditor
+panel_default:
+  title: How it works
+  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger.
+notice:
+  title: Under development.
+  text: For discussion only; not legal advice.
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Staking differently?
+  text: Open an issue with what differs in your deployment (operator model, key custody, jurisdiction) and we will add the variant.
+footnote: 'Standards and examples were checked on 9 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'

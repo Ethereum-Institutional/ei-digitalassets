@@ -8,7 +8,7 @@ name: Ethereum mainnet
 menu: Ethereum mainnet
 short: Ethereum mainnet
 color: '#312e81'
-intro: 'Ethereum mainnet, read on 26 October 2026. Eight properties at level 5, one at level 4 and two at level 2. The one at 4: the open process that sets its rules still lets a client team block an upgrade. The 2016 DAO fork is disclosed under property rights; it passed ten years in July 2026, and the community has since declined to make another. The two at 2: single points of technical failure, because the largest client on each layer runs on about half of nodes and nodes across legal jurisdictions, the EU counted as one, are highly concentrated; and neutral inclusion, because one builder assembles half of relayed blocks today and the protocol changes that fix it are not yet live. Each of those dials says what is being done about it; a fix moves a dial only once it is live on mainnet. Everything else, from a decade without a halt to a stake worth more than thirty billion dollars that an attacker must commit to losing to revert a finalized block, is why a global shared ledger is a different kind of infrastructure from any ledger one party runs.'
+intro: 'Ethereum mainnet, read on 26 October 2026. Eight properties at level 5, one at level 4 and two at level 2. The one at 4: the open process that sets its rules still lets a client team block an upgrade. The 2016 DAO fork is disclosed under property rights; it passed ten years in July 2026, and the community has since declined to make another. The two at 2: single points of technical failure, because the largest client on each layer runs on about half of nodes and nodes across legal jurisdictions, the EU counted as one, are highly concentrated; and neutral inclusion, because one builder assembles half of relayed blocks today and the protocol changes that fix it are not yet live. Each of those dials says what is being done about it; a fix moves a dial only once it is live on mainnet. Everything else, from a decade without a halt to a stake worth more than thirty billion dollars that an attacker must commit to losing to revert a finalized block, is why a global shared ledger is a different kind of infrastructure from any ledger one party runs. Adoption today: the Networks map names 22 institutional deployments on Ethereum mainnet (25 October 2026), and DefiLlama reports USD 135 billion of stablecoins on it (9 November 2026), the most of any ledger.'
 cells:
   history: l4
   developers: l4
@@ -60,6 +60,9 @@ measures:
   block_production_concentration: { value: 52.55, unit: percent, basis: 'relay-delivered blocks, 7 days, largest builder', as_of: '2026-10-03', sources: ['https://www.relayscan.io/overview?t=7d', 'https://www.mevwatch.info/'] }
   monthly_active_developers: { level: 4, value: 31900, basis: 'Electric Capital, developers active in the ecosystem including L2s', as_of: '2025-09-30', sources: ['https://www.developerreport.com/reports/devs/2024', 'https://finance.yahoo.com/news/ethereum-leads-16-000-developers-054251913.html'] }
 sources:
+- title: 'DefiLlama, stablecoin supply by chain (9 November 2026; data provider, as reported)'
+  url: https://stablecoins.llama.fi/stablecoinchains
+  checked: '2026-11-09'
 - title: 'Coinbase, ETH-USD spot price'
   url: https://api.coinbase.com/v2/prices/ETH-USD/spot
   checked: '2026-10-26'
