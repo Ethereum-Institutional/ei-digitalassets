@@ -1,0 +1,537 @@
+# Digital Asset Taxonomy: column layout (geometry only), used on narrow screens; layout.yaml is the wide one.
+# cx,cy,rx,ry = ellipse center and radii; t:rect uses x,y,w,h,r. lx,ly = label anchor; fs/fw = label font size/weight.
+# suby/sy/s3y/liney/l2y position the small sub-labels. Units are SVG user units on a 700×3190 canvas.
+# Column layout (owner, 9 November 2026), shown under 900px: read top to bottom as Digital Money (Tokenized Currencies, then Native
+# Cryptocurrencies), Tokenized Real-World Assets (Financial Instruments, then Commodities, then the rest) and Other
+# Crypto-Assets, so the map reads on a scrolling screen and a phone. Tokenized Currencies is the wide 1600×1300 block
+# turned on its side: the four issuer circles stacked, the Stablecoins band running down beside them, so every overlap
+# keeps its meaning. Badge places for this layout are `column:` in tokens.yaml.
+
+# Lens corridors (`bridges`) join a lens group's perimeter into one continuous outline, keyed "<lens id>.<group id>";
+#   each corridor is a list of [x, y] waypoints routed through empty space so the outline encloses no other circle.
+#   ch.pay: Other Layer-1s up into the Stablecoins band (USDC, USDT), and down the right margin to Community Coins.
+# Drawn notes (`annotations`): `caption` = a leader line and a label that belongs to a circle (it dims with it);
+#   `connector` = a dotted link with a dot at its end and free-standing labels. The "claim on" link from Staked &
+#   Wrapped to Native Cryptocurrencies runs up the left margin, shown only while Staked & Wrapped is picked.
+bridges:
+  ch.pay:
+  - - - 350
+      - 1261
+    - - 350
+      - 1022
+    - - 440
+      - 984
+    - - 448
+      - 968
+  - - - 350
+      - 1353
+    - - 420
+      - 1395
+    - - 672
+      - 1450
+    - - 672
+      - 2670
+    - - 470
+      - 2720
+    - - 409
+      - 2735
+annotations:
+- kind: caption
+  circle: sn
+  path: M320 L320
+  x: 320
+  y: 1851
+  label: Structured notes
+- kind: caption
+  circle: trk
+  path: M318 L318
+  x: 318
+  y: 1596
+  label: Trackers & warrants
+- kind: connector
+  path: M342 568 Q 365 590 388 580
+  dot:
+  - 390
+  - 580
+  color: '#14213d'
+  labels:
+  - x: 348
+    y: 554
+    text: look-alike
+    italic: true
+  - x: 452
+    y: 568
+    text: bank-issued
+    size: 9
+    color: '#3b4580'
+    anchor: middle
+- kind: connector
+  path: M348 887 Q 366 897 400 887
+  dot:
+  - 402
+  - 887
+  color: '#14213d'
+  labels:
+  - x: 352
+    y: 911
+    text: look-alike
+    italic: true
+- kind: connector
+  'on': lst
+  path: M239 C 20 2570 20 1570 268 1311
+  dot:
+  - 270
+  - 1309
+  color: '#14213d'
+  labels:
+  - x: 40
+    y: 2050
+    text: claim on
+    italic: true
+canvas:
+  width: 700
+  height: 3190
+circles:
+  da:
+    t: rect
+    x: 10
+    y: 10
+    w: 680
+    h: 3160
+    r: 70
+    lx: 350
+    ly: 52
+    fs: 22
+    fw: 700
+  dm:
+    cx: 350
+    cy: 775
+    rx: 300
+    ry: 640
+    lx: 350
+    ly: 177
+    fs: 19
+    fw: 700
+  nat:
+    cx: 350
+    cy: 1195
+    rx: 130
+    ry: 170
+    lx: 350
+    ly: 1067
+    fs: 14
+    fw: 700
+  btc:
+    cx: 350
+    cy: 1137
+    rx: 38
+    ry: 38
+    lx: 350
+    ly: 1160
+    fs: 12
+    fw: 600
+  eth:
+    cx: 350
+    cy: 1217
+    rx: 38
+    ry: 38
+    lx: 350
+    ly: 1237
+    fs: 12
+    fw: 600
+  natoth:
+    cx: 350
+    cy: 1307
+    rx: 80
+    ry: 46
+    lx: 350
+    ly: 1282
+    fs: 11
+    fw: 600
+  tc:
+    cx: 350
+    cy: 602
+    rx: 250
+    ry: 412
+    lx: 350
+    ly: 228
+    fs: 15
+    fw: 700
+    sy: 249
+  cb:
+    cx: 350
+    cy: 350
+    rx: 140
+    ry: 88
+    lx: 350
+    ly: 282
+    fs: 13
+    fw: 700
+  cbdc:
+    cx: 365
+    cy: 360
+    rx: 92
+    ry: 56
+    lx: 365
+    ly: 318
+    fs: 13
+    fw: 700
+  rcbdc:
+    cx: 348
+    cy: 364
+    rx: 31
+    ry: 31
+    lx: 348
+    ly: 362
+    fs: 10.5
+    fw: 700
+  wcbdc:
+    cx: 415
+    cy: 364
+    rx: 31
+    ry: 31
+    lx: 415
+    ly: 362
+    fs: 10.5
+    fw: 700
+  bank:
+    cx: 350
+    cy: 528
+    rx: 140
+    ry: 88
+    lx: 350
+    ly: 462
+    fs: 13
+    fw: 700
+  td:
+    cx: 300
+    cy: 540
+    rx: 54
+    ry: 54
+    lx: 300
+    ly: 512
+    fs: 12
+    fw: 700
+  dt:
+    cx: 315
+    cy: 560
+    rx: 27
+    ry: 27
+    lx: 315
+    ly: 558
+    fs: 10
+    fw: 700
+  fin:
+    cx: 350
+    cy: 716
+    rx: 140
+    ry: 88
+    lx: 320
+    ly: 662
+    fs: 13
+    fw: 700
+    s3y: 690
+  fmi:
+    cx: 300
+    cy: 738
+    rx: 36
+    ry: 36
+    lx: 300
+    ly: 734
+    fs: 11
+    fw: 700
+  oiss:
+    cx: 350
+    cy: 904
+    rx: 140
+    ry: 88
+    lx: 350
+    ly: 844
+    fs: 13
+    fw: 700
+    s3y: 872
+  sc:
+    cx: 448
+    cy: 716
+    rx: 90
+    ry: 252
+    lx: 448
+    ly: 782
+    fs: 14
+    fw: 700
+  unreg:
+    cx: 448
+    cy: 716
+    rx: 90
+    ry: 252
+    lx: 448
+    ly: 862
+    fs: 10
+    fw: 700
+  lsc:
+    cx: 448
+    cy: 610
+    rx: 76
+    ry: 32
+    lx: 448
+    ly: 606
+    fs: 11.5
+    fw: 700
+  lpt:
+    cx: 448
+    cy: 610
+    rx: 76
+    ry: 32
+    lx: 448
+    ly: 606
+    fs: 11.5
+    fw: 700
+  syn:
+    cx: 300
+    cy: 904
+    rx: 46
+    ry: 23
+    lx: 300
+    ly: 901
+    fs: 10
+    fw: 700
+  alg:
+    cx: 440
+    cy: 887
+    rx: 38
+    ry: 14
+    lx: 440
+    ly: 890.5
+    fs: 10
+    fw: 700
+  rwa:
+    cx: 350
+    cy: 2030
+    rx: 310
+    ry: 600
+    lx: 350
+    ly: 1511
+    fs: 16
+    fw: 700
+  com:
+    cx: 350
+    cy: 2075
+    rx: 190
+    ry: 175
+    lx: 350
+    ly: 1943
+    fs: 14
+    fw: 700
+  pm:
+    cx: 275
+    cy: 2090
+    rx: 80
+    ry: 80
+    lx: 275
+    ly: 2075
+    fs: 13
+    fw: 700
+    suby: 2120
+  ocom:
+    cx: 426
+    cy: 2090
+    rx: 68
+    ry: 92
+    lx: 426
+    ly: 2040
+    fs: 12
+    fw: 700
+    liney: 2075
+  re:
+    cx: 410
+    cy: 2320
+    rx: 52
+    ry: 52
+    lx: 410
+    ly: 2315
+    fs: 13
+    fw: 700
+  coll:
+    cx: 290
+    cy: 2435
+    rx: 52
+    ry: 52
+    lx: 290
+    ly: 2430
+    fs: 12
+    fw: 700
+    suby: 2459
+  ip:
+    cx: 410
+    cy: 2435
+    rx: 52
+    ry: 52
+    lx: 410
+    ly: 2430
+    fs: 12
+    fw: 700
+    suby: 2459
+  pc:
+    cx: 290
+    cy: 2320
+    rx: 52
+    ry: 52
+    lx: 290
+    ly: 2315
+    fs: 11
+    fw: 700
+    suby: 2345
+  sec:
+    cx: 350
+    cy: 1700
+    rx: 195
+    ry: 165
+    lx: 350
+    ly: 1571
+    fs: 13.5
+    fw: 700
+  eq:
+    cx: 280
+    cy: 1650
+    rx: 52
+    ry: 52
+    lx: 266
+    ly: 1647
+    fs: 12
+    fw: 700
+    l2y: 1662
+  fund:
+    cx: 450
+    cy: 1650
+    rx: 42
+    ry: 42
+    lx: 450
+    ly: 1645
+    fs: 12
+    fw: 700
+    suby: 1661
+  fi:
+    cx: 280
+    cy: 1780
+    rx: 56
+    ry: 56
+    lx: 264
+    ly: 1767
+    fs: 12
+    fw: 700
+    l2y: 1797
+  dv:
+    cx: 355
+    cy: 1715
+    rx: 62
+    ry: 115
+    lx: 370
+    ly: 1707
+    fs: 12
+    fw: 700
+    l2y: 1725
+  trk:
+    cx: 318
+    cy: 1650
+    rx: 11
+    ry: 24
+    lx: 318
+    ly: 1650
+    fs: 10
+    fw: 700
+  sn:
+    cx: 320
+    cy: 1780
+    rx: 12
+    ry: 26
+    lx: 320
+    ly: 1780
+    fs: 10
+    fw: 700
+  oth:
+    cx: 350
+    cy: 2910
+    rx: 240
+    ry: 240
+    lx: 350
+    ly: 2718
+    fs: 16
+    fw: 700
+  art:
+    cx: 482.6
+    cy: 2879.7
+    rx: 52
+    ry: 52
+    lx: 482.6
+    ly: 2876.7
+    fs: 11
+    fw: 700
+    suby: 2892.7
+  game:
+    cx: 456.3
+    cy: 2994.8
+    rx: 52
+    ry: 52
+    lx: 456.3
+    ly: 2991.8
+    fs: 11
+    fw: 700
+    suby: 3007.8
+  comm:
+    cx: 409.0
+    cy: 2787.5
+    rx: 52
+    ry: 52
+    lx: 409.0
+    ly: 2782.5
+    fs: 11
+    fw: 700
+    suby: 2807.5
+  gov:
+    cx: 217.4
+    cy: 2879.7
+    rx: 52
+    ry: 52
+    lx: 217.4
+    ly: 2874.7
+    fs: 11
+    fw: 700
+  util:
+    cx: 350
+    cy: 2910
+    rx: 52
+    ry: 52
+    lx: 350
+    ly: 2905
+    fs: 11
+    fw: 700
+  loy:
+    cx: 243.7
+    cy: 2994.8
+    rx: 52
+    ry: 52
+    lx: 243.7
+    ly: 2989.8
+    fs: 11
+    fw: 700
+    suby: 3014.8
+  lst:
+    cx: 291.0
+    cy: 2787.5
+    rx: 52
+    ry: 52
+    lx: 291.0
+    ly: 2782.5
+    fs: 11
+    fw: 700
+    suby: 2807.5
+  id:
+    cx: 350.0
+    cy: 3046.0
+    rx: 52
+    ry: 52
+    lx: 350.0
+    ly: 3041.0
+    fs: 11
+    fw: 700
+    suby: 3066.0

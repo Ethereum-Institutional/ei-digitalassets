@@ -109,7 +109,6 @@ circles:
   family: perm
   collapsible: true
   band: true
-  zoom: [0, 1040]
   path: Digital Asset Networks
   desc: 'The nodes that order and finalize transactions are a list set outside the protocol: fixed by the operator or the members (QBFT and IBFT 2.0 in Besu, CometBFT and other Tendermint-style protocols, HotStuff, CantonBFT), or curated by the existing participants, as with the XRP Ledger’s default validator list, Stellar’s quorum sets, Hedera’s council and the single sequencers of today’s rollups. EI’s house rule: a network is permissioned whenever joining consensus requires review by the existing participants, whatever the marketing says. Permissioned consensus is fast and final and fits private and consortium ledgers; it also means that the members, not the protocol, decide who counts.'
 - id: priv
@@ -117,7 +116,6 @@ circles:
   - Private
   family: net
   collapsible: true
-  zoom: [0, 395]
   sub: one operator
   path: Digital Asset Networks › Permissioned consensus
   desc: 'One organization operates every node, so it alone decides who may read or write, and it can change the rules or roll back history. Useful for internal books and records, testing and settlement inside a group, at the price of giving outsiders nothing to verify independently. Institutions building private Ethereum-technology networks use clients such as Besu. EI’s reading of why Besu suits them, a house view: its Apache 2.0 license, which Besu’s own history says was needed because enterprise pilots were being blocked by open-source license policies; permissioned consensus (QBFT, IBFT 2.0) and node and account allowlisting built in, where GoQuorum, the earlier enterprise fork, is no longer actively developed; governance by a neutral foundation (Hyperledger, now LF Decentralized Trust) with several commercial support vendors; Ethereum mainnet compatibility, so the EVM specification and the team’s skills carry across to public chains; and Java, which enterprise IT and security teams already run and audit. Private ledgers outside the Ethereum ecosystem (Hyperledger Fabric, Corda) sit here too, without the public-chain upgrade path.'
@@ -142,7 +140,6 @@ circles:
   family: pub
   collapsible: true
   straddles: [perm, pless]
-  zoom: [1000, 1600]
   alt:
     pless: { lx: 975, ly: 330 }
   sub: anyone may transact and run a node
@@ -154,7 +151,6 @@ circles:
   family: pless
   collapsible: true
   band: true
-  zoom: [1035, 1600]
   path: Digital Asset Networks › Public
   desc: 'Anyone can take part in ordering transactions without anyone’s approval; what they need is a scarce resource, work or stake, that the protocol can count. Lewis-Pye and Roughgarden (Permissionless Consensus, 2023) show that the protocol then faces three challenges: unknown players (the set of entities running it is unknown and of unknown size), player inactivity (they can start or stop at any time) and sybils (one entity can run under any number of identifiers). The three nested bands inside this region are their hierarchy, ordered by how little the protocol assumes about who is running it: fully permissionless at the center, then dynamically available, then quasi-permissionless. A protocol that works in an inner band also works in every band outside it.'
 - id: quasi

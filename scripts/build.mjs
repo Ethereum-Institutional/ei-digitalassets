@@ -72,6 +72,8 @@ function load(dir) {
     return { dir, site, radial: true, gauges: site.kind === 'gauges', rings: yml('rings.yaml'), themes: yml('themes.yaml'), layout, lenses };
   }
   const circles = yml('circles.yaml'), layout = yml('layout.yaml');
+  // a second geometry for narrow screens (the Taxonomy column): same circles, badges and lenses, other positions
+  const alt = fs.existsSync(path.join(root, dir, 'layout-column.yaml')) ? yml('layout-column.yaml') : null;
   // badges: tokens.yaml (ticker chips) or networks.yaml (named pills); either way each badge has a `ticker` key
   const badgeFile = ['tokens.yaml', 'networks.yaml', 'badges.yaml'].find(f => fs.existsSync(path.join(root, dir, f)));
   const raw = badgeFile ? yml(badgeFile) : {};
@@ -79,7 +81,7 @@ function load(dir) {
   const lensDir = path.join(root, dir, 'lenses');
   const lenses = fs.existsSync(lensDir) ? fs.readdirSync(lensDir).filter(f => f.endsWith('.yaml')).sort()
     .map(f => parse(fs.readFileSync(path.join(lensDir, f), 'utf8'))) : [];
-  return { dir, circles, layout, tokens, site, lenses };
+  return { dir, circles, layout, alt, tokens, site, lenses };
 }
 
 // ---------- validation ----------
@@ -263,17 +265,19 @@ function validate(page) {
   if (page.scenario) return validateScenario(page);
   if (page.arch) return validateArchitecture(page);
   if (page.radial) return validateRadial(page);
-  const { dir, circles, layout, tokens, site, lenses } = page;
+  const { dir, circles, layout, alt, tokens, site, lenses } = page;
   const errors = [];
   const where = f => `${dir}/${f}`;
   const ids = new Set(circles.circles.map(c => c.id));
+  const layouts = [[layout, 'layout.yaml'], ...(alt ? [[alt, 'layout-column.yaml']] : [])]; // every geometry check runs on each
   for (const c of circles.circles) {
-    if (!layout.circles[c.id]) errors.push(`${where('layout.yaml')}: no geometry for circle "${c.id}"`);
+    for (const [lay, lf] of layouts) if (!lay.circles[c.id]) errors.push(`${where(lf)}: no geometry for circle "${c.id}"`);
     if (!c.desc) errors.push(`${where('circles.yaml')}: "${c.id}" has no definition (desc)`);
     if (c.family && !circles.palette[c.family]) errors.push(`${where('circles.yaml')}: "${c.id}" uses unknown palette family "${c.family}"`);
     // small text inside a circle must clear its border (owner, 29 October 2026): estimate each sub-label's width
     // (about 0.52 of the font size per character) and check it against the circle's chord at that height, 4 units in
-    const g = layout.circles[c.id];
+    for (const [lay, lf] of layouts) {
+    const g = lay.circles[c.id];
     if (g && g.t !== 'rect' && g.rx) {
       const lh = (g.fs || 12) * 1.15, nLab = [].concat(c.label || []).length;
       const rows = [];
@@ -288,12 +292,13 @@ function validate(page) {
         const half = String(t).length * fs * 0.52 / 2, off = Math.abs((g.lx ?? g.cx) - g.cx);
         const worst = Math.max(Math.abs(y - fs * 0.75 - g.cy), Math.abs(y + fs * 0.25 - g.cy));
         const chord = worst >= g.ry ? 0 : g.rx * Math.sqrt(1 - (worst / g.ry) ** 2);
-        if (half + off + 4 > chord) errors.push(`${where('circles.yaml')}: "${c.id}" text "${t}" touches the circle's border (about ${Math.round(2 * half)} wide, ${Math.round(2 * Math.max(0, chord - off - 4))} available at that height)`);
+        if (half + off + 4 > chord) errors.push(`${where('circles.yaml')}: "${c.id}" text "${t}" touches the circle's border in ${lf} (about ${Math.round(2 * half)} wide, ${Math.round(2 * Math.max(0, chord - off - 4))} available at that height)`);
       }
+    }
     }
     if (c.clip && !ids.has(c.clip)) errors.push(`${where('circles.yaml')}: "${c.id}" clips to unknown circle "${c.clip}"`);
   }
-  for (const id of Object.keys(layout.circles)) if (!ids.has(id)) errors.push(`${where('layout.yaml')}: geometry for unknown circle "${id}"`);
+  for (const [lay, lf] of layouts) for (const id of Object.keys(lay.circles)) if (!ids.has(id)) errors.push(`${where(lf)}: geometry for unknown circle "${id}"`);
   for (const c of circles.circles) if (c.zoom && !(Array.isArray(c.zoom) && c.zoom.length === 2 && c.zoom.every(v => typeof v === 'number'))) errors.push(`${where('circles.yaml')}: "${c.id}" zoom must be [x0, x1]`);
   for (const c of circles.circles) if (c.expand) {
     if (!['collapsed', 'expanded'].includes(c.expand)) errors.push(`${where('circles.yaml')}: "${c.id}" expand must be collapsed or expanded`);
@@ -305,10 +310,17 @@ function validate(page) {
     if (!ids.has(p)) errors.push(`${where('circles.yaml')}: children of unknown circle "${p}"`);
     for (const k of ks) if (!ids.has(k)) errors.push(`${where('circles.yaml')}: "${p}" lists unknown child "${k}"`);
   }
-  for (const a of layout.annotations || []) {
-    if (!['caption', 'connector'].includes(a.kind)) errors.push(`${where('layout.yaml')}: annotation kind "${a.kind}" must be caption or connector`);
-    if (a.circle && !ids.has(a.circle)) errors.push(`${where('layout.yaml')}: annotation for unknown circle "${a.circle}"`);
-    if (a.on && !ids.has(a.on)) errors.push(`${where('layout.yaml')}: connector shown "on" unknown circle "${a.on}"`);
+  for (const [lay, lf] of layouts) for (const a of lay.annotations || []) {
+    if (!['caption', 'connector'].includes(a.kind)) errors.push(`${where(lf)}: annotation kind "${a.kind}" must be caption or connector`);
+    if (a.circle && !ids.has(a.circle)) errors.push(`${where(lf)}: annotation for unknown circle "${a.circle}"`);
+    if (a.on && !ids.has(a.on)) errors.push(`${where(lf)}: connector shown "on" unknown circle "${a.on}"`);
+  }
+  // a badge's center sits inside its circle, and inside each circle `also_in` names, in every layout (owner, 9 November 2026)
+  const inEll = (x, y, g) => g && (g.t === 'rect' ? x >= g.x && x <= g.x + g.w && y >= g.y && y <= g.y + g.h : ((x - g.cx) / g.rx) ** 2 + ((y - g.cy) / g.ry) ** 2 <= 1);
+  for (const t of tokens.tokens) for (const [lay, lf] of layouts) {
+    const p = lay === layout ? t : t.column;
+    if (!p || typeof p.x !== 'number' || typeof p.y !== 'number') { if (lay !== layout) errors.push(`${where('badges')}: "${t.ticker}" needs column: { x, y } for ${lf}`); continue; }
+    for (const cid of [t.circle, ...(t.also_in || [])]) if (ids.has(cid) && !inEll(p.x, p.y, lay.circles[cid])) errors.push(`${where('badges')}: "${t.ticker}" at (${p.x}, ${p.y}) is not inside "${cid}" in ${lf}`);
   }
   const tickers = new Set(tokens.tokens.map(t => t.ticker));
   if (tickers.size !== tokens.tokens.length) errors.push(`${where('badges')}: duplicate badge ids: ${tokens.tokens.map(t => t.ticker).filter((t, i, a) => a.indexOf(t) !== i).join(', ')}`);
@@ -355,8 +367,8 @@ function validate(page) {
   const lensById = Object.fromEntries(lenses.map(L => [L.id, L]));
   for (const L of lenses) {
     const shown = lensOnly.filter(id => mentions(L).has(id));
-    for (const a of shown) for (const b of shown) {
-      const ga = layout.circles[a], gb = layout.circles[b];
+    for (const [lay] of layouts) for (const a of shown) for (const b of shown) {
+      const ga = lay.circles[a], gb = lay.circles[b];
       if (a < b && ga && gb && ga.cx === gb.cx && ga.cy === gb.cy) errors.push(`${where(`lenses/${L.id}.yaml`)}: mentions both "${a}" and "${b}", which share a position; pick one`);
     }
   }
@@ -367,11 +379,11 @@ function validate(page) {
     else if (!lensOnly.some(id => mentions(lensById[lid]).has(id))) errors.push(`${where('badges')}: "${t.ticker}" is licensed under "${lid}", but that lens shows no licensed or recognized circle (${lensOnly.join(', ')})`);
   }
   // bridges: waypoints that join a lens group's perimeter into one continuous outline, keyed "<lens>.<group>"
-  for (const [key, paths] of Object.entries(layout.bridges || {})) {
+  for (const [lay, lf] of layouts) for (const [key, paths] of Object.entries(lay.bridges || {})) {
     const [lid, gid] = key.split('.');
-    if (!(lensById[lid]?.groups || []).some(G => G.id === gid)) errors.push(`${where('layout.yaml')}: bridge "${key}" names an unknown lens group`);
+    if (!(lensById[lid]?.groups || []).some(G => G.id === gid)) errors.push(`${where(lf)}: bridge "${key}" names an unknown lens group`);
     for (const pts of Array.isArray(paths) ? paths : [null])
-      if (!Array.isArray(pts) || pts.length < 2 || pts.some(p => !Array.isArray(p) || p.length !== 2)) errors.push(`${where('layout.yaml')}: each corridor in bridge "${key}" needs two or more [x, y] points`);
+      if (!Array.isArray(pts) || pts.length < 2 || pts.some(p => !Array.isArray(p) || p.length !== 2)) errors.push(`${where(lf)}: each corridor in bridge "${key}" needs two or more [x, y] points`);
   }
   for (const k of ['title', 'eyebrow', 'intro', 'footnote', ...((site.lens_groups || []).length ? ['lens_help'] : [])]) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
   if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
@@ -473,7 +485,7 @@ function renderIndex({ site, out }) {
     + (site.scenarios || []).filter(sc => sc.map).map(sc => { const w = pillW(sc.short || sc.title), live = !!sc.path, x = sc.map.x - w / 2;
         const pill = `<g class="pill${live ? ' live' : ''}"><title>${esc(sc.title)}${live ? '' : ' (in progress)'}</title><rect x="${x}" y="${sc.map.y - 11}" width="${w}" height="22" rx="11" fill="${live ? '#14130f' : '#b8b3a8'}" stroke="#f8f6f2" stroke-width="1.5"/><text x="${sc.map.x}" y="${sc.map.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="#f2efe9">${esc(sc.short || sc.title)}</text></g>`;
         return live ? `<a href="${relHref(out, sc.path)}" aria-label="${esc(sc.title)}">${pill}</a>` : pill; }).join('')
-    + `</svg></div><div class="ei-legend"><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#14130f"/></svg> Written scenario (click to open)</span><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#b8b3a8"/></svg> Planned</span></div>` : '';
+    + `</svg></div><div class="ei-legend"><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#14130f"/></svg> Click a scenario to open it</span></div>` : '';
   const bands = site.bands || [];
   const tile = sc => { const live = !!sc.path;
     return `<${live ? `a class="ei-card tile" href="${relHref(out, sc.path)}"` : 'div class="ei-card tile planned"'} data-roles="${(sc.roles || []).join(' ')}">${iconSvg(sc.icon)}<h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
@@ -503,6 +515,7 @@ function renderIndex({ site, out }) {
   .ei-card.planned{cursor:default;opacity:.85}
   .ei-card[hidden],.ei-band[hidden]{display:none}
   .ei-wrap.venn svg{max-width:760px;min-width:520px;margin:0 auto}
+  @media (max-width:600px){ .ei-wrap.venn svg{min-width:0} }
   .ei-wrap.venn svg a rect{cursor:pointer}
   .ei-wrap.venn svg a:hover rect,.ei-wrap.venn svg a:focus rect{stroke:#14130f;stroke-width:3}
   .ei-wrap.venn svg text{pointer-events:none;font-family:var(--sans)}
@@ -588,12 +601,14 @@ function fillCommon(html, { site, out, data }) {
     .replace('__NOTICE__', sh.notice).replace('__CONTRIBUTE__', sh.contribute)
     .replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
-function render({ circles, layout, tokens, site, lenses, out }) {
+function render({ circles, layout, alt, tokens, site, lenses, out }) {
   const data = {
     palette: circles.palette, containers: circles.containers || [], children: circles.children || {}, inherit_status: circles.inherit_status || {},
     circles: circles.circles.map(c => Object.assign({}, c, layout.circles[c.id])),
     tokens: site.facets ? tokens.tokens.map(t => Object.assign({}, t, { facts: facts(t, site) })) : tokens.tokens,
     lenses, version, bridges: layout.bridges || {}, annotations: layout.annotations || [], canvas: layout.canvas,
+    // the narrow-screen geometry (layout-column.yaml and the badges' `column` places); the page swaps to it under 900px
+    alt: alt ? { canvas: alt.canvas, circles: alt.circles, tokens: Object.fromEntries(tokens.tokens.filter(t => t.column).map(t => [t.ticker, t.column])), bridges: alt.bridges || {}, annotations: alt.annotations || [] } : null,
     facets: site.facets ? { title: site.facets_title || 'Focus on', help: site.facets_help || '', groups: site.facet_groups || [], list: site.facets, presets: site.facet_presets || [],
       as_of: new Date(site.facts_as_of).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) } : null,
     lens_groups: site.lens_groups || [], badge: site.badge || 'disc', pill_scale: site.pill_scale || 1, facets_noun: site.facets_noun || 'design',
@@ -601,7 +616,7 @@ function render({ circles, layout, tokens, site, lenses, out }) {
   };
   return fillCommon(read('src/template.html'), { site, out, data })
     .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))
-    .replace('__CANVAS_W__', layout.canvas.width).replace('__CANVAS_H__', layout.canvas.height)
+    .replace('__CANVAS_W__', layout.canvas.width).replace('__CANVAS_H__', layout.canvas.height).replace('__TALL__', layout.canvas.height > layout.canvas.width ? ' tall' : '')
     .replace('__SECTIONS__', sectionsHtmlC(site)); // narrative under the map (sources collapsed, optional `more` links)
 }
 // sources: inline when three or fewer, otherwise collapsed behind a "Sources (n)" toggle

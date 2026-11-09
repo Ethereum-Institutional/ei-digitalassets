@@ -38,3 +38,7 @@ remaining strip across the full width without changing text size.
 Add a network or participant only with primary-source documentation, and agree additions or removals with
 Ethereum Institutional first. Network facts (validator counts, sequencer status, live deployments) drift quickly;
 `as_of` in `networks.yaml` records when they were last checked.
+
+Two geometries draw the same map: `layout.yaml` (wide, permissionless on the left) and `layout-column.yaml` (a column for
+phones, permissionless on top). A new circle needs geometry in both, and a new badge needs `x`, `y` and a `column: { x, y }`
+place; the build checks both.

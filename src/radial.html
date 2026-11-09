@@ -12,6 +12,7 @@ __STYLE__
   /* radial pages (kind: radial): concentric rings cut into theme wedges around a hub. Shares the map styles above. */
   /* the map is square: cap it by the viewport height so it sits above the fold on a laptop screen */
   .ei-wrap.radial svg{max-width:min(880px, calc(100vh - 300px));min-width:520px;margin:0 auto}
+  @media (max-width:600px){ .ei-wrap.radial svg{min-width:0;max-width:100%} }
   .ei-wrap svg .cell{cursor:pointer;transition:opacity .2s}
   .ei-wrap svg .cell:hover path{stroke:#14130f;stroke-width:3}
   .ei-wrap svg .cell.pinned path{stroke:#14130f;stroke-width:4.5}

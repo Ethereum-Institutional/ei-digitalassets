@@ -1,0 +1,337 @@
+# Digital Asset Networks: column layout (geometry only), shown under 900px; layout.yaml is the wide map.
+# Permissionless consensus on top and Permissioned below (owner, 9 November 2026), Public spanning both with its lower
+# crescent under Permissioned, then Consortium (Sovereign inside it) and Private. Badge places for this layout are
+# `column:` in networks.yaml; collapsible regions keep no zoom strip here (the page stacks, so hiding a region simply
+# hides it). Units on an 800×2380 canvas.
+canvas:
+  width: 800
+  height: 2380
+circles:
+  dan:
+    t: rect
+    x: 10
+    y: 10
+    w: 780
+    h: 2340
+    r: 70
+    lx: 400
+    ly: 52
+    fs: 26
+    fw: 700
+  perm:
+    t: rect
+    x: 40
+    y: 960
+    w: 720
+    h: 1350
+    r: 70
+    lx: 400
+    ly: 988
+    fs: 15
+    fw: 700
+  priv:
+    cx: 400
+    cy: 2120
+    rx: 300
+    ry: 150
+    lx: 400
+    ly: 2010
+    fs: 22
+    fw: 700
+    suby: 2032
+  cons:
+    cx: 400
+    cy: 1620
+    rx: 310
+    ry: 340
+    lx: 400
+    ly: 1478
+    fs: 22
+    fw: 700
+    suby: 1500
+  sov:
+    cx: 400
+    cy: 1855
+    rx: 150
+    ry: 100
+    lx: 400
+    ly: 1780
+    fs: 15
+    fw: 700
+    suby: 1800
+  besu:
+    cx: 290
+    cy: 2130
+    rx: 120
+    ry: 120
+    lx: 290
+    ly: 2046
+    fs: 12
+    fw: 700
+    suby: 2060
+    collapsed:
+      cx: 290
+      cy: 2130
+      rx: 78
+      ry: 13
+      lx: 284
+      ly: 2133.5
+      fs: 10
+  swift:
+    cx: 265
+    cy: 1675
+    rx: 165
+    ry: 105
+    lx: 265
+    ly: 1595
+    fs: 12
+    fw: 700
+    suby: 1609
+    collapsed:
+      cx: 265
+      cy: 1675
+      rx: 78
+      ry: 13
+      lx: 259
+      ly: 1678.5
+      fs: 10
+  partior:
+    cx: 560
+    cy: 1680
+    rx: 115
+    ry: 72
+    lx: 560
+    ly: 1632
+    fs: 12
+    fw: 700
+    suby: 1646
+    collapsed:
+      cx: 560
+      cy: 1680
+      rx: 45
+      ry: 13
+      lx: 554
+      ly: 1683.5
+      fs: 10
+  agora:
+    cx: 400
+    cy: 1567
+    rx: 165
+    ry: 70
+    lx: 400
+    ly: 1513
+    fs: 12
+    fw: 700
+    suby: 1527
+    collapsed:
+      cx: 400
+      cy: 1532
+      rx: 60
+      ry: 13
+      lx: 394
+      ly: 1535.5
+      fs: 10
+  non:
+    cx: 450
+    cy: 1405
+    rx: 125
+    ry: 45
+    lx: 450
+    ly: 1391
+    fs: 10.5
+    fw: 700
+  pub:
+    cx: 400
+    cy: 880
+    rx: 340
+    ry: 560
+    lx: 400
+    ly: 365
+    fs: 22
+    fw: 700
+    suby: 387
+  pless:
+    t: rect
+    x: 40
+    y: 110
+    w: 720
+    h: 820
+    r: 70
+    lx: 400
+    ly: 150
+    fs: 15
+    fw: 700
+  quasi:
+    cx: 400
+    cy: 635
+    rx: 250
+    ry: 240
+    lx: 400
+    ly: 415
+    fs: 13
+    fw: 700
+    liney: 445
+  dyn:
+    cx: 400
+    cy: 690
+    rx: 200
+    ry: 180
+    lx: 400
+    ly: 547
+    fs: 13
+    fw: 700
+    liney: 577
+  full:
+    cx: 400
+    cy: 745
+    rx: 130
+    ry: 112
+    lx: 400
+    ly: 665
+    fs: 12
+    fw: 700
+    liney: 695
+  ethereum:
+    cx: 400
+    cy: 720
+    rx: 190
+    ry: 150
+    lx: 400
+    ly: 610
+    fs: 12
+    fw: 700
+    suby: 624
+    collapsed:
+      cx: 350
+      cy: 610
+      rx: 77
+      ry: 10
+      lx: 336
+      ly: 613.4
+      fs: 9.5
+  base:
+    cx: 400
+    cy: 1060
+    rx: 165
+    ry: 75
+    lx: 400
+    ly: 1015
+    fs: 12
+    fw: 700
+    suby: 1029
+    collapsed:
+      cx: 400
+      cy: 1040
+      rx: 43
+      ry: 10
+      lx: 386
+      ly: 1043.4
+      fs: 9.5
+  arbitrum:
+    cx: 400
+    cy: 1100
+    rx: 165
+    ry: 75
+    lx: 400
+    ly: 1055
+    fs: 12
+    fw: 700
+    suby: 1069
+    collapsed:
+      cx: 400
+      cy: 1080
+      rx: 66
+      ry: 10
+      lx: 386
+      ly: 1083.4
+      fs: 9.5
+  optimism:
+    cx: 400
+    cy: 1140
+    rx: 130
+    ry: 55
+    lx: 400
+    ly: 1105
+    fs: 12
+    fw: 700
+    suby: 1119
+    collapsed:
+      cx: 400
+      cy: 1120
+      rx: 60
+      ry: 10
+      lx: 386
+      ly: 1123.4
+      fs: 9.5
+  polygon:
+    cx: 400
+    cy: 512
+    rx: 170
+    ry: 75
+    lx: 400
+    ly: 462
+    fs: 12
+    fw: 700
+    suby: 476
+    collapsed:
+      cx: 330
+      cy: 502
+      rx: 49
+      ry: 10
+      lx: 323
+      ly: 505.4
+      fs: 9.5
+  avalanche:
+    cx: 400
+    cy: 512
+    rx: 185
+    ry: 85
+    lx: 400
+    ly: 462
+    fs: 12
+    fw: 700
+    suby: 476
+    collapsed:
+      cx: 430
+      cy: 502
+      rx: 43
+      ry: 10
+      lx: 423
+      ly: 505.4
+      fs: 9.5
+  hedera:
+    cx: 300
+    cy: 1120
+    rx: 130
+    ry: 55
+    lx: 300
+    ly: 1085
+    fs: 12
+    fw: 700
+    suby: 1099
+    collapsed:
+      cx: 290
+      cy: 1100
+      rx: 35
+      ry: 10
+      lx: 283
+      ly: 1103.4
+      fs: 9.5
+  bnb:
+    cx: 400
+    cy: 497
+    rx: 140
+    ry: 55
+    lx: 400
+    ly: 462
+    fs: 12
+    fw: 700
+    suby: 476
+    collapsed:
+      cx: 330
+      cy: 477
+      rx: 43
+      ry: 10
+      lx: 323
+      ly: 480.4
+      fs: 9.5

@@ -7,6 +7,7 @@ circles.yaml      content: every circle's label, color family and definition (de
 layout.yaml       geometry only: positions, sizes, bridges and annotations (rarely edited)
 tokens.yaml       the top-10 token badges and where they sit
 site.yaml         page title, intro, footnote, legend and page settings
+layout-column.yaml the same geometry for narrow screens
 lenses/*.yaml     one file per regulatory lens
 ```
 
@@ -34,7 +35,10 @@ Badges never move: under that lens the licensed-or-recognized circle it shows st
 group can also take badges in with `tokens: [USDT, USDC]`, and `bridges:` in `layout.yaml` joins a group's separate
 circles into one continuous outline (see the Switzerland lens).
 
-Small drawn notes (leader-line captions, dotted connectors) are `annotations:` in `layout.yaml`. The "Under
+Two geometries draw the same map: `layout.yaml` (wide, desktops) and `layout-column.yaml` (a column, phones). A new
+circle needs geometry in both, and a new badge needs `x`, `y` and a `column: { x, y }` place; the build checks every
+label and every badge against both. Small drawn notes (leader-line captions, dotted connectors) are `annotations:`
+in each layout file, and lens corridors (`bridges:`) too. The "Under
 development" banner is `notice:` in `site.yaml`; remove it once counsel has reviewed.
 
 Every regulatory claim should carry a source: add the URL and the date you checked it to the lens file's `sources:`

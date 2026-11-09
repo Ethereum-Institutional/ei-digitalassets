@@ -113,11 +113,19 @@ and decisions behind them.
   on, so a badge left of it (HSBC RedCoin, HKMA) does not drag it over unlicensed badges. HSBC RedCoin (RCHKD) is a
   bank-issued stablecoin on HSBC's own DLT network, placed in Commercial Bank ∩ Stablecoins, and drawn only under the
   HKMA lens (`only_under` in `tokens.yaml`: a badge relevant to one regime stays off the general map).
-- **Vertical layout, deferred (owner, 9 November 2026):** the map is to be re-laid as a column in `layout.yaml` only,
-  read top to bottom as Digital Money (Tokenized Currencies first, Native Cryptocurrencies below), Tokenized Real-World
-  Assets (Financial Instruments, then Commodities, then the rest) and Other Crypto-Assets, with the 720px minimum width
-  dropped so it fits a phone; badges, annotations, the Swiss corridor and every lens perimeter move with it. Held until
-  the November 2026 maps are published; the order is worth keeping for any horizontal rendering too.
+- **Two layouts, one map (owner, 9 November 2026):** `layout.yaml` is the wide 1600×1300 map for desktops; `layout-column.yaml`
+  is a 700×3190 column for screens under 900px, read top to bottom as Digital Money (Tokenized Currencies, then Native
+  Cryptocurrencies), Tokenized Real-World Assets (Financial Instruments, then Commodities, then the rest) and Other
+  Crypto-Assets. The column is the wide block turned on its side: the four issuer circles stacked, the Stablecoins band
+  down beside them, the licensed pill in the bank and non-bank gap, so every overlap keeps its meaning (the build
+  compares nothing, so re-check overlaps by eye when circles move). Badges carry a `column:` place and may name
+  `also_in` circles; the build checks a badge's center against its circle and `also_in` in both layouts and runs every
+  label check on both. The page picks the geometry once by viewport before drawing and reloads on crossing the
+  breakpoint; a lens-only circle stretches along whichever axis its badges overshoot. Every Venn map and the Scenarios
+  map shrink to the phone's width under 900px (no sideways scroll); `npm run check` renders every page at 1440px and
+  at 390px and applies every lens at both. Privacy and Identity keep their three-circle shape on a phone (owner, 9
+  November 2026: a three-circle Venn cannot stack; they already fit). Choosing a lens names it in a
+  strip at the top of the map and scrolls the map's top into view; `#lens=<id>` opens the page with a lens applied.
 - **Text clears the border:** the build rejects a subtitle or sub-line wider than its circle at that height (a width
   estimate of 0.52 of the font size per character, 4 units in), so shorten it or split it over `lines2`.
 - RWA: Commodities, Credit & Trade Finance (private credit, loans, receivables; renamed 29 October 2026 so "credit"
@@ -151,10 +159,14 @@ and decisions behind them.
 
 ## Digital Asset Networks map (`data/networks/`)
 
+- **Permissionless first (owner, 9 November 2026):** Permissionless consensus sits on the left of the wide map and on top
+  of the phone column (`layout-column.yaml`, under 900px), Permissioned on the right or below, Public spanning both;
+  public permissionless is the north star and comes first. Badges carry `column:` places; `zoom` strips live in the
+  layout files (none in the column, which stacks). Expanded circles overlap their neighbors in both layouts, as before.
 - Two classifications on one map. Network circles: **Private** (one operator), **Consortium** (several operators,
   admitted by agreement) with **Sovereign** inside it (all participants in one jurisdiction), **Public** (anyone may
   transact and run a node, whatever the consensus rule). Consensus overlay: two rounded rectangles side by side,
-  **Permissioned** (over Private, Consortium and Public's left crescent) and **Permissionless** (over the rest of
+  **Permissioned** (over Private, Consortium and Public's crescent) and **Permissionless** (over the rest of
   Public), the latter holding three nested bands from Lewis-Pye and Roughgarden, "Permissionless Consensus" (arXiv 2304.14701): **fully
   permissionless** (center: the protocol knows nothing about who runs it; proof of work), **dynamically available**
   (known staked identifiers, some honest staker online; longest-chain PoS, Ethereum mainnet's fork choice),

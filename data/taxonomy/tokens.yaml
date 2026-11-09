@@ -1,5 +1,7 @@
 # Token badges: the ten largest digital assets by market capitalization, placed by issuer and structure.
 # `circle` is the id of the circle the badge sits in (its definition inherits that circle's lens treatment).
+# `column:` is the badge's place in the column layout (layout-column.yaml, phones); `also_in`
+# names other circles the badge must sit inside, which the build checks in both layouts.
 # Badges never move. `licensed_under` lists the lenses that license the token: under those lenses the lens-only circle
 # the lens shows (Licensed or Recognized Stablecoins / Payment Tokens) stretches to take the badge in. List a lens only
 # where that regime licensed the issuer or its regulator specifically recognized the token; tolerance does not count.
@@ -13,54 +15,64 @@ tokens:
   circle: btc
   x: 300
   y: 343
+  column: { x: 350, y: 1128 }
   desc: The largest digital asset, about $1.6 trillion in mid-October 2026. Native to the Bitcoin network; no issuer, no redemption claim.
 - ticker: ETH
   name: Ether
   circle: eth
   x: 300
   y: 423
+  column: { x: 350, y: 1208 }
   desc: The native asset of Ethereum, about $290 billion in mid-October 2026. Pays gas fees and is staked to secure the network.
 - ticker: BNB
   name: BNB
   circle: natoth
   x: 266
   y: 517
+  column: { x: 316, y: 1302 }
   desc: The native asset of BNB Chain, about $96 billion. Closely associated with the Binance exchange group.
 - ticker: XRP
   name: XRP
   circle: natoth
   x: 300
   y: 517
+  column: { x: 350, y: 1302 }
   desc: The native asset of the XRP Ledger, about $83 billion.
 - ticker: SOL
   name: Solana
   circle: natoth
   x: 334
   y: 517
+  column: { x: 384, y: 1302 }
   desc: The native asset of Solana, about $60 billion.
 - ticker: TRX
   name: TRON
   circle: natoth
   x: 266
   y: 546
+  column: { x: 316, y: 1331 }
   desc: The native asset of TRON, about $31 billion. TRON is a major settlement network for USDT.
 - ticker: HYPE
   name: Hyperliquid
   circle: natoth
   x: 300
   y: 546
+  column: { x: 350, y: 1331 }
   desc: The native asset of the Hyperliquid Layer-1, which runs an on-chain perpetuals exchange; about $20 billion.
 - ticker: ZEC
   name: Zcash
   circle: natoth
   x: 334
   y: 546
+  column: { x: 384, y: 1331 }
   desc: 'The native asset of Zcash, about $18 billion. A privacy coin, with optional shielded transfers: some regulators list privacy tokens as prohibited, and many venues restrict them.'
 - ticker: USDT
   name: Tether USDt
   circle: sc
   x: 984
   y: 534
+  column: { x: 452, y: 724 }
+  also_in: [fin]   # also inside Regulated Non-Bank, checked by the build
   licensed_under: [adgm, sv]
   desc: 'The largest stablecoin by circulation, issued by Tether, which is headquartered and licensed in El Salvador. As of October 2026 it is a CNAD-registered stablecoin there and an Accepted Fiat-Referenced Token in ADGM, but it is not authorized under MiCA or the GENIUS Act and is not registered under the CBUAE payment-token regime. Switch on a lens to see where it counts as licensed.'
 - ticker: USDC
@@ -68,6 +80,8 @@ tokens:
   circle: sc
   x: 944
   y: 534
+  column: { x: 452, y: 690 }
+  also_in: [fin]   # also inside Regulated Non-Bank, checked by the build
   licensed_under: [mica, jp, adgm, difc, sv]
   desc: 'Issued by Circle, a regulated fintech. Authorized as an e-money token under MiCA through Circle’s French e-money license, and recognized in Japan, ADGM, the DIFC and El Salvador. Not yet a US payment stablecoin: the GENIUS Act takes effect on 18 January 2027, although Circle’s national trust bank received final OCC approval on 10 July 2026. Switch on a lens to see where it counts as licensed.'
 - ticker: RCHKD
@@ -75,6 +89,7 @@ tokens:
   circle: sc
   x: 764
   y: 532
+  column: { x: 420, y: 580 }
   licensed_under: [hkma]
   only_under: [hkma]     # shown only under the HKMA lens (owner, 29 October 2026)
   desc: 'A Hong Kong dollar stablecoin issued by HSBC under HKMA stablecoin issuer licence FRS02 (effective 10 April 2026): fully backed by cash, redeemable 1:1 for HKD, and not a protected deposit. HKD 83.2 million in circulation against HKD 84.2 million of reserves on 29 October 2026. It runs on HSBC’s own DLT network, not a public blockchain; live in PayMe, coming to the HSBC HK app. A bank-issued stablecoin, so it sits where Commercial Bank meets Stablecoins.'
@@ -88,6 +103,7 @@ tokens:
   circle: rcbdc
   x: 588
   y: 412
+  column: { x: 348, y: 338 }
   only_under: [china]    # shown only under the Mainland China lens (owner, 5 November 2026: retail and wholesale both shown)
   desc: "The retail form of e-CNY, the digital renminbi issued by the People's Bank of China (PBoC) and distributed by authorized operators under a two-tier system. The PBoC's 2021 white paper defines it as a retail CBDC, positioned as M0 and a PBoC liability to the public, with legal tender status. Since 1 January 2026 the PBoC's action plan books e-CNY held in commercial bank wallets as the bank's own account-based deposit liability: interest-bearing at deposit rates, covered by deposit insurance and counted in the bank's reserve base; wallets at non-bank payment institutions are backed 100 percent by e-CNY. Read against this circle's rule, a bank-wallet balance since then is a bank deposit; Ethereum Institutional keeps the badge here as the PBoC's own retail CBDC and names the tension. For the wholesale use on Project mBridge, see the Wholesale CBDC badge."
   sources:
@@ -106,6 +122,7 @@ tokens:
   circle: wcbdc
   x: 588
   y: 530
+  column: { x: 415, y: 389 }
   only_under: [china]    # shown only under the Mainland China lens (owner, 5 November 2026: retail and wholesale both shown)
   desc: "The wholesale use of e-CNY, the central bank digital currency of the People's Bank of China (PBoC). On Project mBridge, the multi-CBDC platform of the Hong Kong Monetary Authority, the Bank of Thailand, the PBoC's Digital Currency Institute and the Central Bank of the UAE (the Saudi Central Bank joined in 2024, and the BIS Innovation Hub handed the platform to its central bank participants in October 2024), the PBoC is the exclusive issuer and redeemer of e-CNY, and the platform is integrated with its live domestic e-CNY system. The six-week pilot of 2022 issued ¥11.8 million and settled ¥23.6 million of payments and foreign exchange payment-versus-payment transactions in e-CNY; by December 2025 mBridge had processed 4,047 cross-border payments worth about RMB 387.2 billion, about 95 percent of it in e-CNY. Legal tender in mainland China, so a transfer takes effect on delivery. For the retail form, booked as a commercial bank deposit liability in bank wallets since 1 January 2026, see the Retail CBDC badge."
   sources:
