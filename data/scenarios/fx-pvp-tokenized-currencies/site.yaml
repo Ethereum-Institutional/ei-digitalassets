@@ -7,8 +7,8 @@ eyebrow: Ethereum Institutional · Research · Scenarios
 heading:
   text: Payment versus payment
   italic: versus
-intro: 'A foreign-exchange trade is two payments in opposite directions, and its risk is that one side pays and the other does not. This page works through a euro tokenized currency against a dollar tokenized currency. On a shared ledger one transaction moves both legs or neither, at any hour, with no nostro account prefunded abroad and no settlement cycle. The money on each side is still an issuer’s liability with the issuer’s rules, the rate is still agreed between the parties, and converting the token into a bank balance is still a bank’s job; the ledger changes the settlement.'
-svg_label: Swimlane diagram of a payment-versus-payment foreign-exchange settlement between a euro token and a dollar token
+intro: 'A foreign-exchange trade is two payments in opposite directions, and its risk is that one side pays and the other does not. This page works through a euro tokenized currency against a dollar tokenized currency in the shape deployments use: a quote, both legs locked by signature, a wait for finality while the checks run, a release that pays both sides in one transaction or neither, and an off-ramp to a bank account where the buyer wants one. No nostro account is prefunded abroad and there is no settlement cycle; the money on each leg is still an issuer''s liability with the issuer''s rules, and the rate is still agreed between the parties.'
+svg_label: Swimlane diagram of a foreign-exchange settlement between a euro token and a dollar token, from quote through escrow and release to payout
 panel_default:
   title: How it works
   text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and the band across the columns is the one transaction in which both currencies move.
@@ -19,4 +19,4 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Running this scenario?
   text: Open an issue with what differs in your deployment (the money on each side, one ledger or two, bilateral or netted) and we will add the variant.
-footnote: 'Standards and examples were checked on 6 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+footnote: 'Standards and examples were checked on 9 November 2026. This scenario is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'

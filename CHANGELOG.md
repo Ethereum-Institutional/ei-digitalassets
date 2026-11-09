@@ -7,6 +7,7 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **FX scenario:** re-sequenced to quote, lock by signature, finality and checks, release, off-ramp; an orchestrator and a liquidity provider as actors; Permit2 witness transfers in the standards (9 November 2026).
 - **Networks, permissionless first and responsive (minor):** Permissionless consensus on the left of the wide map and on top of the phone column, Public spanning both; **Web3**, the **Scenarios** map, **Privacy** and **Identity** fit a phone's width, and the check renders every page at phone width too (9 November 2026).
 - **Taxonomy, responsive (minor):** the wide map stays on desktops; under 900px the page draws a column read top to bottom (Digital Money with Tokenized Currencies first, Tokenized Real-World Assets with Financial Instruments first, Other Crypto-Assets) that fits a phone's width. A chosen lens is named in a strip at the top of the map and the map scrolls into view; `#lens=<id>` deep links; the licensed pill stretches down the Stablecoins band under a licensing lens (9 November 2026).
 - **Standards:** ERC-8226 agent mandates named in the Identity map's Know Your Agent badge and the AI agent payments scenario; ERC-8320 asset claims in the Identity narrative and three scenarios; ERC-7943 on the cash-leg scenarios (9 November 2026).

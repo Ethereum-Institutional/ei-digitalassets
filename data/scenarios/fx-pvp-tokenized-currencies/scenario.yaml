@@ -1,4 +1,6 @@
-# Scenario: foreign exchange, payment versus payment (PvP) between a euro tokenized currency and a dollar tokenized currency.
+# Scenario: foreign exchange, payment versus payment (PvP) between a euro tokenized currency and a dollar tokenized currency,
+# in the shape production deployments use (owner, 9 November 2026): quote, lock both legs by signature, wait for finality and
+# run the checks, release both legs in one transaction, redeem and pay out; with an optional orchestrator and a liquidity provider.
 # Actors are columns in the diagram; steps are rows (kind: offchain | onchain | atomic; an atomic step names `lanes`).
 # Tokens link to the taxonomy; standards link to eips.ethereum.org. Writing rules: US spelling; no em-dashes.
 
@@ -12,71 +14,74 @@ tags:
 actors:
 - id: buyer
   name: Dollar buyer (sells euros)
-  role: A bank, a payment firm or a corporate treasury that needs dollars and holds euro tokens. Holds both currencies’ tokens in one institutional wallet with its own policy controls.
+  role: 'A bank, a payment firm or a corporate treasury that needs dollars, often to pay a dollar invoice, and holds euros either as tokens already or in a bank account. Holds its tokens in an institutional wallet with its own policy controls, or through a custodian that signs for it.'
 - id: eurissuer
   name: Euro token issuer
-  role: The issuer of the euro token (a bank issuing a deposit token, or a regulated stablecoin issuer). Onboards holders and enforces its rules on every transfer; remains the obligor on the euro leg.
+  role: 'The issuer of the euro token (a bank issuing a deposit token, or a regulated stablecoin issuer). Onboards holders, mints against a bank transfer where the buyer starts from a bank account, and enforces its rules on every transfer; remains the obligor on the euro leg.'
+- id: orchestrator
+  name: Orchestrator or settlement agent
+  role: 'Optional. A non-bank operator, a custodian or the venue that holds the escrow contract''s operator key and runs the checks between the steps: KYB and wallet ownership at onboarding, the quote, the issuers'' reserves, wallet screening, the payee on the receiving account, and the reconciliation. Where the parties run their own contract, its checks are theirs.'
 - id: ledger
-  name: Ledger and PvP contract
+  name: Ledger and escrow contract
   kind: ledger
-  role: Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running both currency contracts and a PvP contract that moves the two legs in one transaction, or neither.
+  role: 'Ethereum mainnet (or a rollup or a private Ethereum-technology network, by deployment style) running both currency contracts and an escrow contract that holds the two legs and pays both beneficiaries in one transaction, or refunds each leg to its depositor.'
 - id: usdissuer
   name: Dollar token issuer
-  role: The issuer of the dollar token (a bank or a stablecoin issuer), with its own allowlist or blocklist and its own redemption terms; the obligor on the dollar leg.
-- id: seller
-  name: Dollar seller (buys euros)
-  role: 'The counterparty: a bank or a market maker quoting the rate, or another treasury with the opposite need. Holds dollar tokens and receives euro tokens.'
+  role: 'The issuer of the dollar token (a bank or a stablecoin issuer), with its own allowlist or blocklist and its own redemption terms; the obligor on the dollar leg, and the party that burns the tokens and pays a dollar bank account when the buyer wants a bank balance.'
+- id: lp
+  name: Counterparty or liquidity provider
+  role: 'The other side: a market maker quoting the rate from dollar-token inventory it minted earlier, a bank, or another treasury with the opposite need. Several providers may quote; the best quote wins, and a provider nets its positions across payments. Receives euro tokens.'
 - id: observer
   name: Auditor or regulator
   kind: observer
-  role: 'Reads the same ledger as everyone else: the two transfer events in one transaction are the record of the trade’s settlement, with no settlement-system report to request.'
+  role: 'Reads the same ledger as everyone else: the funding transaction, the release transaction and the issuer''s burn are the record of the trade, with no settlement-system report to request.'
 
 steps:
-- title: Onboarding on both currencies
+- title: Onboarding and screening
   from: eurissuer
   to: ledger
   kind: onchain
-  text: 'Both parties must be able to hold both tokens: each issuer runs its client or holder checks and, for a deposit token, adds both wallets to its allowlist; a stablecoin needs no listing and applies its blocklist instead. Each party’s wallet is a smart account with its policy (signers, limits, allowed counterparties). Nothing else is needed before trading: no nostro account in the other currency, no settlement-member status.'
-  standards: [deposit-token allowlist, ERC-4337]
-- title: Trade agreed
+  text: 'Before any trade, both parties must be able to hold both tokens: each issuer runs its holder checks and, for a deposit token, adds the wallets to its allowlist; a stablecoin needs no listing and applies its blocklist instead. Whoever runs the escrow runs know-your-business checks on both parties, has each prove control of its wallet with a signed message, and screens the wallets. Each party''s wallet is a smart account with its policy (signers, limits, allowed counterparties), or a custodian''s. No nostro account abroad and no settlement membership are needed.'
+  standards: [deposit-token allowlist, ERC-4337, EIP-712]
+- title: Quote agreed, firm for longer than the wait
   from: buyer
-  to: seller
+  to: lp
   kind: offchain
-  text: 'The parties agree the amounts and the rate, bilaterally, through a request for quote or on a venue, and the settlement time: at once, or at a value time they choose. The agreed terms are written into an instance of the PvP contract, which will settle only those two amounts between those two wallets within that window.'
-- title: Liquidity confirmed, no credit needed
+  text: 'The buyer asks one or several liquidity providers for a quote, bilaterally, by request for quote or on a venue; the best quote is accepted and the trade is written as terms: both amounts, both wallets, both beneficiaries and an expiry. The quote stays firm for longer than settlement takes, since the legs will wait for finality before they are released. A quote check against the market mid, the quote''s validity and the provider''s limits is recorded against the trade.'
+- title: Euro leg funded, the on-ramp
+  from: buyer
+  to: eurissuer
+  kind: offchain
+  text: 'A buyer that already holds euro tokens skips this step. One that starts from a bank account pays the euro issuer, which mints the euro token to the buyer''s wallet once the money is on its reserve account. The dollar side needs no funding: the provider holds dollar tokens it minted earlier as inventory. A backing check records that the mint is final on the ledger and that the issuer''s supply is covered by its reserves. What a bank once prefunded in a nostro account abroad is now token inventory in each party''s own wallet.'
+  standards: [Issuer mint]
+- title: Both legs locked by signature, one funding transaction
+  from: buyer
+  to: ledger
+  kind: onchain
+  text: 'Neither party sends a transaction. Each depositor signs the full trade terms (amounts, both beneficiaries, expiry) as the witness of a Permit2 signature transfer, or an EIP-3009 authorization that names the contract and the window, and the operator key sends one funding transaction that pulls both legs into the escrow contract, which stores only the hash of the terms and checks the exact amounts arrived. A side that never signs blocks the funding and nothing moves; a leg funded against a trade that expires is refundable to its depositor, by anyone, after the expiry.'
+  standards: [Permit2 witness transfer, EIP-3009, ERC-2612 permit, EIP-712]
+- title: Finality and the pre-release checks
   from: ledger
-  to: buyer
-  kind: offchain
-  text: 'Each party checks that its wallet holds the tokens it will deliver; the PvP contract will not settle otherwise. There is no settlement limit to extend to the counterparty and no intraday credit line to draw, because neither party delivers before it receives. What a bank funded in a nostro account abroad it now holds as tokens in its own wallet.'
-  standards: [balances]
-- title: Euro leg authorized
-  from: buyer
-  to: ledger
+  to: orchestrator
   kind: onchain
-  text: 'The buyer authorizes the PvP contract to move the euro amount: an ERC-20 approval, an ERC-2612 permit signed off-line, or an EIP-3009 authorization signed with EIP-712 that names the contract and the window. The euro issuer’s rules will run again at settlement.'
-  standards: [ERC-20 approve, ERC-2612 permit, EIP-3009, EIP-712]
-- title: Dollar leg authorized
-  from: seller
-  to: ledger
-  kind: onchain
-  text: 'The seller authorizes the PvP contract to move the dollar amount the same way. Either party may withdraw its authorization until the contract settles; a trade one side never authorizes simply expires at the end of the window, with nothing delivered by the other.'
-  standards: [ERC-20 approve, ERC-2612 permit, EIP-3009, EIP-712]
-- title: Payment versus payment, both legs in one transaction
+  text: 'The locks are final on Ethereum mainnet after about two epochs, roughly 13 minutes, read from two independent RPC operators that must agree. The wait is where the checks run without adding time: both wallets screened again and the buyer''s AML result in; each issuer''s supply still covered by its reserves; the locks matched against the signed terms (assets, amounts, wallets, expiry); the dollar issuer''s acceptance of the redemption instruction in hand where the buyer wants a bank balance; the payee name on the receiving account verified. The quote agreed in step 2 covers this wait.'
+  standards: [Finality]
+- title: Release, both legs in one transaction
   kind: atomic
   lanes: [eurissuer, ledger, usdissuer]
-  text: 'One transaction calls the PvP contract, which moves the euro tokens from buyer to seller and the dollar tokens from seller to buyer. Each token’s own rules run inside it: the deposit token checks its allowlist, the stablecoin its blocklist. If either transfer fails, the whole transaction reverts and nothing moves; neither party is ever exposed to the other for any length of time. The transaction is included within seconds, at any hour, on the day the parties chose.'
-  standards: [ERC-20 transferFrom, PvP contract]
-- title: Finality and the record
+  text: 'One release transaction pays both beneficiaries the signed terms name: euro tokens to the provider''s wallet, dollar tokens to the buyer''s wallet, or, when the buyer wants a bank balance, straight to the dollar issuer''s redemption wallet. Each token''s own rules run inside it: the deposit token checks its allowlist, the stablecoin its blocklist, a paused token reverts the whole transaction, and then the leg that can move is refunded to its depositor while the trade parks for the issuer. This is the point of no return. Because the contract recomputes the terms hash from the call, the operator key can release only to those parties or refund a leg to its own depositor, never name a new recipient; a multisig can rotate the key.'
+  standards: [ERC-20 transferFrom, escrow contract, ERC-7943 pause and allowlist]
+- title: Redeem, burn and pay out, the off-ramp
+  from: usdissuer
+  to: buyer
+  kind: offchain
+  text: 'A buyer that keeps the dollar tokens is done at release: they pay the invoice the payments scenario describes or sweep into a tokenized fund. A buyer that wants a bank balance has the dollar issuer burn the tokens it received and pay the buyer''s dollar account over the domestic instant rail, with the trade reference; the issuer, the provider and the buyer''s bank confirm the payment. A payout that fails after the burn parks for an operator, with the issuer''s liability to the buyer intact; the redemption terms and hours are the issuer''s.'
+  standards: [Issuer burn]
+- title: Reconciliation and the record
   from: ledger
   to: observer
   kind: onchain
-  text: 'On Ethereum mainnet the transaction is finalized within about two epochs (roughly 13 minutes), after which reversing it would cost an attacker at least a third of all staked ETH. The two transfer events in one transaction are the settlement record for both parties, both issuers and the auditor; there is no settlement-system statement, no confirmation to match and no fail to chase.'
-  standards: [Transfer events]
-- title: Books, positions and the off-ramp
-  from: ledger
-  to: seller
-  kind: onchain
-  text: 'Each party books the trade from the events; its position in each currency is its wallet balance. The dollars bought pay the invoice the payments scenario describes, sweep into a tokenized fund, or are redeemed with the dollar issuer for a bank balance, which is where the issuer’s redemption terms and hours apply. A bank that made markets through a nostro now manages token liquidity in each currency instead.'
+  text: 'The issuer''s supply is down by the amount burned and its reserve account by the same amount, and the audit record closes. The funding transaction, the release transaction and the burn are the record for both parties, both issuers and the auditor: no settlement-system statement, no confirmation to match, no fail to chase. End to end the trade is funded in about 20 seconds, final in about 13 minutes, and paid out just after; each party''s position in each currency is its wallet balance.'
   standards: [Transfer events]
 
 tokens:
@@ -153,10 +158,15 @@ standards:
   status: Draft
   role: For the cross-ledger variant, where the two currencies sit on different ledgers, a mechanism that releases one leg only when the other has succeeded, without an intermediary; the same device for payment versus payment as for delivery versus payment.
   url: https://eips.ethereum.org/EIPS/eip-7573
+- id: Permit2
+  title: Permit2 signature transfers with a witness, a contract, not an ERC
+  status: Live
+  role: 'Lets a depositor authorize one transfer with one signature, no approval transaction, and commit to extra typed data at the same time: the witness. Signing the full trade terms as the witness is what lets the escrow''s operator key move a leg only on those terms. Works for tokens without ERC-2612 permits.'
+  url: https://github.com/Uniswap/permit2
 - id: ERC-7943
   title: uRWA, Universal Real World Asset Interface
   status: Final
-  role: 'Written for real-world assets, its functions are the controls the cash leg needs too: frozen balances, an enforced transfer on a lawful order, and canSend and canReceive eligibility checks, as a minimal interface a deposit token or a regulated stablecoin can expose instead of a bespoke one.'
+  role: 'Written for real-world assets, its functions are the controls the cash leg needs too: frozen balances, an enforced transfer on a lawful order, and canSend and canReceive eligibility checks, as a minimal interface a deposit token or a regulated stablecoin can expose instead of a bespoke one. A pause or a failed eligibility check on either token reverts the release; the deployment then refunds the leg that can move and parks the trade.'
   url: https://eips.ethereum.org/EIPS/eip-7943
 
 sections:
@@ -185,30 +195,37 @@ sections:
     text: 'A euro and a dollar stablecoin from one regulated issuer family are live on Ethereum mainnet and other networks, which makes stablecoin-to-stablecoin payment versus payment possible today between any two eligible wallets, with the issuers as the obligors on each leg.'
 - title: Variants
   items:
+  - title: One transaction, or lock then release
+    text: 'Where both parties sign at once and no check needs the gap, the two legs can move in a single settlement transaction with no escrow. The shape on this page, lock both legs, wait for finality, run the checks, release, is the one deployments use when an operator must verify the locks, the issuers and the payee before the point of no return, and when a leg must be refundable if the other side never arrives.'
+  - title: Fiat in, fiat out
+    text: 'The buyer starts in a euro bank account and ends in a dollar bank account: the euro issuer mints on the way in, the dollar issuer burns and pays out on the way out, and the ledger settles the conversion in between. The issuers'' reserves and the domestic instant rails on each side are then part of the trade''s timeline and its failure modes.'
+  - title: Liquidity provider inventory and netting
+    text: 'A market maker holds dollar tokens it minted earlier and quotes against that inventory; several providers quote and the best wins, and a provider nets its positions across many payments before it rebalances with the issuer. Many trades between many parties can also be netted by a contract and settled as one set of transfers at a chosen time, with the ledger as the settlement agent and no exposure between the netting and the settlement.'
   - title: Stablecoin against stablecoin
-    text: Both legs are regulated stablecoins on a public ledger, so the parties need no common bank and no network membership; the issuers’ redemption terms set what each token is worth off the ledger.
+    text: 'Both legs are regulated stablecoins on a public ledger, so the parties need no common bank and no network membership; the issuers'' redemption terms set what each token is worth off the ledger.'
   - title: Central bank money on both legs
-    text: Both legs are wholesale central bank money on a platform the central banks run, so each leg is risk-free money; the platform’s admission and hours replace the public ledger’s openness.
+    text: 'Both legs are wholesale central bank money on a platform the central banks run, so each leg is risk-free money; the platform''s admission and hours replace the public ledger''s openness.'
   - title: Two ledgers
     text: 'The euro token sits on one ledger and the dollar token on another: atomicity needs a cross-ledger mechanism (ERC-7573, or a hashed time-lock), settlement is no longer one transaction, and a failure mode returns, which is the problem the single-platform designs set out to avoid.'
-  - title: Netted settlement
-    text: Many trades between many parties are netted by a contract and settled as one set of transfers at a chosen time, as a multilateral settlement system does, with the ledger as the settlement agent and no exposure between the netting and the settlement.
-  - title: A payment that needs a conversion
-    text: The buyer needs dollars only to pay a dollar invoice; this scenario settles the conversion and the payments scenario delivers the dollars to the supplier, both on the same ledger and, with the right contract, in one transaction.
 - title: Open questions for your deployment
   items:
   - title: Which money on each leg
-    text: A deposit token, a stablecoin, a payment-system token and central bank money carry different obligors, different holders and different hours of redemption; the leg is only as good as the token’s issuer and terms, and a counterparty must be able to hold what you deliver.
+    text: 'A deposit token, a stablecoin, a payment-system token and central bank money carry different obligors, different holders and different hours of redemption; the leg is only as good as the token''s issuer and terms, and a counterparty must be able to hold what you deliver.'
+  - title: Who holds the operator key, and what it can do
+    text: 'An escrow whose depositors sign the full terms bounds the key: it can release only to the named parties or refund a leg to its depositor. Decide who holds it (the orchestrator, a custodian, the venue), who can rotate it, and whether the contract is immutable or upgradeable; an upgradeable escrow moves the trust from the code to its admin.'
+  - title: Quote validity against finality
+    text: 'A quote must stay firm for longer than the locks take to become final, about 13 minutes on Ethereum mainnet, so the provider carries the rate risk of the wait; a rollup or a private network shortens it, at the cost of the settlement assurance the mainnet gives.'
+  - title: Failures after the point of no return
+    text: 'A token paused mid-trade reverts the release and leaves one leg to refund; a payout that fails after the issuer has burned the tokens leaves the issuer owing the buyer a bank balance; a leg that never arrives sits in escrow until expiry. Each needs an operator, a procedure and a record before the first trade.'
   - title: Liquidity management without a nostro
-    text: The nostro balance becomes token inventory in each currency in your own wallet; who funds it, how it is replenished and what it earns while it waits are treasury questions the ledger does not answer.
-  - title: Price and execution
-    text: The rate is agreed off the ledger, bilaterally, by request for quote or on a venue under a rulebook; the contract settles what was agreed and takes no view on price. For a regulated institution the venue question is often decisive.
+    text: 'The nostro balance becomes token inventory in each currency in your own wallet, or your provider''s; who funds it, how it is replenished and what it earns while it waits are treasury questions the ledger does not answer.'
   - title: Legal finality of each leg
-    text: On-chain finality is economic; the legal finality of each transfer depends on the token’s terms and governing law, and on what the issuer’s register is in law. Resolve this for both tokens before the first trade.
+    text: 'On-chain finality is economic; the legal finality of each transfer depends on the token''s terms and governing law, and on what the issuer''s register is in law. Resolve this for both tokens before the first trade.'
   - title: Visibility of trades
-    text: On a public ledger the amounts, the counterparties and the timing of trades are visible to anyone who can map a wallet to a name. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.
+    text: 'On a public ledger the amounts, the counterparties and the timing of trades are visible to anyone who can map a wallet to a name. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.'
 
 sources:
+- { title: 'Uniswap, Permit2 (signature transfers; witness hash and witness type verified under EIP-712)', url: https://github.com/Uniswap/permit2, checked: '2026-11-09' }
 - { title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022)', url: https://www.bis.org/publ/othp59.pdf, checked: '2026-11-05' }
 - { title: 'BIS Innovation Hub, Project mBridge (MVP mid-2024; handed over October 2024)', url: https://www.bis.org/about/bisih/topics/cbdc/mcbdc_bridge.htm, checked: '2026-11-05' }
 - { title: 'BIS Innovation Hub, Project Agorá (eight central banks; real-value testing July 2026)', url: https://www.bis.org/about/bisih/topics/fmis/agora.htm, checked: '2026-10-25' }
