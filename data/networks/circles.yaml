@@ -110,7 +110,7 @@ circles:
   collapsible: true
   band: true
   path: Digital Asset Networks
-  desc: 'The nodes that order and finalize transactions are a list set outside the protocol: fixed by the operator or the members (QBFT and IBFT 2.0 in Besu, CometBFT and other Tendermint-style protocols, HotStuff, CantonBFT), or curated by the existing participants, as with the XRP Ledger’s default validator list, Stellar’s quorum sets, Hedera’s council and the single sequencers of today’s rollups. EI’s house rule: a network is permissioned whenever joining consensus requires review by the existing participants, whatever the marketing says. Permissioned consensus is fast and final and fits private and consortium ledgers; it also means that the members, not the protocol, decide who counts.'
+  desc: 'The nodes that order and finalize transactions are a list set outside the protocol: fixed by the operator or the members (QBFT and IBFT 2.0 in Besu, CometBFT and other Tendermint-style protocols, HotStuff, CantonBFT), or curated by the existing participants, as with the XRP Ledger’s default validator list, Stellar’s quorum sets, Hedera’s council and the single sequencers of today’s rollups. EI’s house rule: a network is permissioned whenever joining consensus requires review by the existing participants, whatever the marketing says. For an Ethereum Layer 2 the rule is read at the layer that can finalize the ledger and change its rules. At Stage 2 of ETHBEAT’s Stages framework (ETHBEAT was L2BEAT) the operator holds no power beyond a bounded delay: anyone can force a transaction through Ethereum mainnet, anyone can submit a fraud proof, and no upgrade other than a fix for an on-chain provable bug takes effect without giving users at least 30 days to exit. The rollup’s consensus is then Ethereum mainnet’s, and EI reads it as permissionless; below Stage 2 the operator or its Security Council still decides something the protocol does not, so the rollup stays permissioned however its sequencer is run. On 10 November 2026 Base, Arbitrum One and OP Mainnet are Stage 1, each short of the 30-day exit window and of a Security Council confined to on-chain provable bugs. Permissioned consensus is fast and final and fits private and consortium ledgers; it also means that the members, not the protocol, decide who counts.'
 - id: priv
   label:
   - Private
@@ -134,6 +134,13 @@ circles:
   sub: one jurisdiction
   path: Digital Asset Networks › Permissioned consensus › Consortium
   desc: 'A consortium whose participants are all in one jurisdiction, usually convened or supervised by a central bank, a financial regulator or a national body, so that the network’s rules, data and participants sit inside one legal order. Examples: Fnality’s sterling payment system in the UK, the Bank of Korea’s Project Hangang and DCJPY in Japan.'
+  sources:
+  - title: 'ETHBEAT (formerly L2BEAT), The Stages Framework (Stage 2: permissionless fraud proofs, a 30-day exit window for upgrades not tied to on-chain provable bugs, a Security Council confined to such bugs; no stage requires decentralized sequencing; changelog to 30 April 2026)'
+    url: https://forum.l2beat.com/t/the-stages-framework/291
+    checked: '2026-11-10'
+  - title: 'ETHBEAT, scaling summary (Arbitrum One, Base and OP Mainnet at Stage 1)'
+    url: https://ethbeat.org/scaling/summary
+    checked: '2026-11-10'
 - id: pub
   label:
   - Public
@@ -152,7 +159,12 @@ circles:
   collapsible: true
   band: true
   path: Digital Asset Networks › Public
-  desc: 'Anyone can take part in ordering transactions without anyone’s approval; what they need is a scarce resource, work or stake, that the protocol can count. Lewis-Pye and Roughgarden (Permissionless Consensus, 2023) show that the protocol then faces three challenges: unknown players (the set of entities running it is unknown and of unknown size), player inactivity (they can start or stop at any time) and sybils (one entity can run under any number of identifiers). The three nested bands inside this region are their hierarchy, ordered by how little the protocol assumes about who is running it: fully permissionless at the center, then dynamically available, then quasi-permissionless. A protocol that works in an inner band also works in every band outside it.'
+  desc: 'Anyone can take part in ordering transactions without anyone’s approval; what they need is a scarce resource, work or stake, that the protocol can count. Lewis-Pye and Roughgarden (Permissionless Consensus, 2023) show that the protocol then faces three challenges: unknown players (the set of entities running it is unknown and of unknown size), player inactivity (they can start or stop at any time) and sybils (one entity can run under any number of identifiers). The three nested bands inside this region are their hierarchy, ordered by how little the protocol assumes about who is running it: fully permissionless at the center, then dynamically available, then quasi-permissionless. A protocol that works in an inner band also works in every band outside it. The Ethereum Foundation’s primer for governments (July 2026) puts the two consensus boxes on one spectrum, the intranet and the open internet, and asks a deployment to judge where a network sits against its own objectives rather than as an abstract property. An Ethereum Layer 2 enters this region only at Stage 2 of ETHBEAT’s Stages framework, when its operator can do no more than delay and its consensus is in effect Ethereum mainnet’s (the Permissioned definition says why); it then sits in Dynamically Available beside Ethereum mainnet, its sequencer noted as a delay-bounded service.'
+  sources:
+  - title: 'Ethereum Foundation, Ethereum Basics for Governments and Institutions (ethereum.org report, July 2026; the Foundation’s own positions; comparative figures as of March 2026 from OpenZeppelin’s assessment)'
+    url: https://ethereum.org/reports/basics-for-governments-institutions.pdf
+    checked: '2026-11-10'
+
 - id: quasi
   label:
   - Quasi
@@ -278,8 +290,14 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissionless consensus › Dynamically available
-  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so block production can continue as participation falls, with empty slots for absent proposers, and absent validators lose the rewards they would have earned as missed-attestation penalties; if Ethereum mainnet goes more than four epochs without finalizing, the inactivity leak also drains the stake of validators not voting until the rest can finalize again. Casper FFG adds quasi-permissionless finality when validators with at least two-thirds of staked ETH cast the required checkpoint votes. A validator that proposes two blocks for one slot, or casts a double or surround vote (for example the same key run in two places), is slashed: an isolated slashing burns a small amount at once (about 0.008 ETH of a 32 ETH validator) and forces the validator out, while a correlation penalty that scales with the total stake slashed makes a mass event severe, which is what makes finality accountable. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
+  desc: 'The reference public permissionless network of the Ethereum ecosystem (about $290 billion of ETH; roughly 44 million ETH staked by over 800,000 validators). Anyone can join consensus by depositing 32 ETH per validator (up to 2,048 ETH since EIP-7251) with no review by existing validators; the protocol then knows the staked public keys, not the people behind them. Its fork choice (LMD-GHOST) is dynamically available, so block production can continue as participation falls, with empty slots for absent proposers, and absent validators lose the rewards they would have earned as missed-attestation penalties; if Ethereum mainnet goes more than four epochs without finalizing, the inactivity leak also drains the stake of validators not voting until the rest can finalize again. Casper FFG adds quasi-permissionless finality when validators with at least two-thirds of staked ETH cast the required checkpoint votes. A validator that proposes two blocks for one slot, or casts a double or surround vote (for example the same key run in two places), is slashed: an isolated slashing burns a small amount at once (about 0.008 ETH of a 32 ETH validator) and forces the validator out, while a correlation penalty that scales with the total stake slashed makes a mass event severe, which is what makes finality accountable. Never fully halted; finality was delayed for about an hour in May 2023 while blocks continued, and the inactivity leak restored it without intervention. Ethereum mainnet bootstrapped under proof of work, which is how ETH became widely held before the 2022 switch to stake. Smart contracts: yes; the Ethereum Virtual Machine, Turing-complete with gas metering, is the standard the rest of the ecosystem reuses.'
   sources:
+  - title: 'Ethereum Foundation, Ethereum Basics for Governments and Institutions (ethereum.org report, July 2026; the Foundation’s own positions; comparative figures as of March 2026 from OpenZeppelin’s assessment)'
+    url: https://ethereum.org/reports/basics-for-governments-institutions.pdf
+    checked: '2026-11-10'
+  - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+    url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+    checked: '2026-11-10'
   - title: ethereum.org, Proof-of-stake (32 ETH deposit, finality votes, slashing and ejection)
     url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/
     checked: '2026-11-06'
@@ -302,7 +320,7 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissioned consensus
-  desc: 'An Ethereum Layer 2 rollup (OP Stack) operated by Coinbase. The ledger is public and every transaction is posted to Ethereum mainnet, which settles the result and lets anyone reconstruct the state, but ordering runs through a single sequencer that Coinbase operates, so consensus is permissioned today. Users can force transactions through Ethereum mainnet (within about 12 hours) if the sequencer censors or stops. Since the Azul upgrade (May 2026) Base uses a multiproof system in place of the OP Stack’s interactive fault proofs: each state proposal starts with an attestation from a permissioned trusted execution environment (TEE) prover or a zero-knowledge (ZK) proof, and anyone with a valid ZK proof can challenge an invalid one. A proposal backed by one proof resolves after 5 days (7 before the Beryl upgrade), and after 1 day when both back it. Base left the Optimism Superchain in March 2026. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  desc: 'An Ethereum Layer 2 rollup (OP Stack) operated by Coinbase. The ledger is public and every transaction is posted to Ethereum mainnet, which settles the result and lets anyone reconstruct the state, but ordering runs through a single sequencer that Coinbase operates, so consensus is permissioned. Stage 1 on ETHBEAT (10 November 2026); EI reads an Ethereum Layer 2 as permissionless consensus only at Stage 2, which still needs a 30-day exit window for upgrades unrelated to on-chain provable bugs and a Security Council confined to such bugs. Users can force transactions through Ethereum mainnet (within about 12 hours) if the sequencer censors or stops. Since the Azul upgrade (May 2026) Base uses a multiproof system in place of the OP Stack’s interactive fault proofs: each state proposal starts with an attestation from a permissioned trusted execution environment (TEE) prover or a zero-knowledge (ZK) proof, and anyone with a valid ZK proof can challenge an invalid one. A proposal backed by one proof resolves after 5 days (7 before the Beryl upgrade), and after 1 day when both back it. Base left the Optimism Superchain in March 2026. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
   sources:
   - title: Base terms of service (the Coinbase Sequencer is a node operated by Coinbase)
     url: https://docs.base.org/terms-of-service
@@ -310,9 +328,9 @@ circles:
   - title: Base documentation, Azul proofs (TEE and ZK multiproof; 5-day and 1-day windows)
     url: https://docs.base.org/base-chain/specs/upgrades/azul/proofs.md
     checked: '2026-11-02'
-  - title: L2BEAT, Base (Stage 1, forced inclusion, AggregateVerifier; secondary source)
-    url: https://l2beat.com/scaling/projects/base
-    checked: '2026-11-02'
+  - title: 'ETHBEAT (formerly L2BEAT), Base (Stage 1; forced inclusion with a 12-hour delay; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
+    url: https://ethbeat.org/scaling/projects/base
+    checked: '2026-11-10'
 - id: arbitrum
   label:
   - Arbitrum One
@@ -323,7 +341,7 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissioned consensus
-  desc: 'An Ethereum Layer 2 rollup (Nitro) whose single sequencer is run by Offchain Labs under the Arbitrum DAO. Data and fraud proofs settle on Ethereum mainnet, validation has been permissionless since BoLD activated in February 2025, and users can force inclusion through the delayed inbox within a day, but block ordering is still one permissioned operator, so it sits in public permissioned consensus. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  desc: 'An Ethereum Layer 2 rollup (Nitro) whose single sequencer is run by Offchain Labs under the Arbitrum DAO. Data and fraud proofs settle on Ethereum mainnet, validation has been permissionless since BoLD activated in February 2025, and users can force inclusion through the delayed inbox within a day, but block ordering is still one permissioned operator, so it sits in public permissioned consensus. Stage 1 on ETHBEAT (10 November 2026); EI reads an Ethereum Layer 2 as permissionless consensus only at Stage 2, which still needs a 30-day exit window for upgrades unrelated to on-chain provable bugs and a Security Council confined to such bugs. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
   sources:
   - title: Arbitrum docs, glossary (Offchain Labs runs the sequencers for Arbitrum One)
     url: https://docs.arbitrum.io/intro/glossary
@@ -334,6 +352,9 @@ circles:
   - title: Arbitrum docs, BoLD (permissionless validation, active on Arbitrum One)
     url: https://docs.arbitrum.io/how-arbitrum-works/bold/gentle-introduction
     checked: '2026-10-25'
+  - title: 'ETHBEAT (formerly L2BEAT), Arbitrum One (Stage 1; forced inclusion with a one-day delay; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
+    url: https://ethbeat.org/scaling/projects/arbitrum
+    checked: '2026-11-10'
 - id: optimism
   label:
   - OP Mainnet
@@ -344,7 +365,7 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissioned consensus
-  desc: 'The first OP Stack rollup. Public ledger settled on Ethereum mainnet with permissionless fault proofs since June 2024, and users can always bypass the sequencer by depositing a transaction through the OptimismPortal, but a single sequencer set by Optimism governance orders blocks, so consensus is permissioned until sequencing is decentralized. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
+  desc: 'The first OP Stack rollup. Public ledger settled on Ethereum mainnet with permissionless fault proofs since June 2024, and users can always bypass the sequencer by depositing a transaction through the OptimismPortal, but a single sequencer set by Optimism governance orders blocks, so consensus is permissioned. Stage 1 on ETHBEAT (10 November 2026), with fraud proof submission already open to everyone; EI reads an Ethereum Layer 2 as permissionless consensus only at Stage 2, which still needs a 30-day exit window for upgrades unrelated to on-chain provable bugs and a Security Council confined to such bugs. Smart contracts: yes; the EVM, as on Ethereum mainnet.'
   sources:
   - title: Optimism, permissionless fault proofs and Stage 1 arrive on OP Mainnet (10 June 2024)
     url: https://www.optimism.io/blog/permissionless-fault-proofs-and-stage-1-arrive-to-the-op-stack
@@ -352,9 +373,9 @@ circles:
   - title: Optimism docs, sequencer outages (users can always bypass the sequencer)
     url: https://docs.optimism.io/stack/rollup/outages
     checked: '2026-10-25'
-  - title: L2BEAT, OP Mainnet (single sequencer set by the foundation operations safe; secondary source)
-    url: https://l2beat.com/scaling/projects/optimism
-    checked: '2026-10-25'
+  - title: 'ETHBEAT (formerly L2BEAT), OP Mainnet (Stage 1; a single centralized sequencer; fraud proof submission open to everyone; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
+    url: https://ethbeat.org/scaling/projects/optimism
+    checked: '2026-11-10'
 - id: polygon
   label:
   - Polygon PoS
@@ -418,8 +439,14 @@ circles:
   expand: collapsed
   sub: live institutional deployments
   path: Digital Asset Networks › Public › Permissionless consensus › Quasi Permissionless
-  desc: 'Proof of Staked Authority on a fork of Geth. Anyone may register a validator with 2,000 BNB of self-stake; each day the top 45 by stake are elected (21 cabinet members and 24 candidates) and 21 of them order blocks in each epoch. No incumbent review, so quasi-permissionless under EI’s rule, but a few dozen validators in practice, and the chain is closely associated with the Binance group. Runs the EVM. Smart contracts: yes; the EVM.'
+  desc: 'Proof of Staked Authority on a fork of Geth. Anyone may register a validator with 2,000 BNB of self-stake; each day the top 45 by stake are elected (21 cabinet members and 24 candidates) and 21 of them order blocks in each epoch. No incumbent review, so quasi-permissionless under EI’s rule, but a few dozen validators in practice, and the chain is closely associated with the Binance group. One production client, a Geth fork; only a validator’s self-bonded BNB is slashed (200 BNB for a double sign or a malicious vote); the chain was halted deliberately for eight hours in October 2022 after a bridge exploit. Runs the EVM. Smart contracts: yes; the EVM.'
   sources:
+  - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+    url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+    checked: '2026-11-10'
+  - title: 'BNB Chain docs, BSC Slash Rules (double sign and malicious vote: 200 BNB slashed from the validator’s self-delegated stake, 30-day jail)'
+    url: https://docs.bnbchain.org/bnb-smart-chain/slashing/slash-rules/
+    checked: '2026-11-10'
   - title: BNB Chain docs, validator overview (2,000 BNB self-stake; 45 elected, 21 per epoch)
     url: https://docs.bnbchain.org/bnb-smart-chain/validator/overview/
     checked: '2026-10-25'

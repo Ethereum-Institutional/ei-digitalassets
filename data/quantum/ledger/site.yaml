@@ -51,6 +51,12 @@ sections:
     more:
       title: The four areas Ethereum must upgrade
       url: https://ethereum.org/en/roadmap/security/quantum-resistance/
+  - title: Where other ledgers stand
+    text: 'An independent assessment of six networks (OpenZeppelin, conditions as of March 2026) found that none had deployed quantum-resistant cryptography: Ethereum had the most active research programme, the XRP Ledger and Solana early projects (an experimental XRPL network and post-quantum signatures on a Solana test network), and BNB Smart Chain, TRON and Canton no published plan, though an EVM chain can inherit Ethereum’s protections. The report’s point for institutions is the one this page makes: migrating live financial infrastructure takes years, so the plan has to exist before the threat does.'
+    sources:
+    - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+      url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+      checked: '2026-11-10'
   - title: What is not at risk, and what is at risk everywhere else
     text: 'A public ledger keeps no secrets, so there is nothing to harvest now and decrypt later; the risk is forgery of authorization, not disclosure. Off the ledger it is the reverse: encrypted traffic, records and backups can be captured today and read later, which is why banking, healthcare, government and telecoms face the same deadline with less visibility of where their cryptography sits.'
   - title: Coins nobody can move

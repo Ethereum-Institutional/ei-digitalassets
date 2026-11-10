@@ -464,9 +464,12 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 // ---------- assemble ----------
 const TAG = '<span class="ei-tag">in progress</span>';
 const relHref = (from, to) => { const up = '../'.repeat(from ? from.split('/').length : 0); return to ? `${up}${to}/` : (up || './'); };
-const navHtml = out => `<nav class="ei-nav" aria-label="Pages">${NAV.map(n => (n.path === out || (n.path && out.startsWith(n.path + '/')))
+// On a phone the page list folds behind a menu button that names the current page (owner, 10 November 2026: ten
+// pages wrapped to two lines); on a desktop the button is hidden and the links flow in a row as before.
+const navHtml = out => { const cur = NAV.find(n => n.path === out || (n.path && out.startsWith(n.path + '/')));
+  return `<nav class="ei-nav" aria-label="Pages"><button type="button" class="ei-nav-btn" aria-expanded="false" aria-controls="ei-nav-list" onclick="const o=this.parentElement.classList.toggle('open');this.setAttribute('aria-expanded',o)"><span class="bars" aria-hidden="true"></span>${esc(cur ? cur.label : 'Menu')}</button><div class="ei-nav-list" id="ei-nav-list">${NAV.map(n => (n.path === out || (n.path && out.startsWith(n.path + '/')))
   ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
-  : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</nav>`;
+  : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</div></nav><script>document.addEventListener('click',e=>{const n=document.querySelector('.ei-nav.open');if(n&&!n.contains(e.target)){n.classList.remove('open');n.querySelector('.ei-nav-btn').setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const n=document.querySelector('.ei-nav.open');if(n){n.classList.remove('open');const b=n.querySelector('.ei-nav-btn');b.setAttribute('aria-expanded','false');b.focus()}})</script>`; };
 const shared = site => ({
   heading: site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text),
   notice: site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '',

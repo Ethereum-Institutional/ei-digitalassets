@@ -6,11 +6,11 @@
 
 id: india
 group: jurisdiction
-menu: 'IN · India: “virtual digital asset” (tax)'
-name: India “virtual digital asset” (tax)
-short: India
+menu: 'IN · India (CBDT and FIU-IND): “virtual digital asset”'
+name: 'India CBDT and FIU-IND “virtual digital asset”'
+short: India CBDT and FIU-IND
 color: '#a21caf'
-intro: India has no dedicated crypto licensing regime. The “virtual digital asset” (VDA) definition (carried into the Income-tax Act, 2025 from April 2026) drives a flat tax and TDS on transfers, and VDA service providers are covered by anti-money-laundering rules. VDAs exclude Indian and foreign currency, and the government has excluded items such as gift cards and reward points. The RBI remains skeptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.
+intro: 'India has no dedicated crypto licensing regime; two arms of the Ministry of Finance apply one definition. The Central Board of Direct Taxes administers the “virtual digital asset” (VDA) definition, carried into the Income-tax Act, 2025 from 1 April 2026: any cryptographically generated information, code, number or token representing value that can be transferred, stored or traded electronically, non-fungible tokens, and anything else the government notifies, excluding Indian and foreign currency, with a power to exclude assets by notification (used for gift cards and reward points); it drives a flat tax and tax deducted at source on transfers. The Financial Intelligence Unit (FIU-IND) registers VDA service providers as reporting entities under the anti-money-laundering act (notice of 4 July 2023) and has pursued offshore platforms serving Indian users. The RBI remains skeptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.'
 status:
   nat: in
   btc: in
@@ -48,5 +48,11 @@ notes:
   sec: Tokenized securities would fall to SEBI; the VDA treatment is unsettled.
   rwa: Treatment depends on structure and is unsettled.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
-last_reviewed: '2026-10-24'
+sources:
+- title: 'Income Tax Department, Virtual Digital Assets (the statutory definition: cryptographically generated representations of value, NFTs, notified assets; currency excluded; power to exclude by notification)'
+  url: https://www.incometaxindia.gov.in/w/virtual-digital-assets-2
+  checked: '2026-11-10'
+- title: 'FIU-IND, Registration of Virtual Digital Asset Service Providers in FIU-IND as Reporting Entity (notice of 4 July 2023, listed on the FIU-IND home page)'
+  url: https://fiuindia.gov.in/
+  checked: '2026-11-10'
+last_reviewed: '2026-11-10'

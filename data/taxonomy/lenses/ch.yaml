@@ -8,7 +8,7 @@ id: ch
 group: jurisdiction
 menu: 'CH · Switzerland (FINMA): token classes'
 name: Switzerland FINMA token classes
-short: Switzerland
+short: Switzerland FINMA
 color: '#14130f'
 intro: 'FINMA classifies tokens by economic function: payment tokens (cryptocurrencies), utility tokens (access to a service) and asset tokens (claims or securities, which the DLT Act lets be issued as ledger-based securities). Stablecoins are assessed case by case; FINMA’s 2024 guidance requires bank default guarantees where an issuer lacks a banking license. A Federal Council draft (consultation from October 2025) would add FINMA “payment instrument institution” licenses for issuers of value-stable crypto-based means of payment (wertstabile kryptobasierte Zahlungsmittel) and “crypto-institution” licenses for service providers.'
 groups:

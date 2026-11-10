@@ -10,7 +10,7 @@ menu: 'US · United States (GENIUS Act): “payment stablecoin”'
 name: US GENIUS Act “payment stablecoin”
 short: US GENIUS Act
 color: '#6d28d9'
-intro: The GENIUS Act (2025) defines a payment stablecoin as a digital asset used for payment or settlement that the issuer must redeem for a fixed amount of money. It expressly excludes national currencies, deposits (including deposits recorded on a distributed ledger) and securities. A deliberately narrow perimeter.
+intro: The GENIUS Act (2025) defines a payment stablecoin as a digital asset used for payment or settlement that the issuer must redeem for a fixed amount of money. It expressly excludes national currencies, deposits (including deposits recorded on a distributed ledger) and securities. A deliberately narrow perimeter. Issuers are supervised by the OCC (federal nonbank issuers, under its final rule of 21 October 2026), by the federal banking agencies for bank subsidiaries, or by state regulators under a comparable state regime, with the Treasury writing the implementing rules.
 status:
   sc: part
   lsc: in

@@ -25,6 +25,15 @@ and decisions behind them.
   batch and the glossary entries kept in step with it go without a second-model check: the owner reviews the built pages
   and the sources (owner, 6 November 2026; batch 1 was checked in Perplexity, batch 2 and later are not).
 - Commands run from `maps/`: `cd maps && npm run build`, then `npm run check`.
+- **A change to a classification or a house rule opens an issue on ei-digitalassets first** (owner, 10 November 2026:
+  the public record of why a map changed): what the map says today, the sources read with their dates, the proposed
+  change and its reasoning, labeled `map change`. The changelog entry and the pull request cite it by number. The
+  mirror commit's message is fixed, so GitHub cannot close it across repositories: after the mirror run, close it by
+  hand with a comment linking the mirror commit and the live page. Wording fixes and new badges need no issue. The
+  public repository's issue and pull request templates live in `.github/` here and are mirrored with the rest. Every
+  commit that resolves a public issue ends its message with a line `Refs Ethereum-Institutional/ei-digitalassets#N`,
+  the pull request body maps commits to issues, and the closing comment on each issue names the ei-platform commit and
+  the mirror commit (owner, 10 November 2026: the why of a change should be traceable from either repository).
 
 ## Status and versioning
 
@@ -53,6 +62,10 @@ and decisions behind them.
   landing page and stubs, both with the same styles. Per-page settings (`lens_groups`, `badge`, `pill_scale`, `legend`, `panel_default`, `intro_more`, `facets`) live in each
   `site.yaml`, and drawn notes in `layout.yaml` `annotations:`; `layout.yaml` `canvas` sets each map's size. Never put page-specific content in a template. A new
   page is a folder with a `site.yaml`, an entry in `PAGES` in `scripts/build.mjs` and an entry in `data/nav.yaml`.
+- The shared navigation (`navHtml` in `scripts/build.mjs`, styled in `src/template.html`) folds behind a menu button
+  named for the current page under 700px, with the list absolutely positioned under it; on wider screens the button is
+  hidden and the links flow in a row (owner, 10 November 2026). Keep the toggle script inline in the nav markup, since
+  every template takes the nav from the build.
 - `npm run build` validates the data (unknown circle ids or badges, missing definitions, bad statuses, lens colors,
   lens-only circles, `licensed_under`, `bridges`, `networks` maps; rings, themes and cells on radial pages) and
   writes `dist/` for every page. `npm run check` renders each map in headless Chromium, applies every lens and
@@ -180,6 +193,14 @@ and decisions behind them.
   Hyperliquid and Avalanche are quasi-permissionless (anyone may stand or stake) with concentration caveats in their
   notes. Polygon PoS is treated as quasi-permissionless: its capped seats were designed to be won by open stake
   auction, even though entry now waits for a vacancy and a review (say so in its note).
+  **An Ethereum Layer 2 reads as permissionless consensus only at Stage 2 of ETHBEAT's Stages framework** (ETHBEAT was
+  L2BEAT; owner, 10 November 2026, public issue ei-digitalassets#11): at Stage 2 the operator holds no power beyond a
+  bounded delay (forced inclusion, permissionless fraud proofs, a 30-day exit window for any upgrade not tied to an
+  on-chain provable bug), so the rollup's consensus is Ethereum mainnet's and the badge moves into Dynamically
+  Available beside it, the sequencer noted as a delay-bounded service; below Stage 2 it stays Permissioned however its
+  sequencer is run, because the operator or its Security Council still decides something the protocol does not. Stage
+  2 does not itself require open sequencing, which is why the rule says so. Base, Arbitrum One and OP Mainnet are
+  Stage 1 (10 November 2026); re-read ETHBEAT before moving any of them.
 - **Ethereum mainnet** is the chain; never write "on Ethereum" for a deployment. "Ethereum" alone is used only in
   compound terms (Ethereum ecosystem, Ethereum client, Ethereum Virtual Machine). Do not add asides such as "(press
   report)" in descriptions; the evidence level belongs in the source title. Its badge sits in dynamically available,
@@ -213,6 +234,17 @@ and decisions behind them.
   clients. Besu is now an LF Decentralized Trust project (`besu-eth/besu`); it no longer supports Clique or Ethash.
 - Lenses here are architecture, not regulation: `scope: networks` lenses highlight badges via a `networks:` map
   (`in` | `part`) and leave the circles alone. Each intro defines the layer, why it exists and what it buys.
+- **Settlement finality lens** (owner, 10 November 2026, after OpenZeppelin's Technical Risk Assessment on Blockchain
+  Networks, April 2026): `in` where the protocol declares finality and an attacker who reverts it forfeits slashable
+  collateral (Ethereum mainnet; its rollups once the batch is posted and the challenge window has passed), `part` where
+  finality is declared on the trust of an admitted or elected set with no collateral or only part of it at risk (BNB
+  Chain's self-bonded 200 BNB, Solana without automatic slashing, the XRP Ledger, Stellar, Hedera, Canton, Corda, the
+  permissioned ledgers), unmarked where it is probabilistic (proof of work, Cardano, and TRON by the assessment's
+  reading, though TRON's own docs call 19 confirmations irreversible: the note says both). Each note gives time to
+  finality, what an attacker loses, production clients and the longest halt, from the network's own documentation with
+  the assessment as the second source. Finality lives here, not on the Adoption page (owner: a settlement property,
+  not a cause of adoption) and not on the Architecture page (owner: that page is Ethereum-specific, not a general ledger
+  questionnaire). The six badges the assessment covers carry its halt, client and penalty facts in their descriptions.
 - Network facts were last checked 25 October 2026; validator counts and sequencer status drift quickly.
 
 ## Web3 page (`data/web3/`)
@@ -250,6 +282,17 @@ and decisions behind them.
   deployments and market values; DefiLlama's stablecoin supply, marked as the provider's figure). Generic lenses
   (consortium, single operator) carry none. A per-lens evidence strip waits for the Concord rendering (D57).
 
+- **The Ethereum Foundation's primer for governments** (ethereum.org, July 2026) is cited only for the Foundation's own
+  positions and ethereum.org facts; its comparisons relay OpenZeppelin's figures, so the maps cite OpenZeppelin for those
+  and keep their own, newer numbers where they differ (owner, 10 November 2026). **Developers** are read from Electric
+  Capital's live dashboard (monthly active developers by ecosystem) rather than its retired annual reports, with the
+  Foundation's about 11,000 EVM developers quoted beside Ethereum's as the conservative figure the owner trusts.
+- **Independent assessments beside the dials** (owner, 10 November 2026): no new dials for OpenZeppelin's six
+  dimensions, since five are dials here under other names and the sixth is the "Adoption today" line; a "Read
+  alongside independent assessments" section maps its dimensions to the dials, and the Ethereum mainnet, Solana and
+  Canton notes carry its March 2026 figures as a dated second source, with disagreements shown (Solana's genesis share:
+  Messari 48% against the report's unverified "more than 90%"). Technology selection stays on this page; the
+  Architecture page is not a general ledger questionnaire.
 - **Renamed Adoption** (owner, 29 October 2026; URL `/adoption/`, the old `/decentralization/` redirects): adoption
   follows decentralization, so the page leads with that claim and measures the decentralization behind it on the same
   eleven dials. Its first section names a dated outcome from a closed-membership ledger of the same era (TradeLens,
@@ -440,7 +483,11 @@ and decisions behind them.
   UAE PASS, iAM Smart, the EUDI Wallet, and many others) run on their operators' own systems, not on an EVM chain or any
   shared ledger, so they sit in their own box under the ledger box (`schemes`), and reach the ledger only through a
   mechanism in the circles (allowlist, attestation, credential proof). Decentralized identity (DIDs, verifiable
-  credentials, vLEI) stays inside the ledger box.
+  credentials, vLEI) stays inside the ledger box. The exception is drawn:
+  Bhutan NDI sits in the schemes box in Ethereum blue, because it anchors its identifiers to Ethereum and issues
+  credentials on it while the register stays sovereign (owner, 10 November 2026: a scheme can embrace a public ledger). Scheme badges are named
+  "HK · iAM Smart", the two-letter code first, and sit in that alphabetical order, the ICAO standard last (owner, 10
+  November 2026).
 - **House positions, flagged as Ethereum Institutional's:** the three-question framing; the schemes box; DNS is a weak
   trust anchor; the signed-message checklist. The revenue proposal (reusable credentials, a credit score as a credential,
   underwriting) is held in `data/identity/held.yaml`, off the public page, for a scenario or a brief (owner, 6 November 2026).
@@ -546,7 +593,12 @@ and decisions behind them.
 
 - One lens at a time; the taxonomy has two dropdowns (global standard setters; jurisdictions), the networks map one
   (architecture); `lens_groups` in `site.yaml` defines them. Jurisdiction `menu` labels start with the two-letter
-  country code (UK, not GB) so the list sorts alphabetically.
+  country code (UK, not GB) so the list sorts alphabetically, then name the regulator in brackets and the regime's term:
+  "HK · Hong Kong (SFC): …", with the body repeated in `name` and `short` (owner, 10 November 2026: a reader should see
+  whose reading it is; where a jurisdiction has several bodies, one lens per body, as Hong Kong, Australia and the UAE
+  are split). A lens built on a statute that several bodies apply (MiCA, the GENIUS Act) keeps the law in the title and
+  names the bodies in its first sentences. Every lens cites the body's or the legislature's own text; a law-firm note is
+  a pointer, never the source.
 - Each lens file has `status` per circle (`in` | `part` | `out`), optional `groups` (one dotted perimeter per group),
   `notes`, `sources` and `last_reviewed`. Add a source URL and date for every regulatory claim you change.
   Notes are keyed by circle id or by token ticker (e.g. `USDC:`), which overrides the circle's note for that badge.

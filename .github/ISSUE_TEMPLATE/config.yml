@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: The live maps
+    url: https://ethereum-institutional.github.io/ei-digitalassets/
+    about: Read the current maps before proposing a change; every page carries its sources and the date they were checked.

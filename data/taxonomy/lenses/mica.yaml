@@ -10,7 +10,7 @@ menu: 'EU · European Union (MiCA): “crypto-asset”'
 name: EU MiCA “crypto-asset”
 short: EU MiCA
 color: '#1d4ed8'
-intro: 'MiCA (Reg. (EU) 2023/1114) defines a crypto-asset as a digital representation of value or a right transferable using DLT, then excludes from scope: assets issued by central banks, unique non-fungible assets, and anything already regulated as a financial instrument, deposit, fund (unless an e-money token), securitization, insurance or pension product (Art. 2).'
+intro: 'MiCA (Regulation (EU) 2023/1114) defines a crypto-asset as a digital representation of a value or of a right that can be transferred and stored electronically using distributed ledger or similar technology (Art. 3(1)(5)), then excludes from scope: central banks and public bodies, unique non-fungible assets, and anything already regulated as a financial instrument, deposit, fund (unless an e-money token), securitization, insurance or pension product (Art. 2). It is applied by each member state’s competent authority, with the EBA supervising issuers of significant asset-referenced and e-money tokens (Arts. 117 and 119) and ESMA keeping the register of white papers, issuers and service providers (Art. 109); Titles III and IV (stablecoins) apply from 30 June 2024 and the rest from 30 December 2024 (Art. 149).'
 status:
   nat: in
   btc: in
@@ -68,5 +68,8 @@ notes:
   id: Unique, non-transferable names or credentials are generally out.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
   syn: 'A crypto-asset; whether it is an e-money or asset-referenced token depends on its design and backing.'
-sources: []
-last_reviewed: '2026-10-24'
+sources:
+- title: 'Regulation (EU) 2023/1114 on markets in crypto-assets (MiCA), OJ L 150, 9 June 2023: Art. 2 scope, Art. 3(1)(5) to (7) definitions, Arts. 109, 117 and 119, Art. 149 application dates'
+  url: http://publications.europa.eu/resource/cellar/01d55833-0660-11ee-b12e-01aa75ed71a1.0006.03/DOC_1
+  checked: '2026-11-10'
+last_reviewed: '2026-11-10'

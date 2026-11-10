@@ -41,7 +41,7 @@ steps:
   from: custodian
   to: operator
   kind: offchain
-  text: 'Validator signing keys are generated and kept in a remote signer or HSM with a slashing protection database, apart from custody keys. The withdrawal credentials are set to the institution''s address (0x01, or 0x02 for a compounding validator) and recorded. The fee recipient, the execution-layer address that receives priority fees and MEV payments on each block the validator proposes, is set to the institution''s address or a transparent split contract, and proven.'
+  text: 'Validator signing keys are generated and kept in a remote signer or HSM with a slashing protection database, apart from custody keys. The withdrawal credentials are set to the institution''s address (0x01, or 0x02 for a compounding validator) and recorded. The fee recipient, the execution-layer address that receives priority fees and MEV payments on each block the validator proposes, is set to the institution''s address or a transparent split contract, and proven. The withdrawal address can be set only once, and the change from 0x01 to 0x02 is one way, so it is checked in the deposit data before anything is signed; ethereum.org suggests a smart contract wallet such as a Safe, so the keys behind the address can be rotated.'
   standards: [EIP-3076, Withdrawal credentials]
 - title: Deposit
   from: owner
@@ -65,14 +65,14 @@ steps:
   from: ledger
   to: operator
   kind: onchain
-  text: 'Being offline costs a small penalty each epoch; signing two conflicting messages is slashed: part of the stake is burned and the validator is forced out. The protocol charges the validator balance; who bears it is the operator contract (the Architecture map''s node and validator questions ask what is compensated and whether it is insured).'
+  text: 'Being offline costs a small penalty each epoch; signing two conflicting messages is slashed: part of the stake is burned and the validator is forced out. The protocol charges the validator balance; who bears it is the operator contract (the Architecture map''s node and validator questions ask what is compensated and whether it is insured). Since Electra the first penalty is 1/4096 of the effective balance (about 0.008 ETH of 32); on day 18 of the 36-day removal period a second, correlation penalty takes three times the share of all stake slashed in the surrounding 36 days, up to the whole balance, so a fault shared by many validators (one client bug, one hosting provider, one operator) costs far more than an isolated one. That is the protocol''s own argument for spreading a stake across node operators, client software and hosting.'
   standards: [EIP-3076, Rewards and penalties]
 - title: Exit, from the withdrawal address
   from: owner
   to: ledger
   kind: onchain
-  text: 'Since Pectra the holder of the withdrawal credentials can trigger a full exit or a partial withdrawal itself, through a system contract and for a small fee, without the operator''s signing keys. The validator passes through the exit queue and the principal is swept to the withdrawal address. An institution should have tested this path before it needs it.'
-  standards: [EIP-7002]
+  text: 'Two keys can exit a validator. The signing key can sign a voluntary exit at any time, and since EIP-7044 a pre-signed exit stays valid across forks, so an operator can hand the owner one in advance. Since Pectra the holder of the withdrawal credentials can also trigger a full exit or a partial withdrawal itself, through a system contract and for a small fee, without the operator (EIP-7002). Either way the ETH can only ever go to the withdrawal address. Exits are capped at 256 ETH an epoch, about 57,600 ETH a day, the same limit as entries; an exited validator becomes withdrawable 256 epochs later, about 27 hours, and then waits for the sweep. An institution should have tested this path before it needs it, and should know the queue before promising a redemption date.'
+  standards: [EIP-7002, EIP-7044]
 - title: Reporting and classification
   from: custodian
   to: observer
@@ -114,6 +114,11 @@ standards:
   status: Final
   role: 'Lets the withdrawal address trigger a full exit or a partial withdrawal through a system contract, for a fee, without the validator''s signing keys; the control that makes delegated staking recoverable.'
   url: https://eips.ethereum.org/EIPS/eip-7002
+- id: EIP-7044
+  title: Perpetually Valid Signed Voluntary Exits
+  status: Final
+  role: 'A voluntary exit signed with the validator key stays valid in every later fork, so an operator can hand the owner a pre-signed exit once instead of once per fork; the second route out, beside EIP-7002.'
+  url: https://eips.ethereum.org/EIPS/eip-7044
 - id: EIP-7251
   title: Increase the MAX_EFFECTIVE_BALANCE
   status: Final
@@ -134,6 +139,11 @@ standards:
   status: Live
   role: Splits one validator key across several machines or operators so no single one can sign alone; an option for the non-custodial and custodial models.
   url: https://ethereum.org/staking/dvt/
+- id: EIP-7805
+  title: Fork-choice enforced Inclusion Lists (FOCIL)
+  status: Draft
+  role: 'Would let a committee of validators force eligible transactions into the next block whatever the builder or relay prefers; the open question on block inclusion depends on whether it ships.'
+  url: https://eips.ethereum.org/EIPS/eip-7805
 - id: ERC-20
   title: Token Standard
   status: Final
@@ -147,7 +157,7 @@ sections:
   - title: Rewards come from the protocol
     text: 'A solo validator receives the full protocol reward with no counterparty; the other models subtract an operator fee or a pool''s share and add a counterparty. There is no issuer to default and no agreement to negotiate: the rules that pay the validator are the same rules every other validator runs under.'
   - title: The owner can always leave
-    text: 'Since Pectra the withdrawal address, not the signing key, controls the exit. An institution that delegates to an operator can recover its stake if the operator disappears, is compelled, or simply stops answering, and should test that it can.'
+    text: 'Either key can exit a validator, and the ETH can only ever go to the withdrawal address: the operator''s signing key, including a pre-signed exit that has stayed valid across forks since EIP-7044, or the withdrawal address itself since Pectra. An institution that delegates to an operator can recover its stake if the operator disappears, is compelled, or simply stops answering, and should test that it can.'
   - title: The record is the ledger
     text: 'Balance, rewards, penalties and slashing are public per validator. The auditor reads what the institution reads; there is no operator statement to reconcile against, except the fee recipient''s receipts.'
   - title: Fewer keys for the same stake
@@ -159,7 +169,7 @@ sections:
     sources:
     - { title: 'ethereum.org, Staking', url: 'https://ethereum.org/staking/', checked: '2026-11-09' }
   - title: Since Pectra
-    text: 'Exits and partial withdrawals can be triggered from the withdrawal address (EIP-7002); a validator can hold up to 2,048 ETH and compound (EIP-7251). Both change what an institution should ask an operator: the Architecture map''s node and validator page has the questions, including the fee recipient, exits and consolidation.'
+    text: 'Exits and partial withdrawals can be triggered from the withdrawal address (EIP-7002); a validator can hold up to 2,048 ETH and compound (EIP-7251); entries and exits are each capped at 256 ETH an epoch. All three change what an institution should ask an operator: the Architecture map''s node and validator page has the questions, including the fee recipient, exits and consolidation.'
     sources:
     - { title: 'EIP-7002, Execution Layer Triggerable Withdrawals (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7002', checked: '2026-11-09' }
     - { title: 'EIP-7251, Increase the MAX_EFFECTIVE_BALANCE (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7251', checked: '2026-11-09' }
@@ -184,7 +194,9 @@ sections:
   - title: Who names the fee recipient
     text: 'Execution rewards go wherever the block proposer points them. Settle in the contract that it is the institution''s address or a transparent split, and prove it on chain.'
   - title: Have you exited a validator
-    text: 'The withdrawal address can trigger an exit since Pectra. Until an institution has done it once, on its own keys, the recovery path is a claim, not a control.'
+    text: 'The withdrawal address can trigger an exit since Pectra, and a pre-signed exit from the operator is the other route. Until an institution has done it once, on its own keys, the recovery path is a claim, not a control; and the exit queue, the 27-hour withdrawability delay and the sweep set how fast a redemption can be met.'
+  - title: Which transactions your validators include
+    text: 'A proposer builds its block or takes one from a relay, and some relays deliver only blocks that exclude sanctioned addresses; the Adoption page reads the share. Whether the institution''s validators connect to filtering relays, or build their own blocks, is a policy the operator contract should fix. If FOCIL (EIP-7805, Draft) lands, inclusion lists would force eligible transactions into a block whatever the builder prefers, and the policy moves into the protocol.'
   - title: Compounding or not
     text: 'A 0x02 validator holds more per key and changes the size of any slashing event and the shape of the reporting; decide who may consolidate the institution''s validators.'
   - title: 'Which regime''s reading'
@@ -193,8 +205,14 @@ sections:
 sources:
 - { title: 'ethereum.org, Staking', url: 'https://ethereum.org/staking/', checked: '2026-11-09' }
 - { title: 'ethereum.org, Staking deposit contract address', url: 'https://ethereum.org/staking/deposit-contract/', checked: '2026-11-09' }
-- { title: 'ethereum.org, Staking withdrawals (withdrawal credentials)', url: 'https://ethereum.org/staking/withdrawals/', checked: '2026-10-27' }
-- { title: 'ethereum.org, Proof-of-stake rewards and penalties', url: 'https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/', checked: '2026-10-27' }
+- { title: 'ethereum.org, Staking withdrawals (page updated 17 August 2026: exits by the validator client or from the withdrawal address; one withdrawal address, set once; 0x01 to 0x02 irreversible; a smart contract wallet such as Safe for key rotation; 16 withdrawals a block)', url: 'https://ethereum.org/staking/withdrawals/', checked: '2026-11-10' }
+- { title: 'ethereum.org, Proof-of-stake rewards and penalties (page updated 28 September 2026: 0.0078125 ETH of a 32 ETH validator burned at once, a 36-day removal period, a day-18 penalty scaled to the stake slashed in the window, up to the full balance)', url: 'https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/', checked: '2026-11-10' }
+- { title: 'Ethereum consensus specifications, Electra beacon chain (MIN_SLASHING_PENALTY_QUOTIENT_ELECTRA 4096; MAX_PER_EPOCH_ACTIVATION_EXIT_CHURN_LIMIT 256 ETH; MAX_EFFECTIVE_BALANCE_ELECTRA 2,048 ETH; 0x02 compounding prefix)', url: 'https://github.com/ethereum/consensus-specs/blob/master/specs/electra/beacon-chain.md', checked: '2026-11-10' }
+- { title: 'Ethereum consensus specifications, phase 0 beacon chain (EPOCHS_PER_SLASHINGS_VECTOR 8,192; MIN_VALIDATOR_WITHDRAWABILITY_DELAY 256 epochs; process_slashings at the midpoint of the window, penalty proportional to the slashed share)', url: 'https://raw.githubusercontent.com/ethereum/consensus-specs/master/specs/phase0/beacon-chain.md', checked: '2026-11-10' }
+- { title: 'Ethereum consensus specifications, Bellatrix beacon chain (PROPORTIONAL_SLASHING_MULTIPLIER_BELLATRIX 3)', url: 'https://github.com/ethereum/consensus-specs/blob/master/specs/bellatrix/beacon-chain.md', checked: '2026-11-10' }
+- { title: 'validatorqueue.com (10 November 2026: entry and exit churn 256 ETH an epoch; entry queue 906,106 ETH, about 16 days; exit queue 10,190 ETH, about a day; sweep cycle 7.1 days; 813,931 active validators)', url: 'https://www.validatorqueue.com/', checked: '2026-11-10' }
+- { title: 'EIP-7044, Perpetually Valid Signed Voluntary Exits (Final; pre-signed exits for delegated staking)', url: 'https://eips.ethereum.org/EIPS/eip-7044', checked: '2026-11-10' }
+- { title: 'EIP-7805, Fork-choice enforced Inclusion Lists (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7805', checked: '2026-11-10' }
 - { title: 'ethereum.org, Distributed validator technology', url: 'https://ethereum.org/staking/dvt/', checked: '2026-10-27' }
 - { title: 'Ethereum consensus specifications, Bellatrix honest validator guide (suggested_fee_recipient)', url: 'https://raw.githubusercontent.com/ethereum/consensus-specs/master/specs/bellatrix/validator.md', checked: '2026-11-09' }
 - { title: 'EIP-7002, Execution Layer Triggerable Withdrawals (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7002', checked: '2026-11-09' }

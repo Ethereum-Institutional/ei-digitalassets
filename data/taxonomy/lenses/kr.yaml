@@ -6,11 +6,11 @@
 
 id: kr
 group: jurisdiction
-menu: 'KR · South Korea: “virtual asset”'
-name: South Korea “virtual asset”
-short: South Korea
+menu: 'KR · South Korea (FSC): “virtual asset”'
+name: South Korea FSC “virtual asset”
+short: South Korea FSC
 color: '#4338ca'
-intro: Korea defines virtual assets (Specified Financial Information Act) as electronic certificates with economic value that can be traded or transferred, excluding game items, prepaid instruments and e-money, electronically registered securities, electronic bills and CBDC; NFTs are generally excluded under FSC guidance. The Virtual Asset User Protection Act (July 2024) protects users. The Digital Asset Basic Act (exchange licensing and a won-stablecoin framework) is still being negotiated, including whether only banks may issue.
+intro: 'The Financial Services Commission (FSC) writes the rules, the Financial Supervisory Service inspects, and the FSC’s Financial Intelligence Unit (KoFIU) registers providers. A virtual asset is an electronic token with economic value that can be traded or transferred electronically, excluding what other laws already cover or what poses no harm to users: in-game currency, e-money, digital shares, CBDC, and, since the June 2024 enforcement decree, electronic bonds, mobile gift certificates, deposit tokens linked to the CBDC network and non-fungible tokens, read with the FSC’s guidelines on when an NFT is a virtual asset. The Act on the Protection of Virtual Asset Users (enacted 18 July 2023, in force 19 July 2024) requires segregated assets, bank-held deposits, cold storage, insurance and bans unfair trading. The Digital Asset Basic Act (exchange licensing and a won-stablecoin framework) is still pending; the FSC’s tokenization roadmap of 4 September 2026 starts securities tokenization in February 2027 and makes stablecoin-linked on-chain payment its final phase, subject to that legislation.'
 status:
   nat: in
   btc: in
@@ -40,14 +40,26 @@ status:
   syn: in
 notes:
   cbdc: CBDC is expressly excluded.
-  td: Deposits; the Bank of Korea has piloted deposit tokens (Project Hangang).
-  dt: Deposits; the Bank of Korea has piloted deposit tokens (Project Hangang).
-  sc: Stablecoins are virtual assets today. Korea has no stablecoin license yet; the Digital Asset Basic Act, still being negotiated, would introduce authorization for won stablecoins.
-  sec: Electronically registered securities are excluded; security tokens fall under capital-markets law.
+  td: Deposits; deposit tokens linked to the CBDC network are excluded from the virtual asset definition (June 2024 decree), and the Bank of Korea has piloted them (Project Hangang).
+  dt: Deposits; deposit tokens linked to the CBDC network are excluded from the virtual asset definition (June 2024 decree), and the Bank of Korea has piloted them (Project Hangang).
+  sc: 'Stablecoins are virtual assets today. Korea has no stablecoin license yet; the Digital Asset Basic Act, still pending, would introduce authorization for won stablecoins, and the FSC’s September 2026 roadmap makes stablecoin-linked payments conditional on it.'
+  sec: Electronically registered securities are excluded; security tokens fall under capital-markets law, with the FSC’s tokenization roadmap starting in February 2027 (private money market funds, institutional bonds, unlisted shares through trusts, fractional investment securities).
   rwa: Excluded where structured as securities; otherwise assessed case by case.
   game: Game money and items are expressly excluded.
-  art: NFTs are generally excluded unless issued in large fungible series or used for payment.
+  art: NFTs are excluded by the June 2024 enforcement decree unless, under the FSC’s guidelines, they are issued in large fungible series or used for payment.
   loy: Excluded where it is a prepaid instrument or e-money.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
-last_reviewed: '2026-10-24'
+sources:
+- title: 'FSC, The Act on the Protection of Virtual Asset Users to Take Effect from July 19 (17 July 2024; enacted 18 July 2023; segregation, insurance, unfair trading; FSC and FSS enforcement)'
+  url: https://fsc.go.kr/eng/pr010101/82683
+  checked: '2026-11-10'
+- title: 'FSC, New Enforcement Decree on the Protection of Virtual Asset Users Approved by the Government (25 June 2024; definition and excluded tokens, NFTs and deposit tokens linked to the CBDC network added)'
+  url: https://fsc.go.kr/eng/pr010101/82534
+  checked: '2026-11-10'
+- title: 'FSC, preparation for the enforcement of the Act on the Protection of Virtual Asset Users (8 February 2024; bank-held deposits, 80% cold storage, insurance, penalties)'
+  url: https://fsc.go.kr/eng/pr010101/81698
+  checked: '2026-11-10'
+- title: 'FSC, Policy Roadmap on Digital Transformation and Tokenization of Securities Issuance and Circulation (4 September 2026; phase 1 from February 2027; stablecoin-linked payments pending legislation)'
+  url: https://fsc.go.kr/eng/pr010101/87653
+  checked: '2026-11-10'
+last_reviewed: '2026-11-10'

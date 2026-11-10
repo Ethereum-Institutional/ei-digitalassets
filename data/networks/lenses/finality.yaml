@@ -1,0 +1,121 @@
+# Lens: Settlement finality (architecture)
+# scope: networks means the lens highlights badges, not circles. `networks` lists each badge as in | part.
+# in: the protocol declares a transaction final and an attacker who reverts it forfeits slashable collateral.
+# part: the protocol declares finality on the agreement of an admitted or elected set, with no collateral at risk, or
+#   with collateral that is only partly slashable. Unmarked: finality is probabilistic and never declared.
+# notes: the sentence shown under a badge's definition when this lens is active.
+
+id: finality
+group: architecture
+menu: Settlement finality
+name: Settlement finality
+short: Finality
+scope: networks
+color: '#155e75'
+intro: 'Finality is the point after which a transaction cannot be undone without breaking the protocol’s rules, and it is the first thing a settlement engineer asks of a ledger. Three models exist. Deterministic: the protocol declares a transaction final once a quorum of a known set agrees, and nothing in the protocol can revert it; no collateral backs the declaration, so the guarantee is as strong as the set’s independence and no stronger. Economic: the protocol declares finality and makes reversal cost an attacker a quantified amount of staked collateral, destroyed by slashing. Probabilistic: the protocol never declares finality; reversal only grows more expensive with every block built on top, and “six confirmations” is custom, not a rule. Times run from under a second to about thirteen minutes, and the faster declarations usually come from smaller or elected sets. Highlighted badges declare finality and back it with slashable collateral; dashed ones declare it on the trust of an admitted or elected set, with no collateral or only part of it at risk; faded ones are probabilistic. Ethereum Institutional’s view: on a public permissionless network, economic finality backed by slashing is the guarantee an outsider can price; deterministic finality on a trusted set is a different guarantee, worth exactly the independence of the set. Each note gives the time to finality, what an attacker loses, the number of production clients and the longest halt, from the networks’ own documentation and an independent assessment of six networks (data as of March 2026).'
+networks:
+  ethereum: in
+  base: in
+  arbitrum: in
+  optimism: in
+  bnb: part
+  solana: part
+  avalanche: part
+  polygon: part
+  hyperliquid: part
+  tron: part
+  xrpl: part
+  stellar: part
+  hedera: part
+  canton: part
+  corda: part
+  fnality: part
+  hangang: part
+  dcjpy: part
+  quorum: part
+  fabric: part
+notes:
+  ethereum: 'Economic finality in about 13 minutes: a checkpoint is finalized when validators holding two thirds of staked ETH vote for two consecutive checkpoints, and reverting it means at least a third of all staked ETH is slashed (about USD 25 billion in March 2026 on the assessment’s figures; the attacker’s whole stake is at risk). Five execution and six consensus clients in production, the only network with more than one or two. Never fully halted in eleven years; finality was delayed for an hour in May 2023 while blocks continued, and the inactivity leak restored it without intervention.'
+  base: 'Inherits Ethereum mainnet’s economic finality once a batch is posted and the challenge window has passed (five days with one proof, one day with two); before that the sequencer’s confirmation is a promise from one operator.'
+  arbitrum: 'Inherits Ethereum mainnet’s economic finality once a batch is posted and the challenge period has passed (about six days plus a two-day execution delay); before that the sequencer’s confirmation is a promise from one operator.'
+  optimism: 'Inherits Ethereum mainnet’s economic finality once a batch is posted and the seven-day challenge window has passed; before that the sequencer’s confirmation is a promise from one operator.'
+  bnb: 'Finality declared within about two blocks (BEP-126) when two thirds of the 21 block producers attest to a block and its child, backed by only part of the stake: a double sign or malicious vote slashes 200 BNB of the validator’s self-bonded stake and jails it for 30 days, while delegated stake is untouched, so the assessment puts the loss for an attack at under USD 3 million against USD 17 billion staked. One production client, a Geth fork. Halted once, for eight hours in October 2022, deliberately, after a bridge exploit.'
+  solana: 'Finality declared under Alpenglow when 80% of stake votes in one round or 60% in two, with no automatic slashing yet: SIMD-0204 would record evidence of duplicate blocks and the penalty economics are a later proposal, so an attacker’s stake is not destroyed by the protocol. Two clients in production, the dominant one on about nine tenths of stake. Seven full halts, the longest about 19 hours in February 2023, none since February 2024.'
+  avalanche: 'Sub-second, irreversible finality once a block is accepted by the Snowman protocol, on bonded AVAX; Avalanche does not slash, a misbehaving validator forfeits only its reward, so no collateral is destroyed by an attack.'
+  polygon: 'Milestones give deterministic finality in two to five seconds on Heimdall v2, and checkpoints anchor Bor’s history to Ethereum mainnet periodically; staking is on Ethereum mainnet and slashing is not active, so the declaration is backed by the validator set rather than by collateral at risk.'
+  hyperliquid: 'HyperBFT, a HotStuff variant, commits blocks by validator vote weighted by staked HYPE, with a median 0.2 seconds to a committed response for a co-located client; the documentation does not state a slashing rule, so the declaration is read as backed by the set, not by collateral at risk.'
+  tron: 'TRON’s documentation calls a block solidified, irreversible, once 19 of the 27 Super Representatives have confirmed it (about a minute at three-second blocks); the independent assessment reads this as probabilistic, since the protocol issues no finality certificate. Either way there is no penalty: a misbehaving Super Representative loses votes, never stake. One production client, java-tron. Halted once, for about two hours in November 2020.'
+  xrpl: 'Deterministic: a ledger is validated when 80% of the validators on a server’s Unique Node List agree, every few seconds, and its contents can never change. No staking and no economic penalty: a validator that misbehaves is dropped from the recommended lists, which Ripple and the XRP Ledger Foundation publish. One production client, rippled. Two halts, the longest 64 minutes in February 2025.'
+  stellar: 'Deterministic: the Stellar Consensus Protocol closes each ledger when the quorum slices of its trusted nodes agree, with a safety guarantee that no two nodes agree on different values; no rewards, no stake and no penalty, so the guarantee rests on the Tier 1 organizations’ independence.'
+  hedera: 'Deterministic: the hashgraph algorithm is asynchronous Byzantine fault tolerant and delivers finality of consensus within seconds, with influence proportional to staked HBAR; the consensus nodes are run by Hedera Council members under a permissioned model, and no slashing is documented.'
+  canton: 'Deterministic and near instant: a transaction is final when its parties confirm it and the Global Synchronizer’s Super Validators order it by two-thirds BFT vote; there is no staking, no slashing and no financial penalty, so the guarantee is the thirteen institutions’ trust. One client, Splice; test and development networks require allowlisting; no public bug bounty and, as of March 2026, one published audit (the Canton Coin contracts, 2025).'
+  corda: 'Deterministic: a notary cluster signs each transaction final once it has checked for double spends, and only the parties see it; no collateral, the guarantee is the notary operator’s.'
+  fnality: 'Permissioned consensus finalizes immediately on the members’ votes, with no forks; the guarantee is the members’ and the central bank reserves behind the token.'
+  hangang: 'Permissioned consensus finalizes immediately on the members’ votes, with no forks; the guarantee is the members’ and the central bank’s.'
+  dcjpy: 'Permissioned consensus finalizes immediately on the members’ votes, with no forks; the guarantee is the members’ and the deposits behind the token.'
+  quorum: 'QBFT and IBFT finalize immediately, with no forks, when two thirds of a fixed validator set agree; the validators admit and remove each other by vote, and no collateral is at risk.'
+  fabric: 'The ordering service (Raft) finalizes each block deterministically for the channel’s members; no collateral is at risk and the guarantee is the consortium’s.'
+  bitcoin: 'Probabilistic: the protocol never declares a transaction final; it only becomes more expensive to reverse with each block, and the six-confirmation custom (about an hour) is a convention, not a rule. The guarantee is the cost of proof of work.'
+  dogecoin: 'Probabilistic, as for Bitcoin: no declaration, only depth, and the guarantee is the merged-mined proof of work.'
+  monero: 'Probabilistic, as for Bitcoin: no declaration, only depth.'
+  zcash: 'Probabilistic, as for Bitcoin: no declaration, only depth.'
+  cardano: 'Probabilistic under Ouroboros Praos: a transaction is immutable once its depth exceeds 3k/f slots, and before that confidence grows with each block; stake pools are not slashed, so no collateral is destroyed by an attack.'
+sources:
+- title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+  url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+  checked: '2026-11-10'
+- title: 'ethereum.org, Proof-of-stake (page updated 7 October 2026): checkpoints finalized by two thirds of staked ETH; reverting commits the attacker to losing at least one third of staked ETH; inactivity leak after four epochs'
+  url: https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/
+  checked: '2026-11-10'
+- title: 'BEP-126, Introduce Fast Finality Mechanism (Enabled; finality within two blocks in most cases; vote-rule violations slashed)'
+  url: https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP126.md
+  checked: '2026-11-10'
+- title: 'BNB Chain docs, BSC Slash Rules (double sign and malicious vote: 200 BNB slashed from the validator’s self-delegated stake, 30-day jail)'
+  url: https://docs.bnbchain.org/bnb-smart-chain/slashing/slash-rules/
+  checked: '2026-11-10'
+- title: 'SIMD-0326, Alpenglow consensus protocol (certificate thresholds)'
+  url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md
+  checked: '2026-10-25'
+- title: 'Avalanche docs, Snowman Consensus (sub-second, immutable finality; acceptance final and irreversible; Avalanche does not slash)'
+  url: https://build.avax.network/docs/quick-start/avalanche-consensus
+  checked: '2026-11-10'
+- title: 'Polygon docs, Heimdall v2 introduction (milestones: deterministic finality within 2 to 5 seconds; periodic checkpoints to Ethereum)'
+  url: https://docs.polygon.technology/pos/architecture/heimdall/
+  checked: '2026-11-10'
+- title: 'Hyperliquid docs, HyperCore overview (HyperBFT, a HotStuff variant; median 0.2 seconds to a committed response; blocks produced in proportion to stake)'
+  url: https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/overview.md
+  checked: '2026-11-10'
+- title: 'java-tron documentation, TRON DPoS Consensus Mechanism (27 SRs, 3-second blocks, 6-hour epochs; a block is irreversible once acknowledged by 70% of SRs, 19 confirmations; no penalty described)'
+  url: https://tronprotocol.github.io/documentation-en/mechanism-algorithm/dpos/
+  checked: '2026-11-10'
+- title: 'XRPL docs, Consensus Structure (a validated ledger’s contents can never change; 80% agreement threshold; a new ledger every several seconds)'
+  url: https://xrpl.org/docs/concepts/consensus-protocol/consensus-structure
+  checked: '2026-11-10'
+- title: 'XRPL docs, Finality of Results (a result is final when included in a validated ledger)'
+  url: https://xrpl.org/docs/concepts/transactions/finality-of-results
+  checked: '2026-11-10'
+- title: Stellar developer docs, Stellar Consensus Protocol
+  url: https://developers.stellar.org/docs/learn/fundamentals/stellar-consensus-protocol
+  checked: '2026-11-10'
+- title: 'Hedera docs, Hashgraph Consensus Algorithm (asynchronous Byzantine fault tolerant; consensus within seconds with certainty; influence proportional to stake)'
+  url: https://docs.hedera.com/hedera/core-concepts/hashgraph-consensus-algorithms
+  checked: '2026-11-10'
+- title: 'Hedera Council (nodes operate on a permissioned model run by council members; equal voting rights and term limits)'
+  url: https://hederacouncil.org/
+  checked: '2026-11-10'
+- title: 'Besu docs, Proof of authority consensus (QBFT and IBFT 2.0 have immediate finality, no forks; validators voted in and out by the pool)'
+  url: https://docs.besu-eth.org/private-networks/concepts/poa
+  checked: '2026-11-10'
+- title: 'Cardano docs, Chain confirmation versus transaction confirmation (probabilistic confirmation by depth; immutable beyond 3k/f slots under Ouroboros Praos)'
+  url: https://docs.cardano.org/about-cardano/learn/chain-confirmation-versus-transaction-confirmation
+  checked: '2026-11-10'
+- title: 'ETHBEAT (formerly L2BEAT), Base (Stage 1; forced inclusion with a 12-hour delay; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
+  url: https://ethbeat.org/scaling/projects/base
+  checked: '2026-11-10'
+- title: 'ETHBEAT (formerly L2BEAT), Arbitrum One (Stage 1; forced inclusion with a one-day delay; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
+  url: https://ethbeat.org/scaling/projects/arbitrum
+  checked: '2026-11-10'
+- title: 'ETHBEAT (formerly L2BEAT), OP Mainnet (Stage 1; a single centralized sequencer; fraud proof submission open to everyone; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
+  url: https://ethbeat.org/scaling/projects/optimism
+  checked: '2026-11-10'
+last_reviewed: '2026-11-10'

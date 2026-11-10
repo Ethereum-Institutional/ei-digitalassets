@@ -10,9 +10,9 @@ as_of: 6 November 2026
 badges:
 # ---- Verified identity only: who, established off the ledger ----
 - id: singpass
-  name: Singpass
+  name: SG · Singpass
   circle: schemes
-  x: 110
+  x: 668
   y: 945
   eth: false
   facts:
@@ -27,9 +27,9 @@ badges:
   sources:
   - { title: 'GovTech Singapore, Myinfo: how it works (Singpass API, KYC use by banks, 1,000 services)', url: 'https://developer.tech.gov.sg/products/categories/digital-identity/myinfo/how-it-works', checked: '2026-11-06' }
 - id: uaepass
-  name: UAE PASS
+  name: AE · UAE PASS
   circle: schemes
-  x: 280
+  x: 85
   y: 945
   eth: false
   facts:
@@ -44,9 +44,9 @@ badges:
   sources:
   - { title: 'UAE PASS developer FAQ (authentication, signing, eSeal, verification API, onboarding, token lifetime)', url: 'https://docs.uaepass.ae/faq', checked: '2026-11-06' }
 - id: iamsmart
-  name: iAM Smart
+  name: HK · iAM Smart
   circle: schemes
-  x: 450
+  x: 522
   y: 945
   eth: false
   facts:
@@ -61,9 +61,9 @@ badges:
   sources:
   - { title: 'Digital Policy Office, Hong Kong: iAM Smart for public and private organisations (APIs, sandbox)', url: 'https://www.digitalpolicy.gov.hk/en/our_work/data_governance/common_data_platforms/iam_smart/organisations', checked: '2026-11-06' }
 - id: eudi
-  name: EUDI Wallet
+  name: EU · EUDI Wallet
   circle: schemes
-  x: 620
+  x: 378
   y: 945
   eth: false
   facts:
@@ -79,9 +79,9 @@ badges:
   - { title: 'Open ID Europe, EUDI Wallet rollout timeline 2024–2027 (status October 2026)', url: 'https://www.openideurope.eu/digital-identity/eudi-wallet-timeline/', checked: '2026-11-06' }
   - { title: 'OpenID Foundation, OpenID4VC High Assurance Interoperability Profile 1.0 (Final, 24 December 2025)', url: 'https://openid.net/specs/openid4vc-high-assurance-interoperability-profile-1_0-final.html', checked: '2026-11-06' }
 - id: epassport
-  name: ePassport (ICAO 9303)
+  name: ICAO · ePassport (9303)
   circle: schemes
-  x: 790
+  x: 815
   y: 945
   eth: false
   facts:
@@ -95,6 +95,24 @@ badges:
   desc: 'The passport chip standard. ICAO Doc 9303 (Eighth Edition, 2021; endorsed by the International Organization for Standardization as ISO/IEC 7501) specifies the electronic machine readable travel document, a passport, visa or card with a contactless integrated circuit holding the holder''s data and a facial image in a standard logical data structure (Part 10), the security mechanisms for reading it (Part 11), and the public key infrastructure in which the issuing State''s Document Signer certifies the chip data under its Country Signing Certification Authority, with certificates and revocation lists exchanged through the ICAO Public Key Directory. It is the sovereign credential most people already carry, and it is read, not issued, by the private sector: a reader verifies the State''s signature off the ledger. It reaches the ledger only through the ZK passport proofs in the circles above, which prove a statement about the signed chip data to a verifier contract without the document leaving the device.'
   sources:
   - { title: 'ICAO, Doc 9303 Machine Readable Travel Documents, Part 1 Introduction (Eighth Edition, 2021): the eMRTD, the parts, the Document Signer and CSCA, the Public Key Directory, ISO/IEC 7501', url: 'https://www.icao.int/sites/default/files/publications/DocSeries/9303_p1_cons_en.pdf', checked: '2026-11-06' }
+- id: bhutan
+  name: BT · Bhutan NDI
+  circle: schemes
+  x: 232
+  y: 945
+  eth: true
+  facts:
+    subject: { in: [person], note: 'Bhutanese residents; a business line is planned, as in other national wallets.' }
+    anchor: { in: [sovereign], note: 'Government-issued identity in a self-sovereign wallet: the Royal Government verifies the person, the holder controls the credentials.' }
+    checked: { in: [written], part: [onchain], note: 'Decentralized identifiers are anchored to Ethereum and credentials and signatures are issued on it, so a relying party resolves the identifier on the ledger; verification of the credential itself stays with the verifier.' }
+    reveals: { in: [proof], note: 'Verifiable credentials are presented to the relying party; nothing about the person is written to the public ledger beyond the identifier.' }
+    revocation: { in: [list], note: 'Verifiable-credential revocation is a status the issuer publishes; the scheme does not say where the status list is kept.' }
+    standard: { in: [w3c, national], note: 'W3C decentralized identifiers and verifiable credentials, under a national scheme.' }
+    pq: { in: [unstated], note: 'The announcement does not state the signature schemes or a post-quantum plan.' }
+  desc: 'Bhutan’s National Digital Identity, the first national scheme to anchor itself on Ethereum: decentralized identifiers are anchored to Ethereum’s validator network and verifiable credentials and digital signatures are issued on it, announced on 13 October 2025 with the full migration from Polygon planned by early 2026. The register of citizens stays the government’s; what the ledger holds is the identifier a credential can be checked against. It is drawn in the schemes box because it is a sovereign scheme, and in Ethereum blue because it is the one that embraced a public ledger.'
+  sources:
+  - { title: 'Bhutan NDI, Bhutan Adopts Ethereum for National Identity (13 October 2025; decentralized identifiers anchored to Ethereum, verifiable credentials and digital signing on Ethereum, migration planned by early 2026)', url: 'https://www.bhutanndi.com/resources/news/bhutan-adopts-ethereum-for-national-identity-a-new-chapter-in-digital', checked: '2026-11-10' }
+  - { title: 'Bhutan Broadcasting Service, event announcing the integration of NDI with the Ethereum blockchain (October 2025; previously on Polygon; GovTech Secretary on security; full migration planned by early 2026)', url: 'https://www.bbs.bt/234365/', checked: '2026-11-10' }
 - id: kyx
   name: KYC and KYB checks
   circle: who

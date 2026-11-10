@@ -10,7 +10,7 @@ menu: 'HK · Hong Kong (SFC): virtual assets & tokenized securities'
 name: 'Hong Kong SFC: virtual assets & tokenized securities'
 short: Hong Kong SFC
 color: '#14130f'
-intro: The Securities and Futures Commission licenses virtual-asset trading platforms under the AMLO and is building out VA dealing, custody, advisory and management regimes (legislation planned for 2026). The AMLO virtual-asset definition excludes securities and futures, digital representations of fiat and stored value. Tokenized securities and tokenized SFC-authorized products (such as tokenized money-market funds) stay securities under the SFO, using a “see-through” approach. Since May 2026, HKMA-licensed “Relevant Stablecoins” can be listed on SFC-licensed platforms with lighter requirements.
+intro: 'The Securities and Futures Commission licenses virtual-asset trading platforms under the AMLO and will be the lead regulator of the dealing, custody, advisory and management regimes consulted on in 2025 and 2026, with a bill targeted for 2026. The AMLO virtual-asset definition excludes securities and futures, digital representations of fiat and stored value. Tokenized securities are “fundamentally traditional securities with a tokenisation wrapper” (SFC, 2 November 2023): “same business, same risks, same rules”, read through to the underlying for complexity, with no professional-investor-only restriction, while the prospectus and Part IV offering regimes still apply. Tokenized SFC-authorized products may be dealt in the primary market since November 2023 and traded on SFC-licensed platforms since 20 April 2026; product providers keep the ownership record, issue no bearer tokens and use a public permissionless network only with added controls such as a permissioned token. Since 27 May 2026, HKMA-licensed “Relevant Stablecoins” trade on SFC-licensed platforms with lighter requirements.'
 groups:
 - id: va
   label: Virtual assets
@@ -58,12 +58,16 @@ status:
   fmi: part
   syn: part
 notes:
-  lsc: '“Relevant Stablecoins”: issued by HKMA licensees and listed on SFC-licensed platforms with lighter liquidity and disclosure requirements.'
+  nat: Cryptocurrency is property under Hong Kong law and can be held on trust (Re Gatecoin, Court of First Instance, 31 March 2023).
+  lsc: '“Relevant Stablecoins” (specified stablecoins issued under an HKMA licence) may be offered to retail on SFC-licensed platforms since 27 May 2026: the liquidity and index tests, the exposure-limit count and the knowledge assessment are waived, the coin is non-complex, and suitability applies only on a recommendation.'
   sc: Unlicensed stablecoins such as USDT and USDC remain virtual assets but may be offered only to professional investors.
   unreg: Professional investors only; cannot be offered to retail.
   alg: A virtual asset if traded, but never a licensable stablecoin.
-  fund: Tokenized SFC-authorized funds, including tokenized money-market funds, are permitted with extra safeguards.
-  sec: Tokenized securities remain securities under the SFO; the SFC looks through to the underlying.
+  fund: 'Primary dealing of tokenized SFC-authorized funds is allowed since November 2023 and secondary trading on SFC-licensed platforms since 20 April 2026 (open-ended funds first, with a market maker, an indicative NAV at least every 15 seconds and a price-deviation alert). The product provider stays responsible for the ownership record, issues no bearer tokens and uses a public permissionless network only with added controls such as a permissioned token.'
+  sec: 'Tokenized securities are traditional securities with a tokenization wrapper: the prospectus and Part IV regimes apply, complexity is read through to the underlying, and there is no professional-investor-only restriction (SFC, 2 November 2023). Bearer tokens on public permissionless networks carry heightened cyber and AML risk; transfer restrictions or allowlists are the accepted answer.'
+  re: 'A fractionalized interest tokenized other than as a traditional fund is likely a collective investment scheme and a complex product: professional investors only unless authorized under Part IV (SFC, 2 November 2023).'
+  coll: 'A fractionalized interest tokenized other than as a traditional fund is likely a collective investment scheme and a complex product: professional investors only unless authorized under Part IV (SFC, 2 November 2023).'
+  ip: 'A tokenized profit-sharing or royalty arrangement that is not a traditional security is a digital security, likely a complex product: professional investors only unless authorized under Part IV (SFC, 2 November 2023).'
   pm: Tokenized gold products can be SFC-authorized investment products; gold tokens traded as crypto are virtual assets.
   td: 'A bank deposit: HKMA territory, not the SFC’s.'
   dt: 'A bank deposit: HKMA territory, not the SFC’s.'
@@ -72,7 +76,25 @@ notes:
   game: Limited-purpose tokens are excluded.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
 sources:
-- title: Davis Polk, Hong Kong’s new stablecoin licensing and regulatory regime (in force 1 August 2025)
-  url: https://www.davispolk.com/insights/client-update/hong-kongs-new-stablecoin-licensing-and-regulatory-regime
-  checked: '2026-10-24'
-last_reviewed: '2026-10-24'
+- title: 'SFC, Circular on intermediaries engaging in tokenised securities-related activities (2 November 2023; “tokenisation wrapper”, “same business, same risks, same rules”, see-through complexity, PI-only restriction lifted, public-permissionless bearer tokens, supersedes the 29 March 2019 statement)'
+  url: https://apps.sfc.hk/edistributionWeb/api/circular/openFile?lang=EN&refNo=23EC52
+  checked: '2026-11-10'
+- title: 'SFC, Circular on tokenisation of SFC-authorised investment products (revised 20 April 2026; primary dealing, ownership records, no bearer form, no public-permissionless network without added controls)'
+  url: https://apps.sfc.hk/edistributionWeb/api/circular/openFile?lang=EN&refNo=26EC22
+  checked: '2026-11-10'
+- title: 'SFC, Circular on secondary trading of tokenised SFC-authorised investment products (20 April 2026; SFC-licensed platforms, open-ended funds first, market maker, indicative NAV, price-deviation alert)'
+  url: https://apps.sfc.hk/edistributionWeb/api/circular/openFile?lang=EN&refNo=26EC23
+  checked: '2026-11-10'
+- title: 'SFC, Circular on provision of Relevant Stablecoin service by virtual asset trading platforms and licensed corporations (27 May 2026; liquidity and index tests, exposure limit and knowledge assessment waived; non-complex)'
+  url: https://apps.sfc.hk/edistributionWeb/api/circular/openFile?lang=EN&refNo=26EC26
+  checked: '2026-11-10'
+- title: 'FSTB and SFC, consultation conclusions on regulating virtual asset dealing and custodian services (24 December 2025; bill targeted for 2026; advisory and management regimes consulted separately)'
+  url: https://www.info.gov.hk/gia/general/202512/24/P2025122400265.htm
+  checked: '2026-11-10'
+- title: 'Hong Kong Government, Policy Statement 2.0 on the Development of Digital Assets (26 June 2025; LEAP; SFC to lead the dealing and custody regimes; stablecoin regime from 1 August 2025)'
+  url: https://www.info.gov.hk/gia/general/202506/26/P2025062600269.htm
+  checked: '2026-11-10'
+- title: 'Re Gatecoin Ltd (in liquidation) [2023] HKCFI 914 (Court of First Instance, 31 March 2023; cryptocurrency is property capable of being held on trust, paragraph 59)'
+  url: https://www.hklii.hk/en/cases/hkcfi/2023/914
+  checked: '2026-11-10'
+last_reviewed: '2026-11-10'

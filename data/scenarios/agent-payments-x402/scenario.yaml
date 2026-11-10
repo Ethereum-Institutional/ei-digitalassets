@@ -97,7 +97,7 @@ tokens:
   sources:
   - { title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)', url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum, checked: '2026-10-25' }
 
-standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the money it uses, the account and permission model the principal runs, and who facilitates settlement.'
+standards_help: 'Standards to consider, not a prescription. Each is in production or in draft and fits one or more steps; a deployment picks among them by the money it uses, the account and permission model the principal runs, and who facilitates settlement. The Ethereum Foundation’s primer for governments (July 2026) names ERC-8004 and x402 as the open standards for an agent’s identity and for machine-to-machine payment, anchored on Ethereum so that no operator controls them.'
 standards:
 - id: x402
   title: An open payments standard over HTTP, not an ERC
@@ -197,6 +197,7 @@ sections:
     text: On a public ledger the agent’s payments, payees and spending pattern are visible to anyone who can map its account to the principal; permissioned tokens, rotating accounts and confidential-transfer designs (see the Privacy page) are the answers in use.
 
 sources:
+- { title: 'Ethereum Foundation, Ethereum Basics for Governments and Institutions (ethereum.org report, July 2026; the Foundation’s own positions; comparative figures as of March 2026 from OpenZeppelin’s assessment)', url: 'https://ethereum.org/reports/basics-for-governments-institutions.pdf', checked: '2026-11-10' }
 - { title: 'x402.org (last updated 27 October 2026): an open, neutral standard for internet-native payments over HTTP 402; stablecoins the primary use case; EVM chains, Solana and more', url: https://www.x402.org/, checked: '2026-11-06' }
 - { title: 'coinbase/x402 README: the 402 flow, the payment-required, payment-signature and payment-response headers, the facilitator’s verify and settle endpoints, the exact scheme', url: https://github.com/coinbase/x402, checked: '2026-11-06' }
 - { title: 'x402 repository, exact scheme on EVM: EIP-3009 transferWithAuthorization signed with EIP-712; the facilitator pays gas and cannot modify amount or destination; Permit2 and ERC-7710 fallbacks', url: https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_evm.md, checked: '2026-11-06' }

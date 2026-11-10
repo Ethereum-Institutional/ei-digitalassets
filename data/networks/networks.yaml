@@ -114,8 +114,14 @@ networks:
   y: 418
   column: { x: 250, y: 477 }
   eth: true
-  desc: 'Delegated proof of stake: 27 Super Representatives elected by TRX votes every six hours produce blocks; any account can stand by burning 9,999 TRX. No incumbent review, so quasi-permissionless under EI’s rule, with a very small active set. The TRON Virtual Machine is EVM compatible, so most Solidity contracts run unchanged. Tether issues USD₮ natively on TRON (TRC-20), one of its two largest deployments; Circle discontinued USDC on TRON in 2024. Smart contracts: yes; the EVM-compatible TRON Virtual Machine.'
+  desc: 'Delegated proof of stake: 27 Super Representatives elected by TRX votes every six hours produce blocks; any account can stand by burning 9,999 TRX. No incumbent review, so quasi-permissionless under EI’s rule, with a very small active set. A block is irreversible once 19 of the 27 have confirmed it, about a minute; a misbehaving Super Representative loses votes, never stake; one production client, java-tron; halted once, for about two hours in November 2020. The TRON Virtual Machine is EVM compatible, so most Solidity contracts run unchanged. Tether issues USD₮ natively on TRON (TRC-20), one of its two largest deployments; Circle discontinued USDC on TRON in 2024. Smart contracts: yes; the EVM-compatible TRON Virtual Machine.'
   sources:
+  - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+    url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+    checked: '2026-11-10'
+  - title: 'java-tron documentation, TRON DPoS Consensus Mechanism (27 SRs, 3-second blocks, 6-hour epochs; a block is irreversible once acknowledged by 70% of SRs, 19 confirmations; no penalty described)'
+    url: https://tronprotocol.github.io/documentation-en/mechanism-algorithm/dpos/
+    checked: '2026-11-10'
   - title: TRON developer docs, consensus (DPoS, 27 Super Representatives, 6-hour maintenance period)
     url: https://developers.tron.network/docs/concensus
     checked: '2026-10-25'
@@ -165,8 +171,11 @@ networks:
   y: 418
   column: { x: 405, y: 477 }
   eth: false
-  desc: 'Alpenglow (Votor) since 21 October 2026, replacing the consensus based on Proof of History and Tower BFT; local timeouts now do the pacing Proof of History did. Anyone can run validator software without approval; voting needs a registered BLS public key, an admission ticket of 0.8 SOL an epoch and a place in the top 2,000 by stake (no fixed minimum stake; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
+  desc: 'Alpenglow (Votor) since 21 October 2026, replacing the consensus based on Proof of History and Tower BFT; local timeouts now do the pacing Proof of History did. Anyone can run validator software without approval; voting needs a registered BLS public key, an admission ticket of 0.8 SOL an epoch and a place in the top 2,000 by stake (no fixed minimum stake; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. No automatic slashing yet, so an attacker’s stake is not destroyed by the protocol; two clients in production, the dominant one on about nine tenths of stake. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
   sources:
+  - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+    url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+    checked: '2026-11-10'
   - title: 'Solana Foundation, Alpenglow upgrade (live at epoch 1064, 21 October 2026; 80% one round, 60% two rounds; 20% adversarial plus 20% offline)'
     url: https://solana.com/upgrades/alpenglow
     checked: '2026-10-26'
@@ -214,8 +223,14 @@ networks:
   y: 440
   column: { x: 400, y: 1200 }
   eth: false
-  desc: 'Anyone can run a node and transact, so it is public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule. Not EVM based (the XRPL EVM is a separate chain). Smart contracts: not on the main ledger, which offers native escrows, tokens and a decentralized exchange instead; WebAssembly “smart escrows” (XLS-100) are still in development, and the XRPL EVM is a separate chain.'
+  desc: 'Anyone can run a node and transact, so it is public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule. A validated ledger is final every few seconds, with no stake and no penalty behind it; one production client, rippled; two halts, the longest 64 minutes in February 2025. Not EVM based (the XRPL EVM is a separate chain). Smart contracts: not on the main ledger, which offers native escrows, tokens and a decentralized exchange instead; WebAssembly “smart escrows” (XLS-100) are still in development, and the XRPL EVM is a separate chain.'
   sources:
+  - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+    url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+    checked: '2026-11-10'
+  - title: 'XRPL docs, Consensus Structure (a validated ledger’s contents can never change; 80% agreement threshold; a new ledger every several seconds)'
+    url: https://xrpl.org/docs/concepts/consensus-protocol/consensus-structure
+    checked: '2026-11-10'
   - title: xrpl.org, Unique Node List (two default publishers; inclusion criteria)
     url: https://xrpl.org/docs/concepts/consensus-protocol/unl
     checked: '2026-10-25'
@@ -235,8 +250,14 @@ networks:
   y: 680
   column: { x: 400, y: 1415 }
   eth: false
-  desc: 'Mostly a consortium network with a small public component: see the “Network of Networks” circle for EI’s reasoning. Canton Coin (about $4 billion, rank 23) is the only globally visible asset on it. Smart contracts are written in Daml; an EVM execution layer (Zenith, built on Reth) is in development, so Canton is not drawn as Ethereum ecosystem. Smart contracts: yes; Daml, a functional contract language, with an EVM layer (Zenith) in development.'
+  desc: 'Mostly a consortium network with a small public component: see the “Network of Networks” circle for EI’s reasoning. Canton Coin (about $4 billion, rank 23) is the only globally visible asset on it. Its test and development networks require allowlisting, there is no public bug bounty and, as of March 2026, one published audit (the Canton Coin contracts, 2025). The Ethereum Foundation’s primer for governments reads it the same way: a foundation co-chaired by DTCC and Euroclear, protocol changes by two-thirds Super Validator vote, validators admitted by sponsorship, consortium governance rather than decentralized. Smart contracts are written in Daml; an EVM execution layer (Zenith, built on Reth) is in development, so Canton is not drawn as Ethereum ecosystem. Smart contracts: yes; Daml, a functional contract language, with an EVM layer (Zenith) in development.'
   sources:
+  - title: 'Ethereum Foundation, Ethereum Basics for Governments and Institutions (ethereum.org report, July 2026; the Foundation’s own positions; comparative figures as of March 2026 from OpenZeppelin’s assessment)'
+    url: https://ethereum.org/reports/basics-for-governments-institutions.pdf
+    checked: '2026-11-10'
+  - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
+    url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
+    checked: '2026-11-10'
   - title: Canton docs, Participant node overview (stores only the contracts its parties are stakeholders in)
     url: https://docs.canton.network/overview/reference/participant-overview
     checked: '2026-10-25'
@@ -330,7 +351,7 @@ networks:
   circle: ethereum
   x: 169
   y: 592
-  column: { x: 315, y: 620 }
+  column: { x: 315, y: 648 }
   eth: true
   kind: participant
   small: true
@@ -344,7 +365,7 @@ networks:
   circle: ethereum
   x: 216
   y: 592
-  column: { x: 362, y: 620 }
+  column: { x: 362, y: 648 }
   eth: true
   kind: participant
   small: true
@@ -358,7 +379,7 @@ networks:
   circle: ethereum
   x: 302
   y: 592
-  column: { x: 448, y: 620 }
+  column: { x: 448, y: 648 }
   eth: true
   kind: participant
   small: true
@@ -372,7 +393,7 @@ networks:
   circle: ethereum
   x: 394
   y: 592
-  column: { x: 328, y: 640 }
+  column: { x: 328, y: 668 }
   eth: true
   kind: participant
   small: true
@@ -389,7 +410,7 @@ networks:
   circle: ethereum
   x: 444
   y: 592
-  column: { x: 378, y: 640 }
+  column: { x: 378, y: 668 }
   eth: true
   kind: participant
   small: true
@@ -403,7 +424,7 @@ networks:
   circle: ethereum
   x: 157
   y: 616
-  column: { x: 420, y: 640 }
+  column: { x: 420, y: 668 }
   eth: true
   kind: participant
   small: true
@@ -423,7 +444,7 @@ networks:
   circle: ethereum
   x: 212
   y: 616
-  column: { x: 475, y: 640 }
+  column: { x: 475, y: 668 }
   eth: true
   kind: participant
   small: true
@@ -440,7 +461,7 @@ networks:
   circle: ethereum
   x: 297
   y: 616
-  column: { x: 292, y: 660 }
+  column: { x: 292, y: 688 }
   eth: true
   kind: participant
   small: true
@@ -454,7 +475,7 @@ networks:
   circle: ethereum
   x: 394
   y: 616
-  column: { x: 390, y: 660 }
+  column: { x: 390, y: 688 }
   eth: true
   kind: participant
   small: true
@@ -468,7 +489,7 @@ networks:
   circle: ethereum
   x: 464
   y: 616
-  column: { x: 460, y: 660 }
+  column: { x: 460, y: 688 }
   eth: true
   kind: participant
   small: true
@@ -482,7 +503,7 @@ networks:
   circle: ethereum
   x: 151
   y: 640
-  column: { x: 525, y: 660 }
+  column: { x: 525, y: 688 }
   eth: true
   kind: participant
   small: true
@@ -499,7 +520,7 @@ networks:
   circle: ethereum
   x: 236
   y: 640
-  column: { x: 278, y: 680 }
+  column: { x: 278, y: 708 }
   eth: true
   kind: participant
   small: true
@@ -513,7 +534,7 @@ networks:
   circle: ethereum
   x: 308
   y: 640
-  column: { x: 350, y: 680 }
+  column: { x: 350, y: 708 }
   eth: true
   kind: participant
   small: true
@@ -527,7 +548,7 @@ networks:
   circle: ethereum
   x: 366
   y: 640
-  column: { x: 408, y: 680 }
+  column: { x: 408, y: 708 }
   eth: true
   kind: participant
   small: true
@@ -544,7 +565,7 @@ networks:
   circle: ethereum
   x: 464
   y: 640
-  column: { x: 505, y: 680 }
+  column: { x: 505, y: 708 }
   eth: true
   kind: participant
   small: true
@@ -558,7 +579,7 @@ networks:
   circle: ethereum
   x: 158
   y: 664
-  column: { x: 295, y: 700 }
+  column: { x: 295, y: 728 }
   eth: true
   kind: participant
   small: true
@@ -575,7 +596,7 @@ networks:
   circle: ethereum
   x: 235
   y: 664
-  column: { x: 372, y: 700 }
+  column: { x: 372, y: 728 }
   eth: true
   kind: participant
   small: true
@@ -592,7 +613,7 @@ networks:
   circle: ethereum
   x: 315
   y: 664
-  column: { x: 452, y: 700 }
+  column: { x: 452, y: 728 }
   eth: true
   kind: participant
   small: true
@@ -606,7 +627,7 @@ networks:
   circle: ethereum
   x: 365
   y: 664
-  column: { x: 502, y: 700 }
+  column: { x: 502, y: 728 }
   eth: true
   kind: participant
   small: true
@@ -623,7 +644,7 @@ networks:
   circle: ethereum
   x: 450
   y: 664
-  column: { x: 345, y: 720 }
+  column: { x: 345, y: 748 }
   eth: true
   kind: participant
   small: true
@@ -637,7 +658,7 @@ networks:
   circle: ethereum
   x: 278
   y: 688
-  column: { x: 425, y: 720 }
+  column: { x: 425, y: 748 }
   eth: true
   kind: participant
   small: true
@@ -654,7 +675,7 @@ networks:
   circle: ethereum
   x: 332
   y: 688
-  column: { x: 480, y: 720 }
+  column: { x: 480, y: 748 }
   eth: true
   kind: participant
   small: true
@@ -663,12 +684,40 @@ networks:
   - title: 'WisdomTree Connect, 13 tokenised funds across networks'
     url: https://ir.wisdomtree.com/news-events/press-releases/detail/725/wisdomtree-connect-now-offers-13-tokenized-funds-across
     checked: '2026-10-25'
+- id: amundi_eth
+  name: Amundi
+  circle: ethereum
+  x: 395
+  y: 688
+  column: { x: 350, y: 768 }
+  eth: true
+  kind: participant
+  small: true
+  desc: 'A tokenized share class (J28 EUR DLT) of Amundi Funds Cash EUR, a euro money market fund, launched with CACEIS on the public Ethereum blockchain on 5 December 2025 as an additional access route beside the traditional channels.'
+  sources:
+  - title: 'Amundi, Amundi launches first tokenised share of AMUNDI FUNDS CASH EUR with CACEIS (5 December 2025; J28 EUR DLT share class on the public Ethereum blockchain, beside traditional channels)'
+    url: https://www.amundi.com/institutional/article/amundi-launches-first-tokenised-share-amundi-funds-cash-eur-caceis
+    checked: '2026-11-10'
+- id: mastercard_eth
+  name: Mastercard
+  circle: ethereum
+  x: 455
+  y: 688
+  column: { x: 430, y: 768 }
+  eth: true
+  kind: participant
+  small: true
+  desc: 'Card settlement in regulated stablecoins (USDC, PYUSD, USDG, USDP, RLUSD and SoFiUSD) on Ethereum mainnet and seven other networks, announced 3 June 2026, with ARQ, CBW Bank, Cross River, Lead Bank and Nuvei first in the United States and Latin America; USDC was already settling early flows in select markets.'
+  sources:
+  - title: 'Mastercard, Mastercard expands settlement capabilities to include stablecoin, intraday, holiday and weekend options (3 June 2026; USDC, PYUSD, USDG, USDP, RLUSD and SoFiUSD on Arbitrum, Base, Canton, Ethereum, Polygon, Solana, Tempo and XRPL; ARQ, CBW Bank, Cross River, Lead Bank and Nuvei first, in the United States and Latin America)'
+    url: https://www.mastercard.com/global/en/news-and-trends/press/2026/june/mastercard-expands-settlement-capabilities-to-include-stablecoin.html
+    checked: '2026-11-10'
 - id: circle_base
   name: Circle
   circle: base
   x: 528
   y: 857
-  column: { x: 288, y: 1039 }
+  column: { x: 288, y: 1053 }
   eth: true
   kind: participant
   small: true
@@ -685,7 +734,7 @@ networks:
   circle: base
   x: 610
   y: 857
-  column: { x: 370, y: 1039 }
+  column: { x: 370, y: 1053 }
   eth: true
   kind: participant
   small: true
@@ -699,7 +748,7 @@ networks:
   circle: base
   x: 722
   y: 857
-  column: { x: 482, y: 1039 }
+  column: { x: 482, y: 1053 }
   eth: true
   kind: participant
   small: true
@@ -713,7 +762,7 @@ networks:
   circle: base
   x: 536
   y: 881
-  column: { x: 318, y: 1059 }
+  column: { x: 318, y: 1073 }
   eth: true
   kind: participant
   small: true
@@ -727,7 +776,7 @@ networks:
   circle: base
   x: 596
   y: 881
-  column: { x: 378, y: 1059 }
+  column: { x: 378, y: 1073 }
   eth: true
   kind: participant
   small: true
@@ -744,7 +793,7 @@ networks:
   circle: base
   x: 644
   y: 881
-  column: { x: 425, y: 1059 }
+  column: { x: 425, y: 1073 }
   eth: true
   kind: participant
   small: true
@@ -758,7 +807,7 @@ networks:
   circle: base
   x: 704
   y: 881
-  column: { x: 485, y: 1059 }
+  column: { x: 485, y: 1073 }
   eth: true
   kind: participant
   small: true
@@ -772,7 +821,7 @@ networks:
   circle: arbitrum
   x: 516
   y: 897
-  column: { x: 292, y: 1079 }
+  column: { x: 292, y: 1093 }
   eth: true
   kind: participant
   small: true
@@ -786,7 +835,7 @@ networks:
   circle: arbitrum
   x: 574
   y: 897
-  column: { x: 350, y: 1079 }
+  column: { x: 350, y: 1093 }
   eth: true
   kind: participant
   small: true
@@ -800,7 +849,7 @@ networks:
   circle: arbitrum
   x: 654
   y: 897
-  column: { x: 430, y: 1079 }
+  column: { x: 430, y: 1093 }
   eth: true
   kind: participant
   small: true
@@ -814,7 +863,7 @@ networks:
   circle: arbitrum
   x: 736
   y: 897
-  column: { x: 512, y: 1079 }
+  column: { x: 512, y: 1093 }
   eth: true
   kind: participant
   small: true
@@ -828,7 +877,7 @@ networks:
   circle: arbitrum
   x: 546
   y: 921
-  column: { x: 318, y: 1099 }
+  column: { x: 318, y: 1113 }
   eth: true
   kind: participant
   small: true
@@ -842,7 +891,7 @@ networks:
   circle: arbitrum
   x: 594
   y: 921
-  column: { x: 365, y: 1099 }
+  column: { x: 365, y: 1113 }
   eth: true
   kind: participant
   small: true
@@ -859,7 +908,7 @@ networks:
   circle: arbitrum
   x: 641
   y: 921
-  column: { x: 412, y: 1099 }
+  column: { x: 412, y: 1113 }
   eth: true
   kind: participant
   small: true
@@ -873,7 +922,7 @@ networks:
   circle: arbitrum
   x: 701
   y: 921
-  column: { x: 472, y: 1099 }
+  column: { x: 472, y: 1113 }
   eth: true
   kind: participant
   small: true
@@ -887,7 +936,7 @@ networks:
   circle: optimism
   x: 537
   y: 957
-  column: { x: 315, y: 1129 }
+  column: { x: 315, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -901,7 +950,7 @@ networks:
   circle: optimism
   x: 595
   y: 957
-  column: { x: 372, y: 1129 }
+  column: { x: 372, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -915,7 +964,7 @@ networks:
   circle: optimism
   x: 645
   y: 957
-  column: { x: 422, y: 1129 }
+  column: { x: 422, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -929,7 +978,7 @@ networks:
   circle: optimism
   x: 705
   y: 957
-  column: { x: 482, y: 1129 }
+  column: { x: 482, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -943,7 +992,7 @@ networks:
   circle: polygon
   x: 213
   y: 467
-  column: { x: 288, y: 486 }
+  column: { x: 288, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -957,7 +1006,7 @@ networks:
   circle: polygon
   x: 270
   y: 467
-  column: { x: 345, y: 486 }
+  column: { x: 345, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -971,7 +1020,7 @@ networks:
   circle: polygon
   x: 328
   y: 467
-  column: { x: 402, y: 486 }
+  column: { x: 402, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -985,7 +1034,7 @@ networks:
   circle: polygon
   x: 408
   y: 467
-  column: { x: 482, y: 486 }
+  column: { x: 482, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -999,7 +1048,7 @@ networks:
   circle: polygon
   x: 220
   y: 491
-  column: { x: 328, y: 506 }
+  column: { x: 328, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1013,7 +1062,7 @@ networks:
   circle: polygon
   x: 285
   y: 491
-  column: { x: 392, y: 506 }
+  column: { x: 392, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1030,7 +1079,7 @@ networks:
   circle: polygon
   x: 332
   y: 491
-  column: { x: 440, y: 506 }
+  column: { x: 440, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1044,7 +1093,7 @@ networks:
   circle: polygon
   x: 382
   y: 491
-  column: { x: 490, y: 506 }
+  column: { x: 490, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1058,7 +1107,7 @@ networks:
   circle: avalanche
   x: 113
   y: 467
-  column: { x: 270, y: 486 }
+  column: { x: 270, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1072,7 +1121,7 @@ networks:
   circle: avalanche
   x: 170
   y: 467
-  column: { x: 328, y: 486 }
+  column: { x: 328, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1086,7 +1135,7 @@ networks:
   circle: avalanche
   x: 228
   y: 467
-  column: { x: 385, y: 486 }
+  column: { x: 385, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1103,7 +1152,7 @@ networks:
   circle: avalanche
   x: 308
   y: 467
-  column: { x: 465, y: 486 }
+  column: { x: 465, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1117,7 +1166,7 @@ networks:
   circle: avalanche
   x: 380
   y: 467
-  column: { x: 538, y: 486 }
+  column: { x: 538, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1131,7 +1180,7 @@ networks:
   circle: avalanche
   x: 151
   y: 491
-  column: { x: 320, y: 506 }
+  column: { x: 320, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1145,7 +1194,7 @@ networks:
   circle: avalanche
   x: 221
   y: 491
-  column: { x: 390, y: 506 }
+  column: { x: 390, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1159,7 +1208,7 @@ networks:
   circle: avalanche
   x: 266
   y: 491
-  column: { x: 435, y: 506 }
+  column: { x: 435, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1173,7 +1222,7 @@ networks:
   circle: avalanche
   x: 321
   y: 491
-  column: { x: 490, y: 506 }
+  column: { x: 490, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1187,7 +1236,7 @@ networks:
   circle: hedera
   x: 660
   y: 937
-  column: { x: 215, y: 1109 }
+  column: { x: 215, y: 1123 }
   eth: true
   kind: participant
   small: true
@@ -1201,7 +1250,7 @@ networks:
   circle: hedera
   x: 708
   y: 937
-  column: { x: 262, y: 1109 }
+  column: { x: 262, y: 1123 }
   eth: true
   kind: participant
   small: true
@@ -1215,7 +1264,7 @@ networks:
   circle: hedera
   x: 792
   y: 937
-  column: { x: 348, y: 1109 }
+  column: { x: 348, y: 1123 }
   eth: true
   kind: participant
   small: true
@@ -1229,7 +1278,7 @@ networks:
   circle: hedera
   x: 720
   y: 961
-  column: { x: 300, y: 1129 }
+  column: { x: 300, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -1243,7 +1292,7 @@ networks:
   circle: bnb
   x: 202
   y: 462
-  column: { x: 320, y: 486 }
+  column: { x: 320, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1257,7 +1306,7 @@ networks:
   circle: bnb
   x: 260
   y: 462
-  column: { x: 378, y: 486 }
+  column: { x: 378, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1274,7 +1323,7 @@ networks:
   circle: bnb
   x: 340
   y: 462
-  column: { x: 458, y: 486 }
+  column: { x: 458, y: 500 }
   eth: true
   kind: participant
   small: true
@@ -1288,7 +1337,7 @@ networks:
   circle: bnb
   x: 420
   y: 462
-  column: { x: 400, y: 506 }
+  column: { x: 400, y: 520 }
   eth: true
   kind: participant
   small: true
@@ -1306,7 +1355,7 @@ networks:
   circle: agora
   x: 818
   y: 412
-  column: { x: 308, y: 1537 }
+  column: { x: 308, y: 1551 }
   eth: true
   kind: participant
   small: true
@@ -1320,7 +1369,7 @@ networks:
   circle: agora
   x: 910
   y: 412
-  column: { x: 400, y: 1537 }
+  column: { x: 400, y: 1551 }
   eth: true
   kind: participant
   small: true
@@ -1334,7 +1383,7 @@ networks:
   circle: agora
   x: 1002
   y: 412
-  column: { x: 492, y: 1537 }
+  column: { x: 492, y: 1551 }
   eth: true
   kind: participant
   small: true
@@ -1348,7 +1397,7 @@ networks:
   circle: agora
   x: 822
   y: 436
-  column: { x: 308, y: 1557 }
+  column: { x: 308, y: 1571 }
   eth: true
   kind: participant
   small: true
@@ -1362,7 +1411,7 @@ networks:
   circle: agora
   x: 908
   y: 436
-  column: { x: 392, y: 1557 }
+  column: { x: 392, y: 1571 }
   eth: true
   kind: participant
   small: true
@@ -1376,7 +1425,7 @@ networks:
   circle: agora
   x: 1000
   y: 436
-  column: { x: 485, y: 1557 }
+  column: { x: 485, y: 1571 }
   eth: true
   kind: participant
   small: true
@@ -1390,7 +1439,7 @@ networks:
   circle: agora
   x: 869
   y: 460
-  column: { x: 342, y: 1577 }
+  column: { x: 342, y: 1591 }
   eth: true
   kind: participant
   small: true
@@ -1404,7 +1453,7 @@ networks:
   circle: agora
   x: 952
   y: 460
-  column: { x: 425, y: 1577 }
+  column: { x: 425, y: 1591 }
   eth: true
   kind: participant
   small: true
@@ -1662,7 +1711,7 @@ networks:
   name: BNP Paribas
   circle: besu
   x: 1312
-  y: 577
+  y: 589
   column: { x: 232, y: 2084 }
   eth: true
   kind: participant
@@ -1679,7 +1728,7 @@ networks:
   name: Citi
   circle: besu
   x: 1370
-  y: 577
+  y: 589
   column: { x: 290, y: 2084 }
   eth: true
   kind: participant
@@ -1696,7 +1745,7 @@ networks:
   name: Clearstream
   circle: besu
   x: 1428
-  y: 577
+  y: 589
   column: { x: 348, y: 2084 }
   eth: true
   kind: participant
@@ -1713,7 +1762,7 @@ networks:
   name: DTCC
   circle: besu
   x: 1310
-  y: 601
+  y: 613
   column: { x: 212, y: 2104 }
   eth: true
   kind: participant
@@ -1730,7 +1779,7 @@ networks:
   name: Euroclear
   circle: besu
   x: 1362
-  y: 601
+  y: 613
   column: { x: 265, y: 2104 }
   eth: true
   kind: participant
@@ -1747,7 +1796,7 @@ networks:
   name: Mastercard MTN
   circle: besu
   x: 1440
-  y: 601
+  y: 613
   column: { x: 342, y: 2104 }
   eth: true
   kind: participant
@@ -1764,7 +1813,7 @@ networks:
   name: Northern Trust
   circle: besu
   x: 1339
-  y: 625
+  y: 637
   column: { x: 272, y: 2124 }
   eth: true
   kind: participant
@@ -1781,7 +1830,7 @@ networks:
   name: UBS
   circle: besu
   x: 1402
-  y: 625
+  y: 637
   column: { x: 335, y: 2124 }
   eth: true
   kind: participant
@@ -1800,7 +1849,7 @@ networks:
   circle: partior
   x: 1004
   y: 655
-  column: { x: 478, y: 1656 }
+  column: { x: 478, y: 1670 }
   eth: true
   kind: participant
   small: true
@@ -1817,7 +1866,7 @@ networks:
   circle: partior
   x: 1064
   y: 655
-  column: { x: 538, y: 1656 }
+  column: { x: 538, y: 1670 }
   eth: true
   kind: participant
   small: true
@@ -1834,7 +1883,7 @@ networks:
   circle: partior
   x: 1147
   y: 655
-  column: { x: 620, y: 1656 }
+  column: { x: 620, y: 1670 }
   eth: true
   kind: participant
   small: true
@@ -1851,7 +1900,7 @@ networks:
   circle: partior
   x: 1026
   y: 679
-  column: { x: 505, y: 1676 }
+  column: { x: 505, y: 1690 }
   eth: true
   kind: participant
   small: true
@@ -1868,7 +1917,7 @@ networks:
   circle: partior
   x: 1118
   y: 679
-  column: { x: 598, y: 1676 }
+  column: { x: 598, y: 1690 }
   eth: true
   kind: participant
   small: true

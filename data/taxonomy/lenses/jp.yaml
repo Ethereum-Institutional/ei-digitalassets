@@ -6,11 +6,11 @@
 
 id: jp
 group: jurisdiction
-menu: 'JP · Japan: crypto-assets & stablecoins'
-name: Japan crypto-assets & stablecoins
-short: Japan
+menu: 'JP · Japan (FSA): crypto-assets, stablecoins & security tokens'
+name: 'Japan FSA: crypto-assets, stablecoins and security tokens'
+short: Japan FSA
 color: '#14130f'
-intro: Japan regulates three token types separately. “Crypto-assets” under the Payment Services Act (transferable value usable for payment to unspecified persons, excluding currency and currency-denominated assets); “electronic payment instruments”, meaning fiat stablecoins, which since 2023 only banks, fund-transfer providers and trust companies may issue (e.g. JPYC); and security tokens (“electronically recorded transferable rights”) under the Financial Instruments and Exchange Act. A bill to reclassify crypto-assets as financial instruments cleared a lower-house committee in June 2026; check whether it has been enacted.
+intro: 'The Financial Services Agency (FSA) regulates three token types separately. “Crypto-assets” (transferable value usable for payment to unspecified persons, excluding currency and currency-denominated assets), until now under the Payment Services Act; “electronic payment instruments”, meaning fiat stablecoins, which since 2023 only banks, fund-transfer providers and trust companies may issue (e.g. JPYC); and security tokens (“electronically recorded transferable rights”) under the Financial Instruments and Exchange Act. The Act amending both laws, submitted on 10 April 2026 and enacted on 15 July 2026, moves the rules on crypto-asset transactions from the Payment Services Act into the Financial Instruments and Exchange Act, treating crypto-assets as a financial product distinct from securities, while stablecoins and prepaid instruments stay under the Payment Services Act; check the commencement date before relying on the new regime.'
 groups:
 - id: ca
   label: Crypto-assets
@@ -73,5 +73,14 @@ notes:
   rwa: Security tokens if they confer investment rights; otherwise assessed case by case.
   art: NFTs are generally not crypto-assets unless they work as a means of payment.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
-last_reviewed: '2026-10-24'
+sources:
+- title: 'FSA, bills submitted to the 221st Diet (Act to Partially Amend the Financial Instruments and Exchange Act and the Payment Services Act: submitted 10 April 2026, enacted 15 July 2026)'
+  url: https://www.fsa.go.jp/common/diet/221/index.html
+  checked: '2026-11-10'
+- title: 'FSA, overview of the Act amending the Financial Instruments and Exchange Act and the Payment Services Act (crypto-asset transaction rules move to the FIEA as a financial product distinct from securities; stablecoins and prepaid cards remain under the Payment Services Act)'
+  url: https://www.fsa.go.jp/common/diet/221/02/02.pdf
+  checked: '2026-11-10'
+- title: 'Payment Services Act (資金決済に関する法律, Act No. 59 of 2009, current text on e-Gov): Article 2(5) electronic payment instruments (currency-denominated value usable for payment to unspecified persons and transferable electronically, including specified trust beneficial interests), Article 2(14) crypto-assets (excluding currency, currency-denominated assets and electronic payment instruments), Article 62-3 registration of electronic payment instrument service providers'
+  url: https://laws.e-gov.go.jp/law/421AC0000000059
+  checked: '2026-11-10'
+last_reviewed: '2026-11-10'

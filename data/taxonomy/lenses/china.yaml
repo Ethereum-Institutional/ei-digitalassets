@@ -1,4 +1,4 @@
-# Lens: Mainland China prohibition
+# Lens: Mainland China PBoC prohibition
 # status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
 #   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
 # notes: the sentence shown under a circle's definition when this lens is active.
@@ -6,12 +6,12 @@
 
 id: china
 group: jurisdiction
-menu: 'CN · Mainland China: prohibition'
-name: Mainland China prohibition
-short: Mainland China
+menu: 'CN · Mainland China (PBoC): prohibition'
+name: Mainland China PBoC prohibition
+short: Mainland China PBoC
 color: '#14130f'
 tint: true
-intro: A joint notice from the People’s Bank of China and nine other regulators (6 February 2026) confirms that virtual currencies have no legal-tender status and that exchange, trading, token issuance and crypto-linked products are illegal financial activity. It bans unapproved RMB-pegged stablecoins (onshore and offshore) and classifies tokenizing asset ownership or income rights as illegal unless approved and carried out within designated financial infrastructure. The e-CNY is the sanctioned digital currency.
+intro: 'A notice of the People’s Bank of China with seven other departments (the NDRC, MIIT, the Ministry of Public Security, SAMR, the NFRA, the CSRC and SAFE; Yin Fa [2026] No. 42, 6 February 2026, replacing the 2021 notice) confirms that virtual currencies have no legal-tender status and that exchange, trading, token issuance, pricing and intermediary services and crypto-linked products are illegal financial activity, which offshore firms may not offer to mainland parties either. Issuing an RMB-pegged stablecoin, onshore or offshore, needs the authorities’ approval; tokenizing asset ownership or income rights, and the intermediary and technology services behind it, is illegal unless approved by the business regulator and run on designated financial infrastructure, with the CSRC leading on tokenization and the PBoC on virtual currencies. Banks and payment firms may not provide accounts, clearing, products, collateral or insurance for either. The e-CNY is the sanctioned digital currency.'
 groups:
 - id: ok
   label: Permitted
@@ -63,20 +63,23 @@ status:
   dt: part
   fmi: part
 notes:
-  sc: Unapproved stablecoins, including RMB-pegged ones issued offshore, are banned.
+  sc: 'Fiat-pegged stablecoins are treated as partly performing money functions: issuing an RMB-pegged one, onshore or offshore, needs approval, and unapproved ones are banned (Article 1).'
   td: Not addressed by the notice; bank deposits remain under banking law.
   dt: Not addressed by the notice; tokens on public chains would face the ban on crypto-linked activity.
   oth: Tradeable tokens fall under the ban on virtual-currency business; see Digital Art & NFTs for the tolerated non-tradeable “digital collectibles”.
   art: “Digital collectibles” on permissioned platforms without secondary trading are tolerated; tradeable NFTs are not.
-  rwa: Tokenizing asset ownership or income rights is illegal unless approved and carried out within designated financial infrastructure.
+  rwa: 'Tokenizing asset ownership or income rights, and the intermediary and technology services behind it, is illegal unless approved by the business regulator and run on designated financial infrastructure (Article 2); offshore tokens on mainland rights follow the NDRC, CSRC and SAFE rules for foreign debt and securitization, or CSRC filing (Article 14).'
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
   ECNY-R: 'Permitted: the PBoC''s own retail CBDC. Since 1 January 2026 a balance in a commercial bank wallet is booked as the bank''s deposit liability.'
   ECNY-W: 'Permitted: the wholesale use of e-CNY, issued and redeemed by the PBoC on Project mBridge.'
 sources:
+- title: 'PBoC, NDRC, MIIT, Ministry of Public Security, SAMR, NFRA, CSRC and SAFE, Notice on Further Preventing and Dealing with Virtual Currency and Other Related Risks (Yin Fa [2026] No. 42, 6 February 2026; Chinese text on the CSRC site; repeals Yin Fa [2021] No. 237)'
+  url: https://www.csrc.gov.cn/c100028/c7614318/content.shtml
+  checked: '2026-11-10'
 - title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022)'
   url: https://www.bis.org/publ/othp59.pdf
   checked: '2026-11-05'
 - title: 'Xinhua, on the State Council site, China to enhance digital yuan management with deposit features starting 2026 (29 December 2025)'
   url: https://english.www.gov.cn/news/202512/29/content_WS69526d4ec6d00ca5f9a08511.html
   checked: '2026-11-05'
-last_reviewed: '2026-11-05'
+last_reviewed: '2026-11-10'
