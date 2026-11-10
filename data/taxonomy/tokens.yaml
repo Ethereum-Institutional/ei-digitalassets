@@ -97,6 +97,115 @@ tokens:
   - title: HSBC Hong Kong, HSBC RedCoin (RCHKD) stablecoin page (licence FRS02, reserves, network, PayMe)
     url: https://www.hsbc.com.hk/stablecoins/
     checked: '2026-10-29'
+- ticker: JPYSC
+  name: JPYSC (SBI Shinsei Trust Bank)
+  circle: sc
+  x: 740
+  y: 522
+  column: { x: 412, y: 548 }
+  also_in: [bank]
+  licensed_under: [jp]
+  only_under: [jp]   # shown only under this lens (owner, 10 November 2026)
+  desc: 'A yen stablecoin issued by SBI Shinsei Trust Bank since 24 June 2026: the first trust-type stablecoin in Japan, a third-category electronic payment instrument under the Payment Services Act, which carries no per-transfer or balance cap, unlike stablecoins from funds-transfer providers. Distributed by SBI VC Trade, and held only inside SBI VC Trade accounts until public-chain circulation is cleared.'
+  sources:
+  - title: 'SBI Shinsei Trust Bank and partners, JPYSC launch notice (24 June 2026, Japanese): the first trust-type yen stablecoin, a third-category electronic payment instrument; held inside SBI VC Trade accounts until public-chain circulation is cleared'
+    url: https://corp.sbishinseibank.co.jp/ja/news/news/20260624b/main/01/link/20260624_JPYSC.pdf
+    checked: '2026-11-10'
+- ticker: EURCV
+  name: EUR CoinVertible (Société Générale-FORGE)
+  circle: sc
+  x: 740
+  y: 522
+  column: { x: 412, y: 548 }
+  also_in: [bank]
+  licensed_under: [mica]
+  only_under: [mica]   # shown only under this lens (owner, 10 November 2026)
+  desc: 'A euro e-money token issued by Société Générale-FORGE, a subsidiary of the Société Générale group, compliant with MiCA since the regulation took effect on 1 July 2024; EUR 173.6 million in circulation on 10 November 2026, its reserves held at Société Générale. On Ethereum mainnet, Solana, the XRP Ledger, Stellar and Canton.'
+  sources:
+  - title: 'Société Générale-FORGE, CoinVertible (EURCV compliant with MiCA since 1 July 2024; USDCV since 25 June 2025; chains; circulation and reserves at 10 November 2026)'
+    url: https://www.sgforge.com/product/coinvertible/
+    checked: '2026-11-10'
+- ticker: EURXT
+  name: EURXT (CACEIS, Crédit Agricole)
+  circle: sc
+  x: 762
+  y: 544
+  column: { x: 404, y: 520 }
+  also_in: [bank]
+  licensed_under: [mica]
+  only_under: [mica]   # shown only under this lens (owner, 10 November 2026)
+  desc: 'A euro e-money token under MiCA issued by CACEIS, Crédit Agricole’s asset servicing group, from 1 July 2026: ERC-20 on Ethereum mainnet, backed one for one by cash on CACEIS Bank’s balance sheet, offered first to institutional and corporate clients. Its first issuance settled a subscription into a tokenized Amundi money market fund.'
+  sources:
+  - title: 'CACEIS, Crédit Agricole launches EURXT, its euro-denominated stablecoin (1 July 2026)'
+    url: https://www.caceis.com/news/credit-agricole-launches-eurxt-its-euro-denominated-stablecoin/
+    checked: '2026-11-10'
+- ticker: EURR
+  name: EURR (Bridge, for Revolut)
+  circle: sc
+  x: 948
+  y: 558
+  column: { x: 440, y: 750 }
+  also_in: [fin]
+  licensed_under: [mica]
+  only_under: [mica]   # shown only under this lens (owner, 10 November 2026)
+  desc: 'A euro e-money token under MiCA issued by Bridge Building S.A., a Stripe company authorized as an e-money institution by Luxembourg’s CSSF, and offered by Revolut Digital Assets Europe, a crypto-asset service provider regulated by CySEC. Revolut began a phased rollout on Ethereum mainnet in August 2026 for eligible customers in Denmark, Poland and Portugal. Revolut distributes it and Bridge issues it, which is why the badge sits with the non-bank issuers.'
+  sources:
+  - title: 'Revolut, Introducing EURR (8 August 2026): issued by Bridge Building S.A. (EMI regulated by the CSSF), offered by Revolut Digital Assets Europe (CySEC); Ethereum; Denmark, Poland and Portugal first'
+    url: https://www.revolut.com/en-SE/blog/post/revolut-stablecoins-eurr-eea/
+    checked: '2026-11-10'
+- ticker: PYUSD
+  name: PayPal USD (Paxos)
+  circle: sc
+  x: 948
+  y: 558
+  column: { x: 440, y: 750 }
+  also_in: [fin]
+  only_under: [genius]   # shown only under this lens (owner, 10 November 2026)
+  desc: 'PayPal USD, issued for PayPal by Paxos Trust Company, a New York limited-purpose trust company supervised by NYDFS, since 7 August 2023, first as an ERC-20 on Ethereum mainnet; backed by US dollar deposits, short-term Treasuries and cash equivalents and redeemable 1:1. Not yet a US payment stablecoin: the GENIUS Act takes effect on 18 January 2027.'
+  sources:
+  - title: 'PayPal, PayPal launches US dollar stablecoin (7 August 2023): issued by Paxos Trust Company, NYDFS-supervised; ERC-20 on Ethereum'
+    url: https://newsroom.paypal-corp.com/2023-08-07-PayPal-Launches-U-S-Dollar-Stablecoin
+    checked: '2026-11-10'
+- ticker: SoFiUSD
+  name: SoFiUSD (SoFi Bank)
+  circle: sc
+  x: 740
+  y: 522
+  column: { x: 412, y: 548 }
+  also_in: [bank]
+  only_under: [genius]   # shown only under this lens (owner, 10 November 2026)
+  desc: 'A US dollar stablecoin issued by SoFi Bank, N.A., a national bank supervised by the OCC, offered in the SoFi app from 27 May 2026 on Ethereum mainnet and Solana; redeemable 1:1 from the bank, not a deposit and not FDIC insured. Not yet a US payment stablecoin: the GENIUS Act takes effect on 18 January 2027.'
+  sources:
+  - title: 'SoFi, SoFiUSD becomes the first stablecoin issued by a US national bank to launch on a banking platform (27 May 2026)'
+    url: https://investors.sofi.com/news/news-details/2026/SoFiUSD-Becomes-the-First-Stablecoin-Issued-by-a-US-National-Bank-to-Launch-on-a-Banking-Platform/default.aspx
+    checked: '2026-11-10'
+- ticker: BUIDL
+  name: BlackRock BUIDL
+  circle: fund
+  x: 1420
+  y: 940
+  column: { x: 450, y: 1675 }
+  only_under: [us-sec]   # shown only under this US lens (owner, 10 November 2026: only USDT and USDC are on the general map)
+  desc: 'The BlackRock USD Institutional Digital Liquidity Fund, tokenized by Securitize and issued on Ethereum mainnet since March 2024 for qualified investors, later also on other chains: a tokenized money market fund, so a fund unit and a security, not a stablecoin.'
+  sources:
+  - title: 'BlackRock launches its first tokenized fund, BUIDL, on the Ethereum network (20 March 2024)'
+    url: https://www.nasdaq.com/press-release/blackrock-launches-its-first-tokenized-fund-buidl-on-the-ethereum-network-2024-03-20
+    checked: '2026-11-10'
+- ticker: JPMD
+  name: JPM Coin (JPMD)
+  circle: dt
+  x: 776
+  y: 452
+  column: { x: 315, y: 579 }
+  only_under: [genius]   # shown only under this US lens (owner, 10 November 2026: only USDT and USDC are on the general map)
+  desc: 'J.P. Morgan’s US dollar deposit token: a deposit of the bank represented on a public blockchain, live for institutional clients on Base since 12 November 2025 and on Ethereum mainnet since 19 October 2026. A deposit, not a stablecoin.'
+  sources:
+  - title: 'J.P. Morgan, JPM Coin USD deposit token for institutional clients on Base (12 November 2025)'
+    url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-usd-deposit-token-institutional-clients
+    checked: '2026-11-10'
+  - title: 'J.P. Morgan, JPM Coin goes live on Ethereum (19 October 2026)'
+    url: https://www.jpmorgan.com/payments/newsroom/jpm-coin-live-on-ethereum
+    checked: '2026-11-10'
 - ticker: ECNY-R
   label: e-CNY
   name: e-CNY (retail)

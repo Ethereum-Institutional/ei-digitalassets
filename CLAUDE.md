@@ -125,7 +125,11 @@ and decisions behind them.
   Re-check `licensed_under` whenever licenses change. The licensed circle stretches towards the side its badges sit
   on, so a badge left of it (HSBC RedCoin, HKMA) does not drag it over unlicensed badges. HSBC RedCoin (RCHKD) is a
   bank-issued stablecoin on HSBC's own DLT network, placed in Commercial Bank ∩ Stablecoins, and drawn only under the
-  HKMA lens (`only_under` in `tokens.yaml`: a badge relevant to one regime stays off the general map).
+  HKMA lens (`only_under` in `tokens.yaml`: a badge relevant to one regime stays off the general map). Regional licensed stablecoins follow the same rule (owner, 10 November 2026): JPYSC under JP, EURCV, EURXT and
+  EURR under MiCA, PYUSD and SoFiUSD under GENIUS, each placed by its legal issuer (EURR is Bridge's, so it sits with
+  the non-banks). Badges of different lenses may share a slot. BUIDL (Funds) and JPMD (Deposit Token) are drawn only
+  under US lenses, BUIDL under the SEC lens and JPMD under GENIUS, which excludes deposits: USDT and USDC are the only
+  tokens on the general map apart from the native coins, because of their size (owner, 10 November 2026).
 - **Two layouts, one map (owner, 9 November 2026):** `layout.yaml` is the wide 1600×1300 map for desktops; `layout-column.yaml`
   is a 700×3190 column for screens under 900px, read top to bottom as Digital Money (Tokenized Currencies, then Native
   Cryptocurrencies), Tokenized Real-World Assets (Financial Instruments, then Commodities, then the rest) and Other
@@ -224,7 +228,12 @@ and decisions behind them.
   while collapsed (ink or gray by `eth`) so the map reads the same as before: Ethereum mainnet, Base, Arbitrum One,
   OP Mainnet, Polygon PoS, Solana, Stellar, Avalanche, XRP Ledger, Hedera, BNB Chain and Canton list the regulated
   institutions with live deployments on them (G-SIBs, large asset managers, FMIs and payment firms; pilots are named
-  as such). Besu private chains (Private), Swift shared ledger, Partior and Project Agorá (Consortium) list their
+  as such). **Ethereum mainnet's participants (owner, 10 November 2026):** institutions that issue or settle on the chain
+  (tokens, funds, bonds, stablecoin settlement, on-chain data) and asset managers that stake ETF holdings; brokerage access
+  to ETH stays on ethereuminstitutional.org/deployments. At most 25: the twenty largest issuers by size (public market
+  cap, checked against companiesmarketcap.com and stockanalysis.com; private firms by reported valuation) plus five
+  notables (Tether, Circle, Franklin Templeton, Amundi, the State of Wyoming), so the circle stays readable; a
+  smaller issuer leaves the mainnet circle but keeps its badges on other chains (public issue ei-digitalassets#23). Besu private chains (Private), Swift shared ledger, Partior and Project Agorá (Consortium) list their
   participating institutions the same way. Other Private badges are Quorum (archived) and Hyperledger Fabric; name
   only Besu among Ethereum clients. Add a network or participant only with primary-source documentation (say in the
   text when a claim rests on press or an industry report), and agree additions or removals with EI first; do not

@@ -50,7 +50,7 @@ notes:
   td: Deposits are excluded (Art. 2(4)(c)).
   dt: Still a deposit, so excluded (Art. 2(4)(c)). The EBA has flagged this boundary for case-by-case assessment.
   sc: E-money tokens (EMTs) or asset-referenced tokens (ARTs).
-  lsc: Authorized EMT/ART issuers (credit institutions or e-money institutions).
+  lsc: 'Authorized EMT/ART issuers (credit institutions or e-money institutions). On Ethereum mainnet, banks issue EURCV (Société Générale-FORGE), EURXT (CACEIS) and EURI (Banking Circle); Bridge issues EURR for Revolut; Société Générale-FORGE also issues a dollar token, USDCV.'
   unreg: In the definition, but cannot lawfully be offered or admitted to trading in the EU without authorization.
   alg: 'A crypto-asset, but not an EMT or ART: treated as an ordinary crypto-asset and cannot be presented as a stablecoin.'
   pm: Commodity-backed tokens are typically asset-referenced tokens (ARTs).
@@ -69,6 +69,9 @@ notes:
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
   syn: 'A crypto-asset; whether it is an e-money or asset-referenced token depends on its design and backing.'
 sources:
+- title: 'Banking Circle, launches EURI, a bank-backed MiCA-compliant stablecoin (26 August 2024; Ethereum and BNB Smart Chain)'
+  url: https://www.bankingcircle.com/banking-circle-launches-the-first-bank-backed-mica-compliant-stablecoin-euri/
+  checked: '2026-11-10'
 - title: 'Regulation (EU) 2023/1114 on markets in crypto-assets (MiCA), OJ L 150, 9 June 2023: Art. 2 scope, Art. 3(1)(5) to (7) definitions, Arts. 109, 117 and 119, Art. 149 application dates'
   url: http://publications.europa.eu/resource/cellar/01d55833-0660-11ee-b12e-01aa75ed71a1.0006.03/DOC_1
   checked: '2026-11-10'

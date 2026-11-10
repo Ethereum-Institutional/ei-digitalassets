@@ -8,7 +8,7 @@ name: Layer 2 rollup
 short: Layer 2
 scope: networks
 color: '#0ea5e9'
-intro: 'A Layer 2 rollup executes transactions off the parent chain and posts the transaction data and a proof (a validity proof, or a fraud-proof window) to it, so that the parent chain, here Ethereum mainnet, settles the result and anyone can reconstruct the rollup’s state from the parent alone. It exists to scale a public permissionless chain without weakening it. The benefit is inherited security: exit and forced transactions are designed to run through Ethereum mainnet even if the rollup’s operators stop, subject to each rollup’s contracts and governance (below Stage 2 of ETHBEAT’s Stages framework, a security council can still block or alter withdrawals). The cost is that most rollups still run one permissioned sequencer, so ordering and liveness depend on an operator; Ethereum Institutional reads a rollup as permissionless consensus only at Stage 2, when the operator can do no more than delay. For an institution the cost difference is decisive: a token transfer averaged about USD 1.50 on Ethereum mainnet and USD 0.03 on Arbitrum in 2026, so a fund that mints a distribution to every holder is only economic on an inexpensive network (BENJI mints daily; a retail fund’s monthly distribution on a costly Layer 1 can exceed its whole management fee). Permissioned fund tokens move between networks by transfer-agent burn-and-mint, not through permissionless bridges, so the rollup’s bridge security is not the binding question for them.'
+intro: 'A Layer 2 rollup executes transactions off the parent chain and posts the transaction data and a proof (a validity proof, or a fraud-proof window) to it, so that the parent chain, here Ethereum mainnet, settles the result and anyone can reconstruct the rollup’s state from the parent alone. It exists to scale a public permissionless chain without weakening it. The benefit is inherited security: exit and forced transactions are designed to run through Ethereum mainnet even if the rollup’s operators stop, subject to each rollup’s contracts and governance (below Stage 2 of ETHBEAT’s Stages framework, a security council can still block or alter withdrawals). The cost is that most rollups still run one permissioned sequencer, so ordering and liveness depend on an operator; Ethereum Institutional reads a rollup as permissionless consensus only at Stage 2, when the operator can do no more than delay. For an institution the cost difference is decisive: a token transfer averaged about USD 1.50 on Ethereum mainnet and USD 0.03 on Arbitrum in 2026, so a fund that mints a distribution to every holder is only economic on an inexpensive network (BENJI mints daily; a retail fund’s monthly distribution on a costly Layer 1 can exceed its whole management fee). Permissioned fund tokens move between networks by transfer-agent burn-and-mint, not through permissionless bridges, so the rollup’s bridge security is not the binding question for them. Several institutions run their own Ethereum Layer 2 rather than deploy on a shared one: Sony (Soneium, on the OP Stack, January 2025), Kraken (Ink, on the Optimism Superchain, December 2024), OKX (X Layer, April 2024) and Robinhood (Robinhood Chain, built on the Arbitrum platform, July 2026).'
 networks:
   base: in
   arbitrum: in
@@ -28,4 +28,16 @@ sources:
 - title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
   url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
   checked: '2026-10-25'
+- title: 'Soneium, Soneium mainnet is live (14 January 2025; Sony Block Solutions Labs; OP Stack and Superchain)'
+  url: https://soneium.org/en/blog/soneium-mainnet-is-live/
+  checked: '2026-11-10'
+- title: 'Kraken, Ink mainnet launch (18 December 2024; a Layer 2 on the Optimism Superchain)'
+  url: https://blog.kraken.com/news/ink-mainnet-launch
+  checked: '2026-11-10'
+- title: 'OKX, X Layer public mainnet (April 2024)'
+  url: https://www.okx.com/en-us/learn/x-layer-mainnet
+  checked: '2026-11-10'
+- title: 'Robinhood, Robinhood Chain mainnet (1 July 2026; built on the Arbitrum platform)'
+  url: https://robinhood.com/us/en/newsroom/robinhood-accelerates-global-expansion-robinhood-chain-mainnet-stock-tokens-agentic-trading/
+  checked: '2026-11-10'
 last_reviewed: '2026-11-10'

@@ -66,7 +66,7 @@ notes:
   sc: Fiat stablecoins are electronic payment instruments, not crypto-assets; algorithmic ones are crypto-assets.
   unreg: Foreign stablecoins can only be handled by registered intermediaries under strict conditions.
   USDC: Handled in Japan as a foreign electronic payment instrument through a registered intermediary (SBI VC Trade, from March 2025); Circle itself is not licensed in Japan.
-  lsc: Only banks, fund-transfer service providers and trust companies may issue; JPYC is the first licensed yen stablecoin.
+  lsc: Only banks, fund-transfer service providers and trust companies may issue; JPYC is the first licensed yen stablecoin, and JPYSC (SBI Shinsei Trust Bank, June 2026) the first trust-type one.
   alg: 'Not an electronic payment instrument: treated as a crypto-asset.'
   td: Bank deposits. Banks can also issue stablecoins, so the deposit-token / stablecoin boundary is especially close in Japan.
   dt: A deposit under banking law, whatever it is called.

@@ -218,7 +218,7 @@ circles:
     rx: 27
     ry: 27
     lx: 315
-    ly: 558
+    ly: 555
     fs: 10
     fw: 700
   fin:
@@ -406,10 +406,10 @@ circles:
     rx: 42
     ry: 42
     lx: 450
-    ly: 1645
+    ly: 1637
     fs: 12
     fw: 700
-    suby: 1661
+    suby: 1653
   fi:
     cx: 280
     cy: 1780
