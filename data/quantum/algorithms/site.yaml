@@ -30,7 +30,7 @@ sections:
       title: ethereum.org on quantum resistance
       url: https://ethereum.org/en/roadmap/security/quantum-resistance/
   - title: 'A second threat: cryptanalysis by AI'
-    text: 'Since October 2026 Ethereum Foundation researchers have warned that advances in machine-generated mathematics could weaken the assumptions behind elliptic-curve signatures before any quantum computer does, in their worst case within months rather than years; no such attack has been demonstrated, and the warning is a research view, not a finding. The reasoning is that curves have rich structure for a clever attack to use and hashes have as little as cryptography offers, which is why the same fix serves both threats: build on hashes, and verify the implementations formally, which has become far cheaper. Ethereum Institutional reads it as a reason to prefer the schemes with the fewest assumptions and to keep signature schemes replaceable, not as a forecast.'
+    text: 'Since October 2026 Ethereum Foundation researchers have warned that advances in machine-generated mathematics could weaken the assumptions behind elliptic-curve signatures before any quantum computer does, in their worst case within months rather than years; no such attack on curves has been demonstrated, and the warning is a research view, not a finding. On lattices there is now a demonstration: in July 2026 an AI model found an unexploited symmetry in HAWK, a third-round candidate in NIST''s additional signature process, roughly halving its effective key size, and the HAWK team withdrew the scheme the next day; the attack stays exponential and is specific to HAWK, and nothing deployed changed. The reasoning is that curves have rich structure for a clever attack to use and hashes have as little as cryptography offers, which is why the same fix serves both threats: build on hashes, and verify the implementations formally, which has become far cheaper. Ethereum Institutional reads it as a reason to prefer the schemes with the fewest assumptions and to keep signature schemes replaceable, not as a forecast.'
     more:
       title: Ethereum researcher says AI may break encryption before quantum does (Decrypt, 7 October 2026)
       url: https://decrypt.co/380363/ethereum-researcher-ai-break-encryption-before-quantum
@@ -38,6 +38,12 @@ sections:
     - title: 'Decrypt, Ethereum researcher says AI may break encryption before quantum does (7 October 2026; secondary): the worst case in months not years; bunker mode; curves vulnerable, hashes preferred; no attack demonstrated'
       url: https://decrypt.co/380363/ethereum-researcher-ai-break-encryption-before-quantum
       checked: '2026-11-06'
+    - title: 'Anthropic, Discovering cryptographic weaknesses with Claude (28 July 2026): an unexploited automorphism in HAWK''s lattice, key recovery for HAWK-256 demonstrated at about 2³⁸ operations against an estimated 2⁶⁴, the attack still exponential and specific to HAWK; a 200 to 800 times faster attack on seven-round AES-128, still impractical; no production software has to change'
+      url: https://www.anthropic.com/news/discovering-cryptographic-weaknesses
+      checked: '2026-11-10'
+    - title: 'NIST, Nine candidates advance to the third round of additional digital signatures (14 May 2026, updated 29 July 2026: the HAWK team withdrew its algorithm on 29 July 2026 after the AI-found vulnerability)'
+      url: https://www.nist.gov/news-events/news/2026/05/nine-candidates-advance-third-round-additional-digital-signatures-pqc
+      checked: '2026-11-10'
     - title: 'Devcon India, post-quantum Q&A with Ethereum Foundation researcher Justin Drake (November 2026; video, transcript read 6 November 2026): earliest 2029 and expected 2032, three years earlier than two years before; coordination the bottleneck, one upgrade about every ten months, 2028 at the earliest on the current cadence; a lean adaptation of SPHINCS+ for accounts, hash-based over lattices for the L1; proof of seed; custodians in bunker mode; the post-AI threat'
       url: https://www.youtube.com/watch?v=L_Qon4NykLw
       checked: '2026-11-06'

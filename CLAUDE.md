@@ -500,6 +500,11 @@ and decisions behind them.
   ERC-8226 (Draft) as one standard to consider for the mandate layer, with the facets reading it as "partly". ERC-8320 (Draft) is named in the
   narrative as an attestation registry for assets, not a badge (the map is about parties). ERC-7943, written for
   real-world assets, is listed on the cash-leg scenarios as an option for a deposit token or a regulated stablecoin.
+- **Folded tiles and a quiet sidebar (owner, 10 November 2026):** the narrative items under the Identity and Privacy maps fold
+  behind their titles (`sections_collapsed: true` in `site.yaml`; `itemHtmlC` in `build.mjs`), and Focus on shows the
+  presets with every filter group behind one closed "All filters" summary, because the long tiles and open filters
+  distracted from the map. The intro names no standard by number and carries no "reading as of" sentence; the facts
+  date lives in the fact sheet (`facts_as_of`).
 - **Identity is a live map** since 6 November 2026: no `wip` tag in `data/nav.yaml`; the site-wide v0.x notice still applies.
 - **Vendors:** two or three examples of a kind or none (`AGENTS.md` §4); vendor claims are marked vendor-stated.
 - **Labels:** the two big labels run on two lines, centered in each circle's own lune, because a one-line label at this

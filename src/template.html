@@ -91,6 +91,15 @@
   .ei-section details.src{margin-top:8px;font-size:12px;color:var(--muted)}
   .ei-section p.src{font-size:12px;color:var(--muted);margin-top:6px}
   .ei-section p.src a{color:var(--muted)}
+  .ei-sections.folded .ei-section{padding-bottom:10px}
+  .ei-sections.folded .ei-section>p{margin-bottom:6px}
+  .ei-section details.ei-item{border-top:1px solid var(--rule);padding:9px 0}
+  .ei-section details.ei-item summary{cursor:pointer;font-size:14px;font-weight:600;line-height:1.4}
+  .ei-section details.ei-item summary:hover{text-decoration:underline;text-underline-offset:3px}
+  .ei-section details.ei-item[open] summary{margin-bottom:6px}
+  .ei-section details.ei-item summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+  .ei-facets .fx-all{padding:9px 0 0}
+  .ei-facets .fx-all>summary{cursor:pointer;font-weight:600;font-size:13px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
   .ei-panel .pinbar button:hover{border-color:var(--ink)}
@@ -676,15 +685,17 @@
       `<div class="fx-key"><span><i></i>Has it</span><span><i class="p"></i>Partly</span><span><i class="o"></i>Does not</span></div>`+
       (FX.presets.length?`<div class="fx-pre">${FX.presets.map((pr,i)=>`<button type="button" data-preset="${pr.id}" aria-pressed="false"${i?'':' class="pulse"'}>${esc(pr.label)}</button>`).join('')}</div>`:'')+
       `<div class="fx-bar"><span id="fx-n"></span><button type="button" class="clear" id="fx-clear" hidden>Clear all</button></div></div>`+
+      // the filters fold behind one summary so the presets lead (owner, 10 November 2026: the open groups distracted)
+      `<details class="fx-all"><summary>All filters<span class="fx-c" data-g="all"></span></summary>`+
       // `filter: false` facets are information only: in each design's fact sheet, not in the sidebar
       FX.groups.filter(g=>FX.list.some(f=>f.group===g.id&&f.filter!==false)).map((g,i)=>`<details class="fx-g"${i<2?' open':''}><summary>${esc(g.label)}<span class="fx-c" data-g="${g.id}"></span></summary>`+
         FX.list.filter(f=>f.group===g.id&&f.filter!==false).map(f=>`<div class="fx-f"><div class="fx-l"${f.help?` title="${esc(f.help)}"`:''}>${esc(f.label)}</div><div class="fx-v">`+
             f.values.map(v=>{ const c=count(f.id,String(v.id)); return `<button type="button" data-f="${f.id}" data-v="${v.id}" aria-pressed="false"${c?'':' class="zero"'}>${esc(v.label)}<small>${c}</small></button>`; }).join('')+`</div></div>`).join('')+
-        `</details>`).join('');
+        `</details>`).join('')+'</details>';
     const fxn=document.getElementById('fx-n'), fxc=document.getElementById('fx-clear');
     fxSync=()=>{
       aside.querySelectorAll('button[data-f]').forEach(b=>{ const on=!!(pick.get(b.dataset.f)&&pick.get(b.dataset.f).has(b.dataset.v)); b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
-      aside.querySelectorAll('.fx-c').forEach(c=>{ const n=FX.list.filter(f=>f.group===c.dataset.g).reduce((s,f)=>s+(pick.has(f.id)?pick.get(f.id).size:0),0); c.textContent=n?` · ${n} chosen`:''; });
+      aside.querySelectorAll('.fx-c').forEach(c=>{ const n=FX.list.filter(f=>c.dataset.g==='all'||f.group===c.dataset.g).reduce((s,f)=>s+(pick.has(f.id)?pick.get(f.id).size:0),0); c.textContent=n?` · ${n} chosen`:''; });
       fxc.hidden=!pick.size;
     };
     // the preset last applied stays active while its picks are edited, until it is toggled off or everything is cleared

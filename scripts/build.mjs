@@ -535,8 +535,12 @@ function renderIndex({ site, out }) {
 }
 const srcHtmlC = src => !(src || []).length ? '' : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
 const moreHtml = m => m && m.url ? `<p class="more"><a href="${m.url}" target="_blank" rel="noopener">${esc(m.title || 'Read more')} →</a></p>` : '';
-const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
-  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + moreHtml(it.more) + srcHtmlC(it.sources)).join('') + '</div>').join('')}</div>` : '';
+// `sections_collapsed: true` in a page's site.yaml folds every item behind its title (owner, 10 November 2026: the
+// Identity and Privacy tiles were too long to read; a reader opens the items they care about).
+const itemHtmlC = (it, fold) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${moreHtml(it.more)}${srcHtmlC(it.sources)}</details>`
+  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + moreHtml(it.more) + srcHtmlC(it.sources);
+const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections${site.sections_collapsed ? ' folded' : ''}">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
+  + (sec.items || []).map(it => itemHtmlC(it, site.sections_collapsed)).join('') + '</div>').join('')}</div>` : '';
 // A scenario page: an at-a-glance strip, the actors, the swimlane with its panel, the steps as a numbered list, then
 // collapsible blocks (owner, 7 November 2026: the pages were busy); every block starts closed, the argument too.
 const MONEY_CIRCLES = new Set(['dt', 'td', 'sc', 'wcbdc', 'rcbdc', 'cbdc', 'fmi', 'lsc', 'nat', 'btc', 'eth']);

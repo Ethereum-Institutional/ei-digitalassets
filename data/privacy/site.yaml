@@ -18,6 +18,7 @@ panel_default:
 badge: pill
 pill_scale: 1.3
 facts_as_of: '2026-10-26'
+sections_collapsed: true   # items under the map fold behind their titles (owner, 10 November 2026)
 legend:
 - kind: pill
   color: '#627eea'
@@ -97,7 +98,7 @@ facets:
 - id: pq
   group: tech
   label: Post-quantum
-  help: 'Post-quantum cryptography protects the data wherever it is. A design that keeps only salted hashes or state roots on chain leaves nothing on the public record to decrypt later, though its signatures and the channels that carry the private data stay classical.'
+  help: 'Post-quantum cryptography protects the data wherever it is. A design that keeps only salted hashes or state roots on chain leaves nothing on the public record to decrypt later, though its signatures and the channels that carry the private data stay classical. Quantum is not the only threat: in July 2026 an AI model cut the security of a lattice signature candidate with new mathematics alone, so a design resting on hashes carries the fewest assumptions.'
   pse: Post-quantum secure
   values:
   - { id: 'yes', label: 'Yes, post-quantum cryptography' }
@@ -467,7 +468,7 @@ sections:
     - { title: 'ethereum/kohaku repository (alpha, unaudited)', url: 'https://github.com/ethereum/kohaku', checked: '2026-10-26' }
     - { title: 'Vitalik Buterin, A maximally simple L1 privacy roadmap (11 April 2025)', url: 'https://ethereum-magicians.org/t/a-maximally-simple-l1-privacy-roadmap/23459', checked: '2026-10-26' }
 - title: Confidentiality that has to last
-  text: 'Ledger data is permanent, so ask how long each secret must stay secret, and what a quantum computer would expose.'
+  text: 'Ledger data is permanent, so ask how long each secret must stay secret, and what a quantum computer, or a new piece of mathematics, would expose.'
   items:
   - title: What lasts and what does not
     text: 'Fully homomorphic encryption is built on lattices, believed safe against quantum attack, and hash-based STARK proofs are too. Pairing-based SNARKs are not: a quantum computer could forge proofs, though a stored proof does not reveal its secret inputs. The notes many shielded pools encrypt on chain with elliptic-curve keys could be decrypted later: harvest now, decrypt later. A design that keeps only salted hashes or state roots on chain leaves nothing public to decrypt, though its signatures and the channels carrying the private data stay classical.'
@@ -477,6 +478,13 @@ sections:
     - { title: 'ethereum.org, Quantum resistance (SNARKs, KZG and STARKs)', url: 'https://ethereum.org/en/roadmap/future-proofing/quantum-resistance/', checked: '2026-10-26' }
     - { title: 'Zcash ZIP 2005, quantum recoverability (balance versus privacy against a quantum adversary)', url: 'https://zips.z.cash/zip-2005', checked: '2026-10-26' }
     - { title: 'NIST IR 8547 initial public draft (harvest now, decrypt later; 2030 and 2035)', url: 'https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8547.ipd.pdf', checked: '2026-10-26' }
+  - title: 'Not only quantum: the mathematics is moving too'
+    text: 'The assumptions behind privacy cryptography can weaken without any quantum computer. In July 2026 an AI model found an unexploited symmetry in the lattice behind HAWK, a third-round candidate in NIST''s process for additional post-quantum signatures, and cut the demonstrated cost of recovering a HAWK-256 key from an estimated 2⁶⁴ operations to about 2³⁸; the attack stays exponential and is specific to HAWK, nothing deployed had to change, and the HAWK team withdrew the scheme the next day. The same work made a known attack on a seven-round, reduced AES 200 to 800 times faster, still impractical. Lattices are what fully homomorphic encryption and most post-quantum signatures rest on, and Ethereum''s own researchers said in October 2026 that the concrete security of lattices should be expected to take hits from AI-driven mathematics in the next two years, with hash-based constructions preferred where they fit and larger lattice parameters where they do not. Ethereum Institutional reads it as the Quantum pages do: prefer the fewest assumptions, keep parameters conservative and schemes replaceable, and assume that whatever sits on a public ledger will be read by better mathematics than exists today.'
+    more: { title: 'Quantum, the algorithms and the AI threat', url: '../quantum/algorithms/' }
+    sources:
+    - { title: 'Anthropic, Discovering cryptographic weaknesses with Claude (28 July 2026): an unexploited automorphism in HAWK''s lattice, key recovery for HAWK-256 demonstrated at about 2³⁸ operations against an estimated 2⁶⁴, the attack still exponential and specific to HAWK; a 200 to 800 times faster attack on seven-round AES-128, still impractical; no production software has to change', url: 'https://www.anthropic.com/news/discovering-cryptographic-weaknesses', checked: '2026-11-10' }
+    - { title: 'NIST, Nine candidates advance to the third round of additional digital signatures (14 May 2026, updated 29 July 2026: the HAWK team withdrew its algorithm on 29 July 2026 after the AI-found vulnerability)', url: 'https://www.nist.gov/news-events/news/2026/05/nine-candidates-advance-third-round-additional-digital-signatures-pqc', checked: '2026-11-10' }
+    - { title: 'Decrypt, Vitalik Buterin on AI-accelerated mathematics and lattices (8 October 2026; secondary): the concrete security of lattices expected to take serious hits from the next two years of AI math; hash-based preferred; larger lattice parameters; no rushed wallet moves', url: 'https://decrypt.co/380503/ai-break-crypto-encryption-ethereum-vitalik-buterin-bunker-mode', checked: '2026-11-10' }
 - title: What regulators have said
   text: 'Dates and holdings only. Informational, not legal advice.'
   items:
