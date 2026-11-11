@@ -80,3 +80,7 @@ sections:
     text: The “Adoption today” sentence in each lens.
     sources:
     - { title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)', url: 'https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks', checked: '2026-11-10' }
+  - title: A central bank’s experiment
+    text: 'The Reserve Bank of Australia’s Project Acacia (May 2026) ran 20 wholesale use cases on Ethereum, Hedera, the XRP Ledger, Redbelly and Canvas Connect. Every use case that settled in the pilot wholesale CBDC ran on an EVM-compatible ledger, so the bank wrote one ERC-20 implementation and used it on all of them. The same report records limited central bank appetite for issuing real claims on a central bank on permissionless ledgers, citing finality, ledger integrity and accountability for governance.'
+    sources:
+    - { title: 'Reserve Bank of Australia and DFCRC, Project Acacia final report (May 2026): 20 use cases and five platforms (chapter 3); one ERC-20 implementation across the EVM-compatible platforms (chapter 3); central bank appetite for permissionless platforms (Box F)', url: 'https://www.rba.gov.au/payments-and-infrastructure/tokenised-money/pdf/project-acacia-final-report.pdf', checked: '2026-11-11' }

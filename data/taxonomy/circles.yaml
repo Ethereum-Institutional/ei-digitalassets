@@ -210,8 +210,11 @@ circles:
   - CBDC
   family: cbdc
   path: Central Bank › CBDC
-  desc: 'A CBDC restricted to banks and financial institutions for interbank and securities settlement (e.g. Project mBridge, Project Agorá). Often a separate token and ledger from any retail CBDC. EI convention: a wholesale CBDC is central bank money held as a token outside the central bank’s existing accounts (a new token, tokenized reserves or a central bank cash token); settlement in central bank money through a link to the existing real-time gross settlement system, with no token, is a neighbor, not a wholesale CBDC.'
+  desc: 'A CBDC restricted to banks and financial institutions for interbank and securities settlement (e.g. Project mBridge, Project Agorá). Often a separate token and ledger from any retail CBDC. EI convention: a wholesale CBDC is central bank money held as a token outside the central bank’s existing accounts (a new token, tokenized reserves or a central bank cash token); settlement in central bank money through a link to the existing real-time gross settlement system, with no token, is a neighbor, not a wholesale CBDC. The Reserve Bank of Australia’s Project Acacia (May 2026) issued a pilot wholesale CBDC, a real claim on the bank redeemable at par at the project’s end, as an ERC-20 token with mint, burn, pause and allowlist controls on third-party EVM ledgers rather than its own (AUD 4.4 million in all); it also found that many of the same benefits came from tokenized private money settled against existing reserve balances, the neighbor case.'
   sources:
+  - title: 'Reserve Bank of Australia and DFCRC, Project Acacia final report (May 2026): pilot wholesale CBDC as an ERC-20 with mint, burn, pause and allowlist controls on third-party EVM ledgers, AUD 4.4 million issued (chapter 3); benefits also achieved with private money against reserve balances (chapter 5)'
+    url: https://www.rba.gov.au/payments-and-infrastructure/tokenised-money/pdf/project-acacia-final-report.pdf
+    checked: '2026-11-11'
   - title: 'BIS, Annual Economic Report 2023, chapter III: wholesale CBDC as “a tokenised means of settlement” in a role similar to reserves'
     url: https://www.bis.org/publ/arpdf/ar2023e3.htm
     checked: '2026-11-02'
@@ -238,7 +241,11 @@ circles:
   - Token
   family: dt
   path: Commercial Bank › Tokenized Deposits
-  desc: 'EI house view: a more liberal architecture choice within tokenized deposits. Tokens are backed by an omnibus deposit account and held in wallets, so they can circulate more freely, potentially on public blockchains (e.g. JPMD on Base and Ethereum mainnet). Still commercial bank money and a liability of the issuing bank. It looks and behaves very much like a bank-issued stablecoin (wallet-held, transferable, price-stable), as the dotted “look-alike” line shows, but is legally distinct: a deposit on the bank’s balance sheet, not a token backed by segregated reserves. That is why MiCA, VARA, DIFC, ADGM, MAS and the GENIUS Act all treat it differently from stablecoins (switch on the lenses). We will revisit this view as industry usage settles.'
+  desc: 'EI house view: a more liberal architecture choice within tokenized deposits. Tokens are backed by an omnibus deposit account and held in wallets, so they can circulate more freely, potentially on public blockchains (e.g. JPMD on Base and Ethereum mainnet). Still commercial bank money and a liability of the issuing bank. It looks and behaves very much like a bank-issued stablecoin (wallet-held, transferable, price-stable), as the dotted “look-alike” line shows, but is legally distinct: a deposit on the bank’s balance sheet, not a token backed by segregated reserves. That is why MiCA, VARA, DIFC, ADGM, MAS and the GENIUS Act all treat it differently from stablecoins (switch on the lenses). The Reserve Bank of Australia’s Project Acacia (May 2026) separates the two terms by what the token is rather than how it moves: a deposit token is a digitally native liability of the bank, a tokenized deposit a digital twin of a deposit held in an ordinary account. Its banks’ working group weighed two models, tokens that stay with the issuing bank’s customers (paying a customer of another bank burns them and the payee’s bank mints its own) and tokens that pass between customers of different banks on a shared platform, and its legal advice was that a tokenized deposit liability would most likely remain a deposit under Australian law. Ethereum Institutional will revisit this view as industry usage settles.'
+  sources:
+  - title: 'Reserve Bank of Australia and DFCRC, Project Acacia final report (May 2026): deposit token as a digitally native bank liability, tokenized deposit as a digital twin (footnote 20); the Deposit Token Working Group’s two models and legal advice (chapter 6)'
+    url: https://www.rba.gov.au/payments-and-infrastructure/tokenised-money/pdf/project-acacia-final-report.pdf
+    checked: '2026-11-11'
 - id: fin
   label:
   - Regulated
