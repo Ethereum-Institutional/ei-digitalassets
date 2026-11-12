@@ -58,18 +58,18 @@ steps:
   from: buyer
   to: ledger
   kind: onchain
-  text: 'Neither party sends a transaction. Each depositor signs the full trade terms (amounts, both beneficiaries, expiry) as the witness of a Permit2 signature transfer, or an EIP-3009 authorization that names the contract and the window, and the operator key sends one funding transaction that pulls both legs into the escrow contract, which stores only the hash of the terms and checks the exact amounts arrived. A side that never signs blocks the funding and nothing moves; a leg funded against a trade that expires is refundable to its depositor, by anyone, after the expiry.'
-  standards: [Permit2 witness transfer, EIP-3009, ERC-2612 permit, EIP-712]
+  text: 'Neither party sends a transaction. Each depositor signs the full trade terms (amounts, both beneficiaries, expiry) as the witness of a Permit2 signature transfer, the authorization that binds the beneficiaries and the expiry as well as the amount, and the operator key sends one funding transaction that pulls both legs into the escrow contract, which stores only the hash of the terms and checks the exact amounts arrived. A side that never signs blocks the funding and nothing moves. Before release only the operator can refund a funded leg; after the expiry anyone can, and each leg is refunded on its own, so a paused token cannot trap the other.'
+  standards: [Permit2 witness transfer, EIP-712]
 - title: Finality and the pre-release checks
   from: ledger
   to: orchestrator
   kind: onchain
-  text: 'The locks are final on Ethereum mainnet after about two epochs, roughly 13 minutes, read from two independent RPC operators that must agree. The wait is where the checks run without adding time: both wallets screened again and the buyer''s AML result in; each issuer''s supply still covered by its reserves; the locks matched against the signed terms (assets, amounts, wallets, expiry); the dollar issuer''s acceptance of the redemption instruction in hand where the buyer wants a bank balance; the payee name on the receiving account verified. The quote agreed in step 2 covers this wait.'
-  standards: [Finality]
+  text: 'The locks are final on Ethereum mainnet after about two epochs, roughly 13 minutes, read from two independent RPC operators that must agree. The wait is where the checks run without adding time: both wallets screened again and the buyer''s AML result in; each issuer''s supply still covered by its reserves; the locks matched against the signed terms (assets, amounts, wallets, expiry); where the buyer wants a bank balance, the dollar issuer''s signed acceptance of this redemption, an EIP-712 message tied to the trade, the amount and the burn wallet, so the payout is agreed before anything becomes irreversible; the payee name on the receiving account verified. The quote agreed in step 2 covers this wait.'
+  standards: [Finality, EIP-712 issuer acceptance]
 - title: Release, both legs in one transaction
   kind: atomic
   lanes: [eurissuer, ledger, usdissuer]
-  text: 'One release transaction pays both beneficiaries the signed terms name: euro tokens to the provider''s wallet, dollar tokens to the buyer''s wallet, or, when the buyer wants a bank balance, straight to the dollar issuer''s redemption wallet. Each token''s own rules run inside it: the deposit token checks its allowlist, the stablecoin its blocklist, a paused token reverts the whole transaction, and then the leg that can move is refunded to its depositor while the trade parks for the issuer. This is the point of no return. Because the contract recomputes the terms hash from the call, the operator key can release only to those parties or refund a leg to its own depositor, never name a new recipient; a multisig can rotate the key.'
+  text: 'One release transaction pays both beneficiaries the signed terms name: euro tokens to the provider''s wallet, dollar tokens to the buyer''s wallet, or, when the buyer wants a bank balance, straight to the dollar issuer''s redemption wallet. Each token''s own rules run inside it: the deposit token checks its allowlist, the stablecoin its blocklist, a paused token reverts the whole transaction, and then the leg that can move is refunded to its depositor while the trade parks for the issuer. The point of no return is a release that has executed and is final, not one that was submitted: until then a reverted release leaves both legs refundable. Because the contract recomputes the terms hash from the call, the operator key can release only to those parties or refund a leg to its own depositor, never name a new recipient; a multisig can rotate the key.'
   standards: [ERC-20 transferFrom, escrow contract, ERC-7943 pause and allowlist]
 - title: Redeem, burn and pay out, the off-ramp
   from: usdissuer
@@ -133,20 +133,10 @@ standards:
   status: Final
   role: The base interface of both currency tokens (balances, transfer, approve); every wallet, custodian and the PvP contract speak it.
   url: https://eips.ethereum.org/EIPS/eip-20
-- id: ERC-2612
-  title: Permit, signed approvals
-  status: Final
-  role: Lets either party authorize its leg with an off-line signature instead of a separate on-chain approval transaction.
-  url: https://eips.ethereum.org/EIPS/eip-2612
-- id: EIP-3009
-  title: Transfer With Authorization
-  status: Draft
-  role: A signed authorization that anyone may submit, so the venue or the counterparty can submit the settlement and pay its fee; implemented by USDC and usable by a deposit token.
-  url: https://eips.ethereum.org/EIPS/eip-3009
 - id: EIP-712
   title: Typed structured data hashing and signing
   status: Final
-  role: The signature format behind permits and authorizations; a bank’s signing policy can read exactly which amount, counterparty and window it is approving.
+  role: The signature format behind the Permit2 witness and the issuer’s acceptance of a redemption; a bank’s signing policy can read exactly which amount, counterparty and window it is approving.
   url: https://eips.ethereum.org/EIPS/eip-712
 - id: ERC-4337
   title: Account abstraction via entry point
@@ -161,7 +151,7 @@ standards:
 - id: Permit2
   title: Permit2 signature transfers with a witness, a contract, not an ERC
   status: Live
-  role: 'Lets a depositor authorize one transfer with one signature, no approval transaction, and commit to extra typed data at the same time: the witness. Signing the full trade terms as the witness is what lets the escrow''s operator key move a leg only on those terms. Works for tokens without ERC-2612 permits.'
+  role: 'Lets a depositor authorize one transfer with one signature, no approval transaction, and commit to extra typed data at the same time: the witness. Signing the full trade terms as the witness is what lets the escrow''s operator key move a leg only on those terms. Works for tokens without ERC-2612 permits. An ERC-2612 permit or an EIP-3009 authorization binds the spender or recipient, the amount and a time window but not the trade’s beneficiaries, and anyone may submit an EIP-3009 transfer authorization, so neither is used to lock a leg here.'
   url: https://github.com/Uniswap/permit2
 - id: ERC-7943
   title: uRWA, Universal Real World Asset Interface
@@ -211,10 +201,14 @@ sections:
   items:
   - title: Which money on each leg
     text: 'A deposit token, a stablecoin, a payment-system token and central bank money carry different obligors, different holders and different hours of redemption; the leg is only as good as the token''s issuer and terms, and a counterparty must be able to hold what you deliver.'
+  - title: Which chain
+    text: 'Ethereum mainnet has the most issuers and liquidity, and economic finality in about 13 minutes. A Layer 2 costs less and confirms in seconds, but a sequencer’s confirmation is one operator’s promise: the trade is final only when its batch is final on mainnet and any challenge window has passed (the Networks map’s Settlement finality lens gives each rollup’s figures). Fast-finality chains settle in seconds on a smaller validator set; check that both currencies are issued there. Ethereum Institutional’s view: mainnet finality for the first live trades, with a Layer 2 as the cost option once both issuers are on it.'
   - title: Who holds the operator key, and what it can do
-    text: 'An escrow whose depositors sign the full terms bounds the key: it can release only to the named parties or refund a leg to its depositor. Decide who holds it (the orchestrator, a custodian, the venue), who can rotate it, and whether the contract is immutable or upgradeable; an upgradeable escrow moves the trust from the code to its admin.'
+    text: 'An escrow whose depositors sign the full terms bounds the key: it can release only to the named parties or refund a leg to its depositor. Three ways to hold it are in use: a custodian’s multi-party computation (MPC) wallet with policy controls, which adds seconds to each signature; a hardware security module the contract bounds, which is fast but leaves one party in control of when releases happen; and a release that also requires the issuer’s signed acceptance on chain, so even a stolen key cannot release before the issuer has committed to pay out. Then decide the contract’s governance. An immutable escrow, whose admin can only rotate the key, means no one can change the rules under a funded trade, but a fix is a new address that every issuer must allowlist again. An upgradeable escrow keeps its address but moves the trust from the code to its admin, so put upgrades behind a time lock longer than any open trade, with proposing, executing and rotating the key held by different parties. A common path is immutable for a proof of concept and time-locked, role-split upgrades for production.'
   - title: Quote validity against finality
     text: 'A quote must stay firm for longer than the locks take to become final, about 13 minutes on Ethereum mainnet, so the provider carries the rate risk of the wait; a rollup or a private network shortens it, at the cost of the settlement assurance the mainnet gives.'
+  - title: Failures before funding
+    text: 'The euro payment fails, a mint does not happen, or the provider never signs. Collect every commitment before anything moves on chain (both depositors’ signatures, the issuer’s acceptance, the payee check), so that an early failure needs no on-chain unwind: a signature that is never used lapses at its deadline.'
   - title: Failures after the point of no return
     text: 'A token paused mid-trade reverts the release and leaves one leg to refund; a payout that fails after the issuer has burned the tokens leaves the issuer owing the buyer a bank balance; a leg that never arrives sits in escrow until expiry. Each needs an operator, a procedure and a record before the first trade.'
   - title: Liquidity management without a nostro
@@ -222,9 +216,11 @@ sections:
   - title: Legal finality of each leg
     text: 'On-chain finality is economic; the legal finality of each transfer depends on the token''s terms and governing law, and on what the issuer''s register is in law. Resolve this for both tokens before the first trade.'
   - title: Visibility of trades
-    text: 'On a public ledger the amounts, the counterparties and the timing of trades are visible to anyone who can map a wallet to a name. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use.'
+    text: 'On a public ledger the amounts, the counterparties and the timing of trades are visible to anyone who can map a wallet to a name. Permissioned tokens, pseudonymous wallets and confidential-transfer designs (see the Privacy page) are the answers in use. The escrow stores only a hash of the terms, but the two transfer amounts in the funding transaction are public, and together they reveal the implied rate.'
 
 sources:
+- { title: 'OpenZeppelin Contracts, TimelockController (minimum delay; proposer, executor and canceller roles; time for users to exit before a change applies)', url: 'https://docs.openzeppelin.com/contracts/5.x/api/governance#TimelockController', checked: '2026-11-12' }
+- { title: 'EIP-3009, Transfer With Authorization (anyone may submit transferWithAuthorization; the signed fields are from, to, value, validAfter, validBefore and nonce)', url: 'https://eips.ethereum.org/EIPS/eip-3009', checked: '2026-11-12' }
 - { title: 'Uniswap, Permit2 (signature transfers; witness hash and witness type verified under EIP-712)', url: https://github.com/Uniswap/permit2, checked: '2026-11-09' }
 - { title: 'BIS Innovation Hub, HKMA, Bank of Thailand, PBoC Digital Currency Institute and CBUAE, Project mBridge: Connecting economies through CBDC (October 2022)', url: https://www.bis.org/publ/othp59.pdf, checked: '2026-11-05' }
 - { title: 'BIS Innovation Hub, Project mBridge (MVP mid-2024; handed over October 2024)', url: https://www.bis.org/about/bisih/topics/cbdc/mcbdc_bridge.htm, checked: '2026-11-05' }
