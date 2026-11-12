@@ -143,6 +143,8 @@
   .ei-panel .hint{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic}
   .ei-panel .src{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
   .ei-panel .src a{color:var(--muted)}
+  .ei-panel details.src summary{cursor:pointer}
+  .ei-panel details.src p.src{margin-top:6px}
   .ei-scope svg{flex:none}
 
   .ei-panel{background:#fff;border:1px solid var(--rule);border-radius:16px;padding:18px 22px;min-height:96px}
@@ -317,17 +319,26 @@
   const ellPath=n=>`M${n.cx-n.rx} ${n.cy}a${n.rx} ${n.ry} 0 1 0 ${2*n.rx} 0a${n.rx} ${n.ry} 0 1 0 ${-2*n.rx} 0Z`;
   let active=null, hovered=null;
   // Hover previews a definition; click pins it until you click outside the circles (or press Esc).
+  // `panel_click: true` in a page's site.yaml makes the panel click-only: hover no longer changes it (owner, 12 November 2026:
+  // on the Taxonomy a passing pointer kept replacing the definition being read).
   let pinned=null;
+  const CLICK=!!DATA.panel_click;
+  // sources in the panel sit behind a closed summary, open on request (owner, 12 November 2026)
+  const srcList=src=>src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ');
+  const srcBox=src=>src&&src.length?`<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`:'';
+  const lensPanel=L=>`<h2 style="color:${L.color}">${L.name}</h2><p>${L.intro}</p>${srcBox(L.sources)}`;
+  function restorePanel(){ const L=activeLenses[activeLenses.length-1];
+    panel.innerHTML = L ? lensPanel(L) : `<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; }
   const ONCONN=[];   // connectors drawn only while their circle (`on`) is hovered or picked
   function addPinBar(){
-    panel.insertAdjacentHTML('afterbegin','<div class="pinbar"><span>Pinned: hover is paused. Click outside the circles or press Esc to release.</span><button type="button" class="unpin">Unpin</button></div>');
+    panel.insertAdjacentHTML('afterbegin',`<div class="pinbar"><span>${CLICK?'Click another area to switch, or click outside the circles or press Esc to clear.':'Pinned: hover is paused. Click outside the circles or press Esc to release.'}</span><button type="button" class="unpin">${CLICK?'Clear':'Unpin'}</button></div>`);
     panel.querySelector('.unpin').addEventListener('click',e=>{e.stopPropagation(); unpin();});
   }
   function pin(el,show){ if(pinned) pinned.el.classList.remove('pinned'); pinned={el,show}; el.classList.add('pinned'); show(); addPinBar(); }
-  function unpin(){ if(!pinned) return; pinned.el.classList.remove('pinned'); pinned=null; const b=panel.querySelector('.pinbar'); if(b) b.remove(); }
+  function unpin(){ if(!pinned) return; pinned.el.classList.remove('pinned'); pinned=null; const b=panel.querySelector('.pinbar'); if(b) b.remove(); if(CLICK) restorePanel(); }
   function bindInfo(el,show,outer,extra){
     const act=()=>{ if(extra) extra(); if(outer){ unpin(); show(); } else pin(el,show); };
-    el.addEventListener('mouseenter',()=>{ if(!pinned) show(); });
+    el.addEventListener('mouseenter',()=>{ if(!pinned && !CLICK) show(); });
     el.addEventListener('focus',()=>{ if(!pinned) show(); });
     el.addEventListener('click',e=>{ e.stopPropagation(); act(); });
     el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); act(); } });
@@ -412,7 +423,7 @@
       });
       panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${n.desc}</p>${sc}`
         +(n.expand?`<p class="hint">${n.open?'Click the circle again to collapse it.':'Click the circle to expand it and see its participants.'}</p>`:'')
-        +(n.sources&&n.sources.length?`<p class="src">Sources: ${n.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'');
+        +srcBox(n.sources);
     };
     bindInfo(s,show,n.id===OUTER, n.expand ? ()=>setOpen(n,!n.open) : (n.band ? ()=>{ if(hiddenRegions.has(n.id)) hideRegion(n.id,false); } : null));
   });
@@ -467,7 +478,7 @@
     return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
   };
   const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet',only:a.only_under||[]}));
-  const srcHtml=src=>src.length?`<p class="src">Sources: ${src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ')}</p>`:'';
+  const srcHtml=srcBox;
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
   const tokGroup=(a,L)=>(L.groups||[]).find(G=>(G.tokens||[]).includes(a.t));
@@ -820,9 +831,9 @@
     });
     // panel
     if(pinned){ pinned.show(); addPinBar(); }
-    else if(changed && added){ panel.innerHTML=`<h2 style="color:${changed.color}">${changed.name}</h2><p>${changed.intro}</p>`; }  // intro may hold markup (focus)
+    else if(changed && added){ panel.innerHTML=lensPanel(changed); }  // intro may hold markup (focus)
     else if(!on){ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; }
-    else { const L=activeLenses[activeLenses.length-1]; panel.innerHTML=`<h2 style="color:${L.color}">${L.name}</h2><p>${L.intro}</p>`; }
+    else { panel.innerHTML=lensPanel(activeLenses[activeLenses.length-1]); }
   }
 })();
 </script>

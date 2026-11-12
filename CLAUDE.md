@@ -96,6 +96,10 @@ and decisions behind them.
 - **Other Crypto-Assets** (not "Other Digital Assets"): value comes from use, access, community or protocol rights,
   not a claim on money or an off-chain asset, whether the token is native or mirrors another record. Matches MiCA's
   "crypto-assets other than ARTs/EMTs"; "Other" = crypto-assets not counted as Digital Money. Descriptive, not legal.
+- **The panel (owner, 12 November 2026):** on the Taxonomy the definition panel changes only on a click, not on hover
+  (`panel_click: true` in `site.yaml`), because a passing pointer kept replacing the definition being read; a click outside
+  the circles or Esc clears it. Other pages keep hover until asked. On every Venn page the panel's sources (a circle's, a
+  badge's and a lens's) sit behind a closed "Sources (n)" summary, so they are there for whoever wants them.
 - Digital Money = Native Cryptocurrencies + Tokenized Currencies. Tokenized Currencies are grouped **by issuer**:
   Central Bank (CBDC, split retail/wholesale), Commercial Bank, Regulated Non-Bank (incl. FMI Tokens), Other Issuers.
 - **Stablecoins** cut across Commercial Bank, Regulated Non-Bank and Other Issuers; the word must never appear

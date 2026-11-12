@@ -620,6 +620,7 @@ function render({ circles, layout, alt, tokens, site, lenses, out }) {
       as_of: new Date(site.facts_as_of).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) } : null,
     lens_groups: site.lens_groups || [], badge: site.badge || 'disc', pill_scale: site.pill_scale || 1, facets_noun: site.facets_noun || 'design',
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
+    panel_click: !!site.panel_click,   // click-only panel (owner, 12 November 2026)
   };
   return fillCommon(read('src/template.html'), { site, out, data })
     .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))

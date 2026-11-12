@@ -10,7 +10,9 @@ intro: How digital money, tokenized real-world assets and other crypto-assets re
 svg_label: Venn diagram of digital asset types
 panel_default:
   title: Digital Assets
-  text: Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.
+  text: Click a circle or a token to read how Ethereum Institutional defines it; click outside the circles or press Esc to clear.
+# the panel changes only on a click, not on hover (owner, 12 November 2026)
+panel_click: true
 # badge: disc (ticker chips) or pill (named badges)
 badge: disc
 # lens_groups: one dropdown per group; each lens file's `group` must be one of these ids
