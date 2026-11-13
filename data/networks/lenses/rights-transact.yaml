@@ -1,0 +1,57 @@
+# Lens (networks scope): see maps/CLAUDE.md. Review markers  are removed once the owner has reviewed (owner, 13 November 2026).
+
+id: rights-transact
+group: chart
+menu: Transact
+name: Who may transact
+short: Transact
+scope: networks
+color: '#3730a3'
+intro: 'Who may submit transactions.'
+networks:
+  ethereum: in
+  base: in
+  arbitrum: in
+  optimism: in
+  polygon: in
+  avalanche: in
+  hedera: in
+  bnb: in
+  bitcoin: in
+  cardano: in
+  tron: in
+  hyperliquid: in
+  solana: in
+  stellar: in
+  xrpl: in
+  canton: part
+notes:
+  canton: 'A party transacts through a validator node that hosts it, so access runs through node operators; the Network
+    of Networks circle explains the public component.'
+  corda: 'Nodes admitted to the network transact with each other.'
+  fnality: 'Members, and their clients through them, only.'
+  hangang: 'Members, and their clients through them, only.'
+  dcjpy: 'Members, and their clients through them, only.'
+  quorum: 'Members, and their clients through them, only.'
+  fabric: 'Members, and their clients through them, only.'
+sources:
+- title: 'Vitalik Buterin, Credible Neutrality As A Guiding Principle (3 January 2020): a mechanism that by its design does
+    not discriminate for or against specific people, with publicly verifiable execution'
+  url: https://nakamoto.ghost.io/credible-neutrality/
+  checked: '2026-11-13'
+- title: 'Kinexys by J.P. Morgan and MIT Digital Currency Initiative, Public Blockchains and Regulated Financial Institutions:
+    Key Challenges, Layered Solutions, and a Path Forward (June 2026): front-running, omission, unsolicited tokens and gas
+    fees paid to sanctioned entities; a layered framework from application to regulation'
+  url: https://www.dci.mit.edu/projects/public-blockchains-and-regulated-financial-institutions
+  checked: '2026-11-13'
+chart_only: true   # shown in each network's At a glance chart, not in the lens menus (owner, 13 November 2026)
+chart:
+  note: full
+  order: 2
+  label: Transact
+  tip: 'Who may submit transactions.'
+  values:
+    in: Anyone
+    part: Via node operators
+    out: Members only
+last_reviewed: '2026-11-13'

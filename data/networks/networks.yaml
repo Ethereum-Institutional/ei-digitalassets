@@ -1,5 +1,8 @@
-# Network badges: the ten largest native cryptocurrencies by market capitalization (25 October 2026; stablecoins and
-# tokens that are not native to a network excluded) plus networks that illustrate each region of the map.
+# Network badges: networks institutions can use as infrastructure (a stablecoin or tokenized asset from a regulated or
+# licensed issuer is issued on it, or regulated institutions settle on it), plus the clearest live example of each
+# region (Bitcoin for proof of work, Cardano for dynamically available proof of stake). Replaces the earlier rule, the
+# ten largest native assets by market capitalization (owner, 13 November 2026, public issue ei-digitalassets#27:
+# market capitalization measures an asset, which the Taxonomy map covers); Dogecoin, Monero and Zcash left the map.
 # `circle` is the circle the badge sits in; `eth: true` draws it in ink (Ethereum ecosystem: runs an Ethereum client,
 # the EVM, or settles on Ethereum mainnet), otherwise gray. Badges never move. Names, not tickers, because "ETH" and
 # "Ethereum" are overloaded across the ecosystem; the chain is always "Ethereum mainnet".
@@ -13,11 +16,20 @@ networks:
   name: Bitcoin
   circle: full
   x: 305
-  y: 730
-  column: { x: 337, y: 722 }
+  y: 790
+  column: { x: 400, y: 734 }
   eth: false
-  desc: 'The canonical fully permissionless network and the largest digital asset (about $1.6 trillion), with a fixed supply of 21 million. Proof of work means the protocol never knows who is mining, assumes nothing about anyone staying online and prices sybils in electricity and hardware; finality is probabilistic. Smart contracts: no. Bitcoin Script is deliberately not Turing-complete (no loops), but its multisignature and timelock conditions are the building blocks of protocols such as the Lightning Network, which moves payments off-chain through channels funded by on-chain transactions and relies on the blockchain to settle, or to penalize a cheating party, when needed.'
+  desc: "The canonical fully permissionless network and the largest digital asset (about $1.6 trillion), with a fixed supply of 21 million. Proof of work means the protocol never knows who is mining, assumes nothing about anyone staying online and prices sybils in electricity and hardware. Bitcoin Script is deliberately not Turing-complete (no loops), but its multisignature and timelock conditions are the building blocks of protocols such as the Lightning Network, which moves payments off-chain through channels funded by on-chain transactions and relies on the blockchain to settle, or to penalize a cheating party, when needed."
+  glance:
+    asset: "BTC"
+    consensus: "Proof of work"
+    contracts: "None: Bitcoin Script sets fixed spending conditions"
+    confirmed: "About 10 minutes (one block)"
+    final: "About 60 minutes (six blocks) by convention; never absolutely final"
   sources:
+  - title: "Bitcoin Wiki, Confirmation (10-minute average block interval; six blocks a common but arbitrary convention)"
+    url: https://en.bitcoin.it/wiki/Confirmation
+    checked: '2026-11-13'
   - title: Lewis-Pye and Roughgarden, Permissionless Consensus (Bitcoin as the fully permissionless protocol)
     url: https://arxiv.org/abs/2304.14701
     checked: '2026-10-25'
@@ -27,63 +39,6 @@ networks:
   - title: 'Lightning BOLT 0, introduction (on-chain funding, HTLCs, on-chain enforcement)'
     url: https://github.com/lightning/bolts/blob/master/00-introduction.md
     checked: '2026-10-25'
-- id: dogecoin
-  name: Dogecoin
-  circle: full
-  x: 305
-  y: 775
-  column: { x: 403, y: 722 }
-  eth: false
-  desc: 'Scrypt proof of work, merge-mined with Litecoin since September 2014 (auxiliary proof of work), so Litecoin miners secure both chains with the same work. Fully permissionless, but with no supply cap: since its halvings ended at block 600,000 every one-minute block has paid a fixed 10,000 DOGE (about 5.2 billion a year), so inflation falls in percentage terms but never reaches zero. That leaves the token without economic scarcity, which suits community use better than a store of value. Smart contracts: no.'
-  sources:
-  - title: Dogecoin Core README (Scrypt proof of work)
-    url: https://github.com/dogecoin/dogecoin
-    checked: '2026-10-25'
-  - title: Dogecoin Core 1.8.0 release notes (AuxPoW from block 371,337, September 2014)
-    url: https://github.com/dogecoin/dogecoin/releases/tag/v1.8.0
-    checked: '2026-10-25'
-  - title: 'Dogecoin Core, dogecoin.cpp (block subsidy: fixed 10,000 DOGE after the halvings, “constant inflation”)'
-    url: https://github.com/dogecoin/dogecoin/blob/master/src/dogecoin.cpp
-    checked: '2026-10-25'
-  - title: 'Dogecoin Core, chainparams.cpp (100,000-block halving interval, 60-second blocks)'
-    url: https://github.com/dogecoin/dogecoin/blob/master/src/chainparams.cpp
-    checked: '2026-10-25'
-- id: monero
-  name: Monero
-  circle: full
-  x: 305
-  y: 820
-  column: { x: 466, y: 722 }
-  eth: false
-  desc: 'RandomX proof of work (since release 0.15, November 2019), designed to keep general-purpose CPUs competitive with specialized hardware. Fully permissionless, with privacy by default: amounts and counterparties are hidden on-chain, which is why most regulated venues do not list it. Unlike Bitcoin’s absolute cap, Monero pays a tail emission of 0.6 XMR per two-minute block (since May 2022), so miners are always paid to secure the network; the supply still grows by well under 1% a year and that rate keeps falling, so it remains relatively scarce. Smart contracts: no.'
-  sources:
-  - title: Moneropedia, RandomX
-    url: https://www.getmonero.org/resources/moneropedia/randomx.html
-    checked: '2026-10-25'
-  - title: 'Moneropedia, Tail emission (0.6 XMR per block from May 2022; miners need an incentive)'
-    url: https://www.getmonero.org/resources/moneropedia/tail-emission.html
-    checked: '2026-10-25'
-- id: zcash
-  name: Zcash
-  circle: full
-  x: 305
-  y: 865
-  column: { x: 400, y: 746 }
-  eth: false
-  desc: 'Equihash proof of work with a fixed supply of 21 million and Bitcoin-style halvings (the second in November 2024); about 16.9 million ZEC are in circulation. Transactions can be transparent, like Bitcoin’s, or shielded, with amounts and counterparties encrypted and validity proven with zero-knowledge proofs; roughly a quarter to a third of the supply sits in shielded pools (trackers differ). Fully permissionless. Smart contracts: no.'
-  sources:
-  - title: Electric Coin Company, Why Equihash (2016)
-    url: https://electriccoin.co/blog/why-equihash/
-    checked: '2026-10-25'
-  - title: 'Zcash, the difference between shielded and transparent Zcash'
-    url: https://z.cash/learn/what-is-the-difference-between-shielded-and-transparent-zcash/
-    checked: '2026-10-25'
-  - title: 'Zcash protocol specification (issuance and the 21 million maximum)'
-    url: https://zips.z.cash/protocol/protocol.pdf
-    checked: '2026-10-25'
-  - title: 'Blockworks, Zcash token holder report Q1 2026 (shielded pool share; secondary source)'
-    url: https://blockworks.com/api/investor-report/zcash-token-holder-report-q1-2026/pdf
-    checked: '2026-10-25'
 # ---- Dynamically available ----
 - id: cardano
   name: Cardano
@@ -92,8 +47,17 @@ networks:
   y: 603
   column: { x: 470, y: 610 }
   eth: false
-  desc: 'Ouroboros proof of stake, the paper’s canonical dynamically available protocol: a longest-chain rule in which slot leaders are drawn from registered stake pools, so the chain keeps growing however many pools are online. Anyone can register a pool (a refundable 500 ADA deposit; about 2,900 registered pools). Not EVM based. Smart contracts: yes; Plutus Core, a Turing-complete language on the extended UTXO model (contracts written in Plinth or Aiken compile to it).'
+  desc: "The paper’s canonical dynamically available protocol: a longest-chain rule in which slot leaders are drawn from registered stake pools, so the chain keeps growing however many pools are online. Registering a pool takes a refundable 500 ADA deposit (about 2,900 registered pools)."
+  glance:
+    asset: "ADA"
+    consensus: "Proof of stake (Ouroboros)"
+    contracts: "Plutus Core, on the extended UTXO model"
+    confirmed: "About 20 seconds (one block)"
+    final: "A few minutes (10 to 20 blocks) by convention; the protocol rules out any rollback only after about 12 hours (2,160 blocks)"
   sources:
+  - title: "Cardano developer portal, Consensus and Ouroboros (about 20 s blocks; practical finality 10 to 20 confirmations, a few minutes; no rollback beyond k = 2,160 blocks, about 12 hours)"
+    url: https://developers.cardano.org/docs/developers/curriculum/fundamentals/consensus-and-ouroboros/
+    checked: '2026-11-13'
   - title: Cardano docs, Consensus explained (Ouroboros)
     url: https://docs.cardano.org/about-cardano/learn/consensus-explained
     checked: '2026-10-25'
@@ -114,7 +78,13 @@ networks:
   y: 418
   column: { x: 250, y: 477 }
   eth: true
-  desc: 'Delegated proof of stake: 27 Super Representatives elected by TRX votes every six hours produce blocks; any account can stand by burning 9,999 TRX. No incumbent review, so quasi-permissionless under EI’s rule, with a very small active set. A block is irreversible once 19 of the 27 have confirmed it, about a minute; a misbehaving Super Representative loses votes, never stake; one production client, java-tron; halted once, for about two hours in November 2020. The TRON Virtual Machine is EVM compatible, so most Solidity contracts run unchanged. Tether issues USD₮ natively on TRON (TRC-20), one of its two largest deployments; Circle discontinued USDC on TRON in 2024. Smart contracts: yes; the EVM-compatible TRON Virtual Machine.'
+  desc: "27 Super Representatives, elected by TRX votes every six hours, produce blocks. No incumbent review, so quasi-permissionless under EI’s rule, with a very small active set. Tether issues USD₮ natively on TRON (TRC-20), one of its two largest deployments; Circle discontinued USDC on TRON in 2024."
+  glance:
+    asset: "TRX"
+    consensus: "Delegated proof of stake"
+    contracts: "TRON Virtual Machine (EVM compatible)"
+    confirmed: "3 seconds (one block)"
+    final: "About a minute (19 of 27 confirmations)"
   sources:
   - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
     url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
@@ -144,7 +114,13 @@ networks:
   y: 444
   column: { x: 485, y: 477 }
   eth: true
-  desc: 'HyperBFT, a HotStuff-derived protocol. Any validator with 10,000 HYPE of self-delegation (locked for a year) can become active, and the active set is the top of the stake ranking (27 active of 35 registered on 25 October 2026), so no incumbent review is needed and it is quasi-permissionless under EI’s rule. The caveats are large: foundation-run validators hold roughly half of the stake, validators can jail peers, and the node software is distributed as prebuilt binaries without published core source. HyperEVM is EVM compatible, and both Circle (native USDC since September 2025) and Tether (USDT0) issue on it. Smart contracts: yes; HyperEVM.'
+  desc: "HyperBFT is derived from HotStuff. A validator needs 10,000 HYPE of self-delegation, locked for a year, and the active set is the top of the stake ranking (27 active of 35 registered on 25 October 2026), so no incumbent review is needed and it is quasi-permissionless under EI’s rule. The caveats are large: foundation-run validators hold roughly half of the stake, validators can jail peers, and the node software is distributed as prebuilt binaries without published core source. Circle (native USDC since September 2025) and Tether (USDT0) issue on HyperEVM."
+  glance:
+    asset: "HYPE"
+    consensus: "Proof of stake (HyperBFT)"
+    contracts: "HyperEVM (EVM compatible)"
+    confirmed: "Same as final"
+    final: "About 0.2 seconds (median)"
   sources:
   - title: Hyperliquid docs, HyperCore overview (HyperBFT, a HotStuff variant)
     url: https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/overview
@@ -171,8 +147,17 @@ networks:
   y: 418
   column: { x: 405, y: 477 }
   eth: false
-  desc: 'Alpenglow (Votor) since 21 October 2026, replacing the consensus based on Proof of History and Tower BFT; local timeouts now do the pacing Proof of History did. Anyone can run validator software without approval; voting needs a registered BLS public key, an admission ticket of 0.8 SOL an epoch and a place in the top 2,000 by stake (no fixed minimum stake; about 690 validators with stake), but a block is finalized only when 80% of stake votes for it in one round or 60% in two: more than 40% of stake going offline halts it, or 20% if another 20% is adversarial. Before Alpenglow the line was one third, and the cluster needed coordinated restarts after such halts, most recently in February 2024. Validators therefore have to stay online within a bounded budget: quasi-permissionless. No automatic slashing yet, so an attacker’s stake is not destroyed by the protocol; two clients in production, the dominant one on about nine tenths of stake. Not EVM based (programs run on the Solana Virtual Machine). Smart contracts: yes; Turing-complete programs (Rust, C) on the Solana Virtual Machine, not the EVM.'
+  desc: "Alpenglow (Votor) replaced the consensus based on Proof of History and Tower BFT on 21 October 2026; local timeouts now do the pacing Proof of History did. Voting needs a registered BLS public key, an admission ticket of 0.8 SOL an epoch and a place in the top 2,000 by stake (no fixed minimum stake; about 690 validators with stake). More than 40% of stake going offline halts finality, or 20% if another 20% is adversarial (one third before Alpenglow), so validators have to stay online within a bounded budget: quasi-permissionless."
+  glance:
+    asset: "SOL"
+    consensus: "Proof of stake (Alpenglow, since October 2026)"
+    contracts: "Solana Virtual Machine (Rust, C)"
+    confirmed: "Same as final"
+    final: "About 150 milliseconds (median, expected)"
   sources:
+  - title: "Anza, Alpenglow: a new consensus for Solana (finality about 150 ms median in simulation, against about 12.8 s under TowerBFT)"
+    url: https://anza.xyz/blog/alpenglow-a-new-consensus-for-solana
+    checked: '2026-11-13'
   - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
     url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
     checked: '2026-11-10'
@@ -205,8 +190,17 @@ networks:
   y: 480
   column: { x: 400, y: 1230 }
   eth: false
-  desc: 'The Stellar Consensus Protocol is federated Byzantine agreement: each validator chooses the quorum slices it trusts. Anyone can run a validator, but it only matters once existing validators add it to their slices, and the network’s safety rests on about ten “Tier 1” organizations, which the docs say takes months of convincing the others. Public, with consensus that the incumbents curate: permissioned under EI’s rule. Smart contracts run on Soroban (Wasm), not the EVM. Smart contracts: yes, since Stellar’s Protocol 20 upgrade on 20 February 2024; Soroban contracts are written in Rust and compiled to WebAssembly, not the EVM.'
+  desc: "Each validator chooses the quorum slices it trusts, so a new validator matters only once existing validators add it to theirs, and the network’s safety rests on about ten “Tier 1” organizations, which the docs say takes months of convincing the others. Public, with consensus that the incumbents curate: permissioned under EI’s rule."
+  glance:
+    asset: "XLM"
+    consensus: "Federated Byzantine agreement (Stellar Consensus Protocol)"
+    contracts: "Soroban (WebAssembly), since February 2024"
+    confirmed: "Same as final"
+    final: "About 5 seconds (one ledger)"
   sources:
+  - title: "Stellar Development Foundation, Surge pricing on Stellar FAQ (2019: ledgers close on average every 5 seconds)"
+    url: https://stellar.org/blog/developers/surge-pricing-on-stellar-faq
+    checked: '2026-11-13'
   - title: Stellar developer docs, Stellar Consensus Protocol
     url: https://developers.stellar.org/docs/learn/fundamentals/stellar-consensus-protocol
     checked: '2026-10-25'
@@ -223,7 +217,13 @@ networks:
   y: 440
   column: { x: 400, y: 1200 }
   eth: false
-  desc: 'Anyone can run a node and transact, so it is public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule. A validated ledger is final every few seconds, with no stake and no penalty behind it; one production client, rippled; two halts, the longest 64 minutes in February 2025. Not EVM based (the XRPL EVM is a separate chain). Smart contracts: not on the main ledger, which offers native escrows, tokens and a decentralized exchange instead; WebAssembly “smart escrows” (XLS-100) are still in development, and the XRPL EVM is a separate chain.'
+  desc: "Public, but consensus runs on Unique Node Lists: each server trusts the validators on its list, and almost all servers use the default lists published by the XRP Ledger Foundation and Ripple (35 validators each, near-identical), whose criteria include a year of uptime and a separate legal identity. The docs are explicit that issuing validations “does not automatically give your validator a say in the consensus process”. Influence therefore depends on the incumbents’ review: permissioned consensus under EI’s rule."
+  glance:
+    asset: "XRP"
+    consensus: "Unique Node Lists of trusted validators"
+    contracts: "None on the main ledger; the XRPL EVM is a separate chain"
+    confirmed: "Same as final"
+    final: "A few seconds (one validated ledger)"
   sources:
   - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
     url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
@@ -250,7 +250,13 @@ networks:
   y: 680
   column: { x: 400, y: 1415 }
   eth: false
-  desc: 'Mostly a consortium network with a small public component: see the “Network of Networks” circle for EI’s reasoning. Canton Coin (about $4 billion, rank 23) is the only globally visible asset on it. Its test and development networks require allowlisting, there is no public bug bounty and, as of March 2026, one published audit (the Canton Coin contracts, 2025). The Ethereum Foundation’s primer for governments reads it the same way: a foundation co-chaired by DTCC and Euroclear, protocol changes by two-thirds Super Validator vote, validators admitted by sponsorship, consortium governance rather than decentralized. Smart contracts are written in Daml; an EVM execution layer (Zenith, built on Reth) is in development, so Canton is not drawn as Ethereum ecosystem. Smart contracts: yes; Daml, a functional contract language, with an EVM layer (Zenith) in development.'
+  desc: "Mostly a consortium network with a small public component: see the “Network of Networks” circle for EI’s reasoning. Canton Coin (about $4 billion, rank 23) is the only globally visible asset on it. The Ethereum Foundation’s primer for governments reads it the same way: a foundation co-chaired by DTCC and Euroclear, protocol changes by two-thirds Super Validator vote, validators admitted by sponsorship, consortium governance rather than decentralized. Its EVM layer is still in development, so Canton is not drawn as Ethereum ecosystem."
+  glance:
+    asset: "Canton Coin"
+    consensus: "Super Validators (Global Synchronizer)"
+    contracts: "Daml; an EVM layer (Zenith) in development"
+    confirmed: "Same as final"
+    final: "Near instant, once its parties confirm and the Super Validators order it"
   sources:
   - title: 'Ethereum Foundation, Ethereum Basics for Governments and Institutions (ethereum.org report, July 2026; the Foundation’s own positions; comparative figures as of March 2026 from OpenZeppelin’s assessment)'
     url: https://ethereum.org/reports/basics-for-governments-institutions.pdf
@@ -288,6 +294,12 @@ networks:
   column: { x: 520, y: 1432 }
   eth: false
   desc: 'R3’s Corda is the consortium-side member of the Network of Networks: a peer-to-peer network of nodes in which each node keeps only the transactions it is party to, and notary clusters “validate uniqueness and sequencing of transactions without global broadcast”, so there is no global ledger for anyone to verify. Permissioned by design and run as business networks among known parties. Apache 2.0, outside the Ethereum ecosystem.'
+  glance:
+    asset: "None"
+    consensus: "Notary clusters"
+    contracts: "CorDapps"
+    confirmed: "Set by the operator"
+    final: "Immediate, when the notary signs"
   sources:
   - title: corda/corda README (peer-to-peer nodes; notaries validate uniqueness without global broadcast; Apache 2.0)
     url: https://github.com/corda/corda
@@ -302,6 +314,12 @@ networks:
   column: { x: 332, y: 1828 }
   eth: true
   desc: 'The Sterling Fnality Payment System has settled live payments since December 2023 in wholesale central bank money for its shareholder banks (24 institutions, starting with Lloyds, Santander and UBS); HM Treasury recognized it as systemically important and the Bank of England regulates it. One jurisdiction, so Sovereign. Reported to be built on Besu (Ledger Insights, LF Decentralized Trust report); Fnality’s own site does not name the client.'
+  glance:
+    asset: "None; payments settle in central bank money"
+    consensus: "Permissioned, among member nodes"
+    contracts: "EVM (Besu, as reported)"
+    confirmed: "Set by the operator"
+    final: "Immediate on the members’ vote"
   sources:
   - title: Fnality, initial phase of sterling payment operations (14 December 2023)
     url: https://fnality.com/news/fnality-commences-initial-phase-of-sterling-payment-operations-in-a-world-first
@@ -320,6 +338,12 @@ networks:
   column: { x: 446, y: 1828 }
   eth: true
   desc: 'The Bank of Korea’s pilot of wholesale CBDC and tokenized bank deposits: a permissioned Besu network of 20 nodes with QBFT consensus, operated by the central bank and seven designated banks (phase 1, April to June 2025; a second phase with nine banks in 2026). A sovereign consortium convened by the central bank, and Ethereum ecosystem by client.'
+  glance:
+    asset: "None; wholesale CBDC and deposit tokens"
+    consensus: "QBFT, among 20 nodes"
+    contracts: "EVM (Besu)"
+    confirmed: "Set by the operator"
+    final: "Immediate on the members’ vote"
   sources:
   - title: Bank of Korea, Project Hangang phase 1 report (Besu, QBFT, 20 nodes, designated banks only)
     url: https://www.bok.or.kr/eng/bbs/E0000654/view.do?menuNo=400048&nttId=10095216
@@ -335,6 +359,12 @@ networks:
   column: { x: 400, y: 1852 }
   eth: true
   desc: 'DeCurret DCP’s tokenized deposit network in Japan, live since 2024 with GMO Aozora Net Bank minting DCJPY and other Japanese banks joining; DeCurret DCP joined LF Decentralized Trust in September 2026. A sovereign consortium. Reported to be Besu-based (LF Decentralized Trust’s 2026 adoption report); not confirmed by DeCurret DCP’s own pages.'
+  glance:
+    asset: "None; deposit tokens"
+    consensus: "Permissioned, among member nodes"
+    contracts: "EVM (Besu, as reported)"
+    confirmed: "Set by the operator"
+    final: "Immediate on the members’ vote"
   sources:
   - title: DeCurret DCP, DCJPY service release (28 August 2024)
     url: https://www.dcjpy.com/en/.assets/EN20240828_DCJPYservicerelease.pdf
@@ -1058,9 +1088,9 @@ networks:
 - id: apollo_pol
   name: Apollo
   circle: polygon
-  x: 213
-  y: 467
-  column: { x: 288, y: 500 }
+  x: 548
+  y: 977
+  column: { x: 248, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -1072,9 +1102,9 @@ networks:
 - id: blackrock_pol
   name: BlackRock
   circle: polygon
-  x: 270
-  y: 467
-  column: { x: 345, y: 500 }
+  x: 605
+  y: 977
+  column: { x: 305, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -1086,9 +1116,9 @@ networks:
 - id: circle_pol
   name: Circle
   circle: polygon
-  x: 328
-  y: 467
-  column: { x: 402, y: 500 }
+  x: 663
+  y: 977
+  column: { x: 362, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -1100,9 +1130,9 @@ networks:
 - id: franklin_pol
   name: Franklin Templeton
   circle: polygon
-  x: 408
-  y: 467
-  column: { x: 482, y: 500 }
+  x: 743
+  y: 977
+  column: { x: 442, y: 1143 }
   eth: true
   kind: participant
   small: true
@@ -1114,9 +1144,9 @@ networks:
 - id: hamilton_pol
   name: Hamilton Lane
   circle: polygon
-  x: 220
-  y: 491
-  column: { x: 328, y: 520 }
+  x: 555
+  y: 1001
+  column: { x: 288, y: 1163 }
   eth: true
   kind: participant
   small: true
@@ -1128,9 +1158,9 @@ networks:
 - id: spiko_pol
   name: Spiko
   circle: polygon
-  x: 285
-  y: 491
-  column: { x: 392, y: 520 }
+  x: 620
+  y: 1001
+  column: { x: 352, y: 1163 }
   eth: true
   kind: participant
   small: true
@@ -1145,9 +1175,9 @@ networks:
 - id: stripe_pol
   name: Stripe
   circle: polygon
-  x: 332
-  y: 491
-  column: { x: 440, y: 520 }
+  x: 667
+  y: 1001
+  column: { x: 400, y: 1163 }
   eth: true
   kind: participant
   small: true
@@ -1159,9 +1189,9 @@ networks:
 - id: tether_pol
   name: Tether
   circle: polygon
-  x: 382
-  y: 491
-  column: { x: 490, y: 520 }
+  x: 717
+  y: 1001
+  column: { x: 450, y: 1163 }
   eth: true
   kind: participant
   small: true
@@ -2004,6 +2034,12 @@ networks:
   column: { x: 560, y: 2110 }
   eth: true
   desc: 'The earlier enterprise Ethereum fork: a permissioned version of Geth started by J.P. Morgan in 2016 and passed to Consensys in 2020 (GoQuorum). It carried Kinexys (Onyx) and Partior, among others, but the repository is now archived (“no longer actively maintained or supported by Consensys”) and Besu dropped its compatibility modes in 2023, so new deployments go to Besu. Ethereum ecosystem by code.'
+  glance:
+    asset: "None"
+    consensus: "QBFT or IBFT, among a fixed validator set"
+    contracts: "EVM (a Geth fork)"
+    confirmed: "Set by the operator"
+    final: "Immediate on the validators’ vote"
   sources:
   - title: Consensys GoQuorum repository (go-ethereum fork with peer permissioning; archived, no longer maintained)
     url: https://github.com/Consensys/quorum
@@ -2016,6 +2052,12 @@ networks:
   column: { x: 560, y: 2140 }
   eth: false
   desc: '“An enterprise-grade permissioned distributed ledger framework” from the Hyperledger stable (now LF Decentralized Trust): modular, with pluggable consensus, written in Go under Apache 2.0. Outside the Ethereum ecosystem: no EVM by default and no public-chain upgrade path, which is the trade-off against Besu.'
+  glance:
+    asset: "None"
+    consensus: "Ordering service (Raft)"
+    contracts: "Chaincode"
+    confirmed: "Set by the operator"
+    final: "Immediate, when the ordering service cuts the block"
   sources:
   - title: Hyperledger Fabric repository (LF Decentralized Trust)
     url: https://github.com/hyperledger/fabric

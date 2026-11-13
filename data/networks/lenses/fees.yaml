@@ -1,0 +1,146 @@
+# Lens (networks scope): see maps/CLAUDE.md. Review markers  are removed once the owner has reviewed (owner, 13 November 2026).
+
+id: fees
+group: chart
+menu: Who receives your fees
+name: Who receives your fees
+short: Fees
+scope: networks
+color: '#6d28d9'
+intro: 'Where a payer’s fees go. An institution may not pay a sanctioned party, a fee included, so where fees go is part of whether it can use a network. Left-hand reading: no fee reaches a party the payer cannot identify, because fees are burned, locked, or paid to a named operator or members. Middle: part is burned and the rest goes to a validator the payer cannot identify in advance. Right-hand reading: fees go to miners or validators the payer cannot identify, because anyone may become one. Two arrangements change the picture on Ethereum mainnet: a sponsored transaction (an ERC-4337 paymaster, or an EIP-7702 account) lets an identified provider pay the fee, so the institution need not hold ETH; and on a rollup the institution pays the rollup’s operator, which pays Ethereum mainnet. Whether a fee folded into a block reward is a prohibited payment is a legal question no design settles: US sanctions apply to virtual currency as to any payment (OFAC, 2021), and a June 2026 report by Kinexys by J.P. Morgan and the MIT Digital Currency Initiative names fees reaching sanctioned entities as an open problem.'
+networks:
+  canton: in
+  hyperliquid: part
+  base: in
+  arbitrum: in
+  optimism: in
+  avalanche: in
+  xrpl: in
+  stellar: in
+  tron: in
+  hedera: in
+  corda: in
+  fnality: in
+  hangang: in
+  dcjpy: in
+  quorum: in
+  fabric: in
+  ethereum: part
+  polygon: part
+  solana: part
+notes:
+  ethereum: 'The base fee is burned. The priority fee goes to the block’s fee recipient, which the proposer sets, and
+    builders who supply most blocks pay the proposer; neither is identified to the payer in advance. A transaction with a
+    zero priority fee pays only the burned base fee, but whether a builder includes it is the builder’s choice. A sponsored transaction (an ERC-4337 paymaster, or an EIP-7702 account) lets an identified provider pay the fee, so the institution need not hold ETH; whether a fee that reaches a sanctioned party counts as a payment to it is a legal question no design settles (OFAC, 2021).'
+  base: 'The L2 execution fee and the L1 fee are collected on the rollup, operated by Coinbase, which pays Ethereum
+    mainnet to post the data: the payer pays an identified operator.'
+  optimism: 'Execution, L1 data and operator fees are each collected in a fee vault on the rollup, not burned; the Optimism
+    Foundation sets the sequencer.'
+  arbitrum: 'The L2 base fee goes to the network fee account, the L1 component reimburses the batch poster, and tips
+    on Arbitrum One go 97% to the Arbitrum DAO treasury and 3% to the Arbitrum Developer Guild.'
+  polygon: 'The base fee is burned; the priority fee goes to the validator that produced the block.'
+  solana: 'Priority fees go in full to the block’s leader since SIMD-0096; the base fee’s distribution was left unchanged.'
+  avalanche: 'Both the base fee and the priority fee are burned.'
+  xrpl: 'The transaction cost is destroyed, paid to no one.'
+  stellar: 'Fees go into a locked account and are not given to or used by anyone.'
+  tron: 'An account that has not staked for bandwidth or energy pays by burning TRX; staked resources cost no fee.'
+  hedera: 'The node fee compensates the consensus node that submitted the transaction, run by a Hedera Council member;
+    the documentation reviewed does not name the recipient of the network and service fees.'
+  bnb: 'Most of each block’s fees go to the validator that proposed it, one of the 45 elected by stake; a share goes
+    to a system reward contract.'
+  cardano: 'Fees are pooled and paid each epoch to the stake pools that made blocks.'
+  bitcoin: 'The fee, the difference between a transaction’s inputs and outputs, goes to the miner who includes it in a block.'
+  canton: 'Traffic fees are priced in US dollars and paid by burning Canton Coin, which leaves circulation; validators earn newly minted coins, not the fee.'
+  hyperliquid: 'Gas on HyperEVM is burned, the priority fee too. Trading fees on HyperCore go to the HLP vault, to the Assistance Fund, whose HYPE is burned, and up to half to the asset’s deployer; HLP depositors and deployers are not identified to the payer.'
+  corda: 'No protocol fee reaches an unknown party; participants pay the network operator under its terms.'
+  fnality: 'No protocol fee reaches an unknown party; members pay the operator under the scheme’s terms.'
+  hangang: 'No protocol fee reaches an unknown party; members pay the operator under the scheme’s terms.'
+  dcjpy: 'No protocol fee reaches an unknown party; members pay the operator under the scheme’s terms.'
+  quorum: 'No protocol fee reaches an unknown party; members pay the operator under the scheme’s terms.'
+  fabric: 'No protocol fee reaches an unknown party; members pay the operator under the scheme’s terms.'
+sources:
+- title: 'ERC-4337, Account abstraction using alt mempool (Final): a paymaster pays for the transaction instead of the sender, so the sender need not hold ETH'
+  url: https://eips.ethereum.org/EIPS/eip-4337
+  checked: '2026-11-13'
+- title: 'EIP-7702, Set code for EOAs (Final): sponsorship, account X pays for a transaction on behalf of account Y'
+  url: https://eips.ethereum.org/EIPS/eip-7702
+  checked: '2026-11-13'
+- title: 'Canton Network documentation, Tokenomics of the Global Synchronizer (fees denominated in USD, paid by burning Canton Coin; burned coins permanently removed; validators mint in proportion to the amount burned)'
+  url: https://docs.canton.network/overview/reference/tokenomics-of-gs
+  checked: '2026-11-13'
+- title: 'Hyperliquid documentation, HyperEVM (HYPE is the gas token; base fees burned; priority fees also burned)'
+  url: https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm
+  checked: '2026-11-13'
+- title: 'Hyperliquid documentation, Fees (trading fees entirely to the community: HLP, the Assistance Fund and deployers; Assistance Fund HYPE burned; deployers may keep up to 50%)'
+  url: https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees
+  checked: '2026-11-13'
+- title: 'Bitcoin developer guide, Transactions (“The transaction fee is given to the Bitcoin miner”)'
+  url: https://developer.bitcoin.org/devguide/transactions.html
+  checked: '2026-11-13'
+- title: 'EIP-1559, Fee market change for ETH 1.0 chain (Final): the base fee is burned; the priority fee is credited to the
+    block’s author'
+  url: https://eips.ethereum.org/EIPS/eip-1559
+  checked: '2026-11-13'
+- title: 'ethereum.org, Proposer-builder separation: builders offer blocks and pay the proposer, which picks the most profitable'
+  url: https://ethereum.org/roadmap/pbs/
+  checked: '2026-11-13'
+- title: 'Optimism documentation, Transaction fees on OP Stack chains: execution, L1 data and operator fees each collected
+    in fee vaults, not burned'
+  url: https://docs.optimism.io/stack/transactions/fees
+  checked: '2026-11-13'
+- title: 'Base documentation, Network fees: an L2 execution fee and an L1 security fee'
+  url: https://docs.base.org/base-chain/network-information/network-fees
+  checked: '2026-11-13'
+- title: 'Arbitrum documentation, Gas and fees: network fee account, poster fee to the batch poster, tips 97% to the Arbitrum
+    DAO treasury and 3% to the Arbitrum Developer Guild'
+  url: https://docs.arbitrum.io/how-arbitrum-works/gas-fees
+  checked: '2026-11-13'
+- title: 'Polygon documentation, EIP-1559 on Polygon PoS: the base fee is burned; the priority fee goes to the validator'
+  url: https://docs.polygon.technology/pos/concepts/transactions/eip-1559/
+  checked: '2026-11-13'
+- title: 'SIMD-0096, Reward collected priority fee in entirety (activated): priority fees go 100% to the validator; base fee
+    distribution unchanged'
+  url: https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0096-reward-collected-priority-fee-in-entirety.md
+  checked: '2026-11-13'
+- title: 'Avalanche Builder Hub, Transaction fees: both the base fee and the priority fee are burned'
+  url: https://build.avax.network/docs/rpcs/other/guides/txn-fees
+  checked: '2026-11-13'
+- title: 'XRPL.org, Transaction cost: not paid to any party, the XRP is irrevocably destroyed'
+  url: https://xrpl.org/docs/concepts/transactions/transaction-cost
+  checked: '2026-11-13'
+- title: 'Stellar developers, Fees, resource limits and metering: fees go into a locked account, not given to or used by anyone'
+  url: https://developers.stellar.org/docs/learn/fundamentals/fees-resource-limits-metering
+  checked: '2026-11-13'
+- title: 'TRON developers, Resource model: without staked bandwidth or energy, TRX is burned'
+  url: https://developers.tron.network/docs/resource-model
+  checked: '2026-11-13'
+- title: 'Hedera documentation, Fee model: the node fee compensates the submitting node'
+  url: https://docs.hedera.com/learn/core-concepts/fee-model.md
+  checked: '2026-11-13'
+- title: 'BNB Chain documentation, Staking overview: most of the block fee rewards the proposing validator; a portion to the
+    system reward contract'
+  url: https://docs.bnbchain.org/bnb-smart-chain/staking/overview/
+  checked: '2026-11-13'
+- title: 'Cardano documentation, Fee structure: fees are pooled and distributed to the pools that created blocks in the epoch'
+  url: https://docs.cardano.org/about-cardano/explore-more/fee-structure
+  checked: '2026-11-13'
+- title: OFAC, Sanctions Compliance Guidance for the Virtual Currency Industry (15 October 2021)
+  url: https://ofac.treasury.gov/recent-actions/20211015
+  checked: '2026-11-13'
+- title: 'Kinexys by J.P. Morgan and MIT Digital Currency Initiative, Public Blockchains and Regulated Financial Institutions:
+    Key Challenges, Layered Solutions, and a Path Forward (June 2026): front-running, omission, unsolicited tokens and gas
+    fees paid to sanctioned entities; a layered framework from application to regulation'
+  url: https://www.dci.mit.edu/projects/public-blockchains-and-regulated-financial-institutions
+  checked: '2026-11-13'
+chart_only: true   # shown in each network's At a glance chart, not in the lens menus (owner, 13 November 2026)
+chart:
+  note: full
+  order: 6
+  label: Fee recipients
+  tip: 'Whether the payer can know who receives its fees, which matters for sanctions screening.'
+  scale: [in, part, out]   # identified (most restricted) to unidentified (most open)
+  values:
+    in: Burned or identified
+    part: Partly unidentified
+    out: Unidentified
+last_reviewed: '2026-11-13'

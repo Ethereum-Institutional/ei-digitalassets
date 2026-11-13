@@ -1,18 +1,18 @@
-# Lens: Settlement finality (architecture)
-# scope: networks means the lens highlights badges, not circles. `networks` lists each badge as in | part.
+# Lens: Settlement finality, a row of each network's At a glance chart (chart_only; not in the menus).
+# `networks` lists each badge as in | part; unlisted badges read as out.
 # in: the protocol declares a transaction final and an attacker who reverts it forfeits slashable collateral.
 # part: the protocol declares finality on the agreement of an admitted or elected set, with no collateral at risk, or
 #   with collateral that is only partly slashable. Unmarked: finality is probabilistic and never declared.
-# notes: the sentence shown under a badge's definition when this lens is active.
+# notes: shown when the reader opens the row; the intro is shown under "What the rows mean".
 
 id: finality
-group: architecture
+group: chart
 menu: Settlement finality
 name: Settlement finality
 short: Finality
 scope: networks
 color: '#155e75'
-intro: 'Finality is the point after which a transaction cannot be undone without breaking the protocol’s rules, and it is the first thing a settlement engineer asks of a ledger. Three models exist. Deterministic: the protocol declares a transaction final once a quorum of a known set agrees, and nothing in the protocol can revert it; no collateral backs the declaration, so the guarantee is as strong as the set’s independence and no stronger. Economic: the protocol declares finality and makes reversal cost an attacker a quantified amount of staked collateral, destroyed by slashing. Probabilistic: the protocol never declares finality; reversal only grows more expensive with every block built on top, and “six confirmations” is custom, not a rule. Times run from under a second to about thirteen minutes, and the faster declarations usually come from smaller or elected sets. Highlighted badges declare finality and back it with slashable collateral; dashed ones declare it on the trust of an admitted or elected set, with no collateral or only part of it at risk; faded ones are probabilistic. Central banks read the categories differently: the Reserve Bank of Australia’s Project Acacia (May 2026) found that existing public permissionless platforms “tend to provide only probabilistic finality”, and that a public permissioned ledger can meet a central bank’s needs if configured for deterministic finality. The difference is one of category, not of fact: Ethereum mainnet declares finality at a checkpoint and makes reverting it cost a third of all staked ETH, which this lens reads as economic finality, while chains that never declare finality are probabilistic in both readings. Ethereum Institutional’s view: on a public permissionless network, economic finality backed by slashing is the guarantee an outsider can price; deterministic finality on a trusted set is a different guarantee, worth exactly the independence of the set. Each note gives the time to finality, what an attacker loses, the number of production clients and the longest halt, from the networks’ own documentation and an independent assessment of six networks (data as of March 2026).'
+intro: 'Finality is the point after which a transaction cannot be undone without breaking the protocol’s rules, and it is the first thing a settlement engineer asks of a ledger. Three models exist. Deterministic: the protocol declares a transaction final once a quorum of a known set agrees, and nothing in the protocol can revert it; no collateral backs the declaration, so the guarantee is as strong as the set’s independence and no stronger. Economic: the protocol declares finality and makes reversal cost an attacker a quantified amount of staked collateral, destroyed by slashing. Probabilistic: the protocol never declares finality; reversal only grows more expensive with every block built on top, and “six confirmations” is custom, not a rule. Times run from under a second to about thirteen minutes, and the faster declarations usually come from smaller or elected sets. Left-hand reading: an admitted or elected set declares finality on its own trust, with no collateral or only part of it at risk. Middle: the protocol declares finality and backs it with slashable collateral that any staker may post. Right-hand reading: no one declares finality; it is probabilistic. Central banks read the categories differently: the Reserve Bank of Australia’s Project Acacia (May 2026) found that existing public permissionless platforms “tend to provide only probabilistic finality”, and that a public permissioned ledger can meet a central bank’s needs if configured for deterministic finality. The difference is one of category, not of fact: Ethereum mainnet declares finality at a checkpoint and makes reverting it cost a third of all staked ETH, which this chart reads as economic finality, while chains that never declare finality are probabilistic in both readings. Rollups add a second pair of terms: soft finality is the sequencer’s confirmation, in seconds, which is one operator’s promise; hard finality comes once the rollup’s batch is final on Ethereum mainnet and any challenge window has passed. Ethereum Institutional’s view: on a public permissionless network, economic finality backed by slashing is the guarantee an outsider can price; deterministic finality on a trusted set is a different guarantee, worth exactly the independence of the set. Each note gives the time to finality, what an attacker loses, the number of production clients and the longest halt, from the networks’ own documentation and an independent assessment of six networks (data as of March 2026).'
 networks:
   ethereum: in
   base: in
@@ -36,9 +36,9 @@ networks:
   fabric: part
 notes:
   ethereum: 'Economic finality in about 13 minutes: a checkpoint is finalized when validators holding two thirds of staked ETH vote for two consecutive checkpoints, and reverting it means at least a third of all staked ETH is slashed (about USD 25 billion in March 2026 on the assessment’s figures; the attacker’s whole stake is at risk). Five execution and six consensus clients in production, the only network with more than one or two. Never fully halted in eleven years; finality was delayed for an hour in May 2023 while blocks continued, and the inactivity leak restored it without intervention.'
-  base: 'Inherits Ethereum mainnet’s economic finality once a batch is posted and the challenge window has passed (five days with one proof, one day with two); before that the sequencer’s confirmation is a promise from one operator.'
-  arbitrum: 'Inherits Ethereum mainnet’s economic finality once a batch is posted and the challenge period has passed (about six days plus a two-day execution delay); before that the sequencer’s confirmation is a promise from one operator.'
-  optimism: 'Inherits Ethereum mainnet’s economic finality once a batch is posted and the seven-day challenge window has passed; before that the sequencer’s confirmation is a promise from one operator.'
+  base: 'Hard finality comes once its batch is posted and that Ethereum mainnet block is final, so it inherits Ethereum mainnet’s economic finality; the challenge window (five days with one proof, one day with two) governs only withdrawals to Ethereum mainnet. Before hard finality, the sequencer’s confirmation is soft finality, a promise from one operator.'
+  arbitrum: 'Hard finality comes once its batch is posted and finalized on Ethereum mainnet, so it inherits Ethereum mainnet’s economic finality; the challenge period (about six days plus a two-day execution delay) governs only withdrawals to Ethereum mainnet. Before hard finality, the sequencer’s sub-second confirmation is soft finality, a promise from one operator.'
+  optimism: 'Hard finality comes once its batch is posted and that Ethereum mainnet block is final, typically 15 to 30 minutes after submission, so it inherits Ethereum mainnet’s economic finality; the seven-day challenge window governs only withdrawals through the Standard Bridge. Before hard finality, the sequencer’s confirmation is soft finality, a promise from one operator.'
   bnb: 'Finality declared within about two blocks (BEP-126) when two thirds of the 21 block producers attest to a block and its child, backed by only part of the stake: a double sign or malicious vote slashes 200 BNB of the validator’s self-bonded stake and jails it for 30 days, while delegated stake is untouched, so the assessment puts the loss for an attack at under USD 3 million against USD 17 billion staked. One production client, a Geth fork. Halted once, for eight hours in October 2022, deliberately, after a bridge exploit.'
   solana: 'Finality declared under Alpenglow when 80% of stake votes in one round or 60% in two, with no automatic slashing yet: SIMD-0204 would record evidence of duplicate blocks and the penalty economics are a later proposal, so an attacker’s stake is not destroyed by the protocol. Two clients in production, the dominant one on about nine tenths of stake. Seven full halts, the longest about 19 hours in February 2023, none since February 2024.'
   avalanche: 'Sub-second, irreversible finality once a block is accepted by the Snowman protocol, on bonded AVAX; Avalanche does not slash, a misbehaving validator forfeits only its reward, so no collateral is destroyed by an attack.'
@@ -56,11 +56,14 @@ notes:
   quorum: 'QBFT and IBFT finalize immediately, with no forks, when two thirds of a fixed validator set agree; the validators admit and remove each other by vote, and no collateral is at risk.'
   fabric: 'The ordering service (Raft) finalizes each block deterministically for the channel’s members; no collateral is at risk and the guarantee is the consortium’s.'
   bitcoin: 'Probabilistic: the protocol never declares a transaction final; it only becomes more expensive to reverse with each block, and the six-confirmation custom (about an hour) is a convention, not a rule. The guarantee is the cost of proof of work.'
-  dogecoin: 'Probabilistic, as for Bitcoin: no declaration, only depth, and the guarantee is the merged-mined proof of work.'
-  monero: 'Probabilistic, as for Bitcoin: no declaration, only depth.'
-  zcash: 'Probabilistic, as for Bitcoin: no declaration, only depth.'
   cardano: 'Probabilistic under Ouroboros Praos: a transaction is immutable once its depth exceeds 3k/f slots, and before that confidence grows with each block; stake pools are not slashed, so no collateral is destroyed by an attack.'
 sources:
+- title: 'Optimism documentation, Transaction finality (hard finality once the batch’s Ethereum block is finalized, typically 15 to 30 minutes on OP Mainnet; the seven-day delay affects only Standard Bridge withdrawals)'
+  url: https://docs.optimism.io/stack/transactions/transaction-finality
+  checked: '2026-11-13'
+- title: 'Arbitrum documentation, Sequencer (soft finality a sub-second provisional confirmation; hard finality once batches are finalized on the parent chain; 250 ms blocks)'
+  url: https://docs.arbitrum.io/how-arbitrum-works/deep-dives/sequencer
+  checked: '2026-11-13'
 - title: 'Reserve Bank of Australia and DFCRC, Project Acacia final report (May 2026): existing public permissionless platforms “tend to provide only probabilistic finality”; public permissioned platforms configured for deterministic finality can meet the requirements (Box F)'
   url: https://www.rba.gov.au/payments-and-infrastructure/tokenised-money/pdf/project-acacia-final-report.pdf
   checked: '2026-11-11'
@@ -121,4 +124,15 @@ sources:
 - title: 'ETHBEAT (formerly L2BEAT), OP Mainnet (Stage 1; a single centralized sequencer; fraud proof submission open to everyone; Stage 2 needs a 30-day exit window and a Security Council confined to on-chain provable bugs)'
   url: https://ethbeat.org/scaling/projects/optimism
   checked: '2026-11-10'
+chart_only: true   # a row of each network's At a glance chart, out of the Architecture menu (owner, 13 November 2026)
+chart:
+  note: full
+  order: 7
+  label: Settlement finality
+  tip: 'When a transaction can no longer be reversed, and what guarantees it.'
+  scale: [part, in, out]   # declared by a set (most restricted) to probabilistic (most open)
+  values:
+    in: Economic, slashable
+    part: Declared by a set
+    out: Probabilistic
 last_reviewed: '2026-11-10'

@@ -277,22 +277,22 @@ circles:
       ly: 923.4
       fs: 9.5
   polygon:
-    cx: 305
-    cy: 480
+    cx: 640
+    cy: 990
     rx: 170
     ry: 75
-    lx: 305
-    ly: 429
+    lx: 640
+    ly: 939
     fs: 12
     fw: 700
-    suby: 443
+    suby: 953
     collapsed:
-      cx: 305
-      cy: 444
+      cx: 640
+      cy: 954
       rx: 49
       ry: 10
-      lx: 298
-      ly: 447.4
+      lx: 633
+      ly: 957.4
       fs: 9.5
   avalanche:
     cx: 240

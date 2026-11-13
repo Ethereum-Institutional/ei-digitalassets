@@ -1,0 +1,61 @@
+# Lens (networks scope): see maps/CLAUDE.md. Review markers  are removed once the owner has reviewed (owner, 13 November 2026).
+
+id: rights-deploy
+group: chart
+menu: Deploy contracts
+name: Who may deploy contracts
+short: Deploy
+scope: networks
+color: '#3730a3'
+intro: 'Who may deploy smart contracts.'
+networks:
+  xrpl: na
+  bitcoin: na   # no general-purpose contracts: the right does not exist (owner, 13 November 2026)
+  ethereum: in
+  base: in
+  arbitrum: in
+  optimism: in
+  polygon: in
+  avalanche: in
+  bnb: in
+  cardano: in
+  tron: in
+  hyperliquid: in
+  solana: in
+  stellar: in
+  hedera: in
+  canton: part
+notes:
+  stellar: 'Anyone may deploy Soroban contracts.'
+  hedera: 'Anyone may deploy EVM contracts through the smart contract service.'
+  canton: 'Daml packages are uploaded by the operator of each participant node, so deployment is open to node operators,
+    not to anyone.'
+  corda: 'Each node’s operator installs the CorDapps it runs.'
+  xrpl: 'No general-purpose contracts on the main ledger: escrows, tokens and a decentralized exchange are built into the protocol and switched on by amendment, and WebAssembly smart escrows (XLS-100) are still in development.'
+  bitcoin: 'The protocol has no general-purpose contracts to deploy; scripts are fixed spending conditions.'
+  fnality: 'The operator or the members decide what runs.'
+  hangang: 'The operator or the members decide what runs.'
+  dcjpy: 'The operator or the members decide what runs.'
+  quorum: 'The operator or the members decide what runs.'
+  fabric: 'The operator or the members decide what runs.'
+sources:
+- title: 'Vitalik Buterin, Credible Neutrality As A Guiding Principle (3 January 2020): a mechanism that by its design does
+    not discriminate for or against specific people, with publicly verifiable execution'
+  url: https://nakamoto.ghost.io/credible-neutrality/
+  checked: '2026-11-13'
+- title: 'Kinexys by J.P. Morgan and MIT Digital Currency Initiative, Public Blockchains and Regulated Financial Institutions:
+    Key Challenges, Layered Solutions, and a Path Forward (June 2026): front-running, omission, unsolicited tokens and gas
+    fees paid to sanctioned entities; a layered framework from application to regulation'
+  url: https://www.dci.mit.edu/projects/public-blockchains-and-regulated-financial-institutions
+  checked: '2026-11-13'
+chart_only: true   # shown in each network's At a glance chart, not in the lens menus (owner, 13 November 2026)
+chart:
+  note: full
+  order: 3
+  label: Deploy contracts
+  tip: 'Who may deploy smart contracts.'
+  values:
+    in: Anyone
+    part: Node operators
+    out: Restricted
+last_reviewed: '2026-11-13'

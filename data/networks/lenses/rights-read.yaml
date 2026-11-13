@@ -1,0 +1,59 @@
+# Lens (networks scope): see maps/CLAUDE.md. Review markers  are removed once the owner has reviewed (owner, 13 November 2026).
+
+id: rights-read
+group: chart
+menu: Read the ledger
+name: Who may read the ledger
+short: Read
+scope: networks
+color: '#3730a3'
+intro: 'Who may read the ledger. For each of the five rights, right-hand reading: anyone, with no approval (public). Middle: anyone who meets published, objective criteria, admitted without anyone’s discretion (open), or open only in part, as the note says. Left-hand reading: parties an operator or the members choose. Not applicable, with no reading filled: the network has no such right, as Bitcoin has no general-purpose contracts to deploy. One of five rights that together say how open a network is: who may read the ledger, transact, deploy contracts, validate, and change the rules. A network can be public for one right and restricted for another, so read the five together rather than calling a whole network public or permissioned.'
+networks:
+  ethereum: in
+  base: in
+  arbitrum: in
+  optimism: in
+  polygon: in
+  avalanche: in
+  hedera: in
+  bnb: in
+  bitcoin: in
+  cardano: in
+  tron: in
+  hyperliquid: in
+  solana: in
+  stellar: in
+  xrpl: in
+notes:
+  base: 'Anyone may read the rollup, and every batch is posted to Ethereum mainnet, so its state can be rebuilt from
+    mainnet alone.'
+  hedera: 'Anyone may read the ledger through a mirror node.'
+  canton: 'The Global Synchronizer orders encrypted messages; each party sees only the contracts it is party to, and
+    no one reads the whole ledger.'
+  corda: 'Each node keeps only the transactions it took part in; there is no shared ledger to read.'
+  fnality: 'Readable by the members only.'
+  hangang: 'Readable by the members only.'
+  dcjpy: 'Readable by the members only.'
+  quorum: 'Readable by the members only.'
+  fabric: 'Readable by the members only.'
+sources:
+- title: 'Vitalik Buterin, Credible Neutrality As A Guiding Principle (3 January 2020): a mechanism that by its design does
+    not discriminate for or against specific people, with publicly verifiable execution'
+  url: https://nakamoto.ghost.io/credible-neutrality/
+  checked: '2026-11-13'
+- title: 'Kinexys by J.P. Morgan and MIT Digital Currency Initiative, Public Blockchains and Regulated Financial Institutions:
+    Key Challenges, Layered Solutions, and a Path Forward (June 2026): front-running, omission, unsolicited tokens and gas
+    fees paid to sanctioned entities; a layered framework from application to regulation'
+  url: https://www.dci.mit.edu/projects/public-blockchains-and-regulated-financial-institutions
+  checked: '2026-11-13'
+chart_only: true   # shown in each network's At a glance chart, not in the lens menus (owner, 13 November 2026)
+chart:
+  note: full
+  order: 1
+  label: Read
+  tip: 'Who may read the ledger.'
+  values:
+    in: Anyone
+    part: Verify only
+    out: Restricted
+last_reviewed: '2026-11-13'

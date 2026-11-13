@@ -71,6 +71,8 @@ and decisions behind them.
   writes `dist/` for every page. `npm run check` renders each map in headless Chromium, applies every lens and
   writes `dist/preview.png`, `dist/networks/preview.png` and `dist/web3/preview.png`. Run both before committing; CI runs them on every push and pull request.
 - `dist/` and `node_modules/` are git-ignored. Never hand-edit generated HTML.
+- **Review highlighting:** wrap new or changed text in `[[hl]]…[[/hl]]` to show it in yellow with `EI_REVIEW=1 npm run
+  build`; the plain build fails while any marker remains, so they cannot ship (owner, 13 November 2026).
 - The favicon is Ethereum Institutional's own (`src/icons/`, taken from ethereuminstitutional.org on 28 October 2026):
   the build inlines it in every page's head, so it works on nested pages and in the release HTML. Replace the three
   files if the site's mark changes.
@@ -199,8 +201,10 @@ and decisions behind them.
 - **House rule:** a network is permissioned whenever joining consensus requires review by existing participants.
   So the XRP Ledger (curated default UNL) and Stellar (quorum sets) are public but permissioned; TRON, BNB Chain,
   Hyperliquid and Avalanche are quasi-permissionless (anyone may stand or stake) with concentration caveats in their
-  notes. Polygon PoS is treated as quasi-permissionless: its capped seats were designed to be won by open stake
-  auction, even though entry now waits for a vacancy and a review (say so in its note).
+  notes. Admission by selection is permissioned too (owner, 13 November 2026), so Polygon PoS sits in public
+  permissioned consensus: a validator applies, is scored, reviewed and interviewed, and waits for a seat; its
+  description says it returns to quasi-permissionless if admission is again set by an objective on-chain rule, as the
+  open stake auction was at launch (the test Canton fails).
   **An Ethereum Layer 2 reads as permissionless consensus only at Stage 2 of ETHBEAT's Stages framework** (ETHBEAT was
   L2BEAT; owner, 10 November 2026, public issue ei-digitalassets#11): at Stage 2 the operator holds no power beyond a
   bounded delay (forced inclusion, permissionless fraud proofs, a 30-day exit window for any upgrade not tied to an
@@ -223,9 +227,12 @@ and decisions behind them.
 - **Badges** are networks, named (not tickers, because "ETH" is overloaded). `eth: true` = Ethereum blue pill
   `#627eea` (runs an Ethereum client, the EVM, or settles on Ethereum mainnet); otherwise gray `#6b6760`. The ETH
   mark disc is Ethereum gray `#3c3c3d`. These two brand colors are used only on this map (`ETH_BLUE`, `ETH_GRAY` in
-  `src/template.html`; the legend's `mark` item takes `pill:` for its pill color). The set is the ten largest native
-  cryptocurrencies by market cap (stablecoins and non-native tokens excluded; checked 25 October 2026) plus
-  illustrative networks per region. Rollups that settle on Ethereum mainnet, and Ethereum mainnet itself, carry
+  `src/template.html`; the legend's `mark` item takes `pill:` for its pill color). A network is shown if institutions
+  can use it as infrastructure (a regulated or licensed issuer's stablecoin or tokenized asset on it, or regulated
+  institutions settling on it) or it is the clearest live example of a region (Bitcoin, Cardano); Dogecoin, Monero and
+  Zcash left the map under it (owner, 13 November 2026, public issue ei-digitalassets#27: market capitalization measures
+  an asset, which the Taxonomy map covers). The rule is recorded here and in the issue, never on the page: the footer
+  carries only attribution and the license (owner, 14 November 2026). Rollups that settle on Ethereum mainnet, and Ethereum mainnet itself, carry
   `mark: ETH` (a small disc). **Expandable circles** (`expand: collapsed | expanded` in circles.yaml, `collapsed:`
   geometry in layout.yaml) hold participants as `small` badges of `kind: participant`, each with its own source; a
   click opens the circle on top of the map, a lens closes any open one. `pill: true` network circles look like a badge
@@ -249,7 +256,8 @@ and decisions behind them.
   (`in` | `part`) and leave the circles alone. Each intro defines the layer, why it exists and what it buys.
 - **Settlement finality lens** (owner, 10 November 2026, after OpenZeppelin's Technical Risk Assessment on Blockchain
   Networks, April 2026): `in` where the protocol declares finality and an attacker who reverts it forfeits slashable
-  collateral (Ethereum mainnet; its rollups once the batch is posted and the challenge window has passed), `part` where
+  collateral (Ethereum mainnet; its rollups once the batch is posted and that mainnet block is final, the challenge window
+  governing only withdrawals to mainnet: owner, 13 November 2026, after the OP Stack and Arbitrum documentation), `part` where
   finality is declared on the trust of an admitted or elected set with no collateral or only part of it at risk (BNB
   Chain's self-bonded 200 BNB, Solana without automatic slashing, the XRP Ledger, Stellar, Hedera, Canton, Corda, the
   permissioned ledgers), unmarked where it is probabilistic (proof of work, Cardano, and TRON by the assessment's
@@ -258,6 +266,21 @@ and decisions behind them.
   the assessment as the second source. Finality lives here, not on the Adoption page (owner: a settlement property,
   not a cause of adoption) and not on the Architecture page (owner: that page is Ethereum-specific, not a general ledger
   questionnaire). The six badges the assessment covers carry its halt, client and penalty facts in their descriptions.
+  Finality is now the Settlement finality row of each network's At a glance chart (`chart_only: true`), not a menu
+  lens (owner, 13 November 2026: the Architecture menu filters only Layer 1, Layer 2 rollup and sidechain).
+  Every chart also shows "Confirmed in" and "Final in" as fact rows (owner, 13 November 2026): proof-of-work and
+  longest-chain networks show the common convention marked never absolutely final; permissioned networks show
+  "Immediate" with timing set by the operator.
+- **At a glance chart** (owner, 13 November 2026, public issue ei-digitalassets#28): clicking a network shows fact rows
+  (`glance_facts` in `site.yaml`, values under each network's `glance:` in `circles.yaml` or `networks.yaml`; an
+  `ethbeat` link must also be one of the network's sources) and one three-step scale per `chart_only` lens
+  (`rights-read`, `rights-transact`, `rights-deploy`, `rights-validate`, `rights-govern`, `fees`, `finality`; `chart:`
+  sets `order`, `label`, `tip`, `values` and, where the order differs from out, part, in, `scale`). Every scale runs
+  from most restricted (left) to most open (right): open is not the same as preferred, so unidentified fee recipients
+  and probabilistic finality sit on the right. `na` marks a right that does not exist (no box filled, "Not
+  applicable"); a note starting "Not yet" reads as unconfirmed. A `?` shows the row's one-line `tip`; a `+` opens the
+  network's note. Descriptions do not repeat what the chart says. The five rights follow
+  `definitions/networks/open-admission.md`: public (anyone), open (objective criteria, no discretion), selected.
 - Network facts were last checked 25 October 2026; validator counts and sequencer status drift quickly.
 
 ## Web3 page (`data/web3/`)
@@ -380,7 +403,7 @@ and decisions behind them.
   dated and sourced; say when a figure includes Layer 2s. **Weighted score** (`score:` in `site.yaml`, `weight` per
   theme; the default weights sum to 105 since the inclusion dial was added, and the score divides by the sum): one number from the ten dials, with sliders so a reader can set their own
   weights (kept in their browser only, keyed to the default weights so a change of defaults resets them; a "Your
-  weights" tag shows while custom weights apply). The legitimate concerns about Ethereum mainnet (builder concentration and FOCIL / ePBS; clients above a
+  weights" tag shows while custom weights apply). The legitimate concerns about Ethereum mainnet (builder concentration and ePBS; clients above a
   third; node concentration by provider and jurisdiction; unattributed stake and the undisclosed 2014 pool) live
   inside the notes of the dials they belong to (inclusion, resilience, stop, issuance), each with the work addressing
   it; there is no separate concerns section. Keep them current, and write the page in direct address ("you",

@@ -85,6 +85,17 @@ function load(dir) {
 }
 
 // ---------- validation ----------
+// glance: the fact rows of a network's At a glance chart; keys must be listed in site.yaml `glance_facts`, and an
+// `ethbeat` link must also be one of the entry's own sources (cite only what was fetched)
+function checkGlance(entries, site, where, errors) {
+  const keys = new Set((site.glance_facts || []).map(f => f.key).concat(['ethbeat']));
+  for (const e of entries) {
+    if (!e.glance) continue;
+    for (const k of Object.keys(e.glance)) if (!keys.has(k)) errors.push(`${where} ${e.id}: glance key "${k}" is not in site.yaml glance_facts`);
+    if (e.glance.ethbeat && !(e.sources || []).some(x => x.url === e.glance.ethbeat)) errors.push(`${where} ${e.id}: glance.ethbeat must also be one of its sources`);
+    if (e.glance.ethbeat && !e.glance.stage) errors.push(`${where} ${e.id}: glance.ethbeat needs glance.stage`);
+  }
+}
 // lens colors: red, amber and green are reserved for meaning (negative, caution, positive) and must use the exact
 // tokens below; every other color must be a neutral hue. Colors within one lens must stay distinguishable.
 const SEMANTIC = { '#c81e1e': 'red', '#d97706': 'amber', '#15803d': 'green' };
@@ -268,6 +279,7 @@ function validate(page) {
   const { dir, circles, layout, alt, tokens, site, lenses } = page;
   const errors = [];
   const where = f => `${dir}/${f}`;
+  checkGlance(circles.circles, site, where('circles.yaml'), errors); checkGlance(tokens.tokens, site, where('badges'), errors);
   const ids = new Set(circles.circles.map(c => c.id));
   const layouts = [[layout, 'layout.yaml'], ...(alt ? [[alt, 'layout-column.yaml']] : [])]; // every geometry check runs on each
   for (const c of circles.circles) {
@@ -335,7 +347,10 @@ function validate(page) {
     const lw = where(`lenses/${L.id}.yaml`);
     if (seen.has(L.id)) errors.push(`${lw}: duplicate lens id`); seen.add(L.id);
     for (const k of ['id','group','menu','name','short','color','intro']) if (!L[k]) errors.push(`${lw}: missing "${k}"`);
-    if (!groupIds.includes(L.group)) errors.push(`${lw}: group must be one of ${groupIds.join(', ')}`);
+    // `chart_only` lenses feed a network's At a glance chart and stay out of the menus (owner, 13 November 2026)
+    if (!L.chart_only && !groupIds.includes(L.group)) errors.push(`${lw}: group must be one of ${groupIds.join(', ')}`);
+    if (L.chart && !(Number.isFinite(L.chart.order) && L.chart.label && L.chart.values)) errors.push(`${lw}: chart needs order, label and values`);
+    if (L.chart && L.chart.scale && !(Array.isArray(L.chart.scale) && L.chart.scale.length === 3 && ['in','part','out'].every(k => L.chart.scale.includes(k)))) errors.push(`${lw}: chart.scale must list in, part and out once each, left to right`);
     if (L.scope && L.scope !== 'networks') errors.push(`${lw}: scope must be omitted or "networks"`);
     for (const [id, st] of Object.entries(L.status || {})) {
       if (!ids.has(id)) errors.push(`${lw}: status for unknown circle "${id}"`);
@@ -350,7 +365,8 @@ function validate(page) {
     const netCircles = new Set(circles.circles.filter(c => c.pill).map(c => c.id));
     for (const [tk, st] of Object.entries(L.networks || {})) {
       if (!tickers.has(tk) && !netCircles.has(tk)) errors.push(`${lw}: networks lists unknown badge or network circle "${tk}"`);
-      if (!['in','part'].includes(st)) errors.push(`${lw}: networks status "${st}" for "${tk}" must be in | part`);
+      // `na` (the right does not exist on that network) is allowed only on chart rows, which show it with no reading filled
+      if (!(['in','part'].includes(st) || (st === 'na' && L.chart_only))) errors.push(`${lw}: networks status "${st}" for "${tk}" must be in | part${L.chart_only ? ' | na' : ''}`);
     }
     if (L.scope === 'networks' && !L.networks) errors.push(`${lw}: a networks-scope lens needs a "networks" map`);
     const cols = [['lens color', L.color], ...(L.groups || []).map(G => [`group "${G.id}"`, G.color])].filter(([, c]) => /^#[0-9a-f]{6}$/i.test(c || ''));
@@ -621,6 +637,7 @@ function render({ circles, layout, alt, tokens, site, lenses, out }) {
     lens_groups: site.lens_groups || [], badge: site.badge || 'disc', pill_scale: site.pill_scale || 1, facets_noun: site.facets_noun || 'design',
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
     panel_click: !!site.panel_click,   // click-only panel (owner, 12 November 2026)
+    glance_facts: site.glance_facts || [],   // fact rows at the top of each network's At a glance chart (owner, 13 November 2026)
   };
   return fillCommon(read('src/template.html'), { site, out, data })
     .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))
@@ -863,7 +880,17 @@ const ICONS = (() => { const b64 = f => fs.readFileSync(path.join(root, 'src/ico
   return `\n<link rel="icon" href="data:image/svg+xml;base64,${b64('favicon.svg')}" type="image/svg+xml">`
     + `\n<link rel="icon" href="data:image/png;base64,${b64('favicon-32.png')}" type="image/png" sizes="32x32">`
     + `\n<link rel="apple-touch-icon" href="data:image/png;base64,${b64('apple-touch-icon.png')}" sizes="180x180">`; })();
-const withIcons = html => html.replace('</title>', '</title>' + ICONS);
+// Review markers (owner, 13 November 2026): text wrapped in [[hl]]...[[/hl]] in the data renders highlighted in yellow when
+// built with EI_REVIEW=1, so the owner can review a batch on the local pages; an ordinary build (CI, publishing) stops
+// while any marker remains, so a highlighted change cannot be committed by accident. Remove the markers once reviewed.
+const REVIEW = process.env.EI_REVIEW === '1';
+const REVIEW_CSS = '<style>mark.ei-review{background:#fff1a8;color:inherit;padding:0 2px;border-radius:3px;box-shadow:0 0 0 1px #f0d75a}</style>';
+const reviewMarks = html => {
+  if (!html.includes('[[hl]]') && !html.includes('[[/hl]]')) return html;
+  if (!REVIEW) throw new Error('review markers [[hl]] remain in the data: build with EI_REVIEW=1 to review them, and remove them before committing');
+  return html.replace('</head>', REVIEW_CSS + '</head>').split('[[hl]]').join('<mark class=ei-review>').split('[[/hl]]').join('</mark>');
+};
+const withIcons = html => reviewMarks(html.replace('</title>', '</title>' + ICONS));
 
 const pages = PAGES.filter(p => p.sys || fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, p.sys ? { system: true } : load(p.dir)));
 const errors = pages.flatMap(validate);

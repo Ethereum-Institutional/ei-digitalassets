@@ -149,7 +149,36 @@
 
   .ei-panel{background:#fff;border:1px solid var(--rule);border-radius:16px;padding:18px 22px;min-height:96px}
   .ei-panel h2{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
-  .ei-panel p{margin:0;font-size:15px;line-height:1.6;color:var(--ink);max-width:90ch}
+  .ei-panel p{margin:0 0 10px;font-size:15px;line-height:1.6;color:var(--ink)}
+  .ei-panel .glance{margin:14px 0 6px;border:1px solid var(--rule);border-radius:12px}
+  .ei-panel .glance>:last-child,.ei-panel .glance>:last-child summary{border-radius:0 0 12px 12px}
+  .ei-panel .glance .tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-left:4px;vertical-align:super;border:1px solid var(--muted);border-radius:50%;font-size:9.5px;font-weight:700;line-height:1;color:var(--muted);cursor:help}
+  .ei-panel .glance .tip .tt{display:none;position:absolute;left:-6px;top:20px;z-index:20;width:min(240px,calc(100vw - 150px));padding:8px 10px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:12.5px;font-weight:400;line-height:1.4;text-align:left;white-space:normal;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .ei-panel .glance .tip .tt mark.ei-review{color:var(--ink)}
+  .ei-panel .glance .tip:hover .tt,.ei-panel .glance .tip:focus .tt{display:block}
+
+  .ei-panel .glance-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding:9px 12px;border-bottom:1px solid var(--rule)}
+  .ei-panel .glance-h b{font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .ei-panel .glance .row{border-top:1px solid var(--rule)}
+  .ei-panel .glance .glance-h + .row{border-top:none}
+  .ei-panel .glance .sum{list-style:none;display:grid;grid-template-columns:150px 1fr 16px;gap:12px;align-items:center;padding:8px 12px}
+  .ei-panel .glance summary.sum{cursor:pointer}
+  .ei-panel .glance summary::-webkit-details-marker{display:none}
+  .ei-panel .glance summary.sum:after{content:'+';color:var(--muted);font-weight:700;text-align:center}
+  .ei-panel .glance details[open] summary.sum:after{content:'\2212'}
+  .ei-panel .glance .k{font-weight:600;font-size:13.5px}
+  .ei-panel .glance .scale{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);border-radius:999px;overflow:hidden;font-size:12px}
+  .ei-panel .glance .scale span{padding:4px 8px;text-align:center;color:#8a857b;border-left:1px solid var(--rule);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ei-panel .glance .scale span:first-child{border-left:none}
+  .ei-panel .glance .scale span.on{background:var(--ink);color:var(--paper);font-weight:600}
+  .ei-panel .glance .scale.tbd span{color:#8a857b;background:repeating-linear-gradient(135deg,transparent 0 6px,#efece6 6px 12px)}
+  .ei-panel .glance .scale.na{opacity:.45}
+  .ei-panel .glance .fact .fv{font-size:13.5px}
+  .ei-panel .glance .fact .fv a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+  .ei-panel .glance .glance-s{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--rule);background:#faf8f4}
+  .ei-panel .glance .tbdl{font-size:12px;color:var(--muted);margin-top:3px}
+  .ei-panel .glance .n{color:var(--muted);font-size:12.5px;line-height:1.45;padding:0 12px 10px 174px}
+  @media (max-width:700px){ .ei-panel .glance .sum{grid-template-columns:1fr 16px;row-gap:6px} .ei-panel .glance .sum .k{grid-column:1;grid-row:1} .ei-panel .glance summary.sum:after{grid-column:2;grid-row:1} .ei-panel .glance .sc{grid-column:1/-1;grid-row:2} .ei-panel .glance .fact .fv{grid-column:1/-1;grid-row:2} .ei-panel .glance .scale span{white-space:normal;padding:4px 4px;font-size:11.5px;line-height:1.25;display:flex;align-items:center;justify-content:center} .ei-panel .glance .n{padding-left:12px} }
   .ei-panel .path{font-size:12px;color:var(--muted);margin-bottom:6px}
   .ei-panel .scope{margin-top:10px;font-size:14px;line-height:1.5;padding:10px 12px;border-radius:10px;background:var(--card);border-left:4px solid var(--c)}
   .ei-contrib{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding:14px 18px;border:1px solid var(--rule);border-radius:16px;background:var(--card);font-size:14px;line-height:1.5}
@@ -323,6 +352,30 @@
   // on the Taxonomy a passing pointer kept replacing the definition being read).
   let pinned=null;
   const CLICK=!!DATA.panel_click;
+  // At a glance: a network's readings from every lens that carries a `chart` (owner, 13 November 2026: one chart per ledger
+  // instead of flipping lenses). Filled = the lens's `in`, dashed = `part`, hollow = neither; a note that starts
+  // "Not yet" reads as unconfirmed. Each row is a three-step scale (out, part, in) with the network's reading filled,
+  // and the note (whole with `chart.note: full`, else its first sentence) folded behind the row (owner, 13 November 2026).
+  // The scale always runs from most restricted (left) to most open (right); `chart.scale` sets which reading sits where
+  // when that order differs from out, part, in (owner, 13 November 2026: open is not the same as preferred). A network
+  // listed as `na` lacks the right altogether (Bitcoin has no contracts to deploy): no reading is filled, and the row
+  // says "Not applicable" rather than placing it at the restricted end (owner, 13 November 2026).
+  const firstSentence=t=>{ const m=String(t||'').match(/^.*?\.(?=\s|$)/); return m?m[0]:String(t||''); };
+  const FL=DATA.glance_facts||[];
+  // a row's one-line definition sits behind a ? beside its label: hover or focus shows it, a tap does not open the row
+  document.addEventListener('click',e=>{ if(e.target.closest&&e.target.closest('.glance .tip')) e.preventDefault(); },true);
+  const tipH=t=>t?`<span class="tip" tabindex="0" role="note" aria-label="Definition">?<span class="tt">${t}</span></span>`:'';
+  const glance=(id,g)=>{ const facts=g?FL.filter(f=>g[f.key]).map(f=>{ const v=f.key==='stage'&&g.ethbeat?`<a href="${g.ethbeat}" target="_blank" rel="noopener">${g[f.key]} on ETHBEAT</a>`:g[f.key];
+      return `<div class="row fact"><div class="sum"><span class="k">${f.label}${tipH(f.tip)}</span><span class="fv">${v}</span><span></span></div></div>`; }).join(''):'';
+    const rows=DATA.lenses.filter(L=>L.chart&&L.networks).sort((a,b)=>a.chart.order-b.chart.order).map(L=>{
+      const st=L.networks[id]||'out', note=(L.notes||{})[id]||'', plain=note.replace(/<[^>]+>|\[\[\/?hl\]\]/g,'');
+      const tbd=/^Not yet/.test(plain), na=st==='na', v=L.chart.values;
+      const scale=(L.chart.scale||['out','part','in']).map(k=>`<span class="${!tbd&&k===st?'on':''}" title="${v[k]}">${v[k]}</span>`).join('');
+      const txt=L.chart.note==='full'?note:firstSentence(note);
+      const head=`<span class="k">${L.chart.label}${tipH(L.chart.tip)}</span><div class="sc"><div class="scale${tbd?' tbd':na?' na':''}">${scale}</div>${tbd?'<div class="tbdl">Not yet confirmed</div>':na?'<div class="tbdl">Not applicable</div>':''}</div>`;
+      return txt?`<details class="row"><summary class="sum">${head}</summary><div class="n">${txt}</div></details>`:`<div class="row"><div class="sum">${head}<span></span></div></div>`; }).join('');
+    return rows||facts?`<div class="glance"><div class="glance-h"><b>At a glance</b></div>${facts}${rows?`<div class="glance-s">The rows below show three possible readings each, most restricted on the left and most open on the right; the filled one is this network’s. A ? gives the row’s definition; a + opens this network’s note.</div>`:''}${rows}</div>`:''; };
+  const paras=t=>String(t||'').split('\n\n').join('</p><p>');
   // sources in the panel sit behind a closed summary, open on request (owner, 12 November 2026)
   const srcList=src=>src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ');
   const srcBox=src=>src&&src.length?`<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`:'';
@@ -421,7 +474,7 @@
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed; see the circles inside');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[n.id]||''}</div>`;
       });
-      panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${n.desc}</p>${sc}`
+      panel.innerHTML=(n.path?`<div class="path">${n.path}</div>`:'')+`<h2>${n.label.join(' ')}</h2><p>${paras(n.desc)}</p>${n.pill?glance(n.id,n.glance):''}${sc}`
         +(n.expand?`<p class="hint">${n.open?'Click the circle again to collapse it.':'Click the circle to expand it and see its participants.'}</p>`:'')
         +srcBox(n.sources);
     };
@@ -477,7 +530,7 @@
       return rows?`<tr class="g"><th colspan="2">${g.label}</th></tr>${rows}`:''; }).join('');
     return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
   };
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,hollow:a.status==='testnet',only:a.only_under||[]}));
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,gl:a.glance||null,hollow:a.status==='testnet',only:a.only_under||[]}));
   const srcHtml=srcBox;
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
@@ -521,7 +574,7 @@
       // on a page with facts, name every circle the design sits in (its point is inside each)
       if(FX){ const inC=N.filter(n=>n.id!==OUTER&&n.t!=='rect'&&!n.lens_only&&((a.x-n.cx)/n.rx)**2+((a.y-n.cy)/n.ry)**2<=1).map(n=>n.label.join(' '));
         if(inC.length) where=inC.join(' and '); }
-      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2><p>${a.d}</p>${sc}${factHtml(a)}${srcHtml(a.src)}`;
+      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2><p>${paras(a.d)}</p>${PILL&&(a.kind==='network')?glance(a.t,a.gl):''}${sc}${factHtml(a)}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);
   });
@@ -657,7 +710,7 @@
     const w=document.createElement('label'); w.className='ei-field'; w.htmlFor=id;
     w.innerHTML=`<span>${label}</span>`;
     const sel=document.createElement('select'); sel.id=id; sel.dataset.grp=grp;
-    sel.innerHTML=`<option value="">Choose…</option>`+LENSES.filter(L=>L.group===grp)
+    sel.innerHTML=`<option value="">Choose…</option>`+LENSES.filter(L=>L.group===grp&&!L.chart_only)
       .sort((a,b)=>MENU[a.id].localeCompare(MENU[b.id],'en',{sensitivity:'base'}))
       .map(L=>`<option value="${L.id}">${MENU[L.id]}</option>`).join('');
     w.appendChild(sel); ctl.appendChild(w); return sel;

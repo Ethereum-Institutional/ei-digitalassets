@@ -264,22 +264,22 @@ circles:
       ly: 1123.4
       fs: 9.5
   polygon:
-    cx: 400
-    cy: 512
+    cx: 360
+    cy: 1155
     rx: 170
     ry: 75
-    lx: 400
-    ly: 462
+    lx: 360
+    ly: 1105
     fs: 12
     fw: 700
-    suby: 476
+    suby: 1119
     collapsed:
-      cx: 330
-      cy: 502
+      cx: 290
+      cy: 1145
       rx: 49
       ry: 10
-      lx: 323
-      ly: 505.4
+      lx: 283
+      ly: 1148.4
       fs: 9.5
   avalanche:
     cx: 400

@@ -1,0 +1,90 @@
+# Lens (networks scope): see maps/CLAUDE.md. Review markers  are removed once the owner has reviewed (owner, 13 November 2026).
+
+id: rights-govern
+group: chart
+menu: Change the rules
+name: Who may change the rules
+short: Govern
+scope: networks
+color: '#3730a3'
+intro: 'Who may change the rules. For this right, the right-hand reading means anyone may propose and a change takes effect only when independent operators who joined without approval run it, so no one holds a vote or a veto; the middle reading means token holders or a stake-elected set vote.'
+networks:
+  hyperliquid: part
+  ethereum: in
+  avalanche: in
+  bitcoin: in
+  solana: part
+  cardano: part
+  bnb: part
+  tron: part
+  arbitrum: part
+  optimism: part
+notes:
+  ethereum: 'Anyone may propose an EIP; a change takes effect only when independent client teams ship it and validators
+    run it. No one holds a vote or a veto, though a client team can decline to implement a change.'
+  avalanche: 'Anyone may propose an ACP; a change takes effect when validators adopt it.'
+  bitcoin: 'Changes take effect when node operators and miners adopt new software.'
+  solana: 'Anyone may propose a SIMD; features activate once enough stake runs supporting software, and some changes
+    have gone to stake-weighted votes.'
+  cardano: 'On-chain governance: ADA holders through delegated representatives, stake pool operators and a constitutional
+    committee vote on changes.'
+  bnb: 'Changes are adopted by the stake-elected validators running new client releases.'
+  tron: 'Network parameters change by votes of the 27 Super Representatives.'
+  arbitrum: 'The Arbitrum DAO (ARB holders) votes on upgrades, which then wait about 17 days; a Security Council (9
+    of 12) can upgrade instantly.'
+  optimism: 'The Optimism Collective votes on upgrades; the Foundation and a Security Council execute them together,
+    instantly in an emergency.'
+  base: 'Contracts upgrade instantly through a multisig of Coinbase and a Security Council, with no window to exit an
+    unwanted upgrade.'
+  hedera: 'The Hedera Council decides.'
+  stellar: 'Protocol changes take effect when the Tier 1 validators vote to upgrade.'
+  xrpl: 'An amendment takes effect after 80% of a server’s trusted validators support it for two weeks; the trusted
+    lists are curated.'
+  canton: 'The super validators vote.'
+  polygon: 'A proposal needs a majority of the Polygon Protocol Council; stakers and their delegates may then signal approval or a veto, and the Council confirms or declines execution on chain. The Council also controls the upgradeable PoS contracts.'
+  hyperliquid: 'Protocol changes go to an on-chain vote of the validators, as the Assistance Fund decision did in December 2025. The Hyper Foundation proposes most changes, and validators it runs hold roughly half of the stake, so in practice it can carry a vote.'
+  corda: 'The network operator and its members.'
+  fnality: 'The operator or the members.'
+  hangang: 'The operator or the members.'
+  dcjpy: 'The operator or the members.'
+  quorum: 'The operator or the members.'
+  fabric: 'The operator or the members.'
+sources:
+- title: 'Cointelegraph, Hyperliquid validators vote on Assistance Fund supply (17 December 2025; a validator vote proposed by the Hyper Foundation; secondary source)'
+  url: https://cointelegraph.com/news/hyperliquid-validators-vote-assistance-fund-supply
+  checked: '2026-11-13'
+- title: 'Polygon forum, PIP-50: Staked tokenholder signalling (8 November 2024; Protocol Council majority first, staker approval or veto signal, Council confirms or declines on-chain execution)'
+  url: https://forum.polygon.technology/t/pip-50-staked-tokenholder-signalling/19974
+  checked: '2026-11-13'
+- title: ETHBEAT, Base (Stage 1; TEE and ZK proofs, challengeable with a valid ZK proof; instant upgrades through a Coinbase
+    and Security Council multisig, no exit window; forced inclusion within 12 hours)
+  url: https://ethbeat.org/scaling/projects/base
+  checked: '2026-11-13'
+- title: ETHBEAT, Arbitrum One (Stage 1; BoLD, anyone with sufficient stake proposes and challenges; non-emergency upgrades
+    about 17 days, Security Council 9 of 12 instantly; forced inclusion within a day)
+  url: https://ethbeat.org/scaling/projects/arbitrum
+  checked: '2026-11-13'
+- title: ETHBEAT, OP Mainnet (Stage 1; anyone proposes with a 0.08 ETH bond and challenges; 7-day veto window, no exit window,
+    instant emergency upgrades by the Foundation and Security Council; forced inclusion within 12 hours)
+  url: https://ethbeat.org/scaling/projects/optimism
+  checked: '2026-11-13'
+- title: 'Vitalik Buterin, Credible Neutrality As A Guiding Principle (3 January 2020): a mechanism that by its design does
+    not discriminate for or against specific people, with publicly verifiable execution'
+  url: https://nakamoto.ghost.io/credible-neutrality/
+  checked: '2026-11-13'
+- title: 'Kinexys by J.P. Morgan and MIT Digital Currency Initiative, Public Blockchains and Regulated Financial Institutions:
+    Key Challenges, Layered Solutions, and a Path Forward (June 2026): front-running, omission, unsolicited tokens and gas
+    fees paid to sanctioned entities; a layered framework from application to regulation'
+  url: https://www.dci.mit.edu/projects/public-blockchains-and-regulated-financial-institutions
+  checked: '2026-11-13'
+chart_only: true   # shown in each network's At a glance chart, not in the lens menus (owner, 13 November 2026)
+chart:
+  note: full
+  order: 5
+  label: Change the rules
+  tip: 'Who decides changes to the protocol’s rules.'
+  values:
+    in: No vote or veto
+    part: Token or stake vote
+    out: Operator or council
+last_reviewed: '2026-11-13'

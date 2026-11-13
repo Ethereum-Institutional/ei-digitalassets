@@ -12,9 +12,6 @@ color: '#312e81'
 intro: 'A Layer 1 runs its own consensus and settles its own transactions: its validators or miners have the final word on what happened, and its native asset pays for its security. It exists because something has to be the base of trust. The benefit is self-sufficiency and the widest guarantee available, since nothing above it can override its state. The cost is that every node re-executes everything, so throughput is bounded by what one node can verify, which is why side-chains and rollups exist.'
 networks:
   bitcoin: in
-  dogecoin: in
-  monero: in
-  zcash: in
   ethereum: in
   cardano: in
   solana: in

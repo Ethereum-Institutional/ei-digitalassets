@@ -1,0 +1,86 @@
+# Lens (networks scope): see maps/CLAUDE.md. Review markers  are removed once the owner has reviewed (owner, 13 November 2026).
+
+id: rights-validate
+group: chart
+menu: Validate
+name: Who may validate (order and finalize)
+short: Validate
+scope: networks
+color: '#3730a3'
+intro: 'Who may take part in ordering and finalizing transactions. The Networks map’s two halves already sort networks on this right; this row adds the open middle, where a capped set is filled by stake or votes without anyone’s approval.'
+networks:
+  ethereum: in
+  avalanche: in
+  solana: in
+  cardano: in
+  bitcoin: in
+  bnb: part
+  tron: part
+  hyperliquid: part
+notes:
+  ethereum: 'Anyone may run a validator with 32 ETH (up to 2,048 ETH per validator since Pectra), with no approval.'
+  avalanche: 'Anyone may validate with 2,000 AVAX staked, with no approval.'
+  solana: 'Anyone may run a validator and attract stake, with no approval.'
+  cardano: 'Anyone may register a stake pool.'
+  bitcoin: 'Anyone with the hardware may mine.'
+  bnb: 'Anyone may register with 2,000 BNB of self-stake; each day the top 45 by stake are elected: admission by published
+    criteria, without discretion.'
+  tron: 'Any account may stand by burning 9,999 TRX; the 27 with the most votes produce blocks.'
+  hyperliquid: 'Any validator with 10,000 HYPE of self-delegation can become active; the active set is ranked by stake.'
+  polygon: 'Selected: a new validator applies with 100,000 POL of self-stake, is scored on stake, experience and a quiz, and is reviewed and interviewed; it joins only when one of the 105 seats frees up, and an application does not guarantee a slot.'
+  base: 'One sequencer, run by Coinbase, orders transactions; anyone may challenge a state proposal with a valid proof,
+    so checking is public while ordering is selected.'
+  arbitrum: 'One sequencer, run by Offchain Labs, orders transactions; anyone with sufficient stake can propose and
+    challenge state under BoLD.'
+  optimism: 'One sequencer, set by the Optimism Foundation, orders transactions; anyone may propose state with a 0.08
+    ETH bond and challenge it.'
+  hedera: 'Thirty consensus nodes run by Hedera Council members.'
+  stellar: 'Anyone may run a validator, but it counts only if other validators choose to trust it in their quorum sets.'
+  xrpl: 'Anyone may run a validator, but it counts only if servers’ Unique Node Lists include it, and most follow lists
+    curated by a few publishers.'
+  canton: 'Super validators, admitted by the existing set, order transactions.'
+  corda: 'Notary clusters run by named operators.'
+  fnality: 'A fixed set of member nodes.'
+  hangang: 'A fixed set of member nodes.'
+  dcjpy: 'A fixed set of member nodes.'
+  quorum: 'A fixed set of member nodes.'
+  fabric: 'A fixed set of member nodes.'
+sources:
+- title: 'Polygon documentation, Becoming a validator (100,000 POL minimum self-stake; at most 105 active validators; join only when a validator unbonds or is removed; an application does not guarantee a slot)'
+  url: https://docs.polygon.technology/pos/get-started/becoming-a-validator
+  checked: '2026-11-13'
+- title: 'Polygon forum, PIP-39: Validator admissions into the PoS network (12 June 2024; stake 45%, experience 25%, expertise quiz 30%; application, review, interview and onboarding)'
+  url: https://forum.polygon.technology/t/pip-39-validator-admissions-into-pos-network/14251
+  checked: '2026-11-13'
+- title: ETHBEAT, Base (Stage 1; TEE and ZK proofs, challengeable with a valid ZK proof; instant upgrades through a Coinbase
+    and Security Council multisig, no exit window; forced inclusion within 12 hours)
+  url: https://ethbeat.org/scaling/projects/base
+  checked: '2026-11-13'
+- title: ETHBEAT, Arbitrum One (Stage 1; BoLD, anyone with sufficient stake proposes and challenges; non-emergency upgrades
+    about 17 days, Security Council 9 of 12 instantly; forced inclusion within a day)
+  url: https://ethbeat.org/scaling/projects/arbitrum
+  checked: '2026-11-13'
+- title: ETHBEAT, OP Mainnet (Stage 1; anyone proposes with a 0.08 ETH bond and challenges; 7-day veto window, no exit window,
+    instant emergency upgrades by the Foundation and Security Council; forced inclusion within 12 hours)
+  url: https://ethbeat.org/scaling/projects/optimism
+  checked: '2026-11-13'
+- title: 'Vitalik Buterin, Credible Neutrality As A Guiding Principle (3 January 2020): a mechanism that by its design does
+    not discriminate for or against specific people, with publicly verifiable execution'
+  url: https://nakamoto.ghost.io/credible-neutrality/
+  checked: '2026-11-13'
+- title: 'Kinexys by J.P. Morgan and MIT Digital Currency Initiative, Public Blockchains and Regulated Financial Institutions:
+    Key Challenges, Layered Solutions, and a Path Forward (June 2026): front-running, omission, unsolicited tokens and gas
+    fees paid to sanctioned entities; a layered framework from application to regulation'
+  url: https://www.dci.mit.edu/projects/public-blockchains-and-regulated-financial-institutions
+  checked: '2026-11-13'
+chart_only: true   # shown in each network's At a glance chart, not in the lens menus (owner, 13 November 2026)
+chart:
+  note: full
+  order: 4
+  label: Validate
+  tip: 'Who may take part in ordering and finalizing transactions.'
+  values:
+    in: Anyone
+    part: Open by stake or vote
+    out: Selected
+last_reviewed: '2026-11-13'

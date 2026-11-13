@@ -139,11 +139,6 @@ standards:
   status: Live
   role: Splits one validator key across several machines or operators so no single one can sign alone; an option for the non-custodial and custodial models.
   url: https://ethereum.org/staking/dvt/
-- id: EIP-7805
-  title: Fork-choice enforced Inclusion Lists (FOCIL)
-  status: Draft
-  role: 'Would let a committee of validators force eligible transactions into the next block whatever the builder or relay prefers; the open question on block inclusion depends on whether it ships.'
-  url: https://eips.ethereum.org/EIPS/eip-7805
 - id: ERC-20
   title: Token Standard
   status: Final
@@ -196,7 +191,7 @@ sections:
   - title: Have you exited a validator
     text: 'The withdrawal address can trigger an exit since Pectra, and a pre-signed exit from the operator is the other route. Until an institution has done it once, on its own keys, the recovery path is a claim, not a control; and the exit queue, the 27-hour withdrawability delay and the sweep set how fast a redemption can be met.'
   - title: Which transactions your validators include
-    text: 'A proposer builds its block or takes one from a relay, and some relays deliver only blocks that exclude sanctioned addresses; the Adoption page reads the share. Whether the institution''s validators connect to filtering relays, or build their own blocks, is a policy the operator contract should fix. If FOCIL (EIP-7805, Draft) lands, inclusion lists would force eligible transactions into a block whatever the builder prefers, and the policy moves into the protocol.'
+    text: 'A proposer builds its block or takes one from a relay, and some relays deliver only blocks that exclude sanctioned addresses; the Adoption page reads the share. Whether the institution''s validators connect to filtering relays, or build their own blocks, is a policy the operator contract should fix.'
   - title: Compounding or not
     text: 'A 0x02 validator holds more per key and changes the size of any slashing event and the shape of the reporting; decide who may consolidate the institution''s validators.'
   - title: 'Which regime''s reading'
@@ -212,7 +207,6 @@ sources:
 - { title: 'Ethereum consensus specifications, Bellatrix beacon chain (PROPORTIONAL_SLASHING_MULTIPLIER_BELLATRIX 3)', url: 'https://github.com/ethereum/consensus-specs/blob/master/specs/bellatrix/beacon-chain.md', checked: '2026-11-10' }
 - { title: 'validatorqueue.com (10 November 2026: entry and exit churn 256 ETH an epoch; entry queue 906,106 ETH, about 16 days; exit queue 10,190 ETH, about a day; sweep cycle 7.1 days; 813,931 active validators)', url: 'https://www.validatorqueue.com/', checked: '2026-11-10' }
 - { title: 'EIP-7044, Perpetually Valid Signed Voluntary Exits (Final; pre-signed exits for delegated staking)', url: 'https://eips.ethereum.org/EIPS/eip-7044', checked: '2026-11-10' }
-- { title: 'EIP-7805, Fork-choice enforced Inclusion Lists (Draft)', url: 'https://eips.ethereum.org/EIPS/eip-7805', checked: '2026-11-10' }
 - { title: 'ethereum.org, Distributed validator technology', url: 'https://ethereum.org/staking/dvt/', checked: '2026-10-27' }
 - { title: 'Ethereum consensus specifications, Bellatrix honest validator guide (suggested_fee_recipient)', url: 'https://raw.githubusercontent.com/ethereum/consensus-specs/master/specs/bellatrix/validator.md', checked: '2026-11-09' }
 - { title: 'EIP-7002, Execution Layer Triggerable Withdrawals (Final)', url: 'https://eips.ethereum.org/EIPS/eip-7002', checked: '2026-11-09' }
