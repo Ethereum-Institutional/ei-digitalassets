@@ -175,9 +175,10 @@ and decisions behind them.
   (ledger as statutory register: Spiko; part of the official record: BENJI; secondary record with clawback:
   WisdomTree) because "represented on DLT" spans all three.
 - Keep the map lean: prefer explaining in definitions and lens notes over adding circles.
-- **Footers** carry only attribution (a framework's source), the dates facts were checked, the house-view note and the
-  license; selection rules and what was left off a map stay in these notes and the public issue (owner, 14 November
-  2026: an inclusion rule in the Networks footer read as unprofessional).
+- **Footers** carry only the house-view note and the license, with the version on its own line below; selection rules,
+  method, the frameworks a map follows and the dates readings were checked stay in these notes, the sources and the
+  public issue (owner, 14 November 2026: an inclusion rule in the Networks footer read as unprofessional, and the method
+  and attribution are not needed in public).
 - **Writing style:** American (US) spelling everywhere (tokenized, recognized, decentralized, color, license, center);
   quoted source titles keep the spelling of the document they name. No em-dashes anywhere (content, notes, docs, UI text, commit messages); use commas, colons,
   semicolons, parentheses or separate sentences. En-dashes are fine in number ranges (e.g. Arts. 3–5). Quote YAML
