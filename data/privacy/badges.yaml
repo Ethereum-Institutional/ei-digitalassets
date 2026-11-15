@@ -29,7 +29,7 @@ badges:
     wallet: { in: [app, custodian], note: 'Balances read through the Zama SDK or relayer; BitGo supports ERC-7984 on Ethereum mainnet with a per-enterprise viewing key.' }
     indexing: { in: [none], note: 'Account-based handles: the wallet reads its balance slot, no scanning.' }
     tokens: { in: [erc7984, erc20], part: [erc4626, any], note: 'ERC-7984 wrappers of ERC-20s (USDC, USDT, WETH, WBTC, XAUt, tGBP and others), vault-share wrappers, and any FHEVM contract.' }
-    hidden: { in: [public, participants], part: [operator], note: 'Coprocessors see only ciphertext; KMS operators colluding above threshold could decrypt everything.' }
+    hidden: { in: [public, participants], part: [operator], note: 'Coprocessors see only ciphertext; the key holds while at most 4 of 13 KMS operators collude, so 5 together could decrypt everything. Decryptions need 7 of 13 KMS signatures, inputs 3 of 5 coprocessors (15 November 2026).' }
     controls: { in: [freeze, pause], part: [mint], note: 'Wrapper owner keeps a denylist, the underlying blocklist and a pauser; no forced transfer. Native confidential tokens can mint.' }
     permission: { in: [selective], note: 'Anyone may hold; the wrapper denylist and the underlying token’s blocklist screen addresses.' }
     disclosure: { in: [grant], note: 'Per-handle ACL grants, observers added by the wrapper owner, and delegated decryption (May 2026) to custodians or regulators.' }
@@ -40,7 +40,7 @@ badges:
     exit: { in: ['no'], note: 'Unwrapping needs the KMS to decrypt; no escape hatch if the operators stop.' }
     censorship: { in: ['yes'], note: 'Any of 17 pausers can pause the ACL; coprocessors and KMS could refuse service.' }
     failure: { in: [privacy, funds], note: 'KMS collusion loses privacy; a bad upgrade, forged unwrap attestation or coprocessor input could lose funds.' }
-    value: { in: [m100to1b], note: 'USD 135.8 million locked in Zama confidential tokens, including USD 11.0 million in ZAMA (L2BEAT, 26 October 2026).' }
+    value: { in: [m10to100], note: 'USD 86.4 million locked in Zama confidential tokens, including USD 7.0 million in ZAMA (ETHBEAT, 15 November 2026).' }
     institutions: { in: [public], note: 'Kinexys by J.P. Morgan Project EPIC ran fhEVM in a Kinexys Digital Assets sandbox (November 2024); no regulated institution in production found.' }
     audits: { in: ['yes'], note: 'OpenZeppelin audit of confidential contracts 0.3.0 published March 2026; other audits claimed without public reports.' }
     incidents: { in: [none], note: 'No exploit. ACL paused 84 minutes on 6 January 2026; Circle froze the cUSDC wrapper for almost three days from 30 May 2026.' }
@@ -67,6 +67,10 @@ badges:
   - { title: 'PSE evaluation, Zama (ACL, proof of knowledge, no escape hatch, post-quantum)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zama.json', checked: '2026-10-26' }
   - { title: 'zama-ai/fhevm repository (license, releases)', url: 'https://github.com/zama-ai/fhevm', checked: '2026-10-26' }
   - { title: 'Etherscan, cUSDT wrapper transactions (our gas measurement over 300 transactions, 15 to 26 October 2026)', url: 'https://etherscan.io/address/0xAe0207C757Aa2B4019Ad96edD0092ddc63EF0c50', checked: '2026-10-26' }
+  - { title: 'Etherscan, KMSVerifier (7 of 13 signers)', url: 'https://etherscan.io/address/0x77627828a55156b04Ac0DC0eb30467f1a552BB03', checked: '2026-11-15' }
+  - { title: 'Etherscan, InputVerifier (3 of 5 coprocessors)', url: 'https://etherscan.io/address/0xCe0FC2e05CFff1B719EFF7169f7D80Af770c8EA2', checked: '2026-11-15' }
+  - { title: 'Zama fhevm docs, KMS (threshold assumption)', url: 'https://raw.githubusercontent.com/zama-ai/fhevm/e3a7d1e263655f2b0dbd6230c3b00a7693fb8609/docs/protocol/architecture/kms.md', checked: '2026-11-15' }
+  - { title: 'ETHBEAT, Zama Confidential Tokens (value locked)', url: 'https://ethbeat.org/privacy/projects/zama-confidential-tokens', checked: '2026-11-15' }
 - id: fhenix
   name: Fhenix CoFHE
   circle: amount
@@ -246,7 +250,7 @@ badges:
     fees: { in: [none], note: 'No pool fee. Relayer fees are optional: you can withdraw directly from the contract.', sources: [{ title: 'Tornado Cash docs, relayers', url: 'https://docs.tornadocash.eth.limo/general/guides/relayer.html', checked: '2026-10-26' }, { title: 'tornadocash/tornado-core', url: 'https://github.com/tornadocash/tornado-core', checked: '2026-10-26' }] }
     pet: { in: [snark], note: 'Groth16 on BN254, Pedersen commitments, MiMC Merkle tree; phase-2 ceremony May 2020.' }
     proving: { in: [device], note: 'Proof made in the browser or CLI from the secret note.' }
-    pq: { in: ['no'], note: 'Groth16 forgery would risk funds; past unlinkability holds because Groth16 is perfectly zero-knowledge.' }
+    pq: { in: ['no'], note: 'Groth16 forgery would risk funds. Commitments are Pedersen hashes on an elliptic curve, so a quantum attacker could narrow which deposits fund a withdrawal; optional on-chain note backups use X25519.' }
     operator: { in: [self], note: 'Immutable pools; relayers optional; anyone can run a UI, relayer or CLI.' }
     external: { in: ['no'], note: 'No committee, oracle or screening service.' }
     chains: { in: [mainnet, l2, evm], note: 'Ethereum mainnet, Arbitrum, OP Mainnet, BNB Chain, Polygon, Avalanche and Gnosis.' }
@@ -261,7 +265,7 @@ badges:
     visibility: { in: [parties], note: 'Relayers see the withdrawal and fee, not the deposit; there is no operator. Only the note holder can link deposit and withdrawal. No notary route to safeguard.' }
     checks: { in: [none], note: 'No screening at any layer of the protocol.' }
     association: { in: [shared] }
-    upgrade: { in: [immutable], note: 'Pool contracts are immutable; TORN governance controls only the router and relayer registry.' }
+    upgrade: { in: [immutable], note: 'Pool contracts are immutable; TORN governance (5-day vote, 2-day timelock) controls the router''s pool registry, the relayer registry and the app on tornadocash.eth.' }
     exit: { in: ['yes'], note: 'Withdraw directly from the contract at any time, without a relayer.' }
     censorship: { in: ['no'], note: 'After August 2022 some MEV relays excluded its transactions; others still included them.' }
     failure: { in: [funds], note: 'A circuit or contract bug risks funds; a lost or leaked note loses that deposit.' }
@@ -273,7 +277,7 @@ badges:
     steward: { in: [dao], note: 'TORN governance; no company maintains it.' }
     gas: { in: [gt500k], note: 'No in-pool transfer: deposit about 1,088,354 plus withdrawal about 301,233 gas (README, 2019).' }
     latency: { in: [minute], note: 'About 10 seconds to prove plus one block; waiting longer grows the set.' }
-    anonymity: { in: [large], note: 'The 1 ETH pool on Ethereum mainnet had 94,928 deposits since 2019 by 9 October 2026.' }
+    anonymity: { in: [medium], note: 'A withdrawal hides among the unspent deposits of its pool: 4,229 in the 1 ETH pool on Ethereum mainnet (97,787 deposits since 2019), 15 November 2026.' }
   desc: 'Fixed-size pools that hide only which deposit funded which withdrawal; amounts, the asset and every depositing and withdrawing address stay public. Immutable Groth16 contracts with no operator, no screening and no issuer control inside. On Ethereum mainnet since December 2019. Dates and holdings: designated by OFAC on 8 August 2022; on 26 November 2024 the Fifth Circuit held its immutable smart contracts are not property under IEEPA; removed from the sanctions list on 21 March 2025.'
   sources:
   - { title: 'tornadocash/tornado-core (design, gas, audit)', url: 'https://github.com/tornadocash/tornado-core', checked: '2026-10-26' }
@@ -292,6 +296,9 @@ badges:
   - { title: 'CryptoSlate, malicious code found in the IPFS frontend, February 2024 (press report)', url: 'https://cryptoslate.com/tornado-cash-website-discord-offline-after-community-finds-malicious-code-in-protocols-backend/', checked: '2026-10-26' }
   - { title: 'US Treasury, delisting and redesignation (8 November 2022)', url: 'https://home.treasury.gov/news/press-releases/jy1087', checked: '2026-10-26' }
   - { title: 'PSE evaluation, Tornado Cash', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/tornado-cash.json', checked: '2026-10-26' }
+  - { title: 'Etherscan, Tornado.Cash 1 ETH pool (4,229 ETH unspent)', url: 'https://etherscan.io/address/0x47CE0C6eD5B0Ce3d3A51fdb1C52DC66a7c3c2936', checked: '2026-11-15' }
+  - { title: 'tornado-core, withdraw circuit (Pedersen commitments)', url: 'https://raw.githubusercontent.com/tornadocash/tornado-core/master/circuits/withdraw.circom', checked: '2026-11-15' }
+  - { title: 'Etherscan, Tornado Cash governance', url: 'https://etherscan.io/address/0x5efda50f22d34F262c29268506C5Fa42cB56A1Ce', checked: '2026-11-15' }
 - id: stealth
   name: Stealth addresses
   circle: who
@@ -306,35 +313,35 @@ badges:
     fees: { in: [none], note: 'Umbra toll is 0 on Ethereum mainnet (our read, 26 October 2026). Fluidkey bank features charge 0.10% to 0.30% above USD 3,000 monthly, optional.', sources: [{ title: 'Etherscan, Umbra contract (toll() returns 0; our read)', url: 'https://etherscan.io/address/0xFb2dc580Eed955B528407b4d36FfaFe3da685401#readContract', checked: '2026-10-26' }, { title: 'Fluidkey docs, fee structure', url: 'https://docs.fluidkey.com/readme/fee-structure', checked: '2026-10-26' }] }
     pet: { in: ['na'], note: 'Elliptic-curve key exchange (ECDH on secp256k1) with view tags; no proofs and no encrypted balances.' }
     proving: { in: [none], note: 'No proofs; the sender derives the address, the receiver scans announcements.' }
-    pq: { in: ['no'], note: 'secp256k1 ECDH; a quantum attacker could derive viewing and spending keys from published meta-addresses.' }
-    operator: { in: [self], part: [company], note: 'Umbra and the ERC contracts are permissionless and scanning is client-side; Fluidkey scans for you with a shared viewing-key node.' }
+    pq: { in: ['no'], note: 'Umbra: secp256k1 keys sit in its public registry and announcements, so a quantum attacker could link past payments to their recipients. Fluidkey derives addresses from a viewing-key node it holds.' }
+    operator: { in: [self], part: [company], note: 'Umbra is permissionless and scanning is client-side; Fluidkey and Cloaked scan for you with a shared viewing key and relay sends.' }
     external: { in: ['no'], note: 'Nothing beyond the host chain; Umbra falls back from its subgraph to plain RPC logs.' }
     chains: { in: [mainnet, l2, evm], note: 'Umbra: Ethereum mainnet, Arbitrum, Optimism, Polygon, Base, Gnosis Chain. Fluidkey: the same six plus BNB Chain.' }
     keys: { in: [existing], note: 'Spending and viewing keys derived from one signature by your existing wallet.' }
     wallet: { in: [app], part: [any], note: 'Receiving needs the Umbra or Fluidkey app (or an ERC-5564 wallet); any wallet can send to a stealth address.' }
     indexing: { in: [client], part: [service], note: 'Umbra scans announcements on your device; Fluidkey scans server-side with your viewing node.' }
     tokens: { in: [eth, erc20], part: [nft], note: 'ETH and ERC-20; ERC-5564 metadata can carry ERC-721 transfers, little used.' }
-    hidden: { in: [public], part: [operator], note: 'The sender knows the recipient; Umbra has no operator; Fluidkey sees every incoming payment and balance.' }
+    hidden: { in: [public], part: [operator], note: 'The sender knows the recipient; Umbra has no operator; Fluidkey and Cloaked see every incoming payment and balance.' }
     controls: { in: [freeze, forced, pause, mint], note: 'Ordinary tokens at ordinary addresses, so every issuer control works; Umbra holds unclaimed ERC-20s in its contract until withdrawn.' }
     permission: { in: [permissionless], part: [selective], note: 'Anyone can register a meta-address or send; no screening in the contracts. Fluidkey KYC applies only to its bank features.' }
     disclosure: { in: [viewkey], note: 'Share the viewing key; it covers all incoming payments, past and future, and cannot be scoped or revoked.' }
     visibility: { in: [na], part: [notary, parties], note: 'The sender knows the recipient; Umbra has no operator; Fluidkey sees every incoming payment and balance. Umbra: nobody. Fluidkey holds a viewing node, so it could be ordered to disclose incoming payments without the holder. No delay or on-chain notice on any viewing access.' }
-    checks: { in: [none], note: 'Anyone can register a meta-address or send; no screening in the contracts. Fluidkey KYC applies only to its bank features.' }
+    checks: { in: [none], part: [builtin], note: 'Anyone can register a meta-address or send; no screening in the contracts. The Umbra app screens against the Chainalysis sanctions oracle; Fluidkey KYC applies only to its bank features.' }
     association: { in: [shared] }
-    upgrade: { in: [immutable], note: 'Umbra logic is not upgradeable (the owner sets only a toll); ERC-5564 and ERC-6538 singletons and Safe accounts are immutable.' }
+    upgrade: { in: [immutable], part: [company], note: 'Umbra logic is not upgradeable (the owner sets only a toll); Fluidkey''s name resolver is controlled by a 3-of-5 Safe and Cloaked''s by a single key.' }
     exit: { in: ['yes'], note: 'Funds sit at addresses you control; Fluidkey''s MIT kit recovers every stealth account without Fluidkey.' }
-    censorship: { in: ['no'], note: 'Permissionless contracts; a sender can always pay a derived address directly.' }
-    failure: { in: [privacy], note: 'A leaked viewing key or careless spending re-links payments; there is no pool to lose.' }
+    censorship: { in: ['no'], part: ['yes'], note: 'Permissionless contracts; a sender can always pay a derived address directly. Umbra''s owner can raise the per-payment toll without a cap.' }
+    failure: { in: [privacy], part: [funds], note: 'A leaked viewing key or careless spending re-links payments; there is no pool to lose. A compromised name-resolver signer could return an attacker''s address for new payments.' }
     value: { in: ['na'], note: 'No pool; funds sit at separate addresses. The Umbra contract held about USD 5,500 of unclaimed ERC-20s on Ethereum mainnet, 26 October 2026.' }
     institutions: { in: [none], note: 'No regulated institution found; Fluidkey serves individuals, freelancers and DAOs.' }
     audits: { in: ['yes'], note: 'Umbra: Consensys Diligence (March 2021) and Least Authority (May 2021). Fluidkey: Dedaub (May 2024); Earn module by Ackee.' }
     incidents: { in: [none], note: 'No exploit found; a 2023 study linked the recipient of 48.5% of Umbra payments on Ethereum mainnet by heuristics.' }
     license: { in: [open], note: 'Umbra MIT; Fluidkey Stealth Account Kit MIT, Earn module GPL-3.0; the Fluidkey app is closed.' }
-    steward: { in: [company], note: 'ScopeLift (Umbra) and Fluidkey; the ERC-5564 and ERC-6538 standards are Final.' }
+    steward: { in: [company], note: 'ScopeLift (Umbra) and Fluidkey; ERC-5564 and ERC-6538 are Final, but neither product uses their singleton contracts.' }
     gas: { in: [lt200k], note: 'Umbra on Ethereum mainnet, 26 October 2026: send ETH 62,002 gas, send ERC-20 83,867, sponsored withdrawal 70,625.' }
     latency: { in: [block], note: 'One ordinary transaction; no waiting period.' }
     anonymity: { in: [medium], note: 'Umbra has over 22,000 payments on Ethereum mainnet (PSE); heuristics re-link about half, so the effective set is smaller.' }
-  desc: 'Each payment goes to a fresh one-time address only the receiver can link to themselves (ERC-5564 and ERC-6538, Final since 2024). Sender, amount, token and timing stay public, and because the tokens are ordinary ERC-20s every issuer control still works. Plain elliptic-curve key exchange, no proofs, cheap as a normal transfer. Umbra on Ethereum mainnet since 30 April 2021; Fluidkey since 2024. Poor gas hygiene undoes it.'
+  desc: 'Each payment goes to a fresh one-time address that only the receiver (and, for Fluidkey, the service) can link to them. Umbra uses its own key registry and announcements, the design ERC-5564 and ERC-6538 (Final since 2024) standardized; Fluidkey derives addresses from a node of the user’s viewing key that it holds. Sender, amount, token and timing stay public, and because the tokens are ordinary ERC-20s every issuer control still works. Plain elliptic-curve key exchange, no proofs, cheap as a normal transfer. Umbra on Ethereum mainnet since 30 April 2021; Fluidkey since 2024. Poor gas hygiene undoes it.'
   sources:
   - { title: 'ERC-5564, Stealth Addresses (Final)', url: 'https://eips.ethereum.org/EIPS/eip-5564', checked: '2026-10-26' }
   - { title: 'ScopeLift Umbra protocol', url: 'https://github.com/ScopeLift/umbra-protocol', checked: '2026-10-26' }
@@ -348,16 +355,21 @@ badges:
   - { title: 'Kovács and Seres, Anonymity Analysis of the Umbra Stealth Address Scheme on Ethereum (arXiv 2308.01703)', url: 'https://arxiv.org/abs/2308.01703', checked: '2026-10-26' }
   - { title: 'PSE evaluation, Umbra Cash (ScopeLift Umbra)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/umbra-cash.json', checked: '2026-10-26' }
   - { title: 'PSE evaluation, Fluidkey', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/fluidkey.json', checked: '2026-10-26' }
+  - { title: 'ScopeLift umbra-protocol, Umbra.sol (own announcements, uncapped toll)', url: 'https://raw.githubusercontent.com/ScopeLift/umbra-protocol/685f710e4e846db3b88f8138e6f78ee82482a391/contracts-core/contracts/Umbra.sol', checked: '2026-11-15' }
+  - { title: 'Fluidkey docs, technical walkthrough (viewing-key node shared with Fluidkey)', url: 'https://docs.fluidkey.com/technical-documentation/technical-walkthrough', checked: '2026-11-15' }
+  - { title: 'umbra-js, sanctions screening (Chainalysis oracle)', url: 'https://raw.githubusercontent.com/ScopeLift/umbra-protocol/685f710e4e846db3b88f8138e6f78ee82482a391/umbra-js/src/utils/utils.ts', checked: '2026-11-15' }
+  - { title: 'Etherscan, Fluidkey name resolver owner (3-of-5 Safe)', url: 'https://etherscan.io/address/0x9AcF316290AaA62edafdDDaC48B124032C36EB3c', checked: '2026-11-15' }
+  - { title: 'Cloaked docs, how it works', url: 'https://clkd.xyz/docs/how-it-works', checked: '2026-11-15' }
 # ---- Who and how much: shielded pools and notarized or ZK UTXO tokens ----
 - id: railgun
   name: Railgun
   circle: who
   x: 450
-  y: 180
+  y: 163
   eth: true
   pse: railgun
   status: mainnet
-  since: '2022-05-01'
+  since: '2022-05-08'
   facts:
     verify: { in: ['yes'], note: 'The contract verifies a Groth16 proof for every shielded transaction.', sources: [{ title: 'PSE evaluation, Railgun (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/railgun.json', checked: '2026-10-26' }] }
     fees: { in: [protocol], note: '0.25% on every shield and unshield, to the treasury; private transfers carry none. Broadcaster fees (about 10% of gas) are optional.', sources: [{ title: 'RAILGUN docs, deductions', url: 'https://docs.railgun.org/wiki/learn/railgun-deductions', checked: '2026-10-26' }] }
@@ -376,9 +388,9 @@ badges:
     permission: { in: [selective], note: 'Permissionless at the contract; wallets and broadcasters require Private Proofs of Innocence, about one hour after shielding.' }
     disclosure: { in: [viewkey], note: 'Read-only viewing keys show the full wallet history; irrevocable once shared.' }
     visibility: { in: [parties], note: 'Broadcasters see only their fee; PPOI list providers see blinded proofs; no operator view. Nobody can decrypt without the holder sharing a viewing key. No notary route to safeguard.' }
-    checks: { in: [none], part: [builtin], note: 'Permissionless at the contract; wallets and broadcasters require Private Proofs of Innocence, about one hour after shielding.' }
+    checks: { in: [none], part: [builtin], note: 'Permissionless at the contract; wallets and broadcasters require Private Proofs of Innocence, about one hour after shielding. The default list screens shields against the Chainalysis Sanctions Oracle.' }
     association: { in: [shared] }
-    upgrade: { in: [governance], note: 'RAIL holders vote on contract changes (one locked RAIL, one vote).' }
+    upgrade: { in: [governance], note: 'RAIL holders vote (quorum 2 million RAIL); a passed proposal can be executed by anyone 7 days after its vote is called, about a day after voting closes, and takes effect at once. Two keys stage verification keys, which reach the verifier only after a vote; until 11 September 2026 both could commit them without one.' }
     exit: { in: ['yes'], note: 'Unshield at any time by calling the contract directly; PPOI is not enforced on-chain.' }
     censorship: { in: ['no'], part: ['yes'], note: 'Contract is permissionless; a flagged user may be refused by wallets and broadcasters but can self-broadcast.' }
     failure: { in: [funds], part: [privacy], note: 'A circuit or contract bug risks funds; a leaked viewing key loses privacy only.' }
@@ -390,7 +402,7 @@ badges:
     steward: { in: [dao], note: 'RAIL governance; no single company holds upgrade rights.' }
     gas: { in: [gt500k], note: 'A self-broadcast private transfer used 960,367 gas on Ethereum mainnet (24 October 2026); relayed transfers about 1.0 to 1.2 million.' }
     latency: { in: [minute], part: [longer], note: 'Seconds to prove plus one block; the first spend after shielding waits about an hour for PPOI.' }
-    anonymity: { in: [large], note: 'About 294,000 commitments in the shared Ethereum mainnet tree (tree 4, position 31,723) on 24 October 2026.' }
+    anonymity: { in: [large], note: 'About 294,000 commitments in the shared Ethereum mainnet tree (24 October 2026), counting change and transfer notes; an unshield hides only among notes of the same token.' }
   desc: 'A shielded pool that hides sender, recipient, amount and token for transfers inside it; shields and unshields stay public. Groth16 proofs made on your device, so no operator sees your data, and read-only viewing keys can be shared with an auditor. Admission is permissionless at the contract, with Private Proofs of Innocence screening in wallets. An issuer cannot freeze a holder inside the pool. Ethereum mainnet since 2022 (current contracts), plus Arbitrum, Polygon and BNB Chain; contracts are proprietary (UNLICENSED).'
   sources:
   - { title: 'RAILGUN docs, zero-knowledge cryptography', url: 'https://docs.railgun.org/wiki/learn/privacy-system/zero-knowledge-cryptography', checked: '2026-10-26' }
@@ -402,46 +414,48 @@ badges:
   - { title: 'RAILGUN developer guide, private balances (client sync)', url: 'https://docs.railgun.org/developer-guide/wallet/private-balances', checked: '2026-10-26' }
   - { title: 'RAILGUN developer guide, cross-contract calls (Relay Adapt)', url: 'https://docs.railgun.org/developer-guide/wallet/transactions/cross-contract-calls', checked: '2026-10-26' }
   - { title: 'RAILGUN audit index (2021 to February 2023)', url: 'https://assets.railgun.org/docs/audits/', checked: '2026-10-26' }
-  - { title: 'Etherscan, RAILGUN proxy creation (1 May 2022)', url: 'https://etherscan.io/tx/0x13954e0d1af4c619efbd502299e78e116d1309b2b85c15ac6fe09838bb8622aa', checked: '2026-10-26' }
+  - { title: 'Etherscan, RAILGUN pool unpaused by governance (8 May 2022)', url: 'https://etherscan.io/tx/0x2bd98cd135e2eaf7b7239bb4951a043f655629b5d0f0ca12334ce05718512361', checked: '2026-11-15' }
   - { title: 'Etherscan, a self-broadcast private transfer (960,367 gas; tree 4, position 31,723)', url: 'https://etherscan.io/tx/0x62f9e1c93b8e152eff35993b96a107e2a4201dde88d2721f027f3932b86c3b7a', checked: '2026-10-26' }
   - { title: 'DefiLlama, Railgun (value held)', url: 'https://defillama.com/protocol/railgun', checked: '2026-10-26' }
+  - { title: 'Railgun-Privacy/contract, Voting.sol (vote timetable)', url: 'https://raw.githubusercontent.com/Railgun-Privacy/contract/HEAD/contracts/governance/Voting.sol', checked: '2026-11-15' }
+  - { title: 'Railgun-Privacy/contract, VKeySetter.sol (staged verification keys)', url: 'https://raw.githubusercontent.com/Railgun-Privacy/contract/HEAD/contracts/governance/VkeySetter.sol', checked: '2026-11-15' }
 - id: privacypools
   name: 0xbow Privacy Pools
   circle: who
   x: 407
-  y: 316
+  y: 299
   eth: true
   pse: privacy-pools
   status: mainnet
   since: '2025-03-31'
   facts:
     verify: { in: ['yes'], note: 'Groth16 proofs verified on chain; the ASP root it checks against decides eligibility, not correctness.', sources: [{ title: 'PSE evaluation, Privacy Pools (Verifiability)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/privacy-pools.json', checked: '2026-10-26' }] }
-    fees: { in: [protocol], note: '0.5% vetting fee on ETH and USDC deposits (our read of the Entrypoint, 26 October 2026), 0% on others. Relayer fees optional.', sources: [{ title: 'L2BEAT Privacy, Privacy Pools (vetting and relayer fees)', url: 'https://l2beat.com/privacy/projects/privacy-pools', checked: '2026-10-26' }, { title: 'Etherscan, Privacy Pools Entrypoint (assetConfig vettingFeeBPS 50; our read)', url: 'https://etherscan.io/address/0x6818809eefce719e480a7526d76bd3e561526b46#readProxyContract', checked: '2026-10-26' }] }
-    pet: { in: [snark], note: 'Circom and Groth16 on BN254; v2 ceremony keys (500 contributions per circuit) since v2.0.1, 20 October 2026.' }
+    fees: { in: [protocol], note: 'v1: 0.5% vetting fee on ETH, USDC, USDT and BOLD deposits, 0% on others (15 November 2026). v2: no vetting fee; the ppUSDC, ppUSDT and ppETH wrappers keep 20% of the Aave yield. Relayer fees optional.', sources: [{ title: 'Etherscan, Privacy Pools v1 Entrypoint (assetConfig)', url: 'https://etherscan.io/address/0x6818809eefce719e480a7526d76bd3e561526b46', checked: '2026-11-15' }, { title: 'Privacy Pools docs, yield shares', url: 'https://docs.privacypools.com/concepts/yield-shares.md', checked: '2026-11-15' }] }
+    pet: { in: [snark], note: 'Circom and Groth16 on BN254; v2 verifiers use ceremony keys since release 1.0.1 (20 October 2026), before which they used single-contributor developer keys.' }
     proving: { in: [device], note: 'Proofs made on the user''s device in v1 and v2.' }
-    pq: { in: ['no'], note: 'Groth16 on BN254; v2 note encryption uses X25519, open to harvest-now-decrypt-later.' }
+    pq: { in: ['no'], part: [hashes], note: 'Groth16 on BN254. v1 puts only Poseidon commitments on chain; v2 publishes X25519 viewing keys and encrypted notes, open to harvest-now-decrypt-later.' }
     operator: { in: [company], note: '0xbow''s Association Set Provider must approve a deposit before private spending; relayers optional.' }
     external: { in: ['yes'], note: 'Private withdrawals and transfers prove membership in the ASP''s published root.' }
-    chains: { in: [mainnet, l2, evm], note: 'v1 Ethereum mainnet; v2 Ethereum mainnet and BNB Chain verified, plus Arbitrum, Base, OP Mainnet, Citrea, Robinhood Chain per press.' }
+    chains: { in: [mainnet, evm], note: 'v1 Ethereum mainnet; v2 in production on Ethereum mainnet and BNB Chain, and on Citrea without an ASP root yet (0xbow docs, 15 November 2026).' }
     keys: { in: [new], part: [existing], note: 'v2: keystore with spending and viewing keys; v1: your wallet plus a secret note per deposit.' }
     wallet: { in: [app], note: 'privacypools.com web app with your own wallet; SDK; Ambire and the EF Kohaku wallet adopting v2 (press).' }
     indexing: { in: [none], part: [service], note: 'v1 needs only local notes; v2 note discovery is served by the ASP API, falling back to an RPC scan.' }
-    tokens: { in: [eth, erc20], part: [erc4626], note: 'v1: ETH, USDC, USDT, DAI. v2 on Ethereum mainnet: ETH and yield shares ppUSDC, ppUSDT, ppETH (23 September 2026).' }
-    hidden: { in: [public, participants], part: [operator], note: 'The ASP decrypts each deposit''s label registration, so it knows depositors and lineages, not in-pool transfer details.' }
+    tokens: { in: [eth, erc20], part: [erc4626], note: 'v1: ETH and ERC-20s including USDC, USDT, DAI, USDS, BOLD and wstETH. v2 on Ethereum mainnet: ETH and yield shares ppUSDC, ppUSDT, ppETH.' }
+    hidden: { in: [public], part: [participants, operator], note: 'Every v2 note carries its deposit''s label, so a payee learns it; the ASP decrypts each deposit''s label registration, so it knows depositors and lineages, not in-pool transfer details.' }
     controls: { in: [none], note: 'No issuer control on holders inside the pool; blacklisting the pool contract would freeze it (inference).' }
     permission: { in: [selective], note: 'Deposits are open; private spending needs ASP approval (up to about 8 hours), which the ASP can revoke. No KYC.' }
     disclosure: { in: [viewkey], note: 'Holder-controlled: v1 by revealing a note; v2 design lists optional selective disclosure. No auditor or regulator key.' }
     visibility: { in: [na], part: [parties], note: 'The ASP decrypts each deposit''s label registration, so it knows depositors and lineages, not in-pool transfer details. No one decrypts in-pool activity without the holder; the ASP sees deposit lineages only. No notary route to safeguard.' }
     checks: { in: [builtin], note: 'Deposits are open; private spending needs ASP approval (up to about 8 hours), which the ASP can revoke. No KYC.' }
     association: { in: [shared] }
-    upgrade: { in: [company], note: 'v1 Entrypoint is a UUPS proxy under 0xbow''s owner role; v2 contracts upgrade through an UPGRADER_ROLE.' }
-    exit: { in: ['yes'], note: 'Ragequit returns funds publicly to the depositor without the ASP; in v2 it works even while the pool is paused.' }
+    upgrade: { in: [company], note: 'The v1 Entrypoint (UUPS) and v2 core contracts upgrade instantly by 2-of-4 Safes; the v2 roles sat with one key until 26 October 2026.' }
+    exit: { in: ['yes'], note: 'Ragequit returns funds publicly to the depositor without the ASP. v1 pools are immutable, but in v2 the 2-of-4 upgrader Safe can stop ragequit instantly by capping the state tree or upgrading.' }
     censorship: { in: ['yes'], note: 'The ASP can refuse or revoke private spending; ragequit still returns funds publicly.' }
     failure: { in: [funds], note: 'A circuit or contract bug risks funds; if the ASP stops, private spending stops but ragequit remains.' }
     value: { in: [lt10m], note: 'About USD 8.9 million (Ethereum mainnet USD 8.88 million); DefiLlama, 26 October 2026.' }
     institutions: { in: [none], note: 'No regulated institution found.' }
     audits: { in: ['yes'], note: 'v1: Oxorio (2025), Auditware. v2: Auditware (August 2026), Consensys Diligence (September 2026).' }
-    incidents: { in: [none], note: 'No exploit found.' }
+    incidents: { in: [none], note: 'No exploit found. On 11 March 2026 the ASP posted a root no deposit belonged to, halting v1 private withdrawals for about two hours.' }
     license: { in: [available], part: [open], note: 'v2 contracts BUSL-1.1 (source-available); v2 circuits GPL-3.0; v1 core Apache-2.0.' }
     steward: { in: [company], note: '0xbow (0XBOW LTD) runs the ASP, relayer and contracts.' }
     gas: { in: [gt500k], note: 'v2 transact on Ethereum mainnet: median about 830,000 gas over 65 relayed calls, 1 September to 26 October 2026. v1 has no transfer.' }
@@ -450,10 +464,8 @@ badges:
   desc: 'A shielded pool where only deposits approved by 0xbow’s association set provider can be spent privately; anyone can always exit publicly (ragequit). Version 1 (Ethereum mainnet, 31 March 2025) hides the deposit-to-withdrawal link; version 2 (20 October 2026) adds in-pool transfers that hide parties, amounts and asset. The set provider sees depositors; there is no issuer control inside and no regulator view. Based on Buterin, Illum, Nadler, Schär and Soleimani (2023); v2 contracts are BUSL-1.1.'
   sources:
   - { title: 'Privacy Pools v2 tech design overview', url: 'https://github.com/0xbow-io/privacy-pools-v2-monorepo/blob/main/docs/tech-design/overview.md', checked: '2026-10-26' }
-  - { title: 'Privacy Pools docs, withdrawal and ragequit', url: 'https://docs.privacypools.com/protocol/withdrawal', checked: '2026-10-26' }
   - { title: 'Buterin et al., Blockchain Privacy and Regulatory Compliance (2024)', url: 'https://doi.org/10.1016/j.bcra.2023.100176', checked: '2026-10-26' }
-  - { title: 'Privacy Pools docs, deployments (v1 Ethereum mainnet)', url: 'https://docs.privacypools.com/deployments', checked: '2026-10-26' }
-  - { title: 'Privacy Pools docs, ASP layer', url: 'https://docs.privacypools.com/layers/asp', checked: '2026-10-26' }
+  - { title: 'Privacy Pools docs, v2 deployments (production chains)', url: 'https://docs.privacypools.com/deployments', checked: '2026-11-15' }
   - { title: 'Privacy Pools v2 CHANGELOG (1.0.0 on 19 October 2026; ceremony keys in 1.0.1 on 20 October 2026; license map)', url: 'https://github.com/0xbow-io/privacy-pools-v2-monorepo/blob/main/CHANGELOG.md', checked: '2026-10-26' }
   - { title: 'Privacy Pools v2 PoolVault.sol (BUSL-1.1; ragequit not pausable)', url: 'https://github.com/0xbow-io/privacy-pools-v2-monorepo/blob/main/packages/contracts/src/contracts/PoolVault.sol', checked: '2026-10-26' }
   - { title: 'Privacy Pools v2 production deployments (Ethereum mainnet and BNB Chain; enabled assets 23 September 2026)', url: 'https://github.com/0xbow-io/privacy-pools-v2-monorepo/blob/main/packages/swaps/contracts/deployments-prod.json', checked: '2026-10-26' }
@@ -464,11 +476,18 @@ badges:
   - { title: 'DefiLlama, Privacy Pools (value held)', url: 'https://defillama.com/protocol/privacy-pools', checked: '2026-10-26' }
   - { title: 'Bankless, Privacy Pools v2 goes live, 21 October 2026 (press report)', url: 'https://www.bankless.com/read/news/privacy-pools-v2-goes-live-with-bigger-feature-suite', checked: '2026-10-26' }
   - { title: 'PSE evaluation, Privacy Pools (v1)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/privacy-pools.json', checked: '2026-10-26' }
+  - { title: 'Privacy Pools docs, Ethereum mainnet deployment', url: 'https://docs.privacypools.com/deployments/mainnet.md', checked: '2026-11-15' }
+  - { title: 'privacy-pools-v2-monorepo, CHANGELOG (ceremony keys from 1.0.1)', url: 'https://raw.githubusercontent.com/0xbow-io/privacy-pools-v2-monorepo/main/CHANGELOG.md', checked: '2026-11-15' }
+  - { title: 'privacy-pools-v2, ValueConservation circuit (label inheritance)', url: 'https://raw.githubusercontent.com/0xbow-io/privacy-pools-v2-monorepo/61fac03acd1fc306164ddc234f7fac4147d04493/packages/circuits/circuits/templates/helpers/ValueConservation.circom', checked: '2026-11-15' }
+  - { title: 'privacy-pools-v2, PoolVault (state-tree cap and ragequit)', url: 'https://raw.githubusercontent.com/0xbow-io/privacy-pools-v2-monorepo/main/packages/contracts/src/contracts/PoolVault.sol', checked: '2026-11-15' }
+  - { title: 'Etherscan, v1 Entrypoint owner (2-of-4 Safe)', url: 'https://etherscan.io/address/0xAd7f9A19E2598b6eFE0A25C84FB1c87F81eB7159', checked: '2026-11-15' }
+  - { title: 'Etherscan, v1 ASP root set to 1 (11 March 2026)', url: 'https://etherscan.io/tx/0x4fbb5ecd0d2436b89756ddb584d31de6b71eaf743f71d09605bba3dff36adac0', checked: '2026-11-15' }
+  - { title: 'Etherscan, v1 ASP root restored (11 March 2026)', url: 'https://etherscan.io/tx/0xd67628764f6ba49ef61e8e16b9aa3b3e4143b5daea4e37e914594c152f6120cb', checked: '2026-11-15' }
 - id: hinkal
   name: Hinkal
   circle: who
   x: 417
-  y: 214
+  y: 197
   eth: true
   pse: hinkal
   status: mainnet
@@ -526,7 +545,7 @@ badges:
   name: Bermuda Bay
   circle: who
   x: 403
-  y: 248
+  y: 231
   eth: true
   pse: bermudabay
   status: testnet
@@ -579,7 +598,7 @@ badges:
   name: Paladin Noto
   circle: who
   x: 392
-  y: 282
+  y: 265
   eth: true
   status: mainnet
   status_note: 'Generally available software (Paladin v1.0.0, 25 June 2026) that each institution deploys itself; no named production deployment found.'
@@ -632,7 +651,7 @@ badges:
   name: Paladin Zeto
   circle: who
   x: 508
-  y: 282
+  y: 265
   eth: true
   status: mainnet
   status_note: 'Generally available software (Paladin v1.0.0, 25 June 2026) that each institution deploys itself; no named production deployment found.'
@@ -686,7 +705,7 @@ badges:
   name: Merces
   circle: who
   x: 523
-  y: 350
+  y: 333
   eth: true
   pse: merces
   status: mainnet
@@ -916,7 +935,7 @@ badges:
   name: 'AnomaPay'
   circle: who
   x: 530
-  y: 316
+  y: 299
   eth: true
   pse: anoma-pay
   status: mainnet
@@ -1144,7 +1163,7 @@ badges:
   name: 'Curvy'
   circle: who
   x: 486
-  y: 214
+  y: 197
   eth: true
   pse: curvy
   status: mainnet
@@ -1314,7 +1333,7 @@ badges:
   name: Nightfall
   circle: who
   x: 505
-  y: 248
+  y: 231
   eth: true
   pse: nightfall
   status: testnet
@@ -1367,7 +1386,7 @@ badges:
   name: 'Nullmask'
   circle: who
   x: 360
-  y: 350
+  y: 333
   eth: true
   pse: nullmask
   status: mainnet
@@ -1421,7 +1440,7 @@ badges:
   name: 'Veil Cash'
   circle: who
   x: 444
-  y: 350
+  y: 333
   eth: true
   pse: veil-cash
   status: mainnet
@@ -1577,6 +1596,120 @@ badges:
   - { title: 'DefiLlama, zERC20 (TVL by chain)', url: 'https://defillama.com/protocol/zerc20', checked: '2026-10-26' }
   - { title: 'PSE evaluation, zERC20', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zerc20.json', checked: '2026-10-26' }
 # ---- Before the block: intent hidden until inclusion ----
+- id: privacyboost
+  name: Privacy Boost
+  circle: who
+  x: 507
+  y: 364
+  eth: true
+  status: mainnet
+  since: '2026-04-20'
+  facts:
+    verify: { in: ['yes'], note: 'The pool verifies a Groth16 proof (BN254) for every transfer epoch, deposit batch and forced withdrawal; the admin multisig can replace the verifiers without delay.', sources: [{ title: 'Privacy Boost docs, protocol deep dive (epochs, verifiers)', url: 'https://docs.privacyboost.io/technical-explainer/protocol.md', checked: '2026-11-15' }, { title: 'sunnyside-io/privacy-boost-protocol (contracts and circuits)', url: 'https://github.com/sunnyside-io/privacy-boost-protocol', checked: '2026-11-15' }] }
+    fees: { in: [protocol], note: '0.4% on withdrawals, forced withdrawals and public gift exits, to the treasury (on chain, 15 November 2026; owner may raise it to 10%); transfers carry a private fee the operator sets off chain; ordinary deposits free.', sources: [{ title: 'Privacy Boost docs, protocol deep dive (fee model)', url: 'https://docs.privacyboost.io/technical-explainer/protocol.md', checked: '2026-11-15' }] }
+    pet: { in: [snark, tee], note: 'Groth16 on BN254 with Poseidon2 note commitments; proving, batching and indexing run in a TEE (AMD SEV-SNP on Azure confidential computing).' }
+    proving: { in: [server], part: [device], note: 'The enclave proves every transfer (vendor-stated about 500 ms); only the forced withdrawal is proved on your device.' }
+    pq: { in: ['no'], note: 'Pairing-based Groth16; note data is encrypted by elliptic-curve ECDH to the recipient and to the enclave’s long-lived key, so recorded ciphertexts are open to harvest-now-decrypt-later.' }
+    operator: { in: [company], note: 'Sunnyside Labs runs the enclave prover, the indexer and the relays; only relays the operator multisig allowlists can submit epochs.' }
+    external: { in: ['yes'], note: 'Every transfer goes through Sunnyside’s TEE service on Azure, whose key is released by Azure attestation; TRM Labs sanctions screening (vendor-stated).' }
+    chains: { in: [l2], note: 'OP Mainnet, Base, Ink and Soneium, all OP Stack Layer 2s settling to Ethereum mainnet; one pool per chain. Not on Ethereum mainnet.' }
+    keys: { in: [existing], part: [new], note: 'Privacy keys (viewing, nullifying, signing) are derived from a signature by your existing wallet, which stays the account owner; a mnemonic is optional.' }
+    wallet: { in: [app], part: [custodian], note: 'Connect MetaMask, WalletConnect, a Safe or a smart account; balances come from the Privacy Boost app or SDK. Docs describe a Fireblocks vault setup.' }
+    indexing: { in: [service], part: [client], note: 'The enclave indexer decrypts and serves balances; your device scans the chain only to recover notes or force a withdrawal.' }
+    tokens: { in: [eth, erc20], part: [erc4626], note: '48 ERC-20s registered on Base by the admin (WETH, USDC, USDT, EURC, cbBTC, wstETH, tokenized stocks, Morpho vault shares), 15 November 2026; ETH is wrapped to WETH; ERC-4626 vaults through an approved gateway.' }
+    hidden: { in: [public, participants], part: [operator], note: 'The enclave decrypts every transfer to prove and index it; hidden from Sunnyside only as far as the hardware holds.' }
+    controls: { in: [none], note: 'No pause or freeze on a holder inside the pool; an issuer can only freeze the pool’s whole balance.' }
+    permission: { in: [selective], part: [permissioned], note: 'TRM Labs sanctions screening (vendor-stated); the terms bar sanctioned persons; each app registers with Sunnyside and can gate its users with its own login.' }
+    disclosure: { in: [grant], part: [viewkey], note: 'The admin multisig registers auditors, who query any account’s balances and history through the enclave’s Audit API; the holder’s viewing key also decrypts their own notes.' }
+    visibility: { in: [notary], part: [notice, operator], note: 'The enclave decrypts every transfer to prove and index it; hidden from Sunnyside only as far as the hardware holds. Auditors appointed by the admin multisig can pull any account without the holder; none registered on any of the four chains (15 November 2026). Each query is logged on chain by the operator’s logger, not enforced by the contract. The terms say Sunnyside may hold a viewing key for compliance and legal requests.', sources: [{ title: 'Privacy Boost docs, auditability (Audit API, AuditGateway)', url: 'https://docs.privacyboost.io/product/auditability.md', checked: '2026-11-15' }, { title: 'Basescan, AuditGateway on Base (no auditor added)', url: 'https://basescan.org/address/0x7Bb891f7D7c78A8d6770cb273aBC603A148824b6', checked: '2026-11-15' }, { title: 'Privacy Boost terms of service (viewing key, sanctions)', url: 'https://www.privacyboost.io/terms', checked: '2026-11-15' }] }
+    checks: { in: [builtin], part: [capable], note: 'TRM Labs sanctions screening (vendor-stated); the terms bar sanctioned persons; each app registers with Sunnyside and can gate its users with its own login.' }
+    association: { in: [shared], note: 'One pool per chain, shared by every app and the public hosted wallet.' }
+    upgrade: { in: [company], note: 'A 3-of-4 Sunnyside Safe upgrades the pool and registries and swaps verifiers with no timelock (on chain, 15 November 2026).' }
+    exit: { in: ['yes'], note: 'Forced withdrawal proved on your device, executable three days later (1,296,000 Base blocks); it publishes the spending account and the notes spent.' }
+    censorship: { in: ['yes'], note: 'Only allowlisted relays submit epochs, so the operator can refuse a user, who keeps the three-day forced withdrawal.' }
+    failure: { in: [funds, privacy], note: 'A malicious upgrade or verifier, or a trusted-setup break, could take funds; an enclave break exposes every account.' }
+    value: { in: [lt10m], note: 'About USD 1.36 million: Base USD 1.13 million, OP Mainnet USD 221,000, Soneium USD 6,000; DefiLlama, 15 November 2026.', sources: [{ title: 'DefiLlama API, Privacy Boost (value held by chain)', url: 'https://api.llama.fi/protocol/privacy-boost', checked: '2026-11-15' }] }
+    institutions: { in: [none], part: [public], note: 'Toss, Optimism and Sunnyside announced a three-month KRW stablecoin proof of concept on 8 July 2026; no results published found.', sources: [{ title: 'Toss newsroom, MOU with Optimism and Sunnyside Labs (8 July 2026)', url: 'https://toss.im/en-us/newsroom/52031', checked: '2026-11-15' }] }
+    audits: { in: ['yes'], note: 'OpenZeppelin, March, May and September 2026 (contracts and circuits); the deployed code includes later changes; the enclave code is not covered by a public report.', sources: [{ title: 'Privacy Boost docs, audit reports', url: 'https://docs.privacyboost.io/technical-explainer/audit.md', checked: '2026-11-15' }] }
+    incidents: { in: [none], note: 'No exploit or loss found.' }
+    license: { in: [open], part: [proprietary], note: 'Contracts and circuits Apache-2.0; the SDK ships as MIT builds without its Rust core source; the enclave server is not published.' }
+    steward: { in: [company], note: 'Sunnyside Labs Inc.' }
+    gas: { in: [gt500k], note: 'An epoch carrying one private transfer used 826,195 gas on Base (15 November 2026); larger batches share the proof cost.', sources: [{ title: 'Basescan, a one-transfer epoch (826,195 gas)', url: 'https://basescan.org/tx/0xfcd5bfafc8648cb8ed9aed96fc9649c003c117d3231c410266d9b25dd56e9fd0', checked: '2026-11-15' }] }
+    latency: { in: [minute], note: 'The enclave confirms at once (vendor-stated under 500 ms to prove); the transfer settles when the relay posts the epoch.' }
+    anonymity: { in: [small], note: 'The Base tree holds about 30,400 commitments and OP Mainnet’s about 121,400 (15 November 2026), but one address cycling 0.001 WETH makes most of them: 43 of 47 Base deposits in the day to 15 November, and 7,469 of 7,509 OP Mainnet deposits from April to June 2026.', sources: [{ title: 'Basescan, Privacy Boost pool on Base', url: 'https://basescan.org/address/0x71A0fD3C76E3E937d8275A3cb6a467b70123bD40', checked: '2026-11-15' }, { title: 'OP Mainnet explorer API, Privacy Boost pool transactions', url: 'https://explorer.optimism.io/api?module=account&action=txlist&address=0xca689828854a422CF1f778be03CA80549408F620', checked: '2026-11-15' }] }
+  desc: 'A shielded pool for ERC-20 tokens that hides sender, recipient, amount and token inside it; deposits and withdrawals stay public. Sunnyside Labs’ enclave proves and indexes every transfer, so it sees them all, and auditors the admin multisig appoints can pull any account (none registered, 15 November 2026). You trust that hardware, a 3-of-4 multisig that can upgrade without delay and a 16-participant trusted setup; if the operator stops, a forced withdrawal takes three days and reveals the account. No issuer freeze inside the pool. On OP Mainnet since 20 April 2026, then Soneium, Base and Ink (Ethereum Layer 2s); about USD 1.4 million held, most activity from one address. No client-side proving, so it works from existing wallets, Safe and Fireblocks.'
+  sources:
+  - { title: 'Optimism and Sunnyside Labs, Privacy comes to the OP Stack (live on OP Mainnet, 20 April 2026; TRM screening)', url: 'https://www.optimism.io/blog/privacy-comes-to-the-op-stack', checked: '2026-11-15' }
+  - { title: 'Privacy Boost docs, trust and security (TEE, forced withdrawal, what is hidden)', url: 'https://docs.privacyboost.io/product/trust-and-security.md', checked: '2026-11-15' }
+  - { title: 'Privacy Boost docs, keys and encryption (dual-path ECDH)', url: 'https://docs.privacyboost.io/technical-explainer/keys-and-encryption.md', checked: '2026-11-15' }
+  - { title: 'Privacy Boost docs, auditability', url: 'https://docs.privacyboost.io/product/auditability.md', checked: '2026-11-15' }
+  - { title: 'Privacy Boost docs, contract addresses (OP Mainnet, Soneium, Base, Ink)', url: 'https://docs.privacyboost.io/technical-explainer/contract-addresses.md', checked: '2026-11-15' }
+  - { title: 'Privacy Boost docs, key management', url: 'https://docs.privacyboost.io/sdk/concepts/key-management.md', checked: '2026-11-15' }
+  - { title: 'Privacy Boost docs, Fireblocks setup', url: 'https://docs.privacyboost.io/sdk/guides/fireblocks.md', checked: '2026-11-15' }
+  - { title: 'sunnyside-io/privacy-boost-protocol (Apache-2.0)', url: 'https://github.com/sunnyside-io/privacy-boost-protocol', checked: '2026-11-15' }
+  - { title: 'sunnyside-io/privacy-boost-ceremony, round three (16 participants, finalized 23 September 2026)', url: 'https://github.com/sunnyside-io/privacy-boost-ceremony/blob/main/rounds/2026-03.md', checked: '2026-11-15' }
+  - { title: 'sunnyside-io/privacy-boost-sdk (builds only)', url: 'https://github.com/sunnyside-io/privacy-boost-sdk', checked: '2026-11-15' }
+  - { title: 'Basescan, Privacy Boost pool on Base (created 2 September 2026)', url: 'https://basescan.org/address/0x71A0fD3C76E3E937d8275A3cb6a467b70123bD40', checked: '2026-11-15' }
+  - { title: 'Basescan, admin Safe on Base', url: 'https://basescan.org/address/0x78DFf7F33E3d5edD68D13D6d1fE23078062866f7', checked: '2026-11-15' }
+  - { title: 'Privacy Boost terms of service', url: 'https://www.privacyboost.io/terms', checked: '2026-11-15' }
+  - { title: 'ETHBEAT Privacy, Privacy Boost (multisigs, setup participants, upgrade history)', url: 'https://ethbeat.org/privacy/projects/privacy-boost', checked: '2026-11-15' }
+  - { title: 'DefiLlama API, Privacy Boost (value held)', url: 'https://api.llama.fi/protocol/privacy-boost', checked: '2026-11-15' }
+- id: tacit
+  name: 'Tacit Pay'
+  circle: who
+  x: 381
+  y: 364
+  eth: true
+  status: mainnet
+  since: '2026-09-27'
+  facts:
+    verify: { in: ['yes'], note: 'The pool contract verifies a Groth16 proof for every deposit, private transfer and withdrawal.', sources: [{ title: 'src-company/tacit, TacitEvmPool.sol (MIT; no owner, pause or admin function)', url: 'https://github.com/src-company/tacit/blob/main/contracts/src/TacitEvmPool.sol', checked: '2026-11-15' }] }
+    fees: { in: [none], note: 'The contracts take no fee. The relay is optional and charges gas plus a margin (0.0000679 ETH on Ethereum mainnet, 12 October 2026, vendor-stated); sweeping a deposit address costs at most 0.25%.', sources: [{ title: 'Tacit docs, EVM pool integration guide (What it costs)', url: 'https://github.com/src-company/tacit/blob/main/docs/EVM-POOL.md', checked: '2026-11-15' }] }
+    pet: { in: [snark], note: 'Groth16 on BN254 with Poseidon notes; phase 1 from the Hermez powers of tau, phase 2 an open ceremony of 176 contributions from 120 keys (171 anonymous, 5 Tacit test entries), 26 to 27 September 2026.' }
+    proving: { in: [device], note: 'snarkjs in the browser or Node; 5 to 14 seconds on a laptop (vendor-stated).' }
+    pq: { in: ['no'], note: 'Pairing-based Groth16 and elliptic-curve note encryption; recorded memos are open to harvest-now-decrypt-later.' }
+    operator: { in: [self], note: 'No operator: proving and scanning run on your device; the relay is optional and its code is published.' }
+    external: { in: ['no'], note: 'No committee, oracle or other network; proving files from Tacit or IPFS are checked against pinned hashes.' }
+    chains: { in: [mainnet, l2], note: 'Ethereum mainnet, Base, Robinhood Chain and MegaETH: one unconnected pool per chain, at the same address.' }
+    keys: { in: [new], part: [existing], note: 'A Tacit key hashed from your Ethereum wallet''s signature over a fixed message; a smart-contract wallet cannot open one.' }
+    wallet: { in: [app], note: 'anon.wei.limo, tacit.finance/pay/eth or the standalone wallet module; no custodian support found.' }
+    indexing: { in: [client], note: 'The wallet rebuilds the tree from the pool''s events and trial-decrypts every memo; the catch-up registry is not yet deployed.' }
+    tokens: { in: [eth], part: [erc20], note: 'Native ETH; on Ethereum mainnet anyone can open a separate pool per ERC-20 (the USDC pool held 5.75 USDC, 15 November 2026).' }
+    hidden: { in: [public, participants, operator], note: 'The relay sees your IP address and the nullifiers and new notes it sends; there is no operator.' }
+    controls: { in: [none], note: 'Nothing inside answers to an issuer; the contracts cannot freeze or seize.' }
+    permission: { in: [permissionless], note: 'Anyone may deposit; no screening is described at the contract, the relay or the reference app.' }
+    disclosure: { part: [viewkey], note: 'No viewing-key export is documented; a sender can prove one payment (recipient and amount of one output) to anyone holding the recipient''s address.' }
+    visibility: { in: [parties], note: 'The relay sees your IP address and the nullifiers and new notes it sends; there is no operator. Only the key holder can open its notes. No notary route.' }
+    checks: { in: [none], note: 'Anyone may deposit; no screening is described at the contract, the relay or the reference app.' }
+    association: { in: [shared] }
+    upgrade: { in: [immutable], note: 'Pool, router, zap and verifier have no owner, pause or upgrade. The Z DAO (a Moloch DAO) holds the reference app''s page, node lists and relay URL, changed by a 24-hour vote and a 24-hour delay.', sources: [{ title: 'Tacit docs, EVM pool integration guide (Who can change what)', url: 'https://github.com/src-company/tacit/blob/main/docs/EVM-POOL.md', checked: '2026-11-15' }, { title: 'Etherscan, Z DAO (Moloch)', url: 'https://etherscan.io/address/0x5E58BA0e06ED0F5558f83bE732a4b899a674053E', checked: '2026-11-15' }] }
+    exit: { in: ['yes'], note: 'Any account can submit a valid proof to the pool; a full withdrawal never goes stale, and nothing can pause it.' }
+    censorship: { in: ['no'], note: 'Tacit runs the only active relay (all 346 relayed pool transactions on Ethereum mainnet to 15 November 2026), but any wallet can send its own proof.' }
+    failure: { in: [funds], part: [privacy], note: 'A circuit or verifier bug, or a setup in which every contributor colluded, risks funds; signing the key message on a hostile site gives the key away.' }
+    value: { in: [lt10m], note: '11.15 ETH on Ethereum mainnet (about USD 19,900) and 6.09 ETH on Base (about USD 10,900), 15 November 2026; DefiLlama''s USD 83,000 for Tacit includes its separate V1 pool.', sources: [{ title: 'Etherscan, Tacit ETH pool on Ethereum mainnet (balance, 15 November 2026)', url: 'https://etherscan.io/address/0x000000c2A20657CE25f2Ba99737933D031AFBEE9', checked: '2026-11-15' }, { title: 'Basescan, Tacit ETH pool on Base (balance, 15 November 2026)', url: 'https://basescan.org/address/0x000000c2A20657CE25f2Ba99737933D031AFBEE9', checked: '2026-11-15' }, { title: 'DefiLlama API, Tacit (TVL by chain and method)', url: 'https://api.llama.fi/protocol/tacit', checked: '2026-11-15' }] }
+    institutions: { in: [none], note: 'No regulated institution found.' }
+    audits: { in: ['no'], note: 'No audit of this pool published; Tacit''s listed reviews are AI-model reviews of its separate V1 pool, all dated before this pool''s code (27 September 2026).', sources: [{ title: 'src-company/tacit, security reviews', url: 'https://github.com/src-company/tacit/blob/main/audit/AUDITS.md', checked: '2026-11-15' }] }
+    incidents: { in: [none], note: 'No exploit found to 15 November 2026.' }
+    license: { in: [open], note: 'Repository MIT; pool, router and zap contracts SPDX MIT, the snarkjs-generated verifier GPL-3.0.' }
+    steward: { in: [company], part: [dao], note: 'The Tacit team (GitHub src-company; no legal entity named) builds it and runs the relay; the Z DAO holds the reference app.' }
+    gas: { in: [k200to500], note: 'A relayed private transfer used 380,667 gas on Ethereum mainnet (15 November 2026).', sources: [{ title: 'Etherscan, a relayed private transfer (380,667 gas)', url: 'https://etherscan.io/tx/0xbaab749a3f22b5e07435ef154dba0b762c815114514c5760725076549e2894c0', checked: '2026-11-15' }] }
+    latency: { in: [minute], note: 'Seconds to prove plus one block; no wait to enter or leave.' }
+    anonymity: { in: [small], note: '315 deposits from 147 sending accounts and 1,296 note commitments (two per transaction, unused ones zero-value) in the Ethereum mainnet pool on 15 November 2026.', sources: [{ title: 'Etherscan, Tacit ETH pool on Ethereum mainnet (Transact events)', url: 'https://etherscan.io/address/0x000000c2A20657CE25f2Ba99737933D031AFBEE9', checked: '2026-11-15' }] }
+  desc: 'A shielded ETH pool: private transfers hide sender, recipient and amount, while deposits, withdrawals and their amounts stay public, one asset per pool. No operator; the optional relay sees only what it sends and your IP address. Proofs are made in your browser against immutable contracts (no owner, pause or upgrade), so you trust the Groth16 circuit, its open September 2026 setup (176 mostly anonymous contributions) and a reference app a DAO can change. No screening, no viewing key beyond per-payment proofs, no issuer control. Ethereum mainnet since 27 September 2026, also Base, Robinhood Chain and MegaETH; 11.15 ETH from 315 deposits on Ethereum mainnet by 15 November 2026, and no published audit of this pool. No protocol fee and about 381,000 gas per private transfer.'
+  sources:
+  - { title: 'src-company/tacit (MIT)', url: 'https://github.com/src-company/tacit', checked: '2026-11-15' }
+  - { title: 'Tacit docs, EVM pool integration guide (what each action shows, costs, relay, keys, who can change what)', url: 'https://github.com/src-company/tacit/blob/main/docs/EVM-POOL.md', checked: '2026-11-15' }
+  - { title: 'Tacit docs, ceremony artifacts (EVM pool ceremony, 26 to 27 September 2026)', url: 'https://github.com/src-company/tacit/blob/main/docs/CEREMONY.md', checked: '2026-11-15' }
+  - { title: 'src-company/tacit, TacitEvmPool.sol', url: 'https://github.com/src-company/tacit/blob/main/contracts/src/TacitEvmPool.sol', checked: '2026-11-15' }
+  - { title: 'src-company/tacit, security reviews (V1 pool only)', url: 'https://github.com/src-company/tacit/blob/main/audit/AUDITS.md', checked: '2026-11-15' }
+  - { title: 'Etherscan, Tacit ETH pool creation (27 September 2026)', url: 'https://etherscan.io/tx/0xa6dd72b4701dc945f7abddfb970f64a24f063b81fe63b458fa7bb0e2e74e1c4f', checked: '2026-11-15' }
+  - { title: 'Etherscan, Tacit ETH pool on Ethereum mainnet (balance and events, 15 November 2026)', url: 'https://etherscan.io/address/0x000000c2A20657CE25f2Ba99737933D031AFBEE9', checked: '2026-11-15' }
+  - { title: 'Basescan, Tacit ETH pool on Base', url: 'https://basescan.org/address/0x000000c2A20657CE25f2Ba99737933D031AFBEE9', checked: '2026-11-15' }
+  - { title: 'Etherscan, a relayed private transfer (380,667 gas)', url: 'https://etherscan.io/tx/0xbaab749a3f22b5e07435ef154dba0b762c815114514c5760725076549e2894c0', checked: '2026-11-15' }
+  - { title: 'Etherscan, Z DAO (Moloch; holds the reference app)', url: 'https://etherscan.io/address/0x5E58BA0e06ED0F5558f83bE732a4b899a674053E', checked: '2026-11-15' }
+  - { title: 'DefiLlama API, Tacit (TVL includes the separate V1 pool)', url: 'https://api.llama.fi/protocol/tacit', checked: '2026-11-15' }
+  - { title: 'tacit.finance', url: 'https://tacit.finance', checked: '2026-11-15' }
+  - { title: 'ETHBEAT, Tacit Pay (third party; deposits, relayers, setup)', url: 'https://ethbeat.org/privacy/projects/tacit-pay', checked: '2026-11-15' }
 - id: flashbots
   name: Flashbots Protect
   circle: block
