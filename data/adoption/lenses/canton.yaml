@@ -34,6 +34,18 @@ readings:
   resilience: '1 implementation; 13 nodes, 9 operators'
   issuance: 'SVs minted 80%, 48%, now 20% of CC'
   inclusion: '13 sequencers, all allowlisted; no forcing'
+verdicts:
+  history: 'Live since 2024'
+  developers: 'Written by one vendor'
+  stop: 'Three entities could halt it'
+  cost: 'No stake at risk'
+  rules: 'The vendor proposes; never overruled'
+  property: 'Super Validators co-sign every coin'
+  verify: 'Nobody sees the whole ledger'
+  entry: 'Validators need a sponsor and approval'
+  resilience: 'One implementation on every node'
+  issuance: 'Super Validators receive a large share of new coins'
+  inclusion: 'Only allowlisted validators can submit'
 notes:
   history: '2.3 years: the Global Synchronizer went live on 1 July 2024 (Canton Network press release; the Canton Coin whitepaper says June) after a year of testing, and Canton Coin minting began with it. Production has not been continuous. Protocol upgrades were run as "Synchronizer Upgrades with Downtime": Super Validators vote a start time, traffic halts, every node exports a migration dump and the network restarts under a new migration ID. The Splice release notes mark 0.2.0, 0.3.0, 0.4.0 and 0.5.0 as requiring one; the last, CIP-0089 on 10 December 2025, was announced as 3 to 6 hours offline and completed in under a day across about 600 nodes. Logical Synchronizer Upgrades (Canton 3.5, June 2026) replace the halt with a topology freeze: party onboarding, package vetting and other topology transactions pause for 24 hours, and Daml transactions are delayed by seconds to minutes at the switch. The upgrade to CantonBFT ran that way on 9 to 10 October 2026 (Digital Asset reported the MainNet switch complete at 13:00 UTC on 10 October in the Canton Foundation’s milestone record); it had been scheduled for 8 August and followed a CantonBFT issue that surfaced on DevNet, which Super Validators recovered with a temporary timeout override. The freeze reaches institutions: BitGo kept an incident open for about 25.5 hours (9 October 06:13 to 10 October 07:45 PDT) in which Canton wallets could not be set up, while transfers continued. Ethereum Institutional counts a topology freeze as downtime: for a day no new party could be onboarded, and it reached institutions as it reached BitGo, so the reading names the last downtime rather than the last halt (owner, 6 November 2026). Level 2: under three years and operator-initiated downtime within the year. No balance has been changed outside the rules. OpenZeppelin (March 2026) records no incident, pauses during scheduled upgrades (the last it saw in December 2025) with the longest length unknown, and notes that both test networks require allowlisting.'
   developers: 'The protocol is written by one vendor. The canton repository on GitHub shows 16 contributors, and 251 of its commits come from the canton-machine mirror bot, so the public history hides Digital Asset’s internal team; the daml repository has 191 contributors since 2019 and canton-network/splice, the synchronizer and Canton Coin code, 73 (GitHub, 26 October 2026); all three are Apache 2.0. Electric Capital does not report Canton or Daml as an ecosystem, and the Foundation’s own developer survey (January to February 2026) drew 41 active developers. What widens the base: the Protocol Development Fund, 5% of issuance under CIP-0082, had approved 42 projects with 290 million CC committed and 62.2 million paid by 24 August 2026, with outside firms building resilience and tooling work. Level 2, a few firms under one steward, and near the line with level 1 for the core.'

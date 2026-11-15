@@ -176,7 +176,8 @@ sections:
   - title: Margin in minutes, not at the cut-off
     text: 'A margin call is a transfer on the same ledger as the trade, so it settles when it is made; collateral substitution is an atomic swap. The exposure between a price move and the margin that covers it shrinks from a settlement cycle to a block.'
   - title: The most collateral and the most cash in one place
-    text: 'The bond tokens that settle here are the same tokens the DvP scenario buys and sells and the collateral scenario pledges; the deposit token is the same cash leg that pays an invoice. A bond or a fund unit on a public ledger is usable collateral for every eligible counterparty on that ledger, not only for the members of one platform. On Ethereum mainnet the pieces are live: a bank deposit token since October 2026, tokenized bonds and fund units, and central bank money reaching tokenized assets through the Eurosystem’s Pontes since September 2026.'
+    text: 'The bond tokens that settle here are the same tokens the DvP scenario buys and sells and the collateral scenario pledges; the deposit token is the same cash leg that pays an invoice.'
+    detail: 'A bond or a fund unit on a public ledger is usable collateral for every eligible counterparty on that ledger, not only for the members of one platform. On Ethereum mainnet the pieces are live: a bank deposit token since October 2026, tokenized bonds and fund units, and central bank money reaching tokenized assets through the Eurosystem’s Pontes since September 2026.'
   - title: Open ledger, permissioned asset
     text: 'Openness is a property of the ledger, not of the asset. The bond token stays bound to its issuer’s rules, enforced in the token contract on every transfer, including the transfers the repo contract makes: KYC and KYB of every holder, holding limits, and the issuer’s freeze and enforcement powers where its rules provide them.'
   - title: Reconciled every block
@@ -216,7 +217,8 @@ sections:
   - title: Who runs the repo contract
     text: Neutral open code anyone may call, a venue’s contract under a rulebook, or a tri-party agent’s. For a regulated institution the second or the third is often decisive, and it is not a question of technology.
   - title: Liquidity on more than one ledger
-    text: 'When the cash leg, the collateral and central bank money sit on different platforms, liquidity splits and trades may have to be pre-funded. In the Reserve Bank of Australia’s Project Acacia (May 2026) the Commonwealth Bank’s intraday repo proof of concept settled government securities against CBA deposit tokens on J.P. Morgan’s Kinexys Digital Assets platform, with the pilot wholesale CBDC as the interchange between banks and smart contracts orchestrating delivery versus payment across ledgers; the report names a consolidated view of balances across platforms, and bridges between them, as what managing it takes.'
+    text: 'When the cash leg, the collateral and central bank money sit on different platforms, liquidity splits and trades may have to be pre-funded. In the Reserve Bank of Australia’s Project Acacia (May 2026) the Commonwealth Bank’s intraday repo proof of concept settled government securities against CBA deposit tokens on J.P.'
+    detail: 'Morgan’s Kinexys Digital Assets platform, with the pilot wholesale CBDC as the interchange between banks and smart contracts orchestrating delivery versus payment across ledgers; the report names a consolidated view of balances across platforms, and bridges between them, as what managing it takes.'
   - title: Transaction reporting
     text: Repo reporting regimes ask for each transaction and its collateral; the contract’s events carry that data, and which regime applies is a question for your jurisdiction and the Regulatory layer.
 

@@ -7,17 +7,17 @@ eyebrow: Ethereum Institutional · Research
 heading:
   text: Scenarios
   italic: Scenarios
-intro: 'What institutions do with digital assets, as market activities rather than asset types. Each scenario names the actors, shows how it works step by step, lists the tokens from the taxonomy and the EVM standards to consider, and points to live deployments. The map places each scenario by what moves on the ledger; the tiles below are grouped the same way and can be filtered by your role. Nothing is ranked.'
+intro: 'What institutions do with digital assets, step by step: who takes part, which tokens and standards they use, and where it runs live today. Click a scenario on the map or a tile below, and filter the tiles by your role; nothing is ranked.'
 filters:
   roles_label: Filter by your role
   roles:
   - { id: bank, label: Bank }
   - { id: asset_manager, label: Asset manager }
-  - { id: fmi, label: 'Market infrastructure (CSD, CCP, exchange)' }
+  - { id: fmi, label: 'Market infrastructure (CSD, CCP, exchange)', short: 'Market infrastructure' }
   - { id: payments, label: Payment firm }
   - { id: corporate, label: Corporate treasurer }
   - { id: central_bank, label: Central bank }
-  - { id: custodian, label: 'Custodian or staking provider' }
+  - { id: custodian, label: 'Custodian or staking provider', short: 'Custodian' }
 map:
   width: 700
   height: 520
@@ -120,9 +120,6 @@ scenarios:
   text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
   moves: [cash]
   roles: [payments, corporate, bank]
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Missing a scenario?

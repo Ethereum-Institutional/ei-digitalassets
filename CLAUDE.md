@@ -37,11 +37,11 @@ and decisions behind them.
 
 ## Status and versioning
 
-- The taxonomy is a **v0.x draft that has not been reviewed by legal counsel**. Keep the amber
-  "Under development" banner (`notice:` in `data/taxonomy/site.yaml`) until counsel review is complete; 1.0.0 follows that review.
-  Since 7 November 2026 every page's banner is the same two lines, "Under development. For discussion only; not legal
-  advice." (owner: simplified), and no page carries the "in progress" tag (`wip` in `data/nav.yaml`): the newer pages
-  (Scenarios, Architecture, Privacy, Identity, Quantum) are written, still in flux.
+- The taxonomy is a **v0.x draft that has not been reviewed by legal counsel**; 1.0.0 follows that review.
+- **No banner** (owner, 15 November 2026: the maps have been reviewed): no page carries the amber "Under development"
+  notice any more, and the footer's "not legal advice" stands for it. A `notice:` in `site.yaml` still renders if one is
+  ever needed; the due diligence pages keep only "Vendor names are examples, not endorsements." No page carries the
+  "in progress" tag (`wip` in `data/nav.yaml`).
 - SemVer as described in `CHANGELOG.md`. Record every change under `## [Unreleased]`, and add a dated entry to the
   ei-platform root `CHANGELOG.md`.
 - No release is published for now (v0.1.0 and its tag were deleted and the mirror's history squashed, 27 October
@@ -62,6 +62,24 @@ and decisions behind them.
   landing page and stubs, both with the same styles. Per-page settings (`lens_groups`, `badge`, `pill_scale`, `legend`, `panel_default`, `intro_more`, `facets`) live in each
   `site.yaml`, and drawn notes in `layout.yaml` `annotations:`; `layout.yaml` `canvas` sets each map's size. Never put page-specific content in a template. A new
   page is a folder with a `site.yaml`, an entry in `PAGES` in `scripts/build.mjs` and an entry in `data/nav.yaml`.
+- **Readability (owner, 15 November 2026, after a review as an institutional reader):** the home page groups its cards
+  under three questions (what digital assets are; where they run and what you can trust; what institutions do with
+  them), Web3 first as the most basic, with no reading path, so each reader goes as they see fit; the menu follows the
+  same groups (`group` in `data/nav.yaml`), separated by a rule. Every intro is about two sentences: what the page
+  answers and how to use it; the argument goes behind the "Why…?" or "More" link (`intro_more`), as Networks does.
+- **Plain words first (owner, 15 November 2026):** a Venn badge may carry `summary:`, a list of `{ k, v }` labeled lines
+  (on Privacy: Hides, Still visible, You trust, Compliance, Issuer keeps, Runs on, Track record or Cost; on Identity: What
+  it is, then what it answers, its limits and where it reaches the ledger), shown in the panel in place of the paragraph,
+  with the full `desc` folded under "Full description"; every line restates the desc, never adds to it. Each Adoption
+  lens carries `verdicts:`, one plain line per dial shown in bold above the measured reading (the level names cannot
+  serve: a dial reads the weakest of its measures), and `glossary:` in `data/adoption/site.yaml` explains reading terms
+  (HHI, finality, builder) on hover. A pill named by a bare standard number says what it does first: "Readable
+  signatures (EIP-712)", "Contract signatures (ERC-1271)", "T-REX (ERC-3643)" (not "Permissioned tokens": several
+  standards make a token permissioned), "Transfer checks (ERC-7943)". The Networks bands keep the paper's terms (owner).
+- **Long blocks (owner, 15 November 2026):** a section or item text of about 90 words or more keeps its opening sentences
+  (about 30 words) as `text` and the rest, word for word, as `detail`, shown behind a closed "More"; `fold_items: true` on
+  a section puts its detail and items behind that one "More" (Adoption's independent assessments and Project Acacia).
+  Write new long passages the same way.
 - The shared navigation (`navHtml` in `scripts/build.mjs`, styled in `src/template.html`) folds behind a menu button
   named for the current page under 700px, with the list absolutely positioned under it; on wider screens the button is
   hidden and the links flow in a row (owner, 10 November 2026). Keep the toggle script inline in the nav markup, since
@@ -548,7 +566,9 @@ and decisions behind them.
 - **Folded tiles and a quiet sidebar (owner, 10 November 2026):** the narrative items under the Identity and Privacy maps fold
   behind their titles (`sections_collapsed: true` in `site.yaml`; `itemHtmlC` in `build.mjs`), and Focus on shows the
   presets with every filter group behind one closed "All filters" summary, because the long tiles and open filters
-  distracted from the map. The intro names no standard by number and carries no "reading as of" sentence; the facts
+  distracted from the map. Since 15 November 2026 (owner) facets marked `key: true` show as "Key filters" above that
+  summary, which then reads "More filters": on Privacy, six with few values each (permissioned or permissionless, compliance
+  checks, who else can see it, issuer controls, institutional use, audited), so the sidebar stays short. The intro names no standard by number and carries no "reading as of" sentence; the facts
   date lives in the fact sheet (`facts_as_of`).
 - **Identity is a live map** since 6 November 2026: no `wip` tag in `data/nav.yaml`; the site-wide v0.x notice still applies.
 - **Vendors:** two or three examples of a kind or none (`AGENTS.md` §4); vendor claims are marked vendor-stated.
@@ -600,6 +620,8 @@ and decisions behind them.
   download, sources and an edit link. Vendor examples are two or three named products of the kind, or none, never a
   single name (it reads as an endorsement); the page notice says names are examples, not endorsements. The confidential
   tokens page follows the Privacy page's facets.
+- **Plain controls (owner, 15 November 2026):** "Show all details" and "Hide details" reveal or cover every area, and
+  flows are named in words without their ids (F1 to F8 stay in `architecture.yaml` only).
 - Quote flow-list items that contain a comma (`['Hyperledger Paladin (Noto, Zeto and Pente)']`); unquoted, YAML splits
   them into two items.
 
@@ -669,7 +691,9 @@ and decisions behind them.
   `roles`, an `icon` (one of the pictogram family in `scripts/build.mjs`: a disc is a token, a rising line a
   yielding asset, a loop with a padlock one atomic transaction) and a `map` position on a small Venn (Cash moves,
   Asset moves, Credit is extended), because position carries meaning and scenarios are never ranked or
-  alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role.
+  alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role; a role's `short` name is
+  what a tile shows, the full label stays on the filter chips (owner, 15 November 2026: the long labels repeated down the
+  page). Each scenario explains the arrows once, in `flow_help`; `panel_default` says only how to use the diagram.
   All ten scenarios are written (6 November 2026) and link out as ink pills; the index still supports planned tiles (grey, in-progress tag) for any future addition.
   **Scenario page layout (owner, 7 November 2026: the pages were busy):** under the title, an at-a-glance strip the build
   derives from the data (what moves, who is in it, the atomic transactions, the money, the asset, the latest checked

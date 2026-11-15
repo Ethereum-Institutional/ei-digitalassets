@@ -34,6 +34,18 @@ readings:
   resilience: '1 client on 100%; 16 of 30 in US'
   issuance: 'SDF 29.2% of fixed 50 billion XLM'
   inclusion: '10 nominators; no forced inclusion'
+verdicts:
+  history: 'Running since 2015; last halt 2019'
+  developers: 'Thousands of developers; the foundation writes core'
+  stop: 'Four organizations could halt it'
+  cost: 'No stake at risk'
+  rules: 'The foundation writes the rules'
+  property: 'Validators can vote to freeze accounts'
+  verify: 'Anyone can check it on ordinary hardware'
+  entry: 'Joining the core set takes months'
+  resilience: 'One implementation on every validator'
+  issuance: 'The foundation holds 29% of supply'
+  inclusion: 'Ten organizations propose every block'
 notes:
   history: 'The current network closed its first ledgers on 30 September 2015 (stellar.expert, ledger 2), 11.1 years ago; the 2014 network it replaced, on Ripple-derived code, halted for about 16 hours on 20 September 2014 and was retired. Since 2015 there have been two network-wide halts, both in May 2019: 67 minutes on 15 May, when Keybase took a validator down for maintenance while others were misconfigured, then a brief shutdown to repair quorum overlap (SDF post-mortem). On 6 April 2021 SDF’s three validators and its public Horizon stopped for about 10.5 hours; SDF states the rest of the network kept closing ledgers, while explorers showed no transactions for hours. SDF’s Q2 2026 report claims five years of 100% uptime. The October 2025 state-archival repair is disclosed (see the freeze dial). Seven years since the last halt is the 5 to 10 year band: level 4.'
   developers: 'Electric Capital’s live dashboard counts 4,300 monthly active Stellar developers on 9 November 2026 (511 full-time, and the count up 133% over two years), after SDF’s Q2 2026 report put it at 2,968 on 30 June 2026 from the same data. The core is another matter: stellar-core is the only implementation, with 96 contributors on GitHub, the ten largest committers by count are current or former SDF staff, and the CAP core team that decides protocol proposals is three SDF engineers. Thousands building meets the count for level 4, but one foundation writes the protocol, which is what the level 3 cell describes: a large open community with one organization writing most of the core.'

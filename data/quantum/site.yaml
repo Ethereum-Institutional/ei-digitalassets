@@ -7,10 +7,7 @@ eyebrow: Ethereum Institutional · Research
 heading:
   text: Quantum
   italic: Quantum
-intro: 'Quantum computing is not a digital asset problem; it is an internet problem. The same public-key cryptography secures every TLS connection, software update, passport chip, payment network and certificate your institution relies on, and a large enough quantum computer breaks all of it at once. Ledgers are where the stakes are visible and the fix is furthest along: Ethereum has a published, dated plan to rebuild its cryptography on hashes, and its researchers now warn that advances in machine-generated mathematics could shorten the clock further. Four short pages:'
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
+intro: 'Quantum computing is not a digital asset problem; it is an internet problem: a large enough quantum computer breaks the public-key cryptography behind every connection, software update and certificate your institution relies on. Four short pages:'
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.

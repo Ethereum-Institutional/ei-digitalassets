@@ -2,9 +2,6 @@
 
 kind: static
 eyebrow: Ethereum Institutional · Research · Quantum
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.
@@ -20,7 +17,8 @@ sections:
 - title: The two algorithms
   items:
   - title: Shor breaks public-key signatures
-    text: 'A large enough quantum computer recovers a private key from its public key. That covers every elliptic-curve scheme a ledger uses: transaction signatures, validator signatures, and the pairings behind data commitments and most SNARKs. No such machine exists yet; the migration must be done before one does. The estimated cost keeps falling. In March 2026 Google Quantum AI researchers and co-authors estimated fewer than 1,200 logical qubits, running in minutes on fewer than half a million physical qubits, and published a zero-knowledge proof that their circuit exists rather than the circuit itself, after consulting the US government; an independent researcher rediscovered the main optimization by June. By July an open challenge in which researchers worked with AI agents (ECDSA.fail) had published a circuit for the core step at more than 50% lower cost on Google’s own measure of qubits times gates, though the two count differently. The public record of attack costs may therefore lag what some parties know.'
+    text: 'A large enough quantum computer recovers a private key from its public key. That covers every elliptic-curve scheme a ledger uses: transaction signatures, validator signatures, and the pairings behind data commitments and most SNARKs.'
+    detail: 'No such machine exists yet; the migration must be done before one does. The estimated cost keeps falling. In March 2026 Google Quantum AI researchers and co-authors estimated fewer than 1,200 logical qubits, running in minutes on fewer than half a million physical qubits, and published a zero-knowledge proof that their circuit exists rather than the circuit itself, after consulting the US government; an independent researcher rediscovered the main optimization by June. By July an open challenge in which researchers worked with AI agents (ECDSA.fail) had published a circuit for the core step at more than 50% lower cost on Google’s own measure of qubits times gates, though the two count differently. The public record of attack costs may therefore lag what some parties know.'
     more:
       title: NIST’s post-quantum standards (August 2024)
       url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
@@ -43,7 +41,8 @@ sections:
       title: ethereum.org on quantum resistance
       url: https://ethereum.org/en/roadmap/security/quantum-resistance/
   - title: 'A second threat: cryptanalysis by AI'
-    text: 'Since October 2026 Ethereum Foundation researchers have warned that advances in machine-generated mathematics could weaken the assumptions behind elliptic-curve signatures before any quantum computer does, in their worst case within months rather than years; no such attack on curves has been demonstrated, and the warning is a research view, not a finding. The effort is now public: open challenges set researchers and their AI agents on classical attacks against the curves Ethereum uses, BLS12-381 among them, with results accepted as exploratory rather than as proofs of a break, and none has broken a curve. On lattices there is now a demonstration: in July 2026 an AI model found an unexploited symmetry in HAWK, a third-round candidate in NIST''s additional signature process, roughly halving its effective key size, and the HAWK team withdrew the scheme the next day; the attack stays exponential and is specific to HAWK, and nothing deployed changed. The reasoning is that curves have rich structure for a clever attack to use and hashes have as little as cryptography offers, which is why the same fix serves both threats: build on hashes, and verify the implementations formally, which has become far cheaper. Ethereum Institutional reads it as a reason to prefer the schemes with the fewest assumptions and to keep signature schemes replaceable, not as a forecast.'
+    text: 'Since October 2026 Ethereum Foundation researchers have warned that advances in machine-generated mathematics could weaken the assumptions behind elliptic-curve signatures before any quantum computer does, in their worst case within months rather than years; no such attack on curves has been demonstrated, and the warning is a research view, not a finding.'
+    detail: 'The effort is now public: open challenges set researchers and their AI agents on classical attacks against the curves Ethereum uses, BLS12-381 among them, with results accepted as exploratory rather than as proofs of a break, and none has broken a curve. On lattices there is now a demonstration: in July 2026 an AI model found an unexploited symmetry in HAWK, a third-round candidate in NIST''s additional signature process, roughly halving its effective key size, and the HAWK team withdrew the scheme the next day; the attack stays exponential and is specific to HAWK, and nothing deployed changed. The reasoning is that curves have rich structure for a clever attack to use and hashes have as little as cryptography offers, which is why the same fix serves both threats: build on hashes, and verify the implementations formally, which has become far cheaper. Ethereum Institutional reads it as a reason to prefer the schemes with the fewest assumptions and to keep signature schemes replaceable, not as a forecast.'
     more:
       title: Ethereum researcher says AI may break encryption before quantum does (Decrypt, 7 October 2026)
       url: https://decrypt.co/380363/ethereum-researcher-ai-break-encryption-before-quantum

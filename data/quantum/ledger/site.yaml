@@ -2,9 +2,6 @@
 
 kind: static
 eyebrow: Ethereum Institutional · Research · Quantum
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.
@@ -20,7 +17,8 @@ sections:
 - title: Where it bites a ledger
   items:
   - title: Your keys
-    text: 'An address is a hash, so an account that has only received funds exposes nothing. The first transaction it sends reveals the public key; from then on the key is exposed. Reused addresses, hot wallets and multisig signers are the exposed set. The practice Ethereum Foundation researchers recommend now, for a custodian or a treasury with keys already exposed, is a calm migration into what they call bunker mode: move funds to fresh addresses whose public keys stay hidden behind the hash, and after every spend move the remainder to a fresh address again. It needs no new cryptography and no new wallet, and there is no emergency; take the time to do it in an orderly way.'
+    text: 'An address is a hash, so an account that has only received funds exposes nothing. The first transaction it sends reveals the public key; from then on the key is exposed.'
+    detail: 'Reused addresses, hot wallets and multisig signers are the exposed set. The practice Ethereum Foundation researchers recommend now, for a custodian or a treasury with keys already exposed, is a calm migration into what they call bunker mode: move funds to fresh addresses whose public keys stay hidden behind the hash, and after every spend move the remainder to a fresh address again. It needs no new cryptography and no new wallet, and there is no emergency; take the time to do it in an orderly way.'
     more:
       title: How a quantum emergency fork would save most funds (Vitalik Buterin, 2024)
       url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
@@ -33,7 +31,8 @@ sections:
       url: https://www.youtube.com/watch?v=L_Qon4NykLw
       checked: '2026-11-06'
   - title: Seed phrases survive; wallets and addresses change
-    text: 'A seed phrase produces keys by hashing, so the seed itself is not exposed by anything a quantum computer can do; the same seed can derive post-quantum addresses once wallets support them, and the migration is a new address from an old seed, not a new secret. That is also the basis of the emergency plan: if a capable machine arrived before the migration, a hard fork could freeze elliptic-curve signatures and let holders move funds by proving, in zero knowledge, that they know the seed their address was derived from. It covers most accounts and not all: custody built on multi-party computation has no seed phrase, so a custodian needs signature agility of its own before the emergency, and the exposure practice above in the meantime.'
+    text: 'A seed phrase produces keys by hashing, so the seed itself is not exposed by anything a quantum computer can do; the same seed can derive post-quantum addresses once wallets support them, and the migration is a new address from an old seed, not a new secret.'
+    detail: 'That is also the basis of the emergency plan: if a capable machine arrived before the migration, a hard fork could freeze elliptic-curve signatures and let holders move funds by proving, in zero knowledge, that they know the seed their address was derived from. It covers most accounts and not all: custody built on multi-party computation has no seed phrase, so a custodian needs signature agility of its own before the emergency, and the exposure practice above in the meantime.'
     more:
       title: How a quantum emergency fork would save most funds (ethresear.ch, 2024)
       url: https://ethresear.ch/t/how-to-hard-fork-to-save-most-users-funds-in-a-quantum-emergency/18901
@@ -52,7 +51,8 @@ sections:
       title: The four areas Ethereum must upgrade
       url: https://ethereum.org/en/roadmap/security/quantum-resistance/
   - title: Where other ledgers stand
-    text: 'An independent assessment of six networks (OpenZeppelin, conditions as of March 2026) found that none had deployed quantum-resistant cryptography: Ethereum had the most active research programme, the XRP Ledger and Solana early projects (an experimental XRPL network and post-quantum signatures on a Solana test network), and BNB Smart Chain, TRON and Canton no published plan, though an EVM chain can inherit Ethereum’s protections. The report’s point for institutions is the one this page makes: migrating live financial infrastructure takes years, so the plan has to exist before the threat does.'
+    text: 'An independent assessment of six networks (OpenZeppelin, conditions as of March 2026) found that none had deployed quantum-resistant cryptography: Ethereum had the most active research programme, the XRP Ledger and Solana early projects (an experimental XRPL network and post-quantum signatures on a Solana test network), and BNB Smart Chain, TRON and Canton no published plan, though an EVM chain can inherit Ethereum’s protections.'
+    detail: 'The report’s point for institutions is the one this page makes: migrating live financial infrastructure takes years, so the plan has to exist before the threat does.'
     sources:
     - title: 'OpenZeppelin, Technical Risk Assessment on Blockchain Networks (report dated 30 April 2026, conditions as of early March 2026; Ethereum, BNB Smart Chain, XRP Ledger, TRON, Solana and Canton across six dimensions; industry report, no ranking)'
       url: https://www.openzeppelin.com/news/technical-risk-assessment-blockchain-networks
@@ -60,7 +60,8 @@ sections:
   - title: What is not at risk, and what is at risk everywhere else
     text: 'A public ledger keeps no secrets, so there is nothing to harvest now and decrypt later; the risk is forgery of authorization, not disclosure. Off the ledger it is the reverse: encrypted traffic, records and backups can be captured today and read later, which is why banking, healthcare, government and telecoms face the same deadline with less visibility of where their cryptography sits.'
   - title: Coins nobody can move
-    text: 'Some exposed coins will never be moved by their owners, because the keys are lost. A ledger then chooses between leaving them to whoever builds the machine, which turns lost coins into a bounty for breaking the cryptography, and freezing them by a rule change. ethereum.org lists dormant wallets as an open governance topic with no community consensus yet; Ethereum Foundation researchers expect the exposed and lost share on Ethereum mainnet to be small enough to leave alone, and note that a ledger with a large lost share faces the harder choice. Ethereum Institutional records the question rather than an answer: the decision belongs to each ledger’s governance, and the Adoption page’s property-rights dial discloses every past intervention.'
+    text: 'Some exposed coins will never be moved by their owners, because the keys are lost. A ledger then chooses between leaving them to whoever builds the machine, which turns lost coins into a bounty for breaking the cryptography, and freezing them by a rule change. ethereum.org lists dormant wallets as an open governance topic with no community consensus yet; Ethereum Foundation researchers expect the exposed and lost share on Ethereum mainnet to be small enough to leave alone, and note that a ledger with a large lost share faces the harder choice.'
+    detail: 'Ethereum Institutional records the question rather than an answer: the decision belongs to each ledger’s governance, and the Adoption page’s property-rights dial discloses every past intervention.'
     sources:
     - *id002
     - *id001

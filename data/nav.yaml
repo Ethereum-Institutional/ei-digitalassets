@@ -1,24 +1,35 @@
 # Site navigation, shared by every page. `path` is the folder under dist/ ('' is the landing page); the build works
 # out relative links from each page. `wip: true` would mark a page still being drafted (an "in progress" tag in the
 # navigation and on the landing page); no page carries it since 7 November 2026 (owner: all are written, still in flux).
+# `group` (owner, 15 November 2026): the menu separates three questions, as the home page groups its cards: what digital
+# assets are, where they run and what can be trusted, and what institutions do with them.
 pages:
 - label: Home
   path: ''
 - label: Web3
   path: web3
+  group: what
 - label: Taxonomy
   path: taxonomy
+  group: what
 - label: Networks
   path: networks
+  group: where
 - label: Adoption
   path: adoption
-- label: Scenarios
-  path: scenarios
-- label: Architecture
-  path: architecture
+  group: where
 - label: Privacy
   path: privacy
+  group: where
 - label: Identity
   path: identity
+  group: where
 - label: Quantum
   path: quantum
+  group: where
+- label: Scenarios
+  path: scenarios
+  group: do
+- label: Architecture
+  path: architecture
+  group: do

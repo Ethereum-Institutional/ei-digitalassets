@@ -11,10 +11,7 @@ intro: 'A repo is a sale of securities with a commitment to buy them back at a s
 svg_label: Swimlane diagram of a repo between a tokenized bond and a deposit token, from the master agreement to the closing leg
 panel_default:
   title: How it works
-  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which both legs settle.
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
+  text: Hover over a step to read what happens and which standards do the work; click to pin it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Running this scenario?

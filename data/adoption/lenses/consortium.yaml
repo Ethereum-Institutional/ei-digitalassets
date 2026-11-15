@@ -18,6 +18,18 @@ cells:
   resilience: l0
   issuance: l0
   inclusion: l1
+verdicts:
+  history: 'Typically three to five years'
+  developers: 'One vendor, a few firms'
+  stop: 'A few members could halt it'
+  cost: 'No capital at risk'
+  rules: 'A closed body votes'
+  property: 'Members can freeze or reverse balances'
+  verify: 'Members see only their own records'
+  entry: 'Members admit members'
+  resilience: 'One implementation on every node'
+  issuance: 'No neutral asset'
+  inclusion: 'Members decide what gets in'
 notes:
   history: Most consortium ledgers launched since 2019; three to five years of production is typical, often with migrations between stacks.
   developers: The software is usually one vendor’s or one foundation’s, maintained by a few firms.

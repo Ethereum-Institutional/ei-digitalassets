@@ -34,6 +34,18 @@ readings:
   resilience: 'Agave-based 82%; Firedancer 17%'
   issuance: 'About 48% to insiders; +3.6% a year'
   inclusion: 'BAM assembles 37%; no forced inclusion'
+verdicts:
+  history: 'Running since 2020; seven halts'
+  developers: 'About 2,700 developers; one firm writes most core'
+  stop: 'Stake widely spread'
+  cost: 'Billions to stall, not slashable'
+  rules: 'Stake votes on changes'
+  property: 'Nobody can freeze a balance'
+  verify: 'Checking it needs data-center hardware'
+  entry: 'Anyone can validate, no minimum stake'
+  resilience: 'Most stake runs one code base'
+  issuance: 'About half went to insiders at launch'
+  inclusion: 'One block engine assembles over a third'
 notes:
   history: '6.6 years since the mainnet-beta launch on 16 March 2020, and the network still carries the beta label (the public RPC endpoint is api.mainnet-beta.solana.com). Seven network-wide halts, each ended by a validator-coordinated restart: December 2020 (about 6 hours), 14 September 2021 (about 17 hours), 30 April to 1 May 2022 (about 8 hours), June 2022 (about 4.5 hours), September 2022 (about 8.5 hours), 25 February 2023 (about 19 hours) and 6 February 2024 (about 5 hours; Helius outage history). No halt since, 2.7 years, through the slot-time cut and the Alpenglow switch on 21 October 2026. Level 3 rather than 4 because the 5-to-10-year band requires no network-wide halt; it reaches 4 by running without one until 2029. OpenZeppelin (March 2026) counts the same seven full outages, the longest 19 hours, with analyses published by the Foundation and independent teams, and notes that the frequency has dropped.'
   developers: 'Electric Capital’s live dashboard counts 2,719 monthly active Solana developers on 9 November 2026 (678 full-time), a third of Ethereum’s 8,705; its broader measure counted 17,708 active over the nine months to September 2025 (11,534 newcomers in the period). The core is narrower than the ecosystem: Agave, which runs about 82% of stake, is written by Anza (spun out of Solana Labs in 2024; 357 contributors, with Anza staff the top committers), and Anza researchers authored Alpenglow (SIMD-0326), the admission ticket (SIMD-0357) and the migration (SIMD-0384). Jump’s Firedancer (57 contributors) is the second production core; Jito Labs and Harmonic maintain Agave forks; Mithril (Overclock) and Sig (Syndica) are in development. Level 3 rather than 4 because one organization writes a majority of the production core.'

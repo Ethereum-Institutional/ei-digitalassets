@@ -11,10 +11,7 @@ intro: 'A treasury keeps operating cash where it can pay from and invests the re
 svg_label: Swimlane diagram of a treasury sweeping cash between a deposit token and tokenized money market fund units, and paying out
 panel_default:
   title: How it works
-  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which cash and units change hands.
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
+  text: Hover over a step to read what happens and which standards do the work; click to pin it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Running this scenario?

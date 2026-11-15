@@ -33,6 +33,19 @@ readings:
   resilience: '5 + 6 clients; largest about 50%; jurisdictions HHI about 2,550'
   issuance: 'Foundation 0.26%; +0.83% a year'
   inclusion: 'Largest builder 52.7%; filtering 17.6%'
+# verdicts (owner, 15 November 2026): the plain line shown in bold under each dial, above the measured reading
+verdicts:
+  history: 'Running since 2015, never halted'
+  developers: 'Thousands of active developers'
+  stop: 'Stake widely spread'
+  cost: 'An attack would cost billions'
+  rules: 'Open process, no owner and no vote'
+  property: 'Nobody can freeze a balance'
+  verify: 'Anyone can check it on ordinary hardware'
+  entry: 'Anyone with 32 ETH can validate'
+  resilience: 'Too much runs on one client'
+  issuance: 'No large founder holding'
+  inclusion: 'One builder assembles most blocks'
 notes:
   history: '11.2 years in continuous production since the Frontier launch on 30 July 2015, through a change of consensus (the Merge, 15 September 2022, no history lost); ethereum.org counted 16 upgrades and no downtime by July 2025. Tested twice without stopping: in November 2020 a minority of nodes on outdated Geth split off while the canonical chain kept producing blocks, and in May 2023 finality was delayed for four and then nine epochs while blocks continued and the chain recovered without intervention. One irregular state change, the DAO fork of 20 July 2016, disclosed and more than ten years old. OpenZeppelin’s assessment (March 2026) records the same: no full halt in the network’s history, the client splits of 2020 and 2021, the two finality delays of 2023 recovered through the inactivity leak, and post-incident analyses from client teams, the Foundation and independent researchers.'
   developers: 'The largest developer base of any ledger: Electric Capital’s live dashboard counts 8,705 monthly active developers on Ethereum and 13,391 across the EVM stack on 9 November 2026 (3,678 of them full-time), and the Ethereum Foundation’s primer for governments quotes about 11,000 EVM developers from the same data in May 2026; the broader measure of developers active over nine months to September 2025 was 31,869. The core is spread across 7 execution and 6 consensus client teams (5 and 6 shipped the Fusaka upgrade) and 190 Protocol Guild members across 28 teams (August 2026). Level 5 on the absolute test, not because the base is the largest: thousands of monthly active developers, eleven production client teams in independent organizations, and no single funder paying most core maintainers.'

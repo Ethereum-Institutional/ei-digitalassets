@@ -189,7 +189,7 @@ __STYLE__
   </div>
   <div class="ei-arch">
     <div class="ei-arch-main">
-      <div class="ei-arch-tools">__CONTROLS__<span class="all"><button type="button" data-all="1">Reveal every area</button><button type="button" data-all="0">Cover every area</button></span></div>
+      <div class="ei-arch-tools">__CONTROLS__<span class="all"><button type="button" data-all="1">Show all details</button><button type="button" data-all="0">Hide details</button></span></div>
       <div class="ei-bp pulse" id="ei-bp"><svg id="ei-svg" viewBox="0 0 1000 800" role="img" aria-label="__SVG_LABEL__"></svg></div>
       __ARCH_LEGEND__
     </div>
@@ -211,7 +211,7 @@ __STYLE__
   const NS='http://www.w3.org/2000/svg', INK='#14130f', PAPER='#f8f6f2', MUTED='#615f5a', SKY='#0ea5e9', BLUE='#0369a1';
   const KIND={instruction:{stroke:'#4b4740',dash:'',w:1.3},data:{stroke:'#0369a1',dash:'5 4',w:1.3},control:{stroke:'#4338ca',dash:'1.5 3.5',w:1.7}};
   const el=(t,a,txt)=>{ const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); if(txt!=null) e.textContent=txt; return e; };
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/&lt;(\/?)mark( class=ei-review)?>/g,'<$1mark$2>'); // review highlights survive escaping (build.mjs, reviewMarks)
   const wrapTxt=(s,max)=>{ const out=[]; let line=''; for(const w of String(s).split(' ')){ if(line&&(line+' '+w).length>max){ out.push(line); line=w; } else line=line?line+' '+w:w; } if(line) out.push(line); return out; };
   const svg=document.getElementById('ei-svg'), bp=document.getElementById('ei-bp'), panel=document.getElementById('ei-side');
   const C=DATA.components, CL=DATA.clients, clientIds=Object.keys(CL);
@@ -399,7 +399,7 @@ __STYLE__
   const linkBtn=(id,k,l)=>`<button type="button" data-go="${esc(id)}">${esc(nameOf(id))}${l||(k&&k!=='instruction')?` <span class="k">${esc([l,k!=='instruction'?k:''].filter(Boolean).join(' · '))}</span>`:''}</button>`;
   const conn=id=>{ const ins=DATA.edges.filter(e=>e.to===id), outs=DATA.edges.filter(e=>e.from===id);
     return (ins.length?`<h3>Receives from</h3><div class="links">${ins.map(e=>linkBtn(e.from,e.kind,e.label)).join('')}</div>`:'')+(outs.length?`<h3>Sends to</h3><div class="links">${outs.map(e=>linkBtn(e.to,e.kind,e.label)).join('')}</div>`:''); };
-  const flowsOf=id=>{ const fs=DATA.flows.filter(f=>f.path.includes(id)); return fs.length?`<h3>In flows</h3><div class="links">${fs.map(f=>`<button type="button" data-flow="${f.id}">${esc(f.id)} ${esc(f.name)}</button>`).join('')}</div>`:''; };
+  const flowsOf=id=>{ const fs=DATA.flows.filter(f=>f.path.includes(id)); return fs.length?`<h3>In flows</h3><div class="links">${fs.map(f=>`<button type="button" data-flow="${f.id}">${esc(f.name)}</button>`).join('')}</div>`:''; };
   function srcOf(c){ const s=c.sources||[]; return s.length?`<h3>Sources</h3><ul class="src">${s.map(x=>`<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a>${x.checked?` <span class="stx">(checked ${esc(x.checked)})</span>`:''}</li>`).join('')}</ul>`:''; }
   function compHtml(id){ const u=unitOf[id], back=u?`<button type="button" class="back" data-area="${esc(u)}">${esc(areaName(u))}</button>`:`<button type="button" class="back" data-home>All areas</button>`;
     if(CL[id]){ const c=CL[id]; return back+`<div class="path">Client segment</div><h2>${esc(c.name)}</h2><p class="stx">${esc(c.sub)}</p><p style="margin-top:8px">${esc(DATA.context.rule)}</p>`+conn(id)+flowsOf(id); }
@@ -411,7 +411,7 @@ __STYLE__
       +((c.maps_to||[]).length?`<h3>Reference maps</h3><div class="links">${c.maps_to.map(r=>{ const R=DATA.refs[r]; return R.href?`<a href="${R.href}" title="${esc(R.text)}">${esc(R.label)} →</a>`:`<span title="${esc(R.text)}">${esc(R.label)}</span>`; }).join('')}</div>`:'')
       +((DATA.ddq[id]||[]).length?`<h3>Due diligence</h3><div class="links ddq">${DATA.ddq[id].map(s=>`<a href="${s.href}">${esc(s.title)}: ${s.n} questions →</a>`).join('')}</div>`:'')
       +conn(id)+flowsOf(id)+(railIds.has(id)?`<p class="stx" style="margin-top:12px">Applies across every area.</p>`:'')+srcOf(c); }
-  const flowHtml=f=>`<button type="button" class="back" data-home>All areas</button><div class="path">Flow ${esc(f.id)} · ${f.path.length} steps</div><h2>${esc(f.name)}</h2><ol class="fl" style="margin-top:8px">${f.path.map(id=>`<li data-go="${esc(id)}">${esc(C[id]&&C[id].short||nameOf(id))}</li>`).join('')}</ol>`;
+  const flowHtml=f=>`<button type="button" class="back" data-home>All areas</button><div class="path">${f.path.length} steps</div><h2>${esc(f.name)}</h2><ol class="fl" style="margin-top:8px">${f.path.map(id=>`<li data-go="${esc(id)}">${esc(C[id]&&C[id].short||nameOf(id))}</li>`).join('')}</ol>`;
   function showPanel(){ let html;
     if(sel&&sel.type==='comp') html=compHtml(sel.id); else if(sel&&sel.type==='area') html=areaHtml(sel.key); else if(sel&&sel.type==='flow') html=flowHtml(DATA.flows.find(f=>f.id===sel.id)); else html=defaultHtml();
     panel.innerHTML='<button type="button" class="x" aria-label="Close">×</button>'+html; panel.classList.toggle('idle',!sel); panel.scrollTop=0;

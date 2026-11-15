@@ -22,6 +22,8 @@ __STYLE__
   .ei-gauge h3{margin:0;font-size:14px;font-weight:600;text-align:center;line-height:1.25}
   .ei-gauge .read{margin:0;font-size:12px;color:var(--muted);text-align:center;line-height:1.35;min-height:2.7em}
   .ei-gauge .read b{color:var(--ink);font-weight:600}
+  .ei-gauge .read .rd{display:block;margin-top:2px}
+  .ei-gauge .read abbr{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
   .ei-gauges-head{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;font-size:12px;color:var(--muted)}
   .ei-gauges-head b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em;color:var(--ink)}
   .ei-scale{display:inline-flex;align-items:center;gap:6px}
@@ -113,7 +115,9 @@ __STYLE__
   const NS='http://www.w3.org/2000/svg';
   const el=(t,a,txt)=>{ const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); if(txt!=null) e.textContent=txt; return e; };
   const rings=DATA.rings, themes=DATA.themes, N=rings.length;
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/&lt;(\/?)mark( class=ei-review)?>/g,'<$1mark$2>'); // review highlights survive escaping (build.mjs, reviewMarks)
+  const GL=Object.entries(DATA.glossary||{}).sort((a,b)=>b[0].length-a[0].length);
+  const gloss=h=>GL.length?h.replace(new RegExp('\\b('+GL.map(([t])=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','g'),t=>{ const d=(GL.find(([k])=>k===t)||[])[1]; return d?`<abbr title="${esc(d).replace(/"/g,'&quot;')}">${t}</abbr>`:t; }):h;
   // Sources: inline when few, otherwise collapsed behind a "Sources (n)" toggle
   const srcList=src=>src.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.checked?` (checked ${s.checked})`:''}`).join('; ');
   const srcHtml=src=>!(src||[]).length?'':src.length<=3?`<p class="src">Sources: ${srcList(src)}</p>`:`<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
@@ -169,7 +173,10 @@ __STYLE__
     g.needle.style.transform=`rotate(${deg}deg)`; g.needle.style.opacity=li>=0?1:.25;
     g.lvl.textContent=li>=0?String(li+1):''; g.card.setAttribute('aria-label',`${g.T.label}${li>=0?`: level ${li+1} of ${N}, ${rings[li].label}`:''}`);
     const c=li>=0?g.T.cells[rings[li].id]:null, rd=lens&&lens.readings&&lens.readings[g.T.id];
-    g.read.innerHTML=rd?`<b>${esc(rd)}</b>`:c?`<b>${esc(c.name)}</b>${c.sub?' · '+esc(c.sub):''}`:'Pick a lens'; });
+    // plain words first (owner, 15 November 2026): a lens's `verdicts` line in bold, the measured reading beneath it,
+    // with the jargon in `glossary` (site.yaml) explained on hover
+    const vd=lens&&lens.verdicts&&lens.verdicts[g.T.id];
+    g.read.innerHTML=vd?`<b>${esc(vd)}</b>${rd?`<span class="rd">${gloss(esc(rd))}</span>`:''}`:rd?`<b>${gloss(esc(rd))}</b>`:c?`<b>${esc(c.name)}</b>${c.sub?' · '+esc(c.sub):''}`:'Pick a lens'; });
   // Weighted score: default weights from themes.yaml (`weight`), adjustable with sliders; kept per viewer in localStorage.
   // Saved weights are keyed to the default weights they were set against: when the defaults change, a viewer's old
   // weights are ignored instead of silently overriding the new defaults. "Your weights" shows while custom weights apply.

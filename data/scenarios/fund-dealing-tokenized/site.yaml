@@ -11,10 +11,7 @@ intro: 'Dealing is the fund’s own market: an investor subscribes and the fund 
 svg_label: Swimlane diagram of a subscription and a redemption in a tokenized fund, from onboarding to the register
 panel_default:
   title: How it works
-  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger, and each band across the columns is one transaction in which units and cash change hands.
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
+  text: Hover over a step to read what happens and which standards do the work; click to pin it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Running this scenario?

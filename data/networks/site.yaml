@@ -64,9 +64,6 @@ lens_groups:
 lens_title: Architecture
 lens_help: Pick a layer to see which networks it describes. Highlighted badges are inside the definition; faded ones are outside. The circles do not change.
 # Optional banner shown above the heading. Remove `notice` to hide it.
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
 # Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets

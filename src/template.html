@@ -33,6 +33,7 @@
   .ei-eyebrow a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}
   .ei-eyebrow a:hover{color:var(--ink);border-color:var(--ink)}
   .ei-nav{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px}
+  .ei-nav-sep{color:var(--rule);user-select:none}
   .ei-nav a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
   .ei-nav a:hover{color:var(--ink);border-color:var(--ink)}
   .ei-nav .cur{color:var(--ink);font-weight:600;border-bottom:1px solid var(--ink);padding-bottom:2px}
@@ -48,6 +49,7 @@
     .ei-nav-list a,.ei-nav-list .cur{display:block;padding:9px 16px;border-bottom:none;font-size:14px}
     .ei-nav-list a:hover{background:#f4f2ec;color:var(--ink)}
     .ei-nav-list .cur{background:#f4f2ec}
+    .ei-nav-list .ei-nav-sep{display:block;height:1px;margin:4px 12px;background:var(--rule);overflow:hidden;color:transparent}
   }
   .ei-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:1px 7px;border-radius:8px;background:#fdf3e1;border:1px solid #e3b45f;color:#4a3108;vertical-align:middle;margin-left:6px}
   .ei-legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12px;color:var(--muted);padding:0 6px}
@@ -101,6 +103,15 @@
   .ei-section details.ei-item[open] summary{margin-bottom:6px}
   .ei-section details.ei-item summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
   .ei-facets .fx-all{padding:9px 0 0}
+  details.ei-more-d{margin-top:4px}
+  details.ei-more-d>summary{cursor:pointer;font-size:13px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;list-style:none;display:inline}
+  details.ei-more-d>summary::-webkit-details-marker{display:none}
+  details.ei-more-d[open]>summary{display:none}
+  .ei-panel dl.sum{display:grid;grid-template-columns:max-content 1fr;gap:6px 12px;margin:8px 0 10px;font-size:13px;line-height:1.45}
+  .ei-panel dl.sum dt{color:var(--muted);font-weight:600}
+  .ei-panel dl.sum dd{margin:0}
+  .ei-facets .fx-keys{padding:6px 0 10px;border-bottom:1px solid var(--rule)}
+  .ei-facets .fx-kh{font-weight:600;font-size:13px;margin-top:4px}
   .ei-facets .fx-all>summary{cursor:pointer;font-weight:600;font-size:13px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
   .ei-panel .pinbar button{font:inherit;font-size:12px;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:5px 10px;cursor:pointer}
@@ -510,7 +521,7 @@
   const PILL = DATA.badge==='pill', PK = DATA.pill_scale||1, NOUN = DATA.facets_noun||'design', NOUNS = NOUN+'s'; // `facets_noun` (site.yaml): what the sidebar calls a badge
   // ---------- facts (site.yaml `facets`, badges `facts`): a fact sheet in the panel and the "Focus on" sidebar ----------
   const FX = DATA.facets, pick = new Map(); // pick: facet id -> Set of chosen value ids
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/&lt;(\/?)mark( class=ei-review)?>/g,'<$1mark$2>'); // review highlights survive escaping (build.mjs, reviewMarks)
   const has=(a,f,v)=>{ const x=a.facts&&a.facts[f]; return x ? (x.in.includes(v)?'in':x.part.includes(v)?'part':null) : null; };
   // a picked facet holds when any picked value does; with `match: all` (tokens) every one must, and half or more is partial
   const ALL=new Set(FX?FX.list.filter(f=>f.match==='all').map(f=>f.id):[]);
@@ -532,7 +543,7 @@
       return rows?`<tr class="g"><th colspan="2">${g.label}</th></tr>${rows}`:''; }).join('');
     return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
   };
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:a.name,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,gl:a.glance||null,hollow:a.status==='testnet',only:a.only_under||[]}));
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:String(a.name).replace(/<\/?mark[^>]*>/g,''),rv:/<mark/.test(a.name),sm:a.summary||null,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,gl:a.glance||null,hollow:a.status==='testnet',only:a.only_under||[]}));
   const srcHtml=srcBox;
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
@@ -545,6 +556,8 @@
       const k=a.small?1:PK, w=a.small ? Math.round(a.name.length*5)+12 : Math.round((a.name.length*5.6+16)*k), h=a.small?16:Math.round(19*k);
       // a design on a public testnet (`status: testnet`) is a hollow pill in the same color
       const col=a.eth?ETH_BLUE:'#6b6760'; a.bs=a.hollow?col:'#f8f6f2';
+      // a review build marks a changed pill with a yellow halo, since SVG text cannot hold the <mark> (build.mjs, reviewMarks)
+      if(a.rv) g.appendChild(el('rect',{x:a.x-w/2-3,y:a.y-h/2-3,width:w+6,height:h+6,rx:h/2+3,fill:'#fff1a8',stroke:'#f0d75a','stroke-width':2}));
       a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.hollow?'#fff':col,stroke:a.bs,'stroke-width':1.5});
       g.appendChild(a.ring);
       const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4*k),'text-anchor':'middle','font-size':a.small?8.5:9.5*k,'font-weight':600,fill:a.hollow?col:'#f2efe9'}); t.textContent=a.name;
@@ -576,7 +589,7 @@
       // on a page with facts, name every circle the design sits in (its point is inside each)
       if(FX){ const inC=N.filter(n=>n.id!==OUTER&&n.t!=='rect'&&!n.lens_only&&((a.x-n.cx)/n.rx)**2+((a.y-n.cy)/n.ry)**2<=1).map(n=>n.label.join(' '));
         if(inC.length) where=inC.join(' and '); }
-      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2><p>${paras(a.d)}</p>${PILL&&(a.kind==='network')?glance(a.t,a.gl):''}${sc}${factHtml(a)}${srcHtml(a.src)}`;
+      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2>${a.sm?`<dl class="sum">${a.sm.map(r=>`<dt>${esc(r.k)}</dt><dd>${esc(r.v)}</dd>`).join('')}</dl><details class="src"><summary>Full description</summary><p>${paras(a.d)}</p></details>`:`<p>${paras(a.d)}</p>`}${PILL&&(a.kind==='network')?glance(a.t,a.gl):''}${sc}${factHtml(a)}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);
   });
@@ -751,17 +764,22 @@
       `<div class="fx-key"><span><i></i>Has it</span><span><i class="p"></i>Partly</span><span><i class="o"></i>Does not</span></div>`+
       (FX.presets.length?`<div class="fx-pre">${FX.presets.map((pr,i)=>`<button type="button" data-preset="${pr.id}" aria-pressed="false"${i?'':' class="pulse"'}>${esc(pr.label)}</button>`).join('')}</div>`:'')+
       `<div class="fx-bar"><span id="fx-n"></span><button type="button" class="clear" id="fx-clear" hidden>Clear all</button></div></div>`+
-      // the filters fold behind one summary so the presets lead (owner, 10 November 2026: the open groups distracted)
-      `<details class="fx-all"><summary>All filters<span class="fx-c" data-g="all"></span></summary>`+
+      // the filters fold behind one summary so the presets lead (owner, 10 November 2026: the open groups distracted);
+      // facets marked `key: true` show above it, the rest fold under "More filters" (owner, 15 November 2026: about six
+      // filters a reader can take in at a glance)
+      (()=>{ const fxF=f=>`<div class="fx-f"><div class="fx-l"${f.help?` title="${esc(f.help)}"`:''}>${esc(f.label)}</div><div class="fx-v">`+
+            f.values.map(v=>{ const c=count(f.id,String(v.id)); return `<button type="button" data-f="${f.id}" data-v="${v.id}" aria-pressed="false"${c?'':' class="zero"'}>${esc(v.label)}<small>${c}</small></button>`; }).join('')+`</div></div>`;
+        const keys=FX.list.filter(f=>f.key&&f.filter!==false), rest=f=>!f.key&&f.filter!==false;
+        return (keys.length?`<div class="fx-keys"><div class="fx-kh">Key filters<span class="fx-c" data-g="key"></span></div>${keys.map(fxF).join('')}</div>`:'')+
+      `<details class="fx-all"><summary>${keys.length?'More filters':'All filters'}<span class="fx-c" data-g="all"></span></summary>`+
       // `filter: false` facets are information only: in each design's fact sheet, not in the sidebar
-      FX.groups.filter(g=>FX.list.some(f=>f.group===g.id&&f.filter!==false)).map((g,i)=>`<details class="fx-g"${i<2?' open':''}><summary>${esc(g.label)}<span class="fx-c" data-g="${g.id}"></span></summary>`+
-        FX.list.filter(f=>f.group===g.id&&f.filter!==false).map(f=>`<div class="fx-f"><div class="fx-l"${f.help?` title="${esc(f.help)}"`:''}>${esc(f.label)}</div><div class="fx-v">`+
-            f.values.map(v=>{ const c=count(f.id,String(v.id)); return `<button type="button" data-f="${f.id}" data-v="${v.id}" aria-pressed="false"${c?'':' class="zero"'}>${esc(v.label)}<small>${c}</small></button>`; }).join('')+`</div></div>`).join('')+
-        `</details>`).join('')+'</details>';
+      FX.groups.filter(g=>FX.list.some(f=>f.group===g.id&&rest(f))).map((g,i)=>`<details class="fx-g"${!keys.length&&i<2?' open':''}><summary>${esc(g.label)}<span class="fx-c" data-g="${g.id}"></span></summary>`+
+        FX.list.filter(f=>f.group===g.id&&rest(f)).map(fxF).join('')+
+        `</details>`).join('')+'</details>'; })();
     const fxn=document.getElementById('fx-n'), fxc=document.getElementById('fx-clear');
     fxSync=()=>{
       aside.querySelectorAll('button[data-f]').forEach(b=>{ const on=!!(pick.get(b.dataset.f)&&pick.get(b.dataset.f).has(b.dataset.v)); b.classList.toggle('on',on); b.setAttribute('aria-pressed',String(on)); });
-      aside.querySelectorAll('.fx-c').forEach(c=>{ const n=FX.list.filter(f=>c.dataset.g==='all'||f.group===c.dataset.g).reduce((s,f)=>s+(pick.has(f.id)?pick.get(f.id).size:0),0); c.textContent=n?` · ${n} chosen`:''; });
+      aside.querySelectorAll('.fx-c').forEach(c=>{ const n=FX.list.filter(f=>c.dataset.g==='all'?!f.key:c.dataset.g==='key'?f.key:f.group===c.dataset.g).reduce((s,f)=>s+(pick.has(f.id)?pick.get(f.id).size:0),0); c.textContent=n?` · ${n} chosen`:''; });
       fxc.hidden=!pick.size;
     };
     // the preset last applied stays active while its picks are edited, until it is toggled off or everything is cleared

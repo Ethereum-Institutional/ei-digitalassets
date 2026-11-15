@@ -49,6 +49,14 @@ badges:
     gas: { in: [k200to500], note: 'About 497,000 gas per confidentialTransfer (429,000 to 587,000), measured from 300 cUSDT transfers on Ethereum mainnet, October 2026.' }
     latency: { in: [block], note: 'A transfer is one host-chain transaction; unwrapping waits for an asynchronous KMS decryption.' }
     anonymity: { in: ['na'] }
+  # summary (owner, 15 November 2026): the panel shows these labeled lines in place of the paragraph
+  summary:
+  - { k: 'Hides', v: 'Balances and transfer amounts, by fully homomorphic encryption' }
+  - { k: 'Still visible', v: 'Sender, receiver and asset, so monitoring tools keep working' }
+  - { k: 'You trust', v: 'A 13-operator key service and five coprocessor operators, which you cannot run yourself today' }
+  - { k: 'Issuer keeps', v: 'A denylist, a pause and observers; a regulator can be granted decryption' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 30 December 2025' }
+  - { k: 'Cost', v: 'About 497,000 gas per transfer' }
   desc: 'Encrypts balances and transfer amounts with fully homomorphic encryption (TFHE, lattice-based) in ERC-7984 tokens such as cUSDC and cUSDT, built on OpenZeppelin’s confidential contracts. Sender, receiver, asset and wrap amounts stay public, so monitoring tools keep working. You trust a 13-operator threshold key service and five coprocessor operators, which you cannot run yourself today. The wrapper owner keeps a denylist, a pause and observers, and a regulator can be granted decryption. On Ethereum mainnet since 30 December 2025, composable in plain Solidity; about 497,000 gas per transfer.'
   sources:
   - { title: 'Zama, ERC-7984 explained (what is encrypted)', url: 'https://www.zama.org/post/erc-7984-the-confidential-token-standard-explained', checked: '2026-10-26' }
@@ -113,6 +121,13 @@ badges:
     gas: { in: [k200to500], note: 'confidentialTransfer 421,500 gas (existing holder) or 474,400 (new holder), published by Fhenix.' }
     latency: { in: [block], note: 'Transfers settle in a host-chain block; unshield takes two transactions, decryption typically 5 to 10 seconds (PSE, on Redact).' }
     anonymity: { in: ['na'] }
+  summary:
+  - { k: 'Hides', v: 'Balances and amounts, by fully homomorphic encryption (ERC-7984 tokens)' }
+  - { k: 'Still visible', v: 'Addresses, the asset and transfer counts' }
+  - { k: 'You trust', v: 'Fhenix itself: it runs the one Intel TDX enclave that decrypts, with the key split 3 of 6' }
+  - { k: 'Issuer keeps', v: 'Freeze and an observer' }
+  - { k: 'Runs on', v: 'Partner mainnet on Ethereum mainnet and Arbitrum since 21 October 2026; new applications need Fhenix approval' }
+  - { k: 'Code', v: 'Called unaudited and not fully open source in its own docs' }
   desc: 'Hides balances and amounts with fully homomorphic encryption in FHERC20 tokens that implement ERC-7984; addresses, asset and transfer counts stay visible. Today you trust Fhenix itself: it runs the single Intel TDX enclave that decrypts, with the key split 3 of 6, and its docs call the code unaudited and not fully open source. Issuers can freeze and add an observer. Partner mainnet on Ethereum mainnet and Arbitrum since 21 October 2026; new applications need Fhenix approval.'
   sources:
   - { title: 'Fhenix docs, FHERC20 overview (hidden versus public; ERC-7984)', url: 'https://cofhe-docs.fhenix.zone/cofhe/fhe-library/confidential-contracts/fherc20/overview', checked: '2026-10-26' }
@@ -167,6 +182,12 @@ badges:
     gas: { in: [k200to500], note: 'About 496,300 gas per confidentialTransfer on Base (two transfers, 25 and 26 October 2026, our measurement); wrap about 369,000, unwrap about 495,000.' }
     latency: { in: [block], note: 'One Base transaction; decryption by the covalidator quorum has no protocol delay.' }
     anonymity: { in: ['na'] }
+  summary:
+  - { k: 'Hides', v: 'Balances and amounts, in cTokens that wrap any ERC-20' }
+  - { k: 'Still visible', v: 'Addresses and the asset' }
+  - { k: 'You trust', v: 'Inco: its enclaves compute and decrypt, signed by a quorum whose operators and threshold are not published' }
+  - { k: 'Issuer keeps', v: 'No freeze documented; holders can always unshield' }
+  - { k: 'Runs on', v: 'Base: Lightning since 15 June 2026, cTokens since 2 September 2026; not on Ethereum mainnet' }
   desc: 'Hides balances and amounts in cTokens that wrap any ERC-20 on Base; addresses and the asset stay visible. Computation and decryption run in Inco’s trusted hardware enclaves, signed by a quorum whose operators and threshold are not published, so you trust Inco. Holders can always unshield; no issuer freeze is documented. Lightning live on Base since 15 June 2026 and cTokens since 2 September 2026; not on Ethereum mainnet.'
   sources:
   - { title: 'Inco blog, cToken live on Base mainnet (2 September 2026)', url: 'https://www.inco.org/blog/confidential-token-live-on-base-mainnet', checked: '2026-10-26' }
@@ -222,6 +243,14 @@ badges:
     gas: { in: ['na'], note: 'Not EVM gas. A v2 private transfer used 42.4 million Starknet L2 gas plus 1,696 L1 data gas, a fee of 1.33 to 1.46 STRK (about USD 0.07 at the 27 October 2026 price). Measured on the three v2 transfers (13 to 29 July 2026, our reading); there is no EVM-comparable bucket.' }
     latency: { in: [block], note: 'One Starknet transaction, with proofs made on the device. The receiver needs a rollover transaction before spending, and Ethereum mainnet finality follows with the STARK proof.' }
     anonymity: { in: ['na'] }
+  summary:
+  - { k: 'Hides', v: 'Balances and transfer amounts, with proofs made on your device' }
+  - { k: 'Still visible', v: 'Sender and receiver keys, the token, and amounts funded or withdrawn' }
+  - { k: 'You trust', v: 'The contracts, the discrete-log assumption and Starknet; no trusted setup, operator or key service, and anyone exits with their own proof' }
+  - { k: 'Compliance', v: 'On v1 ledgers an auditor key decrypts every amount; v2 ledgers have none' }
+  - { k: 'Issuer keeps', v: 'No freeze, pause or mint' }
+  - { k: 'Runs on', v: 'Starknet, a non-EVM Ethereum Layer 2, since 14 November 2025' }
+  - { k: 'Track record', v: 'Audited by zkSecurity; about 130 private transfers and USD 40 held' }
   desc: 'Hides balances and transfer amounts with ElGamal encryption on the Stark curve and sigma-protocol proofs made on your device; sender and receiver keys, the token and fund and withdraw amounts stay public. On ledgers deployed with an auditor key (v1), that key decrypts every amount; the v2 ledgers have none. You trust the contracts, the discrete-log assumption and Starknet: no trusted setup, operator or key service, and anyone exits with their own proof. No issuer freeze, pause or mint. Runs on Starknet, a non-EVM Ethereum Layer 2; live since 14 November 2025, audited by zkSecurity, about 130 private transfers and USD 40 held.'
   sources:
   - { title: 'Tongo docs, introduction (what is hidden; ElGamal on the Stark curve; no trusted setup)', url: 'https://docs.tongo.cash/protocol/introduction.html', checked: '2026-10-27' }
@@ -278,6 +307,14 @@ badges:
     gas: { in: [gt500k], note: 'No in-pool transfer: deposit about 1,088,354 plus withdrawal about 301,233 gas (README, 2019).' }
     latency: { in: [minute], note: 'About 10 seconds to prove plus one block; waiting longer grows the set.' }
     anonymity: { in: [medium], note: 'A withdrawal hides among the unspent deposits of its pool: 4,229 in the 1 ETH pool on Ethereum mainnet (97,787 deposits since 2019), 15 November 2026.' }
+  summary:
+  - { k: 'Hides', v: 'Only which deposit funded which withdrawal' }
+  - { k: 'Still visible', v: 'Amounts, the asset, and every depositing and withdrawing address' }
+  - { k: 'You trust', v: 'Immutable contracts; no operator' }
+  - { k: 'Compliance', v: 'No screening' }
+  - { k: 'Issuer keeps', v: 'No control inside the pools' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since December 2019' }
+  - { k: 'Legal history', v: 'Designated by OFAC on 8 August 2022; on 26 November 2024 the Fifth Circuit held its immutable smart contracts are not property under IEEPA; removed from the sanctions list on 21 March 2025' }
   desc: 'Fixed-size pools that hide only which deposit funded which withdrawal; amounts, the asset and every depositing and withdrawing address stay public. Immutable Groth16 contracts with no operator, no screening and no issuer control inside. On Ethereum mainnet since December 2019. Dates and holdings: designated by OFAC on 8 August 2022; on 26 November 2024 the Fifth Circuit held its immutable smart contracts are not property under IEEPA; removed from the sanctions list on 21 March 2025.'
   sources:
   - { title: 'tornadocash/tornado-core (design, gas, audit)', url: 'https://github.com/tornadocash/tornado-core', checked: '2026-10-26' }
@@ -341,6 +378,13 @@ badges:
     gas: { in: [lt200k], note: 'Umbra on Ethereum mainnet, 26 October 2026: send ETH 62,002 gas, send ERC-20 83,867, sponsored withdrawal 70,625.' }
     latency: { in: [block], note: 'One ordinary transaction; no waiting period.' }
     anonymity: { in: [medium], note: 'Umbra has over 22,000 payments on Ethereum mainnet (PSE); heuristics re-link about half, so the effective set is smaller.' }
+  summary:
+  - { k: 'Hides', v: 'Who received a payment: each goes to a fresh one-time address only the receiver (and, for Fluidkey, the service) can link to them' }
+  - { k: 'Still visible', v: 'Sender, amount, token and timing' }
+  - { k: 'You trust', v: 'Plain elliptic-curve key exchange; no proofs. Umbra uses its own registry; Fluidkey derives addresses from a node of your viewing key that it holds' }
+  - { k: 'Issuer keeps', v: 'Every control: the tokens are ordinary ERC-20s' }
+  - { k: 'Runs on', v: 'Umbra on Ethereum mainnet since 30 April 2021; Fluidkey since 2024' }
+  - { k: 'Cost', v: 'As cheap as a normal transfer; poor gas hygiene undoes it' }
   desc: 'Each payment goes to a fresh one-time address that only the receiver (and, for Fluidkey, the service) can link to them. Umbra uses its own key registry and announcements, the design ERC-5564 and ERC-6538 (Final since 2024) standardized; Fluidkey derives addresses from a node of the user’s viewing key that it holds. Sender, amount, token and timing stay public, and because the tokens are ordinary ERC-20s every issuer control still works. Plain elliptic-curve key exchange, no proofs, cheap as a normal transfer. Umbra on Ethereum mainnet since 30 April 2021; Fluidkey since 2024. Poor gas hygiene undoes it.'
   sources:
   - { title: 'ERC-5564, Stealth Addresses (Final)', url: 'https://eips.ethereum.org/EIPS/eip-5564', checked: '2026-10-26' }
@@ -403,6 +447,15 @@ badges:
     gas: { in: [gt500k], note: 'A self-broadcast private transfer used 960,367 gas on Ethereum mainnet (24 October 2026); relayed transfers about 1.0 to 1.2 million.' }
     latency: { in: [minute], part: [longer], note: 'Seconds to prove plus one block; the first spend after shielding waits about an hour for PPOI.' }
     anonymity: { in: [large], note: 'About 294,000 commitments in the shared Ethereum mainnet tree (24 October 2026), counting change and transfer notes; an unshield hides only among notes of the same token.' }
+  # summary (owner, 15 November 2026): the panel shows these labeled lines in place of the paragraph
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient, amount and token, for transfers inside the pool' }
+  - { k: 'Still visible', v: 'Every deposit into the pool and withdrawal out of it' }
+  - { k: 'You trust', v: 'Proofs made on your own device; no operator sees your data' }
+  - { k: 'Compliance', v: 'Open to anyone at the contract, screened in wallets; viewing keys can go to an auditor' }
+  - { k: 'Issuer keeps', v: 'No freeze on a holder inside the pool' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 2022, plus Arbitrum, Polygon and BNB Chain' }
+  - { k: 'Code', v: 'Proprietary contracts (UNLICENSED)' }
   desc: 'A shielded pool that hides sender, recipient, amount and token for transfers inside it; shields and unshields stay public. Groth16 proofs made on your device, so no operator sees your data, and read-only viewing keys can be shared with an auditor. Admission is permissionless at the contract, with Private Proofs of Innocence screening in wallets. An issuer cannot freeze a holder inside the pool. Ethereum mainnet since 2022 (current contracts), plus Arbitrum, Polygon and BNB Chain; contracts are proprietary (UNLICENSED).'
   sources:
   - { title: 'RAILGUN docs, zero-knowledge cryptography', url: 'https://docs.railgun.org/wiki/learn/privacy-system/zero-knowledge-cryptography', checked: '2026-10-26' }
@@ -461,6 +514,14 @@ badges:
     gas: { in: [gt500k], note: 'v2 transact on Ethereum mainnet: median about 830,000 gas over 65 relayed calls, 1 September to 26 October 2026. v1 has no transfer.' }
     latency: { in: [longer], part: [block], note: 'First private spend waits for ASP approval (up to about 8 hours); later transfers about one block.' }
     anonymity: { in: [medium], part: [small], note: 'v1 ETH pool: about 13,200 tree leaves by 11 October 2026, deposits a minority. v2: under 100 transactions so far.' }
+  summary:
+  - { k: 'Hides', v: 'v1: the link from deposit to withdrawal. v2: also parties, amounts and asset for in-pool transfers' }
+  - { k: 'Still visible', v: 'Deposits; the association set provider sees depositors' }
+  - { k: 'You trust', v: '0xbow’s association set provider, which must approve a deposit before it is spent privately' }
+  - { k: 'Compliance', v: 'Only approved deposits can be spent privately; anyone can always exit publicly (ragequit)' }
+  - { k: 'Issuer keeps', v: 'No control inside and no regulator view' }
+  - { k: 'Runs on', v: 'v1 on Ethereum mainnet since 31 March 2025; v2 since 20 October 2026' }
+  - { k: 'Code', v: 'v2 contracts BUSL-1.1' }
   desc: 'A shielded pool where only deposits approved by 0xbow’s association set provider can be spent privately; anyone can always exit publicly (ragequit). Version 1 (Ethereum mainnet, 31 March 2025) hides the deposit-to-withdrawal link; version 2 (20 October 2026) adds in-pool transfers that hide parties, amounts and asset. The set provider sees depositors; there is no issuer control inside and no regulator view. Based on Buterin, Illum, Nadler, Schär and Soleimani (2023); v2 contracts are BUSL-1.1.'
   sources:
   - { title: 'Privacy Pools v2 tech design overview', url: 'https://github.com/0xbow-io/privacy-pools-v2-monorepo/blob/main/docs/tech-design/overview.md', checked: '2026-10-26' }
@@ -525,6 +586,13 @@ badges:
     gas: { in: [gt500k], note: 'Relayed private transfers used about 513,600 gas on Ethereum mainnet (25 and 26 October 2026); withdrawals 420,000 to 515,000.' }
     latency: { in: [minute], note: 'Seconds to prove plus one block; no protocol wait on deposit or withdrawal.' }
     anonymity: { in: [medium], note: '1,643 commitments in the redeployed Ethereum mainnet tree on 26 October 2026, across all tokens and including change notes.' }
+  summary:
+  - { k: 'Hides', v: 'Parties, amount and token inside a shielded balance with stealth addresses' }
+  - { k: 'Still visible', v: 'Entries and exits' }
+  - { k: 'You trust', v: 'Hinkal’s admin key and relayers' }
+  - { k: 'Compliance', v: 'Entry screened by Chainalysis; deposits over $10,000 need a KYC or zkTLS attestation; viewing keys can go to an auditor' }
+  - { k: 'Runs on', v: 'Ethereum mainnet and other EVM chains, plus Solana and TRON' }
+  - { k: 'Track record', v: 'About $800,000 drained by a double-spend bug on 2 July 2026; Ethereum mainnet contract redeployed on 16 July 2026' }
   desc: 'A shielded balance with stealth addresses that hides parties, amount and token inside; entries and exits are public. Entry is screened by Chainalysis and deposits over $10,000 need a KYC or zkTLS attestation; viewing keys can be shared with an auditor. You trust Hinkal’s admin key and relayers. Ethereum mainnet and other EVM chains, plus Solana and TRON. About $800,000 was drained by a double-spend bug on 2 July 2026; the Ethereum mainnet contract was redeployed on 16 July 2026.'
   sources:
   - { title: 'Hinkal docs, compliance', url: 'https://hinkal-team.gitbook.io/hinkal/security-and-compliance/compliance', checked: '2026-10-26' }
@@ -583,6 +651,13 @@ badges:
     gas: { in: [gt500k], note: 'About 2.5 million gas per pool transaction on the Gnosis Chain test contracts (May 2026); nothing published for a mainnet transfer.' }
     latency: { in: [unknown], note: 'No proving time published; the governor sets a delay for public withdrawals.' }
     anonymity: { in: [small], note: '176 and 92 commitments in the two Gnosis Chain test pools (snapshot 24 October 2026); no production pool.' }
+  summary:
+  - { k: 'Hides', v: 'Balances, amounts and counterparties, over native tokens (USDC, EURC, ERC-4626 shares)' }
+  - { k: 'You trust', v: 'Proofs made on your device; Bermuda Bay runs the relayer and the screening' }
+  - { k: 'Compliance', v: 'Screened deposits; flagged funds are forced to a public exit' }
+  - { k: 'Issuer keeps', v: 'A per-token policy, a viewing key, freeze and clawback inside the pool: the strongest issuer controls here' }
+  - { k: 'Runs on', v: 'Testnets, with a partner-only SDK; a cross-chain DvP proof of concept on Linea in June 2026' }
+  - { k: 'Track record', v: 'The least on this map' }
   desc: 'A shielded pool over native tokens (USDC, EURC, ERC-4626 shares) that hides balances, amounts and counterparties, built so the issuer keeps a per-token policy, a viewing key, freeze and clawback inside the pool. Screened deposits; flagged funds are forced to a public exit. Noir proofs with a universal setup, made on your device; Bermuda Bay runs the relayer and the screening. On testnets with a partner-only SDK, with a June 2026 cross-chain DvP proof of concept on Linea. The strongest issuer-control design here, with the least track record.'
   sources:
   - { title: 'Bermuda, website', url: 'https://bermudabay.xyz', checked: '2026-10-26' }
@@ -636,6 +711,13 @@ badges:
     gas: { in: [unknown], note: 'No gas figure published by Paladin, the BIS or PSE; Noto is not in the PSE benchmark.' }
     latency: { in: [block], note: '"Seconds" per the Besu docs: one notary-submitted base-ledger transaction.' }
     anonymity: { in: [small], note: 'Per deployment: the holders of one token on one network (Agorá: eight central banks and over 40 institutions).' }
+  # summary (owner, 15 November 2026): the panel shows these labeled lines in place of the paragraph
+  summary:
+  - { k: 'Hides', v: 'Holders and amounts: the chain records only salted hashes' }
+  - { k: 'You trust', v: 'The notary, usually the issuer, which sees and approves every transfer; you can run every part yourself' }
+  - { k: 'Issuer keeps', v: 'Mint, burn and lock; with hooks, forced transfer and blocklists' }
+  - { k: 'Runs on', v: 'Any EVM chain, including Ethereum mainnet and Besu; locks settle atomic DvP' }
+  - { k: 'Track record', v: 'Used in the BIS Project Agorá prototype (May 2026)' }
   desc: 'Notarized tokens in Hyperledger Paladin: the chain records only salted hashes of each holding, so the public sees neither holders nor amounts. The notary, usually the issuer, sees and approves every transfer, so you trust it for privacy and integrity, and the institution can run every part itself. Mint, burn, lock and, with hooks, forced transfer and blocklists survive. Any EVM chain, including Ethereum mainnet and Besu; locks settle atomic DvP. Used in the BIS Project Agorá prototype (May 2026).'
   sources:
   - { title: 'Paladin docs, Noto', url: 'https://lfdt-paladin.github.io/paladin/head/architecture/noto/', checked: '2026-10-26' }
@@ -689,6 +771,14 @@ badges:
     gas: { in: [k200to500, gt500k], note: 'Docs estimates, 2-in/2-out: 326,583 (Anon), 425,338 (AnonEnc), about 2.0 to 2.8 million (nullifier, KYC, arbiter variants).' }
     latency: { in: [minute], note: 'Proof under 30 s with native binaries (3 to 5 min first-run WASM warm-up), then one transaction.' }
     anonymity: { in: [small], note: 'Per deployment: holders of one Zeto contract; nullifier variants also hide which coins were spent.' }
+  summary:
+  - { k: 'Hides', v: 'Holders and amounts; the nullifier variants also hide which coins were spent' }
+  - { k: 'You trust', v: 'The circuits, the trusted setup and your own keys; no notary sees transfers' }
+  - { k: 'Compliance', v: 'Variants add a KYC registry, an arbiter key or a post-quantum (ML-KEM) auditor key' }
+  - { k: 'Issuer keeps', v: 'No freeze or forced transfer' }
+  - { k: 'Runs on', v: 'Any EVM chain; atomic DvP with Noto, Pente and ERC-20' }
+  - { k: 'Cost', v: 'About 330,000 to 2.8 million gas per transfer, by variant' }
+  - { k: 'Track record', v: 'Tested by the HKMA in its e-HKD pilot (October 2025)' }
   desc: 'Zero-knowledge UTXO tokens in Hyperledger Paladin: Groth16 proofs hide holders and amounts, and the nullifier variants hide which coins were spent. No notary sees transfers; you trust the circuits, the trusted setup and your own keys. Variants add a KYC registry, an arbiter key or a post-quantum (ML-KEM) auditor key; there is no freeze or forced transfer. Any EVM chain; atomic DvP with Noto, Pente and ERC-20. About 330,000 to 2.8 million gas per transfer by variant; tested by the HKMA in its e-HKD pilot (October 2025).'
   sources:
   - { title: 'Zeto docs, implementations (variants and gas)', url: 'https://lfdt-paladin.github.io/zeto/latest/implementations/', checked: '2026-10-26' }
@@ -744,6 +834,13 @@ badges:
     gas: { in: [k200to500], part: [gt500k], note: 'About 445,000 gas per transfer call, plus about 347,000 for the operators’ processMpc, which carried one action per call: about 793,000 in all (27 transfers and 64 processMpc calls on World Chain, 22 September to 16 October 2026).', sources: [{ title: 'Worldscan, Merces contract transactions on World Chain (our gas measurement over 131 transactions)', url: 'https://worldscan.org/address/0x458838De82E065A84e947D7dAC3844E473c404DA', checked: '2026-10-27' }] }
     latency: { in: [minute], note: 'The operators finalized each action 2 to 6 seconds (average 3.7) after the user’s transaction on World Chain; the paper’s demo reports about 8.4 seconds end to end.' }
     anonymity: { in: [small], note: 'Registered accounts in the ID registry: 39 on Monad and 3 on World Chain (27 October 2026).' }
+  summary:
+  - { k: 'Hides', v: 'Sender, receiver and amount of each transfer' }
+  - { k: 'Still visible', v: 'Deposits and withdrawals; the operators see the transaction graph, not amounts' }
+  - { k: 'You trust', v: 'That no two of three MPC operators collude and the network stays live (no escape hatch yet); the chain verifies a proof of every update. You can nominate your own operators' }
+  - { k: 'Compliance', v: 'Predicate screens entry and exit; authorized parties can request threshold decryption' }
+  - { k: 'Issuer keeps', v: 'The owner can pause and freeze accounts' }
+  - { k: 'Runs on', v: 'Live with caps on Monad and World Chain since September 2026; testnets since November 2025' }
   desc: 'Hides the sender, receiver and amount of each transfer behind commitments; balances are secret-shared across three MPC operators, who see the transaction graph but no amounts. Deposits and withdrawals stay public. You trust that no two operators collude and that the network stays live (the escape hatch is not yet deployed); correctness does not depend on them, because the chain verifies a Groth16 proof of every update. The owner can pause and freeze accounts, Predicate screens entry and exit, and authorized parties can request threshold decryption. You can nominate your own operators. Live with caps on Monad and World Chain since September 2026; testnets since November 2025.'
   sources:
   - { title: 'TACEO docs, Finance Solutions overview (Merces)', url: 'https://docs.taceo.io/docs/finance-solutions/overview/', checked: '2026-10-27' }
@@ -814,6 +911,12 @@ badges:
     gas: { in: [unknown], note: 'No gas figure published by Paladin, the BIS or PSE.' }
     latency: { in: [block], note: '"Seconds" per the Besu docs; a whole Agorá cross-border payment averaged about 80 seconds.' }
     anonymity: { in: ['na'], note: 'Members are named at group creation; outsiders see only the group contract.' }
+  summary:
+  - { k: 'Hides', v: 'Parties, amounts and contract logic: ordinary Solidity run inside a privacy group; the chain sees only salted state hashes' }
+  - { k: 'You trust', v: 'The group’s members: every member endorses each step, so there is no operator, but one absent member stalls the group' }
+  - { k: 'Compliance', v: 'A regulator can be a member' }
+  - { k: 'Runs on', v: 'Any EVM chain; settles atomically with Noto, Zeto or ERC-20' }
+  - { k: 'Track record', v: 'Successor to Besu’s Tessera private transactions; used in the BIS Project Agorá prototype' }
   desc: 'Ordinary Solidity run inside a Hyperledger Paladin privacy group, so parties, amounts and contract logic stay with the members; the chain sees only salted state hashes and endorsements. Every member endorses each step, so there is no operator, but one absent member stalls the group. A regulator can be a member. Any EVM chain; side effects settle atomically with Noto, Zeto or ERC-20. The successor to Besu’s Tessera private transactions, removed from Besu in June 2025. Used in the BIS Project Agorá prototype.'
   sources:
   - { title: 'Paladin docs, Pente', url: 'https://lfdt-paladin.github.io/paladin/head/architecture/pente/', checked: '2026-10-26' }
@@ -866,6 +969,12 @@ badges:
     gas: { in: ['na'], note: 'Transfers run inside the private chain; Ethereum mainnet sees only one root and proof per batch.' }
     latency: { in: [block], note: 'One private-chain block; L1 finality and withdrawals wait about three hours (validator timelock).' }
     anonymity: { in: ['na'], note: 'Nothing reaches the public; members are identified and the operator sees everyone.' }
+  summary:
+  - { k: 'Hides', v: 'Parties, amounts and logic: Ethereum mainnet sees only state roots and validity proofs' }
+  - { k: 'You trust', v: 'The operator, who sees everything: privacy here is access control, not cryptography; exit depends on the operator publishing data' }
+  - { k: 'Compliance', v: 'The operator grants views by role, including to auditors and regulators' }
+  - { k: 'Runs on', v: 'A private ZKsync chain run by or for the institution; extended to Besu on 2 July 2026' }
+  - { k: 'Track record', v: 'Chosen by Deutsche Bank’s Memento chain and the Cari Network of US banks' }
   desc: 'A private ZKsync chain run by or for the institution: Ethereum mainnet sees only state roots and validity proofs, so parties, amounts and logic stay in the operator’s database. Privacy here is access control, not cryptography: the operator sees everything and grants views by role, including to auditors and regulators. Correctness is proven; exit depends on the operator publishing data. Extended to Besu on 2 July 2026; chosen by Deutsche Bank’s Memento chain and by the Cari Network of US banks.'
   sources:
   - { title: 'ZKsync docs, Prividium overview', url: 'https://docs.zksync.io/zk-stack/prividium/overview', checked: '2026-10-26' }
@@ -920,6 +1029,12 @@ badges:
     gas: { in: ['na'], note: 'Transfers run on private nodes; Enygma verification costs about 280,000 gas on the hub, not on Ethereum mainnet.' }
     latency: { in: [minute], note: 'Drex phase 1: 10 to 60 s for simple cross-node transfers, 1 to 4 minutes for DvP.' }
     anonymity: { in: ['na'], note: 'Nothing reaches the public; on the hub Enygma hides a sender among 2 to 6 institutions.' }
+  summary:
+  - { k: 'Hides', v: 'Balances, counterparties and logic: each institution runs its own privacy node, and nothing reaches a public ledger' }
+  - { k: 'You trust', v: 'The network operator, who can decrypt, with appointed auditors' }
+  - { k: 'Issuer keeps', v: 'Freeze, mint and burn' }
+  - { k: 'Runs on', v: 'Institutions’ EVM privacy nodes, linked by a permissioned Besu hub' }
+  - { k: 'Track record', v: 'Tested in Brazil’s Drex pilot and in Kinexys Project Epic (2024)' }
   desc: 'Each institution runs its own EVM privacy node, so balances, counterparties and logic never reach a public ledger; a permissioned Besu hub carries encrypted messages between them. The network operator and appointed auditors can decrypt, and issuers keep freeze, mint and burn. Tested in Brazil’s Drex pilot and in Kinexys Project Epic (2024).'
   sources:
   - { title: 'Rayls sovereign docs', url: 'https://github.com/raylsnetwork/rayls-sovereign-docs', checked: '2026-10-26' }
@@ -973,6 +1088,14 @@ badges:
     gas: { in: [gt500k], note: 'Adapter execute() median 858,000 gas on Ethereum mainnet (100 calls, 23 Sep to 25 Oct 2026), mixing deposits, transfers and withdrawals.' }
     latency: { in: [minute], note: 'About 15 seconds of proving per transfer (Anoma, 2 June 2026).' }
     anonymity: { in: [small], part: [medium], note: 'Adapter commitments on 26 Oct 2026: 1,343 Ethereum mainnet, 2,824 Base, 10,470 BNB Chain, shared by all Anoma apps.' }
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient, asset and amount, for transfers inside the pool' }
+  - { k: 'Still visible', v: 'Deposits and withdrawals' }
+  - { k: 'You trust', v: 'Anoma’s proving and transaction services, which see each transfer in the clear, for privacy, not for custody' }
+  - { k: 'Compliance', v: 'Those services apply AML checks' }
+  - { k: 'Issuer keeps', v: 'No freeze inside; a 3-of-5 multisig can stop the adapter' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 2 June 2026 (V1), after a BNB Chain beta; also Arbitrum, Base, Monad and Stable' }
+  - { k: 'Code', v: 'Audited, MIT; payment links instead of addresses' }
   desc: 'A shielded pool for ERC-20 tokens that settles through the Anoma Protocol Adapter: transfers inside it hide sender, recipient, asset and amount from the public, while deposits and withdrawals stay visible. Anoma’s proving and transaction services see each transfer in the clear while they build its RISC Zero proof, and they apply AML checks, so you trust that operator for privacy but not for custody. There is no issuer freeze inside; a 3-of-5 multisig can stop the adapter. Public beta on BNB Chain from 2 April 2026, V1 on Ethereum mainnet since 2 June 2026, then Arbitrum, Base, Monad and Stable. Audited MIT contracts and payment links instead of addresses.'
   sources:
   - { title: 'Anoma docs, AnomaPay introduction (supported chains and tokens)', url: 'https://docs.anoma.net/anoma-pay-introduction', checked: '2026-10-26' }
@@ -1029,6 +1152,12 @@ badges:
     gas: { in: [unknown], note: 'No gas-unit figure published; Aztec quotes a private transfer at under USD 0.05; PSE has no gas data.' }
     latency: { in: [minute], note: 'Seconds of proving plus an L2 block of about 6 s; L1 finality takes up to one 38-minute epoch.' }
     anonymity: { in: [small], note: 'No published figure; value held is tiny (USD 104 on V6, 26 October 2026), so few notes to hide among.' }
+  summary:
+  - { k: 'Hides', v: 'Sender, receiver, amount, asset and which function ran, for private functions, from the public, sequencers and provers' }
+  - { k: 'You trust', v: 'The proof system, with proofs made on your device; not an operator' }
+  - { k: 'Issuer keeps', v: 'No protocol-level controls; a token has freeze or blocklist only if coded in' }
+  - { k: 'Runs on', v: 'A privacy rollup on Ethereum mainnet' }
+  - { k: 'Track record', v: 'Still labeled alpha; critical proving bugs found on 17 March and 27 July 2026' }
   desc: 'A privacy rollup on Ethereum mainnet: for private functions it hides sender, receiver, amount, asset and which function ran, from the public, sequencers and provers, with proofs made on your device. You trust the proof system, not an operator. No protocol-level issuer controls; a token has freeze or blocklist only if coded in. Still labeled alpha: critical proving bugs were found on 17 March and 27 July 2026.'
   sources:
   - { title: 'Aztec docs, privacy considerations', url: 'https://docs.aztec.network/developers/docs/resources/considerations/privacy_considerations', checked: '2026-10-26' }
@@ -1085,6 +1214,14 @@ badges:
     gas: { in: [gt500k], note: 'No in-pool transfer: medians about 1.78 million gas to deposit and 1.84 million to withdraw on Base.' }
     latency: { in: [block], note: 'Sub-second proving plus one Base block; silent transfers add a chosen delay.' }
     anonymity: { in: [small], note: '99 shielded accounts and 446 transactions on Base from 23 July 2025 to 2 April 2026.' }
+  summary:
+  - { k: 'Hides', v: 'Only which deposit funded which withdrawal; no in-pool transfers' }
+  - { k: 'Still visible', v: 'Amounts, tokens and both addresses' }
+  - { k: 'You trust', v: 'Proofs made on your device; the owner multisig can pause and upgrade' }
+  - { k: 'Compliance', v: 'An Anonymity Revoker chosen by the owner can reveal a user’s full history after a governance decision on illicit funds: a built-in, verifiable reveal route' }
+  - { k: 'Issuer keeps', v: 'No control' }
+  - { k: 'Runs on', v: 'Base since 23 July 2025, also HyperEVM' }
+  - { k: 'Track record', v: 'About 450 transactions, none since April 2026' }
   desc: 'A shielded pool that hides which deposit funded which withdrawal; amounts, tokens and both addresses stay public, and there is no in-pool transfer. Halo2 proofs are made on your device and relayers only post them. Each account carries an encrypted key for an Anonymity Revoker chosen by the contract owner, who can reveal a user''s full history after a governance decision on illicit funds; the owner multisig can also pause and upgrade. No issuer control survives. Base since 23 July 2025, also HyperEVM; about 450 transactions, none since April 2026. Its strength is a built-in, verifiable reveal route.'
   sources:
   - { title: 'Blanksquare docs, introduction', url: 'https://docs.blanksquare.io/', checked: '2026-10-26' }
@@ -1141,6 +1278,13 @@ badges:
     gas: { in: [gt500k], note: '884,893 gas for one private USDC.e transfer on COTI mainnet, 18 October 2026 (our reading); approvals about 458,000.' }
     latency: { in: [block], note: 'About five-second blocks on COTI; no Ethereum mainnet settlement step documented.' }
     anonymity: { in: ['na'] }
+  summary:
+  - { k: 'Hides', v: 'Balances, transfer amounts and any contract value marked private (garbled circuits)' }
+  - { k: 'Still visible', v: 'Sender, receiver, token contract and amounts brought in' }
+  - { k: 'You trust', v: 'COTI’s sequencer and its two MPC executors not to collude' }
+  - { k: 'Issuer keeps', v: 'A minter role, but no freeze or pause' }
+  - { k: 'Runs on', v: 'COTI V2, its own EVM chain; no settlement on Ethereum mainnet documented. Mainnet since 26 March 2025' }
+  - { k: 'Track record', v: 'Private USDT and USDC since 2026; no incidents found' }
   desc: 'Encrypts balances, transfer amounts and any contract value marked private, computed with garbled circuits; sender, receiver, token contract and portal-in amounts stay public. Other holders see ciphertext. You trust COTI’s sequencer and its two MPC executors not to collude. Private tokens keep a minter role but no freeze or pause. Runs on COTI V2, its own EVM chain: called a Layer 2, but no settlement on Ethereum mainnet is documented. Mainnet since 26 March 2025, private USDT and USDC since 2026, no incidents found. Plain Solidity with private types, and fast.'
   sources:
   - { title: 'COTI docs, Mainnet (chain ID 2632500; "Layer 2 over Ethereum"; Hydrogen and Helium hard forks)', url: 'https://docs.coti.io/coti-documentation/networks/mainnet', checked: '2026-10-26' }
@@ -1201,6 +1345,14 @@ badges:
     gas: { in: [gt500k], note: 'On Arbitrum One, 26 October 2026: about 629,000 gas per private transfer (aggregation), plus about 280,000 per five-note commitment batch.' }
     latency: { in: [minute], part: [longer], note: 'Transfers inside the pool settle in seconds; one shielding the PSE tested took a day for compliance checks.' }
     anonymity: { in: [medium], note: '3,505 notes in the version 2 pool on Arbitrum One, 26 October 2026, across all tokens and including change notes.' }
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient, amount and token, for transfers inside the pool' }
+  - { k: 'Still visible', v: 'The sender and amount on shielding; the recipient and amount on unshielding' }
+  - { k: 'You trust', v: 'Curvy, which runs the broadcaster, relayer and batch prover; a 4-of-6 Safe can upgrade without a timelock' }
+  - { k: 'Compliance', v: 'Entries screened with Global Ledger' }
+  - { k: 'Issuer keeps', v: 'Only a freeze of the whole vault' }
+  - { k: 'Runs on', v: 'Arbitrum One, with deposits from Ethereum mainnet and seven other EVM chains' }
+  - { k: 'Track record', v: 'Live since November 2025, version 2 since July 2026; about USD 56,000 held' }
   desc: 'Stealth addresses that feed a shielded pool on Arbitrum One: transfers inside it hide sender, recipient, amount and token, while shielding shows the sender and amount and unshielding the recipient and amount. Curvy runs the portal broadcaster, relayer and batch prover and screens entries with Global Ledger; a 4-of-6 Safe can upgrade the contracts without a timelock. An issuer can only freeze the whole vault. Deposits arrive from Ethereum mainnet and seven other EVM chains through LiFi. Live since November 2025, version 2 since July 2026, about USD 56,000 held. Anyone can be paid privately from an ordinary wallet.'
   sources:
   - { title: 'Curvy docs', url: 'https://docs.curvy.box/', checked: '2026-10-26' }
@@ -1259,6 +1411,14 @@ badges:
     gas: { in: [gt500k], note: 'About 947,000 gas per private transfer; withdraw about 796,000, deposit about 565,000 (repository gas report, Avalanche C-Chain).' }
     latency: { in: [minute], note: 'Client-side Groth16 proof plus about two-second C-Chain finality; proving time not published.' }
     anonymity: { in: ['na'] }
+  summary:
+  - { k: 'Hides', v: 'Balances and transfer amounts, with proofs made on your device' }
+  - { k: 'Still visible', v: 'Sender, receiver, token and amounts deposited' }
+  - { k: 'You trust', v: 'Only the contracts, the circuits’ trusted setup and the chain; anyone can withdraw with their own proof' }
+  - { k: 'Compliance', v: 'A built-in auditor key, named by the deployer, decrypts every amount' }
+  - { k: 'Issuer keeps', v: 'The auditor, minting in standalone mode and a token blocklist, but no freeze' }
+  - { k: 'Runs on', v: 'Avalanche C-Chain and L1s, under Ava Labs’ Ecosystem License; on C-Chain since May 2025' }
+  - { k: 'Track record', v: 'Small deployments only; security fixes in August 2026' }
   desc: 'Hides balances and transfer amounts with ElGamal encryption and Groth16 proofs made on your device; sender, receiver, token and converter deposit amounts stay public. A built-in auditor key, named by the deployer, decrypts every amount. You trust only the contracts, the circuits’ trusted setup and the chain; anyone can withdraw with their own proof. The owner keeps the auditor, minting in standalone mode and a token blocklist, but no freeze. Runs on Avalanche C-Chain and L1s under Ava Labs’ Ecosystem License; on C-Chain since May 2025, small deployments only, with security fixes in August 2026. It needs no committee, enclave or key service.'
   sources:
   - { title: 'ava-labs/EncryptedERC repository (modes, auditor, gas report, audits)', url: 'https://github.com/ava-labs/EncryptedERC', checked: '2026-10-26' }
@@ -1318,6 +1478,12 @@ badges:
     gas: { in: [unknown], note: 'Testnet only; no published figure.' }
     latency: { in: [unknown], note: 'Asynchronous: a request, then an enclave result posted later; no published timing.' }
     anonymity: { in: ['na'], note: 'Only the receiver is hidden; every request names its sender.' }
+  summary:
+  - { k: 'Hides', v: 'Amounts, recipients and app state, by running app logic in AWS Nitro Enclaves' }
+  - { k: 'Still visible', v: 'The sender of each request, deposits, withdrawals and their amounts' }
+  - { k: 'You trust', v: 'Horizen Labs’ enclave and AWS KMS, whose administrator could obtain the master key' }
+  - { k: 'Compliance', v: 'An auditor the app allows can request an encrypted report, logged on chain' }
+  - { k: 'Runs on', v: 'Base Sepolia and the Horizen testnet only; Horizen itself is an OP Stack chain on Base, live since 9 December 2025' }
   desc: 'Runs app logic in AWS Nitro Enclaves, so amounts, recipients and app state are encrypted; the sender of each request, deposits, withdrawals and their amounts stay public. You trust Horizen Labs’ enclave and AWS KMS, whose administrator could obtain the master key. An auditor the app allows can request an encrypted report, logged on chain. Horizen itself is a public OP Stack chain on Base, live since 9 December 2025; Vela runs only on Base Sepolia and Horizen testnet. Good at auditor access by design.'
   sources:
   - { title: 'Horizen docs, What is Vela? (Nitro Enclaves, AWS KMS, auditors; status: Base Sepolia and Horizen testnet)', url: 'https://docs.horizen.io/vela/introduction', checked: '2026-10-26' }
@@ -1371,6 +1537,12 @@ badges:
     gas: { in: [lt200k], note: '"Around 6000 Gas" per private transfer, amortized over a 64-transaction block (design document, not measured).' }
     latency: { in: [longer], note: 'Client proof in seconds, but a block’s rollup proof takes about 15 minutes on a 144-core machine.' }
     anonymity: { in: [small], note: 'Testnet only; no production set to hide in.' }
+  summary:
+  - { k: 'Hides', v: 'Sender, receiver, amount and token, from the public and from proposers' }
+  - { k: 'You trust', v: 'EY’s zero-knowledge rollup (public domain); no private contract logic' }
+  - { k: 'Compliance', v: 'Entry and exit need an on-chain X.509 certificate and a sanctions-list check; no viewing key' }
+  - { k: 'Runs on', v: 'Any EVM chain; announced on Plume and Starknet, still experimental with no confirmed production mainnet' }
+  - { k: 'Cost', v: 'About 6,000 gas per transfer, amortized' }
   desc: 'EY’s zero-knowledge rollup (Nightfall_4, public domain) for ERC-20, 721, 1155 and 3525 transfers, hiding sender, receiver, amount and token from the public and from proposers. Entry and exit need an on-chain X.509 certificate and a sanctions-list check; there is no viewing key and no private contract logic. Deploys on any EVM chain; announced on Plume and Starknet, but marked experimental with no confirmed production mainnet. About 6,000 gas per transfer, amortized.'
   sources:
   - { title: 'Nightfall_4 design document', url: 'https://github.com/EYBlockchain/nightfall_4_CE/blob/master/doc/nf_4.md', checked: '2026-10-26' }
@@ -1424,6 +1596,13 @@ badges:
     gas: { in: [gt500k], note: 'Measured: shielded withdrawal median 4.47 million gas on Ethereum mainnet (52 transactions, 26 Oct 2026); transfers use the same verifier type.' }
     latency: { in: [minute], part: [longer], note: 'Fast withdrawal in about a minute; deposits are credited within minutes, some after up to 24 hours of checks.' }
     anonymity: { in: [medium], note: 'Registered receiving keys on 26 Oct 2026: 4,423 on Ethereum mainnet, 3,125 on Base, 4,866 on BNB Chain.' }
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient and amount, for transfers inside the pool' }
+  - { k: 'Still visible', v: 'Deposits, withdrawals and swaps; nothing is hidden from the operator' }
+  - { k: 'You trust', v: 'Nullmask, whose servers hold your viewing keys, make the proofs and answer legal process; one admin key can upgrade and pause. Only your own wallet’s signature can spend' }
+  - { k: 'Compliance', v: 'Every deposit screened against sanctions lists and AMLBot risk scores' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 1 October 2026, then Base, BNB Chain and Robinhood Chain' }
+  - { k: 'Track record', v: 'Not yet audited' }
   desc: 'A shielded pool behind a custom RPC network added to the wallet you already use: inside the pool, the sender, recipient and amount of a transfer are hidden from the public, while deposits, withdrawals and swaps stay visible. Nothing is hidden from the operator: Nullmask’s servers hold your viewing keys, make the proofs and answer legal process. Every deposit is screened against sanctions lists and AMLBot risk scores, and one admin key can upgrade and pause the pool. Live on Ethereum mainnet since 1 October 2026, then Base, BNB Chain and Robinhood Chain; not yet audited. Only your own wallet’s signature can spend.'
   sources:
   - { title: 'Nullmask docs, What stays private (operator sees balance and history)', url: 'https://nullmask.io/docs/privacy', checked: '2026-10-26' }
@@ -1478,6 +1657,13 @@ badges:
     gas: { in: [gt500k], note: 'Measured on Base: private transfer (transactUSDC) about 1.24 million gas, withdrawal about 1.27 million (Oct 2026).' }
     latency: { in: [minute], part: [longer], note: 'Transfers go through the relayer in about a block; a screened deposit takes about 15 minutes, up to 5 days.' }
     anonymity: { in: [small], part: [medium], note: '6,332 and 2,444 note commitments in the ETH and USDC pools (about two per transaction), 26 Oct 2026.' }
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient and amount, for transfers inside the pool' }
+  - { k: 'Still visible', v: 'Deposits, withdrawals and the asset (one pool each, ETH and USDC)' }
+  - { k: 'You trust', v: 'The circuits, with proofs made on your device; the pools cannot be upgraded' }
+  - { k: 'Compliance', v: 'Entry screened: verified addresses or 0xbow KYT on each deposit' }
+  - { k: 'Runs on', v: 'Base; ETH pool since 12 June 2025' }
+  - { k: 'Track record', v: 'A legacy pool lost 2.9 ETH in February 2026, all recovered; audited by Sherlock in March 2026; about USD 11,000 held' }
   desc: 'A Tornado Cash Nova fork on Base for ETH and USDC: transfers inside the pool hide sender, recipient and amount, while deposits, withdrawals and the asset (one pool each) stay public. Proofs for transfers and withdrawals are made on your device and the pools cannot be upgraded, so you trust the circuits, not the operator. Entry is screened: verified addresses (Coinbase, Binance or Ethos attestations) or 0xbow KYT on each deposit; the owner can only change who may deposit. ETH pool since 12 June 2025; a legacy fixed-amount pool lost 2.9 ETH in February 2026, all recovered. Audited by Sherlock in March 2026; about USD 11,000 held.'
   sources:
   - { title: 'Veil Cash docs, introduction', url: 'https://docs.veil.cash/', checked: '2026-10-26' }
@@ -1531,6 +1717,13 @@ badges:
     gas: { in: [gt500k], note: 'Measured on Ethereum mainnet: 21,000 for the burn, plus a BETH mint at a median of 610,000 gas (45 mints, Sep to Oct 2026).' }
     latency: { in: [unknown], note: 'No protocol delay; prover time for the heavy state proof is not published.' }
     anonymity: { in: [small], part: [large], note: 'In principle every ETH transfer to a fresh address; in practice few mints (45 in six weeks), each revealing its amount.' }
+  summary:
+  - { k: 'Hides', v: 'Only the link between the address that burns ETH and the one that receives BETH' }
+  - { k: 'Still visible', v: 'The minted amount and the receiver; the burn looks like an ordinary transfer' }
+  - { k: 'You trust', v: 'Immutable contracts with no admin; proofs are heavy and usually made by an external prover that sees your inputs' }
+  - { k: 'Compliance', v: 'No screening' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 11 February 2026' }
+  - { k: 'Track record', v: 'Audited by yAudit and Hashlock; burned ETH cannot be recovered, only sold as BETH' }
   desc: 'Private proof-of-burn (EIP-7503): you send ETH to an address that looks like any fresh account, then mint BETH, an ERC-20 receipt, to another address with a zero-knowledge proof, so only the link between burner and receiver is hidden; the minted amount and the receiver are public. The burn looks like an ordinary transfer, which gives deniability. Immutable contracts, no admin, no screening; burned ETH cannot be recovered, so getting ETH back means selling BETH. Proofs are heavy and usually made by an external prover that sees your inputs. Live on Ethereum mainnet since 11 February 2026; audited by yAudit and Hashlock.'
   sources:
   - { title: 'WORM whitepaper', url: 'https://github.com/worm-privacy/whitepaper', checked: '2026-10-26' }
@@ -1584,6 +1777,13 @@ badges:
     gas: { in: [k200to500], note: 'Measured on Ethereum mainnet: burn transfer about 70,000 gas plus redemption 338,000 to 389,000 gas.' }
     latency: { in: [longer], note: 'FAQ: 30 minutes to 1 hour on mainnet, waiting for root proofs and LayerZero.' }
     anonymity: { in: [small], note: 'Ethereum mainnet zUSDC verifier: 10 redemptions among its last 100 transactions (May to Oct 2026).' }
+  summary:
+  - { k: 'Hides', v: 'Only the link between sender and recipient, through a burn address the recipient redeems' }
+  - { k: 'Still visible', v: 'Amounts, the asset and both addresses' }
+  - { k: 'You trust', v: 'Proofs made on your device; the indexer operator sees sender, burn address and amount unless you run your own; a 3-of-4 multisig can upgrade' }
+  - { k: 'Compliance', v: 'The token enforces an OFAC blocklist' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 4 February 2026, and five other chains via LayerZero' }
+  - { k: 'Track record', v: 'Built by INTMAX; audited by zkSecurity' }
   desc: 'An ERC-20 wrapper (zETH, zUSDC, zBNB) whose private transfer is a payment to a burn address that the recipient later redeems with a zero-knowledge proof, so only the link between sender and recipient is hidden; amounts, the asset and both addresses are public. Proofs are made on your device, but the indexer operator sees sender, burn address and amount, and learns the recipient on query unless you run your own. The token enforces an OFAC blocklist, and a 3-of-4 multisig can upgrade it. Built by INTMAX; live on Ethereum mainnet since 4 February 2026 and on five other chains via LayerZero. Audited by zkSecurity; composable like any ERC-20.'
   sources:
   - { title: 'zERC20 docs, How zERC20 works', url: 'https://zerc20.gitbook.io/zerc20/overview/how-it-works', checked: '2026-10-26' }
@@ -1637,6 +1837,14 @@ badges:
     gas: { in: [gt500k], note: 'An epoch carrying one private transfer used 826,195 gas on Base (15 November 2026); larger batches share the proof cost.', sources: [{ title: 'Basescan, a one-transfer epoch (826,195 gas)', url: 'https://basescan.org/tx/0xfcd5bfafc8648cb8ed9aed96fc9649c003c117d3231c410266d9b25dd56e9fd0', checked: '2026-11-15' }] }
     latency: { in: [minute], note: 'The enclave confirms at once (vendor-stated under 500 ms to prove); the transfer settles when the relay posts the epoch.' }
     anonymity: { in: [small], note: 'The Base tree holds about 30,400 commitments and OP Mainnet’s about 121,400 (15 November 2026), but one address cycling 0.001 WETH makes most of them: 43 of 47 Base deposits in the day to 15 November, and 7,469 of 7,509 OP Mainnet deposits from April to June 2026.', sources: [{ title: 'Basescan, Privacy Boost pool on Base', url: 'https://basescan.org/address/0x71A0fD3C76E3E937d8275A3cb6a467b70123bD40', checked: '2026-11-15' }, { title: 'OP Mainnet explorer API, Privacy Boost pool transactions', url: 'https://explorer.optimism.io/api?module=account&action=txlist&address=0xca689828854a422CF1f778be03CA80549408F620', checked: '2026-11-15' }] }
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient, amount and token, inside the pool' }
+  - { k: 'Still visible', v: 'Deposits and withdrawals; Sunnyside Labs’ enclave sees every transfer' }
+  - { k: 'You trust', v: 'That hardware, a 3-of-4 multisig that can upgrade without delay and a 16-participant trusted setup; if the operator stops, a forced withdrawal takes three days and reveals the account' }
+  - { k: 'Compliance', v: 'Auditors the admin multisig appoints can pull any account (none registered, 15 November 2026)' }
+  - { k: 'Issuer keeps', v: 'No freeze inside the pool' }
+  - { k: 'Runs on', v: 'OP Mainnet since 20 April 2026, then Soneium, Base and Ink' }
+  - { k: 'Track record', v: 'About USD 1.4 million held, most activity from one address; works from existing wallets, Safe and Fireblocks' }
   desc: 'A shielded pool for ERC-20 tokens that hides sender, recipient, amount and token inside it; deposits and withdrawals stay public. Sunnyside Labs’ enclave proves and indexes every transfer, so it sees them all, and auditors the admin multisig appoints can pull any account (none registered, 15 November 2026). You trust that hardware, a 3-of-4 multisig that can upgrade without delay and a 16-participant trusted setup; if the operator stops, a forced withdrawal takes three days and reveals the account. No issuer freeze inside the pool. On OP Mainnet since 20 April 2026, then Soneium, Base and Ink (Ethereum Layer 2s); about USD 1.4 million held, most activity from one address. No client-side proving, so it works from existing wallets, Safe and Fireblocks.'
   sources:
   - { title: 'Optimism and Sunnyside Labs, Privacy comes to the OP Stack (live on OP Mainnet, 20 April 2026; TRM screening)', url: 'https://www.optimism.io/blog/privacy-comes-to-the-op-stack', checked: '2026-11-15' }
@@ -1695,6 +1903,14 @@ badges:
     gas: { in: [k200to500], note: 'A relayed private transfer used 380,667 gas on Ethereum mainnet (15 November 2026).', sources: [{ title: 'Etherscan, a relayed private transfer (380,667 gas)', url: 'https://etherscan.io/tx/0xbaab749a3f22b5e07435ef154dba0b762c815114514c5760725076549e2894c0', checked: '2026-11-15' }] }
     latency: { in: [minute], note: 'Seconds to prove plus one block; no wait to enter or leave.' }
     anonymity: { in: [small], note: '315 deposits from 147 sending accounts and 1,296 note commitments (two per transaction, unused ones zero-value) in the Ethereum mainnet pool on 15 November 2026.', sources: [{ title: 'Etherscan, Tacit ETH pool on Ethereum mainnet (Transact events)', url: 'https://etherscan.io/address/0x000000c2A20657CE25f2Ba99737933D031AFBEE9', checked: '2026-11-15' }] }
+  summary:
+  - { k: 'Hides', v: 'Sender, recipient and amount, for private transfers' }
+  - { k: 'Still visible', v: 'Deposits, withdrawals and their amounts; one asset per pool' }
+  - { k: 'You trust', v: 'The circuit and its open September 2026 setup, with proofs made in your browser against immutable contracts; a DAO can change the reference app' }
+  - { k: 'Compliance', v: 'No screening; no viewing key beyond per-payment proofs' }
+  - { k: 'Issuer keeps', v: 'No control' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since 27 September 2026, also Base, Robinhood Chain and MegaETH' }
+  - { k: 'Track record', v: '11.15 ETH from 315 deposits on Ethereum mainnet by 15 November 2026; no published audit of this pool' }
   desc: 'A shielded ETH pool: private transfers hide sender, recipient and amount, while deposits, withdrawals and their amounts stay public, one asset per pool. No operator; the optional relay sees only what it sends and your IP address. Proofs are made in your browser against immutable contracts (no owner, pause or upgrade), so you trust the Groth16 circuit, its open September 2026 setup (176 mostly anonymous contributions) and a reference app a DAO can change. No screening, no viewing key beyond per-payment proofs, no issuer control. Ethereum mainnet since 27 September 2026, also Base, Robinhood Chain and MegaETH; 11.15 ETH from 315 deposits on Ethereum mainnet by 15 November 2026, and no published audit of this pool. No protocol fee and about 381,000 gas per private transfer.'
   sources:
   - { title: 'src-company/tacit (MIT)', url: 'https://github.com/src-company/tacit', checked: '2026-11-15' }
@@ -1718,6 +1934,11 @@ badges:
   eth: true
   status: mainnet
   since: '2021-10-06'
+  summary:
+  - { k: 'Hides', v: 'Your pending transaction, from the public mempool, so bots cannot front-run it' }
+  - { k: 'Still visible', v: 'Everything, once the transaction is included' }
+  - { k: 'You trust', v: 'Flashbots and its builders' }
+  - { k: 'Runs on', v: 'Ethereum mainnet since October 2021; change one RPC URL, no new keys' }
   desc: 'A private RPC: your transaction skips the public mempool and goes to Flashbots and its builders, so bots cannot front-run it while pending; once included it is fully public. You trust Flashbots and the builders. Change one RPC URL, no new keys. Ethereum mainnet since October 2021; BuilderNet’s builder nodes are currently not running in trusted hardware.'
   sources:
   - { title: 'Flashbots Protect overview', url: 'https://docs.flashbots.net/flashbots-protect/overview', checked: '2026-10-26' }
@@ -1736,6 +1957,11 @@ badges:
   eth: true
   status: mainnet
   since: '2023-04-05'
+  summary:
+  - { k: 'Hides', v: 'Your pending transaction, from the public mempool; searchers see it unsigned among decoys and bid to backrun it, returning most of the value to you' }
+  - { k: 'Still visible', v: 'Everything, once the transaction is included' }
+  - { k: 'You trust', v: 'The operator: launched by CoW DAO in April 2023, sold to Consensys’s Special Mechanisms Group on 23 January 2026' }
+  - { k: 'Runs on', v: 'Ethereum mainnet; change one RPC URL' }
   desc: 'A private RPC launched by CoW DAO in April 2023 and sold to Consensys’s Special Mechanisms Group on 23 January 2026. Transactions skip the public mempool and are shown, unsigned and mixed with decoys, to searchers who bid to backrun them, returning most of the value to you; public after inclusion. Ethereum mainnet; change one RPC URL.'
   sources:
   - { title: 'MEV Blocker docs, order flow auction', url: 'https://docs.mevblocker.io/concepts/order-flow-auction', checked: '2026-10-26' }
@@ -1752,6 +1978,11 @@ badges:
   eth: true
   status: mainnet
   since: '2024-07-11'
+  summary:
+  - { k: 'Hides', v: 'Your transaction until its place in the block is fixed, so builders cannot front-run it' }
+  - { k: 'Still visible', v: 'Everything, once the transaction is included' }
+  - { k: 'You trust', v: 'That fewer than the threshold of keypers collude (4 of 7 on Gnosis Chain)' }
+  - { k: 'Runs on', v: 'Gnosis Chain since 11 July 2024, with few validators opted in; on Ethereum mainnet an enshrined encrypted mempool (EIP-8105) is a Draft' }
   desc: 'An encrypted mempool: transactions are encrypted to a threshold key and decrypted only after their place in the block is fixed, so builders cannot front-run them; public after inclusion. You trust that fewer than the threshold of keypers collude (4 of 7 on Gnosis Chain). Live on Gnosis Chain since 11 July 2024 with few validators opted in; not on Ethereum mainnet, where an enshrined encrypted mempool (EIP-8105) is a Draft.'
   sources:
   - { title: 'Gnosis Chain, Shutterized Gnosis Chain is live (July 2024, archived)', url: 'https://web.archive.org/web/20240807051652/https://www.gnosischain.com/blog/shutterized-gnosis-chain-is-live', checked: '2026-10-26' }

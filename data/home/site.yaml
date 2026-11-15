@@ -8,47 +8,51 @@ heading:
   text: Digital Asset Maps
   italic: Maps
 intro: 'Interactive maps of how digital assets fit together: what they are, the networks that carry them, and the properties institutions weigh when they choose between deployments. Each map is an Ethereum Institutional house view for discussion, built in the open and maintained on GitHub.'
-# cards: one per map; `path` matches data/nav.yaml. Cards for pages marked wip there show an "in progress" tag.
-cards:
-- path: web3
-  icon: web3
-  title: Web3
-  text: 'Read, write, own: three generations of the web, by theme.'
-- path: taxonomy
-  icon: taxonomy
-  title: Taxonomy
-  text: 'What digital assets are, and what each regulator calls them.'
-- path: networks
-  icon: networks
-  title: Networks
-  text: 'Where digital assets live: private, consortium and public ledgers.'
-- path: adoption
-  icon: decentralization
-  title: Adoption
-  text: 'The decentralization behind adoption, measured on eleven dials, with the adoption each ledger carries today.'
-- path: scenarios
-  icon: scenarios
-  title: Scenarios
-  text: 'What you do with digital assets: payments, DvP, repo and more.'
-- path: architecture
-  icon: architecture
-  title: Architecture
-  text: 'What a digital asset team builds inside an institution: from client onboarding to keys and nodes.'
-- path: privacy
-  icon: privacy
-  title: Privacy
-  text: 'Privacy on Ethereum is thriving today, in many forms: what each design hides, from whom, and what you have to trust.'
-- path: quantum
-  icon: quantum
-  title: Quantum
-  text: 'A risk to everything on the internet, not only ledgers, and what Ethereum''s roadmap does about it.'
-- path: identity
-  icon: identity
-  title: Identity
-  text: 'Who is behind an address: the three questions (who, which key, what it may do) and the mechanisms that carry your checks onto the ledger.'
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
+# groups: the cards under three questions, in the order of the menu (`group` in data/nav.yaml); `path` matches
+# data/nav.yaml, and cards for pages marked wip there show an "in progress" tag.
+groups:
+- title: 'What are digital assets?'
+  cards:
+  - path: web3
+    icon: web3
+    title: Web3
+    text: 'Read, write, own: three generations of the web, by theme.'
+  - path: taxonomy
+    icon: taxonomy
+    title: Taxonomy
+    text: 'What digital assets are, and what each regulator calls them.'
+- title: 'Where do they run, and what can you trust?'
+  cards:
+  - path: networks
+    icon: networks
+    title: Networks
+    text: 'Where digital assets live: private, consortium and public ledgers.'
+  - path: adoption
+    icon: decentralization
+    title: Adoption
+    text: 'The decentralization behind adoption, measured on eleven dials, with the adoption each ledger carries today.'
+  - path: privacy
+    icon: privacy
+    title: Privacy
+    text: 'Privacy on Ethereum is thriving today, in many forms: what each design hides, from whom, and what you have to trust.'
+  - path: identity
+    icon: identity
+    title: Identity
+    text: 'Who is behind an address: the three questions (who, which key, what it may do) and the mechanisms that carry your checks onto the ledger.'
+  - path: quantum
+    icon: quantum
+    title: Quantum
+    text: 'A risk to everything on the internet, not only ledgers, and what Ethereum''s roadmap does about it.'
+- title: 'What do institutions do with them?'
+  cards:
+  - path: scenarios
+    icon: scenarios
+    title: Scenarios
+    text: 'What you do with digital assets: payments, DvP, repo and more.'
+  - path: architecture
+    icon: architecture
+    title: Architecture
+    text: 'What a digital asset team builds inside an institution: from client onboarding to keys and nodes.'
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help improve these maps.

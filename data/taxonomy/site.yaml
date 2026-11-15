@@ -24,9 +24,6 @@ lens_groups:
 lens_title: Regulatory lenses
 lens_help: Pick one lens from either list. Its perimeter is drawn as a dotted line around the circles it covers; circles inside the definition get a thick outline.
 # Optional banner shown above the heading. Remove `notice` to hide it.
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
 # Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets

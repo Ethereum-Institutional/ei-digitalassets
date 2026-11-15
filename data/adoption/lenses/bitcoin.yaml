@@ -33,6 +33,18 @@ readings:
   resilience: 'Core 82%, Knots 17%, one code base'
   issuance: 'No foundation; 5.5% dormant since 2010'
   inclusion: 'Largest pool 25.9%; F2Pool 16.6% filters'
+verdicts:
+  history: 'Running since 2009, never stopped'
+  developers: 'Over 2,500 active developers'
+  stop: 'Three mining pools hold a majority'
+  cost: 'An attack needs billions in mining hardware'
+  rules: 'Open process; miners can stall changes'
+  property: 'Nobody can freeze a balance'
+  verify: 'Anyone can check it on modest hardware'
+  entry: 'Anyone can mine, no approval'
+  resilience: 'Nearly every node runs one code base'
+  issuance: 'No foundation; fixed issuance'
+  inclusion: 'No pool above a third; one filters'
 notes:
   history: '17.8 years in continuous production since the genesis block of 3 January 2009, and block production has never stopped network-wide. Two early incidents, both disclosed and both older than ten years. On 15 August 2010 a value-overflow bug created 184 billion BTC in block 74,638; a patched client shipped within five hours and its chain overtook the invalid one at block 74,691 the next day (Bitcoin Wiki, value overflow incident). On 11 March 2013 a large block split version 0.8 nodes from older ones; the large pools downgraded and the network reunified on one chain the same day, with no loss of user funds (bitcoin.org alert; BIP 50). Neither halted the ledger. Nothing comparable since, so the reading is more than ten years with every intervention disclosed and over a decade old: level 5.'
   developers: 'Electric Capital’s live dashboard counts 2,560 monthly active Bitcoin developers on 9 November 2026 (926 full-time; 7,494 new Bitcoin developers in the first nine months of 2025), wallets, Lightning and tooling included, which is the base an institution builds on. Core work is funded by many independent organizations with none dominant: Brink, Chaincode Labs, Blockstream, Spiral (formerly Square Crypto), MIT Digital Currency Initiative, OpenSats, HRF and others; Jameson Lopp’s statistics count 135 individuals contributing code to Bitcoin Core in 2025. If any one funder walked away, Core would keep improving: level 5. Five people hold merge keys, and one code base (Core and its Knots fork) runs on 99% of nodes; that concentration is scored on the resilience dial, not here.'

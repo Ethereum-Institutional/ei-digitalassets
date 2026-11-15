@@ -11,10 +11,7 @@ intro: 'Staking is what an institution does with ETH it intends to hold: it lock
 svg_label: Swimlane diagram of staking ETH from the deposit to the exit, across the asset owner, the custodian or staking provider, the node operator, Ethereum mainnet and the auditor
 panel_default:
   title: How it works
-  text: Hover over a step to read what happens and which standards do the work; click to pin it. Dashed arrows are off-ledger, solid arrows are on the ledger.
-notice:
-  title: Under development.
-  text: For discussion only; not legal advice.
+  text: Hover over a step to read what happens and which standards do the work; click to pin it.
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Staking differently?

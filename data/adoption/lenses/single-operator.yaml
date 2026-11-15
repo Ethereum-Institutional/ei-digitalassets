@@ -18,6 +18,18 @@ cells:
   resilience: l0
   issuance: l0
   inclusion: l0
+verdicts:
+  history: 'Lasts as long as the operator'
+  developers: 'One team'
+  stop: 'One party can halt it'
+  cost: 'Control costs the operator nothing'
+  rules: 'The operator decides'
+  property: 'The operator can freeze any balance'
+  verify: 'Nobody outside can check it'
+  entry: 'The operator admits and removes'
+  resilience: 'One outage stops it'
+  issuance: 'No neutral asset'
+  inclusion: 'The operator can drop any transaction'
 notes:
   history: The ledger’s record is the operator’s record; it starts when the operator launches it and ends if the operator stops.
   developers: One vendor’s team maintains the software, or the operator’s own staff do; the roadmap is theirs.

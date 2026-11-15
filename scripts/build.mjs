@@ -128,7 +128,7 @@ function validateStatic({ dir, site }) {
   const errors = [], where = f => `${dir}/${f}`;
   for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
   if (!site.heading?.text) errors.push(`${where('site.yaml')}: missing heading.text`);
-  for (const c of site.cards || []) {
+  for (const c of [...(site.cards || []), ...(site.groups || []).flatMap(g => g.cards || [])]) {
     if (!NAV.some(n => n.path === c.path) && !PAGES.some(p => p.out === c.path)) errors.push(`${where('site.yaml')}: card path "${c.path}" is not a page`);
     if (!c.title || !c.text) errors.push(`${where('site.yaml')}: every card needs a title and text`);
     if (c.icon && !GLYPHS[c.icon]) errors.push(`${where('site.yaml')}: card "${c.title}" names unknown icon "${c.icon}"`);
@@ -190,6 +190,7 @@ function validateRadial({ dir, site, rings, themes, layout, lenses, gauges }) {
     for (const t of T) if (!(L.cells || {})[t.id]) errors.push(`${lw}: no cell for theme "${t.id}"`);
     for (const t of Object.keys(L.notes || {})) if (!themeIds.has(t)) errors.push(`${lw}: note for unknown theme "${t}"`);
     for (const t of Object.keys(L.readings || {})) if (!themeIds.has(t)) errors.push(`${lw}: reading for unknown theme "${t}"`);
+    for (const t of Object.keys(L.verdicts || {})) if (!themeIds.has(t)) errors.push(`${lw}: verdict for unknown theme "${t}"`);
     if (/^#[0-9a-f]{6}$/i.test(L.color || '') && isSignal(L.color) && !SEMANTIC[L.color.toLowerCase()]) errors.push(`${lw}: colour ${L.color} reads as red, amber or green; use a neutral hue`);
     for (const s of L.sources || []) if (!s.title || !/^https?:\/\//.test(s.url || '')) errors.push(`${lw}: every source needs a title and a URL`);
   }
@@ -339,6 +340,7 @@ function validate(page) {
   for (const t of tokens.tokens) {
     if (!ids.has(t.circle)) errors.push(`${where('badges')}: "${t.ticker}" placed in unknown circle "${t.circle}"`);
     if (!t.name || !t.desc) errors.push(`${where('badges')}: "${t.ticker}" needs a name and a desc`);
+    if (t.summary && (!Array.isArray(t.summary) || t.summary.some(r => !r.k || !r.v))) errors.push(`${where('badges')}: "${t.ticker}" summary must be a list of { k, v } lines`);
   }
   const groupIds = (site.lens_groups || []).map(g => g.id);
   if (lenses.length && !groupIds.length) errors.push(`${where('site.yaml')}: lens_groups must list the dropdowns (id, label)`);
@@ -421,6 +423,7 @@ function validate(page) {
       if (!groups.has(f.group)) errors.push(`${where('site.yaml')}: facet "${f.id}" names unknown group "${f.group}"`);
       if (f.from && !['status', 'since', 'pse'].includes(f.from)) errors.push(`${where('site.yaml')}: facet "${f.id}" from must be status, since or pse`);
       if (f.filter !== undefined && typeof f.filter !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" filter must be true or false`);
+      if (f.key !== undefined && typeof f.key !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" key must be true or false`);
       if (f.neutral !== undefined && typeof f.neutral !== 'boolean') errors.push(`${where('site.yaml')}: facet "${f.id}" neutral must be true or false`);
       if (f.match && !['any', 'all'].includes(f.match)) errors.push(`${where('site.yaml')}: facet "${f.id}" match must be any or all`);
     }
@@ -490,9 +493,9 @@ const eyebrowHtml = (site, out) => {
 // On a phone the page list folds behind a menu button that names the current page (owner, 10 November 2026: ten
 // pages wrapped to two lines); on a desktop the button is hidden and the links flow in a row as before.
 const navHtml = out => { const cur = NAV.find(n => n.path === out || (n.path && out.startsWith(n.path + '/')));
-  return `<nav class="ei-nav" aria-label="Pages"><button type="button" class="ei-nav-btn" aria-expanded="false" aria-controls="ei-nav-list" onclick="const o=this.parentElement.classList.toggle('open');this.setAttribute('aria-expanded',o)"><span class="bars" aria-hidden="true"></span>${esc(cur ? cur.label : 'Menu')}</button><div class="ei-nav-list" id="ei-nav-list">${NAV.map(n => (n.path === out || (n.path && out.startsWith(n.path + '/')))
+  return `<nav class="ei-nav" aria-label="Pages"><button type="button" class="ei-nav-btn" aria-expanded="false" aria-controls="ei-nav-list" onclick="const o=this.parentElement.classList.toggle('open');this.setAttribute('aria-expanded',o)"><span class="bars" aria-hidden="true"></span>${esc(cur ? cur.label : 'Menu')}</button><div class="ei-nav-list" id="ei-nav-list">${NAV.map((n, i) => (i && n.group !== NAV[i - 1].group ? '<span class="ei-nav-sep" aria-hidden="true">|</span>' : '') + ((n.path === out || (n.path && out.startsWith(n.path + '/')))
   ? `<span class="cur" aria-current="page">${esc(n.label)}${n.wip ? TAG : ''}</span>`
-  : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`).join('')}</div></nav><script>document.addEventListener('click',e=>{const n=document.querySelector('.ei-nav.open');if(n&&!n.contains(e.target)){n.classList.remove('open');n.querySelector('.ei-nav-btn').setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const n=document.querySelector('.ei-nav.open');if(n){n.classList.remove('open');const b=n.querySelector('.ei-nav-btn');b.setAttribute('aria-expanded','false');b.focus()}})</script>`; };
+  : `<a href="${relHref(out, n.path)}">${esc(n.label)}${n.wip ? TAG : ''}</a>`)).join('')}</div></nav><script>document.addEventListener('click',e=>{const n=document.querySelector('.ei-nav.open');if(n&&!n.contains(e.target)){n.classList.remove('open');n.querySelector('.ei-nav-btn').setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const n=document.querySelector('.ei-nav.open');if(n){n.classList.remove('open');const b=n.querySelector('.ei-nav-btn');b.setAttribute('aria-expanded','false');b.focus()}})</script>`; };
 const shared = site => ({
   heading: site.heading.italic ? esc(site.heading.text).replace(esc(site.heading.italic), `<em>${esc(site.heading.italic)}</em>`) : esc(site.heading.text),
   notice: site.notice ? `<div class="ei-notice" role="note"><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</div>` : '',
@@ -515,7 +518,7 @@ function renderIndex({ site, out }) {
   const bands = site.bands || [];
   const tile = sc => { const live = !!sc.path;
     return `<${live ? `a class="ei-card tile" href="${relHref(out, sc.path)}"` : 'div class="ei-card tile planned"'} data-roles="${(sc.roles || []).join(' ')}">${iconSvg(sc.icon)}<h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
-      + `<p class="tags">${(sc.roles || []).map(r => `<span>${esc((F.roles || []).find(x => x.id === r)?.label || r)}</span>`).join('')}</p>` + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; };
+      + `<p class="tags">${(sc.roles || []).map(r => { const x = (F.roles || []).find(y => y.id === r); return `<span>${esc(x?.short || x?.label || r)}</span>`; }).join('')}</p>` + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; };
   const bandOf = sc => bands.find(b => (b.moves || []).length === (sc.moves || []).length && (b.moves || []).every(m => (sc.moves || []).includes(m)))?.id;
   const cards = bands.map(b => { const list = (site.scenarios || []).filter(sc => bandOf(sc) === b.id).sort((a, c) => (!!c.path) - (!!a.path));
     return list.length ? `<div class="ei-band" data-band="${esc(b.id)}"><div class="ei-h"><b>${esc(b.label)}</b><span>${esc(b.text || '')}</span></div><div class="ei-cards">${list.map(tile).join('')}</div></div>` : ''; }).join('');
@@ -558,11 +561,14 @@ function renderIndex({ site, out }) {
 }
 const srcHtmlC = src => !(src || []).length ? '' : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
 const moreHtml = m => m && m.url ? `<p class="more"><a href="${m.url}" target="_blank" rel="noopener">${esc(m.title || 'Read more')} →</a></p>` : '';
+// Long blocks (owner, 15 November 2026): a section or item may split its text into a short lead (`text`) and the rest
+// (`detail`), shown behind a closed "More", so a reader sees one or two sentences first.
+const detailHtml = d => d ? `<details class="ei-more-d"><summary>More</summary><p>${esc(d)}</p></details>` : '';
 // `sections_collapsed: true` in a page's site.yaml folds every item behind its title (owner, 10 November 2026: the
 // Identity and Privacy tiles were too long to read; a reader opens the items they care about).
-const itemHtmlC = (it, fold) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${moreHtml(it.more)}${srcHtmlC(it.sources)}</details>`
-  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + moreHtml(it.more) + srcHtmlC(it.sources);
-const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections${site.sections_collapsed ? ' folded' : ''}">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
+const itemHtmlC = (it, fold) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${detailHtml(it.detail)}${moreHtml(it.more)}${srcHtmlC(it.sources)}</details>`
+  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + detailHtml(it.detail) + moreHtml(it.more) + srcHtmlC(it.sources);
+const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections${site.sections_collapsed ? ' folded' : ''}">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}${detailHtml(sec.detail)}`
   + (sec.items || []).map(it => itemHtmlC(it, site.sections_collapsed)).join('') + '</div>').join('')}</div>` : '';
 // A scenario page: an at-a-glance strip, the actors, the swimlane with its panel, the steps as a numbered list, then
 // collapsible blocks (owner, 7 November 2026: the pages were busy); every block starts closed, the argument too.
@@ -599,9 +605,14 @@ function renderScenario({ site, sc, out }) {
 function renderStatic({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site);
-  const body = site.cards
-    ? `<div class="ei-cards">${site.cards.map(c => { const n = NAV.find(x => x.path === c.path);
-        return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`
+  const cardsHtml = cards => `<div class="ei-cards">${cards.map(c => { const n = NAV.find(x => x.path === c.path);
+        return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`;
+  // home page (owner, 15 November 2026): the cards under three questions, in the menu's order; no reading path, so each
+  // reader goes as they see fit
+  const body = site.groups
+    ? site.groups.map(g => `<section class="ei-group"><h2 class="ei-group-h">${esc(g.title)}</h2>${cardsHtml(g.cards)}</section>`).join('')
+    : site.cards
+    ? cardsHtml(site.cards)
     : (site.sections || []).length ? sectionsHtmlC({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
     .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
@@ -654,8 +665,10 @@ function render({ circles, layout, alt, tokens, site, lenses, out }) {
 // sources: inline when three or fewer, otherwise collapsed behind a "Sources (n)" toggle
 const srcList = src => src.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.checked ? ` (checked ${esc(s.checked)})` : ''}`).join('; ');
 const srcHtml = src => !(src || []).length ? '' : src.length <= 3 ? `<p class="src">Sources: ${srcList(src)}</p>` : `<details class="src"><summary>Sources (${src.length})</summary><p class="src">${srcList(src)}</p></details>`;
-const sectionsHtml = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}`
-  + (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + srcHtml(it.sources)).join('') + '</div>').join('')}</div>` : '';
+const sectionsHtml = site => (site.sections || []).length ? `<div class="ei-sections">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}${sec.fold_items ? '' : detailHtml(sec.detail)}`
+  // `fold_items: true` puts the section's detail and items behind its one "More" (owner, 15 November 2026: Adoption's evidence)
+  + ((items => sec.fold_items ? `<details class="ei-more-d"><summary>More</summary>${sec.detail ? `<p>${esc(sec.detail)}</p>` : ''}${items}</details>` : items)(
+    (sec.items || []).map(it => `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + detailHtml(it.detail) + srcHtml(it.sources)).join(''))) + '</div>').join('')}</div>` : '';
 const radialLensHtml = (site, lenses) => lenses.length ? `<div class="ei-lens radial" id="ei-lens"><div class="ei-lens-head"><b>${esc(site.lens_title || 'Compare')}</b><span>${esc(site.lens_help || '')}</span></div><div class="row">`
   + lenses.map(L => `<button type="button" data-lens="${esc(L.id)}" aria-pressed="false" style="--c:${esc(L.color)}"><span class="sw"></span>${esc(L.menu || L.name)}</button>`).join('') + '</div></div>' : '';
 const statsHtml = site => site.stats ? `<div class="ei-stats-head"><b>${esc(site.stats.title)}</b>${site.stats.text ? `<span>${esc(site.stats.text)}</span>` : ''}</div><div class="ei-stats">${(site.stats.items || []).map(st => `<div class="ei-stat"><p class="n">${esc(st.value)}</p><p class="l">${esc(st.label)}</p><p>${esc(st.text)}</p>`
@@ -666,7 +679,8 @@ function renderRadial({ site, rings, themes, layout, lenses, out, gauges }) {
   const data = {
     rings: rings.rings.map(r => Object.assign({ fs: 20 }, r, layout ? layout.rings[r.id] : {})), themes: themes.themes, version, kind: gauges ? 'gauges' : 'radial',
     default_lens: site.default_lens, scale: site.scale,
-    lenses: sorted.map(L => ({ id: L.id, name: L.name, short: L.short, color: L.color, intro: L.intro, cells: L.cells, notes: L.notes || {}, readings: L.readings || {}, sources: L.sources || [] })),
+    lenses: sorted.map(L => ({ id: L.id, name: L.name, short: L.short, color: L.color, intro: L.intro, cells: L.cells, notes: L.notes || {}, readings: L.readings || {}, verdicts: L.verdicts || {}, sources: L.sources || [] })),
+    glossary: site.glossary || {},
     layout: layout ? { canvas: layout.canvas, cx: layout.cx, cy: layout.cy, hub: layout.hub, hub_label: layout.hub_label, hub_fs: layout.hub_fs, cell_fs: layout.cell_fs } : null,
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a cell to preview how Ethereum Institutional describes it; click to pin the description here.' },
   };
@@ -767,7 +781,7 @@ function renderArchitecture({ site, map, layout, overview, out }) {
   const sw = st => `<i class="sw st-${st}"></i>`;
   const FG = map.meta?.flow_groups || {};
   const controls = `<div class="ei-flowbar"><label for="ei-flow-sel">Trace a key flow</label><div class="sel"><select id="ei-flow-sel"><option value="">None</option>`
-    + Object.entries(FG).map(([g, label]) => `<optgroup label="${esc(label)}">${flows.filter(f => f.group === g).map(f => `<option value="${esc(f.id)}">${esc(f.id)} · ${esc(f.name)}</option>`).join('')}</optgroup>`).join('')
+    + Object.entries(FG).map(([g, label]) => `<optgroup label="${esc(label)}">${flows.filter(f => f.group === g).map(f => `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('')}</optgroup>`).join('')
     + `</select></div><span class="hint">Numbered steps show the path; press Esc to clear.</span></div>`;
   const shape = t => ({ system: '<svg width="26" height="18"><rect x="5" y="2" width="16" height="14" rx="1" fill="#fff" stroke="#14130f" stroke-width="1.3"/><path d="M5 5H21" stroke="#14130f" stroke-width="1.3"/><path d="M9 2V16" stroke="#14130f" stroke-width="1"/></svg>',
     process: '<svg width="26" height="18"><rect x="1" y="3" width="24" height="12" rx="6" fill="#fff" stroke="#14130f" stroke-width="1.3"/></svg>',
