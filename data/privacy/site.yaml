@@ -400,7 +400,7 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.
   text: 'Open an issue to suggest a design, a correction or a deployment the map has missed. The maps are edited in Ethereum Institutional''s platform repository and mirrored here, so an issue reaches the editors faster than a pull request against the mirror.'
-footnote: 'Placements were checked on 26 October 2026 and drift as designs ship. Regulatory history is given as dates and holdings only. This page is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
 sections:
 - title: What institutions are asking for
   text: 'Confidential tokens are what institutions want from privacy, with requirements that differ from an individual’s. No design meets them all yet: pick the institutional wish list in Focus on to see which come closest.'

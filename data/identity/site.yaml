@@ -130,7 +130,7 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this map.
   text: 'Open an issue to suggest a mechanism, a correction or a jurisdiction the map should cover. The maps are edited in Ethereum Institutional''s platform repository and mirrored here, so an issue reaches the editors faster than a pull request against the mirror.'
-footnote: 'This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Facts checked 7 November 2026; vendor statements are marked as such. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
 sections:
 - title: Bearer assets and permissioned tokens
   text: 'The starting point is what a ledger can and cannot know. Everything on the map builds on one side of that line or the other.'

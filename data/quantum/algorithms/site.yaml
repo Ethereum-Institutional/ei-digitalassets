@@ -9,7 +9,7 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.
   text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
-footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 6 November 2026. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).
+footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
 title: 'Quantum: the two algorithms'
 slug: quantum-algorithms
 heading:
@@ -20,17 +20,30 @@ sections:
 - title: The two algorithms
   items:
   - title: Shor breaks public-key signatures
-    text: 'A large enough quantum computer recovers a private key from its public key. That covers every elliptic-curve scheme a ledger uses: transaction signatures, validator signatures, and the pairings behind data commitments and most SNARKs. No such machine exists yet; the migration must be done before one does.'
+    text: 'A large enough quantum computer recovers a private key from its public key. That covers every elliptic-curve scheme a ledger uses: transaction signatures, validator signatures, and the pairings behind data commitments and most SNARKs. No such machine exists yet; the migration must be done before one does. The estimated cost keeps falling. In March 2026 Google Quantum AI researchers and co-authors estimated fewer than 1,200 logical qubits, running in minutes on fewer than half a million physical qubits, and published a zero-knowledge proof that their circuit exists rather than the circuit itself, after consulting the US government; an independent researcher rediscovered the main optimization by June. By July an open challenge in which researchers worked with AI agents (ECDSA.fail) had published a circuit for the core step at more than 50% lower cost on Google’s own measure of qubits times gates, though the two count differently. The public record of attack costs may therefore lag what some parties know.'
     more:
       title: NIST’s post-quantum standards (August 2024)
       url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
+    sources:
+    - title: 'Babbush, Zalcman, Gidney and others, Securing Elliptic Curve Cryptocurrencies against Quantum Vulnerabilities: Resource Estimates and Mitigations (arXiv 2603.28846, 30 March 2026, revised 15 April 2026): fewer than 1,200 logical qubits and 90 million Toffoli gates, or 1,450 and 70 million; minutes on fewer than half a million physical qubits; circuits withheld, validated by a zero-knowledge proof'
+      url: https://arxiv.org/abs/2603.28846
+      checked: 2026-11-14
+    - title: 'Eigen Labs, From a hidden quantum circuit to open autoresearch: the ECDSA.fail story (10 September 2026): Google disclosed thresholds and a zero-knowledge proof, not the circuit; an open effort of more than 100 participants and their agents reached 1,151 logical qubits and about 1.3 million Toffoli gates for one point addition, more than 50% below Google’s reported qubit-times-Toffoli figure, under different accounting conventions'
+      url: https://www.eigenlabs.org/blog/open-autoresearch-the-ecdsa-fail-story/
+      checked: 2026-11-14
+    - title: 'ECDSA.Fail: Open Autoresearch for Optimizing Elliptic-Curve Point Addition in Shor’s Algorithm (arXiv 2609.09582, September 2026): the challenge launched in late May 2026; individual point additions, not a complete Shor computation'
+      url: https://arxiv.org/abs/2609.09582
+      checked: 2026-11-14
+    - title: 'Bankless, Justin Drake puts quantum Q-Day odds at 50% by 2032 (2 June 2026; secondary, reporting his post on X): 10% by 2030 and 50% by 2032; Google kept its optimizations behind a zero-knowledge proof after engaging with the US government, and an independent researcher rediscovered the main one'
+      url: https://www.bankless.com/read/news/justin-drake-puts-quantum-q-day-odds-at-50-by-2032
+      checked: 2026-11-14
   - title: Grover only weakens hashes
     text: 'It halves a hash’s effective strength, so 256-bit hashes behave like 128-bit ones: weakened, not broken. Addresses, state trees, hash-based signatures and STARK proofs all survive, which is why the fix is to rebuild on hashes.'
     more:
       title: ethereum.org on quantum resistance
       url: https://ethereum.org/en/roadmap/security/quantum-resistance/
   - title: 'A second threat: cryptanalysis by AI'
-    text: 'Since October 2026 Ethereum Foundation researchers have warned that advances in machine-generated mathematics could weaken the assumptions behind elliptic-curve signatures before any quantum computer does, in their worst case within months rather than years; no such attack on curves has been demonstrated, and the warning is a research view, not a finding. On lattices there is now a demonstration: in July 2026 an AI model found an unexploited symmetry in HAWK, a third-round candidate in NIST''s additional signature process, roughly halving its effective key size, and the HAWK team withdrew the scheme the next day; the attack stays exponential and is specific to HAWK, and nothing deployed changed. The reasoning is that curves have rich structure for a clever attack to use and hashes have as little as cryptography offers, which is why the same fix serves both threats: build on hashes, and verify the implementations formally, which has become far cheaper. Ethereum Institutional reads it as a reason to prefer the schemes with the fewest assumptions and to keep signature schemes replaceable, not as a forecast.'
+    text: 'Since October 2026 Ethereum Foundation researchers have warned that advances in machine-generated mathematics could weaken the assumptions behind elliptic-curve signatures before any quantum computer does, in their worst case within months rather than years; no such attack on curves has been demonstrated, and the warning is a research view, not a finding. The effort is now public: open challenges set researchers and their AI agents on classical attacks against the curves Ethereum uses, BLS12-381 among them, with results accepted as exploratory rather than as proofs of a break, and none has broken a curve. On lattices there is now a demonstration: in July 2026 an AI model found an unexploited symmetry in HAWK, a third-round candidate in NIST''s additional signature process, roughly halving its effective key size, and the HAWK team withdrew the scheme the next day; the attack stays exponential and is specific to HAWK, and nothing deployed changed. The reasoning is that curves have rich structure for a clever attack to use and hashes have as little as cryptography offers, which is why the same fix serves both threats: build on hashes, and verify the implementations formally, which has become far cheaper. Ethereum Institutional reads it as a reason to prefer the schemes with the fewest assumptions and to keep signature schemes replaceable, not as a forecast.'
     more:
       title: Ethereum researcher says AI may break encryption before quantum does (Decrypt, 7 October 2026)
       url: https://decrypt.co/380363/ethereum-researcher-ai-break-encryption-before-quantum
@@ -38,6 +51,9 @@ sections:
     - title: 'Decrypt, Ethereum researcher says AI may break encryption before quantum does (7 October 2026; secondary): the worst case in months not years; bunker mode; curves vulnerable, hashes preferred; no attack demonstrated'
       url: https://decrypt.co/380363/ethereum-researcher-ai-break-encryption-before-quantum
       checked: '2026-11-06'
+    - title: 'CurveSmash (Yukon, hosted by Eigen Labs): open cryptanalysis challenges on secp256k1, P-256, BLS12-381 and BN254, scored in log2 of work; acceptance is exploratory, not proof or a practical break'
+      url: https://github.com/Layr-Labs/curvesma.sh
+      checked: 2026-11-14
     - title: 'Anthropic, Discovering cryptographic weaknesses with Claude (28 July 2026): an unexploited automorphism in HAWK''s lattice, key recovery for HAWK-256 demonstrated at about 2³⁸ operations against an estimated 2⁶⁴, the attack still exponential and specific to HAWK; a 200 to 800 times faster attack on seven-round AES-128, still impractical; no production software has to change'
       url: https://www.anthropic.com/news/discovering-cryptographic-weaknesses
       checked: '2026-11-10'

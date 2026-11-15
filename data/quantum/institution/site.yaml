@@ -9,7 +9,7 @@ contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help shape this page.
   text: Open an issue to suggest a source, a deployment or a question your risk committee has asked.
-footnote: This page is an Ethereum Institutional house view in preparation, for discussion, not legal advice. Roadmap dates are community targets, checked 6 November 2026. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).
+footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
 title: 'Quantum: where your digital asset team fits'
 slug: quantum-institution
 heading:
@@ -44,11 +44,14 @@ sections:
       url: https://www.youtube.com/watch?v=L_Qon4NykLw
       checked: '2026-11-06'
   - title: Work to the published timelines
-    text: 'The UK’s NCSC sets 2028 for discovery and a plan, 2031 for the highest-priority migrations, and 2035 for completion; the EU published a coordinated roadmap in June 2025 and NIST a draft transition plan that retires today’s algorithms over the same decade. Beside the regulators’ deadlines, keep the ledger community’s own estimate of the threat in view: ethereum.org says the end of the decade at the earliest, and Ethereum Foundation researchers said in November 2026 that 2029 is the earliest and 2032 the expected date, which sits inside the NCSC’s window. Your regulator will ask for the inventory and the plan long before the deadline.'
+    text: 'The UK’s NCSC sets 2028 for discovery and a plan, 2031 for the highest-priority migrations, and 2035 for completion; the EU published a coordinated roadmap in June 2025 and NIST a draft transition plan that retires today’s algorithms over the same decade. Beside the regulators’ deadlines, keep the ledger community’s own estimate of the threat in view: ethereum.org says the end of the decade at the earliest, and Ethereum Foundation researchers said in November 2026 that 2029 is the earliest and 2032 the expected date (one puts the odds at 10% by 2030 and 50% by 2032), which sits inside the NCSC’s window. Your regulator will ask for the inventory and the plan long before the deadline.'
     more:
       title: NCSC, Timelines for migration to post-quantum cryptography (2025)
       url: https://www.ncsc.gov.uk/guidance/pqc-migration-timelines
     sources:
+    - title: 'Bankless, Justin Drake puts quantum Q-Day odds at 50% by 2032 (2 June 2026; secondary, reporting his post on X): 10% by 2030 and 50% by 2032; Google kept its optimizations behind a zero-knowledge proof after engaging with the US government, and an independent researcher rediscovered the main one'
+      url: https://www.bankless.com/read/news/justin-drake-puts-quantum-q-day-odds-at-50-by-2032
+      checked: 2026-11-14
     - title: European Commission, A Coordinated Implementation Roadmap for the Transition to Post-Quantum Cryptography (23 June 2025)
       url: https://digital-strategy.ec.europa.eu/en/library/coordinated-implementation-roadmap-transition-post-quantum-cryptography
       checked: 2026-10-25

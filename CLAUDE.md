@@ -178,7 +178,12 @@ and decisions behind them.
 - **Footers** carry only the house-view note and the license, with the version on its own line below; selection rules,
   method, the frameworks a map follows and the dates readings were checked stay in these notes, the sources and the
   public issue (owner, 14 November 2026: an inclusion rule in the Networks footer read as unprofessional, and the method
-  and attribution are not needed in public).
+  and attribution are not needed in public). The text is the same everywhere: "This map is an Ethereum Institutional house
+  view for discussion, not legal advice." then the license; scenario pages say "This scenario", and the home and
+  Scenarios overviews use the plural (owner, 14 November 2026: footers consistent across the maps).
+- **Breadcrumb:** on a sub-page whose parent path is also a page (Quantum and Scenarios), the eyebrow's last part links
+  back to the parent, built by `eyebrowHtml` in `scripts/build.mjs` (owner, 14 November 2026: an easy way back to the
+  Quantum overview).
 - **Writing style:** American (US) spelling everywhere (tokenized, recognized, decentralized, color, license, center);
   quoted source titles keep the spelling of the document they name. No em-dashes anywhere (content, notes, docs, UI text, commit messages); use commas, colons,
   semicolons, parentheses or separate sentences. En-dashes are fine in number ranges (e.g. Arts. 3–5). Quote YAML

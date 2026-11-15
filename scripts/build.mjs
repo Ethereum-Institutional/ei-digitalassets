@@ -480,6 +480,13 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 // ---------- assemble ----------
 const TAG = '<span class="ei-tag">in progress</span>';
 const relHref = (from, to) => { const up = '../'.repeat(from ? from.split('/').length : 0); return to ? `${up}${to}/` : (up || './'); };
+// Breadcrumb: on a sub-page whose parent path is also a page (Quantum, Scenarios), the eyebrow's last part links back to
+// that parent (owner, 14 November 2026: to get back to the Quantum overview easily).
+const eyebrowHtml = (site, out) => {
+  const parts = String(site.eyebrow).split(' · ').map(esc), parent = out && out.includes('/') ? out.slice(0, out.lastIndexOf('/')) : '';
+  if (parent && PAGES.some(p => p.out === parent)) parts[parts.length - 1] = `<a href="${relHref(out, parent)}">${parts[parts.length - 1]}</a>`;
+  return parts.join(' · ');
+};
 // On a phone the page list folds behind a menu button that names the current page (owner, 10 November 2026: ten
 // pages wrapped to two lines); on a desktop the button is hidden and the links flow in a row as before.
 const navHtml = out => { const cur = NAV.find(n => n.path === out || (n.path && out.startsWith(n.path + '/')));
@@ -545,7 +552,7 @@ function renderIndex({ site, out }) {
   .ei-h b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}
   .ei-h span{font-size:14px;color:var(--muted);line-height:1.5;max-width:90ch}
   .ei-card.tile svg.ei-icon{width:96px;height:56px;display:block;margin-bottom:2px}
-</style>`).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+</style>`).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
     .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
@@ -597,7 +604,7 @@ function renderStatic({ site, out }) {
         return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`
     : (site.sections || []).length ? sectionsHtmlC({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
-    .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
     .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
 }
@@ -615,7 +622,7 @@ function fillCommon(html, { site, out, data }) {
   const sh = shared(site);
   return html
     .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
-    .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', esc(site.eyebrow)).replace('__HEADING__', sh.heading)
+    .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro) + (site.intro_more ? ` <button type="button" class="ei-more" aria-expanded="false" aria-controls="ei-intro-more" data-more="${esc(site.intro_more_label || 'More')}" data-less="${esc(site.intro_less_label || 'Less')}">${esc(site.intro_more_label || 'More')}</button>` : ''))
     .replace('__INTRO_MORE__', site.intro_more ? `<p class="sub more" id="ei-intro-more" hidden>${esc(site.intro_more)}</p>` : '')
     .replace('__FOOTNOTE__', esc(site.footnote)).replace('__SVG_LABEL__', esc(site.svg_label || `Diagram: ${site.title}`))
