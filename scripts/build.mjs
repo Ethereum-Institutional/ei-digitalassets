@@ -62,6 +62,8 @@ function load(dir) {
   // index pages list scenarios with filters; scenario pages hold one scenario (actors, steps, tokens, standards)
   if (site.kind === 'index') return { dir, site, index: true };
   if (site.kind === 'architecture') return { dir, site, arch: true, map: yml('architecture.yaml'), layout: yml('layout.yaml'), overview: yml('overview.yaml') };
+  // the public mirror's Architecture page: the areas only, each linking to ethereuminstitutional.org (scripts/public-trim.mjs)
+  if (site.kind === 'architecture-overview') return { dir, site, archOverview: true };
   if (site.kind === 'scenario') return { dir, site, scenario: true, sc: yml('scenario.yaml') };
   // radial pages: concentric rings (rings.yaml) cut into theme wedges (themes.yaml) around a hub; geometry in layout.yaml
   // gauges pages use the radial data files (rings = levels, themes = properties, lenses) with a dial per property
@@ -246,7 +248,7 @@ function validateIndex({ dir, site }) {
   for (const sc of site.scenarios || []) if (sc.icon && !GLYPHS[sc.icon]) errors.push(`${where}: scenario "${sc.title}" names unknown icon "${sc.icon}"`);
   for (const sc of site.scenarios || []) {
     if (!sc.title || !sc.text) errors.push(`${where}: every scenario needs a title and text`);
-    if (sc.path && !PAGES.some(p => p.out === sc.path)) errors.push(`${where}: scenario path "${sc.path}" is not a page in PAGES`);
+    if (sc.path && !site.public_link && !PAGES.some(p => p.out === sc.path)) errors.push(`${where}: scenario path "${sc.path}" is not a page in PAGES`);
     for (const r of sc.roles || []) if (!roles.has(r)) errors.push(`${where}: scenario "${sc.title}" names unknown role "${r}"`);
     for (const m of sc.moves || []) if (!moves.has(m)) errors.push(`${where}: scenario "${sc.title}" names unknown move "${m}"`);
   }
@@ -274,6 +276,7 @@ function validate(page) {
   if (page.system) return validateSystem(page);
   if (page.static) return validateStatic(page);
   if (page.index) return validateIndex(page);
+  if (page.archOverview) return validateArchOverview(page);
   if (page.scenario) return validateScenario(page);
   if (page.arch) return validateArchitecture(page);
   if (page.radial) return validateRadial(page);
@@ -502,9 +505,76 @@ const shared = site => ({
   contribute: site.contribute ? `<div class="ei-contrib"><p><b>${esc(site.contribute.title)}</b> ${esc(site.contribute.text)}</p>`
     + `<p class="links"><a href="${site.contribute.repo}/issues/new/choose">Open an issue</a><a href="${site.contribute.repo}/pulls">Pull requests</a><a href="${site.contribute.repo}">View on GitHub</a></p></div>` : '',
 });
+// The public mirror (owner, 16 November 2026): Architecture and Scenarios show only their high level in
+// ei-digitalassets, and every click goes to ethereuminstitutional.org. scripts/public-trim.mjs writes the trimmed data
+// from data/public.yaml; a `public_link` in a page's site.yaml sends its scenarios or areas there.
+const outLink = (site, inner, cls, label) => `<a class="${cls}" href="${esc(site.public_link)}" target="_blank" rel="noopener"${label ? ` aria-label="${esc(label)}"` : ''}>${inner}</a>`;
+const publicCta = site => site.public_link && site.public_cta ? `<div class="ei-contrib ei-public"><p><b>${esc(site.public_cta.title)}</b> ${esc(site.public_cta.text)}</p><p class="links"><a href="${esc(site.public_link)}" target="_blank" rel="noopener">${esc(site.public_cta.link || 'ethereuminstitutional.org')} →</a></p></div>` : '';
+function validateArchOverview({ dir, site }) {
+  const errors = validateStatic({ dir, site }), where = `${dir}/site.yaml`;
+  if (!/^https:\/\//.test(site.public_link || '')) errors.push(`${where}: public_link must be an https URL`);
+  if (!(site.areas || []).length) errors.push(`${where}: needs areas`);
+  const ids = new Set((site.areas || []).map(a => a.id));
+  for (const a of site.areas || []) {
+    if (!a.id || !a.name || !a.text) errors.push(`${where}: every area needs an id, a name and a text`);
+    if (a.beside && !ids.has(a.beside)) errors.push(`${where}: area "${a.id}" is beside unknown area "${a.beside}"`);
+  }
+  return errors;
+}
+// the areas in reading order down the page, the areas beside custody in a row under it, the ledger as a column on the
+// right that custody submits to; each card links out
+function renderArchOverview({ site, out }) {
+  const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
+  const sh = shared(site), A = site.areas || [];
+  const card = a => outLink(site, `<h2>${esc(a.name)}</h2>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}<p>${esc(a.text)}</p>`
+    + ((a.parts || []).length ? `<ol class="parts">${a.parts.map(p => `<li>${esc(p)}</li>`).join('')}</ol>` : '')
+    + (a.from ? `<p class="from">${esc(a.from)}</p>` : '') + `<span class="go">Read more →</span>`, 'ei-area' + (a.column ? ' col' : ''), `${a.name}: read more at ethereuminstitutional.org`);
+  // the column (the ledger) sits beside the area with steps (the custody platform) and the areas beside it
+  const main = A.filter(a => !a.beside && !a.column), col = A.filter(a => a.column), hostIdx = Math.max(0, main.findIndex(a => (a.parts || []).length));
+  const block = a => { const side = A.filter(b => b.beside === a.id);
+    return `<div class="row">${card(a)}</div>` + (side.length ? `<div class="row side">${side.map(card).join('')}</div>` : ''); };
+  const down = '<div class="down" aria-hidden="true"></div>';
+  const top = main.slice(0, hostIdx).map(block).join(down), rest = main.slice(hostIdx).map(block).join(down);
+  const body = `<div class="ei-arch-o">${top}${top ? down : ''}<div class="split"><div class="main">${rest}</div>`
+    + (col.length ? `<div class="to" aria-hidden="true"><span>${esc(site.column_label || 'submits to')}</span></div><div class="colw">${col.map(card).join('')}</div>` : '') + `</div></div>`
+    + `<div class="ei-legend"><span>${esc(site.legend || 'Click an area to read more on ethereuminstitutional.org')}</span></div>` + publicCta(site);
+  return read('src/static.html')
+    .replace('__STYLE__', style + `<style>
+  .ei-arch-o{display:flex;flex-direction:column}
+  .ei-arch-o .split{display:grid;grid-template-columns:minmax(0,1fr) 80px minmax(200px,260px);align-items:stretch}
+  .ei-arch-o .main{display:flex;flex-direction:column}
+  .ei-arch-o .row{display:flex;gap:12px}
+  .ei-arch-o .row.side{margin-top:12px}
+  .ei-arch-o .row>.ei-area{flex:1}
+  .ei-arch-o .down{height:26px;position:relative}
+  .ei-arch-o .down::before{content:'';position:absolute;left:50%;top:3px;bottom:7px;border-left:2px solid #4b4740}
+  .ei-arch-o .down::after{content:'';position:absolute;left:calc(50% - 5px);bottom:2px;border:6px solid transparent;border-top:7px solid #4b4740;border-bottom:0}
+  .ei-arch-o .to{display:flex;align-items:center;justify-content:center;position:relative}
+  .ei-arch-o .to::before{content:'';position:absolute;left:6px;right:12px;top:50%;border-top:2px solid #4b4740}
+  .ei-arch-o .to::after{content:'';position:absolute;right:4px;top:calc(50% - 6px);border:6px solid transparent;border-left:8px solid #4b4740;border-right:0}
+  .ei-arch-o .to span{position:relative;top:-14px;font-size:11px;color:var(--muted);background:var(--paper);padding:0 3px}
+  .ei-arch-o .colw{display:flex}
+  .ei-area{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border:1px solid var(--rule);border-radius:14px;background:var(--card);color:var(--ink);text-decoration:none;transition:border-color .15s}
+  .ei-area:hover,.ei-area:focus{border-color:var(--ink)}
+  .ei-area h2{margin:0;font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:-.02em}
+  .ei-area p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+  .ei-area p.sub{font-size:12px;font-weight:600;color:var(--ink)}
+  .ei-area p.from{font-size:12px}
+  .ei-area .parts{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 0;padding:0;list-style:none;counter-reset:p}
+  .ei-area .parts li{counter-increment:p;font-size:12px;font-weight:600;padding:3px 10px;border:1px solid #14130f;border-radius:10px;background:#fff}
+  .ei-area .parts li::before{content:counter(p) '. ';color:var(--muted)}
+  .ei-area .go{margin-top:auto;font-size:13px;color:var(--ink)}
+  .ei-area.col{flex:1;justify-content:center;background:#e1e3f2;border-color:#312e81}
+  .ei-public{margin-top:18px}
+  @media (max-width:760px){ .ei-arch-o .split{grid-template-columns:1fr} .ei-arch-o .row.side{flex-direction:column} .ei-arch-o .to{height:34px} .ei-arch-o .to::before{left:50%;right:auto;top:3px;bottom:7px;border-top:0;border-left:2px solid #4b4740} .ei-arch-o .to::after{right:auto;left:calc(50% - 5px);top:auto;bottom:2px;border:6px solid transparent;border-top:7px solid #4b4740;border-bottom:0} .ei-arch-o .to span{top:0;left:40px} }
+</style>`).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
+    .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
+    .replace('__CONTRIBUTE__', sh.contribute).replace('__FOOTNOTE__', esc(site.footnote)).replace('__VERSION__', `Version ${esc(version)} · built ${stamp}`);
+}
 function renderIndex({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site), F = site.filters || {};
+  const pub = !!site.public_link; // public mirror: every scenario opens on ethereuminstitutional.org
   const chips = (name, items) => `<div class="ei-filter" data-filter="${name}"><span class="rl">${esc(F[name + '_label'] || name)}</span>${items.map(i => `<button type="button" data-v="${esc(i.id)}" aria-pressed="false">${esc(i.label)}</button>`).join('')}</div>`;
   const M = site.map || {}, circles = M.circles || [];
   const pillW = t => Math.round(t.length * 6.2) + 18;
@@ -513,16 +583,17 @@ function renderIndex({ site, out }) {
     + circles.map(c => `<text x="${c.lx}" y="${c.ly}" text-anchor="middle" class="serif" font-size="20" font-weight="700" fill="#14130f">${esc(c.label)}</text>`).join('')
     + (site.scenarios || []).filter(sc => sc.map).map(sc => { const w = pillW(sc.short || sc.title), live = !!sc.path, x = sc.map.x - w / 2;
         const pill = `<g class="pill${live ? ' live' : ''}"><title>${esc(sc.title)}${live ? '' : ' (in progress)'}</title><rect x="${x}" y="${sc.map.y - 11}" width="${w}" height="22" rx="11" fill="${live ? '#14130f' : '#b8b3a8'}" stroke="#f8f6f2" stroke-width="1.5"/><text x="${sc.map.x}" y="${sc.map.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="#f2efe9">${esc(sc.short || sc.title)}</text></g>`;
-        return live ? `<a href="${relHref(out, sc.path)}" aria-label="${esc(sc.title)}">${pill}</a>` : pill; }).join('')
-    + `</svg></div><div class="ei-legend"><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#14130f"/></svg> Click a scenario to open it</span></div>` : '';
+        return !live ? pill : pub ? `<a href="${esc(site.public_link)}" target="_blank" rel="noopener" aria-label="${esc(sc.title)}: read it on ethereuminstitutional.org">${pill}</a>` : `<a href="${relHref(out, sc.path)}" aria-label="${esc(sc.title)}">${pill}</a>`; }).join('')
+    + `</svg></div><div class="ei-legend"><span><svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#14130f"/></svg> ${pub ? 'Click a scenario to read it on ethereuminstitutional.org' : 'Click a scenario to open it'}</span></div>` : '';
   const bands = site.bands || [];
   const tile = sc => { const live = !!sc.path;
-    return `<${live ? `a class="ei-card tile" href="${relHref(out, sc.path)}"` : 'div class="ei-card tile planned"'} data-roles="${(sc.roles || []).join(' ')}">${iconSvg(sc.icon)}<h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
-      + `<p class="tags">${(sc.roles || []).map(r => { const x = (F.roles || []).find(y => y.id === r); return `<span>${esc(x?.short || x?.label || r)}</span>`; }).join('')}</p>` + (live ? `<span class="go">Open the scenario →</span>` : '') + `</${live ? 'a' : 'div'}>`; };
+    const href = pub ? `${esc(site.public_link)}" target="_blank" rel="noopener` : relHref(out, sc.path);
+    return `<${live ? `a class="ei-card tile" href="${href}"` : 'div class="ei-card tile planned"'} data-roles="${(sc.roles || []).join(' ')}">${iconSvg(sc.icon)}<h2>${esc(sc.title)}${live ? '' : ' ' + TAG}</h2><p>${esc(sc.text)}</p>`
+      + `<p class="tags">${(sc.roles || []).map(r => { const x = (F.roles || []).find(y => y.id === r); return `<span>${esc(x?.short || x?.label || r)}</span>`; }).join('')}</p>` + (live ? `<span class="go">${pub ? 'Read it on ethereuminstitutional.org →' : 'Open the scenario →'}</span>` : '') + `</${live ? 'a' : 'div'}>`; };
   const bandOf = sc => bands.find(b => (b.moves || []).length === (sc.moves || []).length && (b.moves || []).every(m => (sc.moves || []).includes(m)))?.id;
   const cards = bands.map(b => { const list = (site.scenarios || []).filter(sc => bandOf(sc) === b.id).sort((a, c) => (!!c.path) - (!!a.path));
     return list.length ? `<div class="ei-band" data-band="${esc(b.id)}"><div class="ei-h"><b>${esc(b.label)}</b><span>${esc(b.text || '')}</span></div><div class="ei-cards">${list.map(tile).join('')}</div></div>` : ''; }).join('');
-  const body = venn + `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}<button type="button" class="clear" hidden>Show all</button></div><div id="ei-cards">${cards}</div>
+  const body = venn + `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}<button type="button" class="clear" hidden>Show all</button></div><div id="ei-cards">${cards}</div>${publicCta(site)}
 <script>(function(){ const on={roles:null}; const cards=[...document.querySelectorAll('#ei-cards .ei-card')], clear=document.querySelector('.ei-filters .clear');
   const apply=()=>{ cards.forEach(c=>{ c.hidden=!(!on.roles||c.dataset.roles.split(' ').includes(on.roles)); }); clear.hidden=!on.roles;
     document.querySelectorAll('.ei-band').forEach(b=>{ b.hidden=![...b.querySelectorAll('.ei-card')].some(c=>!c.hidden); });
@@ -929,6 +1000,7 @@ for (const p of pages) {
   fs.mkdirSync(outDir, { recursive: true });
   if (p.system) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderSystem(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (due diligence, ${qCount(p.sys)} questions)`); continue; }
   if (p.static) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderStatic(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (static page)`); continue; }
+  if (p.archOverview) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderArchOverview(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (architecture overview, ${p.site.areas.length} areas, public)`); continue; }
   if (p.index) { fs.writeFileSync(path.join(outDir, 'index.html'), withIcons(renderIndex(p))); console.log(`Built ${path.join('dist', p.out, 'index.html')} (index, ${(p.site.scenarios || []).length} scenarios)`); continue; }
   const page = withIcons(p.scenario ? renderScenario(p) : p.arch ? renderArchitecture(p) : p.radial ? renderRadial(p) : render(p)), slug = p.site.slug || 'digital-asset-taxonomy';
   fs.writeFileSync(path.join(root, 'dist', `${slug}.html`), page);

@@ -1,46 +1,54 @@
-# Architecture page (kind: architecture): a blueprint driven by architecture.yaml (content) and layout.yaml (geometry).
-# Rendered from src/architecture.html. Each folder under systems/ becomes a due diligence page linked from the blueprint.
+# Architecture, public mirror: the areas only, each linking to ethereuminstitutional.org (written by ei-platform's
+# scripts/public-trim.mjs; the full Architecture map is maintained by Ethereum Institutional and is not mirrored).
 
-kind: architecture
+kind: architecture-overview
 title: Digital Asset Architecture
 slug: architecture
 eyebrow: Ethereum Institutional · Research
 heading:
   text: Digital Asset Architecture
   italic: Architecture
-intro: 'What a digital asset team runs inside an institution, from its clients to the ledger. Click an area to see its components and the due diligence questions for each, or trace a key flow end to end.'
-intro_more: 'In order: institutional systems, identity and access, the scenario and the token, then a custody platform that manages, approves and signs each transaction, calling out to screening and to key management, before it reaches the distributed ledger. Every request is first classified by who is asking (a retail or wholesale client, new, existing or acting through a third party; a member of staff or an administrator; or an authority such as a regulator, law enforcement, a court or a tax authority), where they are accessing from and their nationality. That classification resolves to a scenario on the Scenarios page, an asset class on the Taxonomy map and a permission set on the Identity map, and sets the risk tier that drives onboarding depth, screening intensity and limits. Each area opens into the components behind it; the full blueprint draws all of them with their connections and lets you trace a key flow end to end. Governance, risk and conduct, and security, third parties and people, apply to every area and are listed under the overview.'
-svg_label: Blueprint of a digital asset team's architecture, from clients at the top to private keys at the bottom, with the connections between components
-panel_default:
-  title: How to read it
-  text: 'Click an area to see its components, and a component for what it covers, its connections, its sources and its due diligence questions. Trace a key flow to draw its path. Dashed items are optional.'
-# reference maps in architecture.yaml that have a page on this site
-reference_links:
-  scenarios_map: scenarios
-  taxonomy_map: taxonomy
-  identity_map: identity
-  privacy_map: privacy
-  networks_map: networks
-  adoption_map: adoption
-  quantum_map: quantum
-# due diligence pages (systems/<id>/system.yaml): shared text
-ddq:
-  title: Due diligence questions
-  text: 'Questions to put to the vendors and service providers behind each system on the blueprint, built from one YAML file per system so anyone can propose a question on GitHub. Use them as a starting point for your own questionnaire, not as a checklist to pass.'
-  # the headings the due diligence pages are listed under (each system.yaml names one as its group)
-  groups:
-    custody: Custody and keys
-    fincrime: Financial crime and compliance
-    ledger: Ledger, data and trading
-    security: Security, resilience and people
-  notice:
-    title: 'Vendor names are examples, not endorsements.'
-    text: ''
-  contribute:
-    title: Suggest a question.
-    text: Each page is built from one YAML file. Edit it on GitHub to add or sharpen a question, or open an issue to propose one.
-contribute:
-  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
-  title: Help shape this map.
-  text: Open an issue to suggest a component, a connection, a flow or a due diligence question.
-footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+intro: What a digital asset team runs inside an institution, from its clients to the ledger, in eight areas. Click an area to read more on ethereuminstitutional.org.
+public_link: https://ethereuminstitutional.org/
+legend: Click an area to read more on ethereuminstitutional.org
+public_cta:
+  title: The full architecture is available from Ethereum Institutional.
+  text: The components behind each area, the key flows traced end to end, and due diligence questions for each system an institution may procure.
+  link: Go to ethereuminstitutional.org
+column_label: submits to
+areas:
+  - id: clients
+    name: Clients
+    text: "Retail and wholesale clients, staff and administrators, and authorities: who is asking, from where, decides the scenario, the permissions and the risk tier."
+  - id: institution
+    name: Institutional systems
+    text: "The systems the institution already runs: the channels clients use, the client directory, books and records, and internal tools, extended for digital assets."
+  - id: iam
+    name: Identity and access management
+    text: "Who the client is and what they may do: KYC and KYB, enhanced due diligence, permissions, suitability and where they connect from."
+  - id: scenarios
+    name: Scenarios and tokens
+    text: "What the client is doing and with which asset: the business scenario, the token and its class, trading and settlement, and the token's own lifecycle events."
+  - id: custody
+    name: Custody platform
+    text: Where a transaction is prepared, approved and signed, whether the platform is built, bought or run by a third-party custodian.
+    parts:
+      - Transaction management
+      - Approval
+      - Signing
+  - id: screening
+    name: Screening
+    text: Checks every wallet and transaction against sanctions and risk tolerances before approval, quarantines what fails, and reports what is suspicious, including the Travel Rule.
+    beside: custody
+    from: Called by approval in the custody platform.
+  - id: keys
+    name: Key management
+    sub: HSM or MPC
+    text: "The private keys that sign, and everything around them: HSMs or MPC, ceremonies, vaulting, recovery, rotation and the plan for post-quantum cryptography."
+    beside: custody
+    from: Called by signing in the custody platform.
+  - id: ledger
+    name: Distributed ledger
+    text: "The ledger the custody platform submits to, and what reads from it: ledger selection, nodes, data and indexing, oracles and bridges, monitoring and validators."
+    column: true
+footnote: This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).

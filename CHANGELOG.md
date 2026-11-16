@@ -7,6 +7,10 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Public mirror (minor):** this repository now carries Architecture and Scenarios at the high level only: the
+  Architecture page shows the areas from the clients to the ledger, and the Scenarios page the map, the bands and the
+  role filter, with every area and scenario opening on ethereuminstitutional.org.
+
 - **Readability, third batch (patch):** 40 section and item texts of 90 words or more show their opening sentences, the rest word for word behind "More" (Identity, Privacy, Quantum, Adoption, three scenarios); Adoption's independent assessments and Project Acacia fold under one "More" (owner, 15 November 2026).
 - **Readability, second batch (minor):** Adoption dials show a plain verdict for every ledger reading above the measured figure, with reading terms (HHI, finality, builder, filtering) explained on hover; Privacy designs and Identity mechanisms open to short labeled lines (what it hides or is, what you trust, what the issuer keeps, where it runs), the full description folded beneath; four Identity pills named by what they do: Readable signatures (EIP-712), Contract signatures (ERC-1271), T-REX (ERC-3643), Transfer checks (ERC-7943) (owner, 15 November 2026).
 - **Readability, first batch (minor):** the home page groups the maps under three questions (what digital assets are; where they run and what you can trust; what institutions do with them), Web3 first, and the menu follows the same groups; the amber "Under development" banner is removed from every page (the due diligence pages keep only "Vendor names are examples, not endorsements."); intros cut to about two sentences on Adoption, Identity, Architecture, Scenarios, Web3 and Quantum, the argument moved behind the "Why…?" or "More" link; Privacy shows six key filters with the rest under "More filters"; Architecture says "Show all details" and "Hide details", names flows without codes and shortens "How to read it"; scenario tiles show short role names and each scenario explains its arrows once (owner, 15 November 2026).

@@ -25,6 +25,15 @@ and decisions behind them.
   batch and the glossary entries kept in step with it go without a second-model check: the owner reviews the built pages
   and the sources (owner, 6 November 2026; batch 1 was checked in Perplexity, batch 2 and later are not).
 - Commands run from `maps/`: `cd maps && npm run build`, then `npm run check`.
+- **The mirror carries Architecture and Scenarios at the high level only** (owner, 16 November 2026, D58: readers reach
+  the full maps on ethereuminstitutional.org). `maps-mirror.yml` runs `scripts/public-trim.mjs` on the mirror's copy:
+  Architecture becomes its eight areas with their one-line text (`kind: architecture-overview`), Scenarios keeps the
+  index with a `public_link`, the scenario folders, `architecture.yaml`, `overview.yaml`, `layout.yaml` and `systems/`
+  are removed, and the two folders' sections of this file and the READMEs are replaced; the script fails if any
+  scenario step, component note, flow or due diligence question survives. The link and the public intros live in
+  `data/public.yaml`. CI (`maps.yml`) trims, builds and checks a copy on every pull request. When you rename a section
+  heading the script replaces (`## Architecture page`, the Scenarios bullet), update the script too. Full content here
+  stays as it is; the history of the public repository was left untouched.
 - **A change to a classification or a house rule opens an issue on ei-digitalassets first** (owner, 10 November 2026:
   the public record of why a map changed): what the map says today, the sources read with their dates, the proposed
   change and its reasoning, labeled `map change`. The changelog entry and the pull request cite it by number. The
@@ -578,52 +587,10 @@ and decisions behind them.
 
 ## Architecture page (`data/architecture/`)
 
-- **A covered blueprint** (owner, 27 October 2026: the full blueprint, with every line, was overwhelming): one fixed
-  blueprint (`kind: architecture`, `src/architecture.html`) in the left 70% of the page, a sticky panel in the right
-  30%, so the explanation sits beside what it explains. Each area is one region of the blueprint under a cover card
-  (name, what it is, what it holds, its dashed optional items); covered, the page shows only the simple flow:
-  Clients, Institutional systems, Identity and access management (optional: wallet verification, decentralized
-  identity), Scenarios and tokens, the Custody platform (the platform, optional wallet as a service, then
-  Transaction management, Approval calling out to Screening, and Signing with Key management, HSM or MPC), Screening
-  and Key management below it, and the Distributed ledger as a column on the right that custody submits to. A click
-  lifts a cover in place (nothing moves); the region's label covers it again. The covers pulse until the reader first
-  reveals one (owner, 27 October 2026: it was not clear they could be clicked), as the Privacy wish list does. No connection lines are drawn except
-  when a key flow is traced (owner, 27 October 2026: the lines were hard to follow); a picked component lights up the
-  components it connects to, and outlines the covers that hold them, and the panel lists its connections. A flow
-  reveals only the areas on its path and draws and numbers its steps.
-- **Flows reach the ledger through the RPC nodes** (owner, 27 October 2026): a flow that changes the ledger ends with
-  the signed transaction going out through the RPC nodes to the ledger networks, and every read of current state
-  (deposits, confirmations, chain events, incidents, validator duties) comes in from the ledger through the RPC nodes;
-  history is read through the archive node. A flow may pass a component twice, and its step numbers sit side by side.
-  Every step of a flow is drawn in the diagram (a client or a component with a type); rail items cannot be traced, so
-  the build rejects a flow that names one (owner, 27 October 2026: the vendor intake flow, all in the rails, showed
-  nothing and was removed; the authority request now ends at investigations). On a narrow screen the panel is a sheet at the bottom and the diagram scrolls sideways.
-- The page lays the blueprint out itself, fixed, from `overview.yaml` (areas, `parts`, `callout`, `beside`,
-  `optional`; the order there is the order on the page; the build checks every component with a `type` sits in
-  exactly one of them); `layout.yaml` holds only the two rails (governance, risk and conduct; security, third parties
-  and people: components without a type, listed under the diagram because nothing connects to them). Content in
-  `architecture.yaml` (`domains` with `components`, `connections`, `flows`, `meta`), page text in `site.yaml`.
-- **Generic, not one firm's plan** (owner, 27 October 2026): the components come from practice at a global bank
-  (`source: brief`) or are gaps worth considering (`source: suggested`). `status` says how most institutions are
-  likely to meet the need (usually met by the core platform, extended, new, or a choice to assess), in that generic
-  voice, never "we" or "our".
-- **Boxes** differ only by shape, which shows the type (system of record, process, technology, control, key
-  material); status, source and the component id sit in the detail card, not on the drawing. Connections are
-  instruction (solid), data (dashed, deep sky `#0369a1`) or control (dotted, indigo `#4338ca`); a traced flow is sky
-  `#0ea5e9`. A connection runs between drawn nodes only, never a rail item.
-- **Sources:** a component may carry `sources` (title, URL, checked date) for the standard, regulation or guidance
-  behind it; every due diligence page carries its own, dated. `maps_to` links a component to the other pages (Privacy
-  for confidential tokens, Quantum for post-quantum cryptography, Networks and Decentralization for ledger selection,
-  Scenarios, Taxonomy, Identity).
-- **Due diligence pages** (`systems/<id>/system.yaml`, `src/system.html`): ways to buy or run it, guidance, numbered
-  questions (`must: true` marks a question whose wrong answer rules a provider out), a copy button and a CSV
-  download, sources and an edit link. Vendor examples are two or three named products of the kind, or none, never a
-  single name (it reads as an endorsement); the page notice says names are examples, not endorsements. The confidential
-  tokens page follows the Privacy page's facets.
-- **Plain controls (owner, 15 November 2026):** "Show all details" and "Hide details" reveal or cover every area, and
-  flows are named in words without their ids (F1 to F8 stay in `architecture.yaml` only).
-- Quote flow-list items that contain a comma (`['Hyperledger Paladin (Noto, Zeto and Pente)']`); unquoted, YAML splits
-  them into two items.
+- **Public mirror (owner, 16 November 2026):** this repository carries only the high level of the Architecture page, the
+  areas from the clients to the ledger with their one-line text, each linking to ethereuminstitutional.org
+  (`kind: architecture-overview`, written by ei-platform's `scripts/public-trim.mjs` from `data/public.yaml`). The
+  components, key flows and due diligence questions are maintained by Ethereum Institutional and are not mirrored.
 
 ## Quantum page (`data/quantum/`)
 
@@ -687,46 +654,7 @@ and decisions behind them.
 ## Planned / open
 
 - Possible "token properties" control (yield-bearing, synthetic, fungible / NFT / wrapped / soulbound).
-- **Scenarios** (`data/scenarios/`): the index is `kind: index`. `site.yaml` lists every scenario with `moves`,
-  `roles`, an `icon` (one of the pictogram family in `scripts/build.mjs`: a disc is a token, a rising line a
-  yielding asset, a loop with a padlock one atomic transaction) and a `map` position on a small Venn (Cash moves,
-  Asset moves, Credit is extended), because position carries meaning and scenarios are never ranked or
-  alphabetized. Tiles below the map are grouped into `bands` by what moves and filtered by the reader's role; a role's `short` name is
-  what a tile shows, the full label stays on the filter chips (owner, 15 November 2026: the long labels repeated down the
-  page). Each scenario explains the arrows once, in `flow_help`; `panel_default` says only how to use the diagram.
-  All ten scenarios are written (6 November 2026) and link out as ink pills; the index still supports planned tiles (grey, in-progress tag) for any future addition.
-  **Scenario page layout (owner, 7 November 2026: the pages were busy):** under the title, an at-a-glance strip the build
-  derives from the data (what moves, who is in it, the atomic transactions, the money, the asset, the latest checked
-  date); then the actors, the swimlane with its panel, and the steps as a numbered list, each opening to its text and
-  standards and lighting its row in the diagram; then every other part (Why a public shared ledger, Tokens, Standards,
-  Where it stands today, Variants, Open questions, Sources) as a collapsible block that starts closed, the argument too.
-  Intros run about 90 to 115 words: what the activity is, the one example the page works through, and the sentence on
-  what does not change. Money tokens for the strip are the circles in `MONEY_CIRCLES` in `scripts/build.mjs`.
-  Each written scenario is a folder with `site.yaml` (`kind: scenario`) and `scenario.yaml`: `actors` (columns of the
-  swimlane diagram; `kind: ledger | contract | observer` for non-institutions), `steps` (rows; `kind: offchain |
-  onchain | atomic`, an atomic step names `lanes`), `tokens` (linked to taxonomy circle ids), `standards` (EIP id,
-  status, role, URL), `sections` (why a shared ledger, variants, open questions) and `sources`. Written so far: DvP,
-  deposit token against a tokenized money market fund; repo, a tokenized bond against a deposit token (6 November 2026:
-  actors, eight steps with two atomic bands, GMRA 2011 and its annexes as a legal text beside the ERCs, a Where it
-  stands today section with vendor-stated volumes, no live public-ledger repo named); AI agent payments, an agent paying
-  for a service in a stablecoin within its mandate (6 November 2026: x402 over HTTP with EIP-3009 authorizations and a
-  facilitator, the principal's smart account enforcing the allowance, ERC-8004 for the agent's identity and record; the
-  mandate and policy engine are the institution's, and know-your-agent practice is vendor-stated); treasury management
-  with tokenized money market funds (6 November 2026: a group's entities on a deposit token, sweeps into fund units and
-  back as atomic bands on the fund's own dealing terms, payments out, the position read from the ledger); payments with tokenized currency (6 November 2026: a cross-border
-  supplier payment in a deposit token or a stablecoin, the travel rule exchanged between the two firms off the ledger,
-  the transfer as the atomic band, the off-ramp as a firm's service; card-network stablecoin settlement and Agorá as
-  where it stands); FX payment versus payment between tokenized currencies (6 November 2026: a euro token against a
-  dollar token through a PvP contract, no nostro and no settlement gap; deposit tokens, multi-bank networks, stablecoins,
-  an FMI token and wholesale CBDC as the legs; mBridge and Agorá as where central bank money stands); securities
-  lending (6 November 2026: a tokenized bond lent against tokenized collateral, the opening and the return as atomic
-  bands, margin, manufactured payments and recall between them; the master agreement named generically, since ISLA's
-  site could not be fetched; no live tokenized securities lending program named; a flash loan noted as a neighbor); collateral mobility and
-  margin (6 November 2026: fund units locked for the taker as a pledge or transferred by title, posting and release as
-  atomic bands, substitution as one transaction, a flash-loan refinancing variant on ERC-3156, no clearing house named); fund dealing (6 November 2026: a
-  subscription and a redemption from the investor's and the transfer agent's side, issue and cancel as atomic bands
-  against the cash, the register model and the fund's own dealing terms kept first); corporate actions (6 November 2026: the record
-  date as a block, a distribution to every holder and a redemption as atomic bands, elections as signatures, nominees
-  and securities on loan; income as units or price for funds; no live tokenized-equity program named) (with a permissioned-pool variant on Uniswap v4 hooks; the
-  EI reference build is mentioned, never a URL for it: readers are told to contact Ethereum Institutional for the
-  quickstart). All ten scenarios on the index are written (6 November 2026). The Taurus TMMF paper's Section 7.4 is source material for the collateral scenarios.
+- **Scenarios** (`data/scenarios/`): this repository carries only the index (owner, 16 November 2026): the Venn of
+  scenarios by what moves on the ledger, the bands, the role filter and one line per scenario, each opening on
+  ethereuminstitutional.org (`public_link` in `site.yaml`). The scenario pages are maintained by Ethereum Institutional
+  and are not mirrored.

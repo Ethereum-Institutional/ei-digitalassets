@@ -1,0 +1,20 @@
+# The public mirror (owner, 16 November 2026): the public repository ei-digitalassets carries only the high level of the
+# Architecture and Scenarios maps, and every click on them goes to ethereuminstitutional.org; the full maps stay here in
+# ei-platform. maps-mirror.yml runs scripts/public-trim.mjs on the mirrored copy, which reads this file; the build
+# itself does not. `link` is where every area and scenario points: one setting, so deep links can replace it later.
+link: https://ethereuminstitutional.org/
+
+architecture:
+  intro: 'What a digital asset team runs inside an institution, from its clients to the ledger, in eight areas. Click an area to read more on ethereuminstitutional.org.'
+  legend: 'Click an area to read more on ethereuminstitutional.org'
+  cta:
+    title: 'The full architecture is available from Ethereum Institutional.'
+    text: 'The components behind each area, the key flows traced end to end, and due diligence questions for each system an institution may procure.'
+    link: 'Go to ethereuminstitutional.org'
+
+scenarios:
+  intro: 'What institutions do with digital assets, as market activities rather than asset types. The map places each scenario by what moves on the ledger, and the tiles below can be filtered by your role. Nothing is ranked.'
+  cta:
+    title: 'Each scenario in full is available from Ethereum Institutional.'
+    text: 'The actors, how it works step by step, the tokens and EVM standards to consider, and where it stands today, with sources.'
+    link: 'Go to ethereuminstitutional.org'

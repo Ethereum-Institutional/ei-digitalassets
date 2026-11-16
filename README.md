@@ -13,9 +13,8 @@ and generated from plain-text data in this repository:
   their institutional participants placed on the map and **architecture lenses** (Layer 1, side-chain, Layer 2 rollup).
 - **Decentralization**: eleven gauges, one per property of a ledger, on a scale of 1 (one party) to 5 (open network), with
   lenses that set them to a single-operator ledger, a consortium ledger or Ethereum mainnet, each reading dated and sourced.
-- **Scenarios**: what institutions do with digital assets, one page per market activity with the actors, a step-by-step
-  diagram, the taxonomy tokens and the EVM standards involved; filter by your role or by what moves. One written
-  (delivery versus payment), the rest planned.
+- **Scenarios**: what institutions do with digital assets, placed on a map by what moves on the ledger and filtered by
+  your role; each scenario opens on ethereuminstitutional.org.
 - **Quantum**: an overview and four short sub-pages (the two algorithms, where it bites a ledger, the Ethereum roadmap,
   where your digital asset team fits), in progress.
 - **Privacy**: a Venn map of what each privacy design hides from the public (who, how much, what, or only intent before the

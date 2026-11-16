@@ -7,121 +7,201 @@ eyebrow: Ethereum Institutional · Research
 heading:
   text: Scenarios
   italic: Scenarios
-intro: 'What institutions do with digital assets, step by step: who takes part, which tokens and standards they use, and where it runs live today. Click a scenario on the map or a tile below, and filter the tiles by your role; nothing is ranked.'
+intro: 'What institutions do with digital assets, as market activities rather
+  than asset types. The map places each scenario by what moves on the ledger,
+  and the tiles below can be filtered by your role. Nothing is ranked.'
 filters:
   roles_label: Filter by your role
   roles:
-  - { id: bank, label: Bank }
-  - { id: asset_manager, label: Asset manager }
-  - { id: fmi, label: 'Market infrastructure (CSD, CCP, exchange)', short: 'Market infrastructure' }
-  - { id: payments, label: Payment firm }
-  - { id: corporate, label: Corporate treasurer }
-  - { id: central_bank, label: Central bank }
-  - { id: custodian, label: 'Custodian or staking provider', short: 'Custodian' }
+    - { id: bank, label: Bank }
+    - { id: asset_manager, label: Asset manager }
+    - {
+        id: fmi,
+        label: 'Market infrastructure (CSD, CCP, exchange)',
+        short: 'Market infrastructure'
+      }
+    - { id: payments, label: Payment firm }
+    - { id: corporate, label: Corporate treasurer }
+    - { id: central_bank, label: Central bank }
+    - { id: custodian, label: 'Custodian or staking provider', short: 'Custodian' }
 map:
   width: 700
   height: 520
   label: Map of scenarios by what moves on the ledger
   circles:
-  - { id: cash, label: Cash moves, cx: 320, cy: 210, r: 175, lx: 295, ly: 72, fill: '#e3e7ea', stroke: '#3f5664' }
-  - { id: asset, label: Asset moves, cx: 480, cy: 210, r: 175, lx: 505, ly: 72, fill: '#e1e3f2', stroke: '#312e81' }
-  - { id: credit, label: Credit is extended, cx: 400, cy: 330, r: 150, lx: 400, ly: 447, fill: '#e9e3ee', stroke: '#65547a' }
+    - {
+        id: cash,
+        label: Cash moves,
+        cx: 320,
+        cy: 210,
+        r: 175,
+        lx: 295,
+        ly: 72,
+        fill: '#e3e7ea',
+        stroke: '#3f5664'
+      }
+    - {
+        id: asset,
+        label: Asset moves,
+        cx: 480,
+        cy: 210,
+        r: 175,
+        lx: 505,
+        ly: 72,
+        fill: '#e1e3f2',
+        stroke: '#312e81'
+      }
+    - {
+        id: credit,
+        label: Credit is extended,
+        cx: 400,
+        cy: 330,
+        r: 150,
+        lx: 400,
+        ly: 447,
+        fill: '#e9e3ee',
+        stroke: '#65547a'
+      }
 bands:
-- { id: pay, label: Pay and move money, text: 'Only cash moves.', moves: [cash] }
-- { id: settle, label: Settle and deal, text: 'Cash against an asset, or an asset event paid in cash.', moves: [cash, asset] }
-- { id: finance, label: Finance and collateralize, text: 'Credit is extended against an asset, with or without a cash leg.', moves: [cash, asset, credit] }
-- { id: collateralize, label: Collateralize and lend, text: 'An asset is pledged or lent; the cash leg, if any, is separate.', moves: [asset, credit] }
+  - {
+      id: pay,
+      label: Pay and move money,
+      text: 'Only cash moves.',
+      moves: [ cash ]
+    }
+  - {
+      id: settle,
+      label: Settle and deal,
+      text: 'Cash against an asset, or an asset event paid in cash.',
+      moves: [ cash, asset ]
+    }
+  - {
+      id: finance,
+      label: Finance and collateralize,
+      text: 'Credit is extended against an asset, with or without a cash leg.',
+      moves: [ cash, asset, credit ]
+    }
+  - {
+      id: collateralize,
+      label: Collateralize and lend,
+      text: 'An asset is pledged or lent; the cash leg, if any, is separate.',
+      moves: [ asset, credit ]
+    }
 scenarios:
-- title: Delivery versus payment, deposit token against a tokenized money market fund
-  icon: dvp
-  short: DvP
-  map: { x: 400, y: 132 }
-  path: scenarios/dvp-deposit-token-tmmf
-  text: A buyer pays with a bank deposit token and receives fund units in one transaction; either both legs settle or neither does.
-  moves: [cash, asset]
-  roles: [bank, asset_manager, fmi, corporate, custodian]
-- title: Payments with tokenized currency
-  icon: pay
-  short: Payments
-  path: scenarios/payments-tokenized-currency
-  map: { x: 200, y: 170 }
-  text: Domestic and cross-border payments in deposit tokens and stablecoins, settled on the ledger around the clock.
-  moves: [cash]
-  roles: [bank, payments, corporate]
-- title: Treasury management with tokenized money market funds
-  icon: treasury
-  short: Treasury
-  path: scenarios/treasury-tmmf-sweep
-  map: { x: 230, y: 120 }
-  text: Cash sweeps into tokenized money market funds and back, on each fund’s dealing and liquidity terms; eligible holders may transfer units outside dealing hours.
-  moves: [cash]
-  roles: [corporate, asset_manager, bank]
-- title: Foreign exchange, payment versus payment
-  icon: pvp
-  short: FX PvP
-  path: scenarios/fx-pvp-tokenized-currencies
-  map: { x: 195, y: 235 }
-  text: Two tokenized currencies exchanged atomically, with no settlement risk between the legs.
-  moves: [cash]
-  roles: [bank, payments, central_bank]
-- title: Repo and reverse repo
-  icon: repo
-  short: Repo
-  path: scenarios/repo-deposit-token-bond
-  map: { x: 400, y: 240 }
-  text: Cash against tokenized securities with an agreed return leg, both legs on the ledger.
-  moves: [cash, asset, credit]
-  roles: [bank, asset_manager, fmi, custodian]
-- title: Collateral mobility and margin
-  icon: collateral
-  short: Collateral
-  path: scenarios/collateral-mobility-margin
-  map: { x: 500, y: 330 }
-  text: Tokenized fund units and securities posted as initial and variation margin, bilaterally, at venues and at clearing houses.
-  moves: [asset, credit]
-  roles: [bank, asset_manager, fmi, custodian]
-- title: Securities lending
-  icon: lending
-  short: Securities lending
-  path: scenarios/securities-lending-tokenized
-  map: { x: 474, y: 356 }
-  text: Tokenized securities lent against tokenized collateral, with recall and return on the ledger.
-  moves: [asset, credit]
-  roles: [asset_manager, bank, fmi, custodian]
-- title: Fund subscription and redemption
-  icon: subscribe
-  short: Fund dealing
-  path: scenarios/fund-dealing-tokenized
-  map: { x: 400, y: 104 }
-  text: Primary-market dealing in tokenized funds against a cash leg, at the struck price or continuously.
-  moves: [cash, asset]
-  roles: [asset_manager, bank, fmi, custodian]
-- title: Corporate actions and distributions
-  icon: corporate
-  short: Corporate actions
-  path: scenarios/corporate-actions-tokenized
-  map: { x: 400, y: 160 }
-  text: Dividends, coupons and reinvestments paid in units or in tokenized currency, on the same ledger as the asset.
-  moves: [cash, asset]
-  roles: [fmi, asset_manager, bank, custodian]
-- title: Stake ETH
-  icon: stake
-  short: Staking
-  path: scenarios/stake-eth
-  map: { x: 600, y: 150 }
-  text: 'ETH locked to a validator that secures Ethereum mainnet and earns the protocol''s rewards: solo, through an operator, custodial, or as a liquid staking token.'
-  moves: [asset]
-  roles: [asset_manager, bank, corporate, custodian]
-- title: AI agent payments
-  icon: agent
-  short: AI payments
-  path: scenarios/agent-payments-x402
-  map: { x: 209, y: 280 }
-  text: Software agents paying for services and each other in tokenized currency, with limits and identities the principal controls.
-  moves: [cash]
-  roles: [payments, corporate, bank]
+  - title: Delivery versus payment, deposit token against a tokenized money market
+      fund
+    icon: dvp
+    short: DvP
+    map: { x: 400, y: 132 }
+    path: scenarios/dvp-deposit-token-tmmf
+    text: A buyer pays with a bank deposit token and receives fund units in one
+      transaction; either both legs settle or neither does.
+    moves: [ cash, asset ]
+    roles: [ bank, asset_manager, fmi, corporate, custodian ]
+  - title: Payments with tokenized currency
+    icon: pay
+    short: Payments
+    path: scenarios/payments-tokenized-currency
+    map: { x: 200, y: 170 }
+    text: Domestic and cross-border payments in deposit tokens and stablecoins,
+      settled on the ledger around the clock.
+    moves: [ cash ]
+    roles: [ bank, payments, corporate ]
+  - title: Treasury management with tokenized money market funds
+    icon: treasury
+    short: Treasury
+    path: scenarios/treasury-tmmf-sweep
+    map: { x: 230, y: 120 }
+    text: Cash sweeps into tokenized money market funds and back, on each fund’s
+      dealing and liquidity terms; eligible holders may transfer units outside
+      dealing hours.
+    moves: [ cash ]
+    roles: [ corporate, asset_manager, bank ]
+  - title: Foreign exchange, payment versus payment
+    icon: pvp
+    short: FX PvP
+    path: scenarios/fx-pvp-tokenized-currencies
+    map: { x: 195, y: 235 }
+    text: Two tokenized currencies exchanged atomically, with no settlement risk
+      between the legs.
+    moves: [ cash ]
+    roles: [ bank, payments, central_bank ]
+  - title: Repo and reverse repo
+    icon: repo
+    short: Repo
+    path: scenarios/repo-deposit-token-bond
+    map: { x: 400, y: 240 }
+    text: Cash against tokenized securities with an agreed return leg, both legs on
+      the ledger.
+    moves: [ cash, asset, credit ]
+    roles: [ bank, asset_manager, fmi, custodian ]
+  - title: Collateral mobility and margin
+    icon: collateral
+    short: Collateral
+    path: scenarios/collateral-mobility-margin
+    map: { x: 500, y: 330 }
+    text: Tokenized fund units and securities posted as initial and variation
+      margin, bilaterally, at venues and at clearing houses.
+    moves: [ asset, credit ]
+    roles: [ bank, asset_manager, fmi, custodian ]
+  - title: Securities lending
+    icon: lending
+    short: Securities lending
+    path: scenarios/securities-lending-tokenized
+    map: { x: 474, y: 356 }
+    text: Tokenized securities lent against tokenized collateral, with recall and
+      return on the ledger.
+    moves: [ asset, credit ]
+    roles: [ asset_manager, bank, fmi, custodian ]
+  - title: Fund subscription and redemption
+    icon: subscribe
+    short: Fund dealing
+    path: scenarios/fund-dealing-tokenized
+    map: { x: 400, y: 104 }
+    text: Primary-market dealing in tokenized funds against a cash leg, at the
+      struck price or continuously.
+    moves: [ cash, asset ]
+    roles: [ asset_manager, bank, fmi, custodian ]
+  - title: Corporate actions and distributions
+    icon: corporate
+    short: Corporate actions
+    path: scenarios/corporate-actions-tokenized
+    map: { x: 400, y: 160 }
+    text: Dividends, coupons and reinvestments paid in units or in tokenized
+      currency, on the same ledger as the asset.
+    moves: [ cash, asset ]
+    roles: [ fmi, asset_manager, bank, custodian ]
+  - title: Stake ETH
+    icon: stake
+    short: Staking
+    path: scenarios/stake-eth
+    map: { x: 600, y: 150 }
+    text: 'ETH locked to a validator that secures Ethereum mainnet and earns the
+      protocol''s rewards: solo, through an operator, custodial, or as a liquid
+      staking token.'
+    moves: [ asset ]
+    roles: [ asset_manager, bank, corporate, custodian ]
+  - title: AI agent payments
+    icon: agent
+    short: AI payments
+    path: scenarios/agent-payments-x402
+    map: { x: 209, y: 280 }
+    text: Software agents paying for services and each other in tokenized currency,
+      with limits and identities the principal controls.
+    moves: [ cash ]
+    roles: [ payments, corporate, bank ]
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Missing a scenario?
-  text: 'Open an issue with the scenario you are investigating and we will write it up; the maps are edited in Ethereum Institutional''s platform repository and mirrored here.'
-footnote: 'Scenarios are Ethereum Institutional house views for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+  text: 'Open an issue with the scenario you are investigating and we will write
+    it up; the maps are edited in Ethereum Institutional''s platform repository
+    and mirrored here.'
+footnote: 'Scenarios are Ethereum Institutional house views for discussion, not
+  legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0
+  (share and adapt with credit, under the same license).'
+public_link: https://ethereuminstitutional.org/
+public_cta:
+  title: Each scenario in full is available from Ethereum Institutional.
+  text: The actors, how it works step by step, the tokens and EVM standards to
+    consider, and where it stands today, with sources.
+  link: Go to ethereuminstitutional.org
