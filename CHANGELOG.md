@@ -7,6 +7,13 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Identity (minor; ei-digitalassets#29):** cross-links between the Identity, Privacy, Architecture and Scenarios maps
+  ("Read alongside" and "See also"); new sections on identity and privacy, reaching liquidity with controls intact, and
+  checks off the ledger with a record on it; on-chain identity stated as supplementing KYC, KYB and KYA; Bhutan named as
+  the counterexample among national schemes, with a house view that institutions can make the case for schemes on a
+  public ledger; DNS rewritten as a supplement that rarely suffices alone; the narrative as a categorized list with
+  pictograms. Privacy gains "Permission comes from identity".
+
 - **Public mirror (minor):** this repository now carries Architecture and Scenarios at the high level only: the
   Architecture page shows the areas from the clients to the ledger, and the Scenarios page the map, the bands and the
   role filter, with every area and scenario opening on ethereuminstitutional.org.

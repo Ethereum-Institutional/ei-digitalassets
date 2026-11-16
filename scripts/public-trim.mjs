@@ -59,9 +59,9 @@ const callFrom = {}; for (const a of ov.areas) for (const p of a.parts || []) if
 const areas = ov.areas.map(a => Object.assign({ id: a.id, name: a.name }, a.sub ? { sub: a.sub } : {}, { text: a.text },
   (a.parts || []).length ? { parts: a.parts.map(p => p.name) } : {}, a.beside ? { beside: a.beside } : {}, callFrom[a.id] ? { from: callFrom[a.id] } : {},
   a.id === 'ledger' ? { column: true } : {}));
-const archSite = { kind: 'architecture-overview', title: archSiteFull.title, slug: archSiteFull.slug, eyebrow: archSiteFull.eyebrow, heading: archSiteFull.heading,
+const archSite = Object.assign({ kind: 'architecture-overview', title: archSiteFull.title, slug: archSiteFull.slug, eyebrow: archSiteFull.eyebrow, heading: archSiteFull.heading,
   intro: PUB.architecture.intro, public_link: PUB.link, legend: PUB.architecture.legend, public_cta: PUB.architecture.cta, column_label: 'submits to',
-  areas, footnote: archSiteFull.footnote };
+  areas }, archSiteFull.related ? { related: archSiteFull.related } : {}, { footnote: archSiteFull.footnote });
 fs.writeFileSync(P('data/architecture/site.yaml'), '# Architecture, public mirror: the areas only, each linking to ethereuminstitutional.org (written by ei-platform\'s\n# scripts/public-trim.mjs; the full Architecture map is maintained by Ethereum Institutional and is not mirrored).\n\n' + stringify(archSite, { lineWidth: 0 }));
 for (const f of ['architecture.yaml', 'layout.yaml', 'overview.yaml']) fs.rmSync(P('data/architecture', f), { force: true });
 fs.rmSync(sysDir, { recursive: true, force: true });

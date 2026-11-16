@@ -190,6 +190,21 @@ scenarios:
       with limits and identities the principal controls.
     moves: [ cash ]
     roles: [ payments, corporate, bank ]
+# maps read alongside this one (owner, 16 November 2026: cross-links between the maps)
+related:
+  - {
+      path: identity,
+      text: 'Who may take part in each scenario, and how the check reaches the
+        ledger.'
+    }
+  - {
+      path: privacy,
+      text: 'Keeping amounts and counterparties confidential in each activity.'
+    }
+  - {
+      path: architecture,
+      text: 'What a digital asset team runs to carry these scenarios out.'
+    }
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Missing a scenario?

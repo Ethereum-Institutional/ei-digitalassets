@@ -89,6 +89,11 @@ and decisions behind them.
   (about 30 words) as `text` and the rest, word for word, as `detail`, shown behind a closed "More"; `fold_items: true` on
   a section puts its detail and items behind that one "More" (Adoption's independent assessments and Project Acacia).
   Write new long passages the same way.
+- **Cross-links (owner, 16 November 2026, public issue ei-digitalassets#29: the maps read as silos):** `related:` in a
+  page's `site.yaml` (`{ path, text }`) draws a "Read alongside" strip under its sections, and `see: [path]` on a section
+  or item adds "See also" links; Identity, Privacy, Architecture and Scenarios link to each other this way. Paths are
+  page paths, checked by the build. Link only to top-level pages a public reader can open: the mirror carries no scenario
+  or due diligence pages.
 - The shared navigation (`navHtml` in `scripts/build.mjs`, styled in `src/template.html`) folds behind a menu button
   named for the current page under 700px, with the list absolutely positioned under it; on wider screens the button is
   hidden and the links flow in a row (owner, 10 November 2026). Keep the toggle script inline in the nav markup, since
@@ -560,8 +565,20 @@ and decisions behind them.
   credentials on it while the register stays sovereign (owner, 10 November 2026: a scheme can embrace a public ledger). Scheme badges are named
   "HK · iAM Smart", the two-letter code first, and sit in that alphabetical order, the ICAO standard last (owner, 10
   November 2026).
-- **House positions, flagged as Ethereum Institutional's:** the three-question framing; the schemes box; DNS is a weak
-  trust anchor; the signed-message checklist. The revenue proposal (reusable credentials, a credit score as a credential,
+- **A categorized list, not tiles (owner, 16 November 2026, ei-digitalassets#29):** `section_groups` in `site.yaml`
+  (`{ id, title, icon }`, the icon from the pictogram library) and a `group` on each section draw the narrative under
+  four headings (how identity reaches the ledger; where identity comes from; privacy and liquidity; compliance and
+  choosing providers), every section closed until opened. Any page can use it; the Privacy map still uses tiles.
+- **On-chain identity supplements KYC, KYB and KYA, never replaces them** (owner, 16 November 2026): the checks and their
+  records stay with each institution; the ledger carries their result and a public record that controls were enforced
+  (the event, not the reason). Permissioned pools on public protocols are the direction for liquidity, with the costs
+  shown (Aave Arc, fragmentation). Identity data stays off chain: only a salted commitment or a proof reaches the ledger,
+  which the EDPB's guidelines (v2.0, paragraphs 52 to 54) allow for and which stays hidden against quantum attacks.
+- **House positions, flagged as Ethereum Institutional's:** the three-question framing; the schemes box; DNS can
+  supplement a digital identity strategy but rarely suffices alone (its risks, and it does not reach the ledger where
+  cross-border digital assets need identity checked; owner, 16 November 2026); most national schemes stop at the relying
+  party, Bhutan's is the counterexample, and whether a scheme reaches a public ledger is a policy choice institutions
+  can make the case for (owner, 16 November 2026); the signed-message checklist. The revenue proposal (reusable credentials, a credit score as a credential,
   underwriting) is held in `data/identity/held.yaml`, off the public page, for a scenario or a brief (owner, 6 November 2026).
 - **Post-quantum is a facet of identity (owner, 7 November 2026):** `pq` in Focus on, group Keys and signatures, read
   for every mechanism. Nothing on the map is post-quantum today, so the values say where the classical link is

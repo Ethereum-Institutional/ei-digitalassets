@@ -51,4 +51,11 @@ areas:
     name: Distributed ledger
     text: "The ledger the custody platform submits to, and what reads from it: ledger selection, nodes, data and indexing, oracles and bridges, monitoring and validators."
     column: true
+related:
+  - path: identity
+    text: "The mechanisms behind identity and access management: KYC, KYB and KYA carried onto the ledger."
+  - path: privacy
+    text: The confidential-token designs behind the confidential tokens component.
+  - path: scenarios
+    text: The market activities the architecture carries out.
 footnote: This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).

@@ -216,6 +216,12 @@ const PART = {
 };
 const ICON_DEFS = '<defs><marker id="ia" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#14130f"/></marker></defs>';
 const GLYPHS = {
+  // Identity group headings (owner, 16 November 2026): a check reaching the ledger; where identity comes from; privacy
+  // with liquidity; compliance
+  onledger: () => `<rect x="8" y="14" width="32" height="26" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="17" cy="24" r="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M11 35C12 31 22 31 23 35" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M28 22H35M28 29H35" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M44 27H56" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><rect x="61" y="8" width="28" height="11" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="61" y="22" width="28" height="11" rx="3" fill="#14130f" stroke="#14130f" stroke-width="2"/><rect x="61" y="36" width="28" height="11" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M69 27.5L73 31L81 24" fill="none" stroke="#f8f6f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  sources: () => `<path d="M8 20L19 12L30 20Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/><rect x="10" y="20" width="18" height="14" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M15 24V30M19 24V30M23 24V30" stroke="#14130f" stroke-width="2"/><rect x="39" y="8" width="18" height="24" rx="3" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="17" r="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M43 26H53" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><circle cx="72" cy="18" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M78 18H90M86 18V23" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M20 36L44 46M48 34V44M72 26L52 46" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><circle cx="48" cy="48" r="5" fill="#14130f"/>`,
+  privliq: () => `<rect x="10" y="24" width="28" height="22" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M16 24V18C16 9 32 9 32 18V24" fill="none" stroke="#14130f" stroke-width="2"/><circle cx="24" cy="33" r="3" fill="#14130f"/><path d="M24 35V40" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M48 18V42C48 46 51 49 55 49H81C85 49 88 46 88 42V18" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M52 28C56 25 60 25 64 28S72 31 76 28S82 25 84 27M52 37C56 34 60 34 64 37S72 40 76 37S82 34 84 36" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  compliance: () => `<rect x="30" y="8" width="36" height="44" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="40" y="4" width="16" height="8" rx="2" fill="#14130f"/><path d="M36 22L40 26L46 19M36 36L40 40L46 33" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M51 23H60M51 37H60" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   dvp: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14, true) + PART.loop() + PART.lock(48, 29),
   pvp: () => PART.disc(22, 28, 14) + PART.disc(74, 28, 14) + PART.loop() + PART.lock(48, 29),
   pay: () => PART.disc(22, 28, 14) + PART.arrow(40, 28, 68, 28) + `<rect x="72" y="16" width="20" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/>`,
@@ -537,7 +543,7 @@ function renderArchOverview({ site, out }) {
   const top = main.slice(0, hostIdx).map(block).join(down), rest = main.slice(hostIdx).map(block).join(down);
   const body = `<div class="ei-arch-o">${top}${top ? down : ''}<div class="split"><div class="main">${rest}</div>`
     + (col.length ? `<div class="to" aria-hidden="true"><span>${esc(site.column_label || 'submits to')}</span></div><div class="colw">${col.map(card).join('')}</div>` : '') + `</div></div>`
-    + `<div class="ei-legend"><span>${esc(site.legend || 'Click an area to read more on ethereuminstitutional.org')}</span></div>` + publicCta(site);
+    + `<div class="ei-legend"><span>${esc(site.legend || 'Click an area to read more on ethereuminstitutional.org')}</span></div>` + publicCta(site) + relatedHtml(site, out);
   return read('src/static.html')
     .replace('__STYLE__', style + `<style>
   .ei-arch-o{display:flex;flex-direction:column}
@@ -593,7 +599,7 @@ function renderIndex({ site, out }) {
   const bandOf = sc => bands.find(b => (b.moves || []).length === (sc.moves || []).length && (b.moves || []).every(m => (sc.moves || []).includes(m)))?.id;
   const cards = bands.map(b => { const list = (site.scenarios || []).filter(sc => bandOf(sc) === b.id).sort((a, c) => (!!c.path) - (!!a.path));
     return list.length ? `<div class="ei-band" data-band="${esc(b.id)}"><div class="ei-h"><b>${esc(b.label)}</b><span>${esc(b.text || '')}</span></div><div class="ei-cards">${list.map(tile).join('')}</div></div>` : ''; }).join('');
-  const body = venn + `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}<button type="button" class="clear" hidden>Show all</button></div><div id="ei-cards">${cards}</div>${publicCta(site)}
+  const body = venn + `<div class="ei-filters">${F.roles ? chips('roles', F.roles) : ''}<button type="button" class="clear" hidden>Show all</button></div><div id="ei-cards">${cards}</div>${publicCta(site)}${relatedHtml(site, out)}
 <script>(function(){ const on={roles:null}; const cards=[...document.querySelectorAll('#ei-cards .ei-card')], clear=document.querySelector('.ei-filters .clear');
   const apply=()=>{ cards.forEach(c=>{ c.hidden=!(!on.roles||c.dataset.roles.split(' ').includes(on.roles)); }); clear.hidden=!on.roles;
     document.querySelectorAll('.ei-band').forEach(b=>{ b.hidden=![...b.querySelectorAll('.ei-card')].some(c=>!c.hidden); });
@@ -637,10 +643,25 @@ const moreHtml = m => m && m.url ? `<p class="more"><a href="${m.url}" target="_
 const detailHtml = d => d ? `<details class="ei-more-d"><summary>More</summary><p>${esc(d)}</p></details>` : '';
 // `sections_collapsed: true` in a page's site.yaml folds every item behind its title (owner, 10 November 2026: the
 // Identity and Privacy tiles were too long to read; a reader opens the items they care about).
-const itemHtmlC = (it, fold) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${detailHtml(it.detail)}${moreHtml(it.more)}${srcHtmlC(it.sources)}</details>`
-  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + detailHtml(it.detail) + moreHtml(it.more) + srcHtmlC(it.sources);
-const sectionsHtmlC = site => (site.sections || []).length ? `<div class="ei-sections${site.sections_collapsed ? ' folded' : ''}">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}${detailHtml(sec.detail)}`
-  + (sec.items || []).map(it => itemHtmlC(it, site.sections_collapsed)).join('') + '</div>').join('')}</div>` : '';
+// Cross-links between the maps (owner, 16 November 2026: the Identity, Privacy, Architecture and Scenarios maps read as
+// silos): `see: [path, ...]` on a section or item links to another page of the site; `related` on a page lists the maps
+// read alongside it, each with one line. Paths are page paths (`privacy`, `identity`), checked by the build.
+const PAGE_NAME = p => (NAV.find(n => n.path === p)?.label || p) + (['identity', 'privacy', 'taxonomy', 'networks', 'web3'].includes(p) ? ' map' : ' page');
+const seeHtml = (see, out) => (see || []).length ? `<p class="more see">See also ${see.map(p => `<a href="${relHref(out, p)}">${esc(PAGE_NAME(p))} →</a>`).join(' ')}</p>` : '';
+const relatedHtml = (site, out) => (site.related || []).length ? `<div class="ei-related"><h2>${esc(site.related_title || 'Read alongside')}</h2><div class="ei-related-l">${site.related.map(r => `<a href="${relHref(out, r.path)}"><b>${esc(NAV.find(n => n.path === r.path)?.label || r.path)}</b><span>${esc(r.text)}</span></a>`).join('')}</div></div>` : '';
+const RELATED_CSS = `<style>.ei-related{margin-top:18px;padding:16px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}.ei-related h2{margin:0 0 10px;font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:-.02em}.ei-related-l{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.ei-related-l a{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--rule);border-radius:12px;background:#fff;color:var(--ink);text-decoration:none}.ei-related-l a:hover{border-color:var(--ink)}.ei-related-l b{font-weight:600;font-size:14px}.ei-related-l span{font-size:13px;line-height:1.45;color:var(--muted)}p.more.see a{margin-right:10px}</style>`;
+const itemHtmlC = (it, fold, out) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${detailHtml(it.detail)}${moreHtml(it.more)}${seeHtml(it.see, out)}${srcHtmlC(it.sources)}</details>`
+  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + detailHtml(it.detail) + moreHtml(it.more) + seeHtml(it.see, out) + srcHtmlC(it.sources);
+const sectionsHtmlC = (site, out) => sectionsInner(site, out) + relatedHtml(site, out);
+// A categorized list (owner, 16 November 2026: the many tiles under the Identity map were too much): `section_groups`
+// in site.yaml ({ id, title }) and a `group` on each section draw the narrative as a list under a few headings, every
+// section closed until opened, its items folded inside it as before.
+const sectionListHtml = (site, out) => `<div class="ei-seclist">${site.section_groups.map(g => { const list = site.sections.filter(sec => sec.group === g.id);
+  return list.length ? `<section class="ei-secgroup"><h2>${g.icon ? iconSvg(g.icon, 'ei-icon grp') : ''}<span>${esc(g.title)}</span></h2>${list.map(sec => `<details class="ei-sec"><summary><b>${esc(sec.title)}</b>${sec.text ? `<span>${esc(sec.text)}</span>` : ''}</summary><div class="ei-sec-body">${detailHtml(sec.detail)}${seeHtml(sec.see, out)}`
+    + (sec.items || []).map(it => itemHtmlC(it, true, out)).join('') + '</div></details>').join('')}</section>` : ''; }).join('')}</div>`;
+const SECLIST_CSS = `<style>.ei-secgroup>h2 svg.ei-icon.grp{width:84px;height:49px;flex:0 0 auto}.ei-seclist{display:flex;flex-direction:column;gap:22px;margin-top:18px}.ei-secgroup>h2{display:flex;align-items:center;gap:12px;margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.02em}.ei-secgroup{padding:4px 0}details.ei-sec{border-top:1px solid var(--rule);background:transparent}.ei-secgroup details.ei-sec:last-child{border-bottom:1px solid var(--rule)}details.ei-sec>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:18px 1fr;column-gap:8px;padding:12px 4px}details.ei-sec>summary::-webkit-details-marker{display:none}details.ei-sec>summary::before{content:'';grid-row:1/3;margin-top:7px;width:7px;height:7px;border-right:1.6px solid var(--ink);border-bottom:1.6px solid var(--ink);transform:rotate(-45deg);transition:transform .15s}details.ei-sec[open]>summary::before{transform:rotate(45deg)}details.ei-sec>summary b{font-size:16px;font-weight:600;line-height:1.4}details.ei-sec>summary span{grid-column:2;font-size:14px;line-height:1.5;color:var(--muted);max-width:95ch}details.ei-sec>summary:hover b{text-decoration:underline;text-underline-offset:3px}.ei-sec-body{padding:0 4px 14px 30px;max-width:95ch}.ei-sec-body details.ei-item{border-top:1px solid var(--rule);padding:9px 0}.ei-sec-body details.ei-item summary{cursor:pointer;font-size:14px;font-weight:600;line-height:1.4}.ei-sec-body details.ei-item[open] summary{margin-bottom:6px}.ei-sec-body p{margin:0 0 6px;font-size:14px;line-height:1.55}</style>`;
+const sectionsInner = (site, out) => (site.section_groups || []).length && (site.sections || []).length ? sectionListHtml(site, out) : (site.sections || []).length ? `<div class="ei-sections${site.sections_collapsed ? ' folded' : ''}">${site.sections.map(sec => `<div class="ei-section"><h2>${esc(sec.title)}${sec.wip ? '<span class="wip">in progress</span>' : ''}</h2>${sec.text ? `<p>${esc(sec.text)}</p>` : ''}${detailHtml(sec.detail)}${seeHtml(sec.see, out)}`
+  + (sec.items || []).map(it => itemHtmlC(it, site.sections_collapsed, out)).join('') + '</div>').join('')}</div>` : '';
 // A scenario page: an at-a-glance strip, the actors, the swimlane with its panel, the steps as a numbered list, then
 // collapsible blocks (owner, 7 November 2026: the pages were busy); every block starts closed, the argument too.
 const MONEY_CIRCLES = new Set(['dt', 'td', 'sc', 'wcbdc', 'rcbdc', 'cbdc', 'fmi', 'lsc', 'nat', 'btc', 'eth']);
@@ -665,7 +686,7 @@ function renderScenario({ site, sc, out }) {
   const stepsHtml = `<ol class="ei-steps">${sc.steps.map(s => `<li class="${esc(s.kind || 'offchain')}"><details data-step="${s.n}"><summary><span class="n">${s.n}</span>${esc(s.title)}<span class="kind">${STEP_KIND[s.kind] || STEP_KIND.offchain}</span></summary><div class="body"><p>${esc(s.text)}</p>${(s.standards || []).length ? `<p class="src">Standards: ${s.standards.map(esc).join(', ')}</p>` : ''}</div></details></li>`).join('')}</ol>`;
   const tokensHtml = blockHtml('Tokens from the taxonomy', `${(sc.tokens || []).length} tokens, with live examples and sources.`, `<div class="ei-cards2">${(sc.tokens || []).map(t => `<div class="ei-card2"><h3>${t.circle ? `<a href="${relHref(out, 'taxonomy')}">${esc(t.name)}</a>` : esc(t.name)}</h3>${t.place ? `<p class="sub">${esc(t.place)}</p>` : ''}<p>${esc(t.role)}</p>${t.example ? `<p class="sub" style="margin-top:6px">${esc(t.example)}</p>` : ''}${srcHtmlC(t.sources)}</div>`).join('')}</div>`, false);
   const stdHtml = blockHtml('EVM token standards to consider', sc.standards_help || '', `<table class="ei-std"><thead><tr><th>Standard</th><th>Status</th><th>Role in this scenario</th></tr></thead><tbody>${(sc.standards || []).map(x => `<tr><td><a href="${x.url}" target="_blank" rel="noopener">${esc(x.id)}</a><br><span style="color:var(--muted);font-size:12px">${esc(x.title)}</span></td><td><span class="st">${esc(x.status)}</span></td><td>${esc(x.role)}</td></tr>`).join('')}</tbody></table>`, false);
-  const sectionBlock = (sec, open) => blockHtml(sec.title, sec.text || `${(sec.items || []).length} items.`, sectionsHtmlC({ sections: [Object.assign({}, sec, { text: '' })] }), open);
+  const sectionBlock = (sec, open) => blockHtml(sec.title, sec.text || `${(sec.items || []).length} items.`, sectionsHtmlC({ sections: [Object.assign({}, sec, { text: '' })] }, out), open);
   const sourcesBlock = (sc.sources || []).length ? blockHtml('Sources', `${sc.sources.length} sources, each with the date checked.`, `<p class="src" style="font-size:12px;color:var(--muted)">${srcList(sc.sources)}</p>`, false) : '';
   return fillCommon(read('src/scenario.html').replace('__STYLE__', style), { site, out, data })
     .replace('__ICON__', iconSvg(sc.icon, 'ei-icon hero')).replace('__TAGS__', tags).replace('__GLANCE__', glance).replace('__ACTORS__', actorsHtml).replace('__STEPS__', stepsHtml).replace('__TOKENS__', tokensHtml).replace('__STANDARDS__', stdHtml)
@@ -684,7 +705,7 @@ function renderStatic({ site, out }) {
     ? site.groups.map(g => `<section class="ei-group"><h2 class="ei-group-h">${esc(g.title)}</h2>${cardsHtml(g.cards)}</section>`).join('')
     : site.cards
     ? cardsHtml(site.cards)
-    : (site.sections || []).length ? sectionsHtmlC({ sections: site.sections }) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
+    : (site.sections || []).length ? sectionsHtmlC({ sections: site.sections, related: site.related }, out) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
     .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro)).replace('__NAV__', navHtml(out)).replace('__BODY__', body).replace('__NOTICE__', sh.notice)
@@ -731,7 +752,7 @@ function render({ circles, layout, alt, tokens, site, lenses, out }) {
   return fillCommon(read('src/template.html'), { site, out, data })
     .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))
     .replace('__CANVAS_W__', layout.canvas.width).replace('__CANVAS_H__', layout.canvas.height).replace('__TALL__', layout.canvas.height > layout.canvas.width ? ' tall' : '')
-    .replace('__SECTIONS__', sectionsHtmlC(site)); // narrative under the map (sources collapsed, optional `more` links)
+    .replace('__SECTIONS__', sectionsHtmlC(site, out)); // narrative under the map (sources collapsed, optional `more` links)
 }
 // sources: inline when three or fewer, otherwise collapsed behind a "Sources (n)" toggle
 const srcList = src => src.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.checked ? ` (checked ${esc(s.checked)})` : ''}`).join('; ');
@@ -880,7 +901,7 @@ function renderArchitecture({ site, map, layout, overview, out }) {
     overview: overview.areas.map(a => Object.assign({}, a, { components: a.components || [], parts: a.parts || [], optional: a.optional || [] })) };
   return fillCommon(read('src/architecture.html').replace('__STYLE__', style), { site, out, data })
     .replace('__CONTROLS__', controls).replace('__ARCH_LEGEND__', legend).replace('__FEATURES__', features).replace('__SYSTEMS__', () => systems)
-    .replace('__SECTIONS__', sectionsHtmlC(site));
+    .replace('__SECTIONS__', sectionsHtmlC(site, out));
 }
 
 // timeline and matrix panels drawn from one component's lists (screening lifecycle, tolerance matrix)
@@ -982,10 +1003,18 @@ const reviewMarks = html => {
   if (!REVIEW) throw new Error('review markers [[hl]] remain in the data: build with EI_REVIEW=1 to review them, and remove them before committing');
   return html.replace('</head>', REVIEW_CSS + '</head>').split('[[hl]]').join('<mark class=ei-review>').split('[[/hl]]').join('</mark>');
 };
-const withIcons = html => reviewMarks(html.replace('</title>', '</title>' + ICONS));
+const withIcons = html => reviewMarks(html.replace('</title>', '</title>' + ICONS).replace('</head>', (html.includes('ei-related') || html.includes('class="more see"') ? RELATED_CSS : '') + (html.includes('class="ei-seclist"') ? SECLIST_CSS : '') + '</head>'));
 
 const pages = PAGES.filter(p => p.sys || fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, p.sys ? { system: true } : load(p.dir)));
 const errors = pages.flatMap(validate);
+// categorized section lists: every section names a known group
+for (const p of pages) { const s = p.site || {}; if (!(s.section_groups || []).length) continue; const ids = new Set(s.section_groups.map(g => g.id));
+  for (const g of s.section_groups) if (g.icon && !GLYPHS[g.icon]) errors.push(`${p.dir}/site.yaml: group "${g.id}" names unknown icon "${g.icon}"`);
+  for (const sec of s.sections || []) if (!ids.has(sec.group)) errors.push(`${p.dir}/site.yaml: section "${sec.title}" needs a group from section_groups`); }
+// cross-links: every `see` and `related` path must be a page of this site
+for (const p of pages) { const s = p.site || {}, w = `${p.dir}/site.yaml`, ok = x => PAGES.some(q => q.out === x) && pages.some(q => q.out === x);
+  for (const r of s.related || []) { if (!ok(r.path)) errors.push(`${w}: related path "${r.path}" is not a page`); if (!r.text) errors.push(`${w}: related "${r.path}" needs a text`); }
+  for (const sec of [...(s.sections || []), ...(p.sc?.sections || [])]) for (const x of [sec, ...(sec.items || [])]) for (const q of x.see || []) if (!ok(q)) errors.push(`${w}: see "${q}" on "${x.title}" is not a page`); }
 // pages that moved: the old path keeps working as a redirect to the new one
 const REDIRECTS = [{ from: 'decentralization', to: 'adoption', title: 'Adoption' }];
 if (errors.length) { console.error('Validation failed:\n  ' + errors.join('\n  ')); process.exit(1); }
