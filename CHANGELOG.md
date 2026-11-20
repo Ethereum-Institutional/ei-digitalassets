@@ -7,6 +7,18 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Privacy, Bermuda Bay (minor; ei-digitalassets#38):** partly post-quantum (notes and memos encrypted with X-Wing,
+  ML-KEM-768 and X25519; proofs and signatures classical); spends signed per owner with Schnorr over Grumpkin, so no
+  FROST server; issuer receipts for every settlement; account policies enforced by the proof; Safe-linked and
+  EIP-7702 accounts with Safe-bound recovery and a viewing-key backup; private OTC; testnets as listed in the
+  institutional docs (vendor-stated).
+
+- **Privacy, Zama (minor; ei-digitalassets#39, from Zama's pull request #37):** partly permissioned (an issuer's own
+  token can restrict holders to an allow list) and partly forced transfer (OpenZeppelin's ERC7984Rwa), so Zama joins the
+  institutional wish list; a dedicated deployment beside a private or consortium EVM network, available by agreement
+  under a commercial license (vendor-stated, none announced), read as partly self-operated, private, unshared and
+  licensed; any wallet can sign; partly in production (BitGo custody, GSR's OTC trade); key-operator thresholds by
+  action; ISO/IEC 28033-4 and the NIST MPTS 2026 preview in the technology note; no pauser or observer set today.
 - **Taxonomy, South Korea FSC lens (patch; ei-digitalassets#36):** the intro adds the registration tests from
   20 August 2026 and the securities-register amendments of 15 January 2026; notes on stablecoins (the 4 March 2026
   government draft), securities (the draft FSC rules of 1 October 2026), tokenized deposits (Project Hangang phase 2),
