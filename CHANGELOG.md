@@ -11,8 +11,8 @@ and lens treatments may change in any release.
   list and add forced transfer (OpenZeppelin's confidential token extensions), so Zama reads partly permissioned and
   partly has forced transfer, and now ranks under the institutional wish list; a dedicated deployment beside a private
   or consortium EVM network, run by the institution under a commercial license, is noted under where it runs, who
-  operates it, fees and association; any custodian can integrate; the key-operator thresholds split into reading a
-  balance (9 of 13) and turning a confidential token back into a public one (7 of 13); audits note that OpenZeppelin
+  operates it, fees and association; any wallet or custodian can sign, and the wallet note names those that read
+  balances natively; the key-operator thresholds split into reading a balance (9 of 13) and turning a confidential token back into a public one (7 of 13); audits note that OpenZeppelin
   publishes every library audit; the 6 January 2026 pause recorded as a planned test; the license note says building on
   the Zama Protocol needs no extra license; institutional use names BitGo, GSR, Bron and the T-REX Ledger; notes
   rewritten in plain words and sourced to Zama, OpenZeppelin and Etherscan.
