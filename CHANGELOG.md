@@ -7,6 +7,11 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Identity (patch; ei-digitalassets#30):** the T-REX (ERC-3643) entry says that in the reference contracts any one
+  agent can mint, burn, freeze, pause, force a transfer or recover a wallet on its own and only the owner appoints
+  agents, so the controls are as strong as the way the owner and agent keys are held; sourced to Tokeny's reference
+  contracts.
+
 - **Identity (minor; ei-digitalassets#29):** cross-links between the Identity, Privacy, Architecture and Scenarios maps
   ("Read alongside" and "See also"); new sections on identity and privacy, reaching liquidity with controls intact, and
   checks off the ledger with a record on it; on-chain identity stated as supplementing KYC, KYB and KYA; Bhutan named as
