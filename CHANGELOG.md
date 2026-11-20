@@ -7,6 +7,18 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy, Hong Kong SFC lens (patch; ei-digitalassets#32):** the intro corrected (secondary trading of tokenized
+  SFC-authorized products began on 26 October 2026 under the 20 April framework, each product approved case by case)
+  and the advisory and management conclusions of 26 May 2026 added; notes on funds, Relevant Stablecoins (knowledge
+  assessment waived only for stablecoin-only clients; fund holdings outside the over-10% rules), tokenized deposits,
+  bitcoin and ether as the only virtual-asset margin collateral, perpetual contracts and tokenized gold; "licence"
+  corrected to "license"; no status changes.
+- **Taxonomy, Singapore MAS lens (patch; ei-digitalassets#31):** notes brought up to date from MAS's own papers: the draft
+  stablecoin amendments (trace, freeze or burn; FIDReC membership; designation of systemic stablecoins and delisting),
+  the interim Group 1 capital treatment for cryptoassets on permissionless blockchains, BLOOM with Bank Negara Malaysia
+  and the Bank of Thailand, and a new wholesale CBDC note (the tokenized MAS Bills trial and Project Simbolon); no
+  status changes.
+
 - **Identity (patch; ei-digitalassets#30):** the T-REX (ERC-3643) entry says that in the reference contracts any one
   agent can mint, burn, freeze, pause, force a transfer or recover a wallet on its own and only the owner appoints
   agents, so the controls are as strong as the way the owner and agent keys are held; sourced to Tokeny's reference

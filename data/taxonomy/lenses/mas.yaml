@@ -46,10 +46,11 @@ status:
   syn: in
 notes:
   cbdc: Money, not a DPT.
-  td: Bank deposits; MAS will issue separate guidance on tokenized deposits.
-  dt: Bank deposits, not DPTs; MAS will issue separate guidance on tokenized deposits.
-  sc: Stablecoins are DPTs today. Under the draft amendments, licensed issuers of single-currency stablecoins pegged to the Singapore dollar or a G10 currency could market them as “MAS-regulated stablecoins”, with no interest to holders; other stablecoins would remain DPTs.
-  unreg: A DPT, with proposed retail protections for non-MAS-regulated stablecoins.
+  wcbdc: 'Central bank money, not a DPT. MAS is trialing tokenized MAS Bills settled in wholesale CBDC on the Singapore dollar Test Network (SGD Testnet), with issues from 23 September 2026. On 16 November 2026 MAS and the Deutsche Bundesbank reported a successful test, Project Simbolon, of EUR/SGD payment-versus-payment settlement in wholesale CBDC across their separate test environments.'
+  td: 'Bank deposits; MAS will issue separate guidance on tokenized deposits. BLOOM, an MAS initiative launched on 16 October 2025 to enable settlement in tokenized bank liabilities and well-regulated stablecoins, added Bank Negara Malaysia and the Bank of Thailand as policymaker members on 23 October 2026.'
+  dt: 'Bank deposits, not DPTs; MAS will issue separate guidance on tokenized deposits. Since 17 April 2026, under an MAS consultation, banks may treat a cryptoasset on a permissionless blockchain as Group 1 for capital if it meets MAS’s risk requirements (for example, an issuer able to freeze or correct transactions and allowlisted holders), within exposure and issuance caps, until the rules are final.'
+  sc: 'Stablecoins are DPTs today. Under the draft amendments (MAS, 1 September 2026), licensed issuers of single-currency stablecoins pegged to the Singapore dollar or a G10 currency could market them as “MAS-regulated stablecoins”, with no interest to holders and the technical ability to trace, freeze or burn tokens used for illicit activity; other stablecoins would remain DPTs. MAS proposed on 16 October 2026 that MAS-regulated stablecoin issuers join the Financial Industry Disputes Resolution Centre (FIDReC) after the framework comes into force.'
+  unreg: 'A DPT, with proposed retail protections for non-MAS-regulated stablecoins. The draft amendments (MAS, 1 September 2026) would let MAS designate a stablecoin as systemic whether or not it is issued or licensed in Singapore, and direct licensed service providers to stop offering or delist one that fails its requirements.'
   alg: A DPT, but cannot be a MAS-regulated stablecoin.
   sec: Capital markets products under the SFA.
   dv: Derivatives contracts under the SFA (crypto derivatives included).
@@ -71,4 +72,25 @@ sources:
 - title: MAS, consultation on legislative amendments to implement the stablecoin regulatory framework (1 September 2026)
   url: https://www.mas.gov.sg/news/media-releases/2026/mas-consults-on-legislative-amendments-to-implement-stablecoin-regulatory-framework
   checked: '2026-10-24'
-last_reviewed: '2026-10-24'
+- title: 'MAS, Consultation Paper P015-2026, Proposed Amendments to the Payment Services Act 2019 for Stablecoins Regulation (1 September 2026, closed 16 October 2026; para 3.2 interest ban, para 3.22 trace, freeze and/or burn, paras 4.1 to 4.9 designated systemic stablecoins)'
+  url: https://www.mas.gov.sg/publications/consultations/2026/consultation-on-proposed-amendments-to-the-payment-services-act-for-stablecoin-regulation
+  checked: '2026-11-20'
+- title: 'MAS, Consultation Paper P017-2026, Expanding FIDReC Membership to Payment Service Providers (16 October 2026, closes 30 November 2026; para 3.3, MAS-regulated stablecoin issuers)'
+  url: https://www.mas.gov.sg/publications/consultations/2026/consultation-on-expanding-fidrec-membership-to-psps
+  checked: '2026-11-20'
+- title: 'MAS, Consultation Paper P009-2026, Prudential Treatment of Cryptoassets on Permissionless Blockchains (17 April 2026, closed 18 May 2026; paras 1.3 to 1.4 interim Group 1 treatment, 2.7 to 2.8 caps, Annex D)'
+  url: https://www.mas.gov.sg/publications/consultations/2026/consultation-on-the-prudential-treatment-of-cryptoassets-on-permissionless-blockchains
+  checked: '2026-11-20'
+- title: MAS, MAS launches BLOOM initiative to extend settlement capabilities (16 October 2025)
+  url: https://www.mas.gov.sg/news/media-releases/2025/mas-launches-bloom-initiative-to-extend-settlement-capabilities
+  checked: '2026-11-20'
+- title: MAS, Bank Negara Malaysia and Bank of Thailand Partner with Industry to Advance Cross-Border Settlement in Digital Money through BLOOM (23 October 2026)
+  url: https://www.mas.gov.sg/news/media-releases/2026/mas-bnm-and-bot-partner-with-industry-to-advance-cross-border-settlement-in-digital-money
+  checked: '2026-11-20'
+- title: MAS, MAS Bills type tokenised MAS Bill (trial issues from 23 September 2026, settled in wholesale CBDC on the SGD Testnet)
+  url: https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar/mas-bills-type-tokenised-mas-bill
+  checked: '2026-11-20'
+- title: MAS, MAS and Deutsche Bundesbank advance cross-border digital asset settlement connectivity (16 November 2026; Project Simbolon)
+  url: https://www.mas.gov.sg/news/media-releases/2026/mas-and-deutsche-bundesbank-advance-cross-border-digital-asset-settlement-connectivity
+  checked: '2026-11-20'
+last_reviewed: '2026-11-20'
