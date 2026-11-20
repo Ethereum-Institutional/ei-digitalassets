@@ -69,6 +69,7 @@ badges:
   - { title: 'Zama blog, staking live on mainnet (operator list, 19 January 2026)', url: 'https://www.zama.org/post/staking-is-now-live-on-mainnet', checked: '2026-10-26' }
   - { title: 'Zama blog, delegated decryption (7 May 2026)', url: 'https://www.zama.org/post/zama-protocol-update-new-sdk-delegated-decryption-developer-tooling-and-protocol-apps', checked: '2026-10-26' }
   - { title: 'OpenZeppelin, Zama confidential contracts 0.3.0 release audit (18 March 2026)', url: 'https://www.openzeppelin.com/news/zama-confidential-contracts-0.3.0-release-audit', checked: '2026-10-26' }
+  - { title: 'ETHBEAT Privacy, Zama confidential tokens (operators, multisigs, incidents)', url: 'https://ethbeat.org/privacy/projects/zama-confidential-tokens', checked: '2026-11-20' }
   - { title: 'BitGo developer docs, Ethereum ERC7984 tokens (custody and per-enterprise viewing key)', url: 'https://developers.bitgo.com/docs/ethereum-erc7984-tokens.md', checked: '2026-10-26' }
   - { title: 'Kinexys by J.P. Morgan, Project EPIC report (November 2024)', url: 'https://www.jpmorgan.com/kinexys/content-hub/project-epic-enterprise-privacy-identity-composability', checked: '2026-10-26' }
   - { title: 'PSE evaluation, Zama (ACL, proof of knowledge, no escape hatch, post-quantum)', url: 'https://github.com/ethereum/private-transfers-benchmarks/blob/main/project-evaluations/src/data/evaluations/zama.json', checked: '2026-10-26' }
