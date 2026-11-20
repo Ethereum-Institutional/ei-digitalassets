@@ -14,7 +14,8 @@ and lens treatments may change in any release.
   operates it, fees and association; any wallet or custodian can sign, and the wallet note names those that read
   balances natively; the key-operator thresholds split into reading a balance (9 of 13) and turning a confidential token back into a public one (7 of 13); audits note that OpenZeppelin
   publishes every library audit; the 6 January 2026 pause recorded as a planned test; the license note says building on
-  the Zama Protocol needs no extra license; institutional use names BitGo, GSR, Bron and the T-REX Ledger; notes
+  the Zama Protocol needs no extra license; institutional use names BitGo, GSR, Bron and the T-REX Ledger; the
+  technology note says TFHE's look-up-table arithmetic is ISO/IEC 28033-4, under publication; notes
   rewritten in plain words and sourced to Zama, OpenZeppelin and Etherscan.
 
 - **Identity (minor; ei-digitalassets#29):** cross-links between the Identity, Privacy, Architecture and Scenarios maps
