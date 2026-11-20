@@ -10,7 +10,7 @@ menu: 'IN · India (CBDT and FIU-IND): “virtual digital asset”'
 name: 'India CBDT and FIU-IND “virtual digital asset”'
 short: India CBDT and FIU-IND
 color: '#a21caf'
-intro: 'India has no dedicated crypto licensing regime; two arms of the Ministry of Finance apply one definition. The Central Board of Direct Taxes administers the “virtual digital asset” (VDA) definition, carried into the Income-tax Act, 2025 from 1 April 2026: any cryptographically generated information, code, number or token representing value that can be transferred, stored or traded electronically, non-fungible tokens, and anything else the government notifies, excluding Indian and foreign currency, with a power to exclude assets by notification (used for gift cards and reward points); it drives a flat tax and tax deducted at source on transfers. The Financial Intelligence Unit (FIU-IND) registers VDA service providers as reporting entities under the anti-money-laundering act (notice of 4 July 2023) and has pursued offshore platforms serving Indian users. The RBI remains skeptical of private crypto-assets and promotes the e-rupee. A parliamentary committee is studying a framework.'
+intro: 'India has no dedicated crypto licensing regime; two arms of the Ministry of Finance apply one definition. The Central Board of Direct Taxes administers the “virtual digital asset” (VDA) definition, carried into the Income-tax Act, 2025 from 1 April 2026: any cryptographically generated information, code, number or token representing value that can be transferred, stored or traded electronically, non-fungible tokens, and anything else the government notifies, excluding Indian and foreign currency, with a power to exclude assets by notification (used for gift cards and reward points); it drives a flat tax and tax deducted at source on transfers. Under section 509 of that Act and rules 241 to 244 of the Income-tax Rules, 2026, crypto-asset service providers report the transactions of users resident outside India from calendar year 2026, with penalties for failing to report or reporting inaccurately (section 446), and since 1 January 2026 the Common Reporting Standard also covers interests in crypto-assets and accounts holding CBDC. The Financial Intelligence Unit (FIU-IND) registers VDA service providers as reporting entities under the anti-money-laundering act (notice of 4 July 2023), sets their due diligence, travel rule and sanctions screening duties in guidelines updated on 8 January 2026, and pursues offshore platforms serving Indian users, including notices to 15 platforms on 9 September 2026. The RBI remains skeptical of private crypto-assets, argues against private stablecoins and promotes the e-rupee. A parliamentary committee is studying a framework.'
 status:
   nat: in
   btc: in
@@ -39,13 +39,13 @@ status:
   fmi: part
   syn: in
 notes:
-  cbdc: The e-rupee is currency, not a VDA.
+  cbdc: 'The e-rupee is currency, not a VDA; the RBI has run it in pilot since November 2022 (wholesale) and December 2022 (retail). Tokenized certificates of deposit on the RBI’s Unified Markets Interface settle in wholesale e-rupee, and SEBI’s Demat 2.0 tokenized corporate bond pilot settles in e-rupee.'
   td: Currency held as deposits, not a VDA.
   dt: Currency held as deposits, not a VDA.
-  sc: 'Stablecoins are VDAs: taxed and subject to AML rules, with no licensing route.'
+  sc: 'Stablecoins are VDAs: taxed and subject to AML rules, with no licensing route; the RBI argues against private stablecoins (RBI, December 2025).'
   art: NFTs are expressly within the VDA definition.
   loy: Reward points are excluded by government notification.
-  sec: Tokenized securities would fall to SEBI; the VDA treatment is unsettled.
+  sec: 'Tokenized securities fall to SEBI; in its Demat 2.0 pilot, launched on 10 September 2026 in its regulatory sandbox, corporate bonds issued as tokens on a depository-owned ledger remain securities and settle in e-rupee. The VDA treatment is unsettled.'
   rwa: Treatment depends on structure and is unsettled.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
 sources:
@@ -55,4 +55,37 @@ sources:
 - title: 'FIU-IND, Registration of Virtual Digital Asset Service Providers in FIU-IND as Reporting Entity (notice of 4 July 2023, listed on the FIU-IND home page)'
   url: https://fiuindia.gov.in/
   checked: '2026-11-10'
-last_reviewed: '2026-11-10'
+- title: 'Income Tax Department, Income-tax Rules, 2026, rule 243 (reporting of crypto-asset transactions under section 509 for each calendar year from 1 January 2026; users resident outside India; Form No. 167 by 31 May)'
+  url: https://www.incometaxindia.gov.in/w/rule-243-1
+  checked: '2026-11-20'
+- title: 'Income Tax Department, Income-tax Act, 2025, section 446 (penalty of Rs. 200 a day for failing to furnish the section 509 statement; Rs. 50,000 for inaccurate information or failed due diligence)'
+  url: https://www.incometaxindia.gov.in/w/section-446-6
+  checked: '2026-11-20'
+- title: 'CBDT, Notification G.S.R. 158(E) (5 March 2026, in force 1 January 2026; rule 114F: "financial asset" includes an interest in a relevant crypto-asset; depository accounts include accounts holding central bank digital currencies)'
+  url: https://www.incometaxindia.gov.in/documents/d/guest/notification-19-2026-pdf
+  checked: '2026-11-20'
+- title: 'FIU-IND, AML & CFT Guidelines for Reporting Entities Providing Services Related to Virtual Digital Assets (updated as on 8 January 2026; registration, client due diligence, travel rule 5.3, sanctions screening 5.4)'
+  url: https://fiuindia.gov.in/pdfs/downloads/VDA08012026.pdf
+  checked: '2026-11-20'
+- title: 'Ministry of Finance (PIB), FIU-IND issues notices for non-compliance to 15 Virtual Digital Assets Service providers under section 13 of the PMLA (9 September 2026)'
+  url: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2308131
+  checked: '2026-11-20'
+- title: 'RBI, Stablecoins: Do They Have a Role in the Financial System (speech, 12 December 2025; monetary control, financial intermediation, capital controls)'
+  url: https://rbi.org.in/Scripts/BS_SpeechesView.aspx?Id=1538
+  checked: '2026-11-20'
+- title: 'RBI, Operationalisation of Central Bank Digital Currency, Wholesale (e₹-W) Pilot (31 October 2022; pilot from 1 November 2022)'
+  url: https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=54616
+  checked: '2026-11-20'
+- title: 'RBI, Operationalisation of Central Bank Digital Currency, Retail (e₹-R) Pilot (29 November 2022; pilot from 1 December 2022)'
+  url: https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=54773
+  checked: '2026-11-20'
+- title: 'RBI, Annual Report 2025-26, chapter VI, para VI.55 (certificates of deposit the first instrument issued in tokenised form and settled through wholesale CBDC, on the Unified Markets Interface)'
+  url: https://www.rbi.org.in/Scripts/AnnualReportPublications.aspx?Id=1466
+  checked: '2026-11-20'
+- title: 'SEBI, Successful launch of "Demat 2.0" Pilot project for Tokenised Corporate Bonds (10 September 2026)'
+  url: https://www.sebi.gov.in/media-and-notifications/press-releases/sep-2026/successful-launch-of-demat-2-0-pilot-project-for-tokenised-corporate-bonds_104418.html
+  checked: '2026-11-20'
+- title: 'SEBI, FAQs on Demat 2.0: Pilot for Tokenised Corporate Bonds (10 September 2026; native digital token on a private, permissioned DLT network owned by the depositories; remains a security under the SCRA; regulatory sandbox; atomic DvP using CBDC)'
+  url: https://www.sebi.gov.in/sebi_data/faqfiles/sep-2026/1789049630065.pdf
+  checked: '2026-11-20'
+last_reviewed: '2026-11-20'

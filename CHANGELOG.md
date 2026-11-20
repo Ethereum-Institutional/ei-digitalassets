@@ -7,6 +7,20 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy, South Korea FSC lens (patch; ei-digitalassets#36):** the intro adds the registration tests from
+  20 August 2026 and the securities-register amendments of 15 January 2026; notes on stablecoins (the 4 March 2026
+  government draft), securities (the draft FSC rules of 1 October 2026), tokenized deposits (Project Hangang phase 2),
+  CBDC and other real-world assets (investment contract securities); no status changes.
+- **Taxonomy, Japan FSA lens (patch; ei-digitalassets#35):** the intro adds the 2026 Act's promulgation (23 July 2026, Act
+  No. 64), the penalties in force from 12 August 2026 and the commencement window; notes on foreign stablecoins (the
+  equivalence test from 1 June 2026) and licensed stablecoins (JPYC and JPYSC with their dates, the trust-type backing
+  rule); no status changes.
+- **Taxonomy, India lens (patch; ei-digitalassets#34):** the intro adds crypto-asset reporting under section 509 and
+  rules 241 to 244 with the section 446 penalties, the Common Reporting Standard's coverage of crypto-assets and CBDC
+  accounts, FIU-IND's guidelines updated on 8 January 2026 and its notices to 15 platforms, and the RBI's position on
+  private stablecoins; notes on stablecoins, CBDC (pilot dates, tokenized certificates of deposit, Demat 2.0) and
+  tokenized securities (SEBI's Demat 2.0 pilot); no status changes.
+
 - **Taxonomy, Hong Kong HKMA lens (patch; ei-digitalassets#33):** the intro cites the updated custody guidance of
   27 May 2026 and says EnsembleTX has settled between banks in tokenized central bank money since 2 November 2026,
   with 12 banks; notes on wholesale CBDC, tokenized deposits (the September 2026 green bond), licensed stablecoins

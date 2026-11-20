@@ -10,7 +10,7 @@ menu: 'JP · Japan (FSA): crypto-assets, stablecoins & security tokens'
 name: 'Japan FSA: crypto-assets, stablecoins and security tokens'
 short: Japan FSA
 color: '#14130f'
-intro: 'The Financial Services Agency (FSA) regulates three token types separately. “Crypto-assets” (transferable value usable for payment to unspecified persons, excluding currency and currency-denominated assets), until now under the Payment Services Act; “electronic payment instruments”, meaning fiat stablecoins, which since 2023 only banks, fund-transfer providers and trust companies may issue (e.g. JPYC); and security tokens (“electronically recorded transferable rights”) under the Financial Instruments and Exchange Act. The Act amending both laws, submitted on 10 April 2026 and enacted on 15 July 2026, moves the rules on crypto-asset transactions from the Payment Services Act into the Financial Instruments and Exchange Act, treating crypto-assets as a financial product distinct from securities, while stablecoins and prepaid instruments stay under the Payment Services Act; check the commencement date before relying on the new regime.'
+intro: 'The Financial Services Agency (FSA) regulates three token types separately. “Crypto-assets” (transferable value usable for payment to unspecified persons, excluding currency and currency-denominated assets), until now under the Payment Services Act; “electronic payment instruments”, meaning fiat stablecoins, which since 2023 only banks, fund-transfer providers and trust companies may issue (e.g. JPYC); and security tokens (“electronically recorded transferable rights”) under the Financial Instruments and Exchange Act. The Act amending both laws, submitted on 10 April 2026, enacted on 15 July 2026 and promulgated on 23 July 2026 as Act No. 64 of 2026, moves the rules on crypto-asset transactions from the Payment Services Act into the Financial Instruments and Exchange Act, treating crypto-assets as a financial product distinct from securities, while stablecoins and prepaid instruments stay under the Payment Services Act. Its higher penalties for unregistered business took effect on 12 August 2026, and its crypto-asset provisions start on a date set by cabinet order within one year of promulgation; check the commencement date before relying on the new regime.'
 groups:
 - id: ca
   label: Crypto-assets
@@ -64,9 +64,9 @@ status:
   fmi: part
 notes:
   sc: Fiat stablecoins are electronic payment instruments, not crypto-assets; algorithmic ones are crypto-assets.
-  unreg: Foreign stablecoins can only be handled by registered intermediaries under strict conditions.
+  unreg: 'Foreign stablecoins can be handled only by registered electronic payment instruments exchange service providers; since 1 June 2026 the test for handling one is equivalence with Japan’s regime, and a beneficiary interest in a trust under an equivalent foreign law counts as an electronic payment instrument (FSA order of 19 May 2026).'
   USDC: Handled in Japan as a foreign electronic payment instrument through a registered intermediary (SBI VC Trade, from March 2025); Circle itself is not licensed in Japan.
-  lsc: Only banks, fund-transfer service providers and trust companies may issue; JPYC is the first licensed yen stablecoin, and JPYSC (SBI Shinsei Trust Bank, June 2026) the first trust-type one.
+  lsc: 'Only banks, fund-transfer service providers and trust companies may issue. JPYC, issued since 27 October 2025, is the first yen stablecoin from a fund-transfer service provider (registered 18 August 2025); its issuers call JPYSC (SBI Shinsei Trust Bank, 24 June 2026) the first trust-type one. Since 1 June 2026 a trust-type stablecoin may hold part of its backing in government bonds with three months or less to run and in term deposits that can be withdrawn early (orders of 22 May 2026).'
   alg: 'Not an electronic payment instrument: treated as a crypto-asset.'
   td: Bank deposits. Banks can also issue stablecoins, so the deposit-token / stablecoin boundary is especially close in Japan.
   dt: A deposit under banking law, whatever it is called.
@@ -83,4 +83,28 @@ sources:
 - title: 'Payment Services Act (資金決済に関する法律, Act No. 59 of 2009, current text on e-Gov): Article 2(5) electronic payment instruments (currency-denominated value usable for payment to unspecified persons and transferable electronically, including specified trust beneficial interests), Article 2(14) crypto-assets (excluding currency, currency-denominated assets and electronic payment instruments), Article 62-3 registration of electronic payment instrument service providers'
   url: https://laws.e-gov.go.jp/law/421AC0000000059
   checked: '2026-11-10'
-last_reviewed: '2026-11-10'
+- title: 'House of Representatives, progress record for cabinet bill No. 57 of the 221st Diet (Act Partially Amending the Financial Instruments and Exchange Act and the Payment Services Act: passed 15 July 2026, promulgated 23 July 2026 as Act No. 64)'
+  url: https://www.shugiin.go.jp/internet/itdb_gian.nsf/html/gian/keika/1DE278A.htm
+  checked: '2026-11-20'
+- title: 'FSA, outline (要綱) of the bill amending the Financial Instruments and Exchange Act and the Payment Services Act (part 3: commencement on a date set by cabinet order within one year of promulgation; higher penalties for unregistered business 20 days after promulgation)'
+  url: https://www.fsa.go.jp/common/diet/221/02/04.pdf
+  checked: '2026-11-20'
+- title: 'FSA, release of 29 July 2026 on the cabinet order for the provisions of the 2026 Act in force 20 days after promulgation (from 12 August 2026)'
+  url: https://www.fsa.go.jp/news/r8/shouken/20260729/20260729.html
+  checked: '2026-11-20'
+- title: 'FSA, release of 19 May 2026 on the amended Cabinet Office Order on electronic payment instruments businesses (trust beneficiary interests under an equivalent foreign law count as electronic payment instruments; equivalence is the test for handling foreign ones; applies from 1 June 2026)'
+  url: https://www.fsa.go.jp/news/r7/sonota/20260519/20260519.html
+  checked: '2026-11-20'
+- title: 'FSA, release of 22 May 2026 on the cabinet order and Cabinet Office Orders under the 2025 Payment Services Act amendment (trust-type stablecoin backing in certain government bonds and term deposits; in force 1 June 2026)'
+  url: https://www.fsa.go.jp/news/r7/sonota/20260522/20260522.html
+  checked: '2026-11-20'
+- title: 'FSA, responses to public comments on the 2025 Payment Services Act amendment rules (response 18: government bonds with three months or less to run, and term deposits that can be withdrawn early)'
+  url: https://www.fsa.go.jp/news/r7/sonota/20260522/02.pdf
+  checked: '2026-11-20'
+- title: 'JPYC Inc., release of 24 October 2025 (issuer-stated; registered as a fund-transfer service provider on 18 August 2025, Kanto Local Finance Bureau No. 00099; the first by a domestic fund-transfer provider; JPYC issued from 27 October 2025)'
+  url: https://prtimes.jp/main/html/rd/p/000000283.000054018.html
+  checked: '2026-11-20'
+- title: 'SBI Shinsei Trust Bank and others, release of 24 June 2026 (issuer-stated; JPYSC, described as Japan’s first trust-type yen stablecoin by the issuers’ own count)'
+  url: https://corp.sbishinseibank.co.jp/ja/news/news/20260624b/main/01/link/20260624_JPYSC.pdf
+  checked: '2026-11-20'
+last_reviewed: '2026-11-20'
