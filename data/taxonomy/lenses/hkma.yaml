@@ -10,7 +10,7 @@ menu: 'HK · Hong Kong (HKMA): stablecoins, tokenized deposits & CBDC'
 name: 'Hong Kong HKMA: stablecoins, tokenized deposits & central bank money'
 short: Hong Kong HKMA
 color: '#14130f'
-intro: 'The Hong Kong Monetary Authority licenses issuers of fiat-referenced stablecoins under the Stablecoins Ordinance (Cap. 656, in force since 1 August 2025): anyone issuing in Hong Kong, or issuing a token referenced to the Hong Kong dollar anywhere. The first two licenses took effect on 10 April 2026 (Anchorpoint Financial and HSBC, both HKD-referenced). Reserves must be fully backed, segregated and matched to the reference currency, redemption is at par, interest to holders is prohibited, and only permitted offerors (licensees, banks, stored-value licensees and SFC-licensed platforms and firms) may offer a licensed stablecoin. The HKMA also supervises banks’ tokenized deposits, which the Ordinance excludes as deposits; banks sell tokenized products under the rules of the underlying product and hold digital assets to the HKMA’s custody standards (both circulars of 20 February 2024); the Basel crypto-asset capital standard applies in Hong Kong from 1 January 2026. Project Ensemble’s pilot phase, EnsembleTX, settles real-value tokenized-deposit transactions (corporate treasury and tokenized money-market funds first) around the clock alongside RTGS, progressively in tokenized central bank money.'
+intro: 'The Hong Kong Monetary Authority licenses issuers of fiat-referenced stablecoins under the Stablecoins Ordinance (Cap. 656, in force since 1 August 2025): anyone issuing in Hong Kong, or issuing a token referenced to the Hong Kong dollar anywhere. The first two licenses took effect on 10 April 2026 (Anchorpoint Financial and HSBC, both HKD-referenced). Reserves must be fully backed, segregated and matched to the reference currency, redemption is at par, interest to holders is prohibited, and only permitted offerors (licensees, banks, stored-value licensees and SFC-licensed platforms and firms) may offer a licensed stablecoin. The HKMA also supervises banks’ tokenized deposits, which the Ordinance excludes as deposits; banks sell tokenized products under the rules of the underlying product (circular of 20 February 2024) and hold client digital assets, including tokenized securities, to the HKMA’s custody standards as updated on 27 May 2026, with extra caution for permissionless tokens on public permissionless networks; the Basel crypto-asset capital standard applies in Hong Kong from 1 January 2026. Project Ensemble’s pilot phase, EnsembleTX, has settled real-value tokenized-deposit transactions (corporate treasury and tokenized money-market funds first) since November 2025, between banks first through RTGS and since 2 November 2026 in tokenized central bank money, 24/7, with 12 tokenized-deposit banks.'
 groups:
 - id: cbm
   label: Central bank money
@@ -42,15 +42,15 @@ status:
   pm: part
 notes:
   rcbdc: 'The retail e-HKD has been researched and piloted, but there is no decision to issue it: wholesale use comes first, with preparatory work for a possible retail e-HKD due by mid-2026.'
-  wcbdc: Tokenized central bank money is the target settlement asset for EnsembleTX.
-  td: Supervised as bank deposits and excluded from the Stablecoins Ordinance; EnsembleTX settles real-value transactions in them.
+  wcbdc: 'Since 2 November 2026, EnsembleTX, the HKMA’s pilot running through 2026, settles tokenized-deposit transactions between banks in tokenized central bank money, 24/7. The government’s November 2025 digital green bonds could settle in e-HKD (HKMA).'
+  td: 'Supervised as bank deposits and excluded from the Stablecoins Ordinance. EnsembleTX settles real-value transactions in them among 12 banks, and the HKD tranche of the September 2026 government digital green bond used them in primary settlement (HKMA).'
   dt: Still a deposit under the Banking Ordinance, so excluded from the Stablecoins Ordinance whatever it is called.
-  lsc: 'A “specified stablecoin” references one or more official currencies (section 4(1)); issuing one in Hong Kong, or an HKD-referenced one anywhere, needs a licence (section 5); only permitted offerors may offer it (section 9); it bears no interest (Schedule 2, section 15). Licensed issuers so far: Anchorpoint Financial (FRS01) and HSBC (FRS02), both HKD-referenced, from 10 April 2026. HSBC RedCoin (RCHKD) is live in PayMe, on HSBC’s own DLT network.'
+  lsc: 'A “specified stablecoin” references one or more official currencies (section 4(1)); issuing one in Hong Kong, or an HKD-referenced one anywhere, needs a license (section 5); only permitted offerors may offer it (section 9); it bears no interest (Schedule 2, section 15). Licensed issuers so far: Anchorpoint Financial (FRS01) and HSBC (FRS02), both HKD-referenced, from 10 April 2026. Anchorpoint’s HKDAP has been issued on Ethereum mainnet since 12 August 2026 to allowlisted corporate and professional users through authorized distributors, with retail access targeted by the issuer for as early as end-2026; HSBC RedCoin (RCHKD) is live in PayMe, on HSBC’s own DLT network. Banks serving clients in these coins alone need not assess their virtual-asset knowledge, the coins are left out of exposure limits, the high-liquidity test does not apply, and stablecoin-only dealing needs no Type 1 registration (HKMA, 27 May 2026).'
   sc: A license is required to issue in Hong Kong or to issue an HKD-referenced token anywhere; unlicensed foreign stablecoins may be offered to professional investors only.
   unreg: Cannot be offered to retail or advertised in Hong Kong; holders of unlicensed stablecoins are at their own risk (HKMA, 29 July 2025).
   alg: 'Outside the regime: only fully reserved, fiat-referenced tokens can be licensed.'
   fund: Tokenized money-market funds are among the first real-value use cases in EnsembleTX, settled with tokenized deposits; the fund itself is SFC territory.
-  fi: 'The Digital Bond Grant Scheme (from 28 November 2024, three years) pays half of the DLT platform, arranger, legal, audit, rating, listing and CMU costs of a digital bond issued in Hong Kong: up to HKD 1.25 million, or HKD 2.5 million for an issue of HKD 1 billion or more sold to five or more investors and listed on HKEX or an SFC-licensed platform; two issues per issuer.'
+  fi: 'The Digital Bond Grant Scheme (from 28 November 2024, three years) pays half of the DLT platform, arranger, legal, audit, rating, listing and CMU costs of a digital bond issued in Hong Kong: up to HKD 1.25 million, or HKD 2.5 million for an issue of HKD 1 billion or more sold to five or more investors and listed on HKEX or an SFC-licensed platform; two issues per issuer. The government has issued tokenized green bonds four times since 2023 and will keep issuing them regularly; Recognised Dealers have completed trial trades of tokenized Exchange Fund Bills, which the HKMA will soon extend to regulated stablecoins (2 November 2026), and CMU OmniClear is building a digital asset platform for 24-hour on-chain atomic settlement (HKMA).'
   pm: 'A bank selling tokenized gold follows the same rules as selling gold (the Code of Banking Practice and the HKMA’s conduct requirements), as a tokenized product takes the rules of its underlying product (HKMA, 20 February 2024).'
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
   syn: 'Outside the regime: only fully reserved, fiat-referenced tokens can be licensed.'
@@ -73,9 +73,9 @@ sources:
 - title: 'HKMA circular, Sale and distribution of tokenised products (20 February 2024; the rules of the underlying product apply; tokenised gold follows the gold rules; tokenised deposits placed by customers included)'
   url: https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20240220-10-EN/20240220-10-EN.pdf
   checked: '2026-11-10'
-- title: 'HKMA circular, Provision of Custodial Services for Digital Assets (20 February 2024; expected standards for client digital assets including tokenised securities)'
-  url: https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20240220-11-EN/20240220-11-EN.pdf
-  checked: '2026-11-10'
+- title: 'HKMA, Updated Guidance on Expected Standards on Provision of Custodial Services for Digital Assets (27 May 2026; virtual assets, tokenised securities and other tokenised assets; extra caution for permissionless tokens on public permissionless networks)'
+  url: https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20260527-7-EN/20260527-7-EN.pdf
+  checked: '2026-11-20'
 - title: 'Hong Kong Government, Gazettal of banking amendment rules to implement Basel cryptoassets standard (11 July 2025; Banking (Capital), (Disclosure) and (Exposure Limits) (Amendment) Rules 2025, in effect 1 January 2026)'
   url: https://www.info.gov.hk/gia/general/202507/11/P2025071000787.htm
   checked: '2026-11-10'
@@ -85,4 +85,31 @@ sources:
 - title: 'HKMA, Guideline on the Digital Bond Grant Scheme (28 November 2024; half grant HKD 1.25 million, full grant HKD 2.5 million, basic and additional requirements, eligible expenses, two issues per issuer)'
   url: https://www.hkma.gov.hk/media/eng/doc/key-functions/ifc/bond-market-development/Guideline_on_the_Digital_Bond_Grant_Scheme.pdf
   checked: '2026-11-10'
-last_reviewed: '2026-11-10'
+- title: 'HKMA, EnsembleTX (2 November 2026; interbank settlement of tokenised deposit transactions in tokenised central bank money, 24/7; 12 tokenised deposit banks and 20 industry pioneers)'
+  url: https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/11/20261102-5/
+  checked: '2026-11-20'
+- title: 'HKMA, EnsembleTX announcement (13 November 2025; pilot to operate throughout 2026; interbank settlement through RTGS first)'
+  url: https://www.hkma.gov.hk/eng/news-and-media/press-releases/2025/11/20251113-3/
+  checked: '2026-11-20'
+- title: 'HKMA, tokenisation measures at Hong Kong FinTech Week (2 November 2026; trial trades of tokenised Exchange Fund Bills with Recognised Dealers; regulated stablecoins to be included in those trials)'
+  url: https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/11/20261102-3/
+  checked: '2026-11-20'
+- title: 'HKMA, third issuance of digital green bonds (11 November 2025; HKD and RMB tranches may settle in e-HKD and e-CNY)'
+  url: https://www.hkma.gov.hk/eng/news-and-media/press-releases/2025/11/20251111-6/
+  checked: '2026-11-20'
+- title: 'HKMA, fourth issuance of digital green bonds (29 September 2026; tokenised deposits through EnsembleTX for the HKD tranche; regular issuance to continue)'
+  url: https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/09/20260929-6/
+  checked: '2026-11-20'
+- title: 'HKMA, Chief Executive keynote at the Treasury Markets Summit (23 September 2026; CMU OmniClear digital asset platform for 24-hour on-chain atomic settlement)'
+  url: https://www.hkma.gov.hk/eng/news-and-media/speeches/2026/09/20260923-1/
+  checked: '2026-11-20'
+- title: 'HKMA circular, Virtual asset-related activities in relevant stablecoins issued by licensed stablecoin issuers (27 May 2026; knowledge test, exposure limits and high liquidity requirement relief for stablecoin-only clients; no Type 1 registration for stablecoin-only dealing)'
+  url: https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20260527-2-EN/20260527-2-EN.pdf
+  checked: '2026-11-20'
+- title: 'Anchorpoint Financial, Anchorpoint commences rollout of HKDAP via Beta Access (12 August 2026; issuer-stated; authorised distributors; corporate users and professional investors; retail targeted as early as end-2026)'
+  url: https://anchorpoint.hk/uploads/2026/08/Anchorpoint-commences-institutional-rollout-of-HKDAP-via-Beta-Access-1.pdf
+  checked: '2026-11-20'
+- title: 'Anchorpoint Financial, FAQ (issuer-stated; HKDAP Beta Access only on Ethereum mainnet; wallet ownership verification and whitelisting)'
+  url: https://anchorpoint.hk/faq
+  checked: '2026-11-20'
+last_reviewed: '2026-11-20'

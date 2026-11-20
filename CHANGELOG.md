@@ -7,6 +7,12 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy, Hong Kong HKMA lens (patch; ei-digitalassets#33):** the intro cites the updated custody guidance of
+  27 May 2026 and says EnsembleTX has settled between banks in tokenized central bank money since 2 November 2026,
+  with 12 banks; notes on wholesale CBDC, tokenized deposits (the September 2026 green bond), licensed stablecoins
+  (HKDAP on Ethereum mainnet since 12 August 2026, issuer-stated; the HKMA's relief for banks) and bonds (four
+  tokenized green bond issues, tokenized Exchange Fund Bill trials, CMU OmniClear); no status changes.
+
 - **Taxonomy, Hong Kong SFC lens (patch; ei-digitalassets#32):** the intro corrected (secondary trading of tokenized
   SFC-authorized products began on 26 October 2026 under the 20 April framework, each product approved case by case)
   and the advisory and management conclusions of 26 May 2026 added; notes on funds, Relevant Stablecoins (knowledge
