@@ -1,6 +1,7 @@
 # Quantum overview: a short intro and four cards; the detail lives on the sub-pages.
 
 kind: static
+numbered: true
 title: Quantum
 slug: quantum
 eyebrow: Ethereum Institutional · Research
@@ -25,7 +26,7 @@ cards:
 - path: quantum/roadmap
   icon: milestones
   title: The Ethereum roadmap
-  text: What is post-quantum today (hashes, STARK rollups, account abstraction), what is coming and when, with the community’s own threat estimate beside its target dates.
+  text: What is post-quantum today (hashes, STARK proofs, account abstraction), what is coming and when, with the community’s own threat estimate beside its target dates.
 - path: quantum/institution
   icon: identity
   title: Where your digital asset team fits

@@ -139,6 +139,7 @@ function validateStatic({ dir, site }) {
   for (const sec of site.sections || []) { if (!sec.title) errors.push(`${where('site.yaml')}: every section needs a title`);
     for (const it of sec.items || []) { if (!it.title || !it.text) errors.push(`${where('site.yaml')}: section "${sec.title}" items need title and text`);
       if (it.more && !/^https?:\/\//.test(it.more.url || '')) errors.push(`${where('site.yaml')}: "more" on "${it.title}" needs a URL`);
+      if (it.figure && (!FIGURES[it.figure.svg] || !it.figure.alt)) errors.push(`${where('site.yaml')}: figure on "${it.title}" needs an svg in a figures/ folder and alt text`);
       for (const x of it.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where('site.yaml')}: source on "${it.title}" needs a title and a URL`); } }
   return errors;
 }
@@ -650,8 +651,16 @@ const PAGE_NAME = p => (NAV.find(n => n.path === p)?.label || p) + (['identity',
 const seeHtml = (see, out) => (see || []).length ? `<p class="more see">See also ${see.map(p => `<a href="${relHref(out, p)}">${esc(PAGE_NAME(p))} →</a>`).join(' ')}</p>` : '';
 const relatedHtml = (site, out) => (site.related || []).length ? `<div class="ei-related"><h2>${esc(site.related_title || 'Read alongside')}</h2><div class="ei-related-l">${site.related.map(r => `<a href="${relHref(out, r.path)}"><b>${esc(NAV.find(n => n.path === r.path)?.label || r.path)}</b><span>${esc(r.text)}</span></a>`).join('')}</div></div>` : '';
 const RELATED_CSS = `<style>.ei-related{margin-top:18px;padding:16px 20px;border:1px solid var(--rule);border-radius:16px;background:var(--card)}.ei-related h2{margin:0 0 10px;font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:-.02em}.ei-related-l{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.ei-related-l a{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--rule);border-radius:12px;background:#fff;color:var(--ink);text-decoration:none}.ei-related-l a:hover{border-color:var(--ink)}.ei-related-l b{font-weight:600;font-size:14px}.ei-related-l span{font-size:13px;line-height:1.45;color:var(--muted)}p.more.see a{margin-right:10px}</style>`;
-const itemHtmlC = (it, fold, out) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${detailHtml(it.detail)}${moreHtml(it.more)}${seeHtml(it.see, out)}${srcHtmlC(it.sources)}</details>`
-  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + detailHtml(it.detail) + moreHtml(it.more) + seeHtml(it.see, out) + srcHtmlC(it.sources);
+// Figures (owner, 20 November 2026: the Quantum pages take three diagrams from Ethereum Institutional's own deck): an
+// item may carry `figure: { svg, alt, caption }`, naming an SVG in a `figures/` folder under data/; it is drawn under the
+// item's text, with the alt text as its accessible name (AGENTS.md §5: diagrams need alternative text). On a narrow
+// screen the figure scrolls sideways inside its frame, never the page.
+const FIGURES = (() => { const m = {}; for (const d of fs.readdirSync(path.join(root, 'data'))) { const f = path.join(root, 'data', d, 'figures');
+  if (fs.existsSync(f)) for (const n of fs.readdirSync(f)) if (n.endsWith('.svg')) m[n.slice(0, -4)] = fs.readFileSync(path.join(f, n), 'utf8').replace(/<\?xml[^>]*>\s*/, '').replace('<svg ', '<svg aria-hidden="true" focusable="false" '); } return m; })();
+const figureHtml = f => f ? `<figure class="ei-fig" role="img" aria-label="${esc(f.alt)}">${FIGURES[f.svg] || ''}${f.caption ? `<figcaption>${esc(f.caption)}</figcaption>` : ''}</figure>` : '';
+const FIG_CSS = `<style>.ei-fig{margin:12px 0 14px;padding:14px;border:1px solid var(--rule);border-radius:12px;background:#fff;overflow-x:auto}.ei-fig svg{display:block;width:100%;min-width:560px;height:auto}.ei-fig figcaption{margin-top:8px;font-size:13px;line-height:1.45;color:var(--muted)}</style>`;
+const itemHtmlC = (it, fold, out) => fold ? `<details class="ei-item"><summary>${esc(it.title)}</summary><p>${esc(it.text)}</p>${figureHtml(it.figure)}${detailHtml(it.detail)}${moreHtml(it.more)}${seeHtml(it.see, out)}${srcHtmlC(it.sources)}</details>`
+  : `<h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>` + figureHtml(it.figure) + detailHtml(it.detail) + moreHtml(it.more) + seeHtml(it.see, out) + srcHtmlC(it.sources);
 const sectionsHtmlC = (site, out) => sectionsInner(site, out) + relatedHtml(site, out);
 // A categorized list (owner, 16 November 2026: the many tiles under the Identity map were too much): `section_groups`
 // in site.yaml ({ id, title }) and a `group` on each section draw the narrative as a list under a few headings, every
@@ -694,17 +703,83 @@ function renderScenario({ site, sc, out }) {
     .replace('__LEAD__', lead.map(sec => sectionBlock(sec, false)).join(''))
     .replace('__SECTIONS__', rest.map(sec => sectionBlock(sec, false)).join('') + sourcesBlock);
 }
+// Article layout (owner, 20 November 2026: the Quantum pages read as jumbled): `layout: article` in a static page's
+// site.yaml draws its sections as a readable column (about 720px of text, figures a little wider), each item a serif
+// heading with its More, link and Sources on one line; an "On this page" list beside it on desktop, folded on a phone;
+// and, when the parent page lists its sub-pages as cards, a numbered strip of the series at the top and previous and
+// next links at the bottom. The page heading is not repeated as a section title.
+const plainText = t => String(t || '').replace(/\[\[\/?hl\]\]/g, '');
+const slugId = t => plainText(t).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const seriesOf = out => { const parent = out.split('/').slice(0, -1).join('/'); const pg = parent && PAGES.find(x => x.out === parent);
+  if (!pg) return null; const cards = parse(read(path.join(pg.dir, 'site.yaml'))).cards || []; const i = cards.findIndex(c => c.path === out);
+  return i < 0 ? null : { parent, cards, i }; };
+function articleHtml(site, out) {
+  const ser = seriesOf(out), items = (site.sections || []).flatMap(sec => [{ sec }, ...(sec.items || []).map(it => ({ it }))]);
+  const strip = ser ? `<nav class="ei-series" aria-label="Pages in this series">${ser.cards.map((c, k) => `<a href="${relHref(out, c.path)}"${k === ser.i ? ' aria-current="page"' : ''}><span class="n">${k + 1}</span><span>${esc(c.title)}</span></a>`).join('')}</nav>` : '';
+  const toc = items.filter(x => x.it).map(({ it }) => `<li><a href="#${slugId(it.title)}">${esc(it.title)}</a></li>`).join('');
+  const foot = it => { const parts = [detailHtml(it.detail), it.more?.url ? `<a class="lnk" href="${it.more.url}" target="_blank" rel="noopener">${esc(it.more.title || 'Read more')} →</a>` : '', seeHtml(it.see, out), srcHtmlC(it.sources)].filter(Boolean);
+    return parts.length ? `<div class="ei-art-foot">${parts.join('')}</div>` : ''; };
+  const body = (site.sections || []).map(sec => (plainText(sec.title) !== plainText(site.heading?.text) ? `<h2 class="ei-art-sec">${esc(sec.title)}</h2>` : '') + (sec.text ? `<p>${esc(sec.text)}</p>` : '')
+    + (sec.items || []).map(it => `<article class="ei-art-item" id="${slugId(it.title)}"><h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>${figureHtml(it.figure)}${foot(it)}</article>`).join('')).join('');
+  const pn = ser ? `<nav class="ei-pn" aria-label="Previous and next">${ser.i > 0 ? `<a class="prev" href="${relHref(out, ser.cards[ser.i - 1].path)}"><span>← Previous</span><b>${esc(ser.cards[ser.i - 1].title)}</b></a>` : `<a class="prev" href="${relHref(out, ser.parent)}"><span>← Overview</span><b>${esc(NAV.find(n => n.path === ser.parent)?.label || 'Overview')}</b></a>`}${ser.i < ser.cards.length - 1 ? `<a class="next" href="${relHref(out, ser.cards[ser.i + 1].path)}"><span>Next →</span><b>${esc(ser.cards[ser.i + 1].title)}</b></a>` : ''}</nav>` : '';
+  return `${strip}<div class="ei-art"><aside class="ei-toc"><details open><summary>On this page</summary><ol>${toc}</ol></details><script>if(matchMedia('(max-width:960px)').matches)document.currentScript.previousElementSibling.open=false</script></aside><div class="ei-art-main">${body}${pn}</div></div>`;
+}
+const ARTICLE_CSS = `<style>
+.ei-series{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:4px 0 22px}
+.ei-series a{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--rule);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.3}
+.ei-series a:hover{border-color:var(--ink)}
+.ei-series a[aria-current]{border-color:var(--ink);background:#fff;font-weight:600}
+.ei-series .n{flex:none;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid var(--ink);font-size:12px;font-weight:600}
+.ei-series a[aria-current] .n{background:var(--ink);color:#fff}
+.ei-art{display:grid;grid-template-columns:200px minmax(0,780px);gap:44px;justify-content:center;align-items:start}
+.ei-toc{position:sticky;top:20px;font-size:13px}
+.ei-toc summary{font-weight:600;cursor:pointer;margin-bottom:8px;list-style:none}
+@media (max-width:960px){.ei-toc summary{list-style:revert;padding:8px 12px;border:1px solid var(--rule);border-radius:10px;background:var(--card);margin-bottom:6px}}
+.ei-toc summary::-webkit-details-marker{display:none}
+.ei-toc ol{margin:0;padding:0;list-style:none;border-left:1px solid var(--rule)}
+.ei-toc li a{display:block;padding:5px 0 5px 12px;color:var(--muted);text-decoration:none;line-height:1.35}
+.ei-toc li a:hover{color:var(--ink)}
+.ei-art-main{min-width:0}
+.ei-art-sec{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.02em;margin:8px 0 4px}
+.ei-art-item{padding:22px 0;border-top:1px solid var(--rule);scroll-margin-top:16px}
+.ei-art-item:first-child{border-top:0;padding-top:4px}
+.ei-art-item h3{font-family:var(--serif);font-weight:400;font-size:23px;line-height:1.25;letter-spacing:-.015em;margin:0 0 8px}
+.ei-art-item>p{max-width:700px;margin:0;font-size:16.5px;line-height:1.62;color:var(--ink)}
+.ei-art-item .ei-fig{margin:16px 0 4px}
+.ei-art-foot{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin-top:12px;font-size:13px;color:var(--muted)}
+.ei-art-foot a{color:var(--ink)}
+.ei-art-foot details{margin:0}
+.ei-art-foot details>summary{cursor:pointer;color:var(--ink);font-weight:600;font-size:13px}
+.ei-art-foot details[open]{flex-basis:100%}
+.ei-art-foot details[open]>p{max-width:700px;font-size:15px;line-height:1.6;margin:6px 0 2px;color:var(--ink)}
+.ei-art-foot details.src[open]>p{font-size:12px;line-height:1.55;color:var(--muted)}
+.ei-art-foot details.ei-more-d>summary,.ei-art-foot details.ei-more-d[open]>summary{display:inline;font-size:0;text-decoration:none}
+.ei-art-foot details.ei-more-d>summary::after{content:'More';font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.ei-art-foot details.ei-more-d[open]>summary::after{content:'Less'}
+.ei-art-foot details.ei-more-d[open]>p{font-size:15.5px;line-height:1.62;color:var(--ink)}
+.ei-art-foot p.more{margin:0}
+.ei-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--rule)}
+.ei-pn a{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--rule);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none}
+.ei-pn a:hover{border-color:var(--ink)}
+.ei-pn a span{font-size:12px;color:var(--muted)}
+.ei-pn a b{font-family:var(--serif);font-weight:400;font-size:18px}
+.ei-pn .next{grid-column:2;text-align:right}
+@media (max-width:960px){.ei-art{grid-template-columns:minmax(0,1fr);gap:8px}.ei-toc{position:static}.ei-toc details:not([open])+*{display:none}}
+@media (max-width:700px){.ei-series{grid-template-columns:1fr 1fr}.ei-series a{font-size:13px;padding:8px 10px}.ei-art-item h3{font-size:20px}.ei-art-item>p{font-size:16px}.ei-pn{grid-template-columns:1fr}.ei-pn .next{grid-column:1}}
+</style>`;
+const CARDN_CSS = `<style>.ei-card-n{display:inline-grid;place-items:center;width:24px;height:24px;margin-right:10px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--sans);font-size:12px;font-weight:600;vertical-align:4px}</style>`;
 function renderStatic({ site, out }) {
   const tpl = read('src/template.html'), style = tpl.slice(tpl.indexOf('<style>'), tpl.indexOf('</style>') + 8);
   const sh = shared(site);
-  const cardsHtml = cards => `<div class="ei-cards">${cards.map(c => { const n = NAV.find(x => x.path === c.path);
-        return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`;
+  const cardsHtml = cards => `<div class="ei-cards">${cards.map((c, k) => { const n = NAV.find(x => x.path === c.path);
+        return `<a class="ei-card" href="${relHref(out, c.path)}">${iconSvg(c.icon)}<h2>${site.numbered ? `<span class="ei-card-n">${k + 1}</span>` : ''}${esc(c.title)}${n?.wip ? ' ' + TAG : ''}</h2><p>${esc(c.text)}</p><span class="go">Open →</span></a>`; }).join('')}</div>`;
   // home page (owner, 15 November 2026): the cards under three questions, in the menu's order; no reading path, so each
   // reader goes as they see fit
   const body = site.groups
     ? site.groups.map(g => `<section class="ei-group"><h2 class="ei-group-h">${esc(g.title)}</h2>${cardsHtml(g.cards)}</section>`).join('')
     : site.cards
     ? cardsHtml(site.cards)
+    : site.layout === 'article' && (site.sections || []).length ? articleHtml(site, out)
     : (site.sections || []).length ? sectionsHtmlC({ sections: site.sections, related: site.related }, out) : `<div class="ei-wip">This page is being drafted and will appear here. Follow progress, or suggest what it should cover, on GitHub.</div>`;
   return read('src/static.html')
     .replace('__STYLE__', style).replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
@@ -1003,7 +1078,7 @@ const reviewMarks = html => {
   if (!REVIEW) throw new Error('review markers [[hl]] remain in the data: build with EI_REVIEW=1 to review them, and remove them before committing');
   return html.replace('</head>', REVIEW_CSS + '</head>').split('[[hl]]').join('<mark class=ei-review>').split('[[/hl]]').join('</mark>');
 };
-const withIcons = html => reviewMarks(html.replace('</title>', '</title>' + ICONS).replace('</head>', (html.includes('ei-related') || html.includes('class="more see"') ? RELATED_CSS : '') + (html.includes('class="ei-seclist"') ? SECLIST_CSS : '') + '</head>'));
+const withIcons = html => reviewMarks(html.replace('</title>', '</title>' + ICONS).replace('</head>', (html.includes('ei-related') || html.includes('class="more see"') ? RELATED_CSS : '') + (html.includes('class="ei-seclist"') ? SECLIST_CSS : '') + (html.includes('class="ei-fig"') ? FIG_CSS : '') + (html.includes('class="ei-art"') ? ARTICLE_CSS : '') + (html.includes('class="ei-card-n"') ? CARDN_CSS : '') + '</head>'));
 
 const pages = PAGES.filter(p => p.sys || fs.existsSync(path.join(root, p.dir, 'site.yaml'))).map(p => Object.assign(p, p.sys ? { system: true } : load(p.dir)));
 const errors = pages.flatMap(validate);

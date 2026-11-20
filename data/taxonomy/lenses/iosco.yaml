@@ -10,7 +10,7 @@ menu: 'IOSCO: crypto & digital assets'
 name: IOSCO crypto & digital assets
 short: IOSCO
 color: '#6d28d9'
-intro: IOSCO’s 2023 Policy Recommendations for Crypto and Digital Asset Markets cover service providers dealing in crypto-assets, including stablecoins, applying “same activity, same risk, same regulatory outcome”. Tokenized securities stay under IOSCO’s existing Objectives and Principles of Securities Regulation, and IOSCO has since reported on tokenization risks. CBDCs and bank deposits are outside its remit.
+intro: IOSCO’s 2023 Policy Recommendations for Crypto and Digital Asset Markets cover service providers dealing in crypto-assets, including stablecoins, applying “same activity, same risk, same regulatory outcome”. Tokenized securities stay under IOSCO’s existing Objectives and Principles of Securities Regulation; its tokenization reports (November 2025 and November 2026) find members regulating them by economic substance, treating the ledger as a change of form, not of regulatory status. CBDCs and bank deposits are outside its remit.
 status:
   nat: in
   btc: in
@@ -51,5 +51,14 @@ notes:
   td: Bank deposits are a banking matter, outside IOSCO’s remit.
   dt: Bank deposits are a banking matter, outside IOSCO’s remit.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
-sources: []
-last_reviewed: '2026-10-24'
+sources:
+- title: 'IOSCO, Policy Recommendations for Crypto and Digital Asset Markets (FR11/2023, 16 November 2023)'
+  url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD747.pdf
+  checked: '2026-11-21'
+- title: 'IOSCO, Tokenization of Financial Assets (FR/17/2025, November 2025)'
+  url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD809.pdf
+  checked: '2026-11-21'
+- title: 'IOSCO, Tokenization of Financial Assets: 2026 Monitoring Report (FR/06/26, November 2026; pp. 49 to 50, tokenization treated as a change in form, not of regulatory status)'
+  url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD832.pdf
+  checked: '2026-11-21'
+last_reviewed: '2026-11-21'

@@ -491,7 +491,8 @@ sections:
     more: { title: Quantum, where it bites a ledger, url: '../quantum/ledger/' }
     sources:
     - { title: 'Zama TFHE-rs, security and cryptography (LWE, quantum-resistant)', url: 'https://docs.zama.org/tfhe-rs/get-started/security-and-cryptography', checked: '2026-10-26' }
-    - { title: 'ethereum.org, Quantum resistance (SNARKs, KZG and STARKs)', url: 'https://ethereum.org/en/roadmap/future-proofing/quantum-resistance/', checked: '2026-10-26' }
+    - { title: 'ethereum.org, Quantum resistance (SNARKs, KZG and STARKs)', url: 'https://ethereum.org/en/roadmap/security/quantum-resistance/', checked: '2026-11-20' }
+    - { title: 'IOSCO, Implications of Quantum Computing on Financial Markets (Final Report FR/07/26, November 2026; ledger data replicated and permanent, so encrypted data on chain carries harvest-now-decrypt-later risk)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD833.pdf', checked: '2026-11-20' }
     - { title: 'Zcash ZIP 2005, quantum recoverability (balance versus privacy against a quantum adversary)', url: 'https://zips.z.cash/zip-2005', checked: '2026-10-26' }
     - { title: 'NIST IR 8547 initial public draft (harvest now, decrypt later; 2030 and 2035)', url: 'https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8547.ipd.pdf', checked: '2026-10-26' }
   - title: 'Not only quantum: the mathematics is moving too'

@@ -413,15 +413,18 @@ circles:
   lines2:
   - listed ·
   - private
-  desc: 'Tokenized shares: listed (public) equities and private company shares, either issued natively on-chain or as tokenized representations of existing shares that carry shareholder rights. “Cash equities” is the trading term for the same thing: shares as opposed to equity derivatives.'
+  desc: 'Tokenized shares: listed (public) equities and private company shares where the token is the share or an entitlement to it, held directly (the token evidences registered ownership) or through an intermediary as a security entitlement (as in DTC’s tokenization pilot), whether issued natively on-chain or tokenized from existing shares. A direct holder votes and receives dividends from the issuer; an intermediated holder receives them through the intermediary, which votes as proxy. Tokens that only track a share’s price sit in the Trackers overlap. “Cash equities” is the trading term for the same thing: shares as opposed to equity derivatives.'
+  sources:
+  - { title: 'IOSCO, Tokenization of Financial Assets: 2026 Monitoring Report (FR/06/26, November 2026; pp. 35 to 36, direct ownership, intermediated holdings and indirect exposure; p. 44, intermediated holders receive dividends through the intermediary, which votes as proxy)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD832.pdf', checked: '2026-11-21' }
 - id: fund
   label:
   - Funds
   family: sec
   path: Real-World Assets › Financial Instruments
   sub: incl. TMMFs
-  desc: 'Tokenized fund units: money market funds (BlackRock BUIDL, Franklin Templeton BENJI, Circle USYC, Spiko, UBS uMINT), private equity and credit funds. Tokenized money market funds (TMMFs) are the largest and fastest-growing tokenized real-world asset, about USD 15 billion across 76 products in May 2026, and are used as collateral and as a cash substitute; they are still fund shares, not money. The token follows the fund’s own terms, and two choices are separate. The valuation convention: a stable-value fund seeks, without guaranteeing, a constant price per unit (in the EU, a public debt constant net asset value (CNAV) fund, or a low-volatility net asset value (LVNAV) fund, which may deal at a constant price only while within 20 basis points of its calculated net asset value), while a variable net asset value (VNAV) fund’s price per unit can fall as well as rise. The income treatment: a share class may pay income out, reinvest it in additional units or accumulate it in its net asset value. Either way the holder owns a fund share on the fund’s pricing, transfer and redemption terms: a transfer between eligible holders may be possible outside dealing hours, but cash outside them depends on the fund’s redemption arrangements or a willing buyer or liquidity provider, not on the token. Funds that use derivatives (leveraged or inverse ETFs) are still funds, so this circle does not overlap Derivatives.'
+  desc: 'Tokenized fund units: money market funds (BlackRock BUIDL, Franklin Templeton BENJI, Circle USYC, Spiko, UBS uMINT), private equity and credit funds. Tokenized money market funds (TMMFs) are, with tokenized bonds, where IOSCO finds commercial adoption furthest along (November 2026), about USD 15 billion across 76 products in May 2026, and are used as collateral and as a cash substitute; they are still fund shares, not money. The token follows the fund’s own terms, and two choices are separate. The valuation convention: a stable-value fund seeks, without guaranteeing, a constant price per unit (in the EU, a public debt constant net asset value (CNAV) fund, or a low-volatility net asset value (LVNAV) fund, which may deal at a constant price only while within 20 basis points of its calculated net asset value), while a variable net asset value (VNAV) fund’s price per unit can fall as well as rise. The income treatment: a share class may pay income out, reinvest it in additional units or accumulate it in its net asset value. Either way the holder owns a fund share on the fund’s pricing, transfer and redemption terms: a transfer between eligible holders may be possible outside dealing hours, but cash outside them depends on the fund’s redemption arrangements or a willing buyer or liquidity provider, not on the token. Funds that use derivatives (leveraged or inverse ETFs) are still funds, so this circle does not overlap Derivatives.'
   sources:
+  - { title: 'IOSCO, Tokenization of Financial Assets: 2026 Monitoring Report (FR/06/26, November 2026; fixed income and MMFs the dominant asset classes driving commercial adoption)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD832.pdf', checked: '2026-11-21' }
   - title: 'Taurus SA, Tokenised Money Market Funds: Design Considerations (September 2026; vendor thought paper, cases from public records)'
     url: https://campaigns.taurushq.com/hubfs/download_pdfs/insight/tokenised-money-market-funds-design-considerations_en.pdf
     checked: '2026-10-25'
@@ -446,7 +449,7 @@ circles:
   lines2:
   - bonds · notes
   - T-bills
-  desc: 'Tokenized debt securities: government, supranational and corporate bonds, notes, T-bills and commercial paper (e.g. digital bonds issued by the EIB, HSBC Orion, UBS), and securitizations such as mortgage-backed securities. Loans and trade finance belong here once packaged into a bond; otherwise they sit under Credit & Trade Finance.'
+  desc: 'Tokenized debt securities: government, supranational and corporate bonds, notes, T-bills and commercial paper (e.g. digital bonds issued by the EIB, by the Hong Kong SAR Government on HSBC Orion, and by UBS), and securitizations such as mortgage-backed securities. Loans and trade finance belong here once packaged into a bond; otherwise they sit under Credit & Trade Finance.'
 - id: dv
   label:
   - Derivatives
@@ -463,7 +466,9 @@ circles:
     fill: '#b9c9d8'
     stroke: '#33506a'
   path: Financial Instruments › Equities ∩ Derivatives
-  desc: 'Tokens that give economic exposure to a referenced share without ownership of, or an entitlement to, that share. Their legal forms include derivative contracts and linked securities such as certificates or debt securities; the holder''s rights arise under the instrument, against its issuer or counterparty, rather than from the share. Warrants on a share also sit here. Products marketed as “tokenized stocks” can use these structures, so check whether the token is the share, an entitlement to it, or a separate instrument linked to its value. This overlap shows equity-linked exposure, not a single legal classification.'
+  desc: 'Tokens that give economic exposure to a referenced share without ownership of, or an entitlement to, that share. Their legal forms include derivative contracts and linked securities such as certificates or debt securities; the holder''s rights arise under the instrument, against its issuer or counterparty, rather than from the share. Warrants on a share also sit here. Products marketed as “tokenized stocks” can use these structures, so check whether the token is the share, an entitlement to it, or a separate instrument linked to its value. This overlap shows equity-linked exposure, not a single legal classification. IOSCO (November 2026) sorts share-linked tokens into three structures: direct ownership and intermediated holdings, which are the share and sit in Equities, and indirect exposure through a derivative contract or a tracker certificate, which sits here.'
+  sources:
+  - { title: 'IOSCO, Tokenization of Financial Assets: 2026 Monitoring Report (FR/06/26, November 2026; pp. 35 to 36, direct ownership, intermediated holdings and indirect exposure; p. 44, intermediated holders receive dividends through the intermediary, which votes as proxy)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD832.pdf', checked: '2026-11-21' }
 - id: sn
   label:
   - ''

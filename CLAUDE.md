@@ -207,6 +207,11 @@ and decisions behind them.
   (ledger as statutory register: Spiko; part of the official record: BENJI; secondary record with clawback:
   WisdomTree) because "represented on DLT" spans all three.
 - Keep the map lean: prefer explaining in definitions and lens notes over adding circles.
+- **Share-linked tokens (owner, 21 November 2026, public issue ei-digitalassets#41, after IOSCO's 2026 tokenization
+  report):** Equities holds tokens that are the share or an entitlement to it, held directly or through an intermediary
+  (a security entitlement, as in DTC's tokenization service); a token that only tracks a share's price (an
+  over-the-counter derivative contract or a tracker certificate, such as Robinhood Europe's stock tokens or xStocks)
+  sits in the Trackers overlap. Product names stay on the Networks entries, not in the Taxonomy definitions.
 - **Footers** carry only the house-view note and the license, with the version on its own line below; selection rules,
   method, the frameworks a map follows and the dates readings were checked stay in these notes, the sources and the
   public issue (owner, 14 November 2026: an inclusion rule in the Networks footer read as unprofessional, and the method
@@ -636,6 +641,17 @@ and decisions behind them.
   roadmap and NIST IR 8547). Sections link out to the primary article (`more`) rather than explain in full; sources
   stay collapsed.
   Landing-page tiles carry an `icon` from the pictogram library and a one-line tagline; the link text is "Open".
+- **Article layout and figures (owner, 20 November 2026: the Quantum pages read as jumbled):** the four sub-pages set
+  `layout: article`, which draws a numbered strip of the series (from the overview's cards, numbered with `numbered:
+  true`), a readable column with an "On this page" list beside it on desktop, each item's More, link and Sources on one
+  line, and previous and next links at the foot. An item may carry `figure: { svg, alt, caption }` naming an SVG in
+  `data/quantum/figures/`; the build checks the file and the alt text. The three figures (what a quantum computer can
+  and cannot reverse; the plan beside the threat; the fix, every layer rebuilt on hashes) come from Ethereum
+  Institutional's own deck, redrawn in this file's color rules. Say "STARK proofs", not "STARK rollups", are post-quantum:
+  a rollup also depends on its bridge and upgrade keys. IOSCO's quantum report (FR/07/26, November 2026) is cited for
+  the ledger's harvest-now-decrypt-later exception, the finance timelines' gap on public blockchains, its threat range
+  and its preparedness survey; key-exposure guidance is stated as general guidance, not attributed (owner, 20 November
+  2026). Its Figure 3 dates for the UK are wrong; keep the NCSC's own.
 
 ## EI house views (flag any change to these in the pull request)
 

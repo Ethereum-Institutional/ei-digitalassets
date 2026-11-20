@@ -1021,8 +1021,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Robinhood issued its first stock tokens, for EU customers, on Arbitrum from 30 June 2025; the next generation trades on Robinhood Chain, its own Layer 2 built on the Arbitrum platform (July 2026).'
+  desc: 'Robinhood issued its first stock tokens, for EU customers, on Arbitrum from 30 June 2025: each represents rights under an over-the-counter derivative contract with Robinhood Europe that tracks a US-listed share or exchange-traded product, without shareholder rights such as voting; the next generation trades on Robinhood Chain, its own Layer 2 built on the Arbitrum platform (July 2026).'
   sources:
+  - { title: 'Robinhood Europe, Key Information Document: US-listed Share / ETP Derivative (1 July 2026; an over-the-counter derivative; no rights as a shareholder such as voting; rights represented by a blockchain-traded token)', url: 'https://cdn.robinhood.com/assets/robinhood/legal/historical/stock_tokens_kid_eu_2026-06-30-142754.pdf', checked: '2026-11-21' }
   - title: 'Robinhood, Robinhood launches stock tokens and reveals Layer 2 blockchain (30 June 2025): stock tokens initially issued on Arbitrum'
     url: https://robinhood.com/newsroom/robinhood-launches-stock-tokens-reveals-layer-2-blockchain-and-expands-crypto-suite-in-eu-and-us-with-perpetual-futures-and-staking/
     checked: '2026-11-10'
@@ -1848,8 +1849,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Clearstream’s D7 DLT platform runs on Besu according to LF Decentralized Trust’s 2026 adoption report, which quotes a Clearstream executive that “other FMIs equally deploy Besu as their chain of choice”; Clearstream’s own release names only its cloud provider.'
+  desc: 'Clearstream’s D7 DLT platform runs on Besu according to LF Decentralized Trust’s 2026 adoption report, which quotes a Clearstream executive that “other FMIs equally deploy Besu as their chain of choice”; Clearstream’s own release names only its cloud provider. The European Investment Bank issued the first DLT-native commercial paper on D7 in June 2026 (EUR 77.5 million, 10 business days), posted as Eurosystem collateral.'
   sources:
+  - { title: 'Clearstream, EIB issues first DLT-native commercial paper on Clearstream’s D7 platform (29 June 2026; EUR 77.5 million; 10 business days)', url: 'https://www.clearstream.com/clearstream-en/newsroom/260629-5355756', checked: '2026-11-21' }
   - title: 'LF Decentralized Trust with Ledger Insights, Institutional adoption of LF Decentralized Trust technologies (September 2026; semi-primary: not every project was independently confirmed)'
     url: https://www.lfdecentralizedtrust.org/hubfs/LFDT%20Institutional%20Adoption%20-%20Ledger%20Insights%20Report%202026.pdf
     checked: '2026-10-25'
@@ -1865,8 +1867,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'DTCC runs its own Besu network for tokenized securities: its July 2026 release describes conversions “on LFDT’s Besu (DTCC’s private network) and Canton (a public network)”, and its real-time collateral platform is an application on the DTCC AppChain “built atop LF Decentralized Trust’s Besu blockchain”.'
+  desc: 'DTCC runs its own Besu network for tokenized securities: its July 2026 release describes conversions “on LFDT’s Besu (DTCC’s private network) and Canton (a public network)”, and its real-time collateral platform is an application on the DTCC AppChain “built atop LF Decentralized Trust’s Besu blockchain”. Its tokenization service went live on 28 October 2026, integrated with Canton and its private Besu network.'
   sources:
+  - { title: 'DTCC, tokenization service goes live (28 October 2026; integrated with Canton and DTCC’s private Besu network)', url: 'https://www.dtcc.com/press-releases/2026/dtcc-tokenization-service-goes-live', checked: '2026-11-21' }
   - title: 'DTCC, turning tokenization into reality (15 July 2026)'
     url: https://www.dtcc.com/news/2026/july/15/dtcc-turns-tokenization-into-reality
     checked: '2026-10-25'

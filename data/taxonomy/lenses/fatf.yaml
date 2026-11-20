@@ -67,7 +67,7 @@ notes:
   art: NFTs are generally not virtual assets unless used for payment or investment in practice.
   loy: Closed-loop points that cannot be traded are generally outside.
   game: Outside if not tradeable or transferable outside the game.
-  eq: 'Tokenized stocks are securities: outside the virtual-asset definition, inside FATF standards as financial assets.'
+  eq: 'Tokenized shares are securities: outside the virtual-asset definition, inside FATF standards as financial assets.'
   fmi: 'Backed by central bank money: covered as fiat through FMI and bank AML rules, not as a virtual asset.'
 sources: []
 last_reviewed: '2026-10-24'

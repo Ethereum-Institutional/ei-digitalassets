@@ -7,6 +7,19 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy and Networks (minor; ei-digitalassets#41, IOSCO's 2026 tokenization report):** Equities holds tokens that
+  are the share or an entitlement to it, held directly or through an intermediary, and the Trackers overlap maps IOSCO's
+  three structures (price-only tokens sit there); Funds no longer called the fastest-growing; Fixed Income names HSBC
+  Orion as a platform; the IOSCO lens gains its sources and an intro sentence; the FATF lens says shares; the Networks
+  Public circle explains IOSCO's "public permissioned"; Robinhood's stock tokens described as OTC derivative contracts;
+  the EIB's commercial paper on Clearstream D7; DTCC's tokenization service live since 28 October 2026.
+- **Quantum (minor):** a design pass: the four sub-pages read as an article (numbered series strip, readable column,
+  "On this page" list, one footer line per item, previous and next), the overview cards numbered; three diagrams (what a
+  quantum computer can and cannot reverse; the plan beside the threat; the fix, every layer rebuilt on hashes); IOSCO's
+  November 2026 quantum report added (the ledger's harvest-now-decrypt-later exception, the finance-sector timelines
+  including the G7 roadmap, a regulator's threat range, the preparedness survey, a live cryptographic inventory);
+  "STARK proofs" in place of "STARK rollups"; the Privacy page's ethereum.org link updated.
+
 - **Privacy, Bermuda Bay (minor; ei-digitalassets#38):** partly post-quantum (notes and memos encrypted with X-Wing,
   ML-KEM-768 and X25519; proofs and signatures classical); spends signed per owner with Schnorr over Grumpkin, so no
   FROST server; issuer receipts for every settlement; account policies enforced by the proof; Safe-linked and

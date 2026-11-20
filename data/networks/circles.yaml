@@ -151,7 +151,9 @@ circles:
     pless: { lx: 975, ly: 330 }
   sub: anyone may transact and run a node
   path: Digital Asset Networks
-  desc: 'Anyone may transact and run a node, and the ledger’s history can be read and re-executed by anyone who does. Whether a node may also take part in ordering transactions is a separate question, answered by the consensus overlay: a public network can be permissionless (Ethereum mainnet, Bitcoin) or permissioned (the XRP Ledger’s curated validator list, Hedera’s council, today’s rollup sequencers). Public networks are where composability lives: any application can call any other, and anyone can verify the result.'
+  desc: 'Anyone may transact and run a node, and the ledger’s history can be read and re-executed by anyone who does. Whether a node may also take part in ordering transactions is a separate question, answered by the consensus overlay: a public network can be permissionless (Ethereum mainnet, Bitcoin) or permissioned (the XRP Ledger’s curated validator list, Hedera’s council, today’s rollup sequencers). Public networks are where composability lives: any application can call any other, and anyone can verify the result. Regulators use the word differently: IOSCO’s working definitions (November 2026) call a blockchain public when anyone can read its data, so its “public permissioned” blockchains include ledgers where only pre-determined users may write, which this map places in Consortium or Private.'
+  sources:
+  - { title: 'IOSCO, Tokenization of Financial Assets: 2026 Monitoring Report (FR/06/26, November 2026; Appendix A terminology: public blockchains readable by the public; public permissioned blockchains restrict writing and validation to pre-determined users)', url: 'https://www.iosco.org/library/pubdocs/pdf/IOSCOPD832.pdf', checked: '2026-11-21' }
 - id: pless
   label:
   - Permissionless consensus

@@ -1,6 +1,7 @@
 # Quantum sub-page (static). Short text with links to the primary material; sources collapsed.
 
 kind: static
+layout: article
 eyebrow: Ethereum Institutional · Research · Quantum
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets

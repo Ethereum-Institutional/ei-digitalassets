@@ -1,6 +1,7 @@
 # Quantum sub-page (static). Short text with links to the primary material; sources collapsed.
 
 kind: static
+layout: article
 eyebrow: Ethereum Institutional · Research · Quantum
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
@@ -16,11 +17,32 @@ intro: 'The plan rebuilds every cryptographic primitive on hashes, in four areas
 sections:
 - title: The Ethereum roadmap
   items:
+  - title: 'The plan beside the threat'
+    text: 'Targets and estimates, not commitments: the Ethereum Foundation’s upgrade targets, its researchers’ estimate of a capable quantum computer, and the UK NCSC’s migration deadlines on one timeline. The post-quantum work has moved earlier since June.'
+    figure:
+      svg: plan-threat
+      alt: 'A timeline from 2026 to 2035 in three rows. Ethereum upgrade targets: Glamsterdam in early 2027, Hegotá in late 2027, I* around mid 2028 for post-quantum transactions and proofs, and J* in 2028 to 2029 for a hash-based base layer. A capable quantum computer, by the researchers’ estimate: 2029 at the earliest and 2032 expected. UK NCSC migration deadlines: discovery and a plan by 2028, priority systems by 2031, complete by 2035.'
+      caption: 'Sources: Ethereum Foundation strawmap (2 November 2026); Devcon India Q&A (November 2026); NCSC migration timelines (2025).'
+    sources:
+    - title: 'Ethereum Foundation, strawmap (drawing updated 2 November 2026; work-in-progress rough consensus, not authoritative): Glamsterdam and Hegotá (2027); leanVM proofs and leanSPHINCS transactions in I* (2028); leanXMSS attestations and leanDA sampling, a hash-based post-quantum L1, in J* (2028–29)'
+      url: https://docs.google.com/drawings/d/1GkcGfQv9kxgrYQMyu0BYGcZya0gIDG_wQ7GsFJEsdzY/edit?usp=sharing
+      checked: '2026-11-14'
+    - title: NCSC, Timelines for migration to post-quantum cryptography (2025)
+      url: https://www.ncsc.gov.uk/guidance/pqc-migration-timelines
+      checked: '2026-11-20'
   - title: Available now
-    text: Hashes are safe, STARK rollups are safe, and account abstraction (ERC-4337, EIP-7702) lets an institution run a post-quantum signature scheme on its own accounts today without waiting for the protocol. Few systems of comparable scale, on or off the internet, offer their users that option yet.
+    text: 'Hashes and STARK proofs are safe, and account abstraction (ERC-4337, EIP-7702) lets an institution run a post-quantum signature scheme on its own accounts today without waiting for the protocol. Few systems of comparable scale, on or off the internet, offer their users that option yet.'
     more:
       title: EIP-7702, live since May 2025
       url: https://eips.ethereum.org/EIPS/eip-7702
+  - title: 'The fix: rebuild every layer on hashes'
+    text: 'Lean Ethereum replaces each elliptic-curve primitive with a hash-based one, in four layers. A scheme meant to last decades should rest on the fewest assumptions; the lattice standards remain an option for faster movers.'
+    figure:
+      svg: hash-layers
+      alt: 'Four layers and their hash-based replacements. Accounts: leanSPHINCS, post-quantum transactions, replacing ECDSA signatures. Consensus: leanXMSS, post-quantum attestations and key registrations, replacing BLS signatures. Data: leanDA, post-quantum data sampling, replacing KZG commitments. Proofs: leanVM, post-quantum proofs and aggregation, replacing pairing-based proofs.'
+    more:
+      title: The Ethereum Foundation’s post-quantum portal
+      url: https://pq.ethereum.org/
   - title: Coming next
     text: 'Signature agility by protocol rule (EIP-8141, scheduled for the Hegotá upgrade, and EIP-7932), a hash-based state tree (EIP-7864), and Lean Ethereum: leanXMSS, a hash-based signature scheme for validators in place of BLS, aggregated with SNARK proofs in a minimal zero-knowledge virtual machine (leanVM), with core infrastructure targeted for about 2029.'
     detail: 'For accounts, a lean adaptation of the NIST hash-based standard SPHINCS+ (SLH-DSA) is being finalized, built for hardware wallets, multi-party signing and aggregation; an EVM-optimized variant that needs no protocol change was proposed in June 2026. The L1 is choosing hash-based schemes over the lattice-based NIST standards (ML-DSA) because a scheme meant to last decades should rest on the fewest assumptions, and researchers put a significant chance on lattices being attacked in the coming years; the lattice standards remain an option for faster movers. The Foundation’s Post-Quantum team (formed January 2026) describes the path as three phases, readiness and infrastructure, gradual opt-in adoption, then protocol-level consolidation, with no flag day: protocol upgrades could be complete by 2029 and the execution-layer migration takes years beyond; its primer for governments (July 2026) presents this as hardening critical infrastructure before the threat materializes, through the open upgrade process.'
@@ -59,7 +81,7 @@ sections:
       url: https://eips.ethereum.org/EIPS/eip-8081
       checked: 2026-11-14
   - title: The threat estimate, and the cadence
-    text: 'The community’s own estimate of the threat moved forward in 2026. ethereum.org puts a capable machine around the end of the decade at the earliest, citing research that about 1,200 logical qubits would break a 256-bit elliptic-curve key, and notes that NIST expects to deprecate ECDSA by 2030 and disallow it by 2035; the Ethereum Foundation’s post-quantum team wrote in mid 2026 that most roadmaps place it in the early to mid 2030s and that it is not imminent; and at Devcon in November 2026 its researchers gave 2029 as the earliest and 2032 as the expected date, three years earlier than their estimate of two years before.'
+    text: 'The community’s own estimate of the threat moved forward in 2026. ethereum.org puts a capable machine around the end of the decade at the earliest, citing research that about 1,200 logical qubits would break a 256-bit elliptic-curve key, and notes that NIST expects to deprecate ECDSA by 2030 and disallow it by 2035; the Ethereum Foundation’s post-quantum team wrote in mid 2026 that most roadmaps place it in the early to mid 2030s and that it is not imminent; and at Devcon in November 2026 its researchers gave 2029 as the earliest and 2032 as the expected date, three years earlier than their estimate of two years before. Securities regulators now record a similar range: IOSCO’s November 2026 report cites conservative industry estimates of 2030 to 2035, and notes that some industry participants urged preparing for capability within five years, possibly sooner with AI.'
     detail: 'One of them had already put the odds at 10% by 2030 and 50% by 2032, in June, after Google’s March result. On the protocol side the bottleneck is now coordination rather than technology: upgrades ship about every ten months, so the earliest protocol-level migration on the current cadence is 2028, sooner if client teams make it the priority. The plan is moving earlier. In June the Foundation’s portal placed post-quantum validator attestations in L*; its strawmap, updated on 2 November 2026, places post-quantum key registrations in Hegotá (2027), post-quantum transactions and proofs in I* (2028), and post-quantum attestations and data sampling, completing a hash-based L1, in J* (2028–29). On 12 November the All Core Devs consensus call discussed how urgent the threat is and the realistic options to accelerate, and many developers favored reprioritizing the roadmap toward post-quantum work; no decision has been recorded. Every date here is a target or an estimate, not a commitment.'
     more:
       title: The Ethereum Foundation’s post-quantum portal
@@ -77,6 +99,9 @@ sections:
     - title: 'Ethereum protocol meetings, All Core Devs Consensus call #191 (12 November 2026), agenda: what level of urgency for the post-quantum and post-AI landscape, and realistic options to accelerate hardening the consensus layer'
       url: https://github.com/ethereum/pm/issues/2291
       checked: 2026-11-14
+    - title: 'IOSCO, Implications of Quantum Computing on Financial Markets (Final Report FR/07/26, November 2026)'
+      url: https://www.iosco.org/library/pubdocs/pdf/IOSCOPD833.pdf
+      checked: '2026-11-20'
     - title: 'Christine D. Kim, From Devcon to DEFCON (13 November 2026; secondary summary of the call): most developers placed post-quantum urgency between levels 2 and 3, and many felt the roadmap should be reprioritized toward post-quantum code changes'
       url: https://christinedkim.substack.com/p/acdc-191
       checked: 2026-11-14
