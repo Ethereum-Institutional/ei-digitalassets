@@ -7,6 +7,16 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Privacy, Zama (minor; facts from Zama):** issuers of their own confidential tokens can limit holders to an allow
+  list and add forced transfer (OpenZeppelin's confidential token extensions), so Zama reads partly permissioned and
+  partly has forced transfer, and now ranks under the institutional wish list; a dedicated deployment beside a private
+  or consortium EVM network, run by the institution under a commercial license, is noted under where it runs, who
+  operates it, fees and association; any custodian can integrate; the key-operator thresholds split into reading a
+  balance (9 of 13) and turning a confidential token back into a public one (7 of 13); audits note that OpenZeppelin
+  publishes every library audit; the 6 January 2026 pause recorded as a planned test; the license note says building on
+  the Zama Protocol needs no extra license; institutional use names BitGo, GSR, Bron and the T-REX Ledger; notes
+  rewritten in plain words and sourced to Zama, OpenZeppelin and Etherscan.
+
 - **Identity (minor; ei-digitalassets#29):** cross-links between the Identity, Privacy, Architecture and Scenarios maps
   ("Read alongside" and "See also"); new sections on identity and privacy, reaching liquidity with controls intact, and
   checks off the ledger with a record on it; on-chain identity stated as supplementing KYC, KYB and KYA; Bhutan named as
