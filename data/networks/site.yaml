@@ -6,7 +6,7 @@ eyebrow: Ethereum Institutional · Research
 heading:
   text: Digital Asset Networks
   italic: Networks
-intro: 'How the networks that carry digital assets differ: whether consensus is permissioned or permissionless, and who may run a node (private, consortium or public). Ethereum Institutional is aligned to Ethereum mainnet’s north star, a globally verifiable public shared ledger, but supports every Ethereum deployment style on this map.'
+intro: 'How the networks that carry digital assets differ: whether consensus is permissioned or permissionless, and who may transact and run a node (private, consortium or public). Ethereum Institutional is aligned to Ethereum mainnet’s north star, a globally verifiable public shared ledger, but supports every Ethereum deployment style on this map.'
 # intro_more: shown when the reader clicks the link after the intro; intro_more_label is the link text
 intro_more_label: Why our north star?
 intro_more: 'Why that north star: a public, permissionless ledger that anyone can verify has brought together the most participants, liquidity, assets and use cases on one shared state. Common standards and tooling then let an entire ecosystem build on each other’s work. Why every style: regulation, risk management and the needs of particular use cases give private, consortium and public deployments each a place. The Ethereum ecosystem serves all of them with the same clients, standards and tooling, so a deployment can start private and keep the path to the public ledger.'

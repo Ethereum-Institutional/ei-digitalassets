@@ -305,7 +305,7 @@ networks:
     url: https://github.com/corda/corda
     checked: '2026-10-25'
 # ---- Consortium ----
-# ---- Sovereign consortia ----
+# ---- Jurisdictional consortia ----
 - id: fnality
   name: Fnality (UK)
   circle: sov
@@ -313,7 +313,7 @@ networks:
   y: 815
   column: { x: 332, y: 1828 }
   eth: true
-  desc: 'The Sterling Fnality Payment System has settled live payments since December 2023 in wholesale central bank money for its shareholder banks (24 institutions, starting with Lloyds, Santander and UBS); HM Treasury recognized it as systemically important and the Bank of England regulates it. One jurisdiction, so Sovereign. Reported to be built on Besu (Ledger Insights, LF Decentralized Trust report); Fnality’s own site does not name the client.'
+  desc: 'The Sterling Fnality Payment System has settled live payments since December 2023 in wholesale central bank money for its shareholder banks (24 institutions, starting with Lloyds, Santander and UBS); HM Treasury recognized it as systemically important and the Bank of England regulates it. One jurisdiction, so Jurisdictional. Reported to be built on Besu (Ledger Insights, LF Decentralized Trust report); Fnality’s own site does not name the client.'
   glance:
     asset: "None; payments settle in central bank money"
     consensus: "Permissioned, among member nodes"
@@ -337,7 +337,7 @@ networks:
   y: 850
   column: { x: 446, y: 1828 }
   eth: true
-  desc: 'The Bank of Korea’s pilot of wholesale CBDC and tokenized bank deposits: a permissioned Besu network of 20 nodes with QBFT consensus, operated by the central bank and seven designated banks (phase 1, April to June 2025; a second phase with nine banks in 2026). A sovereign consortium convened by the central bank, and Ethereum ecosystem by client.'
+  desc: 'The Bank of Korea’s pilot of wholesale CBDC and tokenized bank deposits: a permissioned Besu network of 20 nodes with QBFT consensus, operated by the central bank and seven designated banks (phase 1, April to June 2025; a second phase with nine banks in 2026). A jurisdictional consortium convened by the central bank, and Ethereum ecosystem by client.'
   glance:
     asset: "None; wholesale CBDC and deposit tokens"
     consensus: "QBFT, among 20 nodes"
@@ -358,7 +358,7 @@ networks:
   y: 885
   column: { x: 400, y: 1852 }
   eth: true
-  desc: 'DeCurret DCP’s tokenized deposit network in Japan, live since 2024 with GMO Aozora Net Bank minting DCJPY and other Japanese banks joining; DeCurret DCP joined LF Decentralized Trust in September 2026. A sovereign consortium. Reported to be Besu-based (LF Decentralized Trust’s 2026 adoption report); not confirmed by DeCurret DCP’s own pages.'
+  desc: 'DeCurret DCP’s tokenized deposit network in Japan, live since 2024 with GMO Aozora Net Bank minting DCJPY and other Japanese banks joining; DeCurret DCP joined LF Decentralized Trust in September 2026. A jurisdictional consortium. Reported to be Besu-based (LF Decentralized Trust’s 2026 adoption report); not confirmed by DeCurret DCP’s own pages.'
   glance:
     asset: "None; deposit tokens"
     consensus: "Permissioned, among member nodes"
@@ -1458,7 +1458,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Banco de México is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'Banco de México is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1486,8 +1486,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Bank of England is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'Bank of England is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger. It tested real-value transactions on the platform in July 2026.'
   sources:
+  - { title: 'BIS Innovation Hub, Project Agorá (real-value testing in July 2026; Table 1 lists the five testing central banks)', url: 'https://www.bis.org/about/bisih/topics/fmis/agora.htm', checked: '2026-11-23' }
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
     checked: '2026-10-25'
@@ -1500,8 +1501,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Bank of Japan is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'Bank of Japan is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger. It tested real-value transactions on the platform in July 2026.'
   sources:
+  - { title: 'BIS Innovation Hub, Project Agorá (real-value testing in July 2026; Table 1 lists the five testing central banks)', url: 'https://www.bis.org/about/bisih/topics/fmis/agora.htm', checked: '2026-11-23' }
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
     checked: '2026-10-25'
@@ -1514,8 +1516,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Bank of Korea is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'Bank of Korea is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger. It tested real-value transactions on the platform in July 2026.'
   sources:
+  - { title: 'BIS Innovation Hub, Project Agorá (real-value testing in July 2026; Table 1 lists the five testing central banks)', url: 'https://www.bis.org/about/bisih/topics/fmis/agora.htm', checked: '2026-11-23' }
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
     checked: '2026-10-25'
@@ -1528,8 +1531,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Banque de France (representing the Eurosystem) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'Banque de France (representing the Eurosystem) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger. It tested real-value transactions on the platform in July 2026.'
   sources:
+  - { title: 'BIS Innovation Hub, Project Agorá (real-value testing in July 2026; Table 1 lists the five testing central banks)', url: 'https://www.bis.org/about/bisih/topics/fmis/agora.htm', checked: '2026-11-23' }
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
     checked: '2026-10-25'
@@ -1542,7 +1546,7 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'NY Fed (the Federal Reserve Bank of New York) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'NY Fed (the Federal Reserve Bank of New York) is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger.'
   sources:
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
@@ -1556,8 +1560,9 @@ networks:
   eth: true
   kind: participant
   small: true
-  desc: 'Swiss National Bank is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on one platform.'
+  desc: 'Swiss National Bank is one of the seven central banks that launched Project Agorá with the BIS Innovation Hub in April 2024, testing tokenized deposits and wholesale central bank money on linked ledgers, with each central bank’s reserves on its own jurisdictional ledger. It tested real-value transactions on the platform in July 2026.'
   sources:
+  - { title: 'BIS Innovation Hub, Project Agorá (real-value testing in July 2026; Table 1 lists the five testing central banks)', url: 'https://www.bis.org/about/bisih/topics/fmis/agora.htm', checked: '2026-11-23' }
   - title: 'BIS press release, 3 April 2024 (Project Agorá launch, seven central banks)'
     url: https://www.bis.org/press/p240403.htm
     checked: '2026-10-25'

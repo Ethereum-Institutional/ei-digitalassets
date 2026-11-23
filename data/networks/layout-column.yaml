@@ -1,6 +1,6 @@
 # Digital Asset Networks: column layout (geometry only), shown under 900px; layout.yaml is the wide map.
 # Permissionless consensus on top and Permissioned below (owner, 9 November 2026), Public spanning both with its lower
-# crescent under Permissioned, then Consortium (Sovereign inside it) and Private. Badge places for this layout are
+# crescent under Permissioned, then Consortium (Jurisdictional inside it) and Private. Badge places for this layout are
 # `column:` in networks.yaml; collapsible regions keep no zoom strip here (the page stacks, so hiding a region simply
 # hides it). Units on an 800×2380 canvas.
 canvas:

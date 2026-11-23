@@ -33,7 +33,7 @@ verdicts:
 notes:
   history: Most consortium ledgers launched since 2019; three to five years of production is typical, often with migrations between stacks.
   developers: The software is usually one vendor’s or one foundation’s, maintained by a few firms.
-  stop: With five to fifteen equal members the HHI sits between about 700 and 2,000; counting the members as independent assumes no shared vendor or custodian, which is rarely true.
+  stop: With five to fifteen equal members the HHI sits between about 700 and 2,000; counting the members as independent assumes no shared vendor or custodian, which is rarely true. Where one operator runs the ledger for the members, as Swift does for its shared ledger, that operator alone could stop it, and such a consortium reads lower here.
   cost: Members post no bond; halting the ledger costs a member its membership, not its capital.
   rules: A closed body votes on changes; a member with a veto or the vendor that writes the code can block.
   property: A multi-party process can freeze or reverse a balance, and usually must be able to, by design.

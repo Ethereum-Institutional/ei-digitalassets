@@ -7,6 +7,17 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Networks (major): Sovereign becomes Jurisdictional; Consortium sourced; Project Agorá from the BIS report**
+  (ei-digitalassets#42). Consortium gets a sourced definition (Buterin 2015; MAS and BIS 2023; BCBS Working Paper 44;
+  Swift) and the sub-label "a pre-selected group, admitted by agreement". Sovereign is relabeled Jurisdictional, the
+  BIS's own term, and covers currency areas; its ETHBEAT sources move to Permissioned consensus. Project Agorá is
+  rewritten from the BIS report of 27 May 2026 (linked jurisdictional and unifying ledgers, Besu with QBFT, Paladin; the
+  July 2026 real-value test), and its central bank badges say "on linked ledgers". Private says it means closed. The
+  intro and top definition sort by who may transact and run a node. Sources added to Private, Permissionless consensus,
+  Dynamically Available, Fully Permissionless and Network of Networks; two breadcrumbs fixed. Privacy: Paladin's notes
+  cite the BIS. Adoption: the Typical consortium lens notes that an operator-run consortium reads lower on who can stop
+  the ledger. No circle or badge moves.
+
 - **Architecture (minor): independent risk assessment, and how vendors are presented.** A new due diligence page,
   Independent risk assessment and monitoring (16 questions), under a new group, Risk, ratings and third parties: rating
   agency assessments, risk scores and real-time risk indicators, cybersecurity ratings and an institution's own

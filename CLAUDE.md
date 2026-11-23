@@ -232,8 +232,10 @@ and decisions behind them.
   of the phone column (`layout-column.yaml`, under 900px), Permissioned on the right or below, Public spanning both;
   public permissionless is the north star and comes first. Badges carry `column:` places; `zoom` strips live in the
   layout files (none in the column, which stacks). Expanded circles overlap their neighbors in both layouts, as before.
-- Two classifications on one map. Network circles: **Private** (one operator), **Consortium** (several operators,
-  admitted by agreement) with **Sovereign** inside it (all participants in one jurisdiction), **Public** (anyone may
+- Two classifications on one map. Network circles: **Private** (one operator), **Consortium** (a pre-selected group,
+  admitted by agreement; Buterin's 2015 split, sourced to MAS and BIS 2023) with **Jurisdictional** inside it (all
+  participants in one jurisdiction or currency area; owner, 2026-11-23, public issue ei-digitalassets#42: "Sovereign"
+  suggested the state runs the ledger, and Jurisdictional is the BIS's own term), **Public** (anyone may
   transact and run a node, whatever the consensus rule). Consensus overlay: two rounded rectangles side by side,
   **Permissioned** (over Private, Consortium and Public's crescent) and **Permissionless** (over the rest of
   Public), the latter holding three nested bands from Lewis-Pye and Roughgarden, "Permissionless Consensus" (arXiv 2304.14701): **fully
