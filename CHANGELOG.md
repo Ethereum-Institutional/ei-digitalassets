@@ -7,6 +7,15 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Architecture (minor): independent risk assessment, and how vendors are presented.** A new due diligence page,
+  Independent risk assessment and monitoring (16 questions), under a new group, Risk, ratings and third parties: rating
+  agency assessments, risk scores and real-time risk indicators, cybersecurity ratings and an institution's own
+  framework, used at primary issuance, onboarding, screening, in real time and at review. D9.1 becomes Independent
+  assessment of tokens, protocols, ledgers and counterparties, with what is assessed, the kinds of assessment and when;
+  D13.2 adds thresholds the institution sets for depeg monitoring; D13.5 covers external risk scores as models in use.
+  The on-chain monitoring card names the same three examples as its page. Vendor examples are listed alphabetically,
+  and the due diligence notice says how examples are chosen and how a provider can ask to be considered.
+
 - **Taxonomy and Networks (minor; ei-digitalassets#41, IOSCO's 2026 tokenization report):** Equities holds tokens that
   are the share or an entitlement to it, held directly or through an intermediary, and the Trackers overlap maps IOSCO's
   three structures (price-only tokens sit there); Funds no longer called the fastest-growing; Fixed Income names HSBC
