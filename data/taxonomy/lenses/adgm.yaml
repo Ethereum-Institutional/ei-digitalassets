@@ -10,7 +10,7 @@ menu: 'AE · ADGM (FSRA): virtual assets, FRTs & digital securities'
 name: 'ADGM FSRA: virtual assets, FRTs and digital securities'
 short: ADGM FSRA
 color: '#14130f'
-intro: In ADGM, the FSRA defines a Virtual Asset as a digital representation of value that can be digitally traded and functions as a medium of exchange, unit of account or store of value, without legal tender status, as distinct from fiat currency and e-money. Tokenized securities are regulated as Digital Securities. Fiat-backed stablecoins fall under the FSRA’s Fiat-Referenced Token (FRT) regime (consulted on in 2024), and algorithmic stablecoins are expressly prohibited. This lens shows all three categories the FSRA regulates, so tokenized stocks, bonds and funds appear as digital securities.
+intro: In ADGM, the FSRA defines a Virtual Asset as a digital representation of value that can be digitally traded and functions as a medium of exchange, unit of account or store of value, without legal tender status, as distinct from fiat currency and e-money. Tokenized securities are regulated as Digital Securities. Fiat-backed stablecoins fall under the FSRA’s Fiat-Referenced Token (FRT) regime (consulted on in 2024), and algorithmic stablecoins are expressly prohibited. In Consultation Paper No. 8 of 2026 (13 November 2026; comments to 15 January 2027) the FSRA proposes bringing virtual assets within the definitions of “Specified Investment” and “Financial Instrument”. This lens shows all three categories the FSRA regulates, so tokenized stocks, bonds and funds appear as digital securities.
 groups:
 - id: va
   label: Virtual assets
@@ -94,5 +94,6 @@ notes:
   loy: 'Closed-loop points generally fall outside. Tickets and passes: generally outside.'
   id: Generally outside.
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than as a virtual asset.
-sources: []
+sources:
+- { title: 'ADGM FSRA, proposes to further integrate virtual assets into its regulatory framework (Consultation Paper No. 8 of 2026, 13 November 2026; comments to 15 January 2027)', url: 'https://www.adgm.com/media/announcements/fsra-proposes-to-further-integrate-virtual-assets-into-its-regulatory-framework', checked: '2026-11-23' }
 last_reviewed: '2026-10-24'

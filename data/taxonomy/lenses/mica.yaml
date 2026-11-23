@@ -50,7 +50,7 @@ notes:
   td: Deposits are excluded (Art. 2(4)(c)).
   dt: Still a deposit, so excluded (Art. 2(4)(c)). The EBA has flagged this boundary for case-by-case assessment.
   sc: E-money tokens (EMTs) or asset-referenced tokens (ARTs).
-  lsc: 'Authorized EMT/ART issuers (credit institutions or e-money institutions). On Ethereum mainnet, banks issue EURCV (Société Générale-FORGE), EURXT (CACEIS) and EURI (Banking Circle); Bridge issues EURR for Revolut; Société Générale-FORGE also issues a dollar token, USDCV.'
+  lsc: 'Authorized EMT/ART issuers (credit institutions or e-money institutions). On Ethereum mainnet, banks issue EURCV (Société Générale-FORGE), EURXT (CACEIS) and EURI (Banking Circle); Bridge issues EURR for Revolut; Société Générale-FORGE also issues a dollar token, USDCV. The EBA classified USDC, issued in the EU by Circle Internet Financial Europe, as the first significant e-money token (14 October 2026); from 12 November 2026 the EBA supervises its own funds, reserve of assets, liquidity and redemption plans, and the ACPR the rest.'
   unreg: In the definition, but cannot lawfully be offered or admitted to trading in the EU without authorization.
   alg: 'A crypto-asset, but not an EMT or ART: treated as an ordinary crypto-asset and cannot be presented as a stablecoin.'
   pm: Commodity-backed tokens are typically asset-referenced tokens (ARTs).
@@ -69,6 +69,7 @@ notes:
   fmi: A wholesale settlement asset, typically regulated as a payment system rather than under crypto-asset rules; check local treatment.
   syn: 'A crypto-asset; whether it is an e-money or asset-referenced token depends on its design and backing.'
 sources:
+- { title: 'EBA, classifies USDC as the first significant e-money token in the European Union (14 October 2026; dual supervision with the ACPR from 12 November 2026)', url: 'https://www.eba.europa.eu/publications-and-media/press-releases/eba-classifies-usdc-first-significant-e-money-token-european-union', checked: '2026-11-23' }
 - title: 'Banking Circle, launches EURI, a bank-backed MiCA-compliant stablecoin (26 August 2024; Ethereum and BNB Smart Chain)'
   url: https://www.bankingcircle.com/banking-circle-launches-the-first-bank-backed-mica-compliant-stablecoin-euri/
   checked: '2026-11-10'

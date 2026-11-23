@@ -7,6 +7,14 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy and Scenarios (patch): November regulatory review.** Hong Kong SFC lens: the Virtual Asset Services
+  Legislation (Amendment) Bill 2026, gazetted 20 November 2026. UK lens: the Cryptoassets (Miscellaneous Amendments)
+  Regulations 2026 made as SI 2026/1219 (18 November 2026). MiCA lens: USDC classified as the first significant
+  e-money token (EBA, 14 October 2026). Switzerland lens: Project Helvetia until at least June 2028. ADGM lens: FSRA
+  Consultation Paper No. 8 of 2026. Repo and Collateral mobility scenarios: the Eurosystem accepts DLT Pilot Regime
+  assets as collateral from June 2027 (ECB, 23 November 2026); Collateral also notes Project Guardian's tokenized
+  collateral framework (industry, non-binding).
+
 - **Networks (major): Sovereign becomes Jurisdictional; Consortium sourced; Project Agorá from the BIS report**
   (ei-digitalassets#42). Consortium gets a sourced definition (Buterin 2015; MAS and BIS 2023; BCBS Working Paper 44;
   Swift) and the sub-label "a pre-selected group, admitted by agreement". Sovereign is relabeled Jurisdictional, the
