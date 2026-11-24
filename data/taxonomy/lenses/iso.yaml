@@ -1,0 +1,78 @@
+# Lens: ISO 22739 vocabulary (technical terms, not law)
+# status: in | part | out per circle id (part = depends, exempt or restricted). Circles not listed are outside,
+#   except containers (derived from their children). `groups` draw one dotted perimeter per group and mark its circles as inside.
+# notes: the sentence shown under a circle's definition when this lens is active.
+# The definitions are paraphrased from the standard's text, never quoted (ISO's wording is copyrighted); cite the
+# clause number with each one. The vocabulary was read in its EN ISO 22739:2025 adoption, identical to ISO 22739:2024.
+
+id: iso
+group: standard-setter
+menu: 'ISO 22739: blockchain and DLT vocabulary'
+name: ISO 22739 vocabulary
+short: ISO
+color: '#14130f'
+intro: 'ISO 22739:2024 is the international vocabulary for blockchain and distributed ledger technologies. It defines terms by technology, not by law. Its crypto-asset is any digital asset implemented with cryptography, which reaches every circle on this map, CBDCs, deposits and tokenized securities included; regulators’ “crypto-asset” is a narrower legal term. Three of its token terms draw the groups: cryptocurrency, designed for payment or value exchange under decentralized control; security token, a token that is a financial or investment instrument under the applicable law; and utility token, used to obtain goods or services, usually from its issuer. Non-fungible token is a property of any token, so it is noted, not drawn. The vocabulary has no term for stablecoins, CBDCs, tokenized deposits or tokenized real-world assets.'
+groups:
+- id: cc
+  label: Cryptocurrency
+  name: ISO 22739, 3.15
+  color: '#a21caf'
+  circles:
+  - btc
+  - eth
+  - natoth
+  - alg
+- id: st
+  label: Security token
+  name: ISO 22739, 3.84
+  color: '#155e75'
+  circles:
+  - sec
+  - eq
+  - fund
+  - fi
+  - dv
+  - sn
+  - trk
+- id: ut
+  label: Utility token
+  name: ISO 22739, 3.96
+  color: '#0ea5e9'
+  circles:
+  - util
+  - loy
+status:
+  sc: part
+  unreg: part
+  comm: part
+  re: part
+  pc: part
+  pm: part
+  ocom: part
+  coll: part
+  ip: part
+  gov: part
+  game: part
+  id: part
+notes:
+  nat: 'Cryptocurrency (ISO 22739, 3.15): a crypto-asset designed as a means of payment or value exchange. ISO’s note adds decentralized control, with cryptography securing transactions, the creation of new units and transfers.'
+  alg: 'Designed as a means of payment under decentralized, algorithmic control: a cryptocurrency in ISO’s terms.'
+  tc: 'ISO 22739 has no term for tokenized currency, CBDCs, deposit tokens or stablecoins. Each is a crypto-asset and a token (an asset representing a collection of entitlements, 3.92) designed for payment, but an issuer’s control sets it apart from the decentralized control in ISO’s note on cryptocurrency.'
+  sc: 'Not an ISO term. A design under decentralized control reads as a cryptocurrency; a coin an issuer redeems from reserves does not meet ISO’s note on decentralized control.'
+  unreg: 'Crypto-collateralized designs run by their protocol read as cryptocurrencies in ISO’s terms; reserve-backed coins with an issuer in control do not.'
+  comm: 'A community coin used for payment reads as a cryptocurrency; one held for speculation or membership is only a token in ISO’s vocabulary.'
+  sec: 'Security token (ISO 22739, 3.84): a token that meets the definition of a financial instrument or other investment instrument under the law of the jurisdiction. ISO leaves the test to the law, so the group follows this map’s Financial Instruments.'
+  rwa: 'ISO has no term for tokenized real-world assets. A token over real estate, credit, a commodity or a collectible is a security token where the law treats it as a financial or investment instrument, and otherwise a token: an asset representing a collection of entitlements (3.92).'
+  gov: 'No ISO term. A governance token is a security token only where the law treats it as an investment instrument.'
+  util: 'Utility token (ISO 22739, 3.96): a token its holder can use to obtain goods or services. ISO notes it is usually accepted only by its issuer; tokens for a network’s resources are accepted by the protocol instead.'
+  loy: 'The closest fit for ISO’s utility token: redeemed with the issuer that accepts it.'
+  game: 'In-game currency spent with the publisher is a utility token; items and characters are usually non-fungible tokens (3.64).'
+  id: 'A name or credential is usually a non-fungible token (3.64); one used to reach a service is also a utility token.'
+  art: 'Non-fungible token (ISO 22739, 3.64): a token whose units cannot be substituted one for another. Fungibility is a property of any token in ISO’s vocabulary, not a class, so it draws no perimeter here.'
+  coll: 'Usually a non-fungible token (3.64); a security token where the law treats it as an investment instrument.'
+  lst: 'No ISO term: a token representing an entitlement to staked or wrapped native coins (3.92).'
+sources:
+- title: 'ISO 22739:2024, Blockchain and distributed ledger technologies: Vocabulary (edition 2; adopted as EN ISO 22739:2025), clauses 3.14 crypto-asset, 3.15 cryptocurrency, 3.21 digital asset, 3.43 fungible token, 3.64 non-fungible token, 3.84 security token, 3.92 token, 3.96 utility token'
+  url: https://www.iso.org/standard/82208.html
+  checked: '2026-11-24'
+last_reviewed: '2026-11-24'

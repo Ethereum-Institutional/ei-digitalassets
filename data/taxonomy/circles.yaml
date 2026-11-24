@@ -138,7 +138,7 @@ circles:
   - Digital Assets
   family: da
   path: ''
-  desc: All assets whose ownership is recorded and transferred on distributed ledger technology (DLT); “digital” here means represented on DLT. We use “Digital Assets” rather than “Crypto-Assets” for the outer set because in regulation (EU MiCA, Dubai VARA) “crypto-asset / virtual asset” is a legal term that excludes CBDCs, deposits and tokenized securities.
+  desc: All assets whose ownership is recorded and transferred on distributed ledger technology (DLT); “digital” here means represented on DLT. We use “Digital Assets” rather than “Crypto-Assets” for the outer set because in regulation (EU MiCA, Dubai VARA) “crypto-asset / virtual asset” is a legal term that excludes CBDCs, deposits and tokenized securities. ISO 22739 defines a digital asset more broadly, as any asset that exists only in digital form or is the digital representation of another asset; this map narrows it to assets on DLT.
 - id: dm
   label:
   - Digital Money

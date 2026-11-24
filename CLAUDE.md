@@ -678,7 +678,10 @@ and decisions behind them.
   Notes are keyed by circle id or by token ticker (e.g. `USDC:`), which overrides the circle's note for that badge.
 - UAE: the federal securities regulator is the Capital Markets Authority (CMA), which replaced the SCA on
   1 January 2026. Dubai's VA law has no express securities carve-out; security tokens fall to the CMA.
-- Lenses currently cover FATF, FSB, Basel (standard under review), BIS/CPMI, IMF (2019 classification), IOSCO, and
+- Lenses currently cover FATF, FSB, Basel (standard under review), BIS/CPMI, IMF (2019 classification), IOSCO, ISO
+  (22739:2024, the technical vocabulary: groups for cryptocurrency, security token and utility token; NFT in notes; its
+  definitions paraphrased and cited by clause, never quoted, because ISO's text is copyrighted; owner, 24 November 2026),
+  and
   AE (ADGM, CBUAE, DIFC, VARA), CH, CN, EU (MiCA), HK (SFC and HKMA separately), IN, JP, KR, SG, SV (CNAD and
   the Bitcoin Law), UK, US (GENIUS Act), US SEC (`us-sec`, securities: "in" means a security; built on the Commission's
   17 March 2026 interpretation with the CFTC, Release 33-11412, which sorts tokens into digital commodities,

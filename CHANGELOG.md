@@ -7,6 +7,12 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Taxonomy (minor): ISO 22739 lens.** A new standard-setter lens reads the map through ISO 22739:2024, the
+  international vocabulary for blockchain and distributed ledger technologies: three groups (cryptocurrency, security
+  token, utility token), notes for non-fungible tokens and for the terms ISO does not have (stablecoins, CBDCs,
+  tokenized deposits, tokenized real-world assets), and the point that ISO's technical crypto-asset reaches every circle.
+  Definitions are paraphrased and cited by clause. Digital Assets adds that ISO's digital asset is broader than the map's.
+
 - **Taxonomy and Scenarios (patch): November regulatory review.** Hong Kong SFC lens: the Virtual Asset Services
   Legislation (Amendment) Bill 2026, gazetted 20 November 2026. UK lens: the Cryptoassets (Miscellaneous Amendments)
   Regulations 2026 made as SI 2026/1219 (18 November 2026). MiCA lens: USDC classified as the first significant

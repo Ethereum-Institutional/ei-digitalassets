@@ -18,7 +18,7 @@ validate your change, build the page and attach a rendered preview to the pull r
 `lenses/<id>.yaml`.
 
 **Change how a regime treats a circle** → edit `status:` in the lens file: `in`, `part` (depends, exempt or
-restricted) or `out`. Lenses with `groups:` (Basel, IMF, BIS, China, Japan, Switzerland, ADGM, DIFC, FATF, Hong Kong)
+restricted) or `out`. Lenses with `groups:` (Basel, IMF, ISO, BIS, China, Japan, Switzerland, ADGM, DIFC, FATF, Hong Kong)
 list the circles each group covers instead.
 
 **Add a lens** → copy an existing file in `lenses/`, give it a new `id`, and set `group` to `standard-setter` or
