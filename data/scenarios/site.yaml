@@ -87,6 +87,13 @@ bands:
       text: 'An asset is pledged or lent; the cash leg, if any, is separate.',
       moves: [ asset, credit ]
     }
+  - {
+      id: underwrite,
+      label: Lend against a record,
+      text: 'Cash is lent against the borrower''s attested record, with no asset
+        pledged.',
+      moves: [ cash, credit ]
+    }
 scenarios:
   - title: Delivery versus payment, deposit token against a tokenized money market
       fund
@@ -190,6 +197,26 @@ scenarios:
       with limits and identities the principal controls.
     moves: [ cash ]
     roles: [ payments, corporate, bank ]
+  # planned, not written (owner, 25 November 2026): a flag for credit extended against attested data; the proposal and
+  # its leads are M106 in PENDING-CHANGES.md, the design notes in data/identity/held.yaml
+  - title: Credit lines underwritten from attested data
+    icon: credit
+    short: Credit lines
+    map: { x: 310, y: 356 }
+    text: A lender extends credit in tokenized currency against the borrower's
+      attested record (a credit score, a rating or payment history) instead of a
+      pledged asset; the data stays with its provider.
+    moves: [ cash, credit ]
+    roles: [ bank, payments, asset_manager, corporate ]
+  # planned, not written (owner, 25 November 2026): a hint to open the discussion on trade finance; M107 in PENDING-CHANGES.md
+  - title: Trade receivables
+    icon: receivables
+    short: Receivables
+    map: { x: 400, y: 300 }
+    text: A supplier's invoice, accepted by the buyer, becomes a token a financier
+      can advance cash against; the buyer pays whoever holds it at maturity.
+    moves: [ cash, asset, credit ]
+    roles: [ bank, corporate, asset_manager ]
 # maps read alongside this one (owner, 16 November 2026: cross-links between the maps)
 related:
   - {

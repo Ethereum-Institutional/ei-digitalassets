@@ -7,6 +7,11 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Scenarios (minor): two planned scenarios.** Grey, in-progress tiles and pills, pages not written yet: "Credit lines
+  underwritten from attested data" in Cash moves ∩ Credit is extended, in a new band, Lend against a record (cash lent
+  with no asset pledged; `PENDING-CHANGES.md` M106), and "Trade receivables" in the center, in Finance and
+  collateralize (M107). New pictograms `credit` and `receivables`.
+
 - **Interoperability (patch):** the EEZ's Ethereum mainnet stress test (single ECDSA signer) and no rollup-to-rollup
   calls yet; Puffer UniFi's roadmap (mainnet Q4 2026, synchronous composability Q2 2027), its TEE fallback to the
   seven-day dispute process and its EIP-7702 demo.
