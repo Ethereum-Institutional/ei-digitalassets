@@ -142,7 +142,7 @@ sections:
   text: 'The newest work goes beyond messages: one transaction that completes on several ledgers at once. Within a family of chains the aim is synchronous composability: a contract on one chain calls a contract on another and uses the answer in the same transaction, as it would on one ledger. Early approaches are on the map for two different problems: joining Ethereum mainnet and its rollups (the Ethereum Economic Zone, Puffer UniFi) and joining institutions'' separate ledgers (Consensys CLIP).'
   items:
   - title: Within Ethereum, the Ethereum Economic Zone
-    text: 'An open framework, announced in March 2026 by Gnosis and ZisK with Ethereum Foundation funding: a contract on one rollup calls a contract on another, or on Ethereum mainnet, and uses the answer in the same transaction. It is designed to prove every state change to mainnet; on today''s test network signers attest instead, and zero-knowledge proving is still research.'
+    text: 'An open framework, announced in March 2026 by Gnosis and ZisK with Ethereum Foundation funding: a contract on Ethereum mainnet calls a contract on a rollup, or the other way round, and uses the answer in the same transaction; calls between two rollups are still being built. It is designed to prove every state change to mainnet; on its devnet and its Ethereum mainnet stress test, signers attest instead, and zero-knowledge proving is still research.'
     sources:
     - { title: 'EEZ, Introducing the Ethereum Economic Zone (29 March 2026)', url: 'https://eez.io/blog/introducing-the-eez', checked: '2026-11-24' }
     - { title: 'EEZ documentation', url: 'https://docs.eez.io', checked: '2026-11-24' }
@@ -150,10 +150,11 @@ sections:
     - { title: 'EEZ core protocol, Multi-Prover Specification (each rollup''s owner chooses proof systems and threshold)', url: 'https://github.com/eez-association/eez-core-protocol/blob/main/docs/MULTI_PROVER_SPEC.md', checked: '2026-11-25' }
     - { title: 'EEZ RollupX roadmap, 23 November 2026 (M-of-N attestation done; ZisK prover integration a research item)', url: 'https://eez-association.github.io/eez-rollupx-roadmap/', checked: '2026-11-25' }
   - title: Within Ethereum, Puffer UniFi
-    text: 'A based rollup whose blocks are designed to be ordered by Ethereum mainnet''s own validators, so that a transaction can act on Ethereum mainnet and the rollup in the same block. It runs on public testnets; by its own documentation, the messaging that gives it synchronous composability is not yet deployed there, and its fast confirmations carry no penalty yet.'
+    text: 'A based rollup whose blocks are designed to be ordered by Ethereum mainnet''s own validators, so that a transaction can act on Ethereum mainnet and the rollup in the same block. It runs on public testnets; by its own documentation, the messaging that gives it synchronous composability is not yet deployed there, and its fast confirmations carry no penalty yet. Puffer''s roadmap puts mainnet in the fourth quarter of 2026 and synchronous composability in the second quarter of 2027.'
     sources:
     - { title: 'Puffer UniFi documentation, Architecture', url: 'https://docs-unifi.puffer.fi/developers/concepts/architecture', checked: '2026-11-25' }
     - { title: 'Puffer UniFi documentation, L1 to L2 Composability Examples (not yet deployed to the testnet)', url: 'https://docs-unifi.puffer.fi/developers/reference/L1-to-L2-composability-examples', checked: '2026-11-25' }
+    - { title: 'Puffer, Puffer UniFi (roadmap)', url: 'https://www.puffer.fi/unifi', checked: '2026-11-25' }
   - title: Between institutions' own ledgers, Consensys CLIP
     text: 'A commercial protocol, launched in November 2026, for ledgers that stay separate: each proves its part is ready, and a verification ledger run by the institution, a market infrastructure or Consensys commits all or nothing. It sits with the operator-run routes because that ledger, not the destination, makes the check. EVM chains are supported now. Its proof system is not published, so its claims are vendor-stated.'
     sources:

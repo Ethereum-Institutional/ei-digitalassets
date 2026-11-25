@@ -7,6 +7,10 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Interoperability (patch):** the EEZ's Ethereum mainnet stress test (single ECDSA signer) and no rollup-to-rollup
+  calls yet; Puffer UniFi's roadmap (mainnet Q4 2026, synchronous composability Q2 2027), its TEE fallback to the
+  seven-day dispute process and its EIP-7702 demo.
+
 - **Interoperability (patch):** synchronous composability named in "Acting across chains in one step", the "Both legs
   settle together" row and the EEZ summary, with an Ethereum Research forum source; Puffer UniFi added as a second
   synchronous composability design (testnet only; its Signal Service not yet deployed).
