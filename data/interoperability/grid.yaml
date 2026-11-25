@@ -36,4 +36,4 @@ rows:
 - id: together
   label: [Both legs, settle together]
   sub: 'all or nothing'
-  desc: 'Delivery versus payment and payment versus payment need both legs to complete or neither. A route in this row coordinates the legs so that they settle together: a shared secret with a time limit on each side, a settlement service that commits both legs, or a framework in which calls across ledgers complete within one block. It is the property the scenarios need when the cash and the asset sit on different ledgers.'
+  desc: 'Delivery versus payment and payment versus payment need both legs to complete or neither. A route in this row coordinates the legs so that they settle together: a shared secret with a time limit on each side, a settlement service that commits both legs, or synchronous composability, in which calls across chains complete within one transaction. It is the property the scenarios need when the cash and the asset sit on different ledgers.'

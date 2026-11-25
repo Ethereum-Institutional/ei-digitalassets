@@ -7,6 +7,12 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Interoperability (patch):** synchronous composability named in "Acting across chains in one step", the "Both legs
+  settle together" row and the EEZ summary, with an Ethereum Research forum source; Puffer UniFi added as a second
+  synchronous composability design (testnet only; its Signal Service not yet deployed).
+- **Interoperability (patch):** the EEZ reads "partly" for both legs together (inclusion through a block builder's
+  bundle or the composer; consumption not guaranteed); Puffer UniFi's reliance on validators opting in, not yet built.
+
 - **Interoperability (minor): a new page** (D59) and a new page kind, `grid`. How an asset, a payment or a message on
   one ledger becomes usable on another: a grid of who a route relies on (the issuer or an operator; an outside
   committee; each ledger checks for itself) against whether both legs settle together, with fifteen routes from their

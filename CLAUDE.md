@@ -643,6 +643,15 @@ and decisions behind them.
   map shows both. LayerZero and Hyperlane are bars (each application picks its verifiers; Hyperlane from a trusted
   relayer to a rollup's own bridge, its light-client and ZK modules still in development); Axelar is committee only
   (its own proof-of-stake chain; no proof-based option documented).
+- **Synchronous composability (owner, 25 November 2026):** named on the page and defined in
+  `definitions/networks/synchronous-composability.md`. Two designs sit in both legs settle together, both hollow: the EEZ
+  and Puffer UniFi (a based rollup; an operator today, gateways on a fixed rotation and TEE proofs, with a bar to "by
+  design: L1 order, proofs"; its Signal Service not yet deployed to the testnet).
+- **Inclusion, not only atomicity (owner, 25 November 2026):** each EEZ execution is atomic, but a cross-chain operation
+  lands together only if a block builder's bundle or the composer's posting transaction includes it, so the EEZ reads
+  "partly" for both legs together; Puffer UniFi's design instead relies on validators opting in to based sequencing
+  (not yet implemented; how gateways' commitments reach builder-built blocks is undocumented). Reliance on builders is a
+  censorship-resistance concern, since Ethereum mainnet's builder market is concentrated.
 - Canton's Global Synchronizer is left off (owner, 25 November 2026: as a house view, Ethereum Institutional is not
   reviewing Canton for EVM compatibility at this time).
 - Supporters of Ethereum Institutional (Chainlink, Circle, Consensys, Optimism) appear like any other route, named from
