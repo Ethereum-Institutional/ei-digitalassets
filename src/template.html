@@ -295,7 +295,7 @@
   const NARROW=DATA.alt?window.matchMedia('(max-width: 900px)'):null;
   if(NARROW&&NARROW.matches){ const A=DATA.alt; DATA.canvas=A.canvas; DATA.bridges=A.bridges; DATA.annotations=A.annotations;
     DATA.circles.forEach(c=>{ const g=A.circles[c.id]; if(g){ GEOM.forEach(k=>delete c[k]); Object.assign(c,g); } });
-    DATA.tokens.forEach(t=>{ const p=A.tokens[t.ticker]; if(p){ t.x=p.x; t.y=p.y; } });
+    DATA.tokens.forEach(t=>{ const p=A.tokens[t.ticker]; if(p){ t.x=p.x; t.y=p.y; if('span' in p) t.span=p.span; } });
     const svg0=document.getElementById('ei-svg'); svg0.setAttribute('viewBox',`0 0 ${A.canvas.width} ${A.canvas.height}`); svg0.parentElement.classList.toggle('tall',A.canvas.height>A.canvas.width); }
   if(NARROW) NARROW.addEventListener('change',()=>location.reload());
   // Ethereum brand colours, used only on the networks map: `eth: true` pills are Ethereum blue, the ETH mark disc Ethereum gray
@@ -360,7 +360,7 @@
 
   const ellPath=n=>`M${n.cx-n.rx} ${n.cy}a${n.rx} ${n.ry} 0 1 0 ${2*n.rx} 0a${n.rx} ${n.ry} 0 1 0 ${-2*n.rx} 0Z`;
   let active=null, hovered=null;
-  // Hover previews a definition; click pins it until you click outside the circles (or press Esc).
+  // Hover previews a definition; click pins it until you click outside the map (or press Esc).
   // `panel_click: true` in a page's site.yaml makes the panel click-only: hover no longer changes it (owner, 12 November 2026:
   // on the Taxonomy a passing pointer kept replacing the definition being read).
   let pinned=null;
@@ -397,7 +397,7 @@
     panel.innerHTML = L ? lensPanel(L) : `<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; }
   const ONCONN=[];   // connectors drawn only while their circle (`on`) is hovered or picked
   function addPinBar(){
-    panel.insertAdjacentHTML('afterbegin',`<div class="pinbar"><span>${CLICK?'Click another area to switch, or click outside the circles or press Esc to clear.':'Pinned: hover is paused. Click outside the circles or press Esc to release.'}</span><button type="button" class="unpin">${CLICK?'Clear':'Unpin'}</button></div>`);
+    panel.insertAdjacentHTML('afterbegin',`<div class="pinbar"><span>${CLICK?'Click another area to switch, or click outside the map or press Esc to clear.':'Pinned: hover is paused. Click outside the map or press Esc to release.'}</span><button type="button" class="unpin">${CLICK?'Clear':'Unpin'}</button></div>`);
     panel.querySelector('.unpin').addEventListener('click',e=>{e.stopPropagation(); unpin();});
   }
   function pin(el,show){ if(pinned) pinned.el.classList.remove('pinned'); pinned={el,show}; el.classList.add('pinned'); show(); addPinBar(); }
@@ -498,7 +498,10 @@
   // (a dotted link with a dot at its end and free-standing labels; with `on: <circle>`, shown only while that circle is hovered or picked)
   (DATA.annotations||[]).forEach(a=>{
     const g=el('g',{'pointer-events':'none'});
-    if(a.kind==='caption'){
+    if(a.kind==='line'){ // a plain rule (grid dividers, the arrow over the columns) with optional labels
+      g.appendChild(el('path',{d:a.path,fill:'none',stroke:a.color||'#d8d2c6','stroke-width':a.width||1.2,'stroke-dasharray':a.dash||'none'}));
+      (a.labels||[]).forEach(l=>{ const t=el('text',{x:l.x,y:l.y,'font-size':l.size||10,fill:l.color||'#615f5a','text-anchor':l.anchor||'start'}); t.textContent=l.text; g.appendChild(t); });
+    } else if(a.kind==='caption'){
       g.appendChild(el('path',{d:a.path,stroke:a.color||'#33506a','stroke-width':1.4,'stroke-dasharray':'2 3'}));
       const t=el('text',{x:a.x,y:a.y,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:'#14130f',stroke:'#f8f6f2','stroke-width':3,'paint-order':'stroke'}); t.textContent=a.label;
       g.append(t); if(a.circle) byId[a.circle].texts.push(g);
@@ -543,7 +546,7 @@
       return rows?`<tr class="g"><th colspan="2">${g.label}</th></tr>${rows}`:''; }).join('');
     return `<details class="facts"${pick.size?' open':''}><summary>All facts, checked ${FX.as_of}</summary><table class="fx">${body}</table></details>`;
   };
-  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:String(a.name).replace(/<\/?mark[^>]*>/g,''),rv:/<mark/.test(a.name),sm:a.summary||null,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,gl:a.glance||null,hollow:a.status==='testnet',only:a.only_under||[]}));
+  const ASSETS = DATA.tokens.map(a=>({t:a.ticker,label:a.label||a.ticker,name:String(a.name).replace(/<\/?mark[^>]*>/g,''),rv:/<mark/.test(a.name),sm:a.summary||null,p:a.circle,x:a.x,y:a.y,d:a.desc,lic:a.licensed_under||[],eth:!!a.eth,mark:a.mark||'',small:!!a.small,kind:a.kind||'network',src:a.sources||[],facts:a.facts||null,gl:a.glance||null,hollow:a.status==='testnet',only:a.only_under||[],span:a.span||null,fam:!!a.family,where:a.where||''}));
   const srcHtml=srcBox;
   const LONLY = N.filter(n=>n.lens_only).map(n=>n.id);
   const joined=(a,L)=>a.lic.includes(L.id) ? LONLY.find(id=>L.reveal.has(id)) : null;
@@ -558,8 +561,22 @@
       const col=a.eth?ETH_BLUE:'#6b6760'; a.bs=a.hollow?col:'#f8f6f2';
       // a review build marks a changed pill with a yellow halo, since SVG text cannot hold the <mark> (build.mjs, reviewMarks)
       if(a.rv) g.appendChild(el('rect',{x:a.x-w/2-3,y:a.y-h/2-3,width:w+6,height:h+6,rx:h/2+3,fill:'#fff1a8',stroke:'#f0d75a','stroke-width':2}));
+      // grid pages (kind: grid): `span` lists where a configurable route can also sit. On one line (wide) a dashed bar runs
+      // from the pill across those columns with each option's text in its column; elsewhere (phone) each option is a
+      // dashed pill of its own that opens the same panel. `family`: a small diamond after the pill (within one family of chains).
+      if(a.span&&a.span.length){
+        const gw=s=>Math.round((s.text.length*4.6+18)*k);
+        const line=a.span.filter(s=>s.y===a.y);
+        if(line.length){ const xs=line.flatMap(s=>[s.x-gw(s)/2,s.x+gw(s)/2]).concat([a.x-w/2,a.x+w/2]);
+          g.appendChild(el('rect',{x:Math.min(...xs),y:a.y-h/2,width:Math.max(...xs)-Math.min(...xs),height:h,rx:h/2,fill:'#fff','fill-opacity':.6,stroke:col,'stroke-width':1.4,'stroke-dasharray':'5 3'}));
+          line.forEach(s=>{ const st=el('text',{x:s.x,y:a.y+3.2*k,'text-anchor':'middle','font-size':8.4*k,'font-style':'italic',fill:col}); st.textContent=s.text; g.appendChild(st); }); }
+        a.span.filter(s=>s.y!==a.y).forEach(s=>{ const sw2=gw(s);
+          g.appendChild(el('rect',{x:s.x-sw2/2,y:s.y-h/2,width:sw2,height:h,rx:h/2,fill:'#fff',stroke:col,'stroke-width':1.4,'stroke-dasharray':'5 3'}));
+          const st=el('text',{x:s.x,y:s.y+3.2*k,'text-anchor':'middle','font-size':8.4*k,'font-style':'italic',fill:col}); st.textContent=s.text; g.appendChild(st); });
+      }
       a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.hollow?'#fff':col,stroke:a.bs,'stroke-width':1.5});
       g.appendChild(a.ring);
+      if(a.fam){ const fx=a.x+w/2+9; g.appendChild(el('path',{d:`M${fx} ${a.y-6} L${fx+6} ${a.y} L${fx} ${a.y+6} L${fx-6} ${a.y} Z`,fill:'#14130f'})); }
       const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4*k),'text-anchor':'middle','font-size':a.small?8.5:9.5*k,'font-weight':600,fill:a.hollow?col:'#f2efe9'}); t.textContent=a.name;
       g.appendChild(t);
       // `mark`: a small disc on the pill's right end (e.g. ETH on rollups that settle on Ethereum mainnet)
@@ -585,11 +602,12 @@
         const word = G ? `${G.label}, ${G.name}` : ({in:'Inside',out:'Outside',part:'Depends, exempt or restricted'}[st] || 'Mixed');
         sc+=`<div class="scope" style="--c:${G?G.color:L.color}"><b>${L.name}:</b> ${word}. ${L.n[a.t]||L.n[p]||''}</div>`;
       });
-      const what=FX ? 'Design' : PILL ? ({participant:'Participant',element:'Element'}[a.kind]||'Network') : 'Token';
-      // on a page with facts, name every circle the design sits in (its point is inside each)
-      if(FX){ const inC=N.filter(n=>n.id!==OUTER&&n.t!=='rect'&&!n.lens_only&&((a.x-n.cx)/n.rx)**2+((a.y-n.cy)/n.ry)**2<=1).map(n=>n.label.join(' '));
+      const what=DATA.what || (FX ? 'Design' : PILL ? ({participant:'Participant',element:'Element'}[a.kind]||'Network') : 'Token');
+      // on a page with facts, name every circle the design sits in (its point is inside each); a grid page names the cell
+      if(a.where) where=a.where+(a.fam?'; within one family of chains':'');
+      else if(FX){ const inC=N.filter(n=>n.id!==OUTER&&n.t!=='rect'&&!n.lens_only&&((a.x-n.cx)/n.rx)**2+((a.y-n.cy)/n.ry)**2<=1).map(n=>n.label.join(' '));
         if(inC.length) where=inC.join(' and '); }
-      panel.innerHTML=`<div class="path">${what}${a.hollow?' on a public testnet':''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2>${a.sm?`<dl class="sum">${a.sm.map(r=>`<dt>${esc(r.k)}</dt><dd>${esc(r.v)}</dd>`).join('')}</dl><details class="src"><summary>Full description</summary><p>${paras(a.d)}</p></details>`:`<p>${paras(a.d)}</p>`}${PILL&&(a.kind==='network')?glance(a.t,a.gl):''}${sc}${factHtml(a)}${srcHtml(a.src)}`;
+      panel.innerHTML=`<div class="path">${what}${a.hollow?(DATA.hollow_label||' on a public testnet'):''} · sits in ${where}</div><h2>${PILL?a.name:`${a.name} (${a.label})`}</h2>${a.sm?`<dl class="sum">${a.sm.map(r=>`<dt>${esc(r.k)}</dt><dd>${esc(r.v)}</dd>`).join('')}</dl><details class="src"><summary>Full description</summary><p>${paras(a.d)}</p></details>`:`<p>${paras(a.d)}</p>`}${PILL&&(a.kind==='network')?glance(a.t,a.gl):''}${sc}${factHtml(a)}${srcHtml(a.src)}`;
     };
     bindInfo(g,show,false);
   });

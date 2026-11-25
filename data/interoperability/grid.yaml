@@ -1,0 +1,39 @@
+# Interoperability: the grid (kind: grid; owner, 25 November 2026, D59). Columns, left to right: who a route relies on
+# to learn what happened on the other ledger. Rows, top to bottom: whether the two legs of an exchange settle together.
+# Each route in badges.yaml names its `col` and `row`; positions are computed by the build (alphabetical in each cell).
+# The grid replaced a three-circle Venn because the Venn mixed two independent questions and could not show a route
+# whose model each deployment chooses (owner, 25 November 2026).
+# Writing rules: US spelling; no em-dashes; quote YAML values that contain ": "; "Ethereum mainnet" for the chain.
+
+arrow: 'Fewer parties to trust'
+columns_path: Who you rely on
+rows_path: How it settles
+outer:
+  id: ledger
+  label: [Between ledgers]
+  desc: 'Interoperability, in ISO 22739''s words, is the ability of two or more systems to exchange information and use it, within one ledger, between ledgers, or between a ledger and outside systems. For an institution the question is narrower: how an asset, a payment or a message on one ledger becomes usable on another, and what has to be relied on when it does. Every route answers the same question, the oracle problem between ledgers: how does one ledger learn what happened on another? The trust belongs to the route, not to the token: the same asset can reach a ledger by routes with different models.'
+  sources:
+  - { title: 'ISO 22739:2024, Blockchain and distributed ledger technologies: Vocabulary, 3.52 interoperability', url: 'https://www.iso.org/standard/82208.html', checked: '2026-11-24' }
+  - { title: 'Optimism documentation, OP Stack interoperability explainer (information from other sources: the oracle problem)', url: 'https://docs.optimism.io/op-stack/interop/explainer', checked: '2026-11-25' }
+columns:
+- id: operator
+  label: [The issuer, or an operator]
+  sub: 'signs or commits'
+  desc: 'A party that already stands behind the asset or the system confirms what happened: the token''s own issuer, which burns on one ledger and mints on another, or the operator of a settlement service, such as a central bank or a company, that commits both sides. What is relied on is that party, its keys and its controls, which an institution may already rely on for the asset itself.'
+- id: committee
+  label: [An outside, committee]
+  sub: 'attests what happened'
+  desc: 'A set of parties outside the two ledgers watches the source, waits for the finality it requires and signs that something happened; the destination accepts the signatures. The set can be a committee of node operators, a staked validator network or verifiers each application chooses. What is relied on is how many must sign, who they are, the security of their keys and whoever can change the rules. Most cross-chain messaging in production works this way, because it reaches any ledger that can check a signature.'
+- id: self
+  label: [Each ledger checks, for itself]
+  sub: 'a proof, a light client or a secret'
+  desc: 'The receiving ledger verifies, in its own contract or client, evidence of what the source agreed: a light client that follows the source''s consensus, a storage proof against a finalized block, a validity or fault proof of the source''s state, or, in a swap, a secret and a time limit on each side. Whoever carries the evidence cannot forge it, so relayers are trusted only to show up. What is relied on is the two ledgers'' consensus, the correctness of the checking code and whoever can upgrade it. Most routes here work only within one family of chains that share a settlement layer or a protocol, such as Ethereum mainnet and its rollups.'
+rows:
+- id: message
+  label: [Delivered, as a message]
+  sub: 'the destination acts later'
+  desc: 'The destination acts once the source is final and the message has been confirmed, so each leg settles on its own. A payment can arrive while the asset it was for does not, and an application has to handle a message that fails or arrives late. Most routes work this way.'
+- id: together
+  label: [Both legs, settle together]
+  sub: 'all or nothing'
+  desc: 'Delivery versus payment and payment versus payment need both legs to complete or neither. A route in this row coordinates the legs so that they settle together: a shared secret with a time limit on each side, a settlement service that commits both legs, or a framework in which calls across ledgers complete within one block. It is the property the scenarios need when the cash and the asset sit on different ledgers.'

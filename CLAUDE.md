@@ -616,6 +616,41 @@ and decisions behind them.
   (`kind: architecture-overview`, written by ei-platform's `scripts/public-trim.mjs` from `data/public.yaml`). The
   components, key flows and due diligence questions are maintained by Ethereum Institutional and are not mirrored.
 
+## Interoperability page (`data/interoperability/`)
+
+- **A new page (owner, 24 November 2026, D59):** how an asset, a payment or a message on one ledger becomes usable on
+  another, named Interoperability (the ISO 22739 term, 3.52) with "connectivity" naming the patterns inside it; after
+  Scenarios and Architecture in the menu.
+- **A grid, not a Venn (owner, 25 November 2026):** the first draft's three circles mixed two independent questions and
+  could not show a route whose model each deployment chooses, so the page is a grid page (`kind: grid`). Columns, left
+  to right, are who a route relies on to learn what happened on the other ledger (the issuer or an operator; an outside
+  committee; each ledger checks for itself, by a proof, a light client or a secret), under an arrow "Fewer parties to
+  trust"; rows are whether both legs settle together. The intro opens with the oracle problem between ledgers.
+- **How a grid page works** (`grid.yaml`, `badges.yaml`; `loadGrid` in `scripts/build.mjs`): `grid.yaml` holds
+  `outer`, `columns` and `rows` (label lines, `sub`, `desc`, `sources`), `columns_path`, `rows_path` and `arrow`. Each
+  badge names its `col` and `row`, never x or y; the build places routes alphabetically in each cell and hands the
+  result to the Venn renderer as rectangles, so the panel, Focus on, legend and sections work as on a Venn page.
+  `span: [{ col, text }]` marks a route whose verifiers each deployment chooses: a dashed bar across those columns on a
+  wide screen, a dashed pill per column on a phone (`short` names the route there). `family: true` draws a diamond: the
+  route works only within one family of chains. On a phone the grid is transposed: rows become two strips side by
+  side and columns stacked bands. Legend kinds `span` and `family`; `hollow_label` says what a hollow pill means.
+- **Placement by what commits, not by what is claimed (owner, 25 November 2026):** a route sits where the check that
+  releases the transaction is made. CLIP sits with the operator-run routes: a verification ledger that an operator runs
+  commits it, with proofs only narrowing that trust (vendor-stated). The EEZ sits with the committee today (each
+  rollup's owner chooses verifiers and threshold; the only verifier in the code checks signatures) with a bar to "by
+  design: proofs" (core-protocol docs and roadmap, 23 November 2026). Agglayer sits with the self-checking routes and
+  delivered as a message: Polygon calls it atomic, but its bridge settles on Ethereum mainnet before a claim, so the
+  map shows both. LayerZero and Hyperlane are bars (each application picks its verifiers; Hyperlane from a trusted
+  relayer to a rollup's own bridge, its light-client and ZK modules still in development); Axelar is committee only
+  (its own proof-of-stake chain; no proof-based option documented).
+- Canton's Global Synchronizer is left off (owner, 25 November 2026: as a house view, Ethereum Institutional is not
+  reviewing Canton for EVM compatibility at this time).
+- Supporters of Ethereum Institutional (Chainlink, Circle, Consensys, Optimism) appear like any other route, named from
+  public sources, with no relationship shown beside the name (owner, 25 November 2026: public sources, content reviewed).
+- Every route is described from its own documentation, read on 24 and 25 November 2026; CLIP's claims are
+  vendor-stated (no specification, customer or operator published). Two or three examples of a kind, never one product
+  alone.
+
 ## Quantum page (`data/quantum/`)
 
 - **November 2026 update (owner, 6 November 2026), from a Devcon India Q&A with Ethereum Foundation researchers:** the

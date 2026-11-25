@@ -53,6 +53,10 @@ groups:
     icon: architecture
     title: Architecture
     text: 'What a digital asset team builds inside an institution: from client onboarding to keys and nodes.'
+  - path: interoperability
+    icon: interoperability
+    title: Interoperability
+    text: 'How an asset or a payment on one ledger becomes usable on another, and what you rely on when it does.'
 contribute:
   repo: https://github.com/Ethereum-Institutional/ei-digitalassets
   title: Help improve these maps.

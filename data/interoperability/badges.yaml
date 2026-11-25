@@ -1,0 +1,354 @@
+# Interoperability routes, one per badge, placed on the grid (grid.yaml) by `col` (who a route relies on: operator,
+# committee, self) and `row` (message: delivered later; together: both legs settle together). The build orders routes
+# alphabetically within a cell. `span` lists the other columns a route can occupy when each deployment chooses its
+# verifiers (a dashed bar on a wide screen); `family: true` marks a route that works only within one family of chains.
+# Ethereum blue (`eth: true`) marks a route built for Ethereum chains or EVM ledgers; gray marks one built for any
+# ledger. `status: testnet` draws a hollow pill for a route that is not live (a devnet, a scheduled activation or a draft
+# standard). Facts checked on 24 and 25 November 2026 from each route's own documentation. Vendor statements are
+# vendor-stated until independently verified; the descriptions say which. Two or three examples of a kind, never one
+# product as the only example (`AGENTS.md` §4). Supporters of Ethereum Institutional appear like any other route, named
+# from public sources, with no relationship shown (owner, 25 November 2026).
+# Writing rules: US spelling; no em-dashes; quote YAML values that contain ": "; "Ethereum mainnet" for the chain.
+
+as_of: 24 November 2026
+badges:
+- id: ccip
+  name: Chainlink CCIP
+  col: committee
+  row: message
+  eth: false
+  facts:
+    moves: { in: [message, token] }
+    confirm: { in: [committee], note: 'A default committee of 16 independent node operators; a lane, a token pool or the receiver can require further independent verifiers.' }
+    settles: { in: [async], note: 'Verifiers wait for the finality they require before attesting; a failed execution can be retried.' }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What moves', v: 'Messages and tokens (lock and release, or burn and mint, through a pool the token issuer owns)' }
+  - { k: 'Who confirms', v: 'A committee of 16 independent node operators by default, plus any further verifiers a lane, token or receiver requires' }
+  - { k: 'Settles', v: 'Asynchronously, after the source side is final' }
+  desc: 'Chainlink''s Cross-Chain Interoperability Protocol carries messages and tokens between chains. In its current version (CCIP 2.0) a committee of 16 independent node operators watches the source chain, waits for finality and signs an attestation; a lane, a token''s pool or the receiving contract can require further independent verifiers, and the destination contract checks every required attestation before it releases or mints tokens or delivers the message. Tokens move by lock and release or burn and mint through a pool the token''s issuer owns, with per-chain rate limits. Anyone can submit a verified message for execution, and a failed execution can be retried. What is relied on is the verifiers'' signatures, not a proof of the source chain''s state.'
+  sources:
+  - { title: 'Chainlink, CCIP Architecture Overview (CCIP 2.0: Committee Verifier of 16 independent node operators, optional Cross-Chain Verifiers, token pools, rate limits, permissionless execution)', url: 'https://docs.chain.link/ccip/concepts/architecture/overview', checked: '2026-11-24' }
+- id: layerzero
+  name: LayerZero
+  col: committee
+  row: message
+  span: [{ col: self, text: 'or a proof-based adapter' }]
+  eth: false
+  facts:
+    moves: { in: [message, token] }
+    confirm: { in: [committee], note: 'Each application chooses the Decentralized Verifier Networks (DVNs) required on each route and how many must agree.' }
+    settles: { in: [async], note: 'A follow-on call that fails does not undo the transfer before it.' }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What moves', v: 'Messages and tokens (the OFT standard)' }
+  - { k: 'Who confirms', v: 'The verifier networks (DVNs) each application chooses for each route; LayerZero presupposes none' }
+  - { k: 'Settles', v: 'Asynchronously, delivered by an executor (by default LayerZero Labs'')' }
+  desc: 'LayerZero carries messages and tokens (its OFT standard) between chains. Each application chooses which Decentralized Verifier Networks (DVNs) must attest a message on each route, how many, and how many block confirmations to wait; LayerZero says it does not presuppose any security assumptions on behalf of applications, and its own checklist warns against a single verifier in production. An executor, by default operated by LayerZero Labs, delivers the message on the destination, and a follow-on call that fails does not undo the transfer that preceded it. The application''s owner, which LayerZero recommends be a multisig or a timelock, can change its verifiers and libraries, so the trust model belongs to each deployment, not to the protocol.'
+  sources:
+  - { title: 'LayerZero, OApp overview (DVNs configured per pathway, executors, composed calls)', url: 'https://docs.layerzero.network/v2/developers/evm/oapp/overview', checked: '2026-11-24' }
+  - { title: 'LayerZero, integration checklist (multiple required DVNs from independent operators; owner and delegate powers)', url: 'https://docs.layerzero.network/v2/tools/integration-checklist', checked: '2026-11-24' }
+- id: wormhole
+  name: Wormhole
+  col: committee
+  row: message
+  eth: false
+  facts:
+    moves: { in: [message, token] }
+    confirm: { in: [committee], note: '19 Guardian nodes; 13 of the 19 signatures make a message valid.' }
+    settles: { in: [async] }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What moves', v: 'Messages and tokens (Native Token Transfers: burn and mint, or lock on a hub chain and mint on spokes)' }
+  - { k: 'Who confirms', v: '13 of 19 Guardian nodes sign each message' }
+  - { k: 'Settles', v: 'Asynchronously; zero-knowledge light clients are listed as future work' }
+  desc: 'A network of 19 Guardian nodes observes the connected chains and signs messages; 13 of the 19 signatures make a message valid on the destination, and some chains use a delegated subset of Guardians with their own quorum. Native Token Transfers move an issuer''s token by burn and mint, or by locking it on a hub chain and minting on spokes, with per-chain rate limits; the token''s owner can pause and unpause, and a separate pauser can only pause. Wormhole lists zero-knowledge light clients as early-stage future work, so today the Guardians'' signatures are what the destination relies on.'
+  sources:
+  - { title: 'Wormhole, Guardians (19 nodes, 13-of-19 attestations, delegated Guardians, ZK as future work)', url: 'https://wormhole.com/docs/protocol/infrastructure/guardians/', checked: '2026-11-24' }
+  - { title: 'Wormhole, Native Token Transfers overview (burn and mint; hub and spoke; rate limits)', url: 'https://wormhole.com/docs/products/token-transfers/native-token-transfers/overview/', checked: '2026-11-24' }
+  - { title: 'Wormhole, Native Token Transfers access control (owner and pauser roles)', url: 'https://wormhole.com/docs/products/token-transfers/native-token-transfers/configuration/access-control/', checked: '2026-11-24' }
+- id: axelar
+  name: Axelar
+  col: committee
+  row: message
+  eth: false
+  facts:
+    moves: { in: [message, token] }
+    confirm: { in: [committee], note: 'A vote of Axelar''s validators weighted by the square root of their stake, or on Amplifier connections a verifier set for each chain, bonded and approved by governance or the network operators. No proof-based option is documented.' }
+    settles: { in: [async], note: 'Verified, routed and approved, then executed by any relayer; an optional Express relayer fronts the value with its own funds.' }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [any], note: 'Tokens on EVM chains, Solana, Sui, Stellar and XRPL; Cosmos chains over IBC.' }
+  summary:
+  - { k: 'What moves', v: 'Arbitrary calls (General Message Passing) and tokens (Interchain Token Service)' }
+  - { k: 'Who confirms', v: 'Axelar''s own proof-of-stake chain: a stake-weighted vote of its validators, or a verifier set for each chain' }
+  - { k: 'Settles', v: 'Asynchronously, executed by any relayer once approved' }
+  desc: 'Axelar is its own proof-of-stake chain, built with the Cosmos SDK, through which messages between connected chains pass. On chains connected through its consensus, Axelar''s validators vote on each message, weighted by the square root of their stake, and sign it; on chains connected through Amplifier, a verifier set for that chain does, its members bonded and approved by governance or the network operators. The destination gateway accepts a message once enough weight has signed, and anyone can relay it, since nothing a relayer submits is trusted without that check; Axelar notes that the approval does not prove who sent the message. No light-client or proof-based option is documented. General Message Passing carries arbitrary calls; the Interchain Token Service burns or locks a token on the source and mints or unlocks it on the destination, with optional flow limits per six-hour window (none by default) that an operator Axelar controls can set, and Axelar can freeze a token on a chain. Holders of staked AXL govern the network; changes to gateways on other chains are scheduled with a timelock, though a service governance contract can approve some for an operator to execute without the wait.'
+  sources:
+  - { title: 'Axelar documentation, overview (its own proof-of-stake chain on the Cosmos SDK)', url: 'https://docs.axelar.dev/', checked: '2026-11-24' }
+  - { title: 'Axelar documentation, infrastructure (consensus chains verified by validators; Amplifier chains by verifiers)', url: 'https://docs.axelar.dev/infrastructure', checked: '2026-11-25' }
+  - { title: 'Axelar, General Message Passing: message flow (weighted by the square root of stake; anyone can relay)', url: 'https://docs.axelar.dev/gmp/how-it-works/message-flow', checked: '2026-11-25' }
+  - { title: 'Axelar, General Message Passing: message verification (signed by validators or verifiers; gateway approval)', url: 'https://docs.axelar.dev/gmp/how-it-works/message-verification', checked: '2026-11-24' }
+  - { title: 'Axelar documentation, Amplifier verifier onboarding (50,000 AXL bond; approval by governance or the network operators)', url: 'https://docs.axelar.dev/infrastructure/verifiers/amplifier/verifier-onboarding', checked: '2026-11-25' }
+  - { title: 'Axelar, Interchain Token Service overview (burn or lock, then mint or unlock; chains supported)', url: 'https://docs.axelar.dev/its/overview', checked: '2026-11-24' }
+  - { title: 'Axelar, Interchain Token Service flow limits (six-hour window; none by default; operator can set; freeze)', url: 'https://docs.axelar.dev/its/how-it-works/flow-limits', checked: '2026-11-25' }
+  - { title: 'Axelar documentation, governance (staked AXL; timelocked gateway changes; service governance)', url: 'https://docs.axelar.dev/infrastructure/network/governance', checked: '2026-11-25' }
+- id: hyperlane
+  name: Hyperlane
+  col: committee
+  row: message
+  span: [{ col: operator, text: 'or a trusted relayer' }, { col: self, text: 'or a rollup''s bridge' }]
+  eth: false
+  facts:
+    moves: { in: [message, token], note: 'Messages, and tokens through Warp Routes: locked on the origin, minted as wrapped tokens on the destination; each Warp Route can have its own security.' }
+    confirm: { in: [committee], part: [operator, proof], note: 'Each application chooses its Interchain Security Module or uses the default, a multisig of validators (6 of 9 for Ethereum). Other modules trust a relayer or, for OP Stack chains, the rollup''s own bridge; light-client and ZK modules are in development.' }
+    settles: { in: [async], note: 'Delivered by a later call on the destination Mailbox; relayers are trusted only to show up, except under a trusted-relayer module.' }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [any], note: 'Anyone can deploy it to a layer 1, a rollup or an app-chain: EVM, SVM and CosmWasm.' }
+  summary:
+  - { k: 'What moves', v: 'Messages, and tokens through Warp Routes' }
+  - { k: 'Who confirms', v: 'The module each application chooses: a validator multisig by default, a trusted relayer, or a rollup''s own bridge' }
+  - { k: 'Settles', v: 'Asynchronously, when a relayer delivers the message' }
+  desc: 'Hyperlane is a messaging protocol that anyone can deploy to a layer 1, a rollup or an app-chain, on EVM, SVM and CosmWasm chains. The destination checks each message with an Interchain Security Module that the application chooses, or with the Mailbox''s default, which the Mailbox''s owner sets. The default is a multisig in which m of n validators attest; Hyperlane has no enshrined validator set, and the default set for Ethereum is 6 of 9 operators. Modules can combine or route between others, rate-limit or pause; a trusted-relayer module, where a new deployment starts, trusts the relayer itself; and for OP Stack chains a module relies on the rollup''s own bridge. Light-client and ZK modules, and one for Arbitrum, are still in development. Tokens move through Warp Routes, locked on the origin and minted as wrapped tokens on the destination, each with its own security configuration. Relayers deliver messages and are trusted only to show up, except under the trusted-relayer module.'
+  sources:
+  - { title: 'Hyperlane documentation, introduction (anyone can deploy; EVM, SVM and CosmWasm)', url: 'https://docs.hyperlane.xyz/docs/intro', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, modular security (application-specific or default ISM; the default is the Multisig ISM)', url: 'https://docs.hyperlane.xyz/docs/protocol/ISM/modular-security', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, ISM marketplace (modules in production and in development)', url: 'https://docs.hyperlane.xyz/docs/protocol/ISM/ism-marketplace', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, Multisig ISM (m of n validators attest)', url: 'https://docs.hyperlane.xyz/docs/protocol/ISM/standard-ISMs/multisig-ISM', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, validators (no enshrined validator set; relayers a convenience)', url: 'https://docs.hyperlane.xyz/docs/protocol/agents/validators', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, mainnet default ISM validators (Ethereum: threshold 6 of 9)', url: 'https://docs.hyperlane.xyz/docs/reference/addresses/validators/mainnet-default-ism-validators', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, update the Mailbox default ISM (owner key; a new Mailbox starts with a Trusted Relayer ISM)', url: 'https://docs.hyperlane.xyz/docs/guides/production/core-deployment/update-mailbox-default-ism', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, OP Stack hook (security of the rollup settlement layer)', url: 'https://docs.hyperlane.xyz/docs/reference/hooks/op-stack', checked: '2026-11-25' }
+  - { title: 'Hyperlane documentation, Warp Routes overview (lock and mint; each route its own security)', url: 'https://docs.hyperlane.xyz/docs/applications/warp-routes/overview', checked: '2026-11-25' }
+- id: cctp
+  name: Circle CCTP
+  col: operator
+  row: message
+  eth: false
+  facts:
+    moves: { in: [token], note: 'USDC natively; EURC and registered tokens through a separate service.' }
+    confirm: { in: [issuer], note: 'Circle''s attestation service signs each burn.' }
+    settles: { in: [async], note: 'Fast Transfer within seconds against a global allowance; Standard after hard finality.' }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What moves', v: 'USDC, burned on the source and minted on the destination' }
+  - { k: 'Who confirms', v: 'The issuer: Circle''s attestation service signs each burn' }
+  - { k: 'Settles', v: 'In seconds (Fast Transfer) or after the source is final (Standard: 15 to 19 minutes from Ethereum mainnet and its Layer 2s)' }
+  desc: 'Circle''s Cross-Chain Transfer Protocol moves USDC by burning it on the source chain and minting it on the destination, so no wrapped token or pool of locked USDC is left behind. Circle''s attestation service signs each burn once the source chain reaches the finality the user chose: within seconds for a Fast Transfer, which draws on a global allowance against reorganization risk, or after hard finality for a Standard Transfer (15 to 19 minutes from Ethereum mainnet and its Layer 2s). About 30 chains are listed. The issuer is the verifier, so a holder relies on Circle for the move as for the token itself.'
+  sources:
+  - { title: 'Circle, Cross-Chain Transfer Protocol overview (burn and mint; V2 default)', url: 'https://developers.circle.com/cctp', checked: '2026-11-24' }
+  - { title: 'Circle, CCTP finality and block confirmations (Fast and Standard Transfer; attestation after finality; global allowance)', url: 'https://developers.circle.com/cctp/concepts/finality-and-block-confirmations', checked: '2026-11-24' }
+  - { title: 'Circle, CCTP supported chains and domains', url: 'https://developers.circle.com/cctp/concepts/supported-chains-and-domains', checked: '2026-11-24' }
+- id: ibc
+  name: IBC
+  col: self
+  row: message
+  family: true
+  eth: false
+  facts:
+    moves: { in: [message] }
+    confirm: { in: [proof], note: 'Each chain runs a light client of the other; relayers are trusted for liveness only.' }
+    settles: { in: [async], note: 'A packet carries a timeout; one that has timed out can never be delivered.' }
+    status: { in: [production] }
+    open: { in: [yes], note: 'An LF Decentralized Trust project.' }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What moves', v: 'Packets of application data, each with a timeout' }
+  - { k: 'Who confirms', v: 'Each chain itself, through a light client of the other; relayers cannot forge a packet' }
+  - { k: 'Settles', v: 'Asynchronously; a two-leg exchange needs an application on top' }
+  desc: 'The Inter-Blockchain Communication protocol, an LF Decentralized Trust project. Each chain runs a light client of its counterparty and checks what the other side wrote before acting on it, so neither side trusts the relayers that carry packets: they are trusted for liveness alone and cannot forge or alter a packet. A packet carries application data and a timeout, and a packet that has timed out can never be delivered. IBC moves messages, not settlement: an exchange of two assets needs an application built on top. Implementations exist for EVM chains as well as for chains built with the Cosmos SDK.'
+  sources:
+  - { title: 'IBC Protocol documentation, How IBC works: overview (light clients, untrusted relayers, timeouts, IBC-Solidity)', url: 'https://ibcprotocol.dev/docs/ibc/02-how-ibc-works/01-overview', checked: '2026-11-24' }
+- id: erc7888
+  name: Storage proofs (ERC-7888)
+  col: self
+  row: message
+  family: true
+  eth: true
+  status: testnet
+  status_note: 'A draft standard (created February 2025); no deployment is named.'
+  facts:
+    moves: { in: [message] }
+    confirm: { in: [proof], note: 'A receiver verifies storage proofs back to a finalized block, through a chain of state provers.' }
+    settles: { in: [async], note: 'Guarantees a message can be read, not that it will be.' }
+    status: { in: [draft] }
+    open: { in: [yes] }
+    scope: { in: [eth] }
+  summary:
+  - { k: 'What it is', v: 'A draft Ethereum standard for broadcasting messages between rollups' }
+  - { k: 'Who confirms', v: 'The receiving chain, by verifying storage proofs back to a finalized block' }
+  - { k: 'Settles', v: 'Not applicable: it makes a message readable, not acted on' }
+  desc: 'ERC-7888, the Crosschain Broadcaster, is a draft Ethereum standard for rollups. A contract on one chain broadcasts a 32-byte message into its own storage, and a receiver on another chain reads it by verifying storage proofs back to a finalized block, through a route of state provers (for example from one rollup to Ethereum mainnet and on to another rollup). Nothing has to be trusted but the chains and the provers'' code, though the pointers to the provers are updated by a permissioned party, expected to be the chain''s owner. The standard guarantees that a message can be read, not that anyone reads it.'
+  sources:
+  - { title: 'ERC-7888: Crosschain Broadcaster (Draft, created 18 February 2025)', url: 'https://eips.ethereum.org/EIPS/eip-7888', checked: '2026-11-24' }
+- id: rollup
+  name: A rollup's own bridge
+  col: self
+  row: message
+  family: true
+  eth: true
+  facts:
+    moves: { in: [message, token] }
+    confirm: { in: [proof], note: 'Ethereum mainnet checks the rollup''s state: by a fault proof after a challenge period, or by a validity proof.' }
+    settles: { in: [async], note: 'Deposits in minutes; withdrawals after 7 days on an optimistic rollup, about three hours to batch finality on ZKsync chains.' }
+    status: { in: [production] }
+    open: { in: [unknown] }
+    scope: { in: [eth] }
+  summary:
+  - { k: 'What moves', v: 'Tokens and messages between a rollup and Ethereum mainnet' }
+  - { k: 'Who confirms', v: 'Ethereum mainnet, by checking the rollup''s fault or validity proof' }
+  - { k: 'Settles', v: 'Deposits in minutes; withdrawals after a 7-day challenge period (optimistic) or once the proof is verified (ZK)' }
+  desc: 'The bridge each rollup keeps with Ethereum mainnet. Deposits reach the rollup in minutes (1 to 3 on OP Mainnet; 15 to 30 on Arbitrum One). Withdrawals depend on how the rollup proves its state: on an optimistic rollup a withdrawal is proven on Ethereum mainnet and finalized after a 7-day challenge period (OP Mainnet, Arbitrum One); on a ZK rollup a batch is final on mainnet once its validity proof is verified, about three hours on ZKsync chains including a security delay. The bridge is as strong as that check and as whoever can upgrade its contracts: under ETHBEAT''s Stages framework a Stage 1 rollup lets its Security Council act, and Stage 2 gives users at least 30 days to exit before an unwanted upgrade.'
+  sources:
+  - { title: 'Optimism documentation, Standard Bridge (deposits in 1 to 3 minutes; withdrawals in 7 days)', url: 'https://docs.optimism.io/app-developers/guides/bridging/standard-bridge', checked: '2026-11-24' }
+  - { title: 'Optimism documentation, sending data between L1 and L2 (initiate, prove, finalize after the challenge period)', url: 'https://docs.optimism.io/app-developers/guides/bridging/messaging', checked: '2026-11-24' }
+  - { title: 'Arbitrum documentation, bridge quickstart (deposits in 15 to 30 minutes; withdrawals after at least seven days)', url: 'https://docs.arbitrum.io/arbitrum-bridge/quickstart', checked: '2026-11-24' }
+  - { title: 'ZKsync documentation, Finality (proof generation about an hour; security delay; about three hours in all)', url: 'https://docs.zksync.io/zksync-protocol/rollup/finality', checked: '2026-11-24' }
+  - { title: 'ETHBEAT (formerly L2BEAT), Stages (Stage 1 Security Council; Stage 2 30-day exit window)', url: 'https://ethbeat.org/stages', checked: '2026-11-24' }
+- id: opinterop
+  name: OP Stack interop
+  col: self
+  row: message
+  family: true
+  eth: true
+  status: testnet
+  status_note: 'Targeted for OP Sepolia and Unichain Sepolia on 10 December 2026 and for OP Mainnet and Unichain on 11 January 2027, the mainnet activation subject to governance approval.'
+  facts:
+    moves: { in: [message, token], note: 'Messages between OP Stack chains in one dependency set; ETH and ERC-20 tokens by burning and minting, not wrapping.' }
+    confirm: { in: [proof], note: 'Each chain''s nodes derive the source chain from Ethereum mainnet and reproduce the initiating message before a block that uses it is safe; an invalid block is replaced by one built from mainnet deposits alone.' }
+    settles: { in: [async], note: 'Two transactions, one on each chain; a block that depends on an unsafe block stays unsafe until its sources are posted to mainnet.' }
+    status: { in: [devnet], note: 'On devnets; testnet and mainnet activations scheduled.' }
+    open: { in: [unknown] }
+    scope: { in: [eth], note: 'OP Stack chains in one dependency set; OP Mainnet and Unichain first.' }
+  summary:
+  - { k: 'What moves', v: 'Messages, ETH and ERC-20 tokens between OP Stack chains' }
+  - { k: 'Who confirms', v: 'Each chain''s own nodes, which derive the source chain from Ethereum mainnet' }
+  - { k: 'Settles', v: 'Asynchronously, in two transactions; OP Mainnet and Unichain targeted for 11 January 2027' }
+  desc: 'OP Stack interoperability lets OP Stack chains read each other''s state and pass messages, with ETH and ERC-20 tokens moving by native burning and minting rather than wrapping. A message takes two transactions, one on the source chain and one on the destination. Before a chain treats a block that uses a message as safe, its nodes reproduce the initiating message from the source chain, which they derive from Ethereum mainnet; a block that depends on an unsafe block stays unsafe, and an invalid block is replaced by one built from mainnet deposits alone. A chain takes on the trust assumptions only of the chains in its own dependency set. It ships in the Lagoon hardfork, targeted for OP Sepolia and Unichain Sepolia on 10 December 2026 and OP Mainnet and Unichain on 11 January 2027, the mainnet activation subject to governance approval.'
+  sources:
+  - { title: 'Optimism documentation, OP Stack interoperability explainer (two transactions; nodes reproduce initiating messages; burn and mint)', url: 'https://docs.optimism.io/op-stack/interop/explainer', checked: '2026-11-25' }
+  - { title: 'Optimism documentation, Crosschain security measures (unsafe dependencies; deposit-only replacement blocks)', url: 'https://docs.optimism.io/op-stack/security/interop-security', checked: '2026-11-25' }
+  - { title: 'Optimism documentation, Prepare for interop on OP Mainnet and Unichain (10 December 2026 testnets; 11 January 2027 mainnet, subject to governance)', url: 'https://docs.optimism.io/notices/interop-prep', checked: '2026-11-25' }
+- id: agglayer
+  name: Polygon Agglayer
+  col: self
+  row: message
+  family: true
+  eth: true
+  facts:
+    moves: { in: [message, token] }
+    confirm: { in: [proof], note: 'The destination checks a Merkle proof against an exit root settled on Ethereum mainnet; a pessimistic proof limits what a compromised chain can withdraw to its own deposits, and a state transition proof checks each chain''s operations. Chains in pessimistic-proof mode need no ZK prover of their own.' }
+    settles: { in: [async], note: 'Polygon describes its cross-chain operations as atomic; its bridge documentation settles a transfer on Ethereum mainnet before it can be claimed on the destination, so the map shows it as asynchronous.' }
+    status: { in: [production], note: 'Six mainnets connected besides Ethereum, among them Katana, X Layer and Wirex Pay.' }
+    open: { in: [unknown] }
+    scope: { in: [eth], part: [any], note: 'Every Polygon CDK chain by default, other chains by integration; Miden joined as a non-EVM chain.' }
+  summary:
+  - { k: 'What moves', v: 'Tokens and messages between connected chains, without wrapped tokens' }
+  - { k: 'Who confirms', v: 'Proofs: a Merkle proof against an exit root on Ethereum mainnet, and a pessimistic proof that caps each chain''s withdrawals' }
+  - { k: 'Settles', v: 'Claimed on the destination after settling on Ethereum mainnet (Polygon calls it atomic)' }
+  desc: 'Polygon''s Agglayer connects chains built with its CDK, and others that integrate, through one unified bridge, so a token keeps its identity across connected chains without wrapping. A transfer or a message is settled on Ethereum mainnet and then claimed on the destination against a Merkle proof. Instead of trusting each chain, the Agglayer node checks a pessimistic proof that a chain cannot withdraw more than is deposited on it, so a compromised chain loses at most its own deposits; since v0.3 a state transition proof also checks each chain''s own operations, though chains in pessimistic-proof mode need no ZK prover of their own. Polygon describes cross-chain operations as atomic, succeeding on every chain or failing entirely; the bridge documentation shows a claim made after settlement on mainnet, so the map treats it as asynchronous until a source shows otherwise. Six mainnets are connected besides Ethereum mainnet.'
+  sources:
+  - { title: 'Polygon documentation, What is Agglayer? (three security gateways; settled on Ethereum before claimed; atomic cross-chain operations)', url: 'https://docs.polygon.technology/interoperability/agglayer/core-concepts/what-is-agglayer', checked: '2026-11-25' }
+  - { title: 'Polygon documentation, Agglayer architecture (node verifies chains'' proofs; Global Exit Root; state transition proof)', url: 'https://docs.polygon.technology/interoperability/agglayer/core-concepts/architecture', checked: '2026-11-25' }
+  - { title: 'Polygon documentation, Agglayer message bridging (executed on the destination when claimed; Merkle proofs)', url: 'https://docs.polygon.technology/interoperability/agglayer/core-concepts/unified-bridge/message-bridging', checked: '2026-11-25' }
+  - { title: 'Polygon documentation, Agglayer supported chains (six mainnets besides Ethereum; pessimistic-proof mode needs no ZK prover)', url: 'https://docs.polygon.technology/interoperability/agglayer/supported-chains', checked: '2026-11-25' }
+- id: htlc
+  name: Hash time-locked swap
+  col: self
+  row: together
+  eth: false
+  facts:
+    moves: { in: [token, settle] }
+    confirm: { in: [hashlock], note: 'No third party: a secret whose hash both contracts hold, and a timeout on each.' }
+    settles: { in: ['yes'], note: 'Revealing the secret to claim one leg reveals it for the other; otherwise both are refunded after the timeout.' }
+    status: { in: [na], note: 'A design pattern, not a product.' }
+    open: { in: [yes] }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What it is', v: 'A pattern: each leg locked under the same hash, released by its secret or refunded after a timeout' }
+  - { k: 'Who confirms', v: 'No one: the shared secret and the time limits' }
+  - { k: 'Settles', v: 'Together, or both legs are refunded' }
+  desc: 'The oldest way to settle across two ledgers without anyone in the middle. Each side locks its asset in a contract that releases it to the other party on disclosure of a secret whose hash both contracts hold, and returns it to its owner after a timeout. Disclosing the secret to claim one leg discloses it for the other, so both legs complete or both are refunded. The cost is time and attention: each party must act before its timeout. The Eurosystem''s Pontes uses a hash link of this kind to tie a ledger''s leg to a payment in T2.'
+  sources:
+  - { title: 'BIP 199, Hashed Time-Locked Contract transactions (2017)', url: 'https://raw.githubusercontent.com/bitcoin/bips/master/bip-0199.mediawiki', checked: '2026-11-24' }
+- id: pontes
+  name: Eurosystem Pontes
+  col: operator
+  row: together
+  eth: false
+  facts:
+    moves: { in: [settle], note: 'Wholesale transactions on market DLT platforms against central bank money.' }
+    confirm: { in: [operator, hashlock], note: 'The Eurosystem, through its Hash-Link protocol and settlement in T2.' }
+    settles: { in: ['yes'], note: 'All-or-none; the cash leg is final once the matching transaction completes in T2.' }
+    status: { in: [production], note: 'Initial launch 21 September 2026, with improvements step by step.' }
+    open: { in: [unknown] }
+    scope: { in: [any] }
+  summary:
+  - { k: 'What it is', v: 'The Eurosystem''s link between market DLT platforms and its own payment systems, launched 21 September 2026' }
+  - { k: 'Who confirms', v: 'The Eurosystem: a Hash-Link protocol ties each platform''s leg to the payment in T2, its real-time gross settlement system' }
+  - { k: 'Settles', v: 'All or none, in central bank money' }
+  desc: 'The Eurosystem''s link between market DLT platforms and TARGET Services (the Eurosystem''s market infrastructure services, among them T2, its real-time gross settlement system), to settle wholesale transactions on those platforms in central bank money; its initial launch took place on 21 September 2026, with improvements to follow step by step. Delivery versus payment and other all-or-none transactions run through its Hash-Link protocol, and the cash leg is final once the matching transaction completes in T2; participants can settle with cash tokens or in T2. Any entity with access to T2 can take part through an eligible DLT operator: a CSD, a DLT Pilot Regime system, an overseen payment system, a CCP or a licensed institution. It is the short-term track of the Eurosystem''s two; Appia is the long-term one.'
+  sources:
+  - { title: 'ECB, Pontes (launched 21 September 2026; Hash-Link protocol; cash leg final in T2; eligible participants and DLT operators)', url: 'https://www.ecb.europa.eu/paym/target/pontes/html/index.en.html', checked: '2026-11-24' }
+  - { title: 'ECB, TARGET Services and Pontes (TARGET Services, the Eurosystem''s market infrastructure services; T2, its real-time gross settlement system)', url: 'https://www.ecb.europa.eu/paym/target/html/index.en.html', checked: '2026-11-25' }
+  - { title: 'ECB, ECB commits to distributed ledger technology settlement plans with dual-track strategy (1 July 2025; Pontes and Appia)', url: 'https://www.ecb.europa.eu/press/pr/date/2025/html/ecb.pr250701~f4a98dd9dc.en.html', checked: '2026-11-24' }
+- id: clip
+  name: Consensys CLIP
+  col: operator
+  row: together
+  eth: true
+  facts:
+    moves: { in: [settle], note: 'Coordinated transactions across institutions'' own ledgers, the assets staying on each.' }
+    confirm: { in: [operator], part: [proof], note: 'A verification ledger, run by the institution, an FMI or Consensys, checks each ledger''s proof that its part is ready and commits once. Vendor-stated; the proof system is not published.' }
+    settles: { in: ['yes'], note: 'Vendor-stated: atomic, synchronously or asynchronously.' }
+    status: { in: [production], note: 'Launched 2 November 2026; no customer named.' }
+    open: { in: ['no'], part: [unknown], note: 'Sold commercially; no license for CLIP stated.' }
+    scope: { in: [evm], part: [any], note: 'EVM chains now; Canton next; the EEZ and IBC planned.' }
+  summary:
+  - { k: 'What it is', v: 'Consensys''s protocol for settling across institutions'' own ledgers without bridging the assets (launched 2 November 2026)' }
+  - { k: 'Who confirms', v: 'A verification ledger that an operator runs, checking a proof from each ledger (vendor-stated; proof system not published)' }
+  - { k: 'Settles', v: 'All or nothing, by Consensys''s account' }
+  desc: 'Consensys''s Cross Ledger Interoperability Protocol is the core of its Sovereign Network Interoperability stack, launched on 2 November 2026, for connecting institutions'' own ledgers without moving the assets onto a bridge or a shared ledger. By Consensys''s account each ledger proves its part of a transaction is ready, a verification ledger checks the proofs and commits once, and the transaction settles in full or not at all, synchronously or asynchronously. The map places it with the operator-run routes: what commits the transaction is a ledger that the institution, an FMI or Consensys operates, not a check each destination makes for itself. The proofs narrow what that operator is trusted for, but how far is not published, and a proof of a permissioned ledger''s state is only as strong as the validators who sign its blocks. EVM chains are supported now and Canton is next, with the Ethereum Economic Zone and IBC planned. Consensys has published no technical specification and named no customer; all of this is vendor-stated.'
+  sources:
+  - { title: 'Consensys, Consensys Introduces Sovereign Network Interoperability (2 November 2026; CLIP; atomic settlement; EVM now, Canton next; EEZ and IBC)', url: 'https://consensys.com/blog/consensys-introduces-sovereign-network-interoperability-a-technology-stack-for-connecting-financial-networks', checked: '2026-11-24' }
+  - { title: 'Consensys, Interoperability product page (proofs, a verification ledger, one commit; operating models)', url: 'https://consensys.com/interoperability', checked: '2026-11-24' }
+- id: eez
+  name: Economic Zone (EEZ)
+  short: EEZ
+  col: committee
+  row: together
+  span: [{ col: self, text: 'by design: proofs' }]
+  family: true
+  eth: true
+  status: testnet
+  status_note: 'On an Ethereum devnet, where signers attest to batches; zero-knowledge proving is a research item and a security audit is in progress.'
+  facts:
+    moves: { in: [message, settle], note: 'Calls between contracts on different rollups and Ethereum mainnet, used in the same transaction.' }
+    confirm: { in: [committee], part: [proof], note: 'Designed for proofs of every state transition, checked on Ethereum mainnet. Each rollup''s owner chooses the verifiers it accepts and how many must agree; the only verifier in the code checks signatures, and zero-knowledge proving is still research.' }
+    settles: { in: ['yes'], note: 'A call completes atomically within one mainnet block; posting a batch does not guarantee every entry is delivered.' }
+    status: { in: [devnet] }
+    open: { in: ['yes'], note: 'Code on GitHub; all of it to be released as free and open-source software.' }
+    scope: { in: [eth] }
+  summary:
+  - { k: 'What it is', v: 'An open framework for Ethereum mainnet and rollups to call each other within one transaction' }
+  - { k: 'Who confirms', v: 'Whatever each rollup''s owner accepts: signers attesting today, proofs as the design goal' }
+  - { k: 'Settles', v: 'Atomically within one mainnet block; on a devnet today' }
+  desc: 'The Ethereum Economic Zone is a framework for Ethereum mainnet and its rollups to act as one: a contract on one rollup can call a contract on another and use the answer in the same transaction, any rollup can join however it is sequenced, and the call completes atomically within one mainnet block. It is designed for proof systems to verify every state transition on mainnet, which is why the map places it here, but each rollup''s owner chooses which verifiers it accepts and how many must agree, and EEZ itself does not establish that a proof is sound. Today the only verifier in its code checks signatures, its node supports a quorum of M-of-N attesters, a prover in secure hardware is planned and zero-knowledge proving with ZisK is a research item, so the devnet relies on signers. In the reference rollup contract the owner can also reset the rollup''s state root directly, and the contracts are upgradeable by whoever holds each upgrade key. Announced on 29 March 2026 by Gnosis and ZisK with funding from the Ethereum Foundation; a security audit is in progress, and all of it is to be released as free and open-source software. Its own caveats: posting a batch does not guarantee every entry is delivered, and the party composing a batch can withhold it.'
+  sources:
+  - { title: 'EEZ, Introducing the Ethereum Economic Zone (29 March 2026; Gnosis and ZisK; Ethereum Foundation funding; atomic execution; open source)', url: 'https://eez.io/blog/introducing-the-eez', checked: '2026-11-24' }
+  - { title: 'EEZ home (devnet live; audit in progress; real-time proving and Gnosis Chain planned)', url: 'https://eez.io/', checked: '2026-11-24' }
+  - { title: 'EEZ documentation (cross-rollup calls in one transaction; proofs verify every state transition on L1)', url: 'https://docs.eez.io', checked: '2026-11-24' }
+  - { title: 'EEZ core protocol, Multi-Prover Specification (each rollup''s owner chooses proof systems and threshold; owner root updates; EEZ does not establish circuit soundness)', url: 'https://github.com/eez-association/eez-core-protocol/blob/main/docs/MULTI_PROVER_SPEC.md', checked: '2026-11-25' }
+  - { title: 'EEZ core protocol, Integration Boundaries (upgradeable proxies; each ProxyAdmin owner can replace its implementation; reference ECDSA verifier)', url: 'https://github.com/eez-association/eez-core-protocol/blob/main/docs/INTEGRATION_BOUNDARIES.md', checked: '2026-11-25' }
+  - { title: 'EEZ core protocol, Deployment (ECDSA proof system; a signer signs proofs; threshold 1)', url: 'https://github.com/eez-association/eez-core-protocol/blob/main/deployment/README.md', checked: '2026-11-25' }
+  - { title: 'EEZ RollupX roadmap, 23 November 2026 (multi-prover quorum done as M-of-N attestation; prover in a hardware TEE later; ZisK prover integration a research item)', url: 'https://eez-association.github.io/eez-rollupx-roadmap/', checked: '2026-11-25' }
+  - { title: 'EEZ documentation, Caveats (delivery not guaranteed for every entry; the composer can withhold a batch)', url: 'https://docs.eez.io/caveats', checked: '2026-11-24' }

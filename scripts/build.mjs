@@ -29,6 +29,7 @@ const PAGES = [
   { dir: 'data/adoption', out: 'adoption' },                 // Adoption: eleven decentralization dials (was /decentralization/)
   { dir: 'data/privacy', out: 'privacy' },
   { dir: 'data/identity', out: 'identity' },
+  { dir: 'data/interoperability', out: 'interoperability' },
   { dir: 'data/quantum', out: 'quantum' },
   { dir: 'data/quantum/algorithms', out: 'quantum/algorithms' },
   { dir: 'data/quantum/ledger', out: 'quantum/ledger' },
@@ -54,10 +55,90 @@ function ddqListHtml(out, except) {
 const ARCH = (() => { let m; return () => m || (m = parse(read('data/architecture/architecture.yaml'))); })();
 const qCount = s => (s.sections || []).reduce((n, sec) => n + (sec.questions || []).length, 0);
 
+// ---------- grid pages (kind: grid; owner, 25 November 2026, D59) ----------
+// A grid of columns (left to right) and rows (top to bottom) in grid.yaml; each badge in badges.yaml names its `col`
+// and `row` instead of x and y. A badge whose model each deployment chooses lists `span: [{ col, text }]`: on a wide
+// screen a dashed bar runs across those columns, on a phone a dashed pill repeats the route in each one. Positions are
+// computed here, so routes sit alphabetically within each cell; `short` names a route in its dashed pills on a phone. The result is handed to the Venn renderer as
+// rectangular regions (outer box, row bands, column headers), so the panel, Focus on, legend and sections work as on
+// every other Venn page. On a phone the grid is transposed: rows become two side-by-side strips, columns stacked bands.
+const GRID_PILL = (name, k) => Math.round((String(name).length * 5.6 + 16) * k);
+function loadGrid(dir, site, yml) {
+  const G = yml('grid.yaml'), raw = yml('badges.yaml'), errors = [], where = f => `${dir}/${f}`;
+  const cols = G.columns || [], rows = G.rows || [], K = site.pill_scale || 1;
+  const ci = Object.fromEntries(cols.map((c, i) => [c.id, i])), ri = Object.fromEntries(rows.map((r, i) => [r.id, i]));
+  const label = x => [].concat(x.label || []).join(' ');
+  const lc = s => s.charAt(0).toLowerCase() + s.slice(1);
+  const list = (raw.badges || []).map(b => Object.assign({ ticker: b.id }, b)).sort((a, b) => String(a.name).localeCompare(String(b.name), 'en', { sensitivity: 'base' }));
+  for (const b of list) {
+    if (!(b.col in ci)) errors.push(`${where('badges.yaml')}: "${b.id}" col "${b.col}" is not a column in grid.yaml`);
+    if (!(b.row in ri)) errors.push(`${where('badges.yaml')}: "${b.id}" row "${b.row}" is not a row in grid.yaml`);
+    if (b.x !== undefined || b.y !== undefined || b.circle) errors.push(`${where('badges.yaml')}: "${b.id}" is on a grid page: use col and row, not circle, x or y`);
+    for (const s of b.span || []) if (!(s.col in ci) || s.col === b.col || !s.text) errors.push(`${where('badges.yaml')}: "${b.id}" span entries need another column and a text`);
+  }
+  const ok = list.filter(b => b.col in ci && b.row in ri);
+  const palette = Object.assign({ outer: ['#f8f6f2', '#cfc9bd'], head: ['#ffffff', '#d8d2c6'] }, G.palette || {});
+  const outerId = G.outer?.id || 'outer';
+  const circles = { palette, containers: [outerId], children: { [outerId]: [...rows.map(r => r.id), ...cols.map(c => c.id)] }, inherit_status: {},
+    circles: [Object.assign({ family: 'outer', path: '' }, G.outer, { id: outerId }),
+      ...rows.map((r, i) => Object.assign({ family: r.family || (i ? 'row2' : 'row1'), path: G.rows_path || '' }, r)),
+      ...cols.map(c => Object.assign({ family: 'head', path: G.columns_path || '' }, c))] };
+  for (const f of ['row1', 'row2']) if (!palette[f]) palette[f] = f === 'row1' ? ['#efe9df', '#d6cfc2'] : ['#e2e8ea', '#9fb2ba'];
+  // ---- wide geometry: a label column, then the columns; a row grows to fit its fullest cell plus one line per bar ----
+  const W = 900, X0 = G.label_width || 180, CW = (W - 20 - X0) / cols.length, cx = i => X0 + CW * (i + 0.5);
+  const wide = { canvas: { width: W }, circles: {}, annotations: [] }, narrow = { canvas: { width: 440 }, circles: {}, annotations: [] };
+  wide.circles[outerId] = { t: 'rect', x: 10, y: 10, w: W - 20, r: 28, lx: W / 2, ly: 46, fs: 20, fw: 700 };
+  cols.forEach((c, i) => { wide.circles[c.id] = { t: 'rect', x: X0 + CW * i + 6, y: 64, w: CW - 12, h: 84, r: 14, lx: cx(i), ly: 94, fs: 18, fw: 700, suby: 136 }; });
+  if (G.arrow) wide.annotations.push({ kind: 'line', path: `M${X0 + 6} 164 L${W - 26} 164 M${W - 33} 160 L${W - 26} 164 L${W - 33} 168`, color: '#b9b2a5',
+    labels: [{ x: W - 30, y: 158, text: G.arrow, anchor: 'end', size: 10.5, color: '#615f5a' }] });
+  const pos = {}, posN = {};
+  let y = 176;
+  rows.forEach((r, j) => {
+    const inRow = ok.filter(b => b.row === r.id), plain = inRow.filter(b => !b.span), bars = inRow.filter(b => b.span);
+    const n = Math.max(0, ...cols.map(c => plain.filter(b => b.col === c.id).length));
+    const h = Math.max(120, 30 + n * 40 + bars.length * 44 + 12);
+    wide.circles[r.id] = { t: 'rect', x: 20, y, w: W - 40, h, r: 14, lx: 20 + (X0 - 20) / 2, ly: y + 32, fs: 17, fw: 700, suby: y + 32 + 2 * 17 * 1.15 + 4 };
+    cols.forEach((c, i) => plain.filter(b => b.col === c.id).forEach((b, k) => { pos[b.id] = { x: Math.round(cx(i) - (b.family ? 6 : 0)), y: y + 34 + k * 40 }; }));
+    bars.forEach((b, k) => { const yy = y + 34 + n * 40 + k * 44 + 4;
+      pos[b.id] = { x: Math.round(cx(ci[b.col])), y: yy, span: b.span.map(s => ({ x: Math.round(cx(ci[s.col])), y: yy, text: s.text })) }; });
+    y += h + 10;
+  });
+  const top = 176, bottom = y - 10;
+  for (let i = 0; i <= cols.length - 1; i++) wide.annotations.push({ kind: 'line', path: `M${X0 + CW * i} ${top + 8} L${X0 + CW * i} ${bottom - 8}`, color: '#d8d2c6', dash: '4 4' });
+  wide.canvas.height = bottom + 20; wide.circles[outerId].h = bottom + 10 - 10;
+  // ---- phone geometry: rows side by side as strips, columns as stacked bands; a bar becomes a dashed pill per column ----
+  const NW = 440, SW = (NW - 24 - 6 * (rows.length - 1)) / rows.length, sx = j => 12 + j * (SW + 6) + SW / 2;
+  narrow.circles[outerId] = { t: 'rect', x: 6, y: 6, w: NW - 12, r: 22, lx: NW / 2, ly: 36, fs: 18, fw: 700 };
+  let ny = 130; const ghosts = {};
+  ok.filter(b => b.span).forEach(b => b.span.forEach(s => { (ghosts[`${s.col}|${b.row}`] = ghosts[`${s.col}|${b.row}`] || []).push({ b, s }); }));
+  cols.forEach((c, i) => {
+    narrow.circles[c.id] = { t: 'rect', x: 12, y: ny, w: NW - 24, h: 68, r: 12, lx: NW / 2, ly: ny + 24, fs: 15, fw: 700, suby: ny + 58 };
+    let most = 0;
+    rows.forEach((r, j) => {
+      const here = ok.filter(b => b.col === c.id && b.row === r.id), gh = ghosts[`${c.id}|${r.id}`] || [];
+      here.forEach((b, k) => { posN[b.id] = Object.assign(posN[b.id] || {}, { x: Math.round(sx(j) - (b.family ? 6 : 0)), y: ny + 68 + 26 + k * 38 }); });
+      gh.forEach(({ b, s }, k) => { (posN[b.id] = posN[b.id] || {}).span = (posN[b.id].span || []).concat([{ x: Math.round(sx(j)), y: ny + 68 + 26 + (here.length + k) * 38, text: `${b.short || b.name}, ${s.text}` }]); });
+      most = Math.max(most, here.length + gh.length);
+    });
+    ny += 68 + 16 + Math.max(1, most) * 38 + 10;
+  });
+  rows.forEach((r, j) => { narrow.circles[r.id] = { t: 'rect', x: 12 + j * (SW + 6), y: 54, w: SW, h: ny - 54, r: 14, lx: sx(j), ly: 80, fs: 15, fw: 700, suby: 116 }; });
+  narrow.canvas.height = ny + 12; narrow.circles[outerId].h = ny + 6 - 6;
+  // ---- badges: the row is the region a badge sits in; `where` names its cell for the panel ----
+  const tokens = { tokens: ok.map(b => {
+    const p = pos[b.id], c = cols[ci[b.col]], r = rows[ri[b.row]];
+    const also = (b.span || []).map(s => lc(label(cols[ci[s.col]])));
+    return Object.assign({}, b, { circle: b.row, x: p.x, y: p.y, span: p.span || null,
+      column: { x: posN[b.id].x, y: posN[b.id].y, span: posN[b.id].span || null },
+      where: `${label(c)}${also.length ? ` (configurable: also ${also.join(' or ')})` : ''}; ${lc(label(r))}` }); }) };
+  return { dir, site, circles, layout: wide, alt: narrow, tokens, lenses: [], grid: true, gridErrors: errors };
+}
+
 // ---------- load ----------
 function load(dir) {
   const yml = p => parse(read(path.join(dir, p)));
   const site = yml('site.yaml');
+  if (site.kind === 'grid') return loadGrid(dir, site, yml);
   if (site.kind === 'static') return { dir, site, static: true };
   // index pages list scenarios with filters; scenario pages hold one scenario (actors, steps, tokens, standards)
   if (site.kind === 'index') return { dir, site, index: true };
@@ -143,7 +224,7 @@ function validateStatic({ dir, site }) {
       for (const x of it.sources || []) if (!x.title || !/^https?:\/\//.test(x.url || '')) errors.push(`${where('site.yaml')}: source on "${it.title}" needs a title and a URL`); } }
   return errors;
 }
-const LEGEND_KINDS = ['pill', 'mark', 'rings', 'expand'];
+const LEGEND_KINDS = ['pill', 'mark', 'rings', 'expand', 'span', 'family'];
 function validateRadial({ dir, site, rings, themes, layout, lenses, gauges }) {
   const errors = [], where = f => `${dir}/${f}`;
   for (const k of ['title', 'eyebrow', 'intro', 'footnote']) if (!site[k]) errors.push(`${where('site.yaml')}: missing "${k}"`);
@@ -240,6 +321,7 @@ const GLYPHS = {
   scenarios: () => PART.disc(20, 28, 12) + PART.arrow(34, 28, 50, 28) + PART.disc(64, 28, 12, true) + `<path d="M12 46H88" stroke="#14130f" stroke-width="2" stroke-dasharray="4 4"/>`,
   privacy: () => `<path d="M48 6L70 14V28C70 40 60 48 48 52C36 48 26 40 26 28V14Z" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-linejoin="round"/><path d="M36 29C40 23 56 23 60 29C56 35 40 35 36 29Z" fill="none" stroke="#14130f" stroke-width="2"/><circle cx="48" cy="29" r="3" fill="#14130f"/><path d="M38 38L58 20" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   identity: () => `<rect x="18" y="12" width="60" height="34" rx="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="34" cy="26" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M26 40C28 34 40 34 42 40" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M50 22H70M50 30H70M50 38H62" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
+  interoperability: () => `<rect x="8" y="16" width="26" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><rect x="62" y="16" width="26" height="24" rx="4" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><path d="M34 28C42 14 54 14 62 28" fill="none" stroke="#14130f" stroke-width="2" stroke-linecap="round"/><path d="M34 28C42 42 54 42 62 28" fill="none" stroke="#14130f" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"/><circle cx="21" cy="28" r="4" fill="#14130f"/><circle cx="75" cy="28" r="4" fill="#14130f"/>`,
   quantum: () => `<ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(60 48 28)"/><ellipse cx="48" cy="28" rx="30" ry="11" fill="none" stroke="#14130f" stroke-width="2" transform="rotate(-60 48 28)"/><circle cx="48" cy="28" r="5" fill="#14130f"/>`,
   key: () => `<circle cx="30" cy="28" r="12" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="30" cy="28" r="4" fill="#14130f"/><path d="M42 28H84M72 28V38M80 28V36" stroke="#14130f" stroke-width="2" stroke-linecap="round"/>`,
   milestones: () => `<path d="M12 28H78" stroke="#14130f" stroke-width="2" marker-end="url(#ia)"/><circle cx="26" cy="28" r="6" fill="#14130f"/><circle cx="48" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2"/><circle cx="68" cy="28" r="6" fill="#f8f6f2" stroke="#14130f" stroke-width="2" stroke-dasharray="3 2"/>`,
@@ -288,7 +370,7 @@ function validate(page) {
   if (page.arch) return validateArchitecture(page);
   if (page.radial) return validateRadial(page);
   const { dir, circles, layout, alt, tokens, site, lenses } = page;
-  const errors = [];
+  const errors = [...(page.gridErrors || [])];
   const where = f => `${dir}/${f}`;
   checkGlance(circles.circles, site, where('circles.yaml'), errors); checkGlance(tokens.tokens, site, where('badges'), errors);
   const ids = new Set(circles.circles.map(c => c.id));
@@ -334,7 +416,7 @@ function validate(page) {
     for (const k of ks) if (!ids.has(k)) errors.push(`${where('circles.yaml')}: "${p}" lists unknown child "${k}"`);
   }
   for (const [lay, lf] of layouts) for (const a of lay.annotations || []) {
-    if (!['caption', 'connector'].includes(a.kind)) errors.push(`${where(lf)}: annotation kind "${a.kind}" must be caption or connector`);
+    if (!['caption', 'connector', 'line'].includes(a.kind)) errors.push(`${where(lf)}: annotation kind "${a.kind}" must be caption, connector or line`);
     if (a.circle && !ids.has(a.circle)) errors.push(`${where(lf)}: annotation for unknown circle "${a.circle}"`);
     if (a.on && !ids.has(a.on)) errors.push(`${where(lf)}: connector shown "on" unknown circle "${a.on}"`);
   }
@@ -789,6 +871,10 @@ function renderStatic({ site, out }) {
 const swatch = l => l.kind === 'pill'
     ? (l.hollow ? `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="#fff" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/></svg>`
       : `<svg width="30" height="14" aria-hidden="true"><rect x="1" y="1" width="28" height="12" rx="6" fill="${esc(l.color || '#14130f')}"/></svg>`)
+    : l.kind === 'span'
+    ? `<svg width="46" height="14" aria-hidden="true"><rect x="1" y="1" width="44" height="12" rx="6" fill="none" stroke="${esc(l.color || '#6b6760')}" stroke-width="1.3" stroke-dasharray="3 2"/><rect x="1" y="1" width="20" height="12" rx="6" fill="${esc(l.color || '#6b6760')}"/></svg>`
+    : l.kind === 'family'
+    ? `<svg width="14" height="14" aria-hidden="true"><path d="M7 1 L13 7 L7 13 L1 7 Z" fill="${esc(l.color || '#14130f')}"/></svg>`
     : l.kind === 'expand'
     ? `<svg width="40" height="18" aria-hidden="true"><ellipse cx="17" cy="9" rx="15" ry="7" fill="#e3e7ea" stroke="${esc(l.color || '#14130f')}" stroke-width="1.5"/><text x="36" y="13" text-anchor="middle" font-size="12" font-weight="600" fill="#615f5a">+</text></svg>`
     : l.kind === 'mark'
@@ -823,6 +909,9 @@ function render({ circles, layout, alt, tokens, site, lenses, out }) {
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
     panel_click: !!site.panel_click,   // click-only panel (owner, 12 November 2026)
     glance_facts: site.glance_facts || [],   // fact rows at the top of each network's At a glance chart (owner, 13 November 2026)
+    // grid pages name a badge by the sidebar noun ("Route") and say what a hollow pill means on that page
+    what: site.kind === 'grid' ? (n => n.charAt(0).toUpperCase() + n.slice(1))(site.facets_noun || 'design') : null,
+    hollow_label: site.hollow_label || null,
   };
   return fillCommon(read('src/template.html'), { site, out, data })
     .replace('__LENS_TITLE__', esc(site.lens_title || 'Regulatory lenses')).replace('__LENS_HELP__', esc(site.lens_help))

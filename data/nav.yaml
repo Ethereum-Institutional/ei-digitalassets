@@ -33,3 +33,6 @@ pages:
 - label: Architecture
   path: architecture
   group: do
+- label: Interoperability
+  path: interoperability
+  group: do

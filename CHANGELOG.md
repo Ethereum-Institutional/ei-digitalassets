@@ -7,6 +7,18 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Interoperability (minor): a new page** (D59) and a new page kind, `grid`. How an asset, a payment or a message on
+  one ledger becomes usable on another: a grid of who a route relies on (the issuer or an operator; an outside
+  committee; each ledger checks for itself) against whether both legs settle together, with fifteen routes from their
+  own documentation: Axelar, Chainlink CCIP, Circle CCTP, Hyperlane, LayerZero and Wormhole; IBC, ERC-7888, a rollup's
+  own bridge, OP Stack interop and Polygon Agglayer; a hash time-locked swap, Consensys CLIP, the Eurosystem's Pontes
+  and the Ethereum Economic Zone. Configurable routes are dashed bars; a diamond marks routes that work only within one
+  family of chains; a phone layout transposes the grid. Focus on filters and a preset for settling two legs across
+  ledgers. Menu and home card after Architecture.
+
+- **All Venn and grid pages (patch):** the pin bar says "Click outside the map", not "outside the circles", so it reads
+  right on the grid page too.
+
 - **Taxonomy (minor): ISO 22739 lens.** A new standard-setter lens reads the map through ISO 22739:2024, the
   international vocabulary for blockchain and distributed ledger technologies: three groups (cryptocurrency, security
   token, utility token), notes for non-fungible tokens and for the terms ISO does not have (stablecoins, CBDCs,

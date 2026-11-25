@@ -1,0 +1,157 @@
+# Interoperability map: page text and settings. A grid page (kind: grid; owner, 25 November 2026, D59) of the routes
+# that make an asset, a payment or a message on one ledger usable on another: columns for who a route relies on, rows for
+# whether both legs settle together (grid.yaml), with the routes in badges.yaml, a "Focus on" sidebar of facts and the
+# narrative in `sections`. Named Interoperability, the ISO 22739 term (3.52), with "connectivity" naming the patterns
+# inside it (owner, 24 November 2026). Writing rules: US spelling; no em-dashes; quote YAML values that contain ": ";
+# "Ethereum mainnet" for the chain; third person ("Ethereum Institutional"), never "we".
+
+kind: grid
+title: Interoperability
+slug: interoperability
+eyebrow: Ethereum Institutional · Research
+heading:
+  text: Interoperability
+  italic: Interoperability
+intro: 'How does one ledger learn what happened on another? Every route between ledgers answers that question. Across the top: who you rely on for the answer. Down the side: whether both legs of an exchange settle together. Further right means fewer parties to trust, but usually a narrower reach. A dashed bar marks a route whose model each deployment chooses. Click a route for details, or use Focus on to filter.'
+intro_more: 'Settlement is simplest when the asset and the cash that pays for it sit on the same ledger and move in one transaction; that is the case for a shared ledger such as Ethereum mainnet. Today they are spread out: tokenized funds and bonds on Ethereum mainnet and its rollups, deposit tokens on bank networks, central bank money in central banks'' own systems, and some records on private Ethereum-technology networks. Until they meet, each move between ledgers needs a route, and every route asks you to rely on someone or something. The same token can arrive by routes with different models, so the trust belongs to the route, not to the token.'
+intro_more_label: 'Why interoperability?'
+panel_default:
+  title: Between ledgers
+  text: Hover over a column, a row or a route to read about it; click to pin it here with all its facts.
+badge: pill
+sections_collapsed: true
+pill_scale: 1.1
+facts_as_of: '2026-11-25'
+legend:
+- kind: pill
+  color: '#627eea'
+  text: 'Built for Ethereum mainnet, its rollups or EVM ledgers'
+- kind: pill
+  color: '#6b6760'
+  text: 'Built for any ledger'
+- kind: pill
+  hollow: true
+  color: '#627eea'
+  text: 'Not live yet: a devnet, a scheduled activation or a draft standard'
+- kind: span
+  color: '#6b6760'
+  text: 'Configurable: each deployment chooses who confirms'
+- kind: family
+  text: 'Works only within one family of chains'
+hollow_label: ', not live yet'
+# Facets: the "Focus on" sidebar. Each route (badges.yaml `facts`) gives one or more values per facet: `in` (it has
+# this), `part` (partly), a `note`. Readers pick values; within a facet any picked value matches, across facets all
+# must. `na` (does not apply) and `unknown` never match. `neutral: true` marks a facet readers value differently.
+facets_title: Focus on
+facets_noun: route
+facets_help: Pick what matters to you. Routes that match stay highlighted; dashed means partly.
+facet_presets:
+- id: dvp
+  label: Settling two legs across ledgers
+  text: 'Delivery versus payment or payment versus payment where the asset and the cash sit on different ledgers: both legs must complete or neither, on a route that is live today.'
+  require: [settles]
+  picks:
+    settles: ['yes']
+    moves: [settle]
+    status: [production]
+facet_groups:
+- id: what
+  label: What it does
+- id: trust
+  label: What you rely on
+- id: state
+  label: Status and openness
+facets:
+- id: moves
+  group: what
+  label: What moves
+  help: 'A message (data or a call), a token, or the settlement of both legs of an exchange.'
+  values:
+  - { id: message, label: A message or a call }
+  - { id: token, label: A token }
+  - { id: settle, label: Both legs of an exchange }
+- id: scope
+  group: what
+  label: Ledgers it connects
+  values:
+  - { id: eth, label: 'Ethereum mainnet and its rollups' }
+  - { id: evm, label: EVM ledgers }
+  - { id: any, label: Any ledger }
+- id: confirm
+  group: trust
+  label: Who or what confirms
+  neutral: true
+  help: 'What the destination accepts as evidence that something happened at the source. An outside party is not worse by definition: an issuer already stands behind its token, and a central bank behind its money.'
+  values:
+  - { id: committee, label: An outside committee or verifier network }
+  - { id: issuer, label: The token's issuer }
+  - { id: operator, label: An operator (a central bank or a company) }
+  - { id: proof, label: A proof of the source the destination checks }
+  - { id: hashlock, label: A shared secret and a time limit }
+- id: settles
+  group: trust
+  label: Both sides together
+  help: 'Whether the two legs of an exchange complete together or not at all, or whether the destination acts later on a message from the source.'
+  values:
+  - { id: 'yes', label: 'Yes, all or nothing' }
+  - { id: async, label: 'No, delivered asynchronously' }
+- id: status
+  group: state
+  label: Status
+  values:
+  - { id: production, label: Live }
+  - { id: devnet, label: On a devnet }
+  - { id: draft, label: A draft standard }
+- id: open
+  group: state
+  label: Open source
+  values:
+  - { id: 'yes', label: 'Yes' }
+  - { id: 'no', label: 'No' }
+related:
+- { path: networks, text: 'The ledgers these routes connect: who runs them and how they reach consensus.' }
+- { path: scenarios, text: 'The market activities that need a route when the asset and the cash sit on different ledgers.' }
+- { path: architecture, text: 'Where oracles and bridges sit in a digital asset team, with the questions to ask a provider.' }
+contribute:
+  repo: https://github.com/Ethereum-Institutional/ei-digitalassets
+  title: Help shape this map.
+  text: 'Open an issue to suggest a route, a correction or a fact the map should carry. The maps are edited in Ethereum Institutional''s platform repository and mirrored here, so an issue reaches the editors faster than a pull request against the mirror.'
+footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+sections:
+- title: Connecting is not interoperating
+  text: 'ISO 22739 defines interoperability as the ability of two or more systems to exchange information and use it. The second half is the point: two ledgers interoperate when the receiving side can act on a message as reliably as the sending side recorded it.'
+  items:
+  - title: Three ways an asset reaches another ledger
+    text: 'Locked at the source and represented by a new token at the destination: the holder depends on the lock and the route. Burned and minted again by its issuer: the holder has the issuer''s token on both sides. Left where it is, with a second ledger settling against it. Each puts the risk somewhere different.'
+    see: [taxonomy]
+  - title: The trust belongs to the route
+    text: 'A token''s name says nothing about which route carried it. A route is as strong as its weakest part: who confirms, the contracts that hold or mint the asset, and whoever can upgrade or pause them.'
+  sources:
+  - { title: 'ISO 22739:2024, Blockchain and distributed ledger technologies: Vocabulary, 3.52 interoperability', url: 'https://www.iso.org/standard/82208.html', checked: '2026-11-24' }
+- title: A message is not a settlement
+  text: 'Most routes deliver a message that the destination acts on later, so a payment can arrive while the asset it paid for does not. Delivery versus payment across two ledgers needs both legs to settle together, which only a few routes provide.'
+  see: [scenarios]
+  items:
+  - title: How two legs are tied together
+    text: 'A hash time-locked contract on each side releases both legs with the same secret, or refunds both after a timeout, with no one in the middle. Other routes put an operator in the middle: the Eurosystem''s Pontes, launched on 21 September 2026, settles a leg on a market ledger against a payment in central bank money in T2, the Eurosystem''s real-time gross settlement system.'
+    sources:
+    - { title: 'BIP 199, Hashed Time-Locked Contract transactions (2017)', url: 'https://raw.githubusercontent.com/bitcoin/bips/master/bip-0199.mediawiki', checked: '2026-11-24' }
+    - { title: 'ECB, Pontes (launched 21 September 2026; Hash-Link protocol; cash leg final in T2)', url: 'https://www.ecb.europa.eu/paym/target/pontes/html/index.en.html', checked: '2026-11-24' }
+    - { title: 'ECB, TARGET Services and Pontes (TARGET Services, the Eurosystem''s market infrastructure services; T2, its real-time gross settlement system)', url: 'https://www.ecb.europa.eu/paym/target/html/index.en.html', checked: '2026-11-25' }
+- title: Acting across chains in one step
+  text: 'The newest work goes beyond messages: one transaction that completes on several ledgers at once. Two early approaches are on the map, for different problems: one joins Ethereum''s rollups, the other institutions'' separate ledgers.'
+  items:
+  - title: Within Ethereum, the Ethereum Economic Zone
+    text: 'An open framework, announced in March 2026 by Gnosis and ZisK with Ethereum Foundation funding: a contract on one rollup calls a contract on another, or on Ethereum mainnet, and uses the answer in the same transaction. It is designed to prove every state change to mainnet; on today''s test network signers attest instead, and zero-knowledge proving is still research.'
+    sources:
+    - { title: 'EEZ, Introducing the Ethereum Economic Zone (29 March 2026)', url: 'https://eez.io/blog/introducing-the-eez', checked: '2026-11-24' }
+    - { title: 'EEZ documentation', url: 'https://docs.eez.io', checked: '2026-11-24' }
+    - { title: 'EEZ core protocol, Multi-Prover Specification (each rollup''s owner chooses proof systems and threshold)', url: 'https://github.com/eez-association/eez-core-protocol/blob/main/docs/MULTI_PROVER_SPEC.md', checked: '2026-11-25' }
+    - { title: 'EEZ RollupX roadmap, 23 November 2026 (M-of-N attestation done; ZisK prover integration a research item)', url: 'https://eez-association.github.io/eez-rollupx-roadmap/', checked: '2026-11-25' }
+  - title: Between institutions' own ledgers, Consensys CLIP
+    text: 'A commercial protocol, launched in November 2026, for ledgers that stay separate: each proves its part is ready, and a verification ledger run by the institution, a market infrastructure or Consensys commits all or nothing. It sits with the operator-run routes because that ledger, not the destination, makes the check. EVM chains are supported now. Its proof system is not published, so its claims are vendor-stated.'
+    sources:
+    - { title: 'Consensys, Consensys Introduces Sovereign Network Interoperability (2 November 2026)', url: 'https://consensys.com/blog/consensys-introduces-sovereign-network-interoperability-a-technology-stack-for-connecting-financial-networks', checked: '2026-11-24' }
+- title: Before you use a route
+  text: 'The same questions apply to every route: who confirms a transfer, what failure would let a false one through, who can upgrade or pause the contracts, how much can move before a limit stops it, and what the holder is left with if the route fails.'
+  see: [architecture]
