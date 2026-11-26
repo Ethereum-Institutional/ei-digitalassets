@@ -6,16 +6,20 @@ eyebrow: Ethereum Institutional · Research
 heading:
   text: Digital Asset Networks
   italic: Networks
-intro: 'How the networks that carry digital assets differ: whether consensus is permissioned or permissionless, and who may transact and run a node (private, consortium or public). Ethereum Institutional is aligned to Ethereum mainnet’s north star, a globally verifiable public shared ledger, but supports every Ethereum deployment style on this map.'
+intro: 'Whether consensus is permissionless or permissioned, and who may transact and run a node.'
 # intro_more: shown when the reader clicks the link after the intro; intro_more_label is the link text
-intro_more_label: Why our north star?
-intro_more: 'Why that north star: a public, permissionless ledger that anyone can verify has brought together the most participants, liquidity, assets and use cases on one shared state. Common standards and tooling then let an entire ecosystem build on each other’s work. Why every style: regulation, risk management and the needs of particular use cases give private, consortium and public deployments each a place. The Ethereum ecosystem serves all of them with the same clients, standards and tooling, so a deployment can start private and keep the path to the public ledger.'
+intro_more_label: Why Ethereum mainnet is our north star
+intro_more_link:          # `{link}` in intro_more
+  label: Adoption map
+  path: adoption
+intro_more: 'Ethereum Institutional is aligned to Ethereum mainnet’s north star, a globally verifiable public shared ledger, but supports every Ethereum deployment style on this map. Why that north star: a public, permissionless ledger that anyone can verify has brought together the most participants, liquidity, assets and use cases on one shared state. Common standards and tooling then let an entire ecosystem build on each other’s work. The {link} scores Ethereum mainnet and other ledgers on whether any one party can stop, change or freeze settlement. Why every style: regulation, risk management and the needs of particular use cases give private, consortium and public deployments each a place. The Ethereum ecosystem serves all of them with the same clients, standards and tooling, so a deployment can start private and keep the path to the public ledger.'
 svg_label: Venn diagram of digital asset network types
 panel_default:
   title: Digital Asset Networks
   text: Hover over any circle or badge to preview how Ethereum Institutional defines or places it; click to pin the definition here. Circles with a + expand to show participants; a − next to a region hides it.
 # badge: pill = named badges (ink = Ethereum ecosystem, gray = other)
 badge: pill
+theme: studio   # proposal (owner, 26 November 2026): the studio look, Regime-style menu and full-width layout, as on the Taxonomy
 legend:
 - kind: pill
   color: '#627eea'
@@ -29,7 +33,7 @@ legend:
   text: 'ETH mark: secured by ETH, on Ethereum mainnet itself or on a rollup that settles there'
 - kind: expand
   color: '#14130f'
-  text: 'Circles with a + expand on click to show their participants; a − next to a region’s name hides that region and zooms the map to the rest'
+  text: 'Circles with a + expand on click to show their participants; click again to close them'
 - kind: rings
   color: '#312e81'
   text: 'Nested bands: the degrees of permissionless, most permissionless at the center'
@@ -62,7 +66,58 @@ lens_groups:
 - id: architecture
   label: Architecture
 lens_title: Architecture
+lens_menu: Architecture   # studio theme: the menu above the map
+fit: true                 # studio theme: the wide map fits one screen under the bar (owner, 26 November 2026)
+map_title: false          # the bar above the map already names the page
+text_scale: 1.4           # wide layout: map text 40% larger, so the screen-sized map stays readable (owner, 26 November 2026)
 lens_help: Pick a layer to see which networks it describes. Highlighted badges are inside the definition; faded ones are outside. The circles do not change.
+# guided tour (studio theme): permissioned and permissionless consensus, the three permissionless bands, then who may
+# transact (Public, Consortium, Private), the Architecture menu and a pinned definition (owner, 26 November 2026)
+tour:
+- circle: pless
+  title: Permissionless consensus
+  text: 'The map asks two questions of every network: who may take part in ordering transactions, and who may transact and run a node at all. Start with the first, on the left. Here anyone can take part in ordering transactions without anyone''s approval; what they need is a scarce resource the protocol can count, work or stake. The three dashed boxes inside are ordered by how little the protocol assumes about who is running it.'
+- circle: full
+  badge: bitcoin
+  title: 'Bitcoin: finality is probabilistic'
+  text: 'In the innermost box the protocol does not know who is running it and assumes no one stays online; proof of work prices identities in electricity and hardware. Bitcoin is the example. The price is that finality is probabilistic: each new block makes a payment harder to reverse, but none makes it final. Waiting six blocks, about an hour, is a convention, not a rule of the protocol.'
+- circle: dyn
+  title: 'Ethereum mainnet: live, then final'
+  text: 'Ethereum mainnet sits in Dynamically Available: the protocol knows the staked keys but needs only some honest staker online, so blocks keep coming as validators drop out. On top, a finality gadget makes blocks final in about 13 minutes, and reversing a finalized block would mean destroying at least a third of all staked ETH. Live like Bitcoin, final like a BFT chain.'
+- circle: ethereum
+  open: true
+  title: Institutions on Ethereum mainnet
+  text: 'A circle with a + opens to show its participants. Ethereum mainnet opens to the institutions with live deployments on it: banks, asset managers, payment companies and a public body, each a badge. Click a badge for what it runs and its sources; click the circle again to close it.'
+- circle: ethereum
+  open: true
+  pin: true
+  title: Click for the attributes
+  text: 'Clicking any circle or badge opens its definition below the map, with an at-a-glance chart of its attributes: who may transact, validate, read, deploy and change the rules, and how fast it confirms and settles. Here it is for Ethereum mainnet; Next takes you back to the map.'
+- circle: quasi
+  title: 'Quasi-permissionless: a quorum must keep voting'
+  text: 'Back out to the widest box. The protocol knows the staked identifiers, and a set share of stake must keep voting for the chain to finalize. Below that quorum the chain stops finalizing. BFT-style proof of stake sits here, such as Avalanche, Solana and Tendermint-style chains.'
+- circle: perm
+  title: Permissioned consensus
+  text: 'On the right, the nodes that order and finalize transactions are a list set outside the protocol, by an operator, by members, or by the existing participants. It is fast and final, but the members, not the protocol, decide who counts. Ethereum Institutional reads a network as permissioned whenever joining consensus needs the existing participants'' approval, whatever the marketing says.'
+- circle: pub
+  title: 'Public: anyone may transact and run a node'
+  text: 'The second question is drawn as circles. Public means anyone may transact, run a node, and read and re-execute the ledger''s history. That is separate from consensus, so Public spans both sides: Ethereum mainnet and Bitcoin are permissionless; the XRP Ledger, Hedera and today''s rollups, with one operator running each sequencer, are permissioned.'
+- circle: cons
+  title: 'Consortium: readable is not public'
+  text: 'A pre-selected group controls consensus. It may open some or all of its ledger for anyone to read, which is where Public reaches into Consortium on the map, but it stays a consortium: no outsider can run a validator that checks the ledger and refuses an invalid change, so the ledger is as secure as its members are honest. Hedera sits in that overlap: public, but run by a council.'
+- circle: non
+  title: Canton and Corda
+  text: 'Canton is firmly a consortium with a public part: its Global Synchronizer, Canton Coin and an open application process, which is why its tip reaches the overlap with Public. Joining its validators needs the existing participants'' approval, and each node stores only its own contracts, so no one checks the whole ledger. Corda shares the model on the consortium side.'
+- circle: priv
+  title: 'Private: one operator'
+  text: 'One organization runs every node and decides who may read or write. Useful for internal records and testing, at the price of giving outsiders nothing to verify. Institutions building private Ethereum-technology networks use clients such as Besu, the same client that runs on Ethereum mainnet.'
+- circle: pub
+  lens: l2
+  title: Highlight an architecture
+  text: 'The Architecture menu above the map highlights networks by layer. Here, Layer 2 rollups: they post every transaction to Ethereum mainnet, but one sequencer orders them, so they sit in Public on the permissioned side until they reach Stage 2.'
+- circle: dan
+  title: Where your deployment sits
+  text: 'The Ethereum ecosystem reaches every region of this map: Ethereum mainnet, the rollups that settle on it, and Besu for consortium and private chains. Ethereum Institutional is aligned to Ethereum mainnet''s north star, a globally verifiable public shared ledger, and supports every Ethereum deployment style on the map.'
 # Optional banner shown above the heading. Remove `notice` to hide it.
 # Optional call for contributions shown above the footnote. Remove `contribute` to hide it.
 contribute:

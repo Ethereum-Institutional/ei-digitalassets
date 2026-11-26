@@ -59,6 +59,14 @@ circles:
     fs: 15
     fw: 700
     suby: 1800
+    collapsed:
+      cx: 400
+      cy: 1855
+      rx: 60
+      ry: 13
+      lx: 394
+      ly: 1858.5
+      fs: 10
   besu:
     cx: 290
     cy: 2130
@@ -162,52 +170,58 @@ circles:
     fs: 15
     fw: 700
   quasi:
-    cx: 400
-    cy: 635
-    rx: 250
-    ry: 240
-    lx: 400
-    ly: 415
+    t: rect
+    x: 200
+    y: 440
+    w: 400
+    h: 450
+    r: 30
+    lx: 400.0
+    ly: 462
     fs: 13
     fw: 700
-    liney: 445
+    liney: 492
   dyn:
-    cx: 400
-    cy: 690
-    rx: 200
-    ry: 180
-    lx: 400
-    ly: 547
+    t: rect
+    x: 226
+    y: 560
+    w: 348
+    h: 310
+    r: 26
+    lx: 400.0
+    ly: 588
     fs: 13
     fw: 700
-    liney: 577
+    liney: 618
   full:
-    cx: 400
-    cy: 745
-    rx: 130
-    ry: 112
-    lx: 400
-    ly: 665
+    t: rect
+    x: 252
+    y: 688
+    w: 296
+    h: 162
+    r: 22
+    lx: 400.0
+    ly: 712
     fs: 12
     fw: 700
-    liney: 695
+    liney: 742
   ethereum:
     cx: 400
-    cy: 720
+    cy: 760
     rx: 190
     ry: 150
     lx: 400
-    ly: 610
+    ly: 650
     fs: 12
     fw: 700
-    suby: 624
+    suby: 664
     collapsed:
       cx: 350
-      cy: 610
+      cy: 650
       rx: 77
       ry: 10
       lx: 336
-      ly: 613.4
+      ly: 653.4
       fs: 9.5
   base:
     cx: 400
@@ -283,55 +297,55 @@ circles:
       fs: 9.5
   avalanche:
     cx: 400
-    cy: 512
+    cy: 552
     rx: 185
     ry: 85
     lx: 400
-    ly: 462
+    ly: 502
     fs: 12
     fw: 700
-    suby: 476
+    suby: 516
     collapsed:
       cx: 430
-      cy: 502
+      cy: 542
       rx: 43
       ry: 10
       lx: 423
-      ly: 505.4
+      ly: 545.4
       fs: 9.5
   hedera:
-    cx: 300
-    cy: 1120
+    cx: 330
+    cy: 1330
     rx: 130
     ry: 55
-    lx: 300
-    ly: 1085
+    lx: 330
+    ly: 1295
     fs: 12
     fw: 700
-    suby: 1099
+    suby: 1309
     collapsed:
-      cx: 290
-      cy: 1100
+      cx: 300
+      cy: 1335
       rx: 35
       ry: 10
-      lx: 283
-      ly: 1103.4
+      lx: 293
+      ly: 1338.4
       fs: 9.5
   bnb:
     cx: 400
-    cy: 497
+    cy: 537
     rx: 140
     ry: 55
     lx: 400
-    ly: 462
+    ly: 502
     fs: 12
     fw: 700
-    suby: 476
+    suby: 516
     collapsed:
       cx: 330
-      cy: 477
+      cy: 517
       rx: 43
       ry: 10
       lx: 323
-      ly: 480.4
+      ly: 520.4
       fs: 9.5

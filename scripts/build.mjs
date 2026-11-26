@@ -375,6 +375,16 @@ function validate(page) {
   if (page.radial) return validateRadial(page);
   const { dir, circles, layout, alt, tokens, site, lenses } = page;
   const errors = [...(page.gridErrors || [])];
+  if (site.theme && !['studio'].includes(site.theme)) errors.push(`${where('site.yaml')}: theme must be studio or absent`);
+  for (const [i, s] of (site.tour || []).entries()) {
+    if (!circles.circles.some(c => c.id === s.circle)) errors.push(`${where('site.yaml')}: tour step ${i + 1} names unknown circle "${s.circle}"`);
+    if (s.lens && !lenses.some(L => L.id === s.lens)) errors.push(`${where('site.yaml')}: tour step ${i + 1} names unknown lens "${s.lens}"`);
+    if (s.open && !circles.circles.some(c => c.id === s.circle && c.expand)) errors.push(`${where('site.yaml')}: tour step ${i + 1} opens "${s.circle}", which does not expand`);
+    const tb = s.badge && (tokens.tokens || []).find(t => t.ticker === s.badge);
+    if (s.badge && !tb) errors.push(`${where('site.yaml')}: tour step ${i + 1} names unknown badge "${s.badge}"`);
+    if (tb && tb.only_under && !tb.only_under.includes(s.lens)) errors.push(`${where('site.yaml')}: tour step ${i + 1} rings "${s.badge}", which is drawn only under ${tb.only_under.join(', ')}`);
+    if (!s.title || !s.text) errors.push(`${where('site.yaml')}: tour step ${i + 1} needs a title and a text`);
+  }
   const where = f => `${dir}/${f}`;
   checkGlance(circles.circles, site, where('circles.yaml'), errors); checkGlance(tokens.tokens, site, where('badges'), errors);
   const ids = new Set(circles.circles.map(c => c.id));
@@ -402,6 +412,18 @@ function validate(page) {
         const worst = Math.max(Math.abs(y - fs * 0.75 - g.cy), Math.abs(y + fs * 0.25 - g.cy));
         const chord = worst >= g.ry ? 0 : g.rx * Math.sqrt(1 - (worst / g.ry) ** 2);
         if (half + off + 4 > chord) errors.push(`${where('circles.yaml')}: "${c.id}" text "${t}" touches the circle's border in ${lf} (about ${Math.round(2 * half)} wide, ${Math.round(2 * Math.max(0, chord - off - 4))} available at that height)`);
+      }
+    }
+    // a rounded box (`t: rect`) gets the same check: its width, less what a rounded corner takes at that height
+    if (g && g.t === 'rect' && g.h && c.id !== circles.circles[0].id) {
+      const lh = (g.fs || 12) * 1.15, rows = [];
+      [].concat(c.label || []).forEach((t, i) => rows.push([t, g.ly + i * lh, g.fs || 12]));
+      if (c.sub) rows.push([c.sub, g.suby || (g.ly + [].concat(c.label || []).length * lh), 10]);
+      (c.lines || []).forEach((t, i) => rows.push([t, g.liney + i * 15, 11]));
+      for (const [t, y, fs] of rows) {
+        const half = String(t).length * fs * 0.52 / 2, off = Math.abs((g.lx ?? g.x + g.w / 2) - (g.x + g.w / 2)), r = g.r || 0;
+        const dy = Math.min(y - fs * 0.75 - g.y, g.y + g.h - y - fs * 0.25), inset = dy >= r ? 0 : r - Math.sqrt(Math.max(0, r * r - (r - Math.max(0, dy)) ** 2));
+        if (half + off + 4 > g.w / 2 - inset) errors.push(`${where('circles.yaml')}: "${c.id}" text "${t}" touches the box's border in ${lf} (about ${Math.round(2 * half)} wide, ${Math.round(2 * Math.max(0, g.w / 2 - inset - off - 4))} available at that height)`);
       }
     }
     }
@@ -892,7 +914,8 @@ function fillCommon(html, { site, out, data }) {
     .replace('__DATA__', JSON.stringify(data).replace(/<\/script/gi, '<\\/script'))
     .replace('__TITLE__', esc(site.title)).replace('__EYEBROW__', eyebrowHtml(site, out)).replace('__HEADING__', sh.heading)
     .replace('__INTRO__', esc(site.intro) + (site.intro_more ? ` <button type="button" class="ei-more" aria-expanded="false" aria-controls="ei-intro-more" data-more="${esc(site.intro_more_label || 'More')}" data-less="${esc(site.intro_less_label || 'Less')}">${esc(site.intro_more_label || 'More')}</button>` : ''))
-    .replace('__INTRO_MORE__', site.intro_more ? `<p class="sub more" id="ei-intro-more" hidden>${esc(site.intro_more)}</p>` : '')
+    // `intro_more_link: {label, path}`: a `{link}` in intro_more becomes a link to that map, relative like the navigation
+    .replace('__INTRO_MORE__', site.intro_more ? `<p class="sub more" id="ei-intro-more" hidden>${esc(site.intro_more).replace('{link}', site.intro_more_link ? `<a href="${relHref(out, site.intro_more_link.path)}">${esc(site.intro_more_link.label)}</a>` : '')}</p>` : '')
     .replace('__FOOTNOTE__', esc(site.footnote)).replace('__SVG_LABEL__', esc(site.svg_label || `Diagram: ${site.title}`))
     .replace('__PANEL_TITLE__', esc(data.panel.title)).replace('__PANEL_TEXT__', esc(data.panel.text))
     .replace('__NAV__', navHtml(out)).replace('__LEGEND__', legendHtml(site))
@@ -913,6 +936,14 @@ function render({ circles, layout, alt, tokens, site, lenses, out }) {
     panel: site.panel_default || { title: site.heading.text, text: 'Hover over a circle to preview how Ethereum Institutional defines it; click to pin the definition here.' },
     panel_click: !!site.panel_click,   // click-only panel (owner, 12 November 2026)
     glance_facts: site.glance_facts || [],   // fact rows at the top of each network's At a glance chart (owner, 13 November 2026)
+    // `theme: studio` (owner, 25 November 2026, a proposal): the website designer's look on our own layout: monochrome
+    // brand-teal circles with light fills, chip labels for the top-level groups, sans labels and soft cards
+    theme: site.theme || null,
+    lens_menu: site.lens_menu || 'Regime',
+    fit: !!site.fit,
+    text_scale: site.text_scale || 1,         // wide layout only: every map text grows by this factor (template TS)                          // studio theme: cap the wide map at the screen's height
+    map_title: site.map_title !== false,     // false hides the map's own title (the outer box's label)   // studio theme: the label of the lens menu above the map
+    tour: site.tour || [],   // guided tour steps (studio theme): circle, optional lens, open, badge, pin, title, text
     // grid pages name a badge by the sidebar noun ("Route") and say what a hollow pill means on that page
     what: site.kind === 'grid' ? (n => n.charAt(0).toUpperCase() + n.slice(1))(site.facets_noun || 'design') : null,
     hollow_label: site.hollow_label || null,

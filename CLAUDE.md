@@ -136,6 +136,10 @@ and decisions behind them.
   badge's and a lens's) sit behind a closed "Sources (n)" summary, so they are there for whoever wants them.
 - Digital Money = Native Cryptocurrencies + Tokenized Currencies. Tokenized Currencies are grouped **by issuer**:
   Central Bank (CBDC, split retail/wholesale), Commercial Bank, Regulated Non-Bank (incl. FMI Tokens), Other Issuers.
+  The four issuers are drawn as rounded boxes (`t: rect`), not circles (owner, 26 November 2026: they group by who
+  issues, not a category of asset); solid, because long dashes on this map mean "depends, exempt or restricted" under
+  a lens. Their corners must stay inside Tokenized Currencies in both layouts; Unlicensed is clipped to the Other
+  Issuers box, and lens perimeters follow the boxes' rounded corners.
 - **Stablecoins** cut across Commercial Bank, Regulated Non-Bank and Other Issuers; the word must never appear
   only inside Other Issuers. The licensed circles sit in bank ∩ non-bank; the hatched "Unlicensed" zone and the
   Algorithmic circle sit only with Other Issuers.
@@ -181,6 +185,42 @@ and decisions behind them.
   at 390px and applies every lens at both. Privacy and Identity keep their three-circle shape on a phone (owner, 9
   November 2026: a three-circle Venn cannot stack; they already fit). Choosing a lens names it in a
   strip at the top of the map and scrolls the map's top into view; `#lens=<id>` opens the page with a lens applied.
+- **Studio theme (owner, 25 November 2026; released 26 November 2026):** `theme: studio` in a Venn page's `site.yaml` applies the website
+  designer's toolkit to our own layout, so the map keeps its geometry, labels, badges and phone column (no zooming to
+  read Digital Money) while taking the designer's look: circles in one brand teal (`#058a9f`, `brand/tokens.json` chart-series-4,
+  the designer's `#00879d`) with 4.5% fills that deepen as they nest;
+  plain sans labels throughout the map (no white chips behind them; owner, 26 November 2026: they looked heavy); no frame around the map; soft shadowed cards and pill buttons below it; and an
+  edge-to-edge map under 900px. Circles with their own `colors` (Unlicensed, Algorithmic, Synthetic Dollars) and every
+  lens color are left alone. Enabled on the Taxonomy only, for review; removing the line restores the current look.
+  The theme also carries the designer's zoom shell: a toolbar (zoom in, zoom out, fit, full screen) that stays in view
+  while the map is on screen, a breadcrumb of the circle zoomed to, pinch, Ctrl or Cmd + scroll, drag to pan once zoomed
+  in, double-click (or "Zoom to" in the panel) to fit a circle; a plain scroll still scrolls the page, so the lenses and
+  text stay below the map, and fit returns to the whole layout, which reads without zooming.
+  A "Regime" dropdown above the map (grouped like the lens box, kept in step with it) and a guided tour (owner, 26
+  November 2026): `tour:` in `site.yaml` lists steps (`circle`, optional `lens`, `title`, `text`); "Take the tour"
+  plays them in a card with Back and Next, zooming to each circle on a wide screen and scrolling to it on a phone, and
+  a step may switch a lens on (the Taxonomy's eighth step shows the BIS money tests). Tour text restates the circles'
+  definitions and the lens notes; it never adds a claim they do not carry. The build checks every step's circle and lens.
+  `open: true` opens an expandable circle for the step (closed again on the next step), and `badge: <id>` rings one
+  badge. The Networks tour starts with Permissionless consensus, then Bitcoin's probabilistic finality, Ethereum
+  mainnet in Dynamically Available, Ethereum mainnet opened to its institutional participants and its pinned
+  attributes, then the rest of the map (owner, 26 November 2026: lead with permissionless and Ethereum mainnet).
+  The Taxonomy tour's digital money steps cover commercial bank money (the Commercial Bank circle, tokenized deposits,
+  deposit tokens) and stablecoins (across issuers, bank-issued against deposit tokens, regulated non-banks) and skip
+  CBDC (owner, 26 November 2026: commercial bank money and stablecoins are the main conversation). A tour step never
+  zooms closer than 40% of the map's width, and `badge:` may not ring a badge that is drawn only under another lens
+  (the build checks it).
+  Zooming fits a circle into about half of the part of the map on screen, clear of the tour card, so its neighbors
+  stay in view (owner, 26 November 2026: the first fit was too close). When a step first switches a lens on, the tour
+  scrolls the Regime menu into view and pulses it, to teach the control; `pin: true` clicks the circle as a reader would,
+  then scrolls to the definition box below the map and pulses its border, so the reader learns where definitions live
+  (owner, 26 November 2026: show it where others will find it, not a copy in the card). A circle too large to zoom into
+  (a whole family) is scrolled to the middle of the screen instead. Under the studio theme the Regime menu is the one
+  way to choose a lens: the box below the map keeps only its legend, and the "Lens:" strip over the map is hidden.
+  The page itself is the layout to show (owner, 26 November 2026: "exactly what I'd like to see on our webpage"): the
+  maps' own navigation on top, then one full-width bar with the title, the intro, the Regime menu and the tour button,
+  and the map straight under it; the page opens scrolled past the navigation so Digital Assets and Digital Money are in
+  view, and on a phone the bar compacts to one row of controls. The map uses the full width of the page.
 - **Text clears the border:** the build rejects a subtitle or sub-line wider than its circle at that height (a width
   estimate of 0.52 of the font size per character, 4 units in), so shorten it or split it over `lines2`.
 - RWA: Commodities, Credit & Trade Finance (private credit, loans, receivables; renamed 29 October 2026 so "credit"
@@ -232,6 +272,18 @@ and decisions behind them.
   of the phone column (`layout-column.yaml`, under 900px), Permissioned on the right or below, Public spanning both;
   public permissionless is the north star and comes first. Badges carry `column:` places; `zoom` strips live in the
   layout files (none in the column, which stacks). Expanded circles overlap their neighbors in both layouts, as before.
+- **One screen on desktops (owner, 26 November 2026):** the wide layout is a landscape 2000×940 canvas, with every
+  participant circle (Swift, Besu, Jurisdictional, Agorá, Partior and the network pills) collapsed by default, so the
+  whole map fits under the bar without scrolling; `fit: true` in `site.yaml` caps the map at the screen's height and
+  `map_title: false` drops the in-map title the bar repeats. Keep new circles collapsed and inside that canvas.
+  `text_scale: 1.4` (wide layout only) grows every map text by 40%, with collapsed pills, expandable circles and their
+  participants growing around their own centers, so the screen-sized map stays readable (owner, 26 November 2026: the
+  text was too small); size new label stacks and badge rows for the scaled text. No region collapses (owner, 26
+  November 2026: the whole map fits, and folding a side did not help); only the participant circles open and close.
+- **The three permissionless settings are dashed rounded boxes** (owner, 26 November 2026: they are settings of the
+  consensus protocol, not kinds of network like the solid Public, Consortium and Private circles): Quasi Permissionless,
+  Dynamically Available and Fully Permissionless are `t: rect` boxes with `dash: true`, nested and inside Public, on
+  both layouts. Their corners must stay inside the Public ellipse; the build checks that their labels clear the box.
 - Two classifications on one map. Network circles: **Private** (one operator), **Consortium** (a pre-selected group,
   admitted by agreement; Buterin's 2015 split, sourced to MAS and BIS 2023) with **Jurisdictional** inside it (all
   participants in one jurisdiction or currency area; owner, 2026-11-23, public issue ei-digitalassets#42: "Sovereign"
@@ -266,10 +318,13 @@ and decisions behind them.
   report)" in descriptions; the evidence level belongs in the source title. Its badge sits in dynamically available,
   with the note that Casper FFG adds quasi-permissionless finality. Slashing for double signing is accountability,
   not sybil resistance (stake is the sybil cost).
-- **Canton** is drawn as a small ellipse ("Network of Networks") mostly inside Consortium, its tip in Consortium ∩
-  Public, inside Permissioned: the Global Synchronizer and Canton Coin are the public part; SV-voted admission,
-  sponsor plus committee approval for validators, stakeholder-only storage and no global state make the rest a
-  consortium. Daml and Canton are Apache 2.0, so what is closed is its data and membership, not its code.
+- **Canton** is drawn as a small ellipse ("Network of Networks") inside Consortium, its tip in Consortium ∩ Public,
+  inside Permissioned: the Global Synchronizer and Canton Coin are the public part; SV-voted admission, sponsor plus
+  committee approval for validators, stakeholder-only storage and no global state make it firmly a consortium.
+  Where Public reaches into Consortium, it marks consortiums with public read elements that remain consortiums
+  (owner, 26 November 2026: readability does not change permissioned consensus, and no outsider can run a validator
+  that checks the ledger and refuses an invalid change); Hedera sits there too, public but council-run.
+  Daml and Canton are Apache 2.0, so what is closed is its data and membership, not its code.
   Corda shares the ellipse on the consortium side (same model). Cosmos and Polkadot do not belong there: each member
   chain is a complete shared ledger. Hedera is the contrast: council-run consensus but one shared verifiable state.
 - **Badges** are networks, named (not tickers, because "ETH" is overloaded). `eth: true` = Ethereum blue pill

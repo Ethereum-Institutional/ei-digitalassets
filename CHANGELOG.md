@@ -7,6 +7,25 @@ and lens treatments may change in any release.
 
 ## [Unreleased]
 
+- **Networks (patch):** the studio theme, with an Architecture menu above the map and a guided tour of
+  permissioned and permissionless consensus, the three permissionless bands and the Public, Consortium and Private
+  circles. The Consortium and Canton texts say that a consortium which opens its ledger for reading stays a
+  consortium: no outsider can run a validator that checks the ledger and refuses an invalid change. Swift shared
+  ledger, Besu private chains and Jurisdictional start collapsed; click one to show its participants. On desktops the
+  whole map fits on one screen: the wide layout is redrawn on a landscape canvas and sized to the screen, with its text
+  40% larger. Regions no longer collapse; only the participant circles open and close. The bar above the map is now a
+  title with a one-line subtitle and the controls beside it; the north-star statement opens from "Why Ethereum
+  mainnet is our north star" and links to the Adoption map. The three permissionless settings are drawn as nested
+  dashed rounded boxes inside Public. The tour now leads with permissionless consensus, Bitcoin's probabilistic
+  finality and Ethereum mainnet, opened to show its institutional participants and then its attributes. Fix: network pills such as
+  Ethereum mainnet no longer stay faded after an Architecture view is cleared or the tour ends.
+- **Taxonomy (patch):** `theme: studio`, the website designer's look on our layout: brand-teal circles with
+  light fills, plain sans map labels, soft cards and an edge-to-edge map on phones, with the designer's
+  zoom shell (toolbar, breadcrumb, pinch and Ctrl + scroll, double-click a circle to zoom to it, full screen), a Regime
+  dropdown above the map and a fifteen-step guided tour for newcomers (digital money first, the cash leg, commercial
+  bank money and stablecoins, what counts as money, the BIS money tests as an example lens). The four issuers are drawn
+  as rounded boxes, since they group by who issues rather than name a category.
+
 - **Scenarios (minor): two planned scenarios.** Grey, in-progress tiles and pills, pages not written yet: "Credit lines
   underwritten from attested data" in Cash moves ∩ Credit is extended, in a new band, Lend against a record (cash lent
   with no asset pledged; `PENDING-CHANGES.md` M106), and "Trade receivables" in the center, in Finance and

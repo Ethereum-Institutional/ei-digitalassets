@@ -6,7 +6,7 @@ eyebrow: Ethereum Institutional · Research
 heading:
   text: Digital Asset Taxonomy
   italic: Taxonomy
-intro: How digital money, tokenized real-world assets and other crypto-assets relate. Hover over any circle or token to preview its definition, and click to pin it while you scroll. Then choose a regulatory lens below the map to see where each regime’s definition reaches.
+intro: How digital money, tokenized real-world assets and other crypto-assets relate. Click any circle for its definition, and choose a regime to see where its definitions reach.
 svg_label: Venn diagram of digital asset types
 panel_default:
   title: Digital Assets
@@ -15,6 +15,7 @@ panel_default:
 panel_click: true
 # badge: disc (ticker chips) or pill (named badges)
 badge: disc
+theme: studio   # proposal (owner, 25 November 2026): the website designer's look on our layout; remove to restore
 # lens_groups: one dropdown per group; each lens file's `group` must be one of these ids
 lens_groups:
 - id: standard-setter
@@ -30,3 +31,57 @@ contribute:
   title: Help improve this taxonomy.
   text: 'It is maintained in the open on GitHub, and we welcome suggestions. Open an issue to request a change; the maps are edited in Ethereum Institutional''s platform repository and mirrored here, so an issue reaches the editors faster than a pull request against the mirror.'
 footnote: 'This map is an Ethereum Institutional house view for discussion, not legal advice. © 2026 Ethereum Institutional. Licensed under CC BY-SA 4.0 (share and adapt with credit, under the same license).'
+# A guided tour for newcomers (owner, 26 November 2026, a proposal with the studio theme): each step zooms to a circle
+# (on a phone it scrolls to it), may switch a lens on, and explains it in a few sentences drawn from the circles'
+# definitions and the lens notes. `lens: ''` clears the lens; a step without `lens` clears it too. `pin: true` clicks the
+# circle as a reader would, then scrolls to the definition box below the map and pulses its border.
+tour:
+- circle: da
+  title: Digital assets
+  text: 'Everything on this map is a digital asset: its ownership is recorded and transferred on distributed ledger technology. The map sorts digital assets into three families by where their value comes from: digital money, tokenized real-world assets and other crypto-assets.'
+- circle: dm
+  title: Start with digital money
+  text: 'Digital money is where to start. Every other digital asset is bought, sold, lent or settled against it. It covers sovereign currency in tokenized form and native cryptocurrencies used as money: a medium of exchange, a unit of account or a settlement asset.'
+- circle: tc
+  title: Most institutions begin here
+  text: 'Tokenized currencies are claims denominated in, and redeemable for, a fiat currency, grouped by who issues the liability, because the issuer determines the regulatory treatment and risk. Most institutions begin here, because a digital asset solution needs a cash leg: without money on the same ledger, the asset can move on chain while the payment still settles the old way. The tour follows two of them: commercial bank money and stablecoins.'
+- circle: bank
+  title: Commercial bank money
+  text: 'Commercial bank money is a liability of a licensed deposit-taking bank. On a ledger it comes in two architectures, tokenized deposits and deposit tokens: they differ in how the token moves, not in the nature of the claim.'
+- circle: td
+  title: 'Tokenized deposits: on the bank''s own ledger'
+  text: 'In Ethereum Institutional''s strict reading, each token is a one-to-one, on-ledger representation of an identified client''s deposit, recorded on the bank''s ledger, usually permissioned, and transferable only between the bank''s own clients, as with Citi Token Services and Kinexys Digital Payments. It stays a deposit on the bank''s balance sheet, under capital rules and, where it applies, deposit insurance.'
+- circle: dt
+  title: 'Deposit tokens: in wallets, even on public chains'
+  text: 'A deposit token is backed by an omnibus deposit account and held in wallets, so it can circulate more freely, potentially on public blockchains: J.P. Morgan''s JPM Coin (JPMD) is live on Base and on Ethereum mainnet (its badge shows under the US GENIUS Act regime). It is still a deposit and a liability of the issuing bank, not a token backed by segregated reserves.'
+- circle: sc
+  title: Stablecoins cut across issuers
+  text: 'A stablecoin is any token designed to hold a stable value against a fiat currency and circulate on blockchains, so the circle cuts across banks, regulated non-banks and unlicensed issuers. What a given stablecoin is depends on its issuer and license, its backing and its implementation, and each regime draws the line differently. Unlicensed stablecoins, hatched in red, may give holders no enforceable redemption right.'
+- circle: bank
+  title: 'Bank stablecoin or deposit token?'
+  text: 'Where Stablecoins overlaps Commercial Bank sit bank-issued stablecoins, such as EUR CoinVertible from Société Générale-FORGE (its badge shows under the EU MiCA regime). They look and behave much like deposit tokens, wallet-held, transferable and price-stable, which the dotted look-alike line shows. In law they differ: a deposit token is a deposit on the bank''s balance sheet, a stablecoin a token backed by segregated reserves, and MiCA, the GENIUS Act and other regimes treat the two differently.'
+- circle: fin
+  badge: USDC
+  title: Stablecoins from regulated non-banks
+  text: 'Licensed issuers that are not banks, such as e-money and payment institutions, trust companies and stablecoin-licensed firms, cannot lend out the money they hold: their tokens must be backed in full at all times, and what differs is the quality of that backing. USD Coin, issued by Circle, is one; switch on a lens to see where it counts as licensed.'
+- circle: nat
+  title: What is money? Not everyone agrees
+  text: 'Native cryptocurrencies such as ether are issued by the protocol itself, with no issuer that owes the holder anything. Ethereum Institutional counts them as digital money, the money of their own ledgers. Not everyone agrees, and the map lets you see both views.'
+- circle: dm
+  lens: cpmi
+  title: The same map through a lens
+  text: 'The Regime menu above the map switches on a lens: the map as a regulator or a standard setter sees it. Here, the BIS money tests check singleness, elasticity and integrity: central bank and commercial bank money pass, stablecoins fall short, and native cryptocurrencies are not considered money at all.'
+- circle: sc
+  lens: cpmi
+  pin: true
+  title: Click a circle for its definition
+  text: 'Clicking any circle opens its definition in the box below the map, together with what the chosen lens says about it. Here it is for stablecoins under the BIS money tests; Next takes you back to the map.'
+- circle: rwa
+  title: Tokenized real-world assets
+  text: 'Tokens that represent ownership of, or a claim on, an off-chain asset: funds, bonds, equities, commodities, real estate. Their value comes from the asset, and what the token is in law depends on the issuer, the custodian and the structure.'
+- circle: oth
+  title: Other crypto-assets
+  text: 'Everything else: tokens whose value comes from use, access, community or rights within a protocol, such as governance tokens, staked and wrapped tokens, and digital art.'
+- circle: da
+  title: Your path into digital assets
+  text: 'Choose a regime above the map to see where its definitions reach, from the global standard setters to your own jurisdiction. Not everyone agrees on what money is; seeing the map through each lens is how to translate your own path into digital assets built on Ethereum. Click any circle for its full definition.'

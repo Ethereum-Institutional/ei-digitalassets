@@ -250,6 +250,103 @@
   .ei-panel table.fx tr.hit th,.ei-panel table.fx tr.hit td{background:#f1efe9}
   .ei-panel table.fx .fn{display:block;color:var(--muted);font-size:12px}
   @media (prefers-reduced-motion: reduce){ .ei-wrap svg .node, .ei-lens button{transition:none} }
+
+  /* `theme: studio` (site.yaml): the website designer's toolkit on our layout. The map sits on the page with no frame,
+     circles are one brand teal (#058a9f, brand/tokens.json chart-series-4) with light fills that deepen as they nest,
+     every map label is sans (plain, no chip behind it; owner, 26 November 2026), and the boxes below are soft shadowed cards.
+     Semantic colors (the red Unlicensed and Algorithmic circles, lens colors) are left alone. */
+  body.theme-studio{--studio:#058a9f;--studio-fill:#dcecef;--lift:0 1px 2px rgba(20,19,15,.04),0 10px 28px rgba(20,19,15,.07)}
+  body.theme-studio .ei-wrap{background:transparent;border:none;padding:0;border-radius:0}
+  body.theme-studio .ei-wrap svg text.serif{font-family:var(--sans);letter-spacing:-.01em;font-weight:500}
+  body.theme-studio .ei-lens,body.theme-studio .ei-panel,body.theme-studio .ei-contrib{background:#fbfaf7;border:none;border-radius:14px;box-shadow:var(--lift)}
+  body.theme-studio .ei-lens button{border-radius:999px;border-color:transparent;background:#fff;box-shadow:0 1px 2px rgba(20,19,15,.06)}
+  body.theme-studio .ei-lens button:hover{border-color:var(--rule)}
+  body.theme-studio .ei-lens button.on{background:var(--ink);color:var(--paper)}
+  body.theme-studio .ei-contrib a{border-radius:999px;border-color:transparent;box-shadow:0 1px 2px rgba(20,19,15,.06)}
+  /* studio zoom shell: a toolbar over the map, a breadcrumb when zoomed in, full screen; the page keeps scrolling */
+  /* guided tour (studio theme, site.yaml `tour`): a card that walks a newcomer through the map, one circle at a time */
+  body.theme-studio .ei-tourbtn{font:inherit;font-size:14px;border:none;background:var(--ink);color:var(--paper);border-radius:999px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  body.theme-studio .ei-tourbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  body.theme-studio .ei-tour{position:fixed;right:20px;bottom:20px;width:min(400px,calc(100vw - 32px));background:#fff;border-radius:16px;box-shadow:0 2px 4px rgba(20,19,15,.06),0 18px 48px rgba(20,19,15,.16);padding:18px 20px 16px;z-index:60}
+  body.theme-studio .ei-tour[hidden]{display:none}
+  body.theme-studio .ei-tour .k{font-size:12px;color:var(--muted)}
+  body.theme-studio .ei-tour h3{font-family:var(--serif);font-weight:400;font-size:23px;letter-spacing:-.01em;margin:4px 28px 8px 0;line-height:1.2}
+  body.theme-studio .ei-tour p{font-size:14.5px;line-height:1.55;margin:0 0 14px;color:var(--ink)}
+  body.theme-studio .ei-tour .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  body.theme-studio .ei-tour .dots{display:flex;gap:5px;flex-wrap:wrap}
+  body.theme-studio .ei-tour .dots i{width:6px;height:6px;border-radius:50%;background:var(--rule)}
+  body.theme-studio .ei-tour .dots i.on{background:var(--ink)}
+  body.theme-studio .ei-tour .btns{display:flex;gap:6px}
+  body.theme-studio .ei-tour button{font:inherit;font-size:14px;cursor:pointer;border-radius:999px;padding:8px 15px;border:none}
+  body.theme-studio .ei-tour .next{background:var(--ink);color:var(--paper)}
+  body.theme-studio .ei-tour .back{background:var(--sand);color:var(--ink)}
+  body.theme-studio .ei-tour .back[disabled]{opacity:.35;cursor:default}
+  body.theme-studio .ei-tour .x{position:absolute;top:10px;right:10px;background:none;padding:6px 9px;color:var(--muted);font-size:18px;line-height:1}
+  body.theme-studio .ei-tour button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  body.theme-studio .ei-lens.legend-only .ei-ctl{display:none}
+  body.theme-studio .ei-lens.legend-only .ei-scope{display:flex;border-top:none;padding-top:4px}
+  body.theme-studio .ei-lens.legend-only .ei-lens-head b{font-size:19px}
+  @keyframes ei-flash-box{0%,100%{box-shadow:var(--lift)}50%{box-shadow:0 0 0 4px rgba(5,138,159,.55),var(--lift)}}
+  body.theme-studio .ei-panel.flash{animation:ei-flash-box .8s ease-in-out 4}
+  @media (prefers-reduced-motion: reduce){ body.theme-studio .ei-panel.flash{animation:none;box-shadow:0 0 0 4px rgba(5,138,159,.55)} }
+  body.theme-studio .ei-tour .pv{display:block;background:var(--paper);border-radius:10px;padding:10px 12px;margin:-4px 0 14px;font-size:13px;line-height:1.5}
+  body.theme-studio .ei-tour .pv b{display:block;font-weight:600;margin-bottom:2px}
+  body.theme-studio .ei-tour .pv .d{display:block;color:var(--ink)}
+  body.theme-studio .ei-tour .pv .l{display:block;margin-top:6px;padding-left:9px;border-left:3px solid var(--studio);color:var(--ink)}
+  @keyframes ei-flash{0%,100%{box-shadow:0 1px 2px rgba(20,19,15,.08)}50%{box-shadow:0 0 0 5px rgba(5,138,159,.45)}}
+  body.theme-studio .ei-regime select.flash{animation:ei-flash .8s ease-in-out 4}
+  body.theme-studio .ei-lens-title{display:none!important} /* the Regime menu above the map names the lens and clears it */
+  @media (prefers-reduced-motion: reduce){ body.theme-studio .ei-regime select.flash{animation:none;box-shadow:0 0 0 4px rgba(5,138,159,.45)} }
+  body.theme-studio #ei-svg .node.tour-focus{stroke:var(--ink)!important;stroke-width:3.5}
+  body.theme-studio #ei-svg .asset .tour-focus{stroke:var(--studio)!important;stroke-width:4.5} /* teal shows on black and gray badges alike */
+  @media (max-width:700px){ body.theme-studio .ei-tour{left:8px;right:8px;bottom:8px;width:auto;padding:14px 16px 12px} body.theme-studio .ei-tour h3{font-size:20px} body.theme-studio .ei-tour p{font-size:14px;margin-bottom:10px} }
+  /* the bar: title over a one-line subtitle on the left, the menu and the tour on the right; "More" opens across the
+     full width below (owner, 26 November 2026: the long intro beside the title read poorly) */
+  body.theme-studio .ei-introbar{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 28px;background:#fbfaf7;border-radius:14px;box-shadow:var(--lift);padding:14px 20px;margin:0 0 6px}
+  body.theme-studio .ei-introbar .ei-ttl{min-width:0}
+  body.theme-studio .ei-introbar h1{font-size:24px;margin:0;line-height:1.2}
+  body.theme-studio .ei-introbar p.sub{margin:4px 0 0;font-size:14.5px;line-height:1.5;color:var(--muted);max-width:none}
+  body.theme-studio .ei-introbar p.sub .ei-more{color:var(--ink)}
+  body.theme-studio .ei-introbar p.sub.more{grid-column:1 / -1;margin:0;color:var(--ink);max-width:120ch}
+  body.theme-studio .ei-introbar p.sub.more a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  body.theme-studio .ei-introbar .ei-regime{margin:0;flex-wrap:nowrap;justify-content:flex-end}
+  @media (min-width:701px){ body.theme-studio .ei-introbar .ei-regime select{width:auto;min-width:170px;max-width:300px} }
+  body.theme-studio .ei-head{padding-bottom:4px}
+  @media (max-width:700px){ body.theme-studio .ei-introbar{grid-template-columns:minmax(0,1fr);padding:10px 12px;gap:8px} body.theme-studio .ei-introbar h1{font-size:19px}
+    body.theme-studio .ei-introbar .ei-regime{justify-content:flex-start}
+    body.theme-studio .ei-introbar p.sub{font-size:13.5px;line-height:1.45;flex-basis:100%}
+    body.theme-studio .ei-introbar .ei-regime{flex-wrap:nowrap;gap:8px} body.theme-studio .ei-introbar .ei-regime label{font-size:13px}
+    body.theme-studio .ei-introbar .ei-regime .sel{flex:1 1 auto;min-width:0} body.theme-studio .ei-introbar .ei-regime select{width:100%;font-size:13px;padding:7px 28px 7px 11px}
+    body.theme-studio .ei-introbar .ei-tourbtn{font-size:13px;padding:8px 12px;white-space:nowrap} body.theme-studio .ei-introbar .ei-zhint{display:none} }
+  body.theme-studio .ei-regime{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 0 8px}
+  body.theme-studio .ei-regime label{font-size:14px;color:var(--ink)}
+  body.theme-studio .ei-regime .sel{position:relative;display:inline-block}
+  body.theme-studio .ei-regime select{font:inherit;font-size:14px;color:var(--ink);background:#fff;border:none;border-radius:999px;padding:8px 34px 8px 14px;box-shadow:0 1px 2px rgba(20,19,15,.08);appearance:none;-webkit-appearance:none;cursor:pointer;max-width:min(78vw,420px)}
+  body.theme-studio .ei-regime .sel::after{content:"";position:absolute;right:14px;top:50%;width:7px;height:7px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+  body.theme-studio .ei-regime .ei-zhint{margin:0 0 0 auto;text-align:right}
+  @media (max-width:700px){ body.theme-studio .ei-regime .ei-zhint{margin:0;text-align:left;flex-basis:100%} }
+  body.theme-studio .ei-wrap{position:relative;overflow:visible}
+  body.theme-studio .ei-wrap svg{min-width:0}
+  @media (min-width:901px){ body.theme-studio.fit .ei-wrap:not(.full) svg{max-height:var(--ei-fit,none)} body.theme-studio.fit .ei-taxonomy{max-width:1900px} }
+  body.theme-studio .ei-zbar{position:sticky;bottom:12px;margin:-50px 0 8px 12px;width:max-content;display:flex;gap:2px;padding:4px;background:#fff;border-radius:12px;box-shadow:var(--lift);z-index:3}
+  body.theme-studio .ei-zbar button{font:inherit;width:36px;height:34px;border:none;background:none;border-radius:8px;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+  body.theme-studio .ei-zbar button:hover{background:var(--sand)}
+  body.theme-studio .ei-wrap .ei-zbar svg{width:16px;height:16px;min-width:0;max-width:none;margin:0;display:block;touch-action:auto}
+  body.theme-studio .ei-zbar button:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+  body.theme-studio .ei-zhint{font-size:12px;color:var(--muted);margin:2px 0 6px;text-align:center}
+  body.theme-studio .ei-crumbs{position:sticky;top:8px;margin:0 0 -34px 12px;height:34px;width:max-content;display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:13px;z-index:3;max-width:calc(100% - 24px)}
+  body.theme-studio .ei-crumbs[hidden]{display:none}
+  body.theme-studio .ei-crumbs button{font:inherit;font-size:13px;border:none;background:#fff;border-radius:999px;padding:5px 11px;box-shadow:0 1px 2px rgba(20,19,15,.08);cursor:pointer;color:var(--ink)}
+  body.theme-studio .ei-crumbs button.cur{background:var(--ink);color:var(--paper)}
+  body.theme-studio .ei-crumbs span{color:var(--muted)}
+  body.theme-studio .ei-wrap svg{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+  body.theme-studio .ei-wrap svg :focus:not(:focus-visible){outline:none}
+  body.theme-studio .ei-wrap.zoomed svg{touch-action:none;cursor:grab}
+  body.theme-studio .ei-wrap.zoomed.drag svg{cursor:grabbing}
+  body.theme-studio .ei-wrap.full{position:fixed;inset:0;z-index:50;background:var(--paper);margin:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  body.theme-studio .ei-wrap.full svg{width:100%;height:100%;max-width:none}
+  body.theme-studio .ei-panel .zoomto{font:inherit;font-size:13px;margin-top:10px;border:none;background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 14px;cursor:pointer}
+  @media (max-width:900px){ body.theme-studio .ei-wrap{margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)));width:auto} }
 </style>
 </head>
 <body>
@@ -298,6 +395,21 @@
     DATA.tokens.forEach(t=>{ const p=A.tokens[t.ticker]; if(p){ t.x=p.x; t.y=p.y; if('span' in p) t.span=p.span; } });
     const svg0=document.getElementById('ei-svg'); svg0.setAttribute('viewBox',`0 0 ${A.canvas.width} ${A.canvas.height}`); svg0.parentElement.classList.toggle('tall',A.canvas.height>A.canvas.width); }
   if(NARROW) NARROW.addEventListener('change',()=>location.reload());
+  // `map_title: false` under the studio theme: the in-map title is hidden, so the view starts just above the first
+  // region instead of leaving its empty band (both layouts)
+  if(DATA.theme==='studio'&&DATA.map_title===false){ const out=DATA.circles.find(c=>c.t==='rect'); const ys=DATA.circles.filter(c=>c!==out).map(c=>c.t==='rect'?c.y:c.cy-c.ry).filter(v=>typeof v==='number');
+    const top=Math.max(0,Math.min(...ys)-14), sv=document.getElementById('ei-svg'), cw=DATA.canvas.width, ch=DATA.canvas.height; if(top>0) sv.setAttribute('viewBox',`0 ${top} ${cw} ${ch-top}`); }
+  // `text_scale` (site.yaml, wide layout only): every text on the map grows by TS, with what wraps text (collapsed
+  // pills, an expandable circle and the participants inside it) growing around its own center, so a map sized to fit
+  // the screen stays readable (owner, 26 November 2026)
+  const TS=(DATA.text_scale&&!(NARROW&&NARROW.matches))?DATA.text_scale:1;
+  if(TS!==1){ const around=(o,cx,cy,ks)=>ks.forEach(k=>{ if(typeof o[k]==='number') o[k]=(k.endsWith('x')?cx:cy)+(o[k]-(k.endsWith('x')?cx:cy))*TS; });
+    const byC={}; DATA.circles.forEach(c=>{ byC[c.id]=c;
+      if(c.expand&&typeof c.cx==='number'){ around(c,c.cx,c.cy,['lx','ly','suby','liney']); c.rx*=TS; c.ry*=TS; }
+      else ['suby','liney','sy','s3y','l2y'].forEach(k=>{ if(typeof c[k]==='number') c[k]=c.ly+(c[k]-c.ly)*TS; });
+      if(c.fs) c.fs*=TS;
+      const g=c.collapsed; if(g){ g.fs=(g.fs||10)*TS; g.rx*=TS; g.ry*=TS; around(g,g.cx,g.cy,['lx','ly']); } });
+    DATA.tokens.forEach(t=>{ const c=byC[t.circle]; if(c&&c.expand){ t.x=c.cx+(t.x-c.cx)*TS; t.y=c.cy+(t.y-c.cy)*TS; } }); }
   // Ethereum brand colours, used only on the networks map: `eth: true` pills are Ethereum blue, the ETH mark disc Ethereum gray
   const ETH_BLUE='#627eea', ETH_GRAY='#3c3c3d';
   // "More" after the intro reveals the longer framing (site.yaml intro_more)
@@ -305,6 +417,10 @@
   if(moreBtn&&moreTxt) moreBtn.addEventListener('click',()=>{ const open=moreTxt.hidden; moreTxt.hidden=!open; moreBtn.textContent=open?moreBtn.dataset.less:moreBtn.dataset.more; moreBtn.setAttribute('aria-expanded',String(open)); });
   const C = DATA.palette;
   const N = DATA.circles.map(n=>Object.assign({}, n, {c: n.family ? C[n.family] : [n.colors.fill, n.colors.stroke]}));
+  // `theme: studio`: every palette family becomes the brand teal with a light fill; circles with their own colors keep them
+  const STUDIO=DATA.theme==='studio';
+  if(STUDIO){ document.body.classList.add('theme-studio');
+    N.forEach((n,i)=>{ if(!n.family) return; n.c = i===0 ? ['#f2efe9','#f2efe9'] : ['#058a9f','#058a9f']; n.studio=i>0; if(i>0 && !n.sw) n.sw=1.5; }); }
   const OUTER = N[0].id; // the outer box is always the first circle
   const CONTAINERS = new Set(DATA.containers);
   const KIDS = DATA.children;
@@ -346,12 +462,12 @@
   const gShapes=el('g',{}), gPer=el('g',{}), gText=el('g',{});
   svg.append(defs,gShapes,gPer,gText);
   // shapes never draw outside the outer box (a stretched region can reach past it)
-  const outer=DATA.circles.find(c=>c.t==='rect'); if(outer){ const cp=el('clipPath',{id:'clip-outer'}); cp.appendChild(el('rect',{x:outer.x,y:outer.y,width:outer.w,height:outer.h,rx:outer.r})); defs.appendChild(cp); gShapes.setAttribute('clip-path','url(#clip-outer)'); }
+  const outer=DATA.circles.find(c=>c.t==='rect'); if(outer){ const cp=el('clipPath',{id:'clip-outer'}); cp.appendChild(svg.clipRect=el('rect',{x:outer.x,y:outer.y,width:outer.w,height:outer.h,rx:outer.r})); defs.appendChild(cp); gShapes.setAttribute('clip-path','url(#clip-outer)'); }
   const byId={};
 
   let curTexts=[];
   function txt(x,y,s,size,weight,fill){
-    const big=size>=15;
+    const big=size>=15*TS; // region-sized labels (the threshold grows with text_scale)
     const t=el('text',{x,y,'text-anchor':'middle','font-size':big?size*1.08:size,'font-weight':big?400:(weight>=700?600:(weight||400)),fill:fill||'#14130f'});
     t.dataset.ox=x; t.dataset.oy=y; t.dataset.fs=t.getAttribute('font-size');
     if(big) t.setAttribute('class','serif');
@@ -420,16 +536,17 @@
   const setOpen=(n,open)=>{
     const x=byId[n.id], g=open?n:n.collapsed; n.open=open;
     const asPill=n.pill&&!open;
+    // studio: an open circle is a light card over what it covers, not a solid teal disc
     x.s.setAttribute('cx',mx(g.cx)); x.s.setAttribute('cy',g.cy); x.s.setAttribute('rx',asPill?g.rx:g.rx*XM.k); x.s.setAttribute('ry',g.ry);
-    x.s.setAttribute('fill',asPill?(n.eth?ETH_BLUE:'#6b6760'):x.base.fill); x.s.setAttribute('fill-opacity',asPill?1:(open?.97:x.base.fop));
+    x.s.setAttribute('fill',asPill?(n.eth?ETH_BLUE:'#6b6760'):(open&&STUDIO?'#e3eeee':x.base.fill)); x.s.setAttribute('fill-opacity',asPill?1:(open?.97:x.base.fop));
     if(!activeLenses.length){ x.s.setAttribute('stroke',asPill?'#f8f6f2':x.base.stroke); x.s.setAttribute('stroke-width',asPill?1.5:2); }
     const fs=open?n.fs:(g.fs||10), lh=fs*1.15, ink=asPill?'#f2efe9':'#14130f';
     const lx=mx(g.cx)+((open?n.lx:g.lx)-g.cx); // label keeps its unscaled offset from the shape's center
-    x.labelTexts.forEach((t,i)=>{ t.setAttribute('x',lx); t.setAttribute('y',(open?n.ly:g.ly)+i*lh); t.setAttribute('font-size',fs>=15?fs*1.08:fs); t.setAttribute('fill',ink); t.classList.toggle('serif',fs>=15); });
+    x.labelTexts.forEach((t,i)=>{ t.setAttribute('x',lx); t.setAttribute('y',(open?n.ly:g.ly)+i*lh); t.setAttribute('font-size',fs>=15*TS?fs*1.08:fs); t.setAttribute('fill',ink); t.classList.toggle('serif',fs>=15*TS); });
     x.subTexts.forEach(t=>{ t.classList.toggle('hide',!open); if(t.dataset&&t.dataset.ox!==undefined) t.setAttribute('x',mx(g.cx)+(+t.dataset.ox-g.cx)); });
-    const w=Math.max(...n.label.map(l=>l.length))*fs*0.56, hx=lx+w/2+7, hy=open?n.ly:g.ly;
+    const w=Math.max(...n.label.map(l=>l.length))*fs*0.56, hx=lx+w/2+7*TS, hy=open?n.ly:g.ly;
     x.hint.setAttribute('x',hx); x.hint.setAttribute('y',hy); x.hint.textContent=open?'−':'+'; x.hint.setAttribute('fill',asPill?'#f2efe9':'#615f5a');
-    if(x.mark){ const mx=hx+14, my=hy-9; x.mark.c.setAttribute('cx',mx); x.mark.c.setAttribute('cy',my); x.mark.t.setAttribute('x',mx); x.mark.t.setAttribute('y',my+2.2); }
+    if(x.mark){ const mx=hx+14*TS, my=hy-9*TS; x.mark.c.setAttribute('cx',mx); x.mark.c.setAttribute('cy',my); x.mark.t.setAttribute('x',mx); x.mark.t.setAttribute('y',my+2.2*TS); }
     const kids=ASSETS.filter(a=>a.p===n.id);
     kids.forEach(a=>a.g.classList.toggle('hide',!open));
     if(open){ gTop.append(x.s,...x.texts,...kids.map(a=>a.g)); }
@@ -439,38 +556,40 @@
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') unpin(); });
   N.forEach(n=>{
     const [fill,stroke]=n.c;
-    const common={class:'node',fill,'fill-opacity':n.id===OUTER?1:.55,stroke,'stroke-width':n.sw||2,tabindex:0,'aria-label':n.label.join(' ')}; // `sw`: a heavier line
+    const common={class:'node',fill,'fill-opacity':n.id===OUTER?1:(n.studio?.045:.55),stroke,'stroke-width':n.sw||2,tabindex:0,'aria-label':n.label.join(' ')}; // `sw`: a heavier line
+    // `dash: true` (or a dash pattern): a dashed outline at rest, e.g. Networks' permissionless settings drawn as dashed rounded boxes
+    const dash=n.dash===true?'9 6':(n.dash||'none'); if(n.dash) common['stroke-dasharray']=dash;
     // lens-only circles are paths: under a lens they stretch to take in the badges of tokens it licenses
     const s = n.t==='rect' ? el('rect',Object.assign({x:n.x,y:n.y,width:n.w,height:n.h,rx:n.r},common))
       : n.lens_only ? el('path',Object.assign({d:ellPath(n)},common))
       : el('ellipse',Object.assign({cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry},common));
     if(n.clip){
       const src=byId[n.clip].n, cp=el('clipPath',{id:'clip-'+n.id});
-      cp.appendChild(el('ellipse',{cx:src.cx,cy:src.cy,rx:src.rx,ry:src.ry})); defs.appendChild(cp);
+      cp.appendChild(src.t==='rect' ? el('rect',{x:src.x,y:src.y,width:src.w,height:src.h,rx:src.r}) : el('ellipse',{cx:src.cx,cy:src.cy,rx:src.rx,ry:src.ry})); defs.appendChild(cp);
       s.setAttribute('clip-path','url(#clip-'+n.id+')'); s.setAttribute('fill-opacity',.9);
     }
     gShapes.appendChild(s);
-    curTexts=[]; byId[n.id]={n,s,texts:curTexts,base:{stroke,sw:n.sw||2,fill:s.getAttribute('fill'),fop:s.getAttribute('fill-opacity')}};
+    curTexts=[]; byId[n.id]={n,s,texts:curTexts,base:{stroke,sw:n.sw||2,fill:s.getAttribute('fill'),dash,fop:s.getAttribute('fill-opacity')}};
     const lh=n.fs*1.15;
     n.label.forEach((line,i)=>txt(n.lx,n.ly+i*lh,line,n.fs,n.fw,n.tc||(n.c[1]==='#8a857a'?'#3d3b36':'#14130f')));
     byId[n.id].labelTexts=curTexts.slice(); const subStart=curTexts.length;
-    if(n.sub) txt(n.lx, n.suby || (n.ly+n.label.length*lh), n.sub, 10, 400, '#615f5a');
-    if(n.sub2) txt(n.lx, n.sy, n.sub2, 12, 400, '#615f5a');
-    if(n.sub3) txt(n.lx, n.s3y, n.sub3, 10, 400, '#615f5a');
-    if(n.lines) n.lines.forEach((l,i)=>txt(n.lx,n.liney+i*15,l,11,400,'#615f5a'));
-    if(n.lines2) n.lines2.forEach((l,i)=>txt(n.lx,n.l2y+i*12,l,9.5,400,'#615f5a'));
+    if(n.sub) txt(n.lx, n.suby || (n.ly+n.label.length*lh), n.sub, 10*TS, 400, '#615f5a');
+    if(n.sub2) txt(n.lx, n.sy, n.sub2, 12*TS, 400, '#615f5a');
+    if(n.sub3) txt(n.lx, n.s3y, n.sub3, 10*TS, 400, '#615f5a');
+    if(n.lines) n.lines.forEach((l,i)=>txt(n.lx,n.liney+i*15*TS,l,11*TS,400,'#615f5a'));
+    if(n.lines2) n.lines2.forEach((l,i)=>txt(n.lx,n.l2y+i*12*TS,l,9.5*TS,400,'#615f5a'));
     byId[n.id].subTexts=curTexts.slice(subStart);
     if(n.collapsible){ // regions: a − after the label hides the region and everything in it, and zooms the map to the rest
-      const w=Math.max(...n.label.map(l=>l.length))*n.fs*(n.fs>=15?0.62:0.56), h=el('text',{x:n.lx+w/2+10,y:n.ly,'text-anchor':'middle','font-size':13,'font-weight':600,fill:'#615f5a',class:'ctl',tabindex:0,role:'button','aria-label':`Hide ${n.label.join(' ')}`});
+      const w=Math.max(...n.label.map(l=>l.length))*n.fs*(n.fs>=15*TS?0.62:0.56), h=el('text',{x:n.lx+w/2+10,y:n.ly,'text-anchor':'middle','font-size':13*TS,'font-weight':600,fill:'#615f5a',class:'ctl',tabindex:0,role:'button','aria-label':`Hide ${n.label.join(' ')}`});
       h.textContent='−'; h.dataset.ox=n.lx; h.dataset.oy=n.ly; h.dataset.rel=w/2+10; h.style.pointerEvents='auto'; h.style.cursor='pointer'; gText.appendChild(h); curTexts.push(h); byId[n.id].ctl=h;
       h.addEventListener('click',e=>{ e.stopPropagation(); hideRegion(n.id,!hiddenRegions.has(n.id)); });
       h.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); hideRegion(n.id,!hiddenRegions.has(n.id)); } });
     }
     if(n.expand){ // the + / − hint sits just after the label; `mark` (e.g. ETH) is a small disc after the hint
-      const h=el('text',{'text-anchor':'middle','font-size':12,'font-weight':600,fill:'#615f5a'}); gText.appendChild(h); curTexts.push(h); byId[n.id].hint=h;
+      const h=el('text',{'text-anchor':'middle','font-size':12*TS,'font-weight':600,fill:'#615f5a'}); gText.appendChild(h); curTexts.push(h); byId[n.id].hint=h;
       s.classList.add('exp');
-      if(n.mark){ const mg=el('g',{'pointer-events':'none'}), c=el('circle',{r:8.5,fill:ETH_GRAY,stroke:'#f8f6f2','stroke-width':1.5}),
-          t=el('text',{'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=n.mark;
+      if(n.mark){ const mg=el('g',{'pointer-events':'none'}), c=el('circle',{r:8.5*TS,fill:ETH_GRAY,stroke:'#f8f6f2','stroke-width':1.5}),
+          t=el('text',{'text-anchor':'middle','font-size':5.6*TS,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); t.textContent=n.mark;
         mg.append(c,t); gText.appendChild(mg); curTexts.push(mg); byId[n.id].mark={c,t}; }
     }
     // lens-only circles (e.g. Licensed or Recognized Stablecoins) stay hidden until a lens that mentions them is applied
@@ -493,6 +612,7 @@
     };
     bindInfo(s,show,n.id===OUTER, n.expand ? ()=>setOpen(n,!n.open) : (n.band ? ()=>{ if(hiddenRegions.has(n.id)) hideRegion(n.id,false); } : null));
   });
+
 
   // annotations from layout.yaml: `caption` (a leader line and label that belongs to a circle) and `connector`
   // (a dotted link with a dot at its end and free-standing labels; with `on: <circle>`, shown only while that circle is hovered or picked)
@@ -521,7 +641,7 @@
   // Badges never move. Under a lens listed in a token's `licensed_under`, the lens-only circle that lens shows
   // (e.g. Licensed or Recognized Stablecoins) stretches to take the badge in; a lens group can also take badges in via `tokens`.
   // Pills (DATA.badge==='pill') show the badge's name; ink = Ethereum ecosystem (`eth: true`), gray = other.
-  const PILL = DATA.badge==='pill', PK = DATA.pill_scale||1, NOUN = DATA.facets_noun||'design', NOUNS = NOUN+'s'; // `facets_noun` (site.yaml): what the sidebar calls a badge
+  const PILL = DATA.badge==='pill', PK = (DATA.pill_scale||1)*TS, NOUN = DATA.facets_noun||'design', NOUNS = NOUN+'s'; // `facets_noun` (site.yaml): what the sidebar calls a badge
   // ---------- facts (site.yaml `facets`, badges `facts`): a fact sheet in the panel and the "Focus on" sidebar ----------
   const FX = DATA.facets, pick = new Map(); // pick: facet id -> Set of chosen value ids
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/&lt;(\/?)mark( class=ei-review)?>/g,'<$1mark$2>'); // review highlights survive escaping (build.mjs, reviewMarks)
@@ -556,7 +676,7 @@
     if(PILL){
       // `small` pills list a network's participants inside its circle
       // `pill_scale` (site.yaml) enlarges a page's named pills
-      const k=a.small?1:PK, w=a.small ? Math.round(a.name.length*5)+12 : Math.round((a.name.length*5.6+16)*k), h=a.small?16:Math.round(19*k);
+      const k=a.small?TS:PK, w=a.small ? Math.round((a.name.length*5+12)*TS) : Math.round((a.name.length*5.6+16)*k), h=a.small?Math.round(16*TS):Math.round(19*k);
       // a design on a public testnet (`status: testnet`) is a hollow pill in the same color
       const col=a.eth?ETH_BLUE:'#6b6760'; a.bs=a.hollow?col:'#f8f6f2';
       // a review build marks a changed pill with a yellow halo, since SVG text cannot hold the <mark> (build.mjs, reviewMarks)
@@ -577,12 +697,12 @@
       a.ring=el('rect',{x:a.x-w/2,y:a.y-h/2,width:w,height:h,rx:h/2,fill:a.hollow?'#fff':col,stroke:a.bs,'stroke-width':1.5});
       g.appendChild(a.ring);
       if(a.fam){ const fx=a.x+w/2+9; g.appendChild(el('path',{d:`M${fx} ${a.y-6} L${fx+6} ${a.y} L${fx} ${a.y+6} L${fx-6} ${a.y} Z`,fill:'#14130f'})); }
-      const t=el('text',{x:a.x,y:a.y+(a.small?3:3.4*k),'text-anchor':'middle','font-size':a.small?8.5:9.5*k,'font-weight':600,fill:a.hollow?col:'#f2efe9'}); t.textContent=a.name;
+      const t=el('text',{x:a.x,y:a.y+(a.small?3*TS:3.4*k),'text-anchor':'middle','font-size':a.small?8.5*TS:9.5*k,'font-weight':600,fill:a.hollow?col:'#f2efe9'}); t.textContent=a.name;
       g.appendChild(t);
       // `mark`: a small disc on the pill's right end (e.g. ETH on rollups that settle on Ethereum mainnet)
-      if(a.mark){ const mx=a.x+w/2+2, my=a.y-7;
-        g.appendChild(el('circle',{cx:mx,cy:my,r:8.5,fill:ETH_GRAY,stroke:'#f8f6f2','stroke-width':1.5}));
-        const m=el('text',{x:mx,y:my+2.2,'text-anchor':'middle','font-size':5.6,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); m.textContent=a.mark; g.appendChild(m); }
+      if(a.mark){ const mx=a.x+w/2+2*k, my=a.y-7*k;
+        g.appendChild(el('circle',{cx:mx,cy:my,r:8.5*k,fill:ETH_GRAY,stroke:'#f8f6f2','stroke-width':1.5}));
+        const m=el('text',{x:mx,y:my+2.2*k,'text-anchor':'middle','font-size':5.6*k,'font-weight':700,fill:'#f2efe9','letter-spacing':'.02em'}); m.textContent=a.mark; g.appendChild(m); }
     } else {
       a.ring=el('circle',{cx:a.x,cy:a.y,r:13,fill:'#14130f',stroke:'#f8f6f2','stroke-width':1.5});
       g.appendChild(a.ring);
@@ -623,22 +743,29 @@
   const hiddenBy=(px,py,self)=>[...hiddenRegions].some(id=>{ const r=byId[id].n; if(self&&(self.id===OUTER||self.id===r.id||(self.straddles||[]).includes(id))) return false; return inside(r,px,py); });
   const rbar=document.createElement('div'); rbar.className='ei-regions'; rbar.hidden=true;
   document.querySelector('.ei-stage').insertAdjacentElement('afterend',rbar);
-  const BAND={x:40,y:66,w:1520,h:36,r:18,ly:89,fs:13};
+  // a collapsed side (a `band` region) shrinks to a slim tab at its own edge, its name running up the tab and a + at the
+  // top, so it never disappears; the other side widens into the room, at most KMAX times (owner, 26 November 2026)
+  const TABW=64, TPAD=16, TM=20, KMAX=1.6, gTab=el('g',{});
+  const tabOf=n=>{ const left=(n.zoom||[1])[0]===0; return {x:left?TM:W-TM-TABW,y:n.y,w:TABW,h:n.h}; };
   function relayout(){
     Object.values(byId).forEach(({n,s,texts,ctl})=>{
       if(n.id===OUTER) return;
       const banded=n.band&&hiddenRegions.has(n.id);
       if(n.t==='rect'){
-        if(banded){ s.setAttribute('x',BAND.x); s.setAttribute('y',BAND.y); s.setAttribute('width',BAND.w); s.setAttribute('height',BAND.h); s.setAttribute('rx',BAND.r); }
-        else { s.setAttribute('x',mx(n.x)); s.setAttribute('y',n.y); s.setAttribute('width',n.w*XM.k); s.setAttribute('height',n.h); s.setAttribute('rx',n.r); }
+        if(banded){ const b=tabOf(n); s.setAttribute('x',b.x); s.setAttribute('y',b.y); s.setAttribute('width',b.w); s.setAttribute('height',b.h); s.setAttribute('rx',TABW/2);
+          if(s.parentNode===gShapes){ s._next=s.nextSibling; gShapes.after(gTab); gTab.appendChild(s); } } // the tab sits outside the clip, over the map
+        else { s.setAttribute('x',mx(n.x)); s.setAttribute('y',n.y); s.setAttribute('width',n.w*XM.k); s.setAttribute('height',n.h); s.setAttribute('rx',n.r);
+          if(s.parentNode===gTab){ gShapes.insertBefore(s,s._next); s._next=null; } }
       }
       else if(n.expand){ setOpen(n,n.open); return; }
       else if(!n.lens_only){ s.setAttribute('cx',mx(n.cx)); s.setAttribute('rx',n.rx*XM.k); }
       // `alt: {<region>: {lx, ly}}` moves a label while that region is hidden (Public's label into the permissioned crescent)
       const A=n.alt&&Object.entries(n.alt).find(([rid])=>hiddenRegions.has(rid)); const dx=A?A[1].lx-n.lx:0, dy=A?A[1].ly-n.ly:0;
       texts.forEach(t=>{ if(!t.dataset||t.dataset.ox===undefined) return;
-        if(banded){ const isLabel=byId[n.id].labelTexts.includes(t); t.classList.toggle('rhide',!isLabel&&t!==ctl); t.setAttribute('x',BAND.x+BAND.w/2+(t===ctl?+t.dataset.rel-20:0)); t.setAttribute('y',BAND.ly); if(isLabel) t.setAttribute('font-size',BAND.fs); }
-        else { t.setAttribute('x',mx(+t.dataset.ox+dx)+(+(t.dataset.rel||0))); t.setAttribute('y',+t.dataset.oy+dy); if(t.dataset.fs) t.setAttribute('font-size',t.dataset.fs); } });
+        if(banded){ const b=tabOf(n), cx=b.x+b.w/2, cy=b.y+b.h/2, isLabel=byId[n.id].labelTexts.includes(t); t.classList.toggle('rhide',!isLabel&&t!==ctl);
+          if(t===ctl){ t.setAttribute('x',cx); t.setAttribute('y',b.y+44); t.removeAttribute('transform'); }
+          else if(isLabel){ t.setAttribute('x',cx); t.setAttribute('y',cy+5*TS); t.setAttribute('transform',`rotate(-90 ${cx} ${cy})`); } }
+        else { t.removeAttribute('transform'); t.setAttribute('x',mx(+t.dataset.ox+dx)+(+(t.dataset.rel||0))); t.setAttribute('y',+t.dataset.oy+dy); if(t.dataset.fs) t.setAttribute('font-size',t.dataset.fs); } });
       if(ctl) ctl.textContent=banded?'+':'−';
     });
     ASSETS.forEach(a=>a.g.setAttribute('transform',`translate(${mx(a.x)-a.x} 0)`));
@@ -651,7 +778,11 @@
     // stretch: the strip of the canvas still shown (regions name theirs with `zoom: [x0, x1]`) spreads across the full width
     let x0=0,x1=W; hiddenRegions.forEach(id=>{ const z=byId[id].n.zoom; if(!z) return; if(z[0]===0) x0=Math.max(x0,z[1]); else x1=Math.min(x1,z[0]); });
     if(x1-x0<400){ x0=0; x1=W; }
-    if(x0===0&&x1===W){ XM.x0=0; XM.k=1; XM.off=0; } else { XM.x0=x0; XM.k=(W-40)/(x1-x0); XM.off=20; }
+    if(x0===0&&x1===W){ XM.x0=0; XM.k=1; XM.off=0; }
+    else { const a0=x0>0?TM+TABW+TPAD:TM, a1=x1<W?W-TM-TABW-TPAD:W-TM, k=Math.min(KMAX,(a1-a0)/(x1-x0)); // room beside the tab
+      XM.x0=x0; XM.k=k; XM.off=a0+((a1-a0)-(x1-x0)*k)/2; }
+    // nothing draws over a tab: the shapes' clip stops just short of it
+    if(svg.clipRect){ const c0=x0>0?TM+TABW+6:0, c1=x1<W?W-TM-TABW-6:W; svg.clipRect.setAttribute('x',Math.max(c0,(byId[OUTER].n.x||0))); svg.clipRect.setAttribute('width',Math.min(c1,W)-Math.max(c0,(byId[OUTER].n.x||0))-((x1<W)?0:(W-(byId[OUTER].n.x||0)-(byId[OUTER].n.w||W)))); }
     relayout();
     const listed=[...hiddenRegions].filter(r=>!byId[r].n.band);
     rbar.hidden=!listed.length;
@@ -660,10 +791,15 @@
   }
 
   // ---------- outlines: union of shapes via marching squares (lens perimeters and lens-only blobs) ----------
-  // Shapes: ellipses (optionally clipped), discs around token badges and capsules along `bridges` waypoints.
+  // Shapes: ellipses and rounded boxes (`t: rect`; optionally clipped), discs around token badges and capsules along `bridges` waypoints.
   // Fields are approximate signed distances in px (positive inside), joined with a smooth max so unions read as blobs.
   const W=DATA.canvas.width,H=DATA.canvas.height,STEP=5,SMOOTH=6; // layout.yaml `canvas`
   const ellShape=n=>({k:'e',cx:n.cx,cy:n.cy,rx:n.rx,ry:n.ry,clip:n.clip?byId[n.clip].n:null});
+  const boxShape=n=>({k:'r',x:n.x,y:n.y,w:n.w,h:n.h,r:n.r||0});
+  // a rounded box's signed distance (positive inside), grown by `pad` with its corners rounded by r + pad
+  function sdBox(b,x,y,pad){ const qx=Math.abs(x-b.x-b.w/2)-(b.w/2-b.r), qy=Math.abs(y-b.y-b.h/2)-(b.h/2-b.r);
+    return b.r+pad-Math.hypot(Math.max(qx,0),Math.max(qy,0))-Math.min(Math.max(qx,qy),0); }
+  const sdNode=(n,x,y,pad)=> n.t==='rect' ? sdBox({x:n.x,y:n.y,w:n.w,h:n.h,r:n.r||0},x,y,pad) : sdEll(n,x,y,pad);
   const disc=(a,r)=>({k:'d',cx:a.x,cy:a.y,r});
   function sdEll(e,x,y,pad){
     const rx=e.rx+pad, ry=e.ry+pad, dx=x-e.cx, dy=y-e.cy, D=Math.hypot(dx,dy);
@@ -673,7 +809,8 @@
     if(s.k==='d') return s.r+pad-Math.hypot(x-s.cx,y-s.cy);
     if(s.k==='c'){ const vx=s.x2-s.x1, vy=s.y2-s.y1, t=Math.max(0,Math.min(1,((x-s.x1)*vx+(y-s.y1)*vy)/(vx*vx+vy*vy)));
       return s.r+pad-Math.hypot(x-s.x1-t*vx,y-s.y1-t*vy); }
-    const f=sdEll(s,x,y,pad); return s.clip ? Math.min(f,sdEll(s.clip,x,y,pad)) : f;
+    if(s.k==='r') return sdBox(s,x,y,pad);
+    const f=sdEll(s,x,y,pad); return s.clip ? Math.min(f,sdNode(s.clip,x,y,pad)) : f;
   }
   const smax=(a,b)=>{ const h=Math.max(SMOOTH-Math.abs(a-b),0); return Math.max(a,b)+h*h/(4*SMOOTH); };
   function outline(shapes,pad,step,box){
@@ -727,8 +864,8 @@
     return g;
   }
   // shapes for a set of circles under lens L (lens-only circles use their stretched geometry)
-  const shapesFor=(ids,L)=>ids.map(id=>byId[id].n).filter(n=>n.t!=='rect')
-    .map(n=>n.lens_only ? Object.assign({k:'e'},lensOnlyGeom(n,L)) : ellShape(n));
+  const shapesFor=(ids,L)=>ids.map(id=>byId[id].n).filter(n=>n.id!==OUTER)
+    .map(n=>n.lens_only ? Object.assign({k:'e'},lensOnlyGeom(n,L)) : n.t==='rect' ? boxShape(n) : ellShape(n));
   // a group's badges: a disc around each, joined by a capsule so neighboring badges read as one shape
   const tokenShapes=G=>{ const ts=ASSETS.filter(a=>(G.tokens||[]).includes(a.t));
     return [...ts.map(a=>disc(a,15)),...ts.slice(1).map((a,i)=>({k:'c',x1:ts[i].x,y1:ts[i].y,x2:a.x,y2:a.y,r:15}))]; };
@@ -758,13 +895,44 @@
     lensTitle.innerHTML=`<span class="dot"></span><span>Lens: <b></b></span><button type="button">Clear lens</button>`; lensTitle.querySelector('b').textContent=L.name||L.menu||L.id;
     lensTitle.querySelector('button').addEventListener('click',()=>setLens(''));
     if(scroll) wrapEl.scrollIntoView({behavior:'smooth',block:'start'}); };
+  let topSel=null; // studio theme: the Regime dropdown above the map, kept in step with the lens box below
   const setLens=(id,scroll=true)=>{
     const L=LBYID[id]; activeLenses.length=0; if(L) activeLenses.push(L); showLensTitle(L,scroll);
+    if(topSel) topSel.value = L ? id : '';
     N.filter(n=>n.pill&&n.open).forEach(n=>setOpen(n,false)); // open network circles close so a lens reads cleanly
     sels.forEach(sel=>{ sel.value = L&&L.group===sel.dataset.grp ? id : ''; sel.classList.toggle('on',!!sel.value); });
     clr.hidden=!L; applyLens(L, !!L);
   };
   sels.forEach(sel=>sel.addEventListener('change',()=>{ if(FX&&pick.size){ pick.clear(); fxSync(); } setLens(sel.value); }));
+  if(STUDIO && DATA.map_title===false) (byId[OUTER]?.labelTexts||[]).forEach(t=>t.style.display='none'); // the bar above names the page
+  // studio theme: one "Regime" dropdown above the map (as on the website's map), grouped as the lens box is; the full box
+  // with its key stays below the map
+  if(STUDIO && DATA.lens_groups.length){
+    const row=document.createElement('div'); row.className='ei-regime';
+    const opts=DATA.lens_groups.map(g=>`<optgroup label="${esc(g.label)}">`+LENSES.filter(L=>L.group===g.id).map(L=>`<option value="${esc(L.id)}">${esc(L.menu||L.name)}</option>`).join('')+'</optgroup>').join('');
+    row.innerHTML=`<label for="ei-regime-sel">${esc(DATA.lens_menu)}</label><span class="sel"><select id="ei-regime-sel"><option value="">None</option>${opts}</select></span>`;
+    topSel=row.querySelector('select'); topSel.addEventListener('change',()=>{ if(FX&&pick.size){ pick.clear(); fxSync(); } setLens(topSel.value,false); });
+    // the box below the map keeps only its legend: the Regime menu above the map is the one way to choose a lens
+    const head=bar.querySelector('.ei-lens-head'); if(head) head.innerHTML=`<b>Legend</b><span>How the choice in the ${esc(DATA.lens_menu)} menu above the map is drawn.</span>`;
+    bar.classList.add('legend-only');
+    // one full-width bar above the map holds the title, the intro, the Regime menu and the tour, so the map starts just
+    // under it; the page's navigation stays above the bar and the page opens scrolled past it (owner, 26 November 2026)
+    const ibar=document.createElement('div'); ibar.className='ei-introbar'; const hd=document.querySelector('.ei-head');
+    const ttl=document.createElement('div'); ttl.className='ei-ttl'; ibar.appendChild(ttl);
+    ['h1','p.sub:not(.more)'].forEach(sl=>{ const e=hd&&hd.querySelector(sl); if(e) ttl.appendChild(e); });
+    const stageEl=document.querySelector('.ei-stage'); stageEl.parentElement.insertBefore(ibar,stageEl); ibar.appendChild(row);
+    const moreP=document.getElementById('ei-intro-more'); if(moreP) ibar.appendChild(moreP); // "More" opens across the bar
+    const land=()=>{ if(location.hash||window.scrollY>4) return; window.scrollTo({top:ibar.getBoundingClientRect().top+window.scrollY-6}); };
+    (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>requestAnimationFrame(land));
+    // `fit: true` (site.yaml): on wide screens the map is capped at the height left under the bar, so the whole map
+    // shows on one screen once the page has landed (owner, 26 November 2026)
+    if(DATA.fit){ document.body.classList.add('fit');
+      // the space from the bar's top to the map's top is fixed, so the cap is the screen less that and the landing margin
+      const fit=()=>{ const svgEl=document.querySelector('.ei-wrap svg'); const off=svgEl.getBoundingClientRect().top-ibar.getBoundingClientRect().top;
+        document.body.style.setProperty('--ei-fit',Math.max(420,window.innerHeight-off-14)+'px'); };
+      fit(); window.addEventListener('resize',fit); if(window.ResizeObserver) new ResizeObserver(fit).observe(ibar); }
+
+  }
   // deep link: /taxonomy/#lens=<id> opens the page with that lens applied (review and sharing)
   const fromHash=()=>{ const h=decodeURIComponent(location.hash.replace(/^#lens=/,'')); if(h&&LBYID[h]) setLens(h,false); };
   window.addEventListener('hashchange',fromHash); fromHash();
@@ -879,8 +1047,9 @@
           s.setAttribute('stroke',st?activeLenses[0].color:(asPill?'#f8f6f2':base.stroke)); s.setAttribute('stroke-width',st==='in'?3:(asPill?1.5:2));
           s.setAttribute('stroke-dasharray',st==='part'?'4 3':'none'); return;
         }
-        s.classList.remove('dim'); texts.forEach(t=>t.classList.remove('dim')); s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',base.sw); s.setAttribute('stroke-dasharray','none'); s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); return; }
-      if(n.pill && !n.open){ s.setAttribute('stroke','#f8f6f2'); s.setAttribute('stroke-width',1.5); s.setAttribute('stroke-dasharray','none'); return; }
+        s.classList.remove('dim'); texts.forEach(t=>t.classList.remove('dim')); s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',base.sw); s.setAttribute('stroke-dasharray',base.dash); s.setAttribute('fill',base.fill); s.setAttribute('fill-opacity',base.fop); return; }
+      // a collapsed network pill outside a networks-scope lens: back to its plain look, including the fade a lens may have left
+      if(n.pill && !n.open){ s.classList.remove('dim'); texts.forEach(t=>t.classList.remove('dim')); s.setAttribute('stroke','#f8f6f2'); s.setAttribute('stroke-width',1.5); s.setAttribute('stroke-dasharray','none'); return; }
       if(n.lens_only){
         const L=activeLenses.find(L=>L.reveal.has(n.id)); s.classList.toggle('hide',!L); texts.forEach(t=>t.classList.toggle('hide',!L));
         if(L) s.setAttribute('d',ellPath(lensOnlyGeom(n,L)));
@@ -892,7 +1061,7 @@
       const isBox = n.id===OUTER || (CONTAINERS.has(n.id) && !(inL && inL[0].g[n.id]));
       if(inL && !isBox){ const G=inL[0].g[n.id]; s.setAttribute('stroke',G?G.color:inL[0].color); s.setAttribute('stroke-width',5.5); s.setAttribute('stroke-dasharray','none'); }
       else if(partL && n.id!==OUTER){ s.setAttribute('stroke',partL[0].color); s.setAttribute('stroke-width',3.5); s.setAttribute('stroke-dasharray','16 8'); }
-      else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',base.sw); s.setAttribute('stroke-dasharray','none'); }
+      else { s.setAttribute('stroke',base.stroke); s.setAttribute('stroke-width',base.sw); s.setAttribute('stroke-dasharray',base.dash); }
       // prohibition-style lenses also tint each circle in its group color
       const T=activeLenses.find(L=>L.tint && L.g[n.id]);
       if(T && !n.clip){ s.setAttribute('fill',T.g[n.id].color); s.setAttribute('fill-opacity',CONTAINERS.has(n.id)?.14:.32); }
@@ -914,7 +1083,7 @@
       const pad=10+k*8;
       const sets = L.groups ? L.groups.map(G=>({key:L.id+G.id+pad,color:G.color,
                                 shapes:()=>[...shapesFor(G.ids,L),...tokenShapes(G),...bridge(L.id+'.'+G.id)]}))
-                            : [{key:L.id+pad,color:L.color,shapes:()=>shapesFor(N.filter(n=>n.t!=='rect' && status(L,n.id)==='in').map(n=>n.id),L)}];
+                            : [{key:L.id+pad,color:L.color,shapes:()=>shapesFor(N.filter(n=>n.id!==OUTER && !n.band && status(L,n.id)==='in').map(n=>n.id),L)}];
       sets.forEach(S=>{
         const d=perimCache[S.key]||(perimCache[S.key]=outline(S.shapes(),pad,STEP));
         gPer.appendChild(el('path',{class:'perimeter',d,fill:S.color,'fill-opacity':.05,stroke:S.color,'stroke-width':3.6,'stroke-linecap':'round','stroke-dasharray':'0.1 9'}));
@@ -925,6 +1094,119 @@
     else if(changed && added){ panel.innerHTML=lensPanel(changed); }  // intro may hold markup (focus)
     else if(!on){ panel.innerHTML=`<h2>${DATA.panel.title}</h2><p>${DATA.panel.text}</p>`; }
     else { panel.innerHTML=lensPanel(activeLenses[activeLenses.length-1]); }
+  }
+
+  // ---------- studio zoom shell (theme: studio): zoom and pan the map in place, as on the website's map, while the page
+  // keeps scrolling. Pinch, Ctrl/Cmd + scroll, a double-click on a circle, the toolbar or a breadcrumb change the view;
+  // "fit" returns to the whole layout, which reads without zooming. The view is the SVG viewBox, eased over 350 ms. ----
+  if(STUDIO){
+    const wrap=svg.parentElement, vb0=svg.viewBox.baseVal, base={x:vb0.x,y:vb0.y,w:vb0.width,h:vb0.height}, asp=base.w/base.h;
+    let cur={...base}, anim=null;
+    const setVB=v=>{ cur=v; svg.setAttribute('viewBox',`${v.x} ${v.y} ${v.w} ${v.h}`); wrap.classList.toggle('zoomed',v.w<base.w-0.5); };
+    const clamp=v=>{ const w=Math.min(base.w,Math.max(base.w/14,v.w)), h=w/asp; return {w,h,x:Math.min(base.x+base.w-w,Math.max(base.x,v.x)),y:Math.min(base.y+base.h-h,Math.max(base.y,v.y))}; };
+    const go=(v,ms=350)=>{ v=clamp(v); cancelAnimationFrame(anim); const a={...cur}, t0=performance.now(), ease=s=>1-Math.pow(1-s,3);
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) ms=0;
+      const step=now=>{ const s=ms?Math.min(1,(now-t0)/ms):1, e=ease(s); setVB({x:a.x+(v.x-a.x)*e,y:a.y+(v.y-a.y)*e,w:a.w+(v.w-a.w)*e,h:a.h+(v.h-a.h)*e}); if(s<1) anim=requestAnimationFrame(step); };
+      anim=requestAnimationFrame(step); };
+    const zoomAt=(k,px,py)=>{ const w=cur.w/k, h=w/asp; go({x:px-(px-cur.x)*(w/cur.w),y:py-(py-cur.y)*(h/cur.h),w,h},200); };
+    const toSvg=(cx,cy)=>{ const r=svg.getBoundingClientRect(); return [cur.x+(cx-r.left)/r.width*cur.w, cur.y+(cy-r.top)/r.height*cur.h]; };
+    const box=n=> n.t==='rect' ? {x:n.x,y:n.y,w:n.w,h:n.h} : {x:n.cx-n.rx,y:n.cy-n.ry,w:2*n.rx,h:2*n.ry};
+    // breadcrumbs: the circle's ancestors from the outer box down
+    const crumbs=document.createElement('nav'); crumbs.className='ei-crumbs'; crumbs.hidden=true; crumbs.setAttribute('aria-label','Zoomed to');
+    const lineage=id=>{ const out=[]; let c=id; while(c){ out.unshift(c); c=PARENT[c]; } if(out[0]!==OUTER) out.unshift(OUTER); return out; };
+    const nameOf=id=>byId[id]?byId[id].n.label.filter(Boolean).join(' '):id;
+    const showCrumbs=id=>{ if(!id){ crumbs.hidden=true; return; } crumbs.innerHTML=lineage(id).map((c,i,a)=>`${i?'<span>›</span>':''}<button type="button" data-z="${c}" class="${i===a.length-1?'cur':''}">${nameOf(c)}</button>`).join(''); crumbs.hidden=false; };
+    crumbs.addEventListener('click',e=>{ const b=e.target.closest('button'); if(b) zoomTo(b.dataset.z); });
+    // fit a circle into the part of the map that is on screen (the map is often taller than the window), with a margin,
+    // and clear of the tour card when it is open, so the circle and its neighbors read at a glance
+    let tourCard=null;
+    const zoomTo=(id,minFrac=0)=>{ if(!id||id===OUTER){ go(base); showCrumbs(null); return; } const n=byId[id].n, b=box(n), r=svg.getBoundingClientRect();
+      const cardW=tourCard&&!tourCard.hidden&&r.width>760 ? tourCard.offsetWidth+40 : 0;
+      const fx0=0, fx1=Math.max(0.4,(r.width-cardW)/r.width), fy0=Math.min(0.6,Math.max(0,-r.top)/r.height), fy1=Math.max(fy0+0.3,Math.min(1,(window.innerHeight-r.top)/r.height));
+      let w=Math.max(b.w/(0.52*(fx1-fx0)), b.h/(0.5*(fy1-fy0))*asp, base.w*minFrac), h=w/asp; // `minFrac`: never closer than that share of the map's width
+      go({x:b.x+b.w/2-w*(fx0+fx1)/2, y:b.y+b.h/2-h*(fy0+fy1)/2, w, h}); showCrumbs(id); return w<base.w*0.97; };
+    // toolbar
+    const ICON={in:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v10M3 8h10"/></svg>',
+      out:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h10"/></svg>',
+      fit:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>',
+      full:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2h5v5M14 2 9 7M7 14H2V9M2 14l5-5"/></svg>'};
+    const bar=document.createElement('div'); bar.className='ei-zbar'; bar.setAttribute('role','toolbar'); bar.setAttribute('aria-label','Map view');
+    bar.innerHTML=`<button type="button" data-a="in" aria-label="Zoom in" title="Zoom in">${ICON.in}</button><button type="button" data-a="out" aria-label="Zoom out" title="Zoom out">${ICON.out}</button><button type="button" data-a="fit" aria-label="Fit the whole map" title="Fit the whole map">${ICON.fit}</button><button type="button" data-a="full" aria-label="Full screen" title="Full screen">${ICON.full}</button>`;
+    bar.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; e.stopPropagation(); const a=b.dataset.a, cx=cur.x+cur.w/2, cy=cur.y+cur.h/2;
+      if(a==='in') zoomAt(1.6,cx,cy); else if(a==='out') zoomAt(1/1.6,cx,cy); else if(a==='fit') zoomTo(null);
+      else { const on=!wrap.classList.contains('full'); wrap.classList.toggle('full',on); document.body.style.overflow=on?'hidden':''; } });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&wrap.classList.contains('full')){ wrap.classList.remove('full'); document.body.style.overflow=''; } });
+    wrap.prepend(crumbs); wrap.append(bar);
+    const HINT='Pinch or Ctrl + scroll to zoom, drag to move when zoomed in, double-click a circle to zoom to it.'; bar.title=HINT; bar.querySelectorAll('button').forEach(b=>{ if(!b.title) b.title=HINT; }); // the hint is the toolbar's tooltip, not text in the bar
+    const hint=document.createElement('p'); hint.className='ei-zhint'; hint.textContent=HINT; const rg=document.querySelector('.ei-regime'); if(rg) hint.hidden=true; if(rg) rg.appendChild(hint); else wrap.insertAdjacentElement('beforebegin',hint);
+    // Ctrl/Cmd + wheel (and a trackpad pinch) zooms at the pointer; a plain wheel scrolls the page
+    svg.addEventListener('wheel',e=>{ if(!(e.ctrlKey||e.metaKey)) return; e.preventDefault(); const [px,py]=toSvg(e.clientX,e.clientY); zoomAt(Math.exp(-e.deltaY*0.004),px,py); },{passive:false});
+    // drag to pan when zoomed in, two-finger pinch on touch; a drag never counts as a click
+    const pts=new Map(); let drag=null, moved=false, pinch=null;
+    svg.addEventListener('pointerdown',e=>{ pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); moved=false;
+      if(pts.size===2){ const [a,b]=[...pts.values()]; pinch={d:Math.hypot(a.x-b.x,a.y-b.y),v:{...cur}}; drag=null; }
+      else if(wrap.classList.contains('zoomed')){ drag={x:e.clientX,y:e.clientY,v:{...cur}}; } });
+    svg.addEventListener('pointermove',e=>{ if(!pts.has(e.pointerId)) return; pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); const r=svg.getBoundingClientRect();
+      if(pinch&&pts.size===2){ const [a,b]=[...pts.values()], d=Math.hypot(a.x-b.x,a.y-b.y); if(d<1) return; moved=true;
+        const mx=(a.x+b.x)/2, my=(a.y+b.y)/2, k=d/pinch.d, w=pinch.v.w/k, h=w/asp, px=pinch.v.x+(mx-r.left)/r.width*pinch.v.w, py=pinch.v.y+(my-r.top)/r.height*pinch.v.h;
+        setVB(clamp({x:px-(px-pinch.v.x)/k,y:py-(py-pinch.v.y)/k,w,h})); return; }
+      if(drag){ const dx=e.clientX-drag.x, dy=e.clientY-drag.y; if(!moved&&Math.hypot(dx,dy)<4) return; moved=true; wrap.classList.add('drag');
+        setVB(clamp({x:drag.v.x-dx/r.width*drag.v.w,y:drag.v.y-dy/r.height*drag.v.h,w:drag.v.w,h:drag.v.h})); } });
+    const end=e=>{ pts.delete(e.pointerId); if(pts.size<2) pinch=null; if(!pts.size){ drag=null; wrap.classList.remove('drag'); } };
+    svg.addEventListener('pointerup',end); svg.addEventListener('pointercancel',end); svg.addEventListener('pointerleave',end);
+    svg.addEventListener('click',e=>{ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } },true);
+    // double-click a circle (or a badge) to zoom to it; the panel offers the same as a button
+    svg.addEventListener('mousedown',e=>{ if(e.detail>1) e.preventDefault(); });
+    svg.addEventListener('dblclick',e=>{ const s=e.target.closest('.node'); const hit=s&&Object.values(byId).find(x=>x.s===s); if(hit){ e.preventDefault(); zoomTo(hit.n.id); } });
+
+    // ---------- guided tour (site.yaml `tour`; `pin: true` also clicks the circle and previews its definition and lens context) ----------
+    // `open: true` opens an expandable circle for the step (e.g. Ethereum mainnet and its participants); `badge: <id>` rings one badge.
+    // Desktop: each step zooms to its circle. Phone (the tall column): the column already reads at full width, so a step
+    // scrolls its circle into view above the tour card instead. A step may switch a lens on; others clear it.
+    const TOUR=DATA.tour||[];
+    if(TOUR.length){
+      const tall=base.h>base.w, card=document.createElement('section'); card.className='ei-tour'; card.hidden=true; card.setAttribute('aria-live','polite'); card.setAttribute('aria-label','Guided tour');
+      document.body.appendChild(card);
+      let k=-1, focusEl=null, focusBadge=null, lastLens='';
+      const lensSet=(typeof setLens==='function')?setLens:null;
+      const show=i=>{ k=i; const s=TOUR[i];
+        if(focusEl) focusEl.classList.remove('tour-focus'); const x=byId[s.circle]; focusEl=x?x.s:null; if(focusEl) focusEl.classList.add('tour-focus');
+        if(lensSet) lensSet(s.lens||'',false);
+        N.filter(n=>n.pill&&n.open).forEach(n=>setOpen(n,false)); // every step starts with the network circles closed
+        if(s.open&&x&&x.n.expand) setOpen(x.n,true);
+        if(focusBadge) focusBadge.classList.remove('tour-focus'); const fb=s.badge&&ASSETS.find(a=>a.t===s.badge); focusBadge=fb?fb.ring:null; if(focusBadge) focusBadge.classList.add('tour-focus');
+        card.innerHTML=`<div class="k">Guided tour · ${i+1} of ${TOUR.length}</div><h3></h3><p></p><div class="row"><div class="dots">${TOUR.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join('')}</div><div class="btns"><button type="button" class="back"${i?'':' disabled'}>Back</button><button type="button" class="next">${i===TOUR.length-1?'Finish':'Next'}</button></div></div><button type="button" class="x" aria-label="Close the tour">×</button>`;
+        card.querySelector('h3').textContent=s.title; card.querySelector('p').textContent=s.text;
+        card.querySelector('.back').addEventListener('click',()=>{ if(k>0) show(k-1); });
+        card.querySelector('.next').addEventListener('click',()=>{ if(k<TOUR.length-1) show(k+1); else stop(); });
+        card.querySelector('.x').addEventListener('click',stop);
+        const rgEl=document.querySelector('.ei-regime'), sel=rgEl&&rgEl.querySelector('select'), lensNew=!!s.lens&&s.lens!==lastLens; lastLens=s.lens||'';
+        if(tall){ if(lensNew&&rgEl){ rgEl.scrollIntoView({block:'start',behavior:'instant'}); window.scrollBy(0,-8); }
+          else { const r=(focusEl||svg).getBoundingClientRect(), room=window.innerHeight-card.offsetHeight-16;
+            window.scrollBy({top:r.top-Math.max(12,(room-Math.min(r.height,room))/2),behavior:'instant'}); } }
+        else { // a fit page keeps its landed position (bar at the top, the whole map below it)
+          const ib=DATA.fit&&document.querySelector('.ei-introbar'); const anchor=ib||(lensNew&&rgEl)||rgEl||svg; window.scrollTo({top:anchor.getBoundingClientRect().top+window.scrollY-(ib?6:8),behavior:'instant'});
+          const zoomed=zoomTo(s.circle===OUTER?null:s.circle,0.4); // a small circle keeps its neighbors in view
+          // a circle too large to zoom into (a whole family) is scrolled to the middle of the screen instead
+          if(!DATA.fit&&!zoomed&&!lensNew&&s.circle!==OUTER&&focusEl){ const r=focusEl.getBoundingClientRect(); window.scrollBy({top:r.top+r.height/2-window.innerHeight*0.45,behavior:'smooth'}); } }
+        if(sel){ sel.classList.remove('flash'); if(lensNew){ void sel.offsetWidth; sel.classList.add('flash'); } }
+        if(pinned) unpin();
+        panel.classList.remove('flash');
+        if(s.pin&&focusEl){ const el=focusEl, at=i; setTimeout(()=>{ if(k!==at||card.hidden) return; if(s.open&&x.n.expand&&x.n.open) setOpen(x.n,false); /* the click reopens it */ el.dispatchEvent(new MouseEvent('click',{bubbles:true}));
+          // show the definition where every reader finds it: scroll to the box below the map and pulse its border
+          window.scrollTo({top:panel.getBoundingClientRect().top+window.scrollY-16,behavior:'smooth'});
+          void panel.offsetWidth; panel.classList.add('flash'); }, 420); }
+      };
+      const start=()=>{ card.hidden=false; lastLens=''; show(0); card.querySelector('.next').focus({preventScroll:true}); };
+      tourCard=card;
+      const stop=()=>{ panel.classList.remove('flash'); if(pinned) unpin(); const sl=document.querySelector('.ei-regime select'); if(sl) sl.classList.remove('flash'); card.hidden=true; if(focusEl) focusEl.classList.remove('tour-focus'); focusEl=null; if(focusBadge) focusBadge.classList.remove('tour-focus'); focusBadge=null; N.filter(n=>n.pill&&n.open).forEach(n=>setOpen(n,false)); if(lensSet) lensSet('',false); if(!tall) zoomTo(null); k=-1; };
+      document.addEventListener('keydown',e=>{ if(card.hidden) return; if(e.key==='Escape') stop(); else if(e.key==='ArrowRight'&&k<TOUR.length-1) show(k+1); else if(e.key==='ArrowLeft'&&k>0) show(k-1); });
+      const btn=document.createElement('button'); btn.type='button'; btn.className='ei-tourbtn'; btn.innerHTML='<span aria-hidden="true">▶</span> Take the tour'; btn.addEventListener('click',start);
+      const rg=document.querySelector('.ei-regime'); if(rg) rg.insertBefore(btn, rg.querySelector('.ei-zhint')); else wrap.insertAdjacentElement('beforebegin',btn);
+      window.eiTour={start,stop};
+    }
+    new MutationObserver(()=>{ const h2=panel.querySelector('h2'); if(!h2||panel.querySelector('.zoomto')) return; const id=Object.keys(byId).find(k=>nameOf(k)===h2.textContent.trim());
+      if(id&&id!==OUTER){ const b=document.createElement('button'); b.type='button'; b.className='zoomto'; b.textContent='Zoom to '+nameOf(id); b.addEventListener('click',ev=>{ ev.stopPropagation(); zoomTo(id); wrap.scrollIntoView({behavior:'smooth',block:'start'}); }); h2.insertAdjacentElement('afterend',b); } }).observe(panel,{childList:true});
   }
 })();
 </script>

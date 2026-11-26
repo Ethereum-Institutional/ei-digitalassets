@@ -20,7 +20,8 @@ for (const [html, png] of PAGES) {
   // map pages: one node per circle; radial pages: one per ring handle, one per cell and one per hub wedge
   const expected = d.circles ? d.circles.length : d.kind === 'gauges' ? d.themes.length : d.kind === 'scenario' ? d.steps.length : d.rings.length * (d.themes.length + 1) + d.themes.length;
   if (nodes !== expected) errors.push(`${html} at ${vw}px: rendered ${nodes} circles, expected ${expected}`);
-  const sels = await page.locator('#ei-lens select').evaluateAll(ss => ss.map(s => s.id));
+  // the studio theme moves lens choice to one Regime menu above the map and keeps the box below as a legend
+  const sels = (await page.locator('#ei-regime-sel').count()) ? ['ei-regime-sel'] : await page.locator('#ei-lens select').evaluateAll(ss => ss.map(s => s.id));
   for (const id of sels) {
     const values = await page.locator('#' + id + ' option').evaluateAll(os => os.map(o => o.value).filter(Boolean));
     for (const v of values) { await page.selectOption('#' + id, v); await page.waitForTimeout(60); }

@@ -106,8 +106,8 @@ circles:
     fw: 600
   tc:
     cx: 870
-    cy: 420
-    rx: 420
+    cy: 424
+    rx: 425
     ry: 250
     lx: 870
     ly: 205
@@ -115,10 +115,12 @@ circles:
     fw: 700
     sy: 226
   cb:
-    cx: 588
-    cy: 440
-    rx: 88
-    ry: 140
+    t: rect
+    x: 506
+    y: 300
+    w: 164
+    h: 268
+    r: 36
     lx: 588
     ly: 335
     fs: 14
@@ -151,10 +153,12 @@ circles:
     fs: 10.5
     fw: 700
   bank:
-    cx: 776
-    cy: 440
-    rx: 88
-    ry: 140
+    t: rect
+    x: 694
+    y: 300
+    w: 164
+    h: 268
+    r: 36
     lx: 776
     ly: 328
     fs: 14
@@ -178,10 +182,12 @@ circles:
     fs: 10
     fw: 700
   fin:
-    cx: 964
-    cy: 440
-    rx: 88
-    ry: 140
+    t: rect
+    x: 882
+    y: 300
+    w: 164
+    h: 268
+    r: 36
     lx: 964
     ly: 328
     fs: 14
@@ -197,10 +203,12 @@ circles:
     fs: 11
     fw: 700
   oiss:
-    cx: 1152
-    cy: 440
-    rx: 88
-    ry: 140
+    t: rect
+    x: 1070
+    y: 300
+    w: 164
+    h: 268
+    r: 36
     lx: 1152
     ly: 328
     fs: 14
